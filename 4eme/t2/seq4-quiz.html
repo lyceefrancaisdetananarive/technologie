@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 4 : Systèmes d'énergie | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Systèmes d'énergie et conversions</h1>
+        <p class="page-description">Teste tes connaissances sur les formes d'énergie, la chaîne d'énergie et le rendement.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quelle conversion d\'énergie réalise un moteur électrique ?',
+        options: ['Chimique → mécanique', 'Électrique → mécanique', 'Mécanique → électrique', 'Thermique → mécanique'],
+        correct: 1,
+        explanation: 'Un moteur électrique convertit l\'énergie électrique en énergie mécanique (mouvement de rotation).'
+      },
+      {
+        type: 'qcm',
+        question: 'Les 4 fonctions de la chaîne d\'énergie sont...',
+        options: ['Capter, traiter, communiquer, afficher', 'Alimenter, distribuer, convertir, transmettre', 'Mesurer, calculer, stocker, afficher', 'Produire, transformer, consommer, recycler'],
+        correct: 1,
+        explanation: 'La chaîne d\'énergie se décompose en 4 fonctions : ALIMENTER (source), DISTRIBUER (régulation), CONVERTIR (transformation), TRANSMETTRE (mouvement final).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une voiture thermique a un rendement d\'environ 85%.',
+        correct: false,
+        explanation: 'Le rendement d\'une voiture thermique est d\'environ 25% seulement. 75% de l\'énergie de l\'essence est perdue sous forme de chaleur. C\'est la voiture électrique qui atteint ~85%.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la forme d\'énergie stockée dans une batterie lithium-ion ?',
+        options: ['Mécanique', 'Thermique', 'Chimique', 'Nucléaire'],
+        correct: 2,
+        explanation: 'Une batterie stocke l\'énergie sous forme chimique. Lors de la décharge, des réactions chimiques convertissent cette énergie en énergie électrique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la chaîne d\'énergie d\'un VAE, quel composant assure la fonction CONVERTIR ?',
+        options: ['La batterie', 'Le contrôleur', 'Le moteur électrique', 'La chaîne et le pignon'],
+        correct: 2,
+        explanation: 'Le moteur électrique assure la fonction CONVERTIR en transformant l\'énergie électrique en énergie mécanique de rotation.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un panneau solaire convertit l\'énergie lumineuse en énergie électrique.',
+        correct: true,
+        explanation: 'Un panneau solaire photovoltaïque convertit directement l\'énergie lumineuse du soleil en énergie électrique grâce à l\'effet photovoltaïque.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si un moteur consomme 200 kWh et produit 170 kWh d\'énergie utile, quel est son rendement ?',
+        options: ['25%', '70%', '85%', '100%'],
+        correct: 2,
+        explanation: 'Rendement = (170/200) × 100 = 85%. Ce moteur a un bon rendement avec seulement 15% de pertes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi y a-t-il toujours de l\'énergie perdue lors d\'une conversion ?',
+        options: ['Parce que l\'énergie disparaît', 'À cause des frottements, de la chaleur et du bruit', 'Parce que les machines sont mal construites', 'L\'énergie est volée par le réseau'],
+        correct: 1,
+        explanation: 'L\'énergie ne disparaît jamais (conservation de l\'énergie), mais elle se dégrade : frottements, chaleur, bruit, vibrations. Ces pertes sont inévitables mais peuvent être réduites.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le freinage régénératif permet de récupérer de l\'énergie.',
+        correct: true,
+        explanation: 'Le freinage régénératif (utilisé dans les voitures électriques et VAE) convertit l\'énergie mécanique du freinage en énergie électrique qui recharge la batterie.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un portail automatique, la fonction TRANSMETTRE est assurée par...',
+        options: ['Le réseau 230V', 'La carte électronique', 'Le moteur', 'L\'engrenage et la crémaillère'],
+        correct: 3,
+        explanation: 'L\'engrenage et la crémaillère transmettent le mouvement de rotation du moteur en mouvement de translation (ouverture/fermeture) du portail.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Systèmes automatisés · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 4 : Systèmes automatisés complexes"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2</span>
+        <h1>Séquence 4 — Systèmes automatisés complexes</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>4 — Automatisés</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Décomposer un système</span> <span class="competence-badge">Écrire un organigramme</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Décomposition fonctionnelle</h2>
+        <p>La <strong>décomposition fonctionnelle</strong> permet de comprendre un système complexe en le décomposant en sous-systèmes :</p>
+        <table>
+          <thead><tr><th>Niveau</th><th>Ce qu'on analyse</th><th>Exemple (portail automatique)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Système global</strong></td><td>La fonction principale</td><td>Ouvrir/fermer le portail automatiquement</td></tr>
+            <tr><td><strong>Sous-systèmes</strong></td><td>Les grandes fonctions techniques</td><td>Détection, commande, motorisation, sécurité</td></tr>
+            <tr><td><strong>Composants</strong></td><td>Les éléments physiques</td><td>Capteur IR, Arduino, moteur, cellule photoélectrique</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          La <strong>décomposition fonctionnelle</strong> analyse un système du général au particulier : système → sous-systèmes → composants. C'est essentiel pour comprendre et concevoir des systèmes complexes.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; L'organigramme (algorigramme)</h2>
+        <p>L'<strong>organigramme</strong> représente graphiquement l'algorithme d'un programme :</p>
+        <table>
+          <thead><tr><th>Symbole</th><th>Forme</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Début / Fin</strong></td><td>Ovale</td><td>Marquer le début et la fin du programme</td></tr>
+            <tr><td><strong>Traitement</strong></td><td>Rectangle</td><td>Instruction à exécuter (allumer LED, incrémenter variable)</td></tr>
+            <tr><td><strong>Test / Condition</strong></td><td>Losange</td><td>Question Oui/Non qui oriente le programme</td></tr>
+            <tr><td><strong>Entrée / Sortie</strong></td><td>Parallélogramme</td><td>Lecture d'un capteur ou affichage d'une valeur</td></tr>
+            <tr><td><strong>Flèches</strong></td><td>Lignes fléchées</td><td>Sens de circulation du programme</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          L'organigramme utilise des <strong>formes normalisées</strong> : ovale (début/fin), rectangle (action), losange (condition), parallélogramme (entrée/sortie). Il permet de visualiser la logique avant de coder.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Du pseudo-code au programme</h2>
+        <p>Le <strong>pseudo-code</strong> est une écriture intermédiaire entre le langage courant et le code informatique :</p>
+        <table>
+          <thead><tr><th>Pseudo-code</th><th>Code Arduino</th></tr></thead>
+          <tbody>
+            <tr><td><code>DÉBUT</code></td><td><code>void loop() {</code></td></tr>
+            <tr><td><code>distance ← lire capteur ultrason</code></td><td><code>int distance = sonar.read();</code></td></tr>
+            <tr><td><code>SI distance &lt; 20 ALORS</code></td><td><code>if (distance &lt; 20) {</code></td></tr>
+            <tr><td><code>&nbsp;&nbsp;Allumer LED rouge</code></td><td><code>&nbsp;&nbsp;digitalWrite(LED, HIGH);</code></td></tr>
+            <tr><td><code>SINON</code></td><td><code>} else {</code></td></tr>
+            <tr><td><code>&nbsp;&nbsp;Éteindre LED rouge</code></td><td><code>&nbsp;&nbsp;digitalWrite(LED, LOW);</code></td></tr>
+            <tr><td><code>FIN SI</code></td><td><code>}</code></td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          La démarche de programmation suit l'ordre : <strong>Besoin → Algorithme (texte) → Organigramme (visuel) → Pseudo-code → Programme</strong>. Chaque étape précise la solution.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Décomposition fonctionnelle</strong> : analyse d'un système en sous-systèmes puis en composants</li>
+            <li><strong>Organigramme (algorigramme)</strong> : représentation graphique normalisée d'un algorithme</li>
+            <li><strong>Pseudo-code</strong> : écriture d'un algorithme en langage structuré proche du code</li>
+            <li><strong>Sous-système</strong> : partie d'un système assurant une fonction technique</li>
+            <li><strong>Test (condition)</strong> : symbole losange dans un organigramme — question Oui/Non</li>
+            <li><strong>Traitement</strong> : symbole rectangle — instruction exécutée par le programme</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

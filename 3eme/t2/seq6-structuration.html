@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Tests et mise au point · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 6 : Tests et mise au point"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2</span>
+        <h1>Séquence 6 — Tests et mise au point</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>6 — Tests</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Concevoir un protocole de test</span> <span class="competence-badge">Déboguer un programme</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le protocole de test</h2>
+        <p>Un <strong>protocole de test</strong> est un document structuré qui décrit comment vérifier qu'un système fonctionne correctement :</p>
+        <table>
+          <thead><tr><th>Élément</th><th>Description</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Objectif du test</strong></td><td>Ce qu'on veut vérifier</td><td>Vérifier que le capteur détecte un obstacle à 20 cm</td></tr>
+            <tr><td><strong>Conditions initiales</strong></td><td>L'état de départ du système</td><td>Robot allumé, sur surface plane, batterie chargée</td></tr>
+            <tr><td><strong>Procédure</strong></td><td>Les étapes à suivre dans l'ordre</td><td>1. Placer l'obstacle à 20 cm 2. Lancer le programme 3. Observer</td></tr>
+            <tr><td><strong>Résultat attendu</strong></td><td>Ce qui doit se passer si tout fonctionne</td><td>Le robot s'arrête et la LED s'allume</td></tr>
+            <tr><td><strong>Résultat observé</strong></td><td>Ce qui s'est réellement passé</td><td>Le robot s'arrête mais la LED ne s'allume pas</td></tr>
+            <tr><td><strong>Verdict</strong></td><td>Conforme / Non conforme</td><td>Non conforme → analyser l'erreur</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un protocole de test décrit <strong>ce qu'on teste, comment, et quel résultat on attend</strong>. Il permet de vérifier objectivement si le système respecte le cahier des charges.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les 4 types d'erreurs en programmation</h2>
+        <table>
+          <thead><tr><th>Type d'erreur</th><th>Quand ?</th><th>Exemple</th><th>Comment la trouver ?</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Erreur de syntaxe</strong></td><td>Le programme ne se compile pas</td><td>Point-virgule oublié, parenthèse manquante</td><td>Le compilateur indique la ligne</td></tr>
+            <tr><td><strong>Erreur d'exécution</strong></td><td>Le programme plante en cours de route</td><td>Division par zéro, dépassement de mémoire</td><td>Moniteur série, message d'erreur</td></tr>
+            <tr><td><strong>Erreur logique</strong></td><td>Le programme fonctionne mais donne un mauvais résultat</td><td>Condition inversée (&gt; au lieu de &lt;)</td><td>Tests pas à pas, affichage des variables</td></tr>
+            <tr><td><strong>Erreur de conception</strong></td><td>L'algorithme ne résout pas le bon problème</td><td>L'algorithme de tri ne gère pas les cas limites</td><td>Revue de l'algorithme, relecture du CdC</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Les erreurs de <strong>syntaxe</strong> sont les plus faciles à corriger (le compilateur les signale). Les erreurs <strong>logiques</strong> sont les plus sournoises (le programme fonctionne mais mal).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Techniques de débogage</h2>
+        <table>
+          <thead><tr><th>Technique</th><th>Principe</th><th>Outil</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Affichage des variables</strong></td><td>Écrire la valeur des variables à des points clés</td><td><code>Serial.println(variable);</code></td></tr>
+            <tr><td><strong>Exécution pas à pas</strong></td><td>Exécuter le programme instruction par instruction</td><td>Débogueur, simulation mBlock</td></tr>
+            <tr><td><strong>Isolation du problème</strong></td><td>Commenter des blocs de code pour localiser l'erreur</td><td>Commentaires <code>// ...</code></td></tr>
+            <tr><td><strong>Test unitaire</strong></td><td>Tester chaque fonction indépendamment</td><td>Programme de test dédié</td></tr>
+            <tr><td><strong>Relecture croisée</strong></td><td>Un camarade relit le code pour trouver les erreurs</td><td>Travail en binôme</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le débogage est une compétence essentielle : <strong>afficher les variables</strong> avec le moniteur série est la technique la plus simple et la plus efficace pour trouver les erreurs.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Cycle de mise au point</h2>
+        <p>La mise au point d'un programme est un processus <strong>itératif</strong> :</p>
+        <ol>
+          <li><strong>Écrire</strong> le programme (ou une partie)</li>
+          <li><strong>Compiler</strong> → corriger les erreurs de syntaxe</li>
+          <li><strong>Téléverser</strong> et <strong>tester</strong></li>
+          <li><strong>Observer</strong> le comportement et comparer au résultat attendu</li>
+          <li><strong>Déboguer</strong> si nécessaire (affichage, isolation)</li>
+          <li><strong>Améliorer</strong> et retourner à l'étape 3</li>
+        </ol>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Protocole de test</strong> : document structuré décrivant comment vérifier le fonctionnement d'un système</li>
+            <li><strong>Erreur de syntaxe</strong> : erreur dans l'écriture du code empêchant la compilation</li>
+            <li><strong>Erreur logique</strong> : erreur dans le raisonnement — le programme fonctionne mais donne un mauvais résultat</li>
+            <li><strong>Débogage</strong> : processus de recherche et correction des erreurs dans un programme</li>
+            <li><strong>Moniteur série</strong> : outil affichant les données échangées entre l'Arduino et le PC</li>
+            <li><strong>Test unitaire</strong> : test d'une seule fonction isolée du reste du programme</li>
+            <li><strong>Itération</strong> : cycle répété de développement, test et amélioration</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

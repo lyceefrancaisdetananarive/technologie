@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 5 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 5 — Programmation avancée (Arduino / mBlock)</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6h)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Mettre en œuvre un programme (capteurs/actionneurs)</span>
+              <span class="competence-badge">Modéliser un comportement</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Utiliser des variables et opérateurs logiques (ET, OU, NON)</li>
+                <li>Programmer des conditions imbriquées</li>
+                <li>Gérer plusieurs capteurs simultanément</li>
+                <li>Déboguer un programme</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>mBot, mBlock, câble USB, piste de suivi de ligne, obstacles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 16 (1h30) — Variables et opérateurs logiques</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S16</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Rappels + nouveautés (30 min)</h4>
+            <p>Rappel structures de base (séquence, boucle, condition). Introduction ET/OU/NON et tableau de vérité.</p>
+            <h4>Phase 2 — Activité 1 (60 min)</h4>
+            <p>Tableau de vérité + premier pseudo-code multicapteurs.</p>
+          </div>
+        </div>
+
+        <h3>Séance 17-18 (2 × 1h30) — Défis de programmation</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S17-18</div>
+          <div class="activity-step-content">
+            <h4>Activités 2 et 3 — Défis A à D</h4>
+            <p>Les élèves travaillent en binôme sur les défis. Rotation par groupes si nombre limité de mBots. Les plus rapides passent au défi D (Bluetooth).</p>
+            <p><strong>Évaluation :</strong> Chaque défi réussi rapporte des points. La démarche (pseudo-code avant programmation) est évaluée.</p>
+          </div>
+        </div>
+
+        <h3>Séance 19 (1h30) — Bilan et débogage</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S19</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Fin des défis + débogage (60 min)</h4>
+            <p>Terminer les défis. Focus sur les méthodes de débogage.</p>
+            <h4>Phase 2 — Synthèse (30 min)</h4>
+            <p>Compléter la synthèse. Discussion sur les difficultés rencontrées.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Tableau de vérité</h3>
+        <table>
+          <thead><tr><th>A</th><th>B</th><th>A ET B</th><th>A OU B</th></tr></thead>
+          <tbody>
+            <tr><td>VRAI</td><td>VRAI</td><td><strong>VRAI</strong></td><td><strong>VRAI</strong></td></tr>
+            <tr><td>VRAI</td><td>FAUX</td><td><strong>FAUX</strong></td><td><strong>VRAI</strong></td></tr>
+            <tr><td>FAUX</td><td>VRAI</td><td><strong>FAUX</strong></td><td><strong>VRAI</strong></td></tr>
+            <tr><td>FAUX</td><td>FAUX</td><td><strong>FAUX</strong></td><td><strong>FAUX</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Défi A — Suiveur de ligne intelligent</h3>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          RÉPÉTER indéfiniment :<br>
+          &nbsp;&nbsp;ligne ← lire capteur_suiveur<br>
+          &nbsp;&nbsp;distance ← lire capteur_ultrason<br>
+          &nbsp;&nbsp;SI ligne = détectée ET distance > 15 ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Avancer<br>
+          &nbsp;&nbsp;SINON SI distance ≤ 15 ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;S'arrêter, Attendre 2s, Tourner à droite 90°, Avancer 2s<br>
+          &nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;S'arrêter (pas de ligne)<br>
+          &nbsp;&nbsp;FIN SI
+        </div>
+
+        <h3>Défi B — Compteur de tours</h3>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          tours ← 0<br>
+          RÉPÉTER TANT QUE tours < 3 :<br>
+          &nbsp;&nbsp;Suivre la ligne (algorithme standard)<br>
+          &nbsp;&nbsp;SI marqueur détecté ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;tours ← tours + 1<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Afficher tours sur LED<br>
+          &nbsp;&nbsp;FIN SI<br>
+          FIN RÉPÉTER<br>
+          S'arrêter, LED vert
+        </div>
+
+        <h3>Défi C — Système d'alarme</h3>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          RÉPÉTER indéfiniment :<br>
+          &nbsp;&nbsp;distance ← lire ultrason<br>
+          &nbsp;&nbsp;ligne ← lire suiveur<br>
+          &nbsp;&nbsp;SI distance < 30 OU ligne = franchie ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;LED rouge, Buzzer ON<br>
+          &nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;LED vert, Buzzer OFF<br>
+          &nbsp;&nbsp;FIN SI
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 16</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 5 — Programmation avancée. Activité 1 : variables, opérateurs logiques (ET, OU, NON), tableau de vérité.<br>
+          <strong>Travail :</strong> Écrire le pseudo-code du défi A avant la prochaine séance.
+        </div>
+        <h3>Cahier de texte — Séances 17-18</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activités 2-3 : défis de programmation mBot/mBlock. Suivi de ligne intelligent, compteur de tours, système d'alarme multicapteurs.<br>
+          <strong>Travail :</strong> Terminer le défi en cours si non fini.
+        </div>
+        <h3>Cahier de texte — Séance 19</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Fin des défis. Méthodes de débogage. Synthèse de la séquence programmation avancée.
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Mettre en œuvre un programme</td><td>Défis A, B, C (programmation mBot)</td></tr>
+            <tr><td>Modéliser un comportement</td><td>Activité 1 (pseudo-code) + tableau de débogage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

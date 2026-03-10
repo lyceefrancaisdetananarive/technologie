@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 1 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 1 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1 · PROFESSEUR</span>
+        <h1>Séquence 1 — Étude critique d'un objet connecté</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq1-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6h)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Évaluer l'impact des innovations</span>
+              <span class="competence-badge">Identifier fonctions de service et techniques</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Maîtriser l'analyse fonctionnelle (fonctions de service, techniques, contraintes)</li>
+                <li>Comprendre l'architecture d'un objet connecté (capteur → cloud → action)</li>
+                <li>Développer l'esprit critique face aux technologies connectées</li>
+                <li>Formuler un avis argumenté sur un objet technologique</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Objets connectés (si disponibles), fiches techniques constructeur, accès internet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 1 (1h30) — Analyse fonctionnelle</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S1</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Mise en situation (15 min)</h4>
+            <p>Vidéo de présentation d'un objet connecté (pub Nest / Fitbit). Discussion : « Qu'est-ce qui rend cet objet "intelligent" ? »</p>
+            <h4>Phase 2 — Activité 1 (75 min)</h4>
+            <p>Les élèves choisissent un objet et réalisent l'analyse fonctionnelle. Rappel du diagramme bête à cornes (vu en 5ème/4ème). Travail en binôme.</p>
+          </div>
+        </div>
+
+        <h3>Séance 2 (1h30) — Architecture et flux de données</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S2</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Cours dialogué (20 min)</h4>
+            <p>Architecture type d'un objet connecté. Schéma au tableau. Notions de protocole et de cloud.</p>
+            <h4>Phase 2 — Activité 2 (70 min)</h4>
+            <p>Compléter le schéma de flux et analyser les données personnelles collectées.</p>
+          </div>
+        </div>
+
+        <h3>Séance 3 (1h30) — Évaluation critique</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S3</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Présentation de la grille (15 min)</h4>
+            <p>Expliquer la démarche d'évaluation multicritères. Exemple avec un objet simple.</p>
+            <h4>Phase 2 — Activité 3 (75 min)</h4>
+            <p>Évaluation multicritères et rédaction de l'avis critique argumenté.</p>
+          </div>
+        </div>
+
+        <h3>Séance 4 (1h30) — Restitution et débat</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S4</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Présentations orales (60 min)</h4>
+            <p>Chaque binôme présente son analyse (3-4 min). Les autres posent des questions.</p>
+            <h4>Phase 2 — Synthèse collective (30 min)</h4>
+            <p>Compléter la synthèse. Points communs et différences entre les objets analysés.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Exemple : Thermostat Nest</h3>
+        <table>
+          <thead><tr><th>N°</th><th>Fonction de service</th><th>Critère de performance</th></tr></thead>
+          <tbody>
+            <tr><td>FS1</td><td><strong>Réguler la température intérieure</strong></td><td>Précision ±0,5°C</td></tr>
+            <tr><td>FS2</td><td><strong>Permettre le contrôle à distance</strong></td><td>Temps de réponse &lt; 5s</td></tr>
+            <tr><td>FS3</td><td><strong>Optimiser la consommation d'énergie</strong></td><td>Économie 10-20%</td></tr>
+          </tbody>
+        </table>
+
+        <table>
+          <thead><tr><th>Fonction de service</th><th>Fonction technique</th><th>Solution technique</th></tr></thead>
+          <tbody>
+            <tr><td>Réguler la température</td><td>Mesurer + Commander</td><td><strong>Capteur température + relais chaudière</strong></td></tr>
+            <tr><td>Contrôle à distance</td><td>Communiquer via réseau</td><td><strong>Module Wi-Fi + application mobile</strong></td></tr>
+            <tr><td>Optimiser l'énergie</td><td>Apprendre les habitudes</td><td><strong>Algorithme IA + capteur de présence</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Activité 2 — Flux de données (Nest)</h3>
+        <table>
+          <thead><tr><th>Étape</th><th>Composant</th><th>Donnée / Action</th><th>Protocole</th></tr></thead>
+          <tbody>
+            <tr><td>1. Captation</td><td><strong>Capteur température + présence</strong></td><td>Température (°C), présence (oui/non)</td><td>Interne</td></tr>
+            <tr><td>2. Traitement local</td><td><strong>Processeur ARM</strong></td><td>Comparaison consigne / mesure</td><td>Interne</td></tr>
+            <tr><td>3. Transmission</td><td><strong>Module Wi-Fi</strong></td><td>Données vers Google Cloud</td><td>Wi-Fi / HTTPS</td></tr>
+            <tr><td>4. Traitement cloud</td><td><strong>Serveurs Google</strong></td><td>Analyse IA, historiques, prédictions</td><td>HTTPS</td></tr>
+            <tr><td>5. Interface</td><td><strong>App Nest / Google Home</strong></td><td>Affichage, commandes utilisateur</td><td>HTTPS</td></tr>
+            <tr><td>6. Action</td><td><strong>Relais</strong></td><td>Allume/éteint la chaudière</td><td>Interne</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Données personnelles collectées :</strong> Horaires de présence, habitudes de température, localisation du domicile, consommation d'énergie. Risque : profilage comportemental, revente de données.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 1</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 1 — Étude critique d'un objet connecté. Activité 1 : analyse fonctionnelle (fonctions de service, fonctions techniques, diagramme bête à cornes).<br>
+          <strong>Travail :</strong> Terminer le tableau des fonctions si non fini.
+        </div>
+        <h3>Cahier de texte — Séance 2</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Architecture d'un objet connecté. Activité 2 : flux de données et données personnelles collectées.<br>
+          <strong>Travail :</strong> Rechercher les données collectées par son objet connecté préféré.
+        </div>
+        <h3>Cahier de texte — Séance 3</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : évaluation critique multicritères et rédaction d'un avis argumenté sur l'objet connecté.<br>
+          <strong>Travail :</strong> Préparer la présentation orale (3-4 min par binôme).
+        </div>
+        <h3>Cahier de texte — Séance 4</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Présentations orales des analyses critiques. Synthèse collective. Débat sur les objets connectés dans notre quotidien.
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Évaluer l'impact des innovations</td><td>Activité 3 (évaluation multicritères + avis argumenté)</td></tr>
+            <tr><td>Identifier fonctions de service et techniques</td><td>Activité 1 (analyse fonctionnelle)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

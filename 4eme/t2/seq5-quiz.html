@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 5 : Programmation Arduino/mBlock | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Programmation et automatisation</h1>
+        <p class="page-description">Teste tes connaissances sur Arduino, mBlock, capteurs, actionneurs et cybersécurité.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quel est le rôle d\'un capteur dans un système automatisé ?',
+        options: ['Agir sur l\'environnement', 'Mesurer une grandeur de l\'environnement', 'Exécuter le programme', 'Stocker des données'],
+        correct: 1,
+        explanation: 'Un capteur ACQUIERT des informations en mesurant une grandeur de l\'environnement (distance, lumière, son, température...).'
+      },
+      {
+        type: 'qcm',
+        question: 'Les 3 fonctions de la chaîne d\'information sont...',
+        options: ['Alimenter, distribuer, convertir', 'Acquérir, traiter, communiquer', 'Capter, analyser, afficher', 'Entrer, calculer, sortir'],
+        correct: 1,
+        explanation: 'La chaîne d\'information : ACQUÉRIR (capteur), TRAITER (microcontrôleur/Arduino), COMMUNIQUER (actionneur/afficheur).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un moteur est un capteur.',
+        correct: false,
+        explanation: 'Un moteur est un ACTIONNEUR (il agit sur l\'environnement en produisant du mouvement). Un capteur mesure une grandeur, il n\'agit pas.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que fait le capteur ultrason du mBot ?',
+        options: ['Il détecte les couleurs', 'Il mesure la distance aux obstacles', 'Il suit une ligne noire', 'Il mesure la température'],
+        correct: 1,
+        explanation: 'Le capteur ultrason envoie des ondes sonores et mesure le temps de retour de l\'écho pour calculer la distance aux obstacles.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle structure de programmation permet de prendre une décision ?',
+        options: ['Boucle RÉPÉTER', 'Variable', 'Condition SI...ALORS...SINON', 'Fonction AVANCER'],
+        correct: 2,
+        explanation: 'La structure SI...ALORS...SINON (condition) permet au programme de prendre des décisions différentes selon les informations reçues des capteurs.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une variable en programmation permet de stocker une valeur qui peut changer.',
+        correct: true,
+        explanation: 'Une variable est un espace mémoire nommé qui stocke une valeur pouvant être modifiée pendant l\'exécution du programme (ex : compteur de tours).'
+      },
+      {
+        type: 'qcm',
+        question: 'Le capteur suiveur de ligne du mBot fonctionne avec...',
+        options: ['Des ultrasons', 'De la lumière infrarouge (IR)', 'Un GPS', 'Un accéléromètre'],
+        correct: 1,
+        explanation: 'Le capteur suiveur de ligne utilise la lumière infrarouge : le noir absorbe la lumière (peu de réflexion) et le blanc la réfléchit (forte réflexion).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel risque pose une connexion Bluetooth non sécurisée ?',
+        options: ['La batterie se vide plus vite', 'Un pirate peut prendre le contrôle du système', 'Le robot avance plus lentement', 'Les LED ne fonctionnent plus'],
+        correct: 1,
+        explanation: 'Sans sécurité Bluetooth, un pirate peut intercepter les données, envoyer de fausses commandes ou prendre le contrôle du robot à distance.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Arduino est un logiciel de traitement de texte.',
+        correct: false,
+        explanation: 'Arduino est une carte électronique programmable (microcontrôleur) utilisée pour créer des systèmes automatisés. mBlock est le logiciel de programmation par blocs.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour que le mBot s\'arrête après 3 tours de piste, il faut utiliser...',
+        options: ['Un capteur de température', 'Une variable compteur et une condition', 'Un deuxième moteur', 'Un câble USB plus long'],
+        correct: 1,
+        explanation: 'On utilise une variable "tours" initialisée à 0, incrémentée à chaque tour, et une condition SI tours = 3 ALORS s\'arrêter.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

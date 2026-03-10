@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Version EBEP | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Version EBEP"}]'
+    data-print-title="3ème — Séquence 5 — ADAPTATION EBEP"
+    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 3ème · ADAPTATION EBEP</span>
+        <h1>Séquence 5 — Programmation avancée</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées</li><li>Questions réduites</li><li>Aides visuelles et amorces</li><li>Tiers-temps applicable</li></ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">Comment utiliser des variables et des conditions complexes en programmation ?</strong>
+        </div>
+        <p>
+          En 3ème, on apprend à utiliser :<br>
+          &#x1F4E6; Les <strong>variables</strong> = des boîtes qui stockent des valeurs (nombre, texte)<br>
+          &#x2753; Les <strong>conditions</strong> = si... alors... sinon...<br>
+          &#x1F9E9; Les <strong>fonctions</strong> = des morceaux de programme réutilisables
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — Les variables</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Une <strong>variable</strong> c'est comme une boîte avec une étiquette. On peut y mettre un nombre, un texte, ou vrai/faux.<br>
+          Exemple : <code>temperature = 25</code> (la boîte « temperature » contient 25)
+        </div>
+        <p><strong>Complète le tableau :</strong></p>
+        <table>
+          <thead><tr><th>Nom de la variable</th><th>Type</th><th>Valeur</th></tr></thead>
+          <tbody>
+            <tr><td><code>age</code></td><td><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);">N................. (entier)</div></td><td>14</td></tr>
+            <tr><td><code>nom</code></td><td><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);">T.................</div></td><td>"Marie"</td></tr>
+            <tr><td><code>lumiere_allumee</code></td><td><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);">B................. (vrai/faux)</div></td><td>vrai</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — Les opérateurs logiques</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong><br>
+          <strong>ET</strong> = les deux conditions doivent être vraies<br>
+          <strong>OU</strong> = au moins une condition doit être vraie<br>
+          <strong>NON</strong> = inverse le résultat (vrai devient faux)
+        </div>
+        <p><strong>Complète avec VRAI ou FAUX :</strong></p>
+        <table>
+          <thead><tr><th>Condition</th><th style="text-align:center;">Résultat</th></tr></thead>
+          <tbody>
+            <tr><td>VRAI <strong>ET</strong> VRAI</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);"></div></td></tr>
+            <tr><td>VRAI <strong>ET</strong> FAUX</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);"></div></td></tr>
+            <tr><td>VRAI <strong>OU</strong> FAUX</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);"></div></td></tr>
+            <tr><td><strong>NON</strong> VRAI</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:25px; padding:var(--space-xs);"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>variable</em> / <em>fonction</em> / <em>ET</em> / <em>OU</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Une ........................ stocke une valeur (nombre, texte, booléen).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Une ........................ est un bloc de code réutilisable.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'opérateur ........................ = les 2 conditions doivent être vraies.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'opérateur ........................ = au moins 1 condition doit être vraie.</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

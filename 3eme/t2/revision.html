@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche de révision — Trimestre 2 | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"Trimestre 2"},{"label":"Fiche de révision"}]'
+    data-print-title="3ème — Fiche de révision Trimestre 2"
+    data-print-subtitle="Séquences 4 à 6 · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · Révision</span>
+        <h1>Fiche de révision — Trimestre 2</h1>
+        <p class="page-description">Tout ce qu'il faut savoir pour l'évaluation du T2 (séquences 4 à 6).</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 4 — Systèmes automatisés complexes</h2>
+
+        <h3>Décomposition fonctionnelle</h3>
+        <p>Un système complexe = plusieurs <strong>sous-systèmes</strong> fonctionnels, chacun avec sa propre <strong>chaîne fonctionnelle</strong> : capteur → traitement → actionneur.</p>
+        <p>Le <strong>microcontrôleur</strong> centralise le traitement de tous les sous-systèmes.</p>
+
+        <h3>Symboles de l'organigramme</h3>
+        <table>
+          <thead><tr><th>Symbole</th><th>Forme</th><th>Signification</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Début / Fin</strong></td><td>Ovale</td><td>Point de départ ou d'arrivée</td></tr>
+            <tr><td><strong>Action</strong></td><td>Rectangle</td><td>Traitement, instruction à exécuter</td></tr>
+            <tr><td><strong>Condition</strong></td><td>Losange</td><td>Test OUI/NON (point de décision)</td></tr>
+            <tr><td><strong>Entrée/Sortie</strong></td><td>Parallélogramme</td><td>Lecture capteur / commande actionneur</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 5 — Programmation avancée</h2>
+
+        <h3>Opérateurs logiques</h3>
+        <div class="info-box info-box-green">
+          <ul>
+            <li><strong>ET</strong> : les DEUX conditions doivent être vraies</li>
+            <li><strong>OU</strong> : au moins UNE condition doit être vraie</li>
+            <li><strong>NON</strong> : inverse la condition (VRAI ↔ FAUX)</li>
+          </ul>
+        </div>
+
+        <h3>Tableau de vérité</h3>
+        <table>
+          <thead><tr><th>A</th><th>B</th><th>A ET B</th><th>A OU B</th></tr></thead>
+          <tbody>
+            <tr><td>V</td><td>V</td><td><strong>V</strong></td><td><strong>V</strong></td></tr>
+            <tr><td>V</td><td>F</td><td><strong>F</strong></td><td><strong>V</strong></td></tr>
+            <tr><td>F</td><td>V</td><td><strong>F</strong></td><td><strong>V</strong></td></tr>
+            <tr><td>F</td><td>F</td><td><strong>F</strong></td><td><strong>F</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Structures de programmation avancées</h3>
+        <ul>
+          <li><strong>Variable</strong> : stocke une valeur modifiable (ex : <code>tours ← 0</code>)</li>
+          <li><strong>Conditions imbriquées</strong> : SI...SINON SI...SINON (plusieurs cas)</li>
+          <li><strong>Boucle TANT QUE</strong> : répète tant qu'une condition est vraie</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 6 — Tests et mise au point</h2>
+
+        <h3>Protocole de test (5 étapes)</h3>
+        <div class="info-box info-box-green">
+          <ol>
+            <li><strong>Définir</strong> les critères de réussite</li>
+            <li><strong>Planifier</strong> les scénarios</li>
+            <li><strong>Exécuter</strong> les tests</li>
+            <li><strong>Observer</strong> les résultats</li>
+            <li><strong>Analyser</strong> les écarts</li>
+          </ol>
+        </div>
+
+        <h3>4 types d'erreurs</h3>
+        <table>
+          <thead><tr><th>Type</th><th>Définition</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Syntaxe</strong></td><td>Blocs mal connectés</td><td>Bloc manquant, paramètre vide</td></tr>
+            <tr><td><strong>Logique</strong></td><td>Algorithme incorrect</td><td>> au lieu de <, directions inversées</td></tr>
+            <tr><td><strong>Valeur</strong></td><td>Paramètres mal calibrés</td><td>Vitesse trop élevée, seuil incorrect</td></tr>
+            <tr><td><strong>Séquencement</strong></td><td>Mauvais ordre des instructions</td><td>Lire capteur après avoir avancé</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DD; Conseils pour l'évaluation</h2>
+        <div class="info-box info-box-blue">
+          <ul>
+            <li>Savoir <strong>décomposer un système en sous-systèmes</strong> (capteur/traitement/actionneur)</li>
+            <li>Savoir <strong>dessiner un organigramme</strong> avec les bons symboles</li>
+            <li>Savoir <strong>utiliser les opérateurs logiques</strong> ET, OU, NON</li>
+            <li>Savoir <strong>écrire un pseudo-code</strong> avec conditions imbriquées et variables</li>
+            <li>Savoir <strong>identifier les 4 types d'erreurs</strong> et proposer des corrections</li>
+            <li>Savoir <strong>rédiger un protocole de test</strong></li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

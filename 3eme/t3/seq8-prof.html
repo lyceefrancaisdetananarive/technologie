@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 8 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · PROFESSEUR</span>
+        <h1>Séquence 8 — Fabrication et prototypage (FabLab)</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Réaliser, valider et présenter un prototype</span>
+              <span class="competence-badge">Concevoir une solution innovante</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Concevoir un boîtier adapté aux composants du Smart Object</li>
+                <li>Utiliser Tinkercad et le processus d'impression 3D</li>
+                <li>Assembler le prototype final</li>
+                <li>Valider le prototype par des tests</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Imprimante 3D, PLA, Tinkercad, Cura, pied à coulisse, outils d'assemblage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 27 (1h30) — Conception du boîtier</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S27</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Mesures (20 min)</h4>
+            <p>Mesurer les composants (Arduino, capteurs) au pied à coulisse. Croquis coté.</p>
+            <h4>Phase 2 — Modélisation (70 min)</h4>
+            <p>Modélisation 3D du boîtier sur Tinkercad. Prévoir ouvertures et fixations.</p>
+          </div>
+        </div>
+
+        <h3>Séance 28 (1h30) — Impression et assemblage</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S28</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Export et impression (30 min)</h4>
+            <p>Export STL, configuration Cura, lancement des impressions. Lancer les pièces les plus petites en premier.</p>
+            <h4>Phase 2 — Assemblage (pendant impression + 60 min)</h4>
+            <p>Pendant l'impression : finaliser le câblage. Après : assemblage dans le boîtier.</p>
+          </div>
+        </div>
+
+        <h3>Séance 29 (1h30) — Validation et améliorations</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S29</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Post-traitement + tests (60 min)</h4>
+            <p>Finir l'assemblage. Exécuter le protocole de test complet.</p>
+            <h4>Phase 2 — Bilan de fabrication (30 min)</h4>
+            <p>Compléter le bilan. Préparer la présentation.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 27</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 8 — Fabrication et prototypage. Mesures des composants. Modélisation 3D du boîtier sur Tinkercad.<br>
+          <strong>Travail :</strong> Terminer la modélisation si non finie.
+        </div>
+        <h3>Cahier de texte — Séance 28</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Export STL, impression 3D. Assemblage des composants dans le boîtier. Câblage final.
+        </div>
+        <h3>Cahier de texte — Séance 29</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Tests de validation du prototype final. Bilan de fabrication. Préparation de la soutenance.
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Réaliser, valider et présenter un prototype</td><td>Étapes 3-4 (fabrication, assemblage, tests)</td></tr>
+            <tr><td>Concevoir une solution innovante</td><td>Étape 3 (conception du boîtier)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

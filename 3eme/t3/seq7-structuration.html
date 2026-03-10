@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 7 — Projet Smart Object · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 7 : Projet Smart Object"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3</span>
+        <h1>Séquence 7 — Projet Smart Object</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq7-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 3 — Conception et création de prototypes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>7 — Smart Object</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Concevoir un objet connecté</span> <span class="competence-badge">Rédiger un CdC avancé</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le cahier des charges avancé</h2>
+        <p>En 3ème, le <strong>cahier des charges</strong> intègre la dimension « connecté » :</p>
+        <table>
+          <thead><tr><th>Section</th><th>Contenu</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Besoin</strong></td><td>Problème à résoudre + public cible</td></tr>
+            <tr><td><strong>Fonctions de service</strong></td><td>FP (principales) et FC (contraintes) avec critères et niveaux</td></tr>
+            <tr><td><strong>Architecture technique</strong></td><td>Capteurs, microcontrôleur, actionneurs, communication</td></tr>
+            <tr><td><strong>Données et connectivité</strong></td><td>Quelles données ? Quel protocole ? Stockage local ou cloud ?</td></tr>
+            <tr><td><strong>Contraintes</strong></td><td>Autonomie, dimensions, coût, RGPD, sécurité</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le CdC d'un objet connecté doit préciser les <strong>données collectées</strong>, le <strong>protocole de communication</strong> et le respect du <strong>RGPD</strong> en plus des fonctions techniques classiques.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Architecture d'un Smart Object</h2>
+        <table>
+          <thead><tr><th>Bloc</th><th>Rôle</th><th>Composants typiques</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Capteurs</strong></td><td>Mesurer l'environnement</td><td>DHT22 (temp/humidité), ultrason, PIR, LDR</td></tr>
+            <tr><td><strong>Microcontrôleur</strong></td><td>Traiter les données et décider</td><td>Arduino + shield WiFi, ESP32, micro:bit</td></tr>
+            <tr><td><strong>Actionneurs</strong></td><td>Agir sur l'environnement</td><td>LED, servomoteur, buzzer, relais</td></tr>
+            <tr><td><strong>Communication</strong></td><td>Envoyer/recevoir des données</td><td>Wi-Fi, Bluetooth, MQTT</td></tr>
+            <tr><td><strong>Alimentation</strong></td><td>Fournir l'énergie</td><td>USB, batterie Li-Po, panneau solaire</td></tr>
+            <tr><td><strong>Boîtier</strong></td><td>Protéger l'électronique</td><td>Impression 3D, découpe laser</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Schéma de câblage</h2>
+        <p>Le <strong>schéma de câblage</strong> montre les connexions physiques entre les composants :</p>
+        <table>
+          <thead><tr><th>Règle</th><th>Explication</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Alimentation</strong></td><td>Fil rouge = +5V ou +3.3V, fil noir = GND (masse)</td></tr>
+            <tr><td><strong>Signaux</strong></td><td>Chaque capteur/actionneur est connecté à une broche spécifique</td></tr>
+            <tr><td><strong>Résistances de protection</strong></td><td>Toujours une résistance en série avec une LED (~220Ω)</td></tr>
+            <tr><td><strong>Pull-up / Pull-down</strong></td><td>Résistance pour stabiliser un signal numérique (bouton)</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un <strong>schéma de câblage</strong> est indispensable avant tout montage. Il permet de vérifier les connexions, éviter les courts-circuits et faciliter le débogage matériel.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Planification du projet</h2>
+        <p>Le projet Smart Object suit une démarche rigoureuse :</p>
+        <ol>
+          <li><strong>Analyse du besoin</strong> et rédaction du CdC</li>
+          <li><strong>Conception</strong> : schéma de câblage + organigramme + modèle 3D du boîtier</li>
+          <li><strong>Prototypage matériel</strong> : montage sur breadboard</li>
+          <li><strong>Programmation</strong> : codage et débogage</li>
+          <li><strong>Fabrication du boîtier</strong> : impression 3D ou découpe laser</li>
+          <li><strong>Tests</strong> : protocole de test conforme au CdC</li>
+          <li><strong>Présentation</strong> : soutenance orale + démonstration</li>
+        </ol>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Smart Object</strong> : objet connecté capable de capter, traiter et communiquer des données</li>
+            <li><strong>Schéma de câblage</strong> : représentation des connexions physiques entre composants</li>
+            <li><strong>Breadboard</strong> : plaque de prototypage sans soudure pour tester les montages</li>
+            <li><strong>ESP32</strong> : microcontrôleur avec Wi-Fi et Bluetooth intégrés</li>
+            <li><strong>MQTT</strong> : protocole de communication léger pour l'IoT</li>
+            <li><strong>Pull-up / Pull-down</strong> : résistance stabilisant un signal numérique</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 3</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

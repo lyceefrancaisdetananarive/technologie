@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 9 : Soutenance et projet | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — Soutenance et présentation du projet</h1>
+        <p class="page-description">Teste tes connaissances sur la gestion de projet et la soutenance.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Le cahier des charges d\'un projet définit...',
+        options: ['La couleur du prototype', 'Les fonctions, contraintes et critères de performance', 'Le nom de l\'équipe', 'Le budget publicitaire'],
+        correct: 1,
+        explanation: 'Le cahier des charges est le document de référence qui définit les fonctions de service, les contraintes et les critères de performance du produit à concevoir.'
+      },
+      {
+        type: 'qcm',
+        question: 'Lors d\'une soutenance orale, l\'ordre idéal de présentation est...',
+        options: ['Bilan → Conception → Besoin', 'Besoin → Cahier des charges → Conception → Fabrication → Démonstration → Bilan', 'Démonstration → Besoin → Bilan', 'Au hasard'],
+        correct: 1,
+        explanation: 'La présentation suit la chronologie du projet : du besoin initial jusqu\'au bilan, en passant par la conception, la fabrication et la démonstration.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Pendant une soutenance, il est recommandé de lire directement le texte de ses slides.',
+        correct: false,
+        explanation: 'Il ne faut pas lire les slides. Il faut les utiliser comme support visuel et parler avec ses propres mots, en regardant l\'auditoire.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le prototype sert à...',
+        options: ['Vendre le produit', 'Tester et valider le concept avant la production', 'Décorer la salle', 'Remplacer le cahier des charges'],
+        correct: 1,
+        explanation: 'Le prototype est un modèle d\'essai qui permet de vérifier que la solution technique répond bien au besoin défini dans le cahier des charges.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Tous les membres du groupe doivent parler pendant la soutenance.',
+        correct: true,
+        explanation: 'Chaque membre doit présenter une partie du projet pour montrer que tout le monde a participé et maîtrise le contenu.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si le prototype ne fonctionne pas pendant la démonstration, que faut-il faire ?',
+        options: ['Abandonner', 'Expliquer ce qui aurait dû se passer et les causes possibles du dysfonctionnement', 'Accuser un membre du groupe', 'Ne rien dire'],
+        correct: 1,
+        explanation: 'En cas de problème, il faut expliquer le comportement attendu, analyser les causes possibles et montrer que vous comprenez le système. C\'est aussi évalué !'
+      },
+      {
+        type: 'qcm',
+        question: 'Le développement durable dans un projet technique inclut...',
+        options: ['Uniquement le recyclage', 'Le choix des matériaux, la consommation d\'énergie, la réparabilité et la durée de vie', 'Uniquement le prix', 'La couleur verte'],
+        correct: 1,
+        explanation: 'Le développement durable englobe le choix de matériaux responsables, l\'économie d\'énergie, la réparabilité, la durée de vie et le recyclage en fin de vie.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un diaporama efficace contient beaucoup de texte sur chaque slide.',
+        correct: false,
+        explanation: 'Un bon diaporama contient peu de texte (mots-clés, schémas, images) pour que l\'auditoire écoute le présentateur plutôt que de lire les slides.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pendant les questions, si tu ne connais pas la réponse...',
+        options: ['Tu inventes', 'Tu dis honnêtement que tu ne sais pas et tu proposes une piste de réflexion', 'Tu changes de sujet', 'Tu quittes la salle'],
+        correct: 1,
+        explanation: 'L\'honnêteté est valorisée. Dire « je ne sais pas, mais je pense que... » montre de la maturité et de l\'esprit critique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le bilan d\'un projet technique doit mentionner...',
+        options: ['Uniquement les réussites', 'Les réussites, les difficultés et les améliorations possibles', 'Uniquement les échecs', 'Le nom du professeur'],
+        correct: 1,
+        explanation: 'Un bon bilan est honnête : il présente ce qui a fonctionné, les difficultés rencontrées, comment elles ont été résolues et ce qui pourrait être amélioré.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

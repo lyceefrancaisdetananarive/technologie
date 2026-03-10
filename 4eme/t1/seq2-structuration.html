@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 2 — IA et automatisation · Structuration | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Structuration"}]'
+    data-print-title="4ème — Séquence 2 : IA et automatisation"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
+        <h1>Séquence 2 — IA et automatisation</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq2-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 1 — Design, innovation et créativité</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>2 — IA</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Comprendre le fonctionnement d'une IA</span> <span class="competence-badge">Identifier les biais algorithmiques</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les types d'intelligence artificielle</h2>
+        <table>
+          <thead><tr><th>Type</th><th>Principe</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>IA faible (spécialisée)</strong></td><td>Conçue pour une tâche précise, sans conscience</td><td>Reconnaissance vocale, filtre photo, jeu d'échecs</td></tr>
+            <tr><td><strong>IA forte (générale)</strong></td><td>Hypothétique IA capable de raisonner comme un humain</td><td>N'existe pas encore</td></tr>
+            <tr><td><strong>IA générative</strong></td><td>Crée du contenu nouveau (texte, image, son)</td><td>ChatGPT, DALL-E, Midjourney</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Toutes les IA actuelles sont des <strong>IA faibles</strong> : elles excellent dans une tâche précise mais ne « comprennent » pas ce qu'elles font.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; L'apprentissage automatique (Machine Learning)</h2>
+        <table>
+          <thead><tr><th>Étape</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Collecte des données</strong></td><td>Rassembler un grand nombre d'exemples (images, textes, sons)</td></tr>
+            <tr><td><strong>2. Entraînement</strong></td><td>L'algorithme analyse les données et détecte des patterns (régularités)</td></tr>
+            <tr><td><strong>3. Modèle</strong></td><td>Le résultat de l'entraînement : un programme capable de faire des prédictions</td></tr>
+            <tr><td><strong>4. Prédiction</strong></td><td>Le modèle traite de nouvelles données et donne un résultat</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le <strong>Machine Learning</strong> permet à l'IA d'apprendre à partir d'exemples, sans être explicitement programmée pour chaque cas. Plus elle a de données, plus elle est précise.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les biais algorithmiques</h2>
+        <p>Un <strong>biais</strong> est une erreur systématique dans les résultats de l'IA, due aux données d'entraînement :</p>
+        <table>
+          <thead><tr><th>Type de biais</th><th>Cause</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Biais de sélection</strong></td><td>Données d'entraînement non représentatives</td><td>IA de recrutement entraînée sur 80% de CV masculins → discrimine les femmes</td></tr>
+            <tr><td><strong>Biais historique</strong></td><td>Les données reflètent des inégalités passées</td><td>IA de crédit qui reproduit des discriminations raciales historiques</td></tr>
+            <tr><td><strong>Biais de confirmation</strong></td><td>L'IA renforce les croyances existantes</td><td>Recommandations qui enferment dans une « bulle de filtre »</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Une IA n'est <strong>jamais neutre</strong> : elle reflète les données sur lesquelles elle a été entraînée. Des données biaisées produisent des résultats biaisés.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; IA et automatisation au quotidien</h2>
+        <table>
+          <thead><tr><th>Domaine</th><th>Application de l'IA</th><th>Impact</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Santé</strong></td><td>Diagnostic médical assisté par IA</td><td>Détection précoce de maladies</td></tr>
+            <tr><td><strong>Transport</strong></td><td>Véhicules autonomes, GPS intelligent</td><td>Sécurité routière, optimisation des trajets</td></tr>
+            <tr><td><strong>Industrie</strong></td><td>Robots de production, maintenance prédictive</td><td>Productivité, mais suppression d'emplois</td></tr>
+            <tr><td><strong>Éducation</strong></td><td>Tuteurs intelligents, correction automatique</td><td>Personnalisation de l'apprentissage</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Intelligence artificielle (IA)</strong> : programme capable d'imiter certaines capacités cognitives humaines</li>
+            <li><strong>Machine Learning</strong> : apprentissage automatique à partir de données</li>
+            <li><strong>Données d'entraînement</strong> : exemples utilisés pour entraîner un modèle d'IA</li>
+            <li><strong>Biais algorithmique</strong> : erreur systématique due à des données non représentatives</li>
+            <li><strong>IA générative</strong> : IA capable de créer du contenu nouveau (texte, image, son)</li>
+            <li><strong>Automatisation</strong> : remplacement de tâches humaines par des machines ou programmes</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 1</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

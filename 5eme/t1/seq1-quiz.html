@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 1 : Objets techniques | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+
+      <!-- Page Header -->
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Découverte des objets techniques</h1>
+        <p class="page-description">
+          Teste tes connaissances sur les objets techniques, les besoins, les fonctions d'usage et d'estime.
+        </p>
+      </div>
+
+      <!-- Actions -->
+      <div class="page-actions no-print">
+        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche activité</a>
+      </div>
+
+      <!-- Quiz Container -->
+      <div class="quiz-container" id="quiz-container"></div>
+
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un objet technique ?',
+        options: [
+          'Un objet qui existe dans la nature',
+          'Un objet conçu et fabriqué par l\'Homme pour répondre à un besoin',
+          'Un objet très compliqué à utiliser',
+          'Un objet qui fonctionne avec de l\'électricité'
+        ],
+        correct: 1,
+        explanation: 'Un objet technique est un objet conçu et fabriqué par l\'Homme pour répondre à un besoin. Il se distingue de l\'objet naturel qui existe sans intervention humaine.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un caillou ramassé dans la nature est un objet technique.',
+        correct: false,
+        explanation: 'Un caillou est un objet naturel car il existe dans la nature sans intervention de l\'Homme. En revanche, si l\'Homme le taille pour en faire un outil, il devient un objet technique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la fonction d\'usage d\'un vélo ?',
+        options: [
+          'Faire du sport',
+          'Transporter une personne d\'un point A à un point B',
+          'Être à la mode',
+          'Gagner des courses'
+        ],
+        correct: 1,
+        explanation: 'La fonction d\'usage du vélo est de transporter une personne d\'un point A à un point B. C\'est le service principal rendu par l\'objet, commun à tous les vélos.'
+      },
+      {
+        type: 'qcm',
+        question: 'La couleur, le design et la marque d\'un objet correspondent à :',
+        options: [
+          'La fonction d\'usage',
+          'Le besoin',
+          'La fonction d\'estime',
+          'La fonction technique'
+        ],
+        correct: 2,
+        explanation: 'La fonction d\'estime regroupe tout ce qui fait qu\'on apprécie ou qu\'on préfère un objet : son design, sa couleur, sa marque, sa forme, son originalité...'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Deux objets techniques différents peuvent répondre au même besoin.',
+        correct: true,
+        explanation: 'Oui ! Par exemple, un vélo, une trottinette et une voiture répondent tous au même besoin : se déplacer. Ils diffèrent par leurs caractéristiques (vitesse, prix, impact environnemental...).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le besoin satisfait par un réfrigérateur ?',
+        options: [
+          'Chauffer les aliments',
+          'Conserver les aliments au froid',
+          'Fabriquer des glaçons',
+          'Décorer la cuisine'
+        ],
+        correct: 1,
+        explanation: 'Le besoin principal satisfait par un réfrigérateur est de conserver les aliments au froid pour les garder frais plus longtemps.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La fonction d\'usage est la même pour tous les objets de même type (par exemple, tous les stylos ont la même fonction d\'usage).',
+        correct: true,
+        explanation: 'Exact ! La fonction d\'usage est identique pour tous les objets de même type. Tous les stylos servent à écrire, tous les vélos servent à se déplacer. C\'est la fonction d\'estime qui les différencie.'
+      },
+      {
+        type: 'qcm',
+        question: 'Parmi ces objets, lequel est un objet naturel ?',
+        options: [
+          'Une chaise',
+          'Un crayon',
+          'Un morceau de bois dans la forêt',
+          'Un livre'
+        ],
+        correct: 2,
+        explanation: 'Un morceau de bois dans la forêt (une branche tombée) est un objet naturel. La chaise, le crayon et le livre ont tous été fabriqués par l\'Homme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un élève choisit un sac à dos de marque Nike plutôt qu\'un sac sans marque. Quel critère a guidé son choix ?',
+        options: [
+          'La fonction d\'usage (transporter ses affaires)',
+          'La fonction d\'estime (la marque, le style)',
+          'Le besoin (aller à l\'école)',
+          'La fonction technique (avoir des poches)'
+        ],
+        correct: 1,
+        explanation: 'Le choix de la marque Nike relève de la fonction d\'estime. Les deux sacs ont la même fonction d\'usage (transporter des affaires), mais l\'élève préfère l\'un pour sa marque, son image, son design.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un smartphone est un objet naturel car on en trouve partout.',
+        correct: false,
+        explanation: 'Non ! Un smartphone est un objet technique car il a été conçu et fabriqué par l\'Homme. Le fait qu\'il soit très répandu n\'en fait pas un objet naturel.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, {
+      showFeedback: true,
+      levelColor: 'var(--color-5eme)'
+    });
+  </script>
+</body>
+</html>

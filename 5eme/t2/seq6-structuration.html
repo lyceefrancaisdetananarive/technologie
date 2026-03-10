@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Programmation · Structuration | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Structuration"}]'
+    data-print-title="5ème — Séquence 6 : Introduction à la programmation"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2</span>
+        <h1>Séquence 6 — Introduction à la programmation</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>5ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>6 — Programmation</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Écrire un programme simple</span> <span class="competence-badge">Comprendre la notion d'algorithme</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; De l'algorithme au programme</h2>
+        <table>
+          <thead><tr><th>Étape</th><th>Ce que c'est</th><th>Qui le fait</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Algorithme</strong></td><td>Suite d'instructions en langage courant pour résoudre un problème</td><td>L'humain réfléchit</td></tr>
+            <tr><td><strong>2. Programme</strong></td><td>Traduction de l'algorithme dans un langage compréhensible par la machine</td><td>L'humain code (blocs ou texte)</td></tr>
+            <tr><td><strong>3. Exécution</strong></td><td>La machine lit et exécute les instructions une par une</td><td>Le microcontrôleur agit</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un <strong>algorithme</strong> est une recette de cuisine pour la machine : des étapes précises, dans un ordre logique, pour obtenir un résultat.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les structures de base d'un programme</h2>
+        <table>
+          <thead><tr><th>Structure</th><th>Rôle</th><th>Exemple en pseudo-code</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Séquence</strong></td><td>Instructions exécutées l'une après l'autre</td><td>Allumer LED → Attendre 1s → Éteindre LED</td></tr>
+            <tr><td><strong>Condition</strong><br>(SI...ALORS...SINON)</td><td>Exécuter des instructions seulement si une condition est vraie</td><td>SI bouton appuyé ALORS allumer LED SINON éteindre LED</td></tr>
+            <tr><td><strong>Boucle</strong><br>(RÉPÉTER / TANT QUE)</td><td>Répéter des instructions plusieurs fois</td><td>RÉPÉTER 10 fois : faire clignoter LED</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Tout programme est construit avec seulement <strong>3 structures</strong> : la séquence, la condition (SI) et la boucle (RÉPÉTER).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le micro:bit et mBlock</h2>
+        <p>Le <strong>micro:bit</strong> est un microcontrôleur utilisé au collège pour apprendre la programmation :</p>
+        <table>
+          <thead><tr><th>Composant intégré</th><th>Ce qu'il mesure / fait</th></tr></thead>
+          <tbody>
+            <tr><td>Matrice LED 5×5</td><td>Afficher des icônes, texte, animations</td></tr>
+            <tr><td>Boutons A et B</td><td>Détecter une pression (entrée utilisateur)</td></tr>
+            <tr><td>Accéléromètre</td><td>Détecter les mouvements et l'inclinaison</td></tr>
+            <tr><td>Boussole</td><td>Mesurer l'orientation (nord magnétique)</td></tr>
+            <tr><td>Capteur de luminosité</td><td>Mesurer la luminosité ambiante</td></tr>
+            <tr><td>Capteur de température</td><td>Mesurer la température</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-sm);"><strong>mBlock</strong> est un logiciel de programmation par blocs (comme Scratch) compatible avec le micro:bit et l'Arduino.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les variables</h2>
+        <p>Une <strong>variable</strong> est une boîte qui stocke une valeur qu'on peut lire et modifier.</p>
+        <ul>
+          <li><strong>Créer</strong> une variable : lui donner un nom (ex : <code>score</code>)</li>
+          <li><strong>Affecter</strong> une valeur : <code>score ← 0</code> (mettre 0 dans la boîte)</li>
+          <li><strong>Modifier</strong> : <code>score ← score + 1</code> (ajouter 1 au contenu)</li>
+          <li><strong>Lire</strong> : afficher ou utiliser la valeur dans une condition</li>
+        </ul>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Une variable est comme une <strong>étiquette sur une boîte</strong> : on lui donne un nom, on y met une valeur, et on peut la changer à tout moment.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Algorithme</strong> : suite ordonnée d'instructions pour résoudre un problème</li>
+            <li><strong>Programme</strong> : algorithme traduit dans un langage compris par la machine</li>
+            <li><strong>Boucle</strong> : structure qui répète des instructions (RÉPÉTER, TANT QUE)</li>
+            <li><strong>Condition</strong> : structure qui teste si quelque chose est vrai ou faux (SI...ALORS...SINON)</li>
+            <li><strong>Variable</strong> : espace mémoire nommé qui stocke une valeur modifiable</li>
+            <li><strong>Capteur</strong> : composant qui mesure une grandeur physique</li>
+            <li><strong>Microcontrôleur</strong> : petit ordinateur programmable (micro:bit, Arduino)</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

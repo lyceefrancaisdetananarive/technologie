@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 8 : Fabrication et prototypage | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — Fabrication et prototypage</h1>
+        <p class="page-description">Teste tes connaissances sur la fabrication numérique et le prototypage.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Le format de fichier pour l\'impression 3D est...',
+        options: ['PDF', 'STL', 'DOCX', 'MP3'],
+        correct: 1,
+        explanation: 'Le fichier STL (Standard Tessellation Language) est le format standard pour l\'impression 3D, exporté depuis les logiciels de modélisation.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le slicer (comme Cura) sert à...',
+        options: ['Modéliser en 3D', 'Découper le modèle en couches et générer le G-code', 'Scanner un objet', 'Peindre le modèle'],
+        correct: 1,
+        explanation: 'Le slicer découpe le modèle 3D en couches et génère le G-code, les instructions que l\'imprimante 3D exécute ligne par ligne.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un prototype est la version finale du produit.',
+        correct: false,
+        explanation: 'Un prototype est un modèle d\'essai qui permet de tester et valider le concept. Il peut encore être amélioré avant la version finale.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi mesurer les composants au pied à coulisse avant de modéliser le boîtier ?',
+        options: ['Pour connaître le prix', 'Pour que le boîtier soit aux bonnes dimensions', 'Pour choisir la couleur', 'Ce n\'est pas nécessaire'],
+        correct: 1,
+        explanation: 'Les mesures précises des composants (Arduino, capteurs) permettent de concevoir un boîtier parfaitement adapté avec les bonnes ouvertures.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le PLA utilisé en impression 3D est fabriqué à partir de...',
+        options: ['Pétrole', 'Amidon de maïs', 'Sable', 'Minerai de fer'],
+        correct: 1,
+        explanation: 'Le PLA (acide polylactique) est un bioplastique fabriqué à partir d\'amidon de maïs ou de canne à sucre, une ressource renouvelable.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le G-code est le langage compris directement par l\'imprimante 3D.',
+        correct: true,
+        explanation: 'Le G-code contient les instructions de déplacement de la buse, de température et de débit de filament que l\'imprimante exécute.'
+      },
+      {
+        type: 'qcm',
+        question: 'La hauteur de couche en impression 3D affecte...',
+        options: ['Uniquement la couleur', 'La précision et le temps d\'impression', 'Uniquement le poids', 'La connexion Wi-Fi'],
+        correct: 1,
+        explanation: 'Une hauteur de couche plus fine (0.1mm) donne plus de détails mais prend plus de temps. Plus épaisse (0.3mm) = plus rapide mais moins précis.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le post-traitement d\'une pièce imprimée en 3D consiste à...',
+        options: ['Programmer l\'Arduino', 'Retirer les supports, poncer, nettoyer', 'Exporter le fichier STL', 'Lire le G-code'],
+        correct: 1,
+        explanation: 'Le post-traitement inclut le retrait des supports d\'impression, le ponçage des surfaces rugueuses et le nettoyage de la pièce.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un taux de remplissage de 100 % rend la pièce plus solide mais consomme plus de matière.',
+        correct: true,
+        explanation: 'Le remplissage à 100% crée une pièce pleine (très solide) mais utilise beaucoup de filament et prend plus de temps. 20-40% suffit souvent.'
+      },
+      {
+        type: 'qcm',
+        question: 'L\'assemblage final du prototype comprend...',
+        options: ['Uniquement le boîtier', 'Le boîtier + composants électroniques + câblage + programme', 'Uniquement le programme', 'Uniquement les capteurs'],
+        correct: 1,
+        explanation: 'L\'assemblage final intègre toutes les parties : le boîtier fabriqué, les composants électroniques fixés, le câblage et le programme téléversé.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

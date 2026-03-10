@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — IA et systèmes automatisés · Structuration | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Structuration"}]'
+    data-print-title="4ème — Séquence 8 : IA et systèmes automatisés"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
+        <h1>Séquence 8 — IA et systèmes automatisés</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 3 — Projet de création et innovation</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>8 — IA automatisée</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Analyser un système automatisé</span> <span class="competence-badge">Créer un modèle IA</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le système automatisé</h2>
+        <p>Un <strong>système automatisé</strong> réalise des actions sans intervention humaine permanente :</p>
+        <table>
+          <thead><tr><th>Partie</th><th>Rôle</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Partie commande (PC)</strong></td><td>Traite les informations et prend les décisions</td><td>Arduino, automate, ordinateur</td></tr>
+            <tr><td><strong>Partie opérative (PO)</strong></td><td>Exécute les actions physiques</td><td>Moteur, vérin, LED, pompe</td></tr>
+            <tr><td><strong>Capteurs</strong></td><td>Mesurent l'état du système (entrées)</td><td>Ultrason, IR, température, lumière</td></tr>
+            <tr><td><strong>Actionneurs</strong></td><td>Agissent sur l'environnement (sorties)</td><td>Moteur, buzzer, électrovanne</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un système automatisé se compose d'une <strong>partie commande</strong> (qui décide) et d'une <strong>partie opérative</strong> (qui agit), reliées par des capteurs et des actionneurs.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Boucle ouverte et boucle fermée</h2>
+        <table>
+          <thead><tr><th>Type</th><th>Principe</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Boucle ouverte</strong></td><td>Le système exécute les ordres sans vérifier le résultat</td><td>Minuterie de four : chauffe pendant 30 min sans mesurer la température</td></tr>
+            <tr><td><strong>Boucle fermée</strong></td><td>Un capteur mesure le résultat et le système se corrige automatiquement</td><td>Thermostat : mesure la température et ajuste le chauffage</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-sm);">Schéma d'une boucle fermée : <strong>Consigne → Comparer → Commander → Agir → Mesurer → (retour)</strong></p>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          En <strong>boucle fermée</strong>, le capteur permet au système de se corriger automatiquement. C'est plus précis et plus fiable qu'une boucle ouverte.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Teachable Machine et classification par IA</h2>
+        <p><strong>Teachable Machine</strong> (Google) permet de créer un modèle IA sans coder :</p>
+        <table>
+          <thead><tr><th>Étape</th><th>Action</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Collecter</strong></td><td>Rassembler les exemples</td><td>Photos, sons ou postures pour chaque catégorie</td></tr>
+            <tr><td><strong>2. Entraîner</strong></td><td>Lancer l'apprentissage</td><td>L'IA analyse les exemples et trouve des patterns</td></tr>
+            <tr><td><strong>3. Tester</strong></td><td>Vérifier les résultats</td><td>Soumettre de nouvelles données pour évaluer la précision</td></tr>
+            <tr><td><strong>4. Exporter</strong></td><td>Utiliser le modèle</td><td>Intégrer dans un projet web ou mBlock</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-sm);"><strong>Réseau de neurones simplifié :</strong></p>
+        <ul>
+          <li><strong>Couche d'entrée</strong> : reçoit les données brutes (pixels, fréquences)</li>
+          <li><strong>Couches cachées</strong> : extraient des caractéristiques de plus en plus abstraites</li>
+          <li><strong>Couche de sortie</strong> : donne la catégorie prédite (ex : « chat », « chien »)</li>
+        </ul>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          <strong>Teachable Machine</strong> permet de créer un modèle d'IA par apprentissage supervisé : on fournit des exemples étiquetés, l'IA apprend à les classifier automatiquement.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Éthique et IA</h2>
+        <table>
+          <thead><tr><th>Principe</th><th>Explication</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Transparence</strong></td><td>L'utilisateur doit savoir qu'il interagit avec une IA</td></tr>
+            <tr><td><strong>Explicabilité</strong></td><td>On doit pouvoir comprendre pourquoi l'IA a pris une décision</td></tr>
+            <tr><td><strong>Responsabilité</strong></td><td>Un humain doit rester responsable des décisions de l'IA</td></tr>
+            <tr><td><strong>Non-discrimination</strong></td><td>L'IA ne doit pas reproduire les biais présents dans les données</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Système automatisé</strong> : système réalisant des actions sans intervention humaine permanente</li>
+            <li><strong>Partie commande (PC)</strong> : élément qui traite les informations et donne les ordres</li>
+            <li><strong>Partie opérative (PO)</strong> : élément qui exécute les actions physiques</li>
+            <li><strong>Boucle fermée</strong> : système qui mesure son résultat et se corrige automatiquement</li>
+            <li><strong>Teachable Machine</strong> : outil Google pour créer un modèle IA par apprentissage</li>
+            <li><strong>Réseau de neurones</strong> : modèle informatique inspiré du cerveau humain</li>
+            <li><strong>Apprentissage supervisé</strong> : l'IA apprend à partir d'exemples étiquetés par un humain</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 3</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

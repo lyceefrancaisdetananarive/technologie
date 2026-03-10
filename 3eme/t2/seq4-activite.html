@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Systèmes automatisés complexes | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Fiche activité"}]'
+    data-print-title="3ème — Séquence 4 : Fiche Activité Élève"
+    data-print-subtitle="Systèmes automatisés complexes · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2</span>
+        <h1>Séquence 4 — Systèmes automatisés complexes</h1>
+        <p class="page-description">
+          Comment un système automatisé complexe gère-t-il plusieurs capteurs et actionneurs pour fonctionner de manière autonome ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Analyse fonctionnelle et technique</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Décomposer en sous-systèmes fonctionnels</span>
+                <span class="competence-badge">Modéliser un comportement</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Une serre intelligente maintient automatiquement la température, l'humidité et la luminosité idéales pour les plantes. Comment gère-t-elle autant de paramètres en même temps ?</strong>
+        </div>
+        <p><strong>Problématique :</strong> Comment décomposer et modéliser le comportement d'un système automatisé complexe ?</p>
+      </div>
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Décomposition fonctionnelle</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Du système global aux sous-systèmes</h4>
+            <p>Décompose un système complexe en sous-systèmes fonctionnels indépendants.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Décomposition fonctionnelle :</strong>
+          <ul>
+            <li><strong>Système global</strong> : l'ensemble du système (serre intelligente)</li>
+            <li><strong>Sous-système</strong> : partie autonome avec une fonction précise (régulation température)</li>
+            <li><strong>Chaîne fonctionnelle</strong> : capteur → traitement → actionneur pour chaque sous-système</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Décompose la serre intelligente en sous-systèmes :</p>
+        <table>
+          <thead><tr><th>Sous-système</th><th>Capteur</th><th>Actionneur</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Régulation température</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Régulation humidité</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Régulation luminosité</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Arrosage automatique</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Quel composant centralise le traitement de tous les sous-systèmes ? Pourquoi ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Modélisation par organigramme</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Représenter le comportement d'un système</h4>
+            <p>Utilise un organigramme (logigramme) pour modéliser le comportement de la serre.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Symboles de l'organigramme :</strong>
+          <ul>
+            <li><strong>Ovale</strong> : début / fin</li>
+            <li><strong>Rectangle</strong> : action (traitement)</li>
+            <li><strong>Losange</strong> : condition (test OUI/NON)</li>
+            <li><strong>Parallélogramme</strong> : entrée / sortie (capteur / actionneur)</li>
+            <li><strong>Flèches</strong> : flux du programme</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Dessine l'organigramme du sous-système « régulation de température » :</p>
+        <div class="info-box info-box-orange" style="font-size: 0.85rem;">
+          Indices : Lire température → Si T > 30°C alors activer ventilateur → Si T < 15°C alors activer chauffage → Sinon ne rien faire → Boucle
+        </div>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Organigramme avec symboles normalisés</span>
+        </div>
+
+        <p style="margin-top: var(--space-md);"><strong>b)</strong> Écris l'algorithme en pseudo-code correspondant :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 120px; background: var(--gray-50); font-family: monospace; font-size: 0.85rem;">
+          DÉBUT<br>
+          &nbsp;&nbsp;RÉPÉTER indéfiniment :<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;température ← lire capteur_température<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SI ........................ ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON SI ........................ ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;FIN SI<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;FIN RÉPÉTER<br>
+          FIN
+        </div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Étude de cas : la barrière automatique</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Un système à plusieurs états</h4>
+            <p>Analyse une barrière de parking automatique et modélise ses différents états.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Identifie les composants de la barrière automatique :</p>
+        <table>
+          <thead><tr><th>Composant</th><th>Type</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Lecteur de badge</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Capteur de présence véhicule</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Moteur de la barrière</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Feux (vert/rouge)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Automate programmable</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Dessine l'organigramme complet de fonctionnement de la barrière :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Organigramme : attente → badge valide ? → ouvrir → véhicule passé ? → fermer → boucle</span>
+        </div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>sous-systèmes, organigramme, losange, rectangle, chaîne fonctionnelle, capteur, actionneur, microcontrôleur</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un système complexe se décompose en ........................ fonctionnels. Chaque sous-système possède une ........................ : ........................ → traitement → ........................ .
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ centralise le traitement de tous les sous-systèmes. L'........................ permet de modéliser le comportement du système.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Dans un organigramme, le ........................ représente une condition (test) et le ........................ représente une action.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 4 : Structure interne | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Structure interne des objets techniques</h1>
+        <p class="page-description">Teste tes connaissances sur les composants, matériaux et chaînes d'énergie.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Comment appelle-t-on le rôle d\'un composant à l\'intérieur d\'un objet technique ?',
+        options: ['La fonction d\'usage', 'La fonction d\'estime', 'La fonction technique', 'La fonction esthétique'],
+        correct: 2,
+        explanation: 'La fonction technique décrit le rôle précis d\'un composant dans l\'objet (ex : le moteur convertit l\'énergie). La fonction d\'usage, c\'est le service global rendu par l\'objet entier.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans quelle famille de matériaux classe-t-on l\'aluminium ?',
+        options: ['Plastiques', 'Céramiques', 'Composites', 'Métaux'],
+        correct: 3,
+        explanation: 'L\'aluminium est un métal. Il est léger, résistant à la corrosion et très utilisé dans les transports et l\'emballage.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La fibre de carbone est un matériau composite.',
+        correct: true,
+        explanation: 'La fibre de carbone est bien un composite : elle associe des fibres de carbone (très résistantes) et une résine (qui lie le tout). C\'est ce qui la rend à la fois légère et très solide.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est l\'ordre correct de la chaîne d\'énergie ?',
+        options: [
+          'Convertir → Source → Transmettre → Action',
+          'Source → Convertir → Transmettre → Action',
+          'Action → Source → Convertir → Transmettre',
+          'Source → Transmettre → Convertir → Action'
+        ],
+        correct: 1,
+        explanation: 'La chaîne d\'énergie suit toujours cet ordre : Source d\'énergie → Convertir (transformer l\'énergie) → Transmettre → Action finale.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la source d\'énergie d\'un vélo classique ?',
+        options: ['Une batterie', 'L\'énergie musculaire du cycliste', 'L\'énergie solaire', 'L\'essence'],
+        correct: 1,
+        explanation: 'Sur un vélo classique, c\'est le cycliste qui fournit l\'énergie avec ses muscles. Cette énergie musculaire est convertie en mouvement par le pédalier.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le caoutchouc appartient à la famille des métaux.',
+        correct: false,
+        explanation: 'Le caoutchouc est un élastomère, classé dans la famille des plastiques (matériaux organiques). Il est élastique et adhérent, idéal pour les pneus et semelles.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans une trottinette électrique, quel composant convertit l\'énergie électrique en mouvement ?',
+        options: ['La batterie', 'Le frein', 'Le moteur électrique', 'Le guidon'],
+        correct: 2,
+        explanation: 'Le moteur électrique est le convertisseur : il transforme l\'énergie électrique (de la batterie) en énergie mécanique (rotation de la roue).'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi utilise-t-on du verre pour l\'écran d\'un smartphone ?',
+        options: ['Parce qu\'il est léger', 'Parce qu\'il est transparent et dur', 'Parce qu\'il est élastique', 'Parce qu\'il est magnétique'],
+        correct: 1,
+        explanation: 'Le verre est transparent (pour voir l\'affichage) et dur (résistant aux rayures). On utilise du verre trempé pour le rendre plus résistant aux chocs.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un panneau solaire convertit l\'énergie du vent en électricité.',
+        correct: false,
+        explanation: 'Un panneau solaire (photovoltaïque) convertit l\'énergie lumineuse du soleil en électricité. C\'est une éolienne qui utilise l\'énergie du vent.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle propriété est la plus importante pour le matériau des pneus ?',
+        options: ['La transparence', 'La conductivité électrique', 'L\'élasticité et l\'adhérence', 'La rigidité'],
+        correct: 2,
+        explanation: 'Les pneus doivent être élastiques (absorber les chocs) et adhérents (tenir la route). C\'est pourquoi on utilise du caoutchouc.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

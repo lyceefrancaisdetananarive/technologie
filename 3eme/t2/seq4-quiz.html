@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 4 : Systèmes automatisés | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Systèmes automatisés complexes</h1>
+        <p class="page-description">Teste tes connaissances sur les systèmes automatisés et les organigrammes.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Décomposer un système en sous-systèmes permet de...',
+        options: ['Augmenter le prix du système', 'Comprendre le fonctionnement de chaque partie', 'Rendre le système plus lourd', 'Supprimer des composants'],
+        correct: 1,
+        explanation: 'La décomposition fonctionnelle permet de comprendre le rôle de chaque sous-système et comment ils interagissent pour réaliser la fonction globale.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un organigramme, le losange représente...',
+        options: ['Une action', 'Le début ou la fin', 'Une condition (test)', 'Une entrée/sortie'],
+        correct: 2,
+        explanation: 'Le losange représente une condition (test OUI/NON). C\'est un point de décision dans le programme.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un sous-système fonctionne toujours indépendamment des autres.',
+        correct: false,
+        explanation: 'Les sous-systèmes peuvent interagir entre eux. Par exemple, dans une serre, si le chauffage fonctionne (température), cela peut affecter l\'humidité.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel composant centralise le traitement dans un système automatisé ?',
+        options: ['Le capteur', 'L\'actionneur', 'Le microcontrôleur (Arduino)', 'Le câble'],
+        correct: 2,
+        explanation: 'Le microcontrôleur (comme l\'Arduino) lit les capteurs, exécute le programme et commande les actionneurs de tous les sous-systèmes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un organigramme, le rectangle représente...',
+        options: ['Une condition', 'Une action (traitement)', 'Le début', 'Un capteur'],
+        correct: 1,
+        explanation: 'Le rectangle représente une action ou un traitement à exécuter (ex : « Activer ventilateur »).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le pseudo-code est un langage de programmation exécutable par un ordinateur.',
+        correct: false,
+        explanation: 'Le pseudo-code est un langage informel utilisé pour décrire un algorithme de manière compréhensible par un humain. Il doit être traduit en langage de programmation pour être exécuté.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans une serre intelligente, quel capteur mesure l\'humidité du sol ?',
+        options: ['Capteur de température', 'Capteur d\'humidité du sol', 'Capteur de luminosité', 'Capteur ultrason'],
+        correct: 1,
+        explanation: 'Le capteur d\'humidité du sol mesure le taux d\'humidité dans la terre pour savoir quand déclencher l\'arrosage.'
+      },
+      {
+        type: 'qcm',
+        question: 'La chaîne fonctionnelle d\'un sous-système est...',
+        options: ['Capteur → Actionneur → Traitement', 'Traitement → Capteur → Actionneur', 'Capteur → Traitement → Actionneur', 'Actionneur → Traitement → Capteur'],
+        correct: 2,
+        explanation: 'La chaîne fonctionnelle suit l\'ordre : Capteur (acquérir l\'information) → Traitement (décision) → Actionneur (action).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un organigramme se lit toujours de haut en bas.',
+        correct: true,
+        explanation: 'Par convention, un organigramme se lit de haut en bas et de gauche à droite, en suivant les flèches qui indiquent le flux du programme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la barrière automatique, le lecteur de badge est un...',
+        options: ['Actionneur', 'Capteur', 'Microcontrôleur', 'Câble de connexion'],
+        correct: 1,
+        explanation: 'Le lecteur de badge est un capteur car il acquiert une information (le code du badge) qu\'il transmet au système de traitement.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Version EBEP | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Version EBEP"}]'
+    data-print-title="4ème — Séquence 6 — ADAPTATION EBEP"
+    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 4ème · ADAPTATION EBEP</span>
+        <h1>Séquence 6 — Réparabilité et diagnostic</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées et reformulées</li><li>Nombre de questions réduit</li><li>Aides visuelles et amorces de réponse</li><li>Tiers-temps applicable pour l'évaluation</li></ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">Peut-on réparer un objet plutôt que de le jeter ?</strong>
+        </div>
+        <p>
+          Quand un objet tombe en panne, on a 3 choix :<br>
+          &#x1F527; <strong>Réparer</strong> = changer la pièce cassée<br>
+          &#x1F6D2; <strong>Racheter</strong> = acheter un neuf<br>
+          &#x1F5D1;&#xFE0F; <strong>Jeter</strong> = mettre à la poubelle<br>
+          L'<strong>indice de réparabilité</strong> aide à savoir si un objet est facile à réparer.
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — L'indice de réparabilité</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> L'indice va de <strong>0 à 10</strong> :<br>
+          &#x1F534; 0-3 = difficile à réparer<br>
+          &#x1F7E1; 4-6 = moyennement réparable<br>
+          &#x1F7E2; 7-10 = facile à réparer
+        </div>
+        <p><strong>Coche la bonne catégorie :</strong></p>
+        <table>
+          <thead><tr><th>Objet</th><th>Indice</th><th style="text-align:center;">Difficile &#x1F534;</th><th style="text-align:center;">Moyen &#x1F7E1;</th><th style="text-align:center;">Facile &#x1F7E2;</th></tr></thead>
+          <tbody>
+            <tr><td>Smartphone A</td><td>3,2</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Aspirateur B</td><td>7,8</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Tablette C</td><td>5,1</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — La démarche de diagnostic</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Pour réparer, il faut d'abord <strong>trouver la panne</strong>. C'est le <strong>diagnostic</strong> :<br>
+          1. Observer le problème<br>
+          2. Chercher la cause<br>
+          3. Proposer une solution<br>
+          4. Réparer et tester
+        </div>
+        <p><strong>Complète le diagnostic de cette lampe qui ne s'allume plus :</strong></p>
+        <table>
+          <tbody>
+            <tr><td style="width:30%;"><strong>Problème observé</strong></td><td>La lampe ne s'allume plus</td></tr>
+            <tr><td><strong>Cause possible 1</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">L'a................. est grillée</div></td></tr>
+            <tr><td><strong>Cause possible 2</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">La p................. n'est pas branchée</div></td></tr>
+            <tr><td><strong>Solution</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">Vérifier la prise, puis ch................. l'ampoule</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>réparer</em> / <em>indice de réparabilité</em> / <em>diagnostic</em> / <em>recycler</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Il vaut mieux ........................ un objet que de le jeter.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'........................ indique si un objet est facile à réparer (note sur 10).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Le ........................ permet de trouver la cause d'une panne.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Si on ne peut pas réparer, il faut ........................ (pas jeter à la poubelle).</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 3 : Objets connectés | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Objets connectés : avantages, inconvénients et impact</h1>
+        <p class="page-description">Teste tes connaissances sur les objets connectés, leur architecture et leur impact.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Dans l\'architecture IoT, quel est le rôle du cloud ?',
+        options: ['Mesurer des grandeurs physiques', 'Stocker et analyser les données avec des algorithmes puissants', 'Afficher les résultats à l\'utilisateur', 'Transmettre les données par Wi-Fi'],
+        correct: 1,
+        explanation: 'Le cloud (serveur distant) stocke les données sur le long terme et les analyse avec des algorithmes puissants (dont l\'IA), ce que le microcontrôleur de l\'objet ne peut pas faire.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le numérique représente environ 4% des émissions mondiales de CO2.',
+        correct: true,
+        explanation: 'Le numérique (data centers, fabrication d\'appareils, réseaux) représente environ 4% des émissions mondiales de CO2, soit autant que l\'aviation civile.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel type de réseau une montre connectée utilise-t-elle pour communiquer avec le smartphone ?',
+        options: ['Wi-Fi uniquement', 'Bluetooth', '4G/5G', 'Câble USB'],
+        correct: 1,
+        explanation: 'Les montres connectées utilisent principalement le Bluetooth pour communiquer avec le smartphone à courte distance, puis le smartphone peut relayer les données via Wi-Fi au cloud.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le principal risque lié à une enceinte connectée avec assistant vocal ?',
+        options: ['Elle consomme trop d\'électricité', 'Elle peut enregistrer des conversations privées', 'Elle prend trop de place', 'Elle est trop compliquée à utiliser'],
+        correct: 1,
+        explanation: 'L\'enceinte avec assistant vocal écoute en permanence pour détecter le mot de réveil, et peut enregistrer des conversations privées stockées sur les serveurs de l\'entreprise.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un data center consomme autant d\'électricité qu\'une ville de 30 000 habitants.',
+        correct: true,
+        explanation: 'Les data centers, qui stockent les données du cloud, sont de gros consommateurs d\'énergie (serveurs + refroidissement). Certains consomment autant qu\'une ville de 30 000 habitants.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de métaux différents contient un smartphone ?',
+        options: ['5 à 10', '15 à 20', 'Plus de 50', 'Plus de 200'],
+        correct: 2,
+        explanation: 'Un smartphone contient plus de 50 métaux différents, dont certains sont rares (tantale, indium, gallium) et leur extraction est très polluante.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour faire un choix responsable d\'objet connecté, quel critère est le plus important pour l\'environnement ?',
+        options: ['Le prix le plus bas', 'La réparabilité et la durée de vie', 'La couleur et le design', 'Le nombre de fonctionnalités'],
+        correct: 1,
+        explanation: 'La réparabilité et la durée de vie sont les critères les plus importants pour l\'environnement : un objet qui dure plus longtemps réduit la nécessité d\'en fabriquer de nouveaux.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le thermostat Nest utilise l\'IA pour optimiser le chauffage.',
+        correct: true,
+        explanation: 'Le thermostat Nest analyse les habitudes des occupants grâce à l\'IA et optimise automatiquement le chauffage pour réduire la consommation d\'énergie.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie "comparaison multicritères" ?',
+        options: ['Comparer uniquement le prix', 'Comparer sur plusieurs critères différents (prix, fonction, impact...)', 'Comparer les marques entre elles', 'Comparer la taille des objets'],
+        correct: 1,
+        explanation: 'Une comparaison multicritères évalue un objet sur plusieurs critères simultanément : prix, fonctionnalités, données collectées, réparabilité, impact environnemental, etc.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour réduire l\'impact du numérique, le geste le plus efficace est...',
+        options: ['Acheter le dernier modèle plus économe', 'Garder ses appareils le plus longtemps possible', 'Utiliser uniquement le Wi-Fi', 'Supprimer ses photos du cloud'],
+        correct: 1,
+        explanation: 'Garder ses appareils plus longtemps est le geste le plus efficace car l\'essentiel de l\'impact se situe lors de la fabrication (extraction, usinage). Prolonger la durée de vie réduit le besoin de renouvellement.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

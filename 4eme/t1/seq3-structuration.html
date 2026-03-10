@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 3 — Objets connectés · Structuration | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Structuration"}]'
+    data-print-title="4ème — Séquence 3 : Objets connectés (IoT)"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
+        <h1>Séquence 3 — Objets connectés (IoT)</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq3-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 1 — Design, innovation et créativité</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>3 — IoT</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Analyser un objet connecté</span> <span class="competence-badge">Comprendre la cybersécurité</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Architecture d'un objet connecté</h2>
+        <p>Un <strong>objet connecté</strong> (IoT — Internet of Things) est un objet physique capable de communiquer via un réseau.</p>
+        <table>
+          <thead><tr><th>Couche</th><th>Rôle</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Capteurs</strong></td><td>Mesurer une grandeur physique</td><td>Température, humidité, mouvement, luminosité</td></tr>
+            <tr><td><strong>Traitement</strong></td><td>Analyser les données captées</td><td>Microcontrôleur (Arduino, ESP32, micro:bit)</td></tr>
+            <tr><td><strong>Communication</strong></td><td>Transmettre les données via un réseau</td><td>Wi-Fi, Bluetooth, LoRa, Zigbee, 4G/5G</td></tr>
+            <tr><td><strong>Cloud / Serveur</strong></td><td>Stocker et analyser les données à distance</td><td>ThingSpeak, Firebase, AWS IoT</td></tr>
+            <tr><td><strong>Interface utilisateur</strong></td><td>Afficher les résultats et permettre le contrôle</td><td>Application mobile, tableau de bord web</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un objet connecté suit le cycle : <strong>Capter → Traiter → Communiquer → Stocker → Afficher</strong>. Chaque couche a un rôle précis dans la chaîne de l'information.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Protocoles de communication</h2>
+        <table>
+          <thead><tr><th>Protocole</th><th>Portée</th><th>Débit</th><th>Usage typique</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Bluetooth</strong></td><td>~10 m</td><td>Moyen</td><td>Montres connectées, écouteurs sans fil</td></tr>
+            <tr><td><strong>Wi-Fi</strong></td><td>~50 m</td><td>Élevé</td><td>Caméras de surveillance, assistants vocaux</td></tr>
+            <tr><td><strong>LoRa</strong></td><td>~15 km</td><td>Très faible</td><td>Capteurs agricoles, compteurs intelligents</td></tr>
+            <tr><td><strong>Zigbee</strong></td><td>~100 m</td><td>Faible</td><td>Domotique (ampoules, capteurs)</td></tr>
+            <tr><td><strong>4G / 5G</strong></td><td>Nationale</td><td>Très élevé</td><td>Voitures connectées, smartphones</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le choix du protocole dépend de la <strong>portée</strong>, du <strong>débit</strong> et de la <strong>consommation d'énergie</strong> nécessaires. Un capteur en plein champ utilise LoRa, une caméra HD utilise le Wi-Fi.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Cybersécurité et protection des données</h2>
+        <table>
+          <thead><tr><th>Risque</th><th>Description</th><th>Protection</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Piratage</strong></td><td>Un attaquant prend le contrôle de l'objet à distance</td><td>Mots de passe forts, mises à jour régulières</td></tr>
+            <tr><td><strong>Espionnage</strong></td><td>Les données personnelles sont interceptées</td><td>Chiffrement des communications (HTTPS, TLS)</td></tr>
+            <tr><td><strong>Fuite de données</strong></td><td>Les données stockées sont volées</td><td>Stockage sécurisé, accès limité</td></tr>
+            <tr><td><strong>Attaque DDoS</strong></td><td>Des milliers d'objets piratés saturent un serveur</td><td>Pare-feu, détection d'anomalies</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Les objets connectés sont vulnérables au <strong>piratage</strong>. Il faut les protéger par des mots de passe forts, le <strong>chiffrement</strong> des données et des mises à jour régulières.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; RGPD et données personnelles</h2>
+        <p>Le <strong>RGPD</strong> (Règlement Général sur la Protection des Données) est la loi européenne qui protège les données personnelles :</p>
+        <ul>
+          <li><strong>Consentement</strong> : l'utilisateur doit accepter explicitement la collecte de ses données</li>
+          <li><strong>Finalité</strong> : les données ne peuvent être utilisées que pour le but déclaré</li>
+          <li><strong>Minimisation</strong> : ne collecter que les données strictement nécessaires</li>
+          <li><strong>Droit d'accès</strong> : l'utilisateur peut consulter ses données à tout moment</li>
+          <li><strong>Droit à l'effacement</strong> : l'utilisateur peut demander la suppression de ses données</li>
+          <li><strong>Portabilité</strong> : l'utilisateur peut récupérer ses données dans un format standard</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>IoT (Internet of Things)</strong> : réseau d'objets physiques connectés à Internet</li>
+            <li><strong>Protocole de communication</strong> : ensemble de règles pour échanger des données (Wi-Fi, Bluetooth, LoRa)</li>
+            <li><strong>Cloud</strong> : serveurs distants qui stockent et traitent les données</li>
+            <li><strong>Cybersécurité</strong> : ensemble des pratiques protégeant les systèmes informatiques</li>
+            <li><strong>Chiffrement</strong> : transformation des données en code illisible sans la clé</li>
+            <li><strong>RGPD</strong> : loi européenne protégeant les données personnelles</li>
+            <li><strong>Domotique</strong> : automatisation des équipements de la maison</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 1</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

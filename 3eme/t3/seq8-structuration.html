@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Fabrication et prototypage · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 8 : Fabrication et prototypage"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3</span>
+        <h1>Séquence 8 — Fabrication et prototypage</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 3 — Conception et création de prototypes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>8 — Fabrication</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Réaliser un prototype</span> <span class="competence-badge">Maîtriser la chaîne numérique</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; La chaîne numérique complète</h2>
+        <table>
+          <thead><tr><th>Étape</th><th>Action</th><th>Outil</th><th>Format</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Conception</strong></td><td>Modéliser la pièce en 3D</td><td>Tinkercad, FreeCAD, Fusion 360</td><td>.f3d, .FCStd</td></tr>
+            <tr><td><strong>2. Export</strong></td><td>Convertir au format d'échange</td><td>Fonction export</td><td>.STL (3D) / .SVG (2D)</td></tr>
+            <tr><td><strong>3. Préparation</strong></td><td>Configurer les paramètres machine</td><td>Cura, LightBurn</td><td>.gcode / .lbrn</td></tr>
+            <tr><td><strong>4. Fabrication</strong></td><td>Lancer la machine</td><td>Imprimante 3D, laser, CNC</td><td>—</td></tr>
+            <tr><td><strong>5. Post-traitement</strong></td><td>Finir la pièce</td><td>Ponçage, ébavurage, peinture</td><td>—</td></tr>
+            <tr><td><strong>6. Assemblage</strong></td><td>Assembler toutes les pièces</td><td>Vis, colle, clips, emboîtement</td><td>—</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          La chaîne numérique va de la <strong>conception CAO</strong> à la <strong>pièce finie</strong>. Chaque étape produit un fichier dans un format spécifique (STL, G-code, SVG).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Modélisation 3D avec Tinkercad</h2>
+        <table>
+          <thead><tr><th>Opération</th><th>Description</th><th>Quand l'utiliser</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Ajouter un solide</strong></td><td>Placer une forme de base (cube, cylindre, sphère)</td><td>Pour créer les volumes principaux</td></tr>
+            <tr><td><strong>Perçage (hole)</strong></td><td>Créer un trou en utilisant une forme en mode « perçage »</td><td>Pour les ouvertures, passages de câbles</td></tr>
+            <tr><td><strong>Grouper</strong></td><td>Fusionner plusieurs formes en un seul objet</td><td>Pour combiner solides et perçages</td></tr>
+            <tr><td><strong>Aligner</strong></td><td>Centrer ou aligner des formes entre elles</td><td>Pour la symétrie et la précision</td></tr>
+            <tr><td><strong>Dupliquer</strong></td><td>Copier un objet pour le réutiliser</td><td>Éléments répétitifs (trous, fixations)</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Tinkercad fonctionne par <strong>addition et soustraction de formes géométriques</strong>. On ajoute des solides et on perce des trous, puis on groupe le tout.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Impression 3D : bonnes pratiques</h2>
+        <table>
+          <thead><tr><th>Règle</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Épaisseur de paroi ≥ 1,2 mm</strong></td><td>En dessous, la pièce est fragile et peut ne pas s'imprimer</td></tr>
+            <tr><td><strong>Éviter les porte-à-faux > 45°</strong></td><td>Sans support, le filament tombe dans le vide</td></tr>
+            <tr><td><strong>Tolérance d'emboîtement : 0,2-0,3 mm</strong></td><td>Le plastique se dilate légèrement en refroidissant</td></tr>
+            <tr><td><strong>Première couche bien adhérente</strong></td><td>Si la première couche décolle, toute l'impression est ratée</td></tr>
+            <tr><td><strong>Orientation optimale</strong></td><td>Orienter la pièce pour minimiser les supports et maximiser la résistance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le G-code : langage de fabrication</h2>
+        <table>
+          <thead><tr><th>Commande</th><th>Signification</th></tr></thead>
+          <tbody>
+            <tr><td><strong>G28</strong></td><td>Retour à l'origine (home)</td></tr>
+            <tr><td><strong>G1 X100 Y50 F3000</strong></td><td>Déplacement linéaire vers X=100, Y=50 à vitesse 3000 mm/min</td></tr>
+            <tr><td><strong>M104 S200</strong></td><td>Chauffer la buse à 200°C</td></tr>
+            <tr><td><strong>M140 S60</strong></td><td>Chauffer le plateau à 60°C</td></tr>
+            <tr><td><strong>G92 E0</strong></td><td>Remettre le compteur d'extrusion à zéro</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le <strong>G-code</strong> est le langage universel des machines à commande numérique. Le slicer le génère automatiquement, mais comprendre ses bases aide au débogage.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Chaîne numérique</strong> : ensemble des étapes de la conception à la fabrication</li>
+            <li><strong>CAO</strong> : Conception Assistée par Ordinateur</li>
+            <li><strong>STL</strong> : format de fichier décrivant la surface 3D d'un objet</li>
+            <li><strong>G-code</strong> : fichier d'instructions pour machines à commande numérique</li>
+            <li><strong>Slicer</strong> : logiciel qui découpe le modèle 3D en couches</li>
+            <li><strong>Post-traitement</strong> : opérations de finition après la fabrication</li>
+            <li><strong>Porte-à-faux</strong> : partie d'une pièce en surplomb nécessitant un support</li>
+            <li><strong>Tolérance</strong> : écart acceptable entre la dimension théorique et réelle</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 3</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

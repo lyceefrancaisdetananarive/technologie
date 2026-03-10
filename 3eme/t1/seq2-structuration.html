@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 2 — IA embarquée · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 2 : IA embarquée — Études de cas"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1</span>
+        <h1>Séquence 2 — IA embarquée — Études de cas</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq2-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 1 — Design, innovation et créativité</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>2 — IA embarquée</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Analyser un système embarqué</span> <span class="competence-badge">Comprendre les principes de l'IA</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; IA embarquée vs IA cloud</h2>
+        <table>
+          <thead><tr><th>Caractéristique</th><th>IA embarquée (Edge AI)</th><th>IA cloud</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Où se fait le calcul ?</strong></td><td>Directement dans l'objet (microcontrôleur, GPU embarqué)</td><td>Sur des serveurs distants via Internet</td></tr>
+            <tr><td><strong>Latence</strong></td><td>Très faible (réponse immédiate)</td><td>Variable (dépend de la connexion)</td></tr>
+            <tr><td><strong>Connexion Internet</strong></td><td>Non nécessaire en fonctionnement</td><td>Obligatoire</td></tr>
+            <tr><td><strong>Confidentialité</strong></td><td>Données traitées localement (plus sûr)</td><td>Données envoyées sur des serveurs</td></tr>
+            <tr><td><strong>Puissance de calcul</strong></td><td>Limitée (modèles optimisés)</td><td>Très élevée (gros serveurs)</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          L'<strong>IA embarquée</strong> traite les données directement dans l'objet, sans connexion Internet. Elle est idéale pour les applications nécessitant une réponse rapide et une bonne confidentialité.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Études de cas : applications de l'IA embarquée</h2>
+        <table>
+          <thead><tr><th>Application</th><th>Capteurs</th><th>Traitement IA</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><strong>PDA (Pilotage de Drone Autonome)</strong></td><td>Caméra, GPS, IMU, ultrason</td><td>Détection d'obstacles, planification de trajectoire</td><td>Évitement d'obstacles, navigation autonome</td></tr>
+            <tr><td><strong>SLAM (cartographie)</strong></td><td>LiDAR, caméra stéréo</td><td>Construction de carte en temps réel + localisation</td><td>Robot aspirateur, voiture autonome</td></tr>
+            <tr><td><strong>SAE (Système d'Aide à l'Écoconduite)</strong></td><td>Accéléromètre, GPS, OBD-II</td><td>Analyse du style de conduite</td><td>Conseils pour réduire la consommation</td></tr>
+            <tr><td><strong>Reconnaissance vocale</strong></td><td>Microphone</td><td>Transcription et compréhension du langage</td><td>Commande vocale sans Internet</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le <strong>SLAM</strong> (Simultaneous Localization And Mapping) permet à un robot de construire une carte de son environnement tout en se localisant dedans, en temps réel.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Le processus d'apprentissage</h2>
+        <table>
+          <thead><tr><th>Étape</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Collecte</strong></td><td>Rassembler un grand jeu de données étiquetées</td></tr>
+            <tr><td><strong>2. Entraînement</strong></td><td>L'algorithme analyse les données et construit un modèle (sur un ordinateur puissant)</td></tr>
+            <tr><td><strong>3. Optimisation</strong></td><td>Réduire la taille du modèle pour qu'il tourne sur un microcontrôleur</td></tr>
+            <tr><td><strong>4. Déploiement</strong></td><td>Charger le modèle optimisé dans l'objet connecté</td></tr>
+            <tr><td><strong>5. Inférence</strong></td><td>Le modèle traite de nouvelles données en temps réel dans l'objet</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          L'entraînement se fait sur un <strong>ordinateur puissant</strong>, mais l'inférence (utilisation) se fait <strong>directement dans l'objet</strong>. Le modèle doit être optimisé pour fonctionner avec peu de mémoire et de puissance.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>IA embarquée (Edge AI)</strong> : intelligence artificielle exécutée directement dans l'objet</li>
+            <li><strong>Inférence</strong> : phase d'utilisation du modèle IA pour traiter de nouvelles données</li>
+            <li><strong>SLAM</strong> : cartographie et localisation simultanées par un robot</li>
+            <li><strong>LiDAR</strong> : capteur laser mesurant les distances pour créer une carte 3D</li>
+            <li><strong>Modèle optimisé</strong> : modèle IA réduit en taille pour fonctionner sur un microcontrôleur</li>
+            <li><strong>Latence</strong> : temps de réponse entre la mesure et l'action</li>
+            <li><strong>Edge Computing</strong> : traitement des données au plus près de la source</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 1</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

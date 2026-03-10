@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 4 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 4 — Systèmes automatisés complexes</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Décomposer en sous-systèmes fonctionnels</span>
+              <span class="competence-badge">Modéliser un comportement</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Décomposer un système complexe en sous-systèmes fonctionnels</li>
+                <li>Maîtriser les symboles de l'organigramme</li>
+                <li>Écrire un algorithme en pseudo-code</li>
+                <li>Analyser un système automatisé réel</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Vidéos (serre connectée, barrière automatique), maquettes si disponibles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 13 (1h30) — Décomposition fonctionnelle</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S13</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Vidéo serre intelligente (15 min)</h4>
+            <p>Vidéo de démonstration. Identifier les différents paramètres contrôlés.</p>
+            <h4>Phase 2 — Activité 1 (75 min)</h4>
+            <p>Décomposition en sous-systèmes. Identification capteurs/actionneurs.</p>
+          </div>
+        </div>
+
+        <h3>Séance 14 (1h30) — Organigrammes</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S14</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Cours : symboles (20 min)</h4>
+            <p>Présenter les symboles normalisés de l'organigramme. Exemples simples au tableau.</p>
+            <h4>Phase 2 — Activité 2 (70 min)</h4>
+            <p>Organigramme de la régulation de température + pseudo-code.</p>
+          </div>
+        </div>
+
+        <h3>Séance 15 (1h30) — Barrière automatique</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S15</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Vidéo barrière (10 min)</h4>
+            <p>Vidéo de fonctionnement d'une barrière de parking.</p>
+            <h4>Phase 2 — Activité 3 (50 min)</h4>
+            <p>Identification des composants et organigramme complet.</p>
+            <h4>Phase 3 — Synthèse (30 min)</h4>
+            <p>Compléter la synthèse. Bilan des organigrammes.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Serre intelligente</h3>
+        <table>
+          <thead><tr><th>Sous-système</th><th>Capteur</th><th>Actionneur</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>Régulation température</td><td><strong>Capteur température (DHT22)</strong></td><td><strong>Ventilateur + chauffage</strong></td><td>Maintenir T entre 15-30°C</td></tr>
+            <tr><td>Régulation humidité</td><td><strong>Capteur humidité air (DHT22)</strong></td><td><strong>Brumisateur</strong></td><td>Maintenir humidité 60-80%</td></tr>
+            <tr><td>Régulation luminosité</td><td><strong>Capteur luminosité (LDR)</strong></td><td><strong>Lampe LED horticole</strong></td><td>Assurer min 12h de lumière</td></tr>
+            <tr><td>Arrosage automatique</td><td><strong>Capteur humidité sol</strong></td><td><strong>Pompe à eau + électrovanne</strong></td><td>Arroser quand sol trop sec</td></tr>
+          </tbody>
+        </table>
+        <p><strong>b)</strong> Le <strong>microcontrôleur Arduino</strong> centralise le traitement car il lit tous les capteurs et commande tous les actionneurs via un seul programme.</p>
+
+        <h3>Activité 2 — Pseudo-code régulation température</h3>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          DÉBUT<br>
+          &nbsp;&nbsp;RÉPÉTER indéfiniment :<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;température ← lire capteur_température<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SI <strong>température > 30</strong> ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Activer ventilateur, Éteindre chauffage</strong><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON SI <strong>température < 15</strong> ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Activer chauffage, Éteindre ventilateur</strong><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<strong>Éteindre ventilateur, Éteindre chauffage</strong><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;FIN SI<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;FIN RÉPÉTER<br>
+          FIN
+        </div>
+
+        <h3>Activité 3 — Barrière automatique</h3>
+        <table>
+          <thead><tr><th>Composant</th><th>Type</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Lecteur de badge</td><td><strong>Capteur</strong></td><td>Lire le badge et vérifier l'autorisation</td></tr>
+            <tr><td>Capteur de présence</td><td><strong>Capteur</strong></td><td>Détecter si le véhicule est passé</td></tr>
+            <tr><td>Moteur</td><td><strong>Actionneur</strong></td><td>Lever et baisser la barrière</td></tr>
+            <tr><td>Feux</td><td><strong>Actionneur</strong></td><td>Indiquer si le passage est autorisé</td></tr>
+            <tr><td>Automate</td><td><strong>Traitement</strong></td><td>Exécuter le programme de contrôle</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 13</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 4 — Systèmes automatisés complexes. Activité 1 : décomposition fonctionnelle d'une serre intelligente en sous-systèmes.<br>
+          <strong>Travail :</strong> Identifier les sous-systèmes d'un objet connecté chez soi.
+        </div>
+        <h3>Cahier de texte — Séance 14</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : modélisation par organigramme (symboles normalisés). Organigramme et pseudo-code du sous-système régulation température.<br>
+          <strong>Travail :</strong> Terminer le pseudo-code si non fini.
+        </div>
+        <h3>Cahier de texte — Séance 15</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : étude de la barrière automatique. Identification des composants, organigramme complet. Synthèse.
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Décomposer en sous-systèmes fonctionnels</td><td>Activités 1 et 3</td></tr>
+            <tr><td>Modéliser un comportement</td><td>Activité 2 (organigramme + pseudo-code)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

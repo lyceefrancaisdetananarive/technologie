@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Arduino / mBlock · Structuration | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Structuration"}]'
+    data-print-title="4ème — Séquence 5 : Programmation Arduino / mBlock"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2</span>
+        <h1>Séquence 5 — Programmation Arduino / mBlock</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>5 — Arduino / mBlock</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Programmer un Arduino</span> <span class="competence-badge">Utiliser des capteurs et actionneurs</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; La carte Arduino</h2>
+        <p>L'<strong>Arduino</strong> est un microcontrôleur programmable utilisé pour piloter des capteurs et des actionneurs :</p>
+        <table>
+          <thead><tr><th>Composant</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Microcontrôleur (ATmega)</strong></td><td>Le « cerveau » qui exécute le programme</td></tr>
+            <tr><td><strong>Entrées numériques (D0-D13)</strong></td><td>Lire des signaux ON/OFF (bouton, capteur de présence)</td></tr>
+            <tr><td><strong>Entrées analogiques (A0-A5)</strong></td><td>Lire des valeurs continues (0-1023) — capteur de lumière, température</td></tr>
+            <tr><td><strong>Sorties numériques</strong></td><td>Envoyer du courant ON/OFF — allumer LED, piloter relais</td></tr>
+            <tr><td><strong>Sorties PWM (~)</strong></td><td>Simuler une sortie analogique — varier vitesse moteur, luminosité LED</td></tr>
+            <tr><td><strong>Port USB</strong></td><td>Connecter au PC pour programmer et alimenter</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          L'Arduino lit des <strong>entrées</strong> (capteurs) et pilote des <strong>sorties</strong> (actionneurs) grâce à un programme. Il fait le lien entre le monde physique et le programme informatique.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les structures de programmation avancées</h2>
+        <table>
+          <thead><tr><th>Structure</th><th>Bloc mBlock</th><th>Code Arduino</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Variable</strong></td><td>Créer une variable « score »</td><td><code>int score = 0;</code></td><td>Stocker une valeur modifiable</td></tr>
+            <tr><td><strong>Condition SI</strong></td><td>Si &lt;condition&gt; alors...</td><td><code>if (condition) { ... }</code></td><td>Exécuter du code si une condition est vraie</td></tr>
+            <tr><td><strong>SI...SINON</strong></td><td>Si &lt;condition&gt; alors... sinon...</td><td><code>if (cond) { ... } else { ... }</code></td><td>Deux chemins possibles</td></tr>
+            <tr><td><strong>Boucle RÉPÉTER</strong></td><td>Répéter 10 fois</td><td><code>for (int i=0; i&lt;10; i++) { ... }</code></td><td>Répéter un nombre de fois précis</td></tr>
+            <tr><td><strong>Boucle TANT QUE</strong></td><td>Répéter tant que &lt;condition&gt;</td><td><code>while (condition) { ... }</code></td><td>Répéter jusqu'à ce qu'une condition change</td></tr>
+            <tr><td><strong>Fonction</strong></td><td>Définir un bloc personnalisé</td><td><code>void maFonction() { ... }</code></td><td>Regrouper du code réutilisable</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un programme Arduino suit toujours la structure : <strong>setup()</strong> (exécuté une fois au démarrage) + <strong>loop()</strong> (exécuté en boucle infinie). mBlock traduit les blocs visuels en code Arduino.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Capteurs et actionneurs courants</h2>
+        <table>
+          <thead><tr><th>Type</th><th>Composant</th><th>Signal</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="4"><strong>Capteurs (entrées)</strong></td><td>Capteur ultrason (HC-SR04)</td><td>Analogique</td><td>Mesurer une distance (2-400 cm)</td></tr>
+            <tr><td>Capteur de température (LM35)</td><td>Analogique</td><td>Mesurer la température</td></tr>
+            <tr><td>Capteur infrarouge (IR)</td><td>Numérique</td><td>Détecter un obstacle</td></tr>
+            <tr><td>Photorésistance (LDR)</td><td>Analogique</td><td>Mesurer la luminosité</td></tr>
+            <tr><td rowspan="4"><strong>Actionneurs (sorties)</strong></td><td>LED</td><td>Numérique/PWM</td><td>Signaler, éclairer</td></tr>
+            <tr><td>Servomoteur</td><td>PWM</td><td>Tourner à un angle précis (0-180°)</td></tr>
+            <tr><td>Moteur DC</td><td>PWM</td><td>Rotation continue (roue, hélice)</td></tr>
+            <tr><td>Buzzer</td><td>Numérique</td><td>Émettre un son</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; De mBlock au code Arduino</h2>
+        <p>mBlock permet de programmer en <strong>blocs visuels</strong> puis de voir le <strong>code Arduino correspondant</strong> :</p>
+        <ul>
+          <li><strong>Avantage des blocs</strong> : pas de syntaxe à mémoriser, idéal pour débuter</li>
+          <li><strong>Avantage du code</strong> : plus de contrôle, plus de fonctionnalités, indispensable en lycée</li>
+          <li><strong>Téléversement</strong> : le programme est envoyé dans la mémoire de l'Arduino via USB</li>
+          <li><strong>Moniteur série</strong> : outil pour afficher les valeurs des capteurs sur l'écran du PC</li>
+        </ul>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          mBlock est un outil de transition entre la <strong>programmation par blocs</strong> (Scratch) et la <strong>programmation textuelle</strong> (C/C++ Arduino). Les deux produisent le même résultat.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Arduino</strong> : carte microcontrôleur programmable pour piloter capteurs et actionneurs</li>
+            <li><strong>Capteur</strong> : composant qui mesure une grandeur physique (entrée)</li>
+            <li><strong>Actionneur</strong> : composant qui produit une action physique (sortie)</li>
+            <li><strong>PWM</strong> : modulation de largeur d'impulsion — simule un signal analogique</li>
+            <li><strong>setup()</strong> : fonction exécutée une seule fois au démarrage de l'Arduino</li>
+            <li><strong>loop()</strong> : fonction exécutée en boucle infinie après le setup</li>
+            <li><strong>Téléversement</strong> : envoi du programme dans la mémoire de l'Arduino</li>
+            <li><strong>Moniteur série</strong> : outil de débogage affichant les données sur le PC</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 6 : Tests et mise au point | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Tests et mise au point de prototypes</h1>
+        <p class="page-description">Teste tes connaissances sur les tests, le débogage et la validation.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'La première étape d\'un protocole de test est...',
+        options: ['Exécuter les tests', 'Définir les critères de réussite', 'Corriger les erreurs', 'Rédiger le rapport'],
+        correct: 1,
+        explanation: 'Avant de tester, il faut définir les critères de réussite (issus du cahier des charges) pour savoir ce qu\'on vérifie.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si le robot tourne à gauche au lieu de tourner à droite, c\'est une erreur de...',
+        options: ['Syntaxe', 'Logique', 'Valeur', 'Matériel'],
+        correct: 1,
+        explanation: 'C\'est une erreur de logique : l\'algorithme est incorrect car les directions sont inversées dans le programme.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un protocole de test doit être rédigé avant de commencer les tests.',
+        correct: true,
+        explanation: 'Le protocole est planifié à l\'avance pour que les tests soient méthodiques et reproductibles, pas improvisés.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si le robot zigzague au lieu d\'avancer droit, c\'est probablement une erreur de...',
+        options: ['Syntaxe', 'Logique', 'Valeur (paramètres)', 'Séquencement'],
+        correct: 2,
+        explanation: 'Le zigzag est souvent dû à des valeurs de vitesse ou de temps de réaction mal calibrées (trop élevées ou trop faibles).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un test validé signifie que le résultat observé correspond au résultat attendu.',
+        correct: true,
+        explanation: 'Un test est validé quand le comportement observé du prototype correspond exactement à ce qui était attendu dans le cahier des charges.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que doit contenir un rapport de test ?',
+        options: ['Uniquement les tests réussis', 'Les tests réussis, échoués et les corrections apportées', 'Uniquement le code du programme', 'La liste du matériel'],
+        correct: 1,
+        explanation: 'Un rapport de test complet documente tous les tests (réussis et échoués), les erreurs identifiées et les corrections apportées.'
+      },
+      {
+        type: 'qcm',
+        question: 'L\'erreur de séquencement signifie que...',
+        options: ['Le programme n\'a pas de boucle', 'Les instructions sont dans le mauvais ordre', 'La variable est mal nommée', 'Le capteur est cassé'],
+        correct: 1,
+        explanation: 'L\'erreur de séquencement se produit quand les instructions sont exécutées dans le mauvais ordre, ce qui donne un comportement incorrect.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Si un seul test sur cinq échoue, le prototype peut être considéré comme validé.',
+        correct: false,
+        explanation: 'Tous les tests doivent être validés pour que le prototype soit conforme au cahier des charges. Un seul test échoué signifie qu\'il y a un problème à corriger.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour déboguer efficacement, il faut...',
+        options: ['Tout recommencer à zéro', 'Tester un seul élément à la fois', 'Changer tous les paramètres en même temps', 'Demander à quelqu\'un d\'autre'],
+        correct: 1,
+        explanation: 'Pour isoler l\'erreur, il faut tester un seul élément à la fois. Changer plusieurs choses simultanément empêche de savoir laquelle a résolu le problème.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le cahier des charges permet de définir...',
+        options: ['Le prix du prototype', 'Les critères que le prototype doit respecter', 'La couleur du robot', 'Le nom du groupe'],
+        correct: 1,
+        explanation: 'Le cahier des charges définit les fonctions, contraintes et performances attendues du prototype. C\'est la référence pour les critères de test.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

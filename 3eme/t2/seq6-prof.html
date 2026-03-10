@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 6 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 6 — Tests et mise au point de prototypes</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30) — inclut évaluation T2</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Modéliser un comportement</span>
+              <span class="competence-badge">Mettre en œuvre un programme (capteurs/actionneurs)</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Rédiger et exécuter un protocole de test</li>
+                <li>Identifier les 4 types d'erreurs de programmation</li>
+                <li>Appliquer une méthode de débogage structurée</li>
+                <li>Documenter les résultats de test</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>mBot, mBlock, piste de test, obstacles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 20 (1h30) — Protocole de test</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S20</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Cours (20 min)</h4>
+            <p>Présenter les 5 étapes d'un protocole de test. Exemples industriels.</p>
+            <h4>Phase 2 — Activité 1 (70 min)</h4>
+            <p>Rédiger et exécuter les scénarios de test du mBot.</p>
+          </div>
+        </div>
+
+        <h3>Séance 21 (1h30) — Débogage et documentation</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S21</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Activité 2 (60 min)</h4>
+            <p>Identifier les erreurs et appliquer les corrections. Méthode de débogage.</p>
+            <h4>Phase 2 — Activité 3 + synthèse (30 min)</h4>
+            <p>Rédiger le rapport de test. Compléter la synthèse.</p>
+          </div>
+        </div>
+
+        <h3>Séance 22 (1h30) — Évaluation T2</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S22</div>
+          <div class="activity-step-content">
+            <h4>Évaluation bilan T2 (1h)</h4>
+            <p>Évaluation sur les séquences 4 à 6.</p>
+            <h4>Correction + perspectives T3 (30 min)</h4>
+            <p>Correction rapide. Présentation du projet T3.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 2 — Exemples d'erreurs courantes</h3>
+        <table>
+          <thead><tr><th>Symptôme</th><th>Type d'erreur</th><th>Correction</th></tr></thead>
+          <tbody>
+            <tr><td>Le robot ne démarre pas</td><td><strong>Syntaxe</strong></td><td>Vérifier que le bloc « drapeau vert » est en tête</td></tr>
+            <tr><td>Le robot tourne dans le mauvais sens</td><td><strong>Logique</strong></td><td>Inverser gauche/droite dans les conditions</td></tr>
+            <tr><td>Le robot zigzague en ligne droite</td><td><strong>Valeur</strong></td><td>Réduire la vitesse ou augmenter le temps de réaction</td></tr>
+            <tr><td>Le robot détecte l'obstacle après la collision</td><td><strong>Séquencement</strong></td><td>Placer la lecture du capteur ultrason AVANT l'avance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 20</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 6 — Tests et mise au point. Activité 1 : rédaction et exécution d'un protocole de test (5 scénarios pour le mBot).<br>
+          <strong>Travail :</strong> Terminer les tests si non fini.
+        </div>
+        <h3>Cahier de texte — Séance 21</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : débogage méthodique (4 types d'erreurs). Activité 3 : rédaction du rapport de test. Synthèse.<br>
+          <strong>Travail :</strong> RÉVISER les séquences 4 à 6 pour l'évaluation T2.
+        </div>
+        <h3>Cahier de texte — Séance 22</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Évaluation bilan T2 (séquences 4 à 6). Correction. Présentation du projet de fin d'année (T3).
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Modéliser un comportement</td><td>Activité 2 (diagramme de débogage) + rapport de test</td></tr>
+            <tr><td>Mettre en œuvre un programme</td><td>Activité 1 (tests) + Activité 2 (corrections)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

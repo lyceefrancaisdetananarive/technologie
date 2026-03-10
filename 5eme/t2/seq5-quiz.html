@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 5 : Transmission de mouvement | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Transmission et transformation de mouvement</h1>
+        <p class="page-description">Teste tes connaissances sur les mécanismes de transmission, transformation et la chaîne d'information.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quand deux engrenages sont en contact, dans quel sens tournent-ils ?',
+        options: ['Dans le même sens', 'En sens contraire', 'Ils ne tournent pas', 'Ça dépend de la taille'],
+        correct: 1,
+        explanation: 'Deux engrenages en contact direct tournent toujours en sens contraire. Si la roue menante tourne dans le sens horaire, la roue menée tourne en sens anti-horaire.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une courroie est un système de transformation de mouvement.',
+        correct: false,
+        explanation: 'Une courroie est un système de TRANSMISSION : le mouvement d\'entrée (rotation) et le mouvement de sortie (rotation) sont du même type.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel mécanisme transforme un mouvement de rotation en translation ?',
+        options: ['Les engrenages', 'La courroie', 'La bielle-manivelle', 'La chaîne'],
+        correct: 2,
+        explanation: 'La bielle-manivelle transforme une rotation (manivelle) en translation (bielle, mouvement de va-et-vient). On la trouve dans les moteurs de voiture.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la chaîne d\'information, quel élément capte une grandeur physique ?',
+        options: ['Le microcontrôleur', 'L\'afficheur', 'Le capteur', 'Le moteur'],
+        correct: 2,
+        explanation: 'Le capteur est l\'élément qui ACQUIERT l\'information (température, mouvement, lumière...). Il se trouve au début de la chaîne d\'information.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un système vis-écrou transforme une rotation en translation.',
+        correct: true,
+        explanation: 'Le système vis-écrou est bien un mécanisme de TRANSFORMATION : quand la vis tourne (rotation), l\'écrou avance ou recule en ligne droite (translation). Exemple : un étau.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qui différencie la transmission de la transformation de mouvement ?',
+        options: [
+          'La transmission est plus rapide',
+          'La transmission conserve le même type de mouvement, la transformation le change',
+          'La transformation utilise de l\'électricité',
+          'Il n\'y a pas de différence'
+        ],
+        correct: 1,
+        explanation: 'Dans une transmission, le mouvement reste du même type (rotation → rotation). Dans une transformation, le type de mouvement change (rotation → translation ou inversement).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur utilise une alarme incendie ?',
+        options: ['Un capteur de température', 'Un capteur de mouvement', 'Un détecteur de fumée', 'Un capteur de lumière'],
+        correct: 2,
+        explanation: 'L\'alarme incendie utilise un détecteur de fumée (capteur optique ou ionique) pour détecter les particules de fumée dans l\'air et déclencher l\'alerte.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La chaîne d\'un vélo est un système de transformation de mouvement.',
+        correct: false,
+        explanation: 'La chaîne du vélo est un système de TRANSMISSION : elle transmet la rotation du pédalier (plateau) à la roue arrière (pignon). Le mouvement reste une rotation.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si la roue menante a 10 dents et la roue menée 30 dents, que se passe-t-il ?',
+        options: [
+          'La roue menée tourne 3 fois plus vite',
+          'La roue menée tourne 3 fois moins vite',
+          'Les deux tournent à la même vitesse',
+          'La roue menée ne tourne pas'
+        ],
+        correct: 1,
+        explanation: 'La roue menée (30 dents) tourne 3 fois moins vite que la roue menante (10 dents). Mais elle a 3 fois plus de force (couple). C\'est le principe des vitesses du vélo.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la chaîne d\'information, quel élément prend les décisions ?',
+        options: ['Le capteur', 'Le microcontrôleur', 'L\'afficheur', 'Le moteur'],
+        correct: 1,
+        explanation: 'Le microcontrôleur (ou carte électronique) est l\'unité de TRAITEMENT : il reçoit les informations du capteur, les analyse et décide de l\'action à effectuer.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

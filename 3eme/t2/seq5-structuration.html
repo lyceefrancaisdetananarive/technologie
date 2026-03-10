@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Programmation avancée · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 5 : Programmation avancée"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2</span>
+        <h1>Séquence 5 — Programmation avancée</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>5 — Prog. avancée</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Utiliser des opérateurs logiques</span> <span class="competence-badge">Structurer un programme complexe</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Variables et types de données</h2>
+        <table>
+          <thead><tr><th>Type</th><th>Contenu</th><th>Exemple Arduino</th></tr></thead>
+          <tbody>
+            <tr><td><strong>int</strong></td><td>Nombre entier</td><td><code>int compteur = 0;</code></td></tr>
+            <tr><td><strong>float</strong></td><td>Nombre décimal</td><td><code>float temperature = 23.5;</code></td></tr>
+            <tr><td><strong>bool</strong></td><td>Vrai ou Faux</td><td><code>bool estAllume = true;</code></td></tr>
+            <tr><td><strong>String</strong></td><td>Texte</td><td><code>String message = "Bonjour";</code></td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Chaque variable a un <strong>type</strong> qui détermine la nature des données qu'elle peut stocker. Le type doit être choisi en fonction de l'usage (entier pour un compteur, float pour une mesure).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Opérateurs logiques</h2>
+        <table>
+          <thead><tr><th>Opérateur</th><th>Symbole</th><th>Signification</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ET (AND)</strong></td><td><code>&amp;&amp;</code></td><td>Vrai si les DEUX conditions sont vraies</td><td><code>if (temp &gt; 30 &amp;&amp; humidite &gt; 80)</code></td></tr>
+            <tr><td><strong>OU (OR)</strong></td><td><code>||</code></td><td>Vrai si AU MOINS UNE condition est vraie</td><td><code>if (boutonA || boutonB)</code></td></tr>
+            <tr><td><strong>NON (NOT)</strong></td><td><code>!</code></td><td>Inverse la valeur (vrai → faux, faux → vrai)</td><td><code>if (!capteurPresence)</code></td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Les opérateurs logiques permettent de combiner plusieurs conditions : <strong>ET</strong> (les deux vraies), <strong>OU</strong> (au moins une vraie), <strong>NON</strong> (inverse).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Tables de vérité</h2>
+        <p>Les <strong>tables de vérité</strong> montrent tous les résultats possibles d'une opération logique :</p>
+        <table>
+          <thead><tr><th>A</th><th>B</th><th>A ET B</th><th>A OU B</th><th>NON A</th></tr></thead>
+          <tbody>
+            <tr><td>FAUX</td><td>FAUX</td><td>FAUX</td><td>FAUX</td><td>VRAI</td></tr>
+            <tr><td>FAUX</td><td>VRAI</td><td>FAUX</td><td>VRAI</td><td>VRAI</td></tr>
+            <tr><td>VRAI</td><td>FAUX</td><td>FAUX</td><td>VRAI</td><td>FAUX</td></tr>
+            <tr><td>VRAI</td><td>VRAI</td><td>VRAI</td><td>VRAI</td><td>FAUX</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          La table de vérité liste <strong>toutes les combinaisons possibles</strong> des entrées et le résultat correspondant. C'est un outil indispensable pour vérifier la logique d'un programme.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Fonctions et modularité</h2>
+        <p>Les <strong>fonctions</strong> permettent de découper un programme en blocs réutilisables :</p>
+        <table>
+          <thead><tr><th>Concept</th><th>Explication</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Définir une fonction</strong></td><td>Créer un bloc de code nommé</td><td><code>void clignoter() { ... }</code></td></tr>
+            <tr><td><strong>Appeler une fonction</strong></td><td>Exécuter le bloc quand on en a besoin</td><td><code>clignoter();</code></td></tr>
+            <tr><td><strong>Paramètre</strong></td><td>Valeur passée à la fonction pour la personnaliser</td><td><code>void clignoter(int duree)</code></td></tr>
+            <tr><td><strong>Valeur de retour</strong></td><td>Résultat renvoyé par la fonction</td><td><code>int lireDistance() { return dist; }</code></td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Les fonctions rendent le programme <strong>modulaire</strong> (découpé en blocs), <strong>lisible</strong> (chaque bloc a un nom clair) et <strong>réutilisable</strong> (on peut appeler la même fonction plusieurs fois).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Type de variable</strong> : nature des données stockées (int, float, bool, String)</li>
+            <li><strong>Opérateur logique</strong> : ET, OU, NON — pour combiner des conditions</li>
+            <li><strong>Table de vérité</strong> : tableau listant toutes les combinaisons d'entrées et résultats</li>
+            <li><strong>Fonction</strong> : bloc de code nommé, réutilisable et paramétrable</li>
+            <li><strong>Paramètre</strong> : valeur passée à une fonction pour personnaliser son comportement</li>
+            <li><strong>Modularité</strong> : organisation d'un programme en blocs indépendants</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

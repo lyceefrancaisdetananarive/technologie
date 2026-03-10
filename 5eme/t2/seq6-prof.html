@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Fiche Professeur | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Fiche professeur"}]'
+    data-print-title="5ème — Séquence 6 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 6 — Initiation à la programmation</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé détaillé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6 heures)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Comprendre et modifier un programme</span>
+              <span class="competence-badge">Identifier un dysfonctionnement</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Comprendre les bases de la programmation (séquence, boucle, condition)</li>
+                <li>Programmer un objet technique en blocs (mBlock)</li>
+                <li>Utiliser le micro:bit : LEDs, boutons, capteurs</li>
+                <li>Identifier et corriger un bug dans un programme</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Prérequis</strong></td><td>Séq. 4-5 : composants, chaîne d'énergie, chaîne d'information</td></tr>
+            <tr><td><strong>Matériel</strong></td><td>
+              <ul>
+                <li>Ordinateurs avec mBlock installé (ou accès web makecode.microbit.org)</li>
+                <li>Micro:bit (1 par binôme idéalement) + câble USB</li>
+                <li>Vidéoprojecteur pour les démonstrations</li>
+              </ul>
+            </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement séance par séance</h2>
+
+        <h3>Séance 19 (1h30) — Découverte de la programmation</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">S19</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Accroche (20 min)</h4>
+            <p>Question : "Comment un feu de circulation sait-il quand il doit changer de couleur ?" Discussion. Montrer une vidéo courte sur la programmation par blocs. Présenter mBlock et son interface.</p>
+            <h4>Phase 2 — Activité 1 (40 min)</h4>
+            <p>Présentation des concepts : séquence, boucle, condition. Les élèves font l'exercice de correspondance. Démonstration au vidéoprojecteur d'un programme simple.</p>
+            <h4>Phase 3 — Premier essai (30 min)</h4>
+            <p>Les élèves ouvrent mBlock et réalisent leur premier programme : faire bouger un personnage. Prise en main libre guidée.</p>
+          </div>
+        </div>
+
+        <h3>Séance 20 (1h30) — Feu tricolore</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">S20</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Rappel (10 min)</h4>
+            <p>"Quelles sont les 3 structures de base d'un programme ?" Rappeler séquence, boucle, condition.</p>
+            <h4>Phase 2 — Activité 2 (50 min)</h4>
+            <p>Les élèves programment le feu tricolore sur mBlock (simulation). Travail en binôme. Le professeur circule pour aider. Puis modification pour ajouter le feu piéton.</p>
+            <h4>Phase 3 — Correction (30 min)</h4>
+            <p>Correction collective. Montrer différentes solutions. Discussion sur les bugs rencontrés et comment les corriger.</p>
+          </div>
+        </div>
+
+        <h3>Séance 21 (1h30) — Micro:bit défis 1 et 2</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">S21</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Présentation micro:bit (20 min)</h4>
+            <p>Distribuer les micro:bit. Présenter les composants (LEDs, boutons, capteurs). Montrer l'interface MakeCode ou mBlock. Démontrer le téléversement d'un programme.</p>
+            <h4>Phase 2 — Défis 1 et 2 (50 min)</h4>
+            <p>Défi 1 : afficher un message (facile). Défi 2 : compteur de points (variable). Travail en binôme, chaque binôme avance à son rythme.</p>
+            <h4>Phase 3 — Mise en commun (20 min)</h4>
+            <p>Chaque binôme montre son résultat. Discussion sur les difficultés rencontrées.</p>
+          </div>
+        </div>
+
+        <h3>Séance 22 (1h30) — Défi 3 + Évaluation T2</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">S22</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Défi 3 : dé électronique (30 min)</h4>
+            <p>Les binômes programment le dé. Ceux qui finissent en avance peuvent ajouter un affichage graphique (face de dé en LEDs).</p>
+            <h4>Phase 2 — Synthèse + évaluation T2 (45 min)</h4>
+            <p>Compléter la synthèse. Évaluation bilan T2 (séquences 4 à 6).</p>
+            <h4>Phase 3 — Correction et bilan (15 min)</h4>
+            <p>Correction rapide. Bilan du trimestre 2. Introduction du T3 (conception et projet).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Correspondance</h3>
+        <table>
+          <thead><tr><th>Concept</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Séquence</strong></td><td>B — Suite d'instructions exécutées dans l'ordre</td></tr>
+            <tr><td><strong>Boucle</strong></td><td>A — Permet de répéter des instructions plusieurs fois</td></tr>
+            <tr><td><strong>Condition</strong></td><td>C — Permet de faire un choix selon une condition</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Activité 2 — Feu tricolore</h3>
+        <p><strong>a)</strong> Le programme utilise une <strong>séquence + boucle</strong> (les instructions s'enchaînent dans l'ordre ET se répètent indéfiniment).</p>
+        <p><strong>b)</strong> Durée d'un cycle = 5s (vert) + 2s (orange) + 5s (rouge) = <strong>12 secondes</strong>.</p>
+        <p><strong>c)</strong> Programme avec feu piéton :</p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          RÉPÉTER indéfiniment<br>
+          &nbsp;&nbsp;Allumer LED VERTE (voiture) + Allumer LED ROUGE (piéton)<br>
+          &nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;Éteindre LED VERTE<br>
+          &nbsp;&nbsp;Allumer LED ORANGE (voiture)<br>
+          &nbsp;&nbsp;Attendre 2 secondes<br>
+          &nbsp;&nbsp;Éteindre LED ORANGE<br>
+          &nbsp;&nbsp;Allumer LED ROUGE (voiture) + Éteindre LED ROUGE (piéton) + Allumer LED VERTE (piéton)<br>
+          &nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;Éteindre LED ROUGE (voiture) + Éteindre LED VERTE (piéton)<br>
+          FIN RÉPÉTER
+        </div>
+
+        <h3>Activité 3 — Micro:bit</h3>
+        <p><strong>Défi 2 — Compteur de points :</strong></p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          AU DÉMARRAGE<br>
+          &nbsp;&nbsp;score ← 0<br>
+          &nbsp;&nbsp;Afficher score<br><br>
+          QUAND bouton A appuyé<br>
+          &nbsp;&nbsp;score ← score + 1<br>
+          &nbsp;&nbsp;Afficher score<br><br>
+          QUAND bouton B appuyé<br>
+          &nbsp;&nbsp;score ← 0<br>
+          &nbsp;&nbsp;Afficher score
+        </div>
+
+        <p><strong>Défi 3 — Dé électronique :</strong> Tous les éléments sont nécessaires (toutes les cases à cocher).</p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          QUAND secoué<br>
+          &nbsp;&nbsp;dé ← nombre aléatoire entre 1 et 6<br>
+          &nbsp;&nbsp;Afficher dé
+        </div>
+
+        <h3>Synthèse complétée</h3>
+        <div class="info-box info-box-green">
+          <p>Un <strong>programme</strong> est une suite d'<strong>instructions</strong> que la machine exécute dans l'ordre.</p>
+          <p>On utilise des structures comme la <strong>boucle</strong> (pour répéter) et la <strong>condition</strong> (pour faire un choix selon un test).</p>
+          <p>La programmation par <strong>blocs</strong> permet de créer des programmes en assemblant des pièces visuelles (mBlock).</p>
+          <p>Le <strong>micro:bit</strong> est un petit ordinateur programmable avec des LEDs, des boutons et des <strong>capteurs</strong> intégrés.</p>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+
+        <h3>Cahier de texte — Séance 19</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 6 — Initiation à la programmation. Activité 1 : les bases (séquence, boucle, condition). Prise en main de mBlock.<br>
+          <strong>Travail :</strong> Retenir les 3 structures de base d'un programme (séquence, boucle, condition).
+        </div>
+
+        <h3>Cahier de texte — Séance 20</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : programmation d'un feu tricolore sur mBlock. Utilisation de la boucle « répéter indéfiniment ». Ajout du feu piéton.<br>
+          <strong>Travail :</strong> Réfléchir à d'autres exemples d'objets programmés dans la vie quotidienne.
+        </div>
+
+        <h3>Cahier de texte — Séance 21</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : programmation du micro:bit. Défi 1 (afficher un message) et défi 2 (compteur avec variable). Découverte des capteurs du micro:bit.<br>
+          <strong>Travail :</strong> Réfléchir au défi 3 (dé électronique) : quel algorithme écrire ?
+        </div>
+
+        <h3>Cahier de texte — Séance 22</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Défi 3 : dé électronique avec accéléromètre. Synthèse de la séquence 6. Évaluation bilan du Trimestre 2 (séquences 4 à 6).<br>
+          <strong>Travail :</strong> —
+        </div>
+
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Comprendre et modifier un programme</td><td>Activités 2 et 3 (feu tricolore, micro:bit)</td></tr>
+            <tr><td>Identifier un dysfonctionnement</td><td>Activité 2 (debug du feu piéton)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation — Séq. 6 : Initiation à la programmation | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Évaluation"}]'
+    data-print-title="ÉVALUATION — Séquence 6 : Initiation à la programmation"
+    data-print-subtitle="5ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2 · Évaluation</span>
+        <h1>Évaluation — Séquence 6</h1>
+        <p class="page-description">Initiation à la programmation — Durée : 45 minutes</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-prof.html" class="btn btn-outline">&#x1F4D7; Corrigé</a>
+        <a href="seq6-ebep.html" class="btn btn-outline">&#x267F; Version EBEP</a>
+      </div>
+
+      <div class="content-card">
+        <h2>Compétences évaluées</h2>
+        <table>
+          <thead><tr><th>Compétence</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
+          <tbody>
+            <tr><td>C1 — Comprendre les bases d'un algorithme</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C2 — Écrire et lire un programme simple (Scratch)</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+        <div style="display:flex; gap:var(--space-xl); margin-top:var(--space-md); font-size:0.85rem; color:var(--gray-500);">
+          <div><strong>Nom :</strong> ........................................</div><div><strong>Prénom :</strong> ........................................</div><div><strong>Classe :</strong> 5ème ........</div><div><strong>Date :</strong> ....../....../......</div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 1 — Vocabulaire de la programmation (6 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C1</div>
+        <p><strong>1.1</strong> Relie chaque mot à sa définition. <em>(4 pts)</em></p>
+        <table>
+          <thead><tr><th>Mot</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td>Algorithme</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Boucle</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Condition</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Variable</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+        <p style="font-style:italic; color:var(--gray-500); font-size:0.85rem;">Définitions à associer : a) Répéter des instructions plusieurs fois · b) Suite ordonnée d'instructions · c) Espace mémoire qui stocke une valeur · d) Instruction qui teste si quelque chose est vrai ou faux</p>
+        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Quelle est la différence entre une boucle et une condition ? <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:60px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 2 — Lecture de programme (8 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C2</div>
+        <p><strong>2.1</strong> Observe ce programme Scratch et réponds aux questions. <em>(4 pts)</em></p>
+        <div class="info-box info-box-green">
+          <code style="font-size:0.95rem;">
+            Quand &#x1F6A9; est cliqué<br>
+            Répéter 4 fois :<br>
+            &nbsp;&nbsp;Avancer de 100 pas<br>
+            &nbsp;&nbsp;Tourner ↻ de 90°
+          </code>
+        </div>
+        <p><strong>a)</strong> Quelle forme géométrique le lutin dessine-t-il ? <em>(1 pt)</em></p>
+        <p style="border-bottom:1px dotted var(--gray-300); min-height:25px;">&nbsp;</p>
+        <p><strong>b)</strong> Combien de fois le lutin avance-t-il ? <em>(1 pt)</em></p>
+        <p style="border-bottom:1px dotted var(--gray-300); min-height:25px;">&nbsp;</p>
+        <p><strong>c)</strong> Si on change "Répéter 3 fois" et "Tourner de 120°", quelle forme obtient-on ? <em>(2 pts)</em></p>
+        <p style="border-bottom:1px dotted var(--gray-300); min-height:25px;">&nbsp;</p>
+        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Écris un programme Scratch (en pseudo-code) qui fait avancer le lutin de 50 pas, puis qui dit "Bonjour !" pendant 2 secondes. <em>(4 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:100px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 3 — Défi algorithmique (6 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétences :</strong> C1 + C2</div>
+        <p><strong>3.1</strong> Un robot doit traverser un labyrinthe. Complète l'algorithme avec les instructions : <em>Avancer</em>, <em>Tourner à droite</em>, <em>Tourner à gauche</em>. <em>(3 pts)</em></p>
+        <table>
+          <thead><tr><th style="text-align:center">Étape</th><th>Instruction</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:center">1</td><td>Avancer</td></tr>
+            <tr><td style="text-align:center">2</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">3</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">4</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-lg);"><strong>3.2</strong> Explique pourquoi il est important de tester un programme avant de le valider. Donne un exemple. <em>(3 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:80px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Barème récapitulatif</h2>
+        <table>
+          <thead><tr><th>Exercice</th><th>Compétence</th><th style="text-align:center">Points</th></tr></thead>
+          <tbody>
+            <tr><td>Ex. 1 — Vocabulaire</td><td>C1</td><td style="text-align:center">6</td></tr>
+            <tr><td>Ex. 2 — Lecture programme</td><td>C2</td><td style="text-align:center">8</td></tr>
+            <tr><td>Ex. 3 — Défi algorithmique</td><td>C1+C2</td><td style="text-align:center">6</td></tr>
+            <tr style="background:var(--gray-100);"><td colspan="2"><strong>Total</strong></td><td style="text-align:center"><strong>20</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

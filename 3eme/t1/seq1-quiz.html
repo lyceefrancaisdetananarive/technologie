@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 1 : Étude critique d'un objet connecté | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Étude critique d'un objet connecté</h1>
+        <p class="page-description">Teste tes connaissances sur l'analyse fonctionnelle et les objets connectés.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Une fonction de service décrit...',
+        options: ['Comment l\'objet est fabriqué', 'Ce que l\'objet fait pour l\'utilisateur', 'Le prix de l\'objet', 'La taille de l\'objet'],
+        correct: 1,
+        explanation: 'La fonction de service décrit le service rendu à l\'utilisateur, c\'est-à-dire le besoin qu\'il satisfait.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans l\'architecture d\'un objet connecté, quel élément mesure une grandeur physique ?',
+        options: ['L\'actionneur', 'Le cloud', 'Le capteur', 'L\'application'],
+        correct: 2,
+        explanation: 'Le capteur mesure une grandeur physique (température, distance, luminosité…) et la convertit en signal exploitable.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un objet connecté fonctionne toujours sans connexion internet.',
+        correct: false,
+        explanation: 'La plupart des objets connectés nécessitent une connexion internet pour fonctionner pleinement (envoi de données au cloud, contrôle à distance). Certains gardent des fonctions basiques hors ligne.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le diagramme « bête à cornes » permet de définir...',
+        options: ['Le prix de vente', 'Le besoin auquel répond l\'objet', 'Le poids de l\'objet', 'La couleur de l\'objet'],
+        correct: 1,
+        explanation: 'Le diagramme bête à cornes répond à 3 questions : À qui rend-il service ? Sur quoi agit-il ? Dans quel but ?'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel protocole est le plus utilisé par les objets connectés domestiques ?',
+        options: ['USB', 'Wi-Fi', 'HDMI', 'VGA'],
+        correct: 1,
+        explanation: 'Le Wi-Fi est le protocole le plus courant pour les objets connectés domestiques car il permet une connexion directe à la box internet.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Les données collectées par un objet connecté ne présentent aucun risque pour la vie privée.',
+        correct: false,
+        explanation: 'Les objets connectés collectent souvent des données personnelles (habitudes, localisation, santé…) qui peuvent être exploitées commercialement ou piratées.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre fonction de service et fonction technique ?',
+        options: ['Il n\'y a pas de différence', 'La fonction de service est le QUOI, la fonction technique est le COMMENT', 'La fonction technique est plus importante', 'La fonction de service concerne le fabricant'],
+        correct: 1,
+        explanation: 'La fonction de service décrit CE QUE fait l\'objet (le besoin), la fonction technique décrit COMMENT il le fait (la solution technique).'
+      },
+      {
+        type: 'qcm',
+        question: 'Le cloud dans un objet connecté sert principalement à...',
+        options: ['Augmenter le poids de l\'objet', 'Stocker et analyser les données à distance', 'Remplacer le capteur', 'Décorer l\'interface'],
+        correct: 1,
+        explanation: 'Le cloud permet de stocker les données, d\'effectuer des analyses complexes (IA), de conserver les historiques et de rendre les données accessibles partout.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'évaluation multicritères permet de comparer objectivement différents objets.',
+        correct: true,
+        explanation: 'L\'évaluation multicritères utilise une grille avec plusieurs critères notés (utilité, impact, vie privée, durabilité, prix) pour comparer de manière structurée et objective.'
+      },
+      {
+        type: 'qcm',
+        question: 'Parmi ces éléments, lequel est un actionneur ?',
+        options: ['Un capteur de température', 'Un module Wi-Fi', 'Un moteur électrique', 'Un écran d\'affichage de données'],
+        correct: 2,
+        explanation: 'Un actionneur transforme une énergie en action physique. Le moteur électrique produit un mouvement mécanique. L\'écran est un dispositif d\'affichage, pas un actionneur à proprement parler.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

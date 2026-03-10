@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 9 : IA et objets connectés | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — IA, objets connectés et réparabilité</h1>
+        <p class="page-description">Teste tes connaissances sur l'intelligence artificielle, les objets connectés et la réparabilité.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qui distingue l\'IA de la programmation classique ?',
+        options: ['L\'IA est plus rapide', 'L\'IA peut apprendre et s\'adapter à partir de données', 'L\'IA utilise du Wi-Fi', 'L\'IA ne fait pas d\'erreurs'],
+        correct: 1,
+        explanation: 'L\'intelligence artificielle se distingue par sa capacité à APPRENDRE à partir de données et à s\'adapter, contrairement à un programme classique qui suit des règles fixes.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une calculatrice est un exemple d\'intelligence artificielle.',
+        correct: false,
+        explanation: 'Une calculatrice suit des règles mathématiques fixes (programme classique). Elle ne peut pas apprendre ni s\'adapter. L\'IA implique un apprentissage à partir de données.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie IoT ?',
+        options: ['Internet of Things (objets connectés)', 'Intelligence of Technology', 'Input Output Terminal', 'International Organization of Technicians'],
+        correct: 0,
+        explanation: 'IoT signifie "Internet of Things" (Internet des objets en français). Ce sont des objets reliés à internet qui échangent des données grâce à des capteurs.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur une montre connectée utilise-t-elle pour mesurer le rythme cardiaque ?',
+        options: ['Un capteur de température', 'Un accéléromètre', 'Un capteur cardiaque (optique)', 'Un capteur de pression'],
+        correct: 2,
+        explanation: 'La montre connectée utilise un capteur optique (lumière verte) qui mesure les variations de flux sanguin à travers la peau pour déterminer le rythme cardiaque.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'indice de réparabilité va de 0 à 100.',
+        correct: false,
+        explanation: 'L\'indice de réparabilité va de 0 à 10 (pas 100). Plus le score est proche de 10, plus l\'objet est facile à réparer.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est l\'un des 5 critères de l\'indice de réparabilité ?',
+        options: ['La couleur de l\'objet', 'La disponibilité des pièces détachées', 'La marque de l\'objet', 'Le poids de l\'objet'],
+        correct: 1,
+        explanation: 'Les 5 critères sont : documentation, démontabilité, disponibilité des pièces, prix des pièces, et critères spécifiques. La disponibilité des pièces détachées est essentielle pour pouvoir réparer.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi est-il important de réparer plutôt que de jeter ?',
+        options: ['Uniquement pour économiser de l\'argent', 'Pour réduire les déchets, économiser et préserver les ressources', 'Parce que la loi l\'oblige', 'Ce n\'est pas important'],
+        correct: 1,
+        explanation: 'Réparer permet de réduire les déchets (moins de pollution), d\'économiser de l\'argent et de préserver les ressources naturelles (moins d\'extraction de matières premières).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un filtre Instagram qui détecte ton visage utilise de l\'intelligence artificielle.',
+        correct: true,
+        explanation: 'Les filtres Instagram utilisent la reconnaissance faciale, une technique d\'IA qui a appris à détecter les traits du visage (yeux, nez, bouche) à partir de millions d\'images.'
+      },
+      {
+        type: 'qcm',
+        question: 'Comment fonctionne un objet connecté ?',
+        options: [
+          'Il fonctionne uniquement avec des piles',
+          'Capteur → Microcontrôleur → Communication → Application',
+          'Il fonctionne par magie',
+          'Il suffit de le brancher à l\'électricité'
+        ],
+        correct: 1,
+        explanation: 'Un objet connecté suit cette chaîne : le CAPTEUR mesure une grandeur, le MICROCONTRÔLEUR traite les données, puis elles sont transmises par Wi-Fi/Bluetooth vers une APPLICATION ou le Cloud.'
+      },
+      {
+        type: 'qcm',
+        question: 'Entre un smartphone avec un indice de réparabilité de 3/10 et un de 8/10, lequel est le meilleur choix ?',
+        options: ['Celui à 3/10, il est plus moderne', 'Celui à 8/10, il est plus facile à réparer et durera plus longtemps', 'Ça ne fait aucune différence', 'Celui à 3/10, il est forcément moins cher'],
+        correct: 1,
+        explanation: 'Un indice de 8/10 signifie que le smartphone est facile à réparer : batterie remplaçable, pièces disponibles et abordables. Il durera plus longtemps et sera moins coûteux à l\'usage.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

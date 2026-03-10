@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 6 : Programmation | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Initiation à la programmation</h1>
+        <p class="page-description">Teste tes connaissances sur la programmation, les boucles, les conditions et le micro:bit.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un programme informatique ?',
+        options: ['Un jeu vidéo', 'Une suite d\'instructions exécutées par une machine', 'Un composant électronique', 'Un type de câble'],
+        correct: 1,
+        explanation: 'Un programme est une suite d\'instructions (ordres) que la machine exécute dans l\'ordre pour réaliser une tâche.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle structure permet de répéter des instructions ?',
+        options: ['La séquence', 'La condition', 'La boucle', 'La variable'],
+        correct: 2,
+        explanation: 'La boucle permet de répéter un bloc d\'instructions un certain nombre de fois ou indéfiniment (ex : "répéter 5 fois", "répéter indéfiniment").'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une condition permet de faire un choix dans un programme (SI... ALORS...).',
+        correct: true,
+        explanation: 'La condition (SI... ALORS...) permet au programme de prendre une décision selon un test. Par exemple : SI bouton appuyé ALORS allumer la LED.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de LEDs possède la matrice du micro:bit ?',
+        options: ['10 LEDs', '25 LEDs (5×5)', '50 LEDs', '100 LEDs'],
+        correct: 1,
+        explanation: 'Le micro:bit possède une matrice de 25 LEDs organisées en grille 5×5. On peut afficher du texte, des chiffres et des images simples.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'une variable en programmation ?',
+        options: ['Un bug dans le programme', 'Un câble USB', 'Une « boîte » qui stocke une valeur', 'Un type de LED'],
+        correct: 2,
+        explanation: 'Une variable est comme une boîte étiquetée qui contient une valeur (nombre, texte...) que le programme peut lire et modifier. Ex : "score = 0".'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'En programmation par blocs, on écrit du code texte ligne par ligne.',
+        correct: false,
+        explanation: 'En programmation par blocs (mBlock, MakeCode), on assemble des blocs visuels colorés au lieu d\'écrire du texte. C\'est plus simple pour débuter.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur du micro:bit permet de détecter quand on le secoue ?',
+        options: ['Le capteur de lumière', 'Le microphone', 'L\'accéléromètre', 'La boussole'],
+        correct: 2,
+        explanation: 'L\'accéléromètre détecte les mouvements et les secousses. C\'est grâce à lui qu\'on peut programmer un dé électronique qui réagit quand on secoue le micro:bit.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le programme du feu tricolore, combien de temps dure un cycle complet (vert + orange + rouge) ?',
+        options: ['5 secondes', '7 secondes', '10 secondes', '12 secondes'],
+        correct: 3,
+        explanation: 'Un cycle complet = vert (5s) + orange (2s) + rouge (5s) = 12 secondes au total.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le micro:bit ne possède que des LEDs, il n\'a aucun capteur.',
+        correct: false,
+        explanation: 'Le micro:bit possède de nombreux capteurs : accéléromètre (mouvement), capteur de température, capteur de lumière, boussole, et même un microphone sur la version 2.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie « débugger » un programme ?',
+        options: ['Supprimer le programme', 'Trouver et corriger les erreurs', 'Ajouter des images', 'Accélérer le programme'],
+        correct: 1,
+        explanation: 'Débugger signifie trouver et corriger les bugs (erreurs) dans un programme pour qu\'il fonctionne correctement. C\'est une étape normale de la programmation.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

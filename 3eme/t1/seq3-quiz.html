@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 3 : Éthique et impacts | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Éthique et impacts des technologies</h1>
+        <p class="page-description">Teste tes connaissances sur les impacts et l'éthique du numérique.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quelle part des émissions mondiales de CO2 est attribuée au numérique ?',
+        options: ['Moins de 1 %', 'Environ 4 %', 'Environ 15 %', 'Plus de 25 %'],
+        correct: 1,
+        explanation: 'Le numérique représente environ 4 % des émissions mondiales de CO2, soit plus que le transport aérien civil.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle étape du cycle de vie d\'un smartphone a le plus gros impact environnemental ?',
+        options: ['L\'utilisation quotidienne', 'La fabrication (extraction + assemblage)', 'Le transport', 'La fin de vie'],
+        correct: 1,
+        explanation: 'La fabrication (extraction des matières premières + assemblage) représente environ 70-80 % de l\'impact environnemental d\'un smartphone.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le RGPD est un règlement européen qui protège les données personnelles.',
+        correct: true,
+        explanation: 'Le RGPD (Règlement Général sur la Protection des Données) est entré en vigueur en 2018 et encadre la collecte et l\'utilisation des données personnelles en Europe.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est l\'éco-geste le plus efficace pour réduire son empreinte numérique ?',
+        options: ['Éteindre la box le soir', 'Garder ses appareils le plus longtemps possible', 'Supprimer ses vieux e-mails', 'Baisser la luminosité de l\'écran'],
+        correct: 1,
+        explanation: 'La fabrication étant l\'étape la plus polluante, garder ses appareils le plus longtemps possible est l\'éco-geste le plus impactant.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Les data centers consomment très peu d\'énergie.',
+        correct: false,
+        explanation: 'Les data centers sont de gros consommateurs d\'énergie (serveurs + climatisation). Ils consomment environ 1-2 % de l\'électricité mondiale.'
+      },
+      {
+        type: 'qcm',
+        question: 'La « fracture numérique » désigne...',
+        options: ['Un écran cassé', 'L\'inégalité d\'accès aux technologies numériques', 'Une panne de réseau', 'Un virus informatique'],
+        correct: 1,
+        explanation: 'La fracture numérique est l\'inégalité entre ceux qui ont accès aux technologies (matériel, connexion, compétences) et ceux qui n\'y ont pas accès.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un « biais algorithmique » dans l\'IA peut entraîner...',
+        options: ['Un calcul plus rapide', 'Des discriminations envers certains groupes de personnes', 'Une meilleure précision', 'Une consommation réduite d\'énergie'],
+        correct: 1,
+        explanation: 'Un biais algorithmique se produit quand les données d\'entraînement sont déséquilibrées, ce qui amène l\'IA à discriminer certains groupes (genre, origine, âge…).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le streaming vidéo est le principal consommateur de bande passante mondiale.',
+        correct: true,
+        explanation: 'Le streaming vidéo (Netflix, YouTube, etc.) représente plus de 60 % du trafic internet mondial, ce qui en fait le plus gros consommateur de bande passante.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel pourcentage des déchets électroniques (e-déchets) est effectivement recyclé dans le monde ?',
+        options: ['Environ 80 %', 'Environ 50 %', 'Environ 20 %', 'Environ 5 %'],
+        correct: 2,
+        explanation: 'Seulement environ 20 % des e-déchets sont correctement recyclés dans le monde. Le reste est souvent exporté ou jeté dans des décharges.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le cobalt, minerai essentiel pour les batteries lithium, est principalement extrait...',
+        options: ['En France', 'En République Démocratique du Congo', 'Aux États-Unis', 'Au Japon'],
+        correct: 1,
+        explanation: 'Plus de 60 % du cobalt mondial provient de la RDC, où l\'extraction pose des problèmes éthiques majeurs (travail des enfants, conditions dangereuses).'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

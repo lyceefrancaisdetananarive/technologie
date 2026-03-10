@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 2 — Fiche Professeur | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Fiche professeur"}]'
+    data-print-title="4ème — Séquence 2 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · PROFESSEUR</span>
+        <h1>Séquence 2 — Intelligence Artificielle et automatisation</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq2-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6 heures)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Identifier les évolutions technologiques et impacts</span>
+              <span class="competence-badge">Analyser les interactions objet/environnement</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Comprendre le principe de l'apprentissage automatique (machine learning)</li>
+                <li>Distinguer les 3 niveaux d'automatisation</li>
+                <li>Identifier les enjeux éthiques de l'IA (biais, vie privée, emploi)</li>
+                <li>Développer un esprit critique face à l'IA</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Prérequis 5ème</strong></td><td>Distinction IA vs programmation classique, notion de capteur</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement séance par séance</h2>
+
+        <h3>Séance 5 (1h30) — Comment fonctionne l'IA</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S5</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Accroche (15 min)</h4>
+            <p>Vidéo courte sur la voiture autonome Tesla. Question : "Comment cette voiture sait-elle qu'il y a un piéton ?"</p>
+            <h4>Phase 2 — Activité 1 (50 min)</h4>
+            <p>Explication du machine learning avec l'analogie chat/chien. Les élèves complètent le tableau des données d'entraînement.</p>
+            <h4>Phase 3 — Démonstration (25 min)</h4>
+            <p>Tester Teachable Machine (Google) en classe : entraîner un modèle simple de reconnaissance d'objets avec la webcam.</p>
+          </div>
+        </div>
+
+        <h3>Séance 6 (1h30) — Niveaux d'automatisation</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S6</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Rappel (10 min)</h4>
+            <p>Rappel des 3 étapes du machine learning. Quiz oral rapide.</p>
+            <h4>Phase 2 — Activité 2 (50 min)</h4>
+            <p>Présenter les 3 niveaux d'automatisation au tableau. Les élèves classent les systèmes et dessinent le schéma.</p>
+            <h4>Phase 3 — Expérimentation (30 min)</h4>
+            <p>Si micro:bit disponible : programmer un système automatisé simple (capteur de lumière → LED).</p>
+          </div>
+        </div>
+
+        <h3>Séance 7 (1h30) — Éthique de l'IA</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S7</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Activité 3 (45 min)</h4>
+            <p>Travail en groupes sur les problèmes éthiques. Chaque groupe étudie un cas et présente au reste de la classe.</p>
+            <h4>Phase 2 — Débat (30 min)</h4>
+            <p>Débat structuré : "L'IA à l'école : outil ou triche ?" Rédaction du paragraphe argumenté.</p>
+            <h4>Phase 3 — Synthèse (15 min)</h4>
+            <p>Compléter la synthèse collectivement.</p>
+          </div>
+        </div>
+
+        <h3>Séance 8 (1h30) — Révision + Quiz</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S8</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Quiz numérique (30 min)</h4>
+            <p>Quiz en ligne. Correction et explications.</p>
+            <h4>Phase 2 — Activité pratique (60 min)</h4>
+            <p>Tester différents outils d'IA (ChatGPT, DeepL, Google Lens) et remplir un tableau comparatif : type d'IA, données utilisées, utilité, limite.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Données d'entraînement</h3>
+        <table>
+          <thead><tr><th>Application</th><th>Données d'entraînement</th></tr></thead>
+          <tbody>
+            <tr><td>Reconnaissance vocale</td><td><strong>Millions d'enregistrements audio</strong> de voix humaines avec transcriptions</td></tr>
+            <tr><td>Traduction automatique</td><td><strong>Millions de textes bilingues</strong> (paires de phrases en deux langues)</td></tr>
+            <tr><td>Détection de spam</td><td><strong>Millions d'e-mails</strong> étiquetés "spam" ou "non spam"</td></tr>
+            <tr><td>Recommandation YouTube</td><td><strong>Historique de visionnage</strong> de millions d'utilisateurs (vidéos vues, durée, likes)</td></tr>
+            <tr><td>Voiture autonome</td><td><strong>Millions d'images/vidéos</strong> de routes avec annotations (piétons, panneaux, véhicules)</td></tr>
+          </tbody>
+        </table>
+        <p><strong>b)</strong> L'IA a besoin de beaucoup de données car plus elle a d'exemples, plus elle peut identifier des patterns fiables et faire des prédictions précises. Avec peu de données, elle risque de se tromper souvent.</p>
+
+        <h3>Activité 2 — Niveaux d'automatisation</h3>
+        <table>
+          <thead><tr><th>Système</th><th>Niveau</th><th>Justification</th></tr></thead>
+          <tbody>
+            <tr><td>Aspirateur robot cartographe</td><td><strong>3 (IA)</strong></td><td>Apprend la disposition de la maison et optimise son parcours</td></tr>
+            <tr><td>Machine à laver programme fixe</td><td><strong>1 (Simple)</strong></td><td>Suit un programme prédéfini, pas de capteur ni adaptation</td></tr>
+            <tr><td>Caméra détection faciale</td><td><strong>3 (IA)</strong></td><td>Reconnaissance faciale = apprentissage à partir de données</td></tr>
+            <tr><td>Distributeur automatique</td><td><strong>1 (Simple)</strong></td><td>Règles fixes : pièce → sélection → distribution</td></tr>
+            <tr><td>Éclairage au passage</td><td><strong>2 (Capteurs)</strong></td><td>Détecte le mouvement avec un capteur, réagit automatiquement</td></tr>
+            <tr><td>ChatGPT</td><td><strong>3 (IA)</strong></td><td>Modèle de langage entraîné sur des milliards de textes</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Activité 3 — Problèmes éthiques</h3>
+        <table>
+          <thead><tr><th>Situation</th><th>Problème éthique</th></tr></thead>
+          <tbody>
+            <tr><td>IA de recrutement discriminante</td><td><strong>Biais algorithmique</strong> — données d'entraînement déséquilibrées</td></tr>
+            <tr><td>Assistant vocal qui enregistre</td><td><strong>Vie privée / données personnelles</strong> — surveillance non consentie</td></tr>
+            <tr><td>Robots remplacent les ouvriers</td><td><strong>Impact sur l'emploi</strong> — destruction d'emplois, reconversion nécessaire</td></tr>
+            <tr><td>Accident de voiture autonome</td><td><strong>Responsabilité</strong> — qui est coupable : constructeur, programmeur, passager ?</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Synthèse complétée</h3>
+        <div class="info-box info-box-green">
+          <p>L'intelligence artificielle repose sur l'<strong>apprentissage automatique</strong> : elle analyse des milliers de <strong>données</strong> pour détecter des <strong>patterns</strong> et faire des <strong>prédictions</strong>.</p>
+          <p>Un système <strong>automatisé</strong> peut fonctionner avec des règles fixes, des <strong>capteurs</strong> ou de l'IA.</p>
+          <p>L'IA pose des questions éthiques : <strong>biais</strong> algorithmiques, <strong>vie privée</strong> et remplacement des emplois.</p>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+
+        <h3>Cahier de texte — Séance 5</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 2 — IA et automatisation. Activité 1 : principe de l'apprentissage automatique (machine learning). Démonstration avec Teachable Machine.<br>
+          <strong>Travail :</strong> Citer 3 exemples d'IA utilisées au quotidien et les données qu'elles utilisent.
+        </div>
+
+        <h3>Cahier de texte — Séance 6</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : les 3 niveaux d'automatisation. Classification de systèmes. Schéma capteur-traitement-actionneur.<br>
+          <strong>Travail :</strong> Identifier 3 systèmes automatisés chez soi et déterminer leur niveau d'automatisation.
+        </div>
+
+        <h3>Cahier de texte — Séance 7</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : enjeux éthiques de l'IA (biais, vie privée, emploi, responsabilité). Débat : l'IA à l'école. Synthèse.<br>
+          <strong>Travail :</strong> Réviser la séquence pour le quiz.
+        </div>
+
+        <h3>Cahier de texte — Séance 8</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Quiz de révision. Activité pratique : test comparatif d'outils d'IA (ChatGPT, DeepL, Google Lens).
+        </div>
+
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Identifier les évolutions technologiques et impacts</td><td>Activités 1 et 3 (IA, éthique)</td></tr>
+            <tr><td>Analyser les interactions objet/environnement</td><td>Activité 2 (niveaux d'automatisation)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 7 — Projet Smart Object | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Fiche activité"}]'
+    data-print-title="3ème — Séquence 7 : Fiche Activité Élève"
+    data-print-subtitle="Projet Smart Object · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3</span>
+        <h1>Séquence 7 — Projet de fin d'année — Smart Object</h1>
+        <p class="page-description">
+          Comment concevoir un objet connecté intelligent qui répond à un besoin réel et respecte les contraintes du développement durable ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>4 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 3 — Projet de création et d'innovation</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Identifier un besoin, formuler un cahier des charges</span>
+                <span class="competence-badge">Concevoir une solution innovante</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Le projet</h2>
+        <div class="info-box info-box-blue">
+          <strong>En groupe de 3-4 élèves, concevez un « Smart Object » : un objet connecté intelligent qui résout un problème du quotidien.</strong><br>
+          Ce projet mobilise toutes les compétences de l'année : analyse fonctionnelle, programmation, fabrication numérique, développement durable.
+        </div>
+
+        <h3>Sujets proposés (au choix)</h3>
+        <table>
+          <thead><tr><th>N°</th><th>Projet</th><th>Description</th><th>Capteurs possibles</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Station météo connectée</strong></td><td>Mesure température, humidité, pression et affiche sur écran</td><td>DHT22, BMP280, écran OLED</td></tr>
+            <tr><td>2</td><td><strong>Système d'arrosage intelligent</strong></td><td>Arrose automatiquement les plantes selon l'humidité du sol</td><td>Capteur humidité sol, pompe</td></tr>
+            <tr><td>3</td><td><strong>Alarme de sécurité</strong></td><td>Détecte les intrusions et alerte (buzzer + LED)</td><td>Ultrason, PIR, buzzer</td></tr>
+            <tr><td>4</td><td><strong>Robot suiveur autonome</strong></td><td>Suit un parcours et évite les obstacles</td><td>Suiveur de ligne, ultrason</td></tr>
+            <tr><td>5</td><td><strong>Compteur de personnes</strong></td><td>Compte les entrées/sorties dans une pièce</td><td>Capteur IR, ultrason, écran</td></tr>
+            <tr><td>6</td><td><strong>Projet libre</strong></td><td>Validé par le professeur</td><td>À définir</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 1 -->
+      <div class="content-card">
+        <h2>Étape 1 — Cahier des charges</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Définir le besoin et les contraintes</h4>
+            <p>Rédige le cahier des charges de ton Smart Object.</p>
+          </div>
+        </div>
+
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Projet choisi</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Membres du groupe</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Besoin identifié</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Utilisateur cible</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Fonctions de service :</strong></p>
+        <table>
+          <thead><tr><th>N°</th><th>Fonction de service</th><th>Critère de performance</th></tr></thead>
+          <tbody>
+            <tr><td>FS1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FS2</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FS3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>Contraintes :</strong></p>
+        <table>
+          <thead><tr><th>Contrainte</th><th>Détail</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Budget</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dimensions max</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Alimentation</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Développement durable</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 2 -->
+      <div class="content-card">
+        <h2>Étape 2 — Conception et algorithme</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Concevoir la solution</h4>
+            <p>Choisis les composants, dessine le schéma et écris l'algorithme.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Liste des composants :</p>
+        <table>
+          <thead><tr><th>Composant</th><th>Type (capteur/actionneur/traitement)</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Schéma de câblage :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 180px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Schéma de câblage Arduino + composants</span>
+        </div>
+
+        <p style="margin-top: var(--space-md);"><strong>c)</strong> Algorithme en pseudo-code :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 150px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <p style="margin-top: var(--space-md);"><strong>d)</strong> Organigramme :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Grille d'évaluation -->
+      <div class="content-card">
+        <h2>&#x1F4CB; Grille d'évaluation du projet</h2>
+        <table>
+          <thead><tr><th>Critère</th><th>Insuffisant (1)</th><th>Fragile (2)</th><th>Satisfaisant (3)</th><th>Très bien (4)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cahier des charges</strong></td><td>Incomplet</td><td>Fonctions floues</td><td>Complet et clair</td><td>Détaillé avec critères de performance</td></tr>
+            <tr><td><strong>Algorithme</strong></td><td>Absent ou incohérent</td><td>Logique mais incomplet</td><td>Correct et complet</td><td>Optimisé avec variables et opérateurs</td></tr>
+            <tr><td><strong>Programmation</strong></td><td>Ne fonctionne pas</td><td>Fonctionne partiellement</td><td>Fonctionne selon le CdC</td><td>Fonctionne + ajouts pertinents</td></tr>
+            <tr><td><strong>Tests</strong></td><td>Pas de protocole</td><td>Tests partiels</td><td>Protocole complet</td><td>Rapport de test documenté</td></tr>
+            <tr><td><strong>Travail d'équipe</strong></td><td>Pas de répartition</td><td>Répartition inégale</td><td>Bonne répartition</td><td>Collaboration efficace</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

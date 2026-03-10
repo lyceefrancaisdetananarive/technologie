@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation — Séq. 7 : Projet Smart Object | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Évaluation"}]'
+    data-print-title="ÉVALUATION — Séquence 7 : Projet Smart Object"
+    data-print-subtitle="3ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · Évaluation</span>
+        <h1>Évaluation — Séquence 7</h1>
+        <p class="page-description">Projet Smart Object — Durée : 55 minutes</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-prof.html" class="btn btn-outline">&#x1F4D7; Corrigé</a>
+        <a href="seq7-ebep.html" class="btn btn-outline">&#x267F; Version EBEP</a>
+      </div>
+
+      <div class="content-card">
+        <h2>Compétences évaluées</h2>
+        <table>
+          <thead><tr><th>Compétence</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
+          <tbody>
+            <tr><td>C1 — Définir et spécifier un objet connecté</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C2 — Concevoir l'architecture technique d'un Smart Object</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+        <div style="display:flex; gap:var(--space-xl); margin-top:var(--space-md); font-size:0.85rem; color:var(--gray-500);">
+          <div><strong>Nom :</strong> ........................................</div><div><strong>Prénom :</strong> ........................................</div><div><strong>Classe :</strong> 3ème ........</div><div><strong>Date :</strong> ....../....../......</div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 1 — Cahier des charges (10 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C1</div>
+        <p><strong>Contexte :</strong> Ton projet consiste à créer un pot de fleur connecté qui arrose automatiquement la plante et envoie des alertes sur smartphone.</p>
+        <p><strong>1.1</strong> Rédige le cahier des charges fonctionnel (diagramme des exigences simplifié). <em>(4 pts)</em></p>
+        <table>
+          <thead><tr><th>Exigence</th><th>Description</th><th>Critère d'acceptation</th></tr></thead>
+          <tbody>
+            <tr><td>FP1 — Arrosage auto</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FP2 — Alertes</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FC1 — Autonomie</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FC2 — Esthétique</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Réalise le diagramme « pieuvre » (diagramme des interacteurs) du pot connecté. Identifie au moins 4 éléments du milieu extérieur. <em>(4 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:120px; background:var(--gray-50);"></div>
+        <p style="margin-top:var(--space-md);"><strong>1.3</strong> Le pot doit résister aux conditions extérieures (pluie, soleil). Quel matériau proposerais-tu pour le boîtier ? Justifie. <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:50px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 2 — Architecture technique (10 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C2</div>
+        <p><strong>2.1</strong> Choisis les composants pour le pot connecté et justifie chaque choix. <em>(4 pts)</em></p>
+        <table>
+          <thead><tr><th>Fonction</th><th>Composant choisi</th><th>Justification</th></tr></thead>
+          <tbody>
+            <tr><td>Mesurer l'humidité du sol</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Arroser la plante</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Traiter les données</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Envoyer des alertes</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Dessine le schéma de câblage simplifié (capteur, microcontrôleur, pompe, module Wi-Fi). <em>(4 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:140px; background:var(--gray-50);"></div>
+        <p style="margin-top:var(--space-md);"><strong>2.3</strong> Écris l'algorithme principal en pseudo-code. <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:80px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Barème récapitulatif</h2>
+        <table>
+          <thead><tr><th>Exercice</th><th>Compétence</th><th style="text-align:center">Points</th></tr></thead>
+          <tbody>
+            <tr><td>Ex. 1 — Cahier des charges</td><td>C1</td><td style="text-align:center">10</td></tr>
+            <tr><td>Ex. 2 — Architecture technique</td><td>C2</td><td style="text-align:center">10</td></tr>
+            <tr style="background:var(--gray-100);"><td colspan="2"><strong>Total</strong></td><td style="text-align:center"><strong>20</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

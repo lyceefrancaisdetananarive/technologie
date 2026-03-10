@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Fiche Professeur | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Fiche professeur"}]'
+    data-print-title="4ème — Séquence 5 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 5 — Programmation et automatisation (Arduino / mBlock)</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6 heures)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Comprendre/modifier un programme</span>
+              <span class="competence-badge">Analyser l'organisation interne et échanges</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Identifier capteurs et actionneurs dans la chaîne d'information</li>
+                <li>Programmer un mBot en blocs (mBlock) : séquences, boucles, conditions</li>
+                <li>Utiliser des variables dans un programme</li>
+                <li>Comprendre les enjeux de cybersécurité des systèmes connectés</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Robots mBot (1 pour 2-3 élèves), ordinateurs avec mBlock installé, piste de suivi de ligne, obstacles</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement séance par séance</h2>
+
+        <h3>Séance 16 (1h30) — Découverte Arduino + mBot</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S16</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Présentation (20 min)</h4>
+            <p>Montrer le mBot démonté. Identifier chaque composant. Lien avec la chaîne d'information (5ème).</p>
+            <h4>Phase 2 — Activité 1 (40 min)</h4>
+            <p>Les élèves identifient les composants et leur fonction. Installation de mBlock, connexion Bluetooth.</p>
+            <h4>Phase 3 — Premier test (30 min)</h4>
+            <p>Faire avancer/reculer le mBot avec un programme simple. Tester les LED et le buzzer.</p>
+          </div>
+        </div>
+
+        <h3>Séance 17 (1h30) — Défis A et B</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S17</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Défi A (30 min)</h4>
+            <p>Avancer et tourner. Les élèves écrivent d'abord l'algorithme en pseudo-code, puis le programment en blocs.</p>
+            <h4>Phase 2 — Défi B (60 min)</h4>
+            <p>Évitement d'obstacles avec le capteur ultrason. Introduction de la structure SI...ALORS...SINON.</p>
+          </div>
+        </div>
+
+        <h3>Séance 18 (1h30) — Défi C (suivi de ligne)</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S18</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Rappel capteur suiveur de ligne (15 min)</h4>
+            <p>Expliquer le fonctionnement du capteur IR (noir/blanc). Valeurs renvoyées.</p>
+            <h4>Phase 2 — Défi C (75 min)</h4>
+            <p>Suivi de ligne. Les élèves doivent ajuster vitesse et sensibilité. Course entre les groupes à la fin !</p>
+          </div>
+        </div>
+
+        <h3>Séance 19 (1h30) — Variables + cybersécurité</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S19</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Défi D (45 min)</h4>
+            <p>Introduction des variables. Le mBot compte les tours. Les élèves les plus avancés peuvent ajouter un affichage sur l'écran LCD.</p>
+            <h4>Phase 2 — Cybersécurité (30 min)</h4>
+            <p>Discussion sur la sécurité des systèmes connectés. Démonstration : envoyer des commandes via Bluetooth non sécurisé.</p>
+            <h4>Phase 3 — Synthèse (15 min)</h4>
+            <p>Compléter la synthèse de la séquence.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Composants du mBot</h3>
+        <table>
+          <thead><tr><th>Composant</th><th>Rôle</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>Capteur ultrason</td><td><strong>Mesure la distance aux obstacles</strong></td><td><strong>Acquérir</strong></td></tr>
+            <tr><td>Capteur suiveur de ligne</td><td><strong>Détecte le noir/blanc au sol (IR)</strong></td><td><strong>Acquérir</strong></td></tr>
+            <tr><td>Carte mCore</td><td><strong>Exécute le programme, prend les décisions</strong></td><td><strong>Traiter</strong></td></tr>
+            <tr><td>Moteurs DC</td><td><strong>Font avancer/tourner le robot</strong></td><td><strong>Communiquer (agir)</strong></td></tr>
+            <tr><td>LED RGB</td><td><strong>Affiche des couleurs</strong></td><td><strong>Communiquer (signaler)</strong></td></tr>
+            <tr><td>Buzzer</td><td><strong>Émet des sons</strong></td><td><strong>Communiquer (alerter)</strong></td></tr>
+          </tbody>
+        </table>
+        <p><strong>b)</strong> Un capteur MESURE une grandeur de l'environnement (distance, lumière, température). Un actionneur AGIT sur l'environnement (moteur, LED, haut-parleur).</p>
+
+        <h3>Activité 2 — Algorithmes</h3>
+        <p><strong>Défi A :</strong></p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          Avancer vitesse 150 pendant 2 secondes<br>
+          Tourner à droite vitesse 150 pendant 0.8 seconde<br>
+          Avancer vitesse 150 pendant 2 secondes<br>
+          Arrêter les moteurs
+        </div>
+
+        <p><strong>Défi B :</strong></p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          Répéter indéfiniment :<br>
+          &nbsp;&nbsp;SI distance ultrason &lt; 20 cm ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Arrêter<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Reculer pendant 1 seconde<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à droite pendant 0.5 seconde<br>
+          &nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Avancer vitesse 150
+        </div>
+
+        <p><strong>Défi C :</strong></p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          Répéter indéfiniment :<br>
+          &nbsp;&nbsp;SI capteur gauche = noir ET capteur droit = blanc ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à gauche<br>
+          &nbsp;&nbsp;SI capteur gauche = blanc ET capteur droit = noir ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à droite<br>
+          &nbsp;&nbsp;SI capteur gauche = noir ET capteur droit = noir ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Avancer tout droit<br>
+          &nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Arrêter (piste perdue)
+        </div>
+
+        <h3>Activité 3 — Cybersécurité</h3>
+        <p><strong>a)</strong> Risques Bluetooth non protégé : un pirate peut intercepter les données, prendre le contrôle du robot, envoyer de fausses commandes, ou bloquer la communication.</p>
+        <p><strong>b)</strong> Solutions : 1. Utiliser un code d'appairage (mot de passe Bluetooth). 2. Chiffrer les données échangées. 3. Limiter la portée de la connexion.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+
+        <h3>Cahier de texte — Séance 16</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 5 — Programmation Arduino/mBlock. Activité 1 : découverte du mBot, identification des capteurs et actionneurs. Chaîne d'information.<br>
+          <strong>Travail :</strong> Revoir la chaîne d'information (acquérir, traiter, communiquer).
+        </div>
+
+        <h3>Cahier de texte — Séances 17-18</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : programmation par blocs. Défis A (déplacement), B (évitement obstacles), C (suivi de ligne). Structures conditionnelles SI/SINON.<br>
+          <strong>Travail :</strong> Améliorer son programme de suivi de ligne (vitesse, précision).
+        </div>
+
+        <h3>Cahier de texte — Séance 19</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : variables, compteur de tours. Introduction à la cybersécurité des systèmes connectés. Synthèse.
+        </div>
+
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Comprendre/modifier un programme</td><td>Activités 2 et 3 (défis mBot, variables)</td></tr>
+            <tr><td>Analyser l'organisation interne et échanges</td><td>Activité 1 (chaîne d'information, capteurs/actionneurs)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

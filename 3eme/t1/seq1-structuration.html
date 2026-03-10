@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 1 — Objet connecté · Structuration | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Structuration"}]'
+    data-print-title="3ème — Séquence 1 : Étude critique d'un objet connecté"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1</span>
+        <h1>Séquence 1 — Étude critique d'un objet connecté</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq1-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>3ème</td><td><strong>Thème</strong></td><td>Thème 1 — Design, innovation et créativité</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>1 — Objet connecté</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Analyser un système</span> <span class="competence-badge">Identifier les flux de données</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Analyse fonctionnelle d'un objet connecté</h2>
+        <p>L'<strong>analyse fonctionnelle</strong> décrit les services rendus par un objet technique à son environnement.</p>
+        <table>
+          <thead><tr><th>Outil</th><th>Ce qu'il montre</th><th>Éléments</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Diagramme bête à cornes</strong></td><td>Le besoin fondamental</td><td>À qui rend-il service ? Sur quoi agit-il ? Dans quel but ?</td></tr>
+            <tr><td><strong>Diagramme pieuvre</strong></td><td>Les fonctions de service</td><td>L'objet au centre, les éléments de l'environnement autour, reliés par des fonctions</td></tr>
+            <tr><td><strong>Cahier des charges</strong></td><td>Les exigences détaillées</td><td>Fonctions, critères, niveaux, flexibilité</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le <strong>diagramme pieuvre</strong> place l'objet au centre et montre ses relations avec les éléments de l'environnement. Les <strong>FP</strong> (fonctions principales) relient deux éléments extérieurs, les <strong>FC</strong> (fonctions contraintes) relient l'objet à un seul élément.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Architecture d'un objet connecté</h2>
+        <table>
+          <thead><tr><th>Couche</th><th>Rôle</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Perception</strong></td><td>Capter des données du monde physique</td><td>Capteurs (température, mouvement, GPS)</td></tr>
+            <tr><td><strong>Traitement local</strong></td><td>Analyser et filtrer les données</td><td>Microcontrôleur (ESP32, Arduino)</td></tr>
+            <tr><td><strong>Communication</strong></td><td>Transmettre les données</td><td>Wi-Fi, Bluetooth, LoRa, 5G</td></tr>
+            <tr><td><strong>Cloud / Serveur</strong></td><td>Stocker, analyser, croiser les données</td><td>AWS, Google Cloud, ThingSpeak</td></tr>
+            <tr><td><strong>Application</strong></td><td>Présenter les résultats et permettre le contrôle</td><td>App mobile, dashboard web</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Un objet connecté suit le cycle : <strong>Capter → Traiter → Communiquer → Stocker → Afficher/Agir</strong>. Les flux de données circulent entre chaque couche.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Flux de données et protocoles</h2>
+        <table>
+          <thead><tr><th>Protocole</th><th>Portée</th><th>Usage</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Bluetooth / BLE</strong></td><td>~10 m</td><td>Wearables, accessoires proches</td></tr>
+            <tr><td><strong>Wi-Fi</strong></td><td>~50 m</td><td>Domotique, caméras</td></tr>
+            <tr><td><strong>LoRa / Sigfox</strong></td><td>~15 km</td><td>Capteurs agricoles, villes intelligentes</td></tr>
+            <tr><td><strong>MQTT</strong></td><td>Internet</td><td>Protocole léger pour IoT (publication/abonnement)</td></tr>
+            <tr><td><strong>HTTP/HTTPS</strong></td><td>Internet</td><td>Communication web standard</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Étude critique : avantages et limites</h2>
+        <table>
+          <thead><tr><th></th><th>Avantages</th><th>Limites / Risques</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Utilisateur</strong></td><td>Confort, gain de temps, sécurité</td><td>Dépendance, perte d'autonomie</td></tr>
+            <tr><td><strong>Données</strong></td><td>Personnalisation des services</td><td>Collecte excessive, risque de fuite</td></tr>
+            <tr><td><strong>Environnement</strong></td><td>Optimisation des ressources</td><td>Consommation d'énergie, déchets électroniques</td></tr>
+            <tr><td><strong>Société</strong></td><td>Innovation, nouveaux services</td><td>Fracture numérique, surveillance</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Analyse fonctionnelle</strong> : méthode décrivant les services rendus par un objet à son environnement</li>
+            <li><strong>Diagramme pieuvre</strong> : représentation graphique des fonctions de service d'un produit</li>
+            <li><strong>FP (Fonction Principale)</strong> : service principal rendu par l'objet, reliant deux éléments extérieurs</li>
+            <li><strong>FC (Fonction Contrainte)</strong> : exigence imposée par un élément de l'environnement</li>
+            <li><strong>Flux de données</strong> : circulation des informations entre les composants d'un système</li>
+            <li><strong>MQTT</strong> : protocole de communication léger pour les objets connectés</li>
+            <li><strong>Cloud</strong> : serveurs distants pour le stockage et le traitement des données</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 1</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 2 : IA et automatisation | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Intelligence Artificielle et automatisation</h1>
+        <p class="page-description">Teste tes connaissances sur l'IA, l'apprentissage automatique et les enjeux éthiques.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quelle est la première étape de l\'apprentissage automatique ?',
+        options: ['La prédiction', 'L\'entraînement du modèle', 'Les données d\'entraînement', 'L\'installation du logiciel'],
+        correct: 2,
+        explanation: 'L\'apprentissage automatique commence par les données d\'entraînement : l\'IA reçoit des milliers d\'exemples étiquetés pour pouvoir apprendre.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'IA pense comme un être humain.',
+        correct: false,
+        explanation: 'L\'IA ne « pense » pas. Elle détecte des patterns (motifs récurrents) dans de grandes quantités de données et fait des prédictions statistiques, sans conscience ni compréhension.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un feu de circulation qui passe du vert au rouge toutes les 30 secondes est un système automatisé de niveau...',
+        options: ['Niveau 1 (règles fixes)', 'Niveau 2 (capteurs)', 'Niveau 3 (IA)', 'Ce n\'est pas un système automatisé'],
+        correct: 0,
+        explanation: 'C\'est un système de niveau 1 : il suit des règles fixes programmées (timer), sans capteur ni adaptation à l\'environnement.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un biais algorithmique ?',
+        options: ['Un bug dans le code de l\'IA', 'Une discrimination causée par des données d\'entraînement déséquilibrées', 'Un virus informatique', 'Une erreur de calcul'],
+        correct: 1,
+        explanation: 'Un biais algorithmique se produit quand l\'IA reproduit des déséquilibres présents dans ses données d\'entraînement, causant des discriminations.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un aspirateur robot qui cartographie la maison utilise de l\'IA (niveau 3).',
+        correct: true,
+        explanation: 'L\'aspirateur robot cartographe apprend la disposition de la maison et optimise ses parcours, ce qui relève de l\'intelligence artificielle (niveau 3).'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour entraîner une IA de traduction, on utilise...',
+        options: ['Des images de paysages', 'Des millions de textes bilingues', 'Des enregistrements audio uniquement', 'Des formules mathématiques'],
+        correct: 1,
+        explanation: 'Une IA de traduction est entraînée sur des millions de paires de phrases dans deux langues différentes pour apprendre les correspondances.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel problème éthique pose un assistant vocal qui enregistre en permanence ?',
+        options: ['Il consomme trop d\'électricité', 'Il menace la vie privée et les données personnelles', 'Il fait trop de bruit', 'Il est trop cher'],
+        correct: 1,
+        explanation: 'Un assistant vocal qui enregistre en permanence pose un problème de vie privée : les conversations privées sont captées et potentiellement stockées par l\'entreprise.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Plus l\'IA dispose de données d\'entraînement, plus ses prédictions sont fiables.',
+        correct: true,
+        explanation: 'En général, plus l\'IA a d\'exemples d\'entraînement, mieux elle peut identifier des patterns fiables et faire des prédictions précises (à condition que les données soient de qualité).'
+      },
+      {
+        type: 'qcm',
+        question: 'Une porte automatique qui s\'ouvre quand quelqu\'un s\'approche est de quel niveau ?',
+        options: ['Niveau 1 (règles fixes)', 'Niveau 2 (capteurs)', 'Niveau 3 (IA)', 'Pas un système automatisé'],
+        correct: 1,
+        explanation: 'La porte automatique utilise un capteur de mouvement/présence pour détecter les personnes et réagir. C\'est un système de niveau 2 (automatisation avec capteurs).'
+      },
+      {
+        type: 'qcm',
+        question: 'En cas d\'accident causé par une voiture autonome, le problème éthique est...',
+        options: ['Le prix de la réparation', 'La question de la responsabilité (qui est coupable ?)', 'La couleur de la voiture', 'La vitesse maximale'],
+        correct: 1,
+        explanation: 'Quand une voiture autonome cause un accident, on ne sait pas qui est responsable : le constructeur, le programmeur de l\'IA, ou le passager ? C\'est un problème juridique et éthique majeur.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

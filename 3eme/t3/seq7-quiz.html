@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 7 : Projet Smart Object | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — Projet Smart Object</h1>
+        <p class="page-description">Teste tes connaissances sur le cahier des charges, la conception et la démarche de projet.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quel document décrit les fonctions et contraintes que le projet doit respecter ?',
+        options: ['Le diagramme de Gantt', 'Le cahier des charges', 'Le schéma de câblage', 'Le rapport de test'],
+        correct: 1,
+        explanation: 'Le cahier des charges fonctionnel est le document de référence qui décrit les fonctions de service (FS), les contraintes, les critères d\'appréciation et les niveaux à atteindre.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une fonction de service commence toujours par un verbe d\'action à l\'infinitif.',
+        correct: true,
+        explanation: 'Les fonctions de service sont formulées avec un verbe à l\'infinitif + complément. Exemple : "Mesurer la température ambiante", "Alerter l\'utilisateur en cas de dépassement".'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur permet de mesurer la température ET l\'humidité ?',
+        options: ['Un capteur ultrason', 'Un capteur infrarouge', 'Un capteur DHT22', 'Un capteur de luminosité'],
+        correct: 2,
+        explanation: 'Le capteur DHT22 (ou DHT11) mesure à la fois la température et l\'humidité relative de l\'air. C\'est un capteur très utilisé dans les projets Arduino.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la démarche de projet, que fait-on APRÈS la conception ?',
+        options: ['On identifie le besoin', 'On rédige le cahier des charges', 'On réalise le prototype', 'On présente le projet'],
+        correct: 2,
+        explanation: 'L\'ordre est : besoin → cahier des charges → conception → réalisation du prototype → tests → présentation. Après la conception vient donc la réalisation.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le budget est une contrainte du cahier des charges.',
+        correct: true,
+        explanation: 'Le budget (ex : ≤ 15€) est une contrainte importante du cahier des charges. Les contraintes incluent aussi les dimensions, l\'alimentation, le poids et le développement durable.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un schéma de câblage ?',
+        options: ['Un dessin artistique du projet', 'Un plan montrant comment connecter les composants électroniques', 'Un programme informatique', 'Un planning des tâches'],
+        correct: 1,
+        explanation: 'Le schéma de câblage montre comment les composants (capteurs, actionneurs, Arduino) sont connectés entre eux, avec les fils, les pins utilisées et l\'alimentation.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre un capteur et un actionneur ?',
+        options: ['Il n\'y a aucune différence', 'Le capteur mesure une grandeur physique, l\'actionneur agit sur l\'environnement', 'Le capteur est numérique, l\'actionneur est analogique', 'Le capteur coûte plus cher'],
+        correct: 1,
+        explanation: 'Le capteur ACQUIERT de l\'information (température, distance, lumière...) tandis que l\'actionneur AGIT sur l\'environnement (moteur, LED, buzzer, pompe...).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'organigramme est un outil qui permet de représenter graphiquement un algorithme.',
+        correct: true,
+        explanation: 'L\'organigramme (ou logigramme) utilise des symboles normalisés (ovale, rectangle, losange, parallélogramme) pour représenter visuellement les étapes d\'un algorithme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi inclure une contrainte de développement durable dans le cahier des charges ?',
+        options: ['Pour augmenter le prix du projet', 'Pour limiter l\'impact environnemental et social du projet', 'Pour compliquer le projet', 'Parce que c\'est obligatoire uniquement en 3ème'],
+        correct: 1,
+        explanation: 'Intégrer le développement durable dans la conception permet de réduire l\'impact environnemental (choix des matériaux, consommation d\'énergie, durabilité, recyclabilité).'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de sujets de projet sont proposés pour le Smart Object ?',
+        options: ['3 sujets', '4 sujets', '6 sujets (dont 1 libre)', '10 sujets'],
+        correct: 2,
+        explanation: 'Il y a 6 sujets proposés : station météo, arrosage intelligent, alarme sécurité, robot suiveur, compteur de personnes, et un sujet libre à valider avec le professeur.'
+      }
+    ];
+    new QuizEngine('quiz-container', questions);
+  </script>
+</body>
+</html>

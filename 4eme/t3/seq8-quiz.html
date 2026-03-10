@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 8 : IA et systèmes automatisés | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — IA et systèmes automatisés</h1>
+        <p class="page-description">Teste tes connaissances sur l'IA intégrée aux systèmes automatisés.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Pour entraîner un modèle de reconnaissance d\'images, il faut...',
+        options: ['Une seule photo par catégorie', 'Des dizaines/centaines de photos variées par catégorie', 'Un robot physique', 'Un mot de passe administrateur'],
+        correct: 1,
+        explanation: 'Un modèle d\'IA a besoin de nombreuses photos variées (angles, éclairages, arrière-plans) pour apprendre à reconnaître correctement les objets.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Teachable Machine permet de créer un modèle d\'IA sans écrire de code.',
+        correct: true,
+        explanation: 'Teachable Machine (Google) est un outil en ligne qui permet de créer des modèles d\'IA (image, son, pose) de manière visuelle, sans programmation.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un robot trieur avec IA, la caméra assure la fonction...',
+        options: ['Traiter', 'Communiquer', 'Acquérir', 'Alimenter'],
+        correct: 2,
+        explanation: 'La caméra ACQUIERT les informations visuelles (images des déchets) qui seront ensuite analysées par l\'IA.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si un modèle d\'IA est entraîné uniquement avec des photos d\'objets blancs, il aura...',
+        options: ['Un meilleur rendement', 'Un biais de données (ne reconnaîtra pas les objets colorés)', 'Plus de puissance', 'Aucun problème'],
+        correct: 1,
+        explanation: 'C\'est un biais de données : le modèle n\'a appris que des objets blancs et ne pourra pas généraliser aux objets d\'autres couleurs.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'IA dans un système automatisé remplace le traitement par des règles fixes.',
+        correct: true,
+        explanation: 'Au lieu de règles fixes (SI métallique ALORS métal), l\'IA apprend à reconnaître les objets à partir d\'exemples, ce qui permet de gérer des cas variés et imprévus.'
+      },
+      {
+        type: 'qcm',
+        question: 'Comment améliorer un modèle d\'IA qui fait trop d\'erreurs ?',
+        options: ['Supprimer des photos', 'Ajouter plus de données variées et de meilleure qualité', 'Réduire le nombre de catégories à 1', 'Changer la couleur de l\'écran'],
+        correct: 1,
+        explanation: 'Pour améliorer un modèle : ajouter plus d\'exemples, varier les conditions (éclairage, angle, taille), et s\'assurer que chaque catégorie est bien représentée.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le robot trieur, le bras robotique assure la fonction...',
+        options: ['Acquérir', 'Traiter', 'Communiquer/Agir', 'Alimenter'],
+        correct: 2,
+        explanation: 'Le bras robotique AGIT sur l\'environnement en déplaçant le déchet vers le bon bac. C\'est la fonction Communiquer/Agir de la chaîne d\'information.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'IA est infaillible et ne commet jamais d\'erreurs.',
+        correct: false,
+        explanation: 'L\'IA n\'est pas infaillible. Elle peut se tromper, surtout si ses données d\'entraînement sont insuffisantes, biaisées ou de mauvaise qualité.'
+      },
+      {
+        type: 'qcm',
+        question: 'L\'IA est utilisée en agriculture pour...',
+        options: ['Remplacer les agriculteurs', 'Détecter les maladies des plantes et optimiser l\'arrosage', 'Rendre la terre plus fertile', 'Créer de nouvelles espèces de plantes'],
+        correct: 1,
+        explanation: 'L\'IA en agriculture permet de détecter précocement les maladies (analyse d\'images), optimiser l\'arrosage (capteurs), et gérer les récoltes (drones).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la principale différence entre un système automatisé classique et un système avec IA ?',
+        options: ['Le système IA est plus cher', 'Le système IA peut apprendre et s\'adapter', 'Le système classique est plus moderne', 'Il n\'y a aucune différence'],
+        correct: 1,
+        explanation: 'Un système classique suit des règles fixes programmées. Un système avec IA peut APPRENDRE à partir de données et S\'ADAPTER à de nouvelles situations.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

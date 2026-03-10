@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Structure interne · Structuration | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Structuration"}]'
+    data-print-title="5ème — Séquence 4 : Structure interne des objets techniques"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2</span>
+        <h1>Séquence 4 — Structure interne des objets techniques</h1>
+        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+      <div class="content-card">
+        <table><tbody>
+          <tr><td><strong>Niveau</strong></td><td>5ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
+          <tr><td><strong>Séquence</strong></td><td>4 — Structure interne</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Identifier les composants d'un système</span> <span class="competence-badge">Décrire le fonctionnement d'un objet</span></td></tr>
+        </tbody></table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Les familles de matériaux</h2>
+        <p>Tout objet technique est fabriqué à partir de <strong>matériaux</strong> choisis selon leurs propriétés.</p>
+        <table>
+          <thead><tr><th>Famille</th><th>Exemples</th><th>Propriétés principales</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Métaux</strong></td><td>Acier, aluminium, cuivre</td><td>Résistants, conducteurs, recyclables</td></tr>
+            <tr><td><strong>Plastiques / Organiques</strong></td><td>PLA, ABS, PET, bois</td><td>Légers, isolants, moulables</td></tr>
+            <tr><td><strong>Céramiques</strong></td><td>Verre, porcelaine, béton</td><td>Durs, résistants à la chaleur, fragiles</td></tr>
+            <tr><td><strong>Composites</strong></td><td>Fibre de carbone, fibre de verre</td><td>Très résistants et légers (combinent 2 matériaux)</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le choix d'un matériau dépend de ses <strong>propriétés</strong> (masse, résistance, conductivité) et de l'<strong>usage prévu</strong> (légèreté pour un vélo, isolation pour un boîtier).
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; La chaîne d'énergie</h2>
+        <p>Pour fonctionner, tout objet technique a besoin d'<strong>énergie</strong>. La chaîne d'énergie décrit le parcours de l'énergie dans l'objet :</p>
+        <table>
+          <thead><tr><th>Fonction</th><th>Rôle</th><th>Exemple (trottinette électrique)</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Alimenter</strong></td><td>Fournir l'énergie</td><td>Batterie lithium</td></tr>
+            <tr><td><strong>Distribuer</strong></td><td>Réguler l'énergie</td><td>Contrôleur électronique</td></tr>
+            <tr><td><strong>Convertir</strong></td><td>Transformer l'énergie</td><td>Moteur (électrique → mécanique)</td></tr>
+            <tr><td><strong>Transmettre</strong></td><td>Amener l'énergie à l'action</td><td>Courroie + roue</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          <strong>Alimenter → Distribuer → Convertir → Transmettre</strong> : les 4 fonctions de la chaîne d'énergie, toujours dans cet ordre.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; La chaîne d'information</h2>
+        <p>La chaîne d'information décrit comment un objet technique <strong>perçoit</strong> son environnement et <strong>décide</strong> quoi faire :</p>
+        <table>
+          <thead><tr><th>Fonction</th><th>Rôle</th><th>Composant type</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Acquérir</strong></td><td>Capter une grandeur physique</td><td>Capteurs (température, distance, lumière)</td></tr>
+            <tr><td><strong>Traiter</strong></td><td>Analyser et décider</td><td>Microcontrôleur (Arduino, micro:bit)</td></tr>
+            <tr><td><strong>Communiquer</strong></td><td>Afficher ou transmettre le résultat</td><td>Écran LCD, LED, buzzer, Wi-Fi</td></tr>
+          </tbody>
+        </table>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          <strong>Acquérir → Traiter → Communiquer</strong> : la chaîne d'information pilote la chaîne d'énergie. Le <strong>capteur</strong> détecte, le <strong>microcontrôleur</strong> décide, l'<strong>actionneur</strong> agit.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Représentations techniques</h2>
+        <ul>
+          <li><strong>Nomenclature</strong> : tableau listant tous les composants d'un objet (repère, nom, quantité, matériau)</li>
+          <li><strong>Vue éclatée</strong> : dessin montrant les pièces séparées mais dans l'ordre d'assemblage</li>
+          <li><strong>Vue en coupe</strong> : dessin montrant l'intérieur d'un objet (comme si on le coupait)</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>Matériau</strong> : substance dont est fait un objet (métal, plastique, céramique, composite)</li>
+            <li><strong>Chaîne d'énergie</strong> : parcours de l'énergie dans un objet (alimenter → distribuer → convertir → transmettre)</li>
+            <li><strong>Chaîne d'information</strong> : parcours de l'information (acquérir → traiter → communiquer)</li>
+            <li><strong>Capteur</strong> : composant qui mesure une grandeur physique (température, distance, lumière)</li>
+            <li><strong>Actionneur</strong> : composant qui agit sur l'environnement (moteur, LED, buzzer)</li>
+            <li><strong>Nomenclature</strong> : tableau qui liste tous les composants d'un objet technique</li>
+          </ul>
+        </div>
+      </div>
+      <div class="content-card no-print">
+        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

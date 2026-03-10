@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 3 : Cycle de vie | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — Cycle de vie et impact environnemental</h1>
+        <p class="page-description">Teste tes connaissances sur le cycle de vie des objets, l'impact environnemental et le développement durable.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Combien d\'étapes comporte le cycle de vie d\'un objet technique ?',
+        options: ['3 étapes', '4 étapes', '6 étapes (conception, extraction, fabrication, transport, utilisation, fin de vie)', '2 étapes'],
+        correct: 2,
+        explanation: 'Le cycle de vie comprend 6 étapes : conception, extraction des matières premières, fabrication, transport/distribution, utilisation, et fin de vie (recyclage ou déchet).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le cycle de vie d\'un objet commence au moment de son achat en magasin.',
+        correct: false,
+        explanation: 'Non ! Le cycle de vie commence bien avant, dès la conception et l\'extraction des matières premières. L\'achat correspond à l\'étape de distribution.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de litres d\'eau faut-il pour fabriquer un t-shirt en coton ?',
+        options: ['27 litres', '270 litres', '2 700 litres', '27 000 litres'],
+        correct: 2,
+        explanation: 'Il faut environ 2 700 litres d\'eau pour produire un seul t-shirt en coton, principalement pour la culture du coton.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce que l\'éco-conception ?',
+        options: ['Fabriquer des objets moins chers', 'Concevoir des objets en limitant leur impact sur l\'environnement', 'Peindre les objets en vert', 'Utiliser uniquement du plastique'],
+        correct: 1,
+        explanation: 'L\'éco-conception consiste à intégrer la protection de l\'environnement dès la conception d\'un objet, en réduisant son impact à chaque étape de son cycle de vie.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Recycler un objet est toujours mieux que le réparer.',
+        correct: false,
+        explanation: 'Non ! Réparer un objet est généralement meilleur que le recycler car cela consomme moins d\'énergie et de ressources. Le recyclage reste une bonne option quand la réparation n\'est plus possible.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que deviennent la majorité des vêtements en fin de vie ?',
+        options: ['Ils sont tous recyclés', 'Ils sont donnés à des associations', 'Environ 73 % finissent en décharge ou incinérés', 'Ils sont réutilisés comme chiffons'],
+        correct: 2,
+        explanation: 'Malheureusement, environ 73 % des vêtements produits dans le monde finissent en décharge ou sont incinérés. Seule une petite partie est recyclée ou donnée.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'Intelligence Artificielle peut aider à réduire l\'impact environnemental des objets techniques.',
+        correct: true,
+        explanation: 'Oui ! L\'IA peut optimiser les transports (trajets plus courts), améliorer le tri des déchets, ou aider à l\'agriculture de précision. Cependant, l\'IA elle-même consomme de l\'énergie.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le principal impact environnemental du transport des marchandises par cargo ?',
+        options: ['La pollution sonore', 'Les émissions de CO2 et la pollution de l\'air', 'La destruction des forêts', 'La consommation d\'eau'],
+        correct: 1,
+        explanation: 'Le transport par cargo maritime et aérien émet d\'importantes quantités de CO2 et de polluants atmosphériques, contribuant au réchauffement climatique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le développement durable repose sur 3 piliers. Lesquels ?',
+        options: ['Économique, social, environnemental', 'Rapide, efficace, pas cher', 'Conception, fabrication, recyclage', 'Eau, air, terre'],
+        correct: 0,
+        explanation: 'Le développement durable repose sur 3 piliers : économique (viable), social (équitable) et environnemental (vivable). Il vise à répondre aux besoins actuels sans compromettre ceux des générations futures.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un smartphone contient des métaux rares qui sont difficiles à recycler.',
+        correct: true,
+        explanation: 'Un smartphone contient plus de 50 métaux différents, dont des terres rares et des métaux précieux. Beaucoup sont difficiles à recycler, ce qui rend important d\'allonger la durée de vie des appareils.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

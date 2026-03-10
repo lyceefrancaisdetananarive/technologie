@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 2 : IA embarquée | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — IA embarquée — Études de cas</h1>
+        <p class="page-description">Teste tes connaissances sur l'IA embarquée et les systèmes autonomes.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'L\'IA embarquée traite les données...',
+        options: ['Sur un serveur distant', 'Directement dans l\'objet', 'Sur un smartphone', 'Dans le cloud uniquement'],
+        correct: 1,
+        explanation: 'L\'IA embarquée (edge AI) effectue le traitement directement sur la puce de l\'objet, sans envoyer les données à un serveur distant.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le modèle PDA signifie...',
+        options: ['Programmer, Développer, Analyser', 'Percevoir, Décider, Agir', 'Protéger, Détecter, Alerter', 'Planifier, Distribuer, Activer'],
+        correct: 1,
+        explanation: 'Le modèle PDA décrit le fonctionnement d\'un système autonome : Percevoir (capteurs), Décider (algorithme IA), Agir (actionneurs).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La reconnaissance faciale du smartphone envoie les données au cloud.',
+        correct: false,
+        explanation: 'La reconnaissance faciale (Face ID / empreinte) est traitée localement sur la puce du smartphone (IA embarquée) pour des raisons de sécurité et de vie privée.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de niveaux d\'autonomie la classification SAE définit-elle ?',
+        options: ['3 niveaux', '5 niveaux', '6 niveaux (0 à 5)', '10 niveaux'],
+        correct: 2,
+        explanation: 'La classification SAE définit 6 niveaux d\'autonomie, du niveau 0 (aucune aide) au niveau 5 (automatisation complète).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur permet au robot aspirateur de cartographier une pièce ?',
+        options: ['Le bumper', 'Le LIDAR', 'Le capteur de vide', 'L\'odomètre'],
+        correct: 1,
+        explanation: 'Le LIDAR (Light Detection And Ranging) est un laser rotatif qui mesure les distances pour créer une carte précise de la pièce.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'IA cloud est plus rapide que l\'IA embarquée pour prendre des décisions.',
+        correct: false,
+        explanation: 'L\'IA embarquée est plus rapide car elle ne dépend pas de la connexion internet. La latence réseau ralentit les réponses de l\'IA cloud.'
+      },
+      {
+        type: 'qcm',
+        question: 'L\'algorithme SLAM permet au robot aspirateur de...',
+        options: ['Aspirer plus fort', 'Cartographier et se localiser simultanément', 'Se connecter au Wi-Fi', 'Recharger sa batterie'],
+        correct: 1,
+        explanation: 'SLAM (Simultaneous Localization And Mapping) permet au robot de construire une carte de son environnement tout en se localisant dedans.'
+      },
+      {
+        type: 'qcm',
+        question: 'L\'assistant vocal Alexa utilise principalement...',
+        options: ['L\'IA embarquée', 'L\'IA cloud', 'Aucune IA', 'L\'IA mécanique'],
+        correct: 1,
+        explanation: 'Alexa envoie l\'enregistrement vocal aux serveurs Amazon dans le cloud pour l\'analyse et la compréhension du langage naturel.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un robot aspirateur qui cartographie ta maison peut poser des problèmes de vie privée.',
+        correct: true,
+        explanation: 'La carte de ta maison (disposition des pièces, taille du logement) est une donnée personnelle qui peut être exploitée si elle est envoyée au cloud.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le « problème du tramway » appliqué à l\'IA soulève la question de...',
+        options: ['La vitesse de calcul', 'La responsabilité et de l\'éthique des choix programmés', 'Du coût de fabrication', 'De la consommation d\'énergie'],
+        correct: 1,
+        explanation: 'Le dilemme du tramway pose la question éthique : qui décide des choix de vie ou de mort que l\'IA doit faire ? Le constructeur, le législateur, l\'utilisateur ?'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

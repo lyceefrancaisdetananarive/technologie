@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 6 : Réparabilité et diagnostic | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
+        <h1>Quiz — Réparabilité et diagnostic</h1>
+        <p class="page-description">Teste tes connaissances sur le diagnostic, la réparabilité et l'obsolescence.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quelle est la première étape de la démarche de diagnostic ?',
+        options: ['Réparer immédiatement', 'Constater le symptôme', 'Démonter l\'objet', 'Acheter un nouvel objet'],
+        correct: 1,
+        explanation: 'La première étape est de CONSTATER : décrire précisément ce qui ne fonctionne pas (le symptôme) avant de chercher les causes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien d\'étapes comporte la démarche de diagnostic ?',
+        options: ['3 étapes', '4 étapes', '5 étapes', '7 étapes'],
+        correct: 2,
+        explanation: 'La démarche de diagnostic comprend 5 étapes : constater, émettre des hypothèses, tester, identifier la cause, réparer.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'obsolescence programmée signifie que l\'objet est conçu pour tomber en panne volontairement.',
+        correct: true,
+        explanation: 'L\'obsolescence programmée est une stratégie où le fabricant conçoit délibérément le produit pour qu\'il tombe en panne ou devienne inutilisable après un certain temps.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un smartphone qui ne reçoit plus de mises à jour de sécurité après 3 ans est victime de...',
+        options: ['Obsolescence programmée', 'Obsolescence logicielle', 'Obsolescence esthétique', 'Ce n\'est pas de l\'obsolescence'],
+        correct: 1,
+        explanation: 'C\'est de l\'obsolescence logicielle : le fabricant arrête les mises à jour, rendant l\'appareil vulnérable ou incompatible avec les nouvelles applications.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si une lampe ne s\'allume pas, quelle est la première hypothèse à tester ?',
+        options: ['L\'ampoule est grillée', 'Le câble est coupé', 'L\'interrupteur est cassé', 'Toutes ces hypothèses sont valables'],
+        correct: 3,
+        explanation: 'Les 3 hypothèses sont valables. On commence par tester la plus simple (vérifier l\'ampoule et la prise) avant de passer aux causes plus complexes.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Il est toujours plus écologique de remplacer un objet que de le réparer.',
+        correct: false,
+        explanation: 'C\'est le contraire ! Réparer est presque toujours plus écologique car cela évite l\'extraction de nouvelles matières premières, la fabrication et le transport d\'un nouvel objet.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans une enceinte, le haut-parleur assure quelle fonction de la chaîne d\'énergie ?',
+        options: ['Alimenter', 'Distribuer', 'Convertir', 'Transmettre'],
+        correct: 2,
+        explanation: 'Le haut-parleur CONVERTIT l\'énergie électrique en énergie sonore (mécanique/acoustique).'
+      },
+      {
+        type: 'qcm',
+        question: 'Quand faut-il envisager de remplacer plutôt que de réparer ?',
+        options: ['Quand la réparation coûte plus cher que le remplacement', 'Quand on s\'ennuie de l\'ancien', 'Quand une nouvelle couleur sort', 'On ne devrait jamais remplacer'],
+        correct: 0,
+        explanation: 'Le remplacement se justifie quand la réparation coûte plus cher, quand les pièces ne sont plus disponibles, ou quand l\'objet représente un danger. Le coût environnemental doit aussi être considéré.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Vouloir changer de téléphone car le design est démodé est un exemple d\'obsolescence esthétique.',
+        correct: true,
+        explanation: 'L\'obsolescence esthétique (ou psychologique) pousse à remplacer un objet fonctionnel simplement parce qu\'il n\'est plus à la mode ou qu\'un nouveau design est sorti.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour diagnostiquer une panne sur un mBot, on teste...',
+        options: ['Uniquement les moteurs', 'Chaque élément de la chaîne d\'information et d\'énergie', 'Seulement le Bluetooth', 'Rien, on le remplace'],
+        correct: 1,
+        explanation: 'On teste méthodiquement chaque élément : capteurs (acquérir), carte Arduino (traiter), actionneurs (communiquer), alimentation (batterie), connexions (câbles).'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

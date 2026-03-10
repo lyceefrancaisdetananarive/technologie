@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation T2 | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"Trimestre 2"},{"label":"Évaluation"}]'
+    data-print-title="3ème — Évaluation Trimestre 2"
+    data-print-subtitle="Séquences 4 à 6 · Technologie LFT · 2025-2026">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Évaluation T2</span>
+        <h1>Évaluation — Trimestre 2</h1>
+        <p class="page-description">Séquences 4 à 6 · Durée : 1h · /20 points</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <!-- Exercice 1 -->
+      <div class="content-card">
+        <h2>Exercice 1 — Décomposition fonctionnelle (7 points)</h2>
+
+        <p>On étudie un <strong>système d'alarme domestique</strong> qui surveille les ouvertures (portes/fenêtres) et détecte les mouvements.</p>
+
+        <p><strong>1.1)</strong> Décompose le système d'alarme en 2 sous-systèmes fonctionnels. Pour chaque sous-système, identifie le capteur, l'actionneur et la fonction (3 pts) :</p>
+        <table>
+          <thead><tr><th>Sous-système</th><th>Capteur</th><th>Actionneur</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>1.</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>2.</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>1.2)</strong> Dessine l'organigramme du système d'alarme avec les bons symboles (4 pts) :</p>
+        <div class="info-box info-box-orange" style="font-size: 0.85rem;">
+          Le système lit les capteurs en boucle. SI une porte est ouverte OU un mouvement est détecté, ALORS la sirène sonne et un SMS est envoyé. SINON, la LED verte reste allumée.
+        </div>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Exercice 2 -->
+      <div class="content-card">
+        <h2>Exercice 2 — Programmation avancée (7 points)</h2>
+
+        <p><strong>2.1)</strong> Complète le tableau de vérité (2 pts) :</p>
+        <table>
+          <thead><tr><th>Porte ouverte</th><th>Mouvement détecté</th><th>Porte OU Mouvement</th><th>Porte ET Mouvement</th></tr></thead>
+          <tbody>
+            <tr><td>VRAI</td><td>VRAI</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>VRAI</td><td>FAUX</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FAUX</td><td>VRAI</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FAUX</td><td>FAUX</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>2.2)</strong> Écris le pseudo-code du système d'alarme avec une variable <code>tentatives</code> qui compte le nombre d'alertes. Après 3 alertes, le système appelle la police (3 pts) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 120px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <p><strong>2.3)</strong> Quel opérateur logique utilise-t-on dans l'alarme ? Pourquoi « OU » plutôt que « ET » ? (2 pts)</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Exercice 3 -->
+      <div class="content-card">
+        <h2>Exercice 3 — Tests et débogage (6 points)</h2>
+
+        <p>Le programme de l'alarme a été testé. Voici les résultats :</p>
+        <table>
+          <thead><tr><th>Test</th><th>Scénario</th><th>Attendu</th><th>Observé</th></tr></thead>
+          <tbody>
+            <tr><td>T1</td><td>Porte ouverte</td><td>Sirène ON</td><td>Sirène ON ✓</td></tr>
+            <tr><td>T2</td><td>Mouvement détecté</td><td>Sirène ON</td><td>Rien ne se passe ✗</td></tr>
+            <tr><td>T3</td><td>Aucune intrusion</td><td>LED verte</td><td>Sirène ON en continu ✗</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>3.1)</strong> Pour le test T2, quel type d'erreur est le plus probable ? Propose une correction (2 pts) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>3.2)</strong> Pour le test T3, quel type d'erreur est le plus probable ? Propose une correction (2 pts) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>3.3)</strong> Après les corrections, comment vérifier que le système fonctionne ? Décris la méthode (2 pts) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Barème -->
+      <div class="content-card">
+        <h2>Barème par compétences</h2>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice(s)</th><th>Points</th></tr></thead>
+          <tbody>
+            <tr><td>Décomposer en sous-systèmes fonctionnels</td><td>1.1, 1.2</td><td>/7</td></tr>
+            <tr><td>Mettre en œuvre un programme</td><td>2.1, 2.2, 2.3</td><td>/7</td></tr>
+            <tr><td>Modéliser un comportement</td><td>3.1, 3.2, 3.3</td><td>/6</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

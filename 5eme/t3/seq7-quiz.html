@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 7 : Modélisation 3D | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — Modélisation 3D et conception</h1>
+        <p class="page-description">Teste tes connaissances sur le cahier des charges, Tinkercad et la modélisation 3D.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un cahier des charges ?',
+        options: ['Un carnet de notes', 'Un document qui liste les contraintes à respecter pour concevoir un objet', 'Un logiciel de modélisation 3D', 'Un type de matériau'],
+        correct: 1,
+        explanation: 'Le cahier des charges est un document essentiel qui définit toutes les contraintes (techniques, esthétiques, économiques, environnementales) que l\'objet doit respecter.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Tinkercad est un logiciel payant qui nécessite une installation sur l\'ordinateur.',
+        correct: false,
+        explanation: 'Tinkercad est un logiciel GRATUIT et EN LIGNE (tinkercad.com). Il fonctionne directement dans le navigateur web, sans installation.'
+      },
+      {
+        type: 'qcm',
+        question: 'Comment crée-t-on un trou dans un objet sur Tinkercad ?',
+        options: ['On utilise une gomme', 'On place une forme "trou" et on regroupe', 'On supprime des pixels', 'On utilise un laser virtuel'],
+        correct: 1,
+        explanation: 'Sur Tinkercad, pour percer un trou, on place une forme en mode "trou" (transparente rayée) à l\'intérieur de l\'objet, puis on sélectionne les deux formes et on les regroupe.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel type de contrainte concerne le coût de fabrication d\'un objet ?',
+        options: ['Contrainte technique', 'Contrainte esthétique', 'Contrainte économique', 'Contrainte environnementale'],
+        correct: 2,
+        explanation: 'La contrainte économique concerne tout ce qui est lié au budget : coût des matériaux, coût de fabrication, prix de vente.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un modèle 3D permet de vérifier les dimensions d\'un objet avant sa fabrication.',
+        correct: true,
+        explanation: 'C\'est l\'un des grands avantages de la modélisation 3D : on peut mesurer, ajuster et corriger toutes les dimensions sur l\'écran avant de passer à la fabrication réelle.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle forme de base (primitive) n\'existe PAS dans Tinkercad ?',
+        options: ['Cube', 'Cylindre', 'Pyramide à 7 faces', 'Sphère'],
+        correct: 2,
+        explanation: 'Tinkercad propose des formes primitives classiques : cube, cylindre, sphère, cône, tore, etc. Les formes complexes se créent en combinant ces formes de base.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi fait-on un croquis sur papier AVANT de modéliser en 3D ?',
+        options: ['Parce que le professeur l\'oblige', 'Pour avoir une vision globale de l\'objet et planifier les formes à utiliser', 'Pour décorer le cahier', 'Parce que Tinkercad ne fonctionne pas toujours'],
+        correct: 1,
+        explanation: 'Le croquis permet de réfléchir à la forme générale, aux proportions et aux dimensions avant de commencer la modélisation. C\'est une étape de conception essentielle.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La contrainte environnementale concerne uniquement la couleur de l\'objet.',
+        correct: false,
+        explanation: 'La contrainte environnementale concerne l\'impact sur l\'environnement : matériaux recyclables, éco-conception, réduction des déchets, fabrication locale, etc. La couleur relève plutôt de la contrainte esthétique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie "regrouper" deux formes dans Tinkercad ?',
+        options: ['Les mettre côte à côte', 'Les fusionner en un seul objet', 'Les supprimer', 'Changer leur couleur'],
+        correct: 1,
+        explanation: 'Regrouper (ou fusionner) dans Tinkercad combine plusieurs formes en un seul objet solide. Si une forme est en mode "trou", elle creusera les autres formes du groupe.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le bon ordre du processus de conception ?',
+        options: [
+          'Fabrication → Idée → Modèle 3D → Cahier des charges',
+          'Idée → Cahier des charges → Modèle 3D → Fabrication',
+          'Modèle 3D → Idée → Fabrication → Cahier des charges',
+          'Cahier des charges → Fabrication → Idée → Modèle 3D'
+        ],
+        correct: 1,
+        explanation: 'Le processus de conception suit cet ordre logique : on a d\'abord une IDÉE, on rédige le CAHIER DES CHARGES, on crée le MODÈLE 3D, puis on passe à la FABRICATION.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Programmation avancée (Arduino / mBlock) | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Fiche activité"}]'
+    data-print-title="3ème — Séquence 5 : Fiche Activité Élève"
+    data-print-subtitle="Programmation avancée · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 2</span>
+        <h1>Séquence 5 — Programmation avancée (Arduino / mBlock)</h1>
+        <p class="page-description">
+          Comment programmer un système avec plusieurs capteurs, des conditions imbriquées et des variables pour le rendre intelligent ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>4 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Analyse fonctionnelle et technique</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Mettre en œuvre un programme (capteurs/actionneurs)</span>
+                <span class="competence-badge">Modéliser un comportement</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Tu dois programmer un robot mBot pour qu'il suive une ligne noire ET évite les obstacles en même temps. Comment gérer deux capteurs simultanément avec des conditions imbriquées ?</strong>
+        </div>
+        <p><strong>Problématique :</strong> Comment programmer un système capable de gérer plusieurs entrées et de prendre des décisions complexes ?</p>
+      </div>
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Variables et opérateurs logiques</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Stocker et comparer des valeurs</h4>
+            <p>Utilise des variables pour mémoriser les valeurs des capteurs et des opérateurs pour les comparer.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Rappels et nouveautés :</strong>
+          <ul>
+            <li><strong>Variable</strong> : espace mémoire nommé qui stocke une valeur modifiable</li>
+            <li><strong>Opérateurs de comparaison</strong> : <code>&gt;</code>, <code>&lt;</code>, <code>=</code>, <code>≥</code>, <code>≤</code>, <code>≠</code></li>
+            <li><strong>Opérateurs logiques</strong> : <code>ET</code> (les deux vraies), <code>OU</code> (au moins une vraie), <code>NON</code> (inverse)</li>
+            <li><strong>Conditions imbriquées</strong> : SI...ALORS...SINON SI...SINON</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Complète le tableau de vérité :</p>
+        <table>
+          <thead><tr><th>Condition A</th><th>Condition B</th><th>A ET B</th><th>A OU B</th></tr></thead>
+          <tbody>
+            <tr><td>VRAI</td><td>VRAI</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>VRAI</td><td>FAUX</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FAUX</td><td>VRAI</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>FAUX</td><td>FAUX</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Écris le pseudo-code d'un programme qui utilise 2 capteurs :</p>
+        <div class="info-box info-box-orange" style="font-size: 0.85rem;">
+          Le mBot doit avancer si la ligne est détectée ET qu'il n'y a pas d'obstacle. S'il y a un obstacle, il tourne. Si pas de ligne, il s'arrête.
+        </div>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 120px; background: var(--gray-50); font-family: monospace; font-size: 0.85rem;"></div>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Défis de programmation avancée</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Programmer sur mBlock / Arduino</h4>
+            <p>Réalise les défis suivants avec le mBot et mBlock.</p>
+          </div>
+        </div>
+
+        <h3>Défi A — Suiveur de ligne intelligent (conditions imbriquées)</h3>
+        <p>Le mBot suit la ligne noire. S'il détecte un obstacle à moins de 15 cm, il s'arrête, attend 2 secondes, puis contourne.</p>
+        <p><strong>Pseudo-code :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <h3>Défi B — Compteur de tours avec variable</h3>
+        <p>Le mBot fait 3 tours d'un circuit. Il affiche le numéro du tour sur les LED et s'arrête après le 3ème tour. Utilise une variable <code>tours</code>.</p>
+        <p><strong>Pseudo-code :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <h3>Défi C — Système d'alarme multicapteurs</h3>
+        <p>Le mBot surveille une zone. SI mouvement détecté (ultrason < 30 cm) OU ligne franchie, ALORS alarme (buzzer + LED rouge). Sinon LED verte.</p>
+        <p><strong>Pseudo-code :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <h3>Défi D — Communication Bluetooth (bonus)</h3>
+        <p>Contrôle le mBot depuis un smartphone via Bluetooth. Les commandes : avancer, reculer, tourner, s'arrêter.</p>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Du pseudo-code au programme mBlock</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Traduire en blocs</h4>
+            <p>Traduis tes algorithmes en programmes mBlock fonctionnels.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Pour chaque défi réalisé, note les difficultés rencontrées et comment tu les as résolues :</p>
+        <table>
+          <thead><tr><th>Défi</th><th>Difficulté</th><th>Solution trouvée</th></tr></thead>
+          <tbody>
+            <tr><td>Défi A</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Défi B</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Défi C</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Quelles sont les étapes pour déboguer un programme qui ne fonctionne pas ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>variable, opérateur logique, ET, OU, conditions imbriquées, déboguer, pseudo-code, blocs</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Une ........................ stocke une valeur modifiable. Un ........................ combine plusieurs conditions : ........................ (les deux vraies) ou ........................ (au moins une vraie).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Les ........................ permettent de gérer des cas complexes (SI...SINON SI...SINON). On écrit d'abord en ........................, puis on traduit en ........................ (mBlock).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          ........................ un programme consiste à identifier et corriger les erreurs étape par étape.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

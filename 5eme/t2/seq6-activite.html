@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Initiation à la programmation | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Fiche activité"}]'
+    data-print-title="5ème — Séquence 6 : Fiche Activité Élève"
+    data-print-subtitle="Initiation à la programmation · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 2</span>
+        <h1>Séquence 6 — Initiation à la programmation</h1>
+        <p class="page-description">
+          Comment programmer un objet technique pour qu'il réalise des actions automatiquement ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <!-- Métadonnées -->
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>5ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>4 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Structure, fonctionnement, comportement</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Comprendre et modifier un programme</span>
+                <span class="competence-badge">Identifier un dysfonctionnement</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Logiciel</strong></td>
+              <td colspan="3">mBlock (programmation par blocs) + micro:bit</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Situation déclenchante -->
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Un feu de circulation intelligent</strong><br>
+          Aux intersections, les feux passent du vert au orange puis au rouge de manière automatique. Mais comment « apprend-on » à un objet technique à suivre un programme ? C'est grâce à la <strong>programmation</strong> !
+        </div>
+        <p><strong>Problématique :</strong> Comment programmer un objet technique pour qu'il réalise des actions de manière autonome ?</p>
+      </div>
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Découvrir la programmation par blocs</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Les bases de la programmation</h4>
+            <p>Un programme est une suite d'<strong>instructions</strong> que la machine exécute dans l'ordre. En programmation par blocs, chaque instruction est représentée par un bloc coloré.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Vocabulaire de la programmation :</strong>
+          <ul>
+            <li><strong>Instruction</strong> : un ordre donné à la machine (ex : allumer une LED, attendre 2 secondes)</li>
+            <li><strong>Séquence</strong> : suite d'instructions exécutées dans l'ordre</li>
+            <li><strong>Boucle</strong> : permet de répéter des instructions (ex : répéter 5 fois, répéter indéfiniment)</li>
+            <li><strong>Condition</strong> : permet de faire un choix (ex : SI le bouton est appuyé ALORS allumer la LED)</li>
+            <li><strong>Variable</strong> : une « boîte » qui stocke une valeur (ex : compteur = 0)</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Relie chaque concept à sa définition :</p>
+        <table>
+          <thead><tr><th>Concept</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Séquence</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Boucle</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Condition</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="info-box info-box-orange">
+          <strong>Définitions à relier :</strong><br>
+          A. Permet de répéter des instructions plusieurs fois<br>
+          B. Suite d'instructions exécutées dans l'ordre<br>
+          C. Permet de faire un choix selon une condition
+        </div>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Programmer un feu tricolore avec mBlock</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Simule un feu de circulation</h4>
+            <p>Sur mBlock, programme un feu tricolore qui suit le cycle : Vert (5s) &#x2192; Orange (2s) &#x2192; Rouge (5s) &#x2192; recommence.</p>
+          </div>
+        </div>
+
+        <p><strong>Algorithme du feu tricolore :</strong></p>
+        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.9rem;">
+          <strong>RÉPÉTER indéfiniment</strong><br>
+          &nbsp;&nbsp;Allumer LED VERTE<br>
+          &nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;Éteindre LED VERTE<br>
+          &nbsp;&nbsp;Allumer LED ORANGE<br>
+          &nbsp;&nbsp;Attendre 2 secondes<br>
+          &nbsp;&nbsp;Éteindre LED ORANGE<br>
+          &nbsp;&nbsp;Allumer LED ROUGE<br>
+          &nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;Éteindre LED ROUGE<br>
+          <strong>FIN RÉPÉTER</strong>
+        </div>
+
+        <p><strong>a)</strong> Quel type de structure utilise ce programme ? (Coche la bonne réponse)</p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-sm); margin: var(--space-md) 0;">
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Séquence seulement</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Séquence + boucle</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Séquence + condition</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Séquence + boucle + condition</label>
+        </div>
+
+        <p><strong>b)</strong> Combien de temps dure un cycle complet du feu ? Calcule.</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>c)</strong> Modifie le programme pour ajouter un <strong>feu piéton</strong> : quand le feu voiture est rouge, le feu piéton passe au vert.</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 80px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Programmer le micro:bit</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Découvre le micro:bit</h4>
+            <p>Le micro:bit est un petit ordinateur avec des LEDs, des boutons et des capteurs intégrés. Programme-le pour réaliser les défis suivants.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Le micro:bit possède :</strong>
+          <ul>
+            <li>25 LEDs (matrice 5&#xD7;5) pour afficher des images et du texte</li>
+            <li>2 boutons (A et B) pour interagir</li>
+            <li>Un accéléromètre (détecte les mouvements et secousses)</li>
+            <li>Un capteur de température et de lumière</li>
+            <li>Une boussole et un microphone (V2)</li>
+          </ul>
+        </div>
+
+        <h3>Défi 1 — Afficher un message</h3>
+        <p>Programme le micro:bit pour afficher ton prénom quand tu appuies sur le <strong>bouton A</strong>.</p>
+        <p><strong>Algorithme :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 60px; background: var(--gray-50); margin-bottom: var(--space-md); font-family: monospace; font-size: 0.85rem; color: var(--gray-400);">
+          QUAND bouton A appuyé<br>
+          &nbsp;&nbsp;Afficher texte "............"
+        </div>
+
+        <h3>Défi 2 — Compteur de points</h3>
+        <p>Programme un compteur : le <strong>bouton A</strong> ajoute 1 point, le <strong>bouton B</strong> remet à 0. Le score s'affiche sur les LEDs.</p>
+        <p><strong>Écris l'algorithme :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 80px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <h3>Défi 3 — Dé électronique</h3>
+        <p>Quand on <strong>secoue</strong> le micro:bit, un nombre aléatoire entre 1 et 6 s'affiche. Utilise le capteur <strong>accéléromètre</strong>.</p>
+        <p><strong>De quoi as-tu besoin ?</strong></p>
+        <div style="display: flex; flex-direction: column; gap: var(--space-sm); margin: var(--space-md) 0;">
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Un événement (quand le micro:bit est secoué)</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Un nombre aléatoire</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Un affichage sur les LEDs</label>
+          <label style="display:flex; align-items:center; gap: var(--space-sm);">&#x2B1C; Une variable</label>
+        </div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète la synthèse avec les mots suivants : <em>programme, instructions, boucle, condition, capteurs, micro:bit, blocs</em></p>
+        </div>
+
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un ........................ est une suite d'........................ que la machine exécute dans l'ordre.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          On utilise des structures comme la ........................ (pour répéter) et la ........................ (pour faire un choix selon un test).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          La programmation par ........................ permet de créer des programmes en assemblant des pièces visuelles (mBlock).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ est un petit ordinateur programmable avec des LEDs, des boutons et des ........................ intégrés.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

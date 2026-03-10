@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Fiche Professeur | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Fiche professeur"}]'
+    data-print-title="4ème — Séquence 6 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · PROFESSEUR</span>
+        <h1>Séquence 6 — Réparabilité et diagnostic</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30) — inclut évaluation T2</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Identifier des défaillances et proposer des solutions</span>
+              <span class="competence-badge">Analyser l'organisation interne et échanges</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Appliquer une démarche méthodique de diagnostic (5 étapes)</li>
+                <li>Localiser une panne dans la chaîne d'énergie ou d'information</li>
+                <li>Distinguer les types d'obsolescence</li>
+                <li>Argumenter un choix « réparer vs remplacer »</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Objets en panne simulée (enceinte, lampe, mBot déconnecté), multimètre, tournevis</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement séance par séance</h2>
+
+        <h3>Séance 20 (1h30) — Démarche de diagnostic</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S20</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Accroche (15 min)</h4>
+            <p>Montrer l'enceinte en panne. "Comment trouver la panne ?" Laisser les élèves proposer.</p>
+            <h4>Phase 2 — Activité 1 (50 min)</h4>
+            <p>Présenter la démarche de diagnostic. Les élèves l'appliquent à l'enceinte.</p>
+            <h4>Phase 3 — Correction (25 min)</h4>
+            <p>Correction collective. Lien avec la chaîne d'énergie (séq. 4).</p>
+          </div>
+        </div>
+
+        <h3>Séance 21 (1h30) — Atelier diagnostic + obsolescence</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S21</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Activité 2 : atelier (60 min)</h4>
+            <p>4 postes avec pannes simulées. Les binômes tournent (15 min par poste). Postes possibles : lampe (ampoule grillée), mBot (capteur déconnecté), enceinte (câble coupé), ventilateur (moteur bloqué).</p>
+            <h4>Phase 2 — Activité 3 (30 min)</h4>
+            <p>Obsolescence et analyse coût-bénéfice. Discussion en classe.</p>
+          </div>
+        </div>
+
+        <h3>Séance 22 (1h30) — Synthèse + Évaluation T2</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">S22</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Synthèse + révisions (30 min)</h4>
+            <p>Compléter la synthèse. Quiz d'entraînement. Questions-réponses.</p>
+            <h4>Phase 2 — Évaluation T2 (60 min)</h4>
+            <p>Évaluation bilan sur les séquences 4 à 6.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Diagnostic de l'enceinte</h3>
+        <table>
+          <thead><tr><th>Étape</th><th>Réponse</th></tr></thead>
+          <tbody>
+            <tr><td>1. Constater</td><td><strong>L'enceinte s'allume, le Bluetooth se connecte, mais aucun son ne sort.</strong></td></tr>
+            <tr><td>2. Hypothèses</td><td><strong>H1 : volume au minimum. H2 : haut-parleur défaillant. H3 : câble interne déconnecté. H4 : amplificateur en panne.</strong></td></tr>
+            <tr><td>3. Tests</td><td><strong>H1 : monter le volume → pas de son. H2 : brancher un autre HP → son OK (le HP est en panne). H3 : vérifier visuellement les connexions. H4 : tester avec multimètre.</strong></td></tr>
+          </tbody>
+        </table>
+        <p><strong>b)</strong> Le haut-parleur est dans la fonction CONVERTIR de la chaîne d'énergie (il convertit l'énergie électrique en énergie sonore/mécanique).</p>
+
+        <h3>Activité 3 — Réparer ou remplacer</h3>
+        <p><strong>Impact environnemental :</strong> Réparer = peu d'impact (une seule pièce changée). Remplacer = fort impact (extraction, fabrication, transport d'un nouvel appareil + déchet de l'ancien).</p>
+        <p><strong>Choix recommandé :</strong> Réparer — la batterie est disponible, le coût est faible (45€ vs 250€), l'impact environnemental est bien moindre, et la performance reste identique.</p>
+        <p><strong>Types d'obsolescence :</strong></p>
+        <table>
+          <tbody>
+            <tr><td>Smartphone sans mises à jour</td><td><strong>Obsolescence logicielle</strong></td></tr>
+            <tr><td>Imprimante « cartouche vide »</td><td><strong>Obsolescence programmée</strong></td></tr>
+            <tr><td>Design démodé</td><td><strong>Obsolescence esthétique</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+
+        <h3>Cahier de texte — Séance 20</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 6 — Réparabilité et diagnostic. Activité 1 : démarche de diagnostic en 5 étapes appliquée à une enceinte en panne.<br>
+          <strong>Travail :</strong> Identifier un objet en panne chez soi et appliquer les 2 premières étapes du diagnostic.
+        </div>
+
+        <h3>Cahier de texte — Séance 21</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : atelier diagnostic sur systèmes réels. Activité 3 : obsolescence et analyse coût-bénéfice (réparer vs remplacer).<br>
+          <strong>Travail :</strong> RÉVISER les séquences 4 à 6 pour l'évaluation T2.
+        </div>
+
+        <h3>Cahier de texte — Séance 22</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Synthèse et révisions. Évaluation bilan du Trimestre 2 (séquences 4 à 6).
+        </div>
+
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Identifier des défaillances et proposer des solutions</td><td>Activités 1, 2 et 3 (diagnostic, réparation)</td></tr>
+            <tr><td>Analyser l'organisation interne et échanges</td><td>Activité 1 (localisation dans la chaîne d'énergie)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

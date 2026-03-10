@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 8 : Projet de groupe | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 3 · Quiz</span>
+        <h1>Quiz — Projet de groupe et prototypage</h1>
+        <p class="page-description">Teste tes connaissances sur la démarche de projet, le travail collaboratif et l'impression 3D.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quelle est la première étape d\'un projet technique ?',
+        options: ['Fabriquer le prototype', 'Identifier le besoin', 'Choisir les matériaux', 'Présenter le résultat'],
+        correct: 1,
+        explanation: 'Tout projet technique commence par l\'identification du besoin : à quel problème veut-on répondre ?'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un prototype est la version finale d\'un produit, prêt à être vendu.',
+        correct: false,
+        explanation: 'Un prototype est un modèle d\'essai qui permet de tester et valider une solution. Ce n\'est PAS le produit final.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel matériau est le plus utilisé en impression 3D FDM au collège ?',
+        options: ['L\'aluminium', 'Le PLA', 'Le bois', 'Le verre'],
+        correct: 1,
+        explanation: 'Le PLA (acide polylactique) est le matériau le plus courant en impression 3D FDM. Il est biodégradable, facile à imprimer et peu coûteux.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un slicer (trancheur) ?',
+        options: ['Un outil pour couper le plastique', 'Un logiciel qui découpe le modèle 3D en couches', 'Un capteur de distance', 'Une pièce de l\'imprimante 3D'],
+        correct: 1,
+        explanation: 'Le slicer (comme Cura) est un logiciel qui découpe le modèle 3D en fines couches horizontales et génère le fichier G-code que l\'imprimante 3D peut lire.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Dans un travail de groupe, une seule personne doit tout faire pour que ce soit bien fait.',
+        correct: false,
+        explanation: 'Le travail collaboratif implique une répartition équitable des tâches. Chaque membre du groupe a un rôle défini et contribue au projet.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel fichier est envoyé à l\'imprimante 3D ?',
+        options: ['Un fichier .docx', 'Un fichier .STL', 'Un fichier G-code', 'Un fichier .mp3'],
+        correct: 2,
+        explanation: 'L\'imprimante 3D lit un fichier G-code, qui contient les instructions de déplacement et de température. Le fichier STL est d\'abord converti en G-code par le slicer.'
+      },
+      {
+        type: 'qcm',
+        question: 'À quoi sert le taux de remplissage en impression 3D ?',
+        options: ['À choisir la couleur', 'À définir la quantité de matière à l\'intérieur de la pièce', 'À régler la vitesse d\'impression', 'À changer le matériau'],
+        correct: 1,
+        explanation: 'Le taux de remplissage (infill) définit la densité de matière à l\'intérieur de la pièce : 100% = plein, 20% = structure alvéolée légère.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le diagramme de Gantt permet de planifier les tâches d\'un projet dans le temps.',
+        correct: true,
+        explanation: 'Le diagramme de Gantt est un outil de planification qui représente les tâches sous forme de barres horizontales sur un axe de temps. Il aide à organiser le travail d\'équipe.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la dernière étape d\'un projet technique ?',
+        options: ['Concevoir la solution', 'Fabriquer le prototype', 'Présenter et évaluer le résultat', 'Rédiger le cahier des charges'],
+        correct: 2,
+        explanation: 'La dernière étape est la présentation du projet : on montre le prototype, on explique la démarche, on évalue si le cahier des charges est respecté.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre une maquette et un prototype ?',
+        options: ['Il n\'y a aucune différence', 'La maquette est plus grande que le prototype', 'Le prototype est fonctionnel, la maquette représente l\'apparence', 'Le prototype est en carton, la maquette en plastique'],
+        correct: 2,
+        explanation: 'Un prototype est un modèle fonctionnel (il marche !), tandis qu\'une maquette représente principalement l\'apparence et les dimensions, sans forcément fonctionner.'
+      }
+    ];
+    new QuizEngine('quiz-container', questions);
+  </script>
+</body>
+</html>

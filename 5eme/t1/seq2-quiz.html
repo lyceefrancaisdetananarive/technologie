@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 2 : Évolution des objets | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Trimestre 1 · Quiz</span>
+        <h1>Quiz — L'évolution des objets techniques</h1>
+        <p class="page-description">Teste tes connaissances sur l'évolution des objets techniques et les facteurs d'innovation.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quel est le premier téléphone de l\'histoire ?',
+        options: ['Le téléphone à cadran rotatif', 'Le téléphone de Bell (1876)', 'Le smartphone', 'Le téléphone à touches'],
+        correct: 1,
+        explanation: 'Alexander Graham Bell a inventé le premier téléphone en 1876. C\'est le début de la communication à distance par la voix.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel ancêtre du vélo n\'avait pas de pédales ?',
+        options: ['Le grand-bi', 'Le vélo de course', 'La draisienne', 'Le VTT'],
+        correct: 2,
+        explanation: 'La draisienne (1817) n\'avait pas de pédales : on avançait en poussant avec les pieds au sol. Les pédales ont été ajoutées plus tard.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Les objets techniques évoluent uniquement grâce aux progrès scientifiques.',
+        correct: false,
+        explanation: 'Les objets évoluent grâce à plusieurs facteurs : les progrès scientifiques, mais aussi les nouveaux besoins des utilisateurs, les nouveaux matériaux, les réglementations et les modes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel facteur a permis de rendre les téléphones portables ?',
+        options: ['L\'invention de la couleur', 'La miniaturisation des composants électroniques', 'L\'augmentation du prix', 'La découverte de l\'électricité'],
+        correct: 1,
+        explanation: 'La miniaturisation des composants (microprocesseurs, batteries) a permis de fabriquer des téléphones de plus en plus petits et portables.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'une frise chronologique ?',
+        options: ['Un dessin d\'un objet technique', 'Une ligne du temps qui montre l\'évolution', 'Un tableau de comparaison', 'Un graphique de prix'],
+        correct: 1,
+        explanation: 'Une frise chronologique est une représentation graphique qui place des événements dans l\'ordre sur une ligne du temps.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le vélo électrique (VAE) utilise uniquement l\'énergie électrique pour avancer.',
+        correct: false,
+        explanation: 'Le VAE utilise l\'énergie musculaire du cycliste ET l\'énergie électrique d\'une batterie. Le moteur assiste le pédalage, il ne remplace pas totalement l\'effort humain.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi les vélos modernes sont-ils plus légers que les premiers vélos ?',
+        options: ['Parce qu\'ils sont plus petits', 'Grâce à l\'utilisation de nouveaux matériaux (aluminium, carbone)', 'Parce qu\'ils n\'ont plus de roues', 'Parce qu\'ils vont plus vite'],
+        correct: 1,
+        explanation: 'L\'utilisation de matériaux modernes comme l\'aluminium et la fibre de carbone a permis de réduire considérablement le poids des vélos.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La fonction d\'usage du téléphone (communiquer) a complètement changé avec le smartphone.',
+        correct: false,
+        explanation: 'La fonction d\'usage principale reste la communication. Le smartphone a ajouté de nombreuses fonctions supplémentaires (photo, GPS, internet...) mais communiquer reste sa fonction de base.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel outil numérique peut-on utiliser pour créer une frise chronologique ?',
+        options: ['Scratch', 'Canva ou PowerPoint', 'Arduino', 'mBlock'],
+        correct: 1,
+        explanation: 'Canva et PowerPoint sont des outils de présentation visuelle adaptés pour créer des frises chronologiques avec du texte et des images.'
+      },
+      {
+        type: 'qcm',
+        question: 'Parmi ces propositions, laquelle n\'est PAS un facteur d\'évolution des objets techniques ?',
+        options: ['Les progrès scientifiques', 'Les nouveaux matériaux', 'La couleur préférée du fabricant', 'Les nouveaux besoins des utilisateurs'],
+        correct: 2,
+        explanation: 'La couleur préférée d\'un fabricant n\'est pas un facteur d\'évolution technique. Les vrais facteurs sont : les progrès scientifiques, les nouveaux matériaux, les besoins des utilisateurs et les réglementations.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

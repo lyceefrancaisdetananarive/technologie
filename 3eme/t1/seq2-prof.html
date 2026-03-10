@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 2 — Fiche Professeur | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Fiche professeur"}]'
+    data-print-title="3ème — Séquence 2 : Fiche Professeur"
+    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 1 · PROFESSEUR</span>
+        <h1>Séquence 2 — IA embarquée — Études de cas</h1>
+        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq2-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6h)</td></tr>
+            <tr><td><strong>Compétences BO 2024</strong></td><td>
+              <span class="competence-badge">Comprendre le rôle des systèmes programmés / IA</span>
+              <span class="competence-badge">Évaluer l'impact des innovations</span>
+            </td></tr>
+            <tr><td><strong>Objectifs</strong></td><td>
+              <ul>
+                <li>Distinguer IA embarquée, IA cloud et IA hybride</li>
+                <li>Comprendre le modèle PDA (Percevoir, Décider, Agir)</li>
+                <li>Analyser des cas concrets d'IA (voiture autonome, robot aspirateur)</li>
+                <li>Aborder les enjeux éthiques de l'IA autonome</li>
+              </ul>
+            </td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Vidéos (Tesla, iRobot), documents constructeurs, accès internet</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4C5; Déroulement</h2>
+
+        <h3>Séance 5 (1h30) — IA embarquée vs cloud</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S5</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Introduction (20 min)</h4>
+            <p>Rappels séquence 1. Vidéo : « Comment fonctionne l'IA dans un objet ? ». Distinction embarquée / cloud.</p>
+            <h4>Phase 2 — Activité 1 (70 min)</h4>
+            <p>Classification des objets. Tableau comparatif. Discussion collective.</p>
+          </div>
+        </div>
+
+        <h3>Séance 6 (1h30) — Voiture autonome</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S6</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Vidéo Tesla Autopilot (15 min)</h4>
+            <p>Vidéo de démonstration + niveaux SAE au tableau.</p>
+            <h4>Phase 2 — Activité 2 (75 min)</h4>
+            <p>Modèle PDA + dilemme éthique. Débat en classe sur le problème du tramway.</p>
+          </div>
+        </div>
+
+        <h3>Séance 7 (1h30) — Robot aspirateur</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S7</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Démonstration (15 min)</h4>
+            <p>Si disponible : montrer un robot aspirateur. Sinon : vidéo de fonctionnement.</p>
+            <h4>Phase 2 — Activité 3 (75 min)</h4>
+            <p>Capteurs, stratégies de navigation, vie privée.</p>
+          </div>
+        </div>
+
+        <h3>Séance 8 (1h30) — Synthèse et présentations</h3>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">S8</div>
+          <div class="activity-step-content">
+            <h4>Phase 1 — Synthèse (30 min)</h4>
+            <p>Compléter la synthèse. Bilan des études de cas.</p>
+            <h4>Phase 2 — Mini-exposé (60 min)</h4>
+            <p>Chaque groupe choisit un objet à IA et présente son fonctionnement (PDA).</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Corrigé détaillé</h2>
+
+        <h3>Activité 1 — Classification</h3>
+        <table>
+          <thead><tr><th>Objet</th><th>Type d'IA</th><th>Justification</th></tr></thead>
+          <tbody>
+            <tr><td>Voiture autonome Tesla</td><td><strong>Hybride</strong></td><td>IA embarquée pour les décisions temps réel, cloud pour les mises à jour</td></tr>
+            <tr><td>Assistant vocal Alexa</td><td><strong>Cloud</strong></td><td>Envoie l'audio aux serveurs Amazon pour l'analyse vocale</td></tr>
+            <tr><td>Robot aspirateur iRobot</td><td><strong>Embarquée</strong></td><td>Cartographie et navigation en local, pas besoin d'internet pour aspirer</td></tr>
+            <tr><td>Caméra Ring</td><td><strong>Hybride</strong></td><td>Détection locale + stockage et analyse sur le cloud</td></tr>
+            <tr><td>Smartphone (Face ID)</td><td><strong>Embarquée</strong></td><td>Reconnaissance faciale sur la puce locale (pas envoyé au cloud)</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Comparaison IA embarquée vs cloud</h3>
+        <table>
+          <thead><tr><th>Critère</th><th>IA embarquée</th><th>IA cloud</th></tr></thead>
+          <tbody>
+            <tr><td>Vitesse</td><td><strong>Très rapide (ms)</strong></td><td>Plus lent (latence réseau)</td></tr>
+            <tr><td>Connexion</td><td><strong>Pas nécessaire</strong></td><td>Obligatoire</td></tr>
+            <tr><td>Puissance</td><td>Limitée</td><td><strong>Très grande</strong></td></tr>
+            <tr><td>Vie privée</td><td><strong>Meilleure (local)</strong></td><td>Risque (données envoyées)</td></tr>
+            <tr><td>Énergie</td><td>Batterie limitée</td><td><strong>Serveurs puissants</strong></td></tr>
+          </tbody>
+        </table>
+
+        <h3>Activité 2 — Modèle PDA voiture autonome</h3>
+        <table>
+          <thead><tr><th>Phase</th><th>Capteurs / Composants</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>PERCEVOIR</td><td><strong>Caméras (8), radar, ultrasons, LIDAR</strong></td><td>Détecter obstacles, piétons, panneaux, lignes</td></tr>
+            <tr><td>DÉCIDER</td><td><strong>Processeur IA (puce FSD Tesla)</strong></td><td>Analyser la scène, planifier la trajectoire</td></tr>
+            <tr><td>AGIR</td><td><strong>Direction, freins, accélérateur, clignotants</strong></td><td>Contrôler le véhicule</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Activité 3 — Robot aspirateur</h3>
+        <table>
+          <thead><tr><th>Capteur</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>LIDAR</td><td><strong>Cartographier la pièce en mesurant les distances</strong></td></tr>
+            <tr><td>Bumper</td><td><strong>Détecter les collisions avec des obstacles</strong></td></tr>
+            <tr><td>Capteurs IR de vide</td><td><strong>Détecter les escaliers (éviter les chutes)</strong></td></tr>
+            <tr><td>Caméra</td><td><strong>Reconnaissance visuelle des objets (chaussures, câbles)</strong></td></tr>
+            <tr><td>Odomètres</td><td><strong>Mesurer la distance parcourue par les roues</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Saisie Pronote</h2>
+        <h3>Cahier de texte — Séance 5</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Séquence 2 — IA embarquée. Activité 1 : distinction IA embarquée / IA cloud / IA hybride. Classification d'objets connectés.<br>
+          <strong>Travail :</strong> Trouver un objet utilisant l'IA embarquée chez soi.
+        </div>
+        <h3>Cahier de texte — Séance 6</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 2 : étude de cas de la voiture autonome. Modèle PDA (Percevoir, Décider, Agir). Niveaux d'autonomie SAE. Dilemme éthique.<br>
+          <strong>Travail :</strong> Réfléchir au dilemme éthique : qui programme les choix de l'IA ?
+        </div>
+        <h3>Cahier de texte — Séance 7</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Activité 3 : étude de cas du robot aspirateur. Capteurs, algorithme SLAM, navigation autonome, enjeux vie privée.<br>
+          <strong>Travail :</strong> Préparer le mini-exposé sur un objet à IA au choix.
+        </div>
+        <h3>Cahier de texte — Séance 8</h3>
+        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
+          <strong>Contenu :</strong> Synthèse. Mini-exposés sur les objets à IA. Bilan des études de cas.
+        </div>
+        <h3>Compétences Pronote</h3>
+        <table>
+          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <tbody>
+            <tr><td>Comprendre le rôle des systèmes programmés / IA</td><td>Activités 2 et 3 (modèle PDA, capteurs, algorithmes)</td></tr>
+            <tr><td>Évaluer l'impact des innovations</td><td>Activité 2 (dilemme éthique) + Activité 3 (vie privée)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche de révision — Trimestre 2 | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 2"},{"label":"Fiche de révision"}]'
+    data-print-title="4ème — Fiche de révision Trimestre 2"
+    data-print-subtitle="Séquences 4 à 6 · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Révision</span>
+        <h1>Fiche de révision — Trimestre 2</h1>
+        <p class="page-description">Tout ce qu'il faut savoir pour l'évaluation du T2 (séquences 4 à 6).</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 4 — Systèmes d'énergie et conversions</h2>
+
+        <h3>Formes d'énergie</h3>
+        <table>
+          <thead><tr><th>Forme</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Électrique</strong></td><td>Batterie, réseau EDF, panneau solaire</td></tr>
+            <tr><td><strong>Mécanique</strong></td><td>Mouvement, rotation, translation</td></tr>
+            <tr><td><strong>Thermique</strong></td><td>Chaleur (chauffage, pertes)</td></tr>
+            <tr><td><strong>Chimique</strong></td><td>Essence, batterie lithium, nourriture</td></tr>
+            <tr><td><strong>Lumineuse</strong></td><td>LED, soleil, laser</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Chaîne d'énergie (4 fonctions)</h3>
+        <div class="info-box info-box-green">
+          <strong>ALIMENTER</strong> (source) → <strong>DISTRIBUER</strong> (régulation) → <strong>CONVERTIR</strong> (transformation) → <strong>TRANSMETTRE</strong> (mouvement final)
+        </div>
+
+        <h3>Rendement</h3>
+        <p><strong>Rendement (%) = (Énergie utile / Énergie consommée) × 100</strong></p>
+        <p>Voiture thermique : ~25% | Voiture électrique : ~85% | Moteur électrique : ~90%</p>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 5 — Programmation Arduino / mBlock</h2>
+
+        <h3>Chaîne d'information</h3>
+        <div class="info-box info-box-green">
+          <strong>ACQUÉRIR</strong> (capteur) → <strong>TRAITER</strong> (Arduino) → <strong>COMMUNIQUER</strong> (actionneur)
+        </div>
+
+        <h3>Capteurs et actionneurs du mBot</h3>
+        <table>
+          <thead><tr><th>Composant</th><th>Type</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td>Capteur ultrason</td><td>Capteur (acquérir)</td><td>Mesure la distance</td></tr>
+            <tr><td>Capteur suiveur de ligne (IR)</td><td>Capteur (acquérir)</td><td>Détecte noir/blanc</td></tr>
+            <tr><td>Carte mCore</td><td>Microcontrôleur (traiter)</td><td>Exécute le programme</td></tr>
+            <tr><td>Moteurs DC</td><td>Actionneur (communiquer)</td><td>Mouvement</td></tr>
+            <tr><td>LED, buzzer</td><td>Actionneur (communiquer)</td><td>Signal lumineux/sonore</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Structures de programmation</h3>
+        <ul>
+          <li><strong>Séquence</strong> : instructions exécutées l'une après l'autre</li>
+          <li><strong>Boucle</strong> : RÉPÉTER indéfiniment (ou N fois)</li>
+          <li><strong>Condition</strong> : SI...ALORS...SINON (prise de décision)</li>
+          <li><strong>Variable</strong> : espace mémoire qui stocke une valeur modifiable</li>
+        </ul>
+
+        <h3>Cybersécurité</h3>
+        <div class="info-box info-box-orange">
+          Risques des systèmes connectés : interception de données, prise de contrôle, déni de service. Solutions : code d'appairage, chiffrement, limitation de portée.
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquence 6 — Réparabilité et diagnostic</h2>
+
+        <h3>Les 5 étapes du diagnostic</h3>
+        <div class="info-box info-box-green">
+          <ol>
+            <li><strong>Constater</strong> le symptôme</li>
+            <li><strong>Hypothèses</strong> : lister les causes possibles</li>
+            <li><strong>Tester</strong> chaque hypothèse</li>
+            <li><strong>Identifier</strong> la cause réelle</li>
+            <li><strong>Réparer</strong></li>
+          </ol>
+        </div>
+
+        <h3>Types d'obsolescence</h3>
+        <table>
+          <thead><tr><th>Type</th><th>Définition</th><th>Exemple</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Programmée</strong></td><td>Panne volontaire du fabricant</td><td>Imprimante bloquée après X pages</td></tr>
+            <tr><td><strong>Logicielle</strong></td><td>Mises à jour arrêtées</td><td>Smartphone sans MAJ de sécurité</td></tr>
+            <tr><td><strong>Esthétique</strong></td><td>Mode, nouveau design</td><td>Vouloir le dernier modèle</td></tr>
+          </tbody>
+        </table>
+
+        <h3>Réparer vs remplacer</h3>
+        <p>Analyse coût-bénéfice : coût de la réparation, disponibilité des pièces, impact environnemental, performance après réparation.</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DD; Conseils pour l'évaluation</h2>
+        <div class="info-box info-box-blue">
+          <ul>
+            <li>Savoir compléter une <strong>chaîne d'énergie</strong> (4 fonctions) pour un objet donné</li>
+            <li>Savoir <strong>calculer un rendement</strong> avec la formule</li>
+            <li>Savoir <strong>identifier capteurs et actionneurs</strong> et leur fonction dans la chaîne d'information</li>
+            <li>Savoir écrire un <strong>algorithme en pseudo-code</strong> (séquence, boucle, condition)</li>
+            <li>Savoir appliquer les <strong>5 étapes du diagnostic</strong></li>
+            <li>Savoir <strong>distinguer les 3 types d'obsolescence</strong></li>
+          </ul>
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

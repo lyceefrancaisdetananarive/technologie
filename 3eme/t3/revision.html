@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche de révision — Trimestre 3 | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"Trimestre 3"},{"label":"Fiche de révision"}]'
+    data-print-title="3ème — Fiche de révision Trimestre 3"
+    data-print-subtitle="Séquences 7 à 9 + Préparation DNB · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Trimestre 3 · Révision</span>
+        <h1>Fiche de révision — Trimestre 3 & DNB</h1>
+        <p class="page-description">Séquences 7 à 9 + révisions de l'année pour le DNB.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <div class="content-card">
+        <h2>Séquences 7-8-9 — Projet Smart Object</h2>
+
+        <h3>Les étapes d'un projet technique</h3>
+        <div class="info-box info-box-green">
+          <ol>
+            <li><strong>Besoin</strong> : identifier le problème à résoudre</li>
+            <li><strong>Cahier des charges</strong> : fonctions de service, contraintes, critères</li>
+            <li><strong>Conception</strong> : composants, schéma, algorithme, organigramme</li>
+            <li><strong>Fabrication</strong> : modélisation 3D, impression, assemblage</li>
+            <li><strong>Tests</strong> : protocole, exécution, débogage, rapport</li>
+            <li><strong>Présentation</strong> : soutenance orale, démonstration</li>
+          </ol>
+        </div>
+
+        <h3>Fabrication numérique (rappels 4ème)</h3>
+        <table>
+          <thead><tr><th>Machine</th><th>Procédé</th><th>Matériaux</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Imprimante 3D (FDM)</strong></td><td>Dépôt de fil fondu couche par couche</td><td>PLA, ABS</td></tr>
+            <tr><td><strong>Découpeuse laser</strong></td><td>Découpe/gravure par faisceau laser</td><td>Bois, acrylique, carton</td></tr>
+            <tr><td><strong>Fraiseuse CNC</strong></td><td>Usinage par enlèvement de matière</td><td>Bois, aluminium</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Processus 3D :</strong> Tinkercad (modélisation) → STL (export) → Cura (slicer/G-code) → Impression → Post-traitement</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F393; Révisions DNB — Notions clés de l'année</h2>
+
+        <h3>T1 — Objets connectés et IA</h3>
+        <ul>
+          <li><strong>Analyse fonctionnelle</strong> : fonction de service (QUOI), fonction technique (COMMENT), diagramme bête à cornes</li>
+          <li><strong>Architecture IoT</strong> : capteur → microcontrôleur → communication → cloud → application → actionneur</li>
+          <li><strong>IA</strong> : embarquée (locale, rapide) vs cloud (puissant, internet) vs hybride</li>
+          <li><strong>Modèle PDA</strong> : Percevoir → Décider → Agir</li>
+          <li><strong>Impacts</strong> : 4% CO2, fabrication = 70-80% impact, 20% e-déchets recyclés, RGPD</li>
+        </ul>
+
+        <h3>T2 — Systèmes automatisés et programmation</h3>
+        <ul>
+          <li><strong>Décomposition fonctionnelle</strong> : système → sous-systèmes → chaînes fonctionnelles</li>
+          <li><strong>Organigramme</strong> : ovale (début/fin), rectangle (action), losange (condition), parallélogramme (E/S)</li>
+          <li><strong>Opérateurs logiques</strong> : ET (les deux vraies), OU (au moins une), NON (inverse)</li>
+          <li><strong>Variables</strong> : stockent une valeur modifiable</li>
+          <li><strong>Tests</strong> : protocole (5 étapes), 4 types d'erreurs (syntaxe, logique, valeur, séquencement)</li>
+        </ul>
+
+        <h3>T3 — Projet et présentation</h3>
+        <ul>
+          <li><strong>Cahier des charges</strong> : besoin, fonctions, contraintes, critères de performance</li>
+          <li><strong>Prototype</strong> : modèle d'essai pour valider le concept</li>
+          <li><strong>Fabrication numérique</strong> : STL → Slicer → G-code → impression 3D</li>
+          <li><strong>Soutenance</strong> : besoin → CdC → conception → fabrication → démo → bilan</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DD; Méthode pour l'épreuve du DNB</h2>
+        <div class="info-box info-box-orange">
+          <strong>L'épreuve de Sciences au DNB :</strong>
+          <ul>
+            <li>Durée : 1h (2 matières parmi Physique-Chimie, SVT, Technologie)</li>
+            <li>Technologie : environ 25 points (sur 50 total)</li>
+            <li>Format : questions sur documents, exercices d'analyse, algorithmes</li>
+          </ul>
+        </div>
+
+        <h3>Conseils de rédaction</h3>
+        <ul>
+          <li><strong>Lire attentivement</strong> les documents avant de répondre</li>
+          <li><strong>Utiliser le vocabulaire technique</strong> appris en cours</li>
+          <li><strong>Justifier</strong> chaque réponse avec des arguments techniques</li>
+          <li>Pour les algorithmes : écrire en <strong>pseudo-code clair</strong> avec indentation</li>
+          <li>Pour les organigrammes : utiliser les <strong>symboles normalisés</strong></li>
+          <li>Pour les schémas : les <strong>légender clairement</strong></li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel pour le DNB</h2>
+        <table>
+          <thead><tr><th>Terme</th><th>Définition courte</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fonction de service</strong></td><td>Ce que l'objet fait pour l'utilisateur</td></tr>
+            <tr><td><strong>Fonction technique</strong></td><td>Comment l'objet réalise la fonction de service</td></tr>
+            <tr><td><strong>Capteur</strong></td><td>Composant qui mesure une grandeur physique</td></tr>
+            <tr><td><strong>Actionneur</strong></td><td>Composant qui agit sur l'environnement</td></tr>
+            <tr><td><strong>Algorithme</strong></td><td>Suite d'instructions pour résoudre un problème</td></tr>
+            <tr><td><strong>Variable</strong></td><td>Espace mémoire qui stocke une valeur modifiable</td></tr>
+            <tr><td><strong>Prototype</strong></td><td>Modèle d'essai pour tester et valider un concept</td></tr>
+            <tr><td><strong>Cahier des charges</strong></td><td>Document définissant les besoins et contraintes</td></tr>
+            <tr><td><strong>IA embarquée</strong></td><td>Intelligence artificielle qui fonctionne dans l'objet</td></tr>
+            <tr><td><strong>SLAM</strong></td><td>Cartographie et localisation simultanées</td></tr>
+            <tr><td><strong>G-code</strong></td><td>Instructions pour l'imprimante 3D</td></tr>
+            <tr><td><strong>RGPD</strong></td><td>Règlement européen de protection des données</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

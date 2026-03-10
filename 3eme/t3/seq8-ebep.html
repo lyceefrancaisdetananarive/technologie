@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Version EBEP | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Version EBEP"}]'
+    data-print-title="3ème — Séquence 8 — ADAPTATION EBEP"
+    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 3ème · ADAPTATION EBEP</span>
+        <h1>Séquence 8 — Fabrication et prototypage</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées</li><li>Questions réduites</li><li>Aides visuelles et amorces</li><li>Tiers-temps applicable</li></ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">Comment passer d'un modèle 3D à un objet réel ?</strong>
+        </div>
+        <p>
+          La <strong>chaîne numérique</strong> = les étapes pour fabriquer un objet :<br>
+          1. <strong>Dessiner</strong> sur l'ordinateur (Tinkercad)<br>
+          2. <strong>Exporter</strong> en fichier STL<br>
+          3. <strong>Préparer</strong> avec le slicer (découpage en couches)<br>
+          4. <strong>Imprimer</strong> en 3D<br>
+          5. <strong>Finir</strong> (poncer, peindre, assembler)
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — Les étapes de fabrication</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Mets les étapes dans le bon ordre : <strong>Dessiner → Exporter → Préparer → Imprimer → Finir</strong>
+        </div>
+        <p><strong>Numérote de 1 à 5 :</strong></p>
+        <table>
+          <thead><tr><th style="width:60%">Étape</th><th style="width:20%; text-align:center;">Ordre</th></tr></thead>
+          <tbody>
+            <tr><td>&#x1F3ED; L'imprimante fabrique la pièce couche par couche</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);"></div></td></tr>
+            <tr><td>&#x1F4BE; J'exporte le fichier en .STL</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);"></div></td></tr>
+            <tr><td>&#x1F3A8; Je ponce et je peins la pièce</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);"></div></td></tr>
+            <tr><td>&#x1F4BB; Je dessine la pièce dans Tinkercad</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);"></div></td></tr>
+            <tr><td>&#x2699;&#xFE0F; Le slicer (Cura) découpe en couches et crée le G-code</td><td style="text-align:center;"><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);"></div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — Règles de l'impression 3D</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Pour réussir une impression 3D, il faut respecter certaines règles.
+        </div>
+        <p><strong>Vrai ou Faux ?</strong></p>
+        <table>
+          <thead><tr><th style="width:60%">Affirmation</th><th style="text-align:center;">Vrai &#x2705;</th><th style="text-align:center;">Faux &#x274C;</th></tr></thead>
+          <tbody>
+            <tr><td>Les murs doivent faire au moins 1,2 mm d'épaisseur</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>On peut imprimer dans le vide sans support</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>La première couche doit bien coller au plateau</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Le fichier STL contient les instructions pour l'imprimante</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>chaîne numérique</em> / <em>STL</em> / <em>slicer</em> / <em>G-code</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">La ........................ va de la conception à la pièce finie.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Le fichier ........................ décrit la forme 3D de la pièce.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Le ........................ découpe le modèle en couches pour l'imprimante.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Le ........................ est le langage compris par l'imprimante 3D.</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

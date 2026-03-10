@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 2 — Version EBEP | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Version EBEP"}]'
+    data-print-title="3ème — Séquence 2 — ADAPTATION EBEP"
+    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 3ème · ADAPTATION EBEP</span>
+        <h1>Séquence 2 — IA embarquée</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées</li><li>Questions réduites</li><li>Aides visuelles et amorces</li><li>Tiers-temps applicable</li></ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">Comment l'IA fonctionne-t-elle dans les objets du quotidien ?</strong>
+        </div>
+        <p>
+          L'<strong>IA embarquée</strong> = une intelligence artificielle qui fonctionne <strong>directement dans l'objet</strong>, sans avoir besoin d'Internet.<br>
+          Exemples : voiture autonome, robot aspirateur, smartphone (reconnaissance faciale).
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — IA dans le cloud ou embarquée ?</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong><br>
+          &#x2601;&#xFE0F; <strong>IA dans le cloud</strong> = les données sont envoyées sur Internet pour être traitées (ex : ChatGPT)<br>
+          &#x1F4F1; <strong>IA embarquée</strong> = le traitement se fait dans l'objet même, sans Internet (ex : Face ID)
+        </div>
+        <p><strong>Coche la bonne colonne :</strong></p>
+        <table>
+          <thead><tr><th style="width:50%">Exemple</th><th style="text-align:center;">Cloud &#x2601;&#xFE0F;</th><th style="text-align:center;">Embarquée &#x1F4F1;</th></tr></thead>
+          <tbody>
+            <tr><td>Alexa répond à une question</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Face ID déverrouille le téléphone</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Robot aspirateur qui contourne les meubles</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Traduction automatique Google</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — Comment l'IA de la voiture autonome « voit » ?</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> La voiture autonome utilise le modèle <strong>PDA</strong> :<br>
+          &#x1F441;&#xFE0F; <strong>Percevoir</strong> = voir (caméras, capteurs LiDAR)<br>
+          &#x1F9E0; <strong>Décider</strong> = réfléchir (l'IA analyse)<br>
+          &#x1F697; <strong>Agir</strong> = conduire (tourner, freiner, accélérer)
+        </div>
+        <p><strong>Complète :</strong></p>
+        <table>
+          <tbody>
+            <tr><td style="width:30%;"><strong>Percevoir</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">La voiture « voit » avec des c................. et des capteurs</div></td></tr>
+            <tr><td><strong>Décider</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">L'IA d................. s'il faut freiner ou continuer</div></td></tr>
+            <tr><td><strong>Agir</strong></td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">La voiture f................. ou accélère automatiquement</div></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>embarquée</em> / <em>cloud</em> / <em>percevoir</em> / <em>décider</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'IA ........................ fonctionne directement dans l'objet, sans Internet.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'IA dans le ........................ a besoin d'Internet pour fonctionner.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Le modèle PDA : ........................ → Décider → Agir.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'IA analyse les données des capteurs pour ........................ quoi faire.</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>
