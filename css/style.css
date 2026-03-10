@@ -776,6 +776,18 @@ img {
 }
 .seq-link-ebep:hover { background: #FECDD3; color: #9F1239; }
 
+.seq-link-structuration {
+  background: #DBEAFE;
+  color: #1E40AF;
+}
+.seq-link-structuration:hover { background: #BFDBFE; color: #1E3A8A; }
+
+.seq-link-revision {
+  background: #F1F5F9;
+  color: #475569;
+}
+.seq-link-revision:hover { background: #E2E8F0; color: #334155; }
+
 /* ========================================
    TRIMESTER TABS
    ======================================== */

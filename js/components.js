@@ -292,13 +292,32 @@
   // ---- BREADCRUMB ----
   function renderBreadcrumb(items) {
     if (!items || items.length === 0) return null;
+
+    // Auto-add URLs for trimester breadcrumb items (T1/T2/T3)
+    items = items.map((item, i) => {
+      if (!item.url && item.label && /^T[1-3]\s/.test(item.label) && i > 0) {
+        const prevItem = items[i - 1];
+        if (prevItem && prevItem.url) {
+          const trimNum = item.label.match(/^T([1-3])/)[1];
+          let tabId = 't' + trimNum;
+          if (prevItem.label.includes('4')) tabId += '-4';
+          else if (prevItem.label.includes('3')) tabId += '-3';
+          return { label: item.label, url: prevItem.url + '#' + tabId };
+        }
+      }
+      return item;
+    });
+
     const bc = document.createElement('div');
     bc.className = 'breadcrumb';
     const parts = items.map((item, i) => {
       if (i === items.length - 1) {
         return `<span class="breadcrumb-current">${item.label}</span>`;
       }
-      return `<a href="${item.url}">${item.label}</a><span class="breadcrumb-sep">\u203A</span>`;
+      if (item.url) {
+        return `<a href="${item.url}">${item.label}</a><span class="breadcrumb-sep">\u203A</span>`;
+      }
+      return `<span>${item.label}</span><span class="breadcrumb-sep">\u203A</span>`;
     });
     bc.innerHTML = parts.join('');
     return bc;
@@ -440,6 +459,34 @@
         });
       });
     });
+
+    // Activate tab from URL hash (e.g. #t3, #t2-4)
+    const hash = window.location.hash.replace('#', '');
+    if (hash) {
+      document.querySelectorAll('.tab-system').forEach(system => {
+        const targetEl = system.querySelector('#' + hash);
+        if (targetEl) {
+          system.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+          system.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+          const btn = system.querySelector('.tab-btn[data-tab="' + hash + '"]');
+          if (btn) btn.classList.add('active');
+          targetEl.classList.add('active');
+        }
+      });
+    }
+  }
+
+  // ---- CLICKABLE SEQ CARDS ----
+  function initCardLinks() {
+    document.querySelectorAll('.seq-card').forEach(card => {
+      const firstLink = card.querySelector('.seq-card-links a');
+      if (!firstLink) return;
+      card.style.cursor = 'pointer';
+      card.addEventListener('click', function (e) {
+        if (e.target.closest('a')) return;
+        firstLink.click();
+      });
+    });
   }
 
   // ---- PRINT FUNCTION ----
@@ -483,6 +530,7 @@
     initSearch();
     initMobileMenu();
     initTabs();
+    initCardLinks();
   }
 
   // Run on DOM ready
