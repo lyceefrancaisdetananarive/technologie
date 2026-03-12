@@ -3,101 +3,76 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 6 — Réparabilité · Structuration | 4ème</title>
+  <title>Séq. 6 — Structuration | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Structuration"}]'
-    data-print-title="4ème — Séquence 6 : Réparabilité et diagnostic"
+    data-print-title="4ème — Séquence 6 : Modélisation 3D"
     data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2</span>
-        <h1>Séquence 6 — Réparabilité et diagnostic</h1>
-        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+        <h1>Structuration — Modélisation 3D et fabrication numérique</h1>
+        <p class="page-description">&#x1F4D8; Ce que je dois retenir de la séquence 6.</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
         <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
         <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
       </div>
-      <div class="content-card">
-        <table><tbody>
-          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 2 — Fonctionnement et comportement des systèmes</td></tr>
-          <tr><td><strong>Séquence</strong></td><td>6 — Réparabilité</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Diagnostiquer une panne</span> <span class="competence-badge">Comprendre l'économie circulaire</span></td></tr>
-        </tbody></table>
-      </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; L'indice de réparabilité</h2>
-        <p>Depuis 2021, la loi française impose un <strong>indice de réparabilité</strong> (note sur 10) sur certains produits électroniques :</p>
-        <table>
-          <thead><tr><th>Critère</th><th>Ce qu'il évalue</th><th>Points</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Documentation</strong></td><td>Disponibilité de la documentation technique</td><td>/20</td></tr>
-            <tr><td><strong>Démontabilité</strong></td><td>Facilité de démontage (outils standards, fixations)</td><td>/20</td></tr>
-            <tr><td><strong>Disponibilité des pièces</strong></td><td>Accès aux pièces détachées et délai de livraison</td><td>/20</td></tr>
-            <tr><td><strong>Prix des pièces</strong></td><td>Rapport prix pièce / prix produit neuf</td><td>/20</td></tr>
-            <tr><td><strong>Critère spécifique</strong></td><td>Variable selon le produit (mises à jour logicielles, etc.)</td><td>/20</td></tr>
-          </tbody>
-        </table>
-        <div class="info-box info-box-blue">
+        <h2>&#x1F4CC; Les formats de fichiers 3D</h2>
+        <div class="info-box info-box-green">
           <div class="info-box-title">À retenir</div>
-          L'<strong>indice de réparabilité</strong> est une note sur 10 obligatoire sur certains produits. Il aide le consommateur à choisir un produit plus facile à réparer, réduisant ainsi les déchets.
+          Un <strong>modèle 3D</strong> est un fichier numérique décrivant la forme d'un objet en trois dimensions. Différents formats existent selon l'usage.
         </div>
+        <table>
+          <thead><tr><th>Format</th><th>Description</th><th>Usage principal</th></tr></thead>
+          <tbody>
+            <tr><td><strong>STL</strong></td><td>Maillage de triangles (géométrie seule)</td><td>Impression 3D (format le plus courant)</td></tr>
+            <tr><td><strong>3MF</strong></td><td>Format riche (géométrie + couleurs + matériaux)</td><td>Impression 3D multicolore</td></tr>
+            <tr><td><strong>OBJ</strong></td><td>Géométrie + textures</td><td>Modélisation, rendu, jeux vidéo</td></tr>
+            <tr><td><strong>SVG/DXF</strong></td><td>Dessin vectoriel 2D</td><td>Découpe laser</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; La démarche de diagnostic</h2>
-        <table>
-          <thead><tr><th>Étape</th><th>Action</th><th>Exemple</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1. Observer</strong></td><td>Décrire précisément le symptôme de la panne</td><td>« Le ventilateur ne tourne plus »</td></tr>
-            <tr><td><strong>2. Hypothèses</strong></td><td>Lister les causes possibles</td><td>Moteur HS, câble débranché, fusible grillé</td></tr>
-            <tr><td><strong>3. Tester</strong></td><td>Vérifier chaque hypothèse avec des instruments</td><td>Multimètre, inspection visuelle</td></tr>
-            <tr><td><strong>4. Identifier</strong></td><td>Déterminer la cause exacte de la panne</td><td>Le fusible est grillé</td></tr>
-            <tr><td><strong>5. Réparer</strong></td><td>Remplacer ou réparer le composant défaillant</td><td>Remplacer le fusible</td></tr>
-            <tr><td><strong>6. Vérifier</strong></td><td>Tester le fonctionnement après réparation</td><td>Le ventilateur tourne à nouveau</td></tr>
-          </tbody>
-        </table>
-        <div class="info-box info-box-blue">
+        <h2>&#x1F4CC; L'impression 3D (FDM)</h2>
+        <div class="info-box info-box-green">
           <div class="info-box-title">À retenir</div>
-          La démarche de diagnostic est méthodique : <strong>Observer → Hypothèses → Tester → Identifier → Réparer → Vérifier</strong>. On ne remplace jamais une pièce au hasard.
+          L'impression 3D <strong>FDM</strong> (Fused Deposition Modeling) fabrique des objets en déposant du <strong>plastique fondu couche par couche</strong>. Le fichier 3D est d'abord « tranché » en couches par un logiciel appelé <strong>slicer</strong>.
         </div>
+        <table>
+          <thead><tr><th>Étape</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Modéliser</strong></td><td>Créer l'objet en 3D (TinkerCAD, BlocksCAD) ou télécharger un fichier STL</td></tr>
+            <tr><td><strong>2. Trancher</strong></td><td>Importer dans le slicer, paramétrer (épaisseur, remplissage, supports)</td></tr>
+            <tr><td><strong>3. Exporter</strong></td><td>Générer le G-code (instructions machine)</td></tr>
+            <tr><td><strong>4. Imprimer</strong></td><td>Envoyer le G-code à l'imprimante 3D</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; L'économie circulaire</h2>
-        <p>L'<strong>économie circulaire</strong> s'oppose à l'économie linéaire (extraire → fabriquer → jeter) :</p>
-        <table>
-          <thead><tr><th>Principe</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Réduire</strong></td><td>Limiter la consommation de ressources et d'énergie</td></tr>
-            <tr><td><strong>Réutiliser</strong></td><td>Donner une seconde vie aux objets (don, vente d'occasion)</td></tr>
-            <tr><td><strong>Réparer</strong></td><td>Prolonger la durée de vie en réparant les pannes</td></tr>
-            <tr><td><strong>Recycler</strong></td><td>Transformer les matériaux en nouvelles matières premières</td></tr>
-            <tr><td><strong>Éco-concevoir</strong></td><td>Dès la conception, penser au démontage et au recyclage</td></tr>
-          </tbody>
-        </table>
-        <div class="info-box info-box-blue">
+        <h2>&#x1F4CC; La découpe laser (xTool M1)</h2>
+        <div class="info-box info-box-green">
           <div class="info-box-title">À retenir</div>
-          L'économie circulaire vise à <strong>réduire les déchets</strong> en maintenant les produits en usage le plus longtemps possible : réduire, réutiliser, réparer, recycler.
+          La <strong>découpe laser</strong> utilise un faisceau laser pour couper ou graver des matériaux plats (bois, acrylique, carton, cuir). La <strong>xTool M1</strong> est une machine qui combine découpe et gravure laser.
         </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Obsolescence programmée</h2>
         <table>
-          <thead><tr><th>Type</th><th>Définition</th><th>Exemple</th></tr></thead>
+          <thead><tr><th>Paramètre</th><th>Impression 3D</th><th>Découpe laser</th></tr></thead>
           <tbody>
-            <tr><td><strong>Obsolescence technique</strong></td><td>Le produit est conçu pour tomber en panne après une durée déterminée</td><td>Imprimante qui s'arrête après un nombre de pages fixé</td></tr>
-            <tr><td><strong>Obsolescence logicielle</strong></td><td>Les mises à jour rendent le produit trop lent</td><td>Smartphone ralenti après une mise à jour</td></tr>
-            <tr><td><strong>Obsolescence esthétique</strong></td><td>La mode rend le produit « dépassé » alors qu'il fonctionne</td><td>Nouveau modèle de téléphone chaque année</td></tr>
+            <tr><td><strong>Dimension</strong></td><td>Objets 3D (volume)</td><td>Pièces 2D (plaques)</td></tr>
+            <tr><td><strong>Matériaux</strong></td><td>PLA, ABS, PETG</td><td>Bois, acrylique, carton, cuir</td></tr>
+            <tr><td><strong>Vitesse</strong></td><td>Lent (heures)</td><td>Rapide (minutes)</td></tr>
+            <tr><td><strong>Fichier</strong></td><td>STL/3MF → G-code</td><td>SVG/DXF/images</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:var(--space-sm);">L'obsolescence programmée est <strong>interdite par la loi</strong> en France depuis 2015 (loi sur la transition énergétique).</p>
       </div>
 
       <div class="content-card">
@@ -105,17 +80,16 @@
         <div class="info-box info-box-orange">
           <div class="info-box-title">Mots clés de la séquence</div>
           <ul>
-            <li><strong>Indice de réparabilité</strong> : note sur 10 évaluant la facilité de réparation d'un produit</li>
-            <li><strong>Diagnostic</strong> : démarche méthodique pour identifier la cause d'une panne</li>
-            <li><strong>Économie circulaire</strong> : modèle économique visant à réduire les déchets et préserver les ressources</li>
-            <li><strong>Obsolescence programmée</strong> : stratégie visant à réduire volontairement la durée de vie d'un produit</li>
-            <li><strong>Éco-conception</strong> : concevoir un produit en intégrant les contraintes environnementales</li>
-            <li><strong>DEEE</strong> : Déchets d'Équipements Électriques et Électroniques</li>
+            <li><strong>Modèle 3D</strong> : fichier numérique décrivant un objet en 3 dimensions</li>
+            <li><strong>STL</strong> : format standard pour l'impression 3D (maillage triangulaire)</li>
+            <li><strong>3MF</strong> : format amélioré incluant couleurs et matériaux</li>
+            <li><strong>Slicer</strong> : logiciel qui tranche le modèle 3D en couches et génère le G-code</li>
+            <li><strong>G-code</strong> : langage d'instructions pour piloter les machines numériques</li>
+            <li><strong>FDM</strong> : technique d'impression 3D par dépôt de fil fondu</li>
+            <li><strong>xTool M1</strong> : machine de découpe et gravure laser</li>
+            <li><strong>Support</strong> : structure temporaire imprimée pour soutenir les porte-à-faux</li>
           </ul>
         </div>
-      </div>
-      <div class="content-card no-print">
-        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 2</p>
       </div>
     </main>
   </div>

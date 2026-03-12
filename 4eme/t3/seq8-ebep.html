@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 8 — Version EBEP | 4ème</title>
+  <title>EBEP — Séq. 8 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
   <style>
@@ -13,89 +13,104 @@
     .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
     .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
     .ebep-hint strong { color: #E65100; }
-    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
   </style>
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Version EBEP"}]'
-    data-print-title="4ème — Séquence 8 — ADAPTATION EBEP"
-    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"EBEP"}]'
+    data-print-title="ACTIVITÉ ADAPTÉE (EBEP) — Séquence 8 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
-        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 4ème · ADAPTATION EBEP</span>
-        <h1>Séquence 8 — IA et systèmes automatisés</h1>
-        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · EBEP</span>
+        <h1>Activité adaptée — Séquence 8</h1>
+        <p class="page-description">Programmation Arduino — Version simplifiée</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
         <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
       </div>
-      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
-        <div class="info-box-title">Adaptations de cette fiche</div>
-        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées</li><li>Questions réduites</li><li>Aides visuelles et amorces</li><li>Tiers-temps applicable</li></ul>
-      </div>
 
       <div class="content-card ebep-content">
-        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <h2>&#x1F3AF; Exercice 1 — La carte Arduino</h2>
         <div class="info-box info-box-blue">
-          <strong style="font-size: 1.1rem;">Comment un système automatisé prend-il des décisions ?</strong>
+          <strong>Consigne :</strong> Relie chaque élément de la carte Arduino à son rôle.
         </div>
-        <p>
-          Un <strong>système automatisé</strong> = une machine qui fonctionne seule après avoir été programmée.<br>
-          Il a deux parties :<br>
-          &#x1F9E0; La <strong>Partie Commande (PC)</strong> = le cerveau qui décide<br>
-          &#x1F4AA; La <strong>Partie Opérative (PO)</strong> = le corps qui agit
-        </p>
+        <table>
+          <thead><tr><th style="width:35%">Élément</th><th style="width:10%">→</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1.</strong> Microcontrôleur</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td><strong>A.</strong> Envoyer le programme depuis l'ordinateur</td></tr>
+            <tr><td><strong>2.</strong> Port USB</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td><strong>B.</strong> Lire des valeurs de 0 à 1023</td></tr>
+            <tr><td><strong>3.</strong> Pins numériques</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td><strong>C.</strong> Le « cerveau » qui exécute le programme</td></tr>
+            <tr><td><strong>4.</strong> Pins analogiques</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td><strong>D.</strong> Entrées/sorties ON ou OFF (0 ou 1)</td></tr>
+          </tbody>
+        </table>
+        <div class="ebep-hint">
+          <strong>&#x1F4A1; Aide :</strong> Le microcontrôleur est le composant le plus important : c'est lui qui « pense » !
+        </div>
       </div>
 
       <div class="content-card ebep-content">
-        <h2>Activité 1 — PC ou PO ?</h2>
-        <div class="ebep-hint">
-          <strong>Aide :</strong><br>
-          &#x1F9E0; <strong>PC</strong> = ce qui décide (carte Arduino, programme, capteurs)<br>
-          &#x1F4AA; <strong>PO</strong> = ce qui bouge ou agit (moteurs, LED, vérins)
+        <h2>&#x1F3AF; Exercice 2 — Capteurs ou actionneurs ?</h2>
+        <div class="info-box info-box-blue">
+          <strong>Consigne :</strong> Pour chaque composant, coche s'il est un capteur (entrée) ou un actionneur (sortie).
         </div>
-        <p><strong>Classe chaque élément :</strong></p>
         <table>
-          <thead><tr><th style="width:50%">Élément</th><th style="text-align:center;">PC &#x1F9E0;</th><th style="text-align:center;">PO &#x1F4AA;</th></tr></thead>
+          <thead><tr><th>Composant</th><th style="text-align:center; width:20%">Capteur</th><th style="text-align:center; width:20%">Actionneur</th></tr></thead>
           <tbody>
-            <tr><td>Carte Arduino</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Moteur</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Programme</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Bouton poussoir</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
             <tr><td>LED</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Capteur de distance</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Capteur ultrason</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Servo-moteur</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Buzzer</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
           </tbody>
         </table>
-      </div>
-
-      <div class="content-card ebep-content">
-        <h2>Activité 2 — Boucle ouverte ou fermée ?</h2>
         <div class="ebep-hint">
-          <strong>Aide :</strong><br>
-          &#x27A1;&#xFE0F; <strong>Boucle ouverte</strong> = la machine fait son action sans vérifier le résultat (ex : un minuteur de four)<br>
-          &#x1F504; <strong>Boucle fermée</strong> = la machine vérifie le résultat et s'adapte (ex : thermostat qui mesure la température)
+          <strong>&#x1F4A1; Aide :</strong> Un capteur DÉTECTE quelque chose (lumière, distance, pression). Un actionneur FAIT quelque chose (s'allume, bouge, sonne).
         </div>
-        <p><strong>Coche le bon type :</strong></p>
-        <table>
-          <thead><tr><th style="width:50%">Système</th><th style="text-align:center;">Ouverte &#x27A1;&#xFE0F;</th><th style="text-align:center;">Fermée &#x1F504;</th></tr></thead>
-          <tbody>
-            <tr><td>Minuteur de micro-ondes</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Thermostat de chauffage</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Robot aspirateur qui évite les obstacles</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-          </tbody>
-        </table>
       </div>
 
       <div class="content-card ebep-content">
-        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <h2>&#x1F3AF; Exercice 3 — Compléter un programme</h2>
         <div class="info-box info-box-blue">
-          <p><strong>Choisis le bon mot :</strong> <em>Partie Commande</em> / <em>Partie Opérative</em> / <em>boucle fermée</em> / <em>capteur</em></p>
+          <strong>Consigne :</strong> Complète le programme pour faire clignoter une LED. Utilise les mots : <strong>HIGH</strong>, <strong>LOW</strong>, <strong>1000</strong>.
         </div>
-        <p style="font-size: 1.1rem; line-height: 2.2;">La ........................ décide (le cerveau).</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">La ........................ agit (le corps).</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ permet de mesurer l'environnement.</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">En ........................, le système vérifie et s'adapte automatiquement.</p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:1.05rem; line-height:2;">
+          void <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(13, OUTPUT);<br>
+          }<br><br>
+          void <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;digitalWrite(13, ________); <span style="color:#757575;">// Allumer</span><br>
+          &nbsp;&nbsp;delay(________); <span style="color:#757575;">// Attendre 1 seconde</span><br>
+          &nbsp;&nbsp;digitalWrite(13, ________); <span style="color:#757575;">// Éteindre</span><br>
+          &nbsp;&nbsp;delay(1000);<br>
+          }
+        </div>
+        <div class="ebep-hint">
+          <strong>&#x1F4A1; Aide :</strong> HIGH = allumer (5V), LOW = éteindre (0V), 1000 millisecondes = 1 seconde.
+        </div>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F3AF; Exercice 4 — Comprendre une condition</h2>
+        <div class="info-box info-box-blue">
+          <strong>Consigne :</strong> Lis le programme et réponds aux questions.
+        </div>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:1rem; line-height:1.8;">
+          if (distance &lt; 20) {<br>
+          &nbsp;&nbsp;digitalWrite(7, HIGH); <span style="color:#757575;">// Allumer LED</span><br>
+          } else {<br>
+          &nbsp;&nbsp;digitalWrite(7, LOW); <span style="color:#757575;">// Éteindre LED</span><br>
+          }
+        </div>
+        <ol style="margin-top:var(--space-md);">
+          <li>Si la distance vaut <strong>10 cm</strong>, la LED est-elle allumée ou éteinte ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:30%;">&nbsp;</span></li>
+          <li>Si la distance vaut <strong>25 cm</strong>, la LED est-elle allumée ou éteinte ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:30%;">&nbsp;</span></li>
+          <li>Que faut-il changer pour que la LED s'allume quand la distance est inférieure à <strong>30 cm</strong> ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:30%;">&nbsp;</span></li>
+        </ol>
+        <div class="ebep-hint">
+          <strong>&#x1F4A1; Aide :</strong> « if (distance &lt; 20) » veut dire « SI la distance est plus petite que 20 ».
+        </div>
       </div>
     </main>
   </div>

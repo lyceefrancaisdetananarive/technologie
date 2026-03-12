@@ -20,11 +20,11 @@
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Version EBEP"}]'
     data-print-title="4ème — Séquence 5 — ADAPTATION EBEP"
-    data-print-subtitle="Fiche adaptée · Technologie LFT">
+    data-print-subtitle="Programmation mBlock / Scratch · Fiche adaptée · Technologie LFT">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 4ème · ADAPTATION EBEP</span>
-        <h1>Séquence 5 — Programmation Arduino / mBlock</h1>
+        <h1>Séquence 5 — Programmation mBlock / Scratch</h1>
         <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
       </div>
       <div class="page-actions no-print">
@@ -33,52 +33,53 @@
       </div>
       <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
         <div class="info-box-title">Adaptations de cette fiche</div>
-        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées et reformulées</li><li>Nombre de questions réduit</li><li>Aides visuelles et amorces de réponse</li><li>Tiers-temps applicable pour l'évaluation</li></ul>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées et reformulées</li><li>Nombre de questions réduit</li><li>Aides visuelles et amorces de réponse</li></ul>
       </div>
 
       <div class="content-card ebep-content">
-        <h2>&#x1F4A1; Le problème à résoudre</h2>
+        <h2>&#x1F4A1; C'est quoi mBlock et Scratch ?</h2>
         <div class="info-box info-box-blue">
-          <strong style="font-size: 1.1rem;">Comment programmer une carte Arduino pour contrôler des capteurs et des actionneurs ?</strong>
+          <strong style="font-size: 1.1rem;">Ce sont des logiciels pour programmer avec des blocs visuels (comme des puzzles).</strong>
         </div>
         <p>
-          Une carte <strong>Arduino</strong> est un petit ordinateur qui peut lire des <strong>capteurs</strong> (boutons, température...) et commander des <strong>actionneurs</strong> (LED, moteur, buzzer).<br>
-          On la programme avec <strong>mBlock</strong> (blocs visuels) ou le <strong>langage Arduino</strong> (texte).
+          On utilise des <strong>blocs</strong> qu'on emboîte pour créer un programme.<br>
+          Un <strong>sprite</strong> = un objet qu'on peut programmer (le feu tricolore).<br>
+          Un <strong>costume</strong> = l'apparence du sprite (feu vert, feu orange, feu rouge).
         </p>
       </div>
 
       <div class="content-card ebep-content">
-        <h2>Activité 1 — Capteur ou actionneur ?</h2>
+        <h2>Activité 1 — Le cycle du feu tricolore</h2>
         <div class="ebep-hint">
-          <strong>Aide :</strong><br>
-          &#x1F4E5; <strong>Capteur</strong> = il <strong>mesure</strong> quelque chose (il donne une information à l'Arduino)<br>
-          &#x1F4E4; <strong>Actionneur</strong> = il <strong>fait</strong> quelque chose (il reçoit un ordre de l'Arduino)
+          <strong>Aide :</strong> Un feu tricolore change de couleur dans cet ordre : <strong>Vert → Orange → Rouge</strong>, puis ça recommence.
         </div>
-        <p><strong>Coche la bonne colonne :</strong></p>
+        <p><strong>Mets les étapes dans le bon ordre (1, 2, 3) :</strong></p>
         <table>
-          <thead><tr><th style="width:40%">Composant</th><th style="text-align:center;">Capteur &#x1F4E5;</th><th style="text-align:center;">Actionneur &#x1F4E4;</th></tr></thead>
+          <thead><tr><th style="text-align:center; width:15%">Ordre</th><th>Couleur</th><th>Ce que font les voitures</th></tr></thead>
           <tbody>
-            <tr><td>Bouton poussoir</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>LED (diode lumineuse)</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Capteur de température</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Servomoteur</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
-            <tr><td>Capteur ultrason (distance)</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Rouge</td><td>Les voitures s'arrêtent</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Vert</td><td>Les voitures passent</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Orange</td><td>Attention ! Ça va changer</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card ebep-content">
-        <h2>Activité 2 — Mon premier programme</h2>
+        <h2>Activité 2 — Les blocs de programme</h2>
         <div class="ebep-hint">
-          <strong>Aide :</strong> Un programme Arduino a 2 parties :<br>
-          &#x1F7E6; <strong>setup()</strong> = s'exécute UNE seule fois au démarrage<br>
-          &#x1F504; <strong>loop()</strong> = se répète en boucle pour toujours
+          <strong>Aide :</strong><br>
+          &#x1F7E1; <strong>Événement</strong> = ce qui démarre le programme<br>
+          &#x1F535; <strong>Contrôle</strong> = répéter ou attendre<br>
+          &#x1F7E3; <strong>Apparence</strong> = changer l'image du sprite
         </div>
-        <p><strong>Complète :</strong></p>
+        <p><strong>Associe chaque bloc à sa catégorie :</strong></p>
         <table>
+          <thead><tr><th style="width:50%">Bloc</th><th style="text-align:center;">Événement &#x1F7E1;</th><th style="text-align:center;">Contrôle &#x1F535;</th><th style="text-align:center;">Apparence &#x1F7E3;</th></tr></thead>
           <tbody>
-            <tr><td style="width:40%;"><strong>setup()</strong> sert à...</td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">P................. l'Arduino (dire quelles broches sont en entrée ou sortie)</div></td></tr>
-            <tr><td><strong>loop()</strong> sert à...</td><td><div class="ebep-fill" style="min-height:30px; padding:var(--space-sm);">R................. les instructions en b................. (pour toujours)</div></td></tr>
+            <tr><td>Quand drapeau vert cliqué</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Répéter indéfiniment</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Basculer sur le costume « vert »</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Attendre 5 secondes</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
           </tbody>
         </table>
       </div>
@@ -86,12 +87,12 @@
       <div class="content-card ebep-content">
         <h2>&#x1F4DD; Ce que je retiens</h2>
         <div class="info-box info-box-blue">
-          <p><strong>Choisis le bon mot :</strong> <em>Arduino</em> / <em>capteur</em> / <em>actionneur</em> / <em>programme</em></p>
+          <p><strong>Choisis le bon mot :</strong> <em>sprite</em> / <em>costume</em> / <em>message</em> / <em>boucle</em></p>
         </div>
-        <p style="font-size: 1.1rem; line-height: 2.2;">La carte ........................ est un petit ordinateur programmable.</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ mesure l'environnement (température, distance...).</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ exécute une action (allumer une LED, tourner un moteur).</p>
-        <p style="font-size: 1.1rem; line-height: 2.2;">Le ........................ contient les instructions dans setup() et loop().</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ est un objet qu'on programme (le feu).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ est une apparence du sprite (vert, orange, rouge).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ permet à deux sprites de communiquer.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Une ........................ permet de répéter le cycle du feu pour toujours.</p>
       </div>
     </main>
   </div>

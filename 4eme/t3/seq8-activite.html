@@ -3,171 +3,166 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 8 — IA et systèmes automatisés | 4ème</title>
+  <title>Activité — Séq. 8 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Fiche activité"}]'
-    data-print-title="4ème — Séquence 8 : Fiche Activité Élève"
-    data-print-subtitle="IA et systèmes automatisés · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Activité"}]'
+    data-print-title="ACTIVITÉ — Séquence 8 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
-        <h1>Séquence 8 — IA et systèmes automatisés</h1>
-        <p class="page-description">
-          Comment intégrer l'IA dans un système automatisé ? Comment un programme peut-il apprendre et prendre des décisions ?
-        </p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Activité</span>
+        <h1>Activité — Séquence 8</h1>
+        <p class="page-description">Programmation Arduino — Commander capteurs et actionneurs</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq8-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
-        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq8-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
       </div>
 
       <div class="content-card">
-        <table>
-          <tbody>
-            <tr>
-              <td style="width:20%"><strong>Niveau</strong></td>
-              <td>4ème</td>
-              <td style="width:15%"><strong>Durée</strong></td>
-              <td>3 séances de 1h30</td>
-            </tr>
-            <tr>
-              <td><strong>Thème</strong></td>
-              <td colspan="3">Thème 3 — Conception et réalisation</td>
-            </tr>
-            <tr>
-              <td><strong>Compétences</strong></td>
-              <td colspan="3">
-                <span class="competence-badge">Développer un programme</span>
-                <span class="competence-badge">Valider par tests et simulations</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <h2>&#x1F3AF; Objectifs de la séquence</h2>
         <div class="info-box info-box-blue">
-          <strong>Un robot trieur doit séparer les déchets plastiques des déchets métalliques sur un tapis roulant.</strong><br>
-          Un programme classique ne suffit pas car les déchets ont des formes variées. Comment l'IA peut-elle aider le robot à « apprendre » à les distinguer ?
+          <strong>Problématique :</strong> Comment programmer un Arduino pour piloter les capteurs et actionneurs de notre prototype ?
         </div>
-        <p><strong>Problématique :</strong> Comment l'IA transforme-t-elle les systèmes automatisés et quelles applications peut-on concevoir ?</p>
+        <ul>
+          <li>Découvrir la carte Arduino Uno et ses composants</li>
+          <li>Écrire des programmes avec setup() et loop()</li>
+          <li>Lire des capteurs (numériques et analogiques) et piloter des actionneurs</li>
+          <li>Programmer le système électronique du prototype d'équipe</li>
+        </ul>
       </div>
 
-      <!-- Activité 1 -->
       <div class="content-card">
-        <h2>Activité 1 — Entraîner un modèle d'IA</h2>
-
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
-          <div class="activity-step-content">
-            <h4>Expérimenter avec Teachable Machine</h4>
-            <p>Utilise <strong>Teachable Machine</strong> (Google) pour créer un modèle de reconnaissance d'images simple.</p>
-          </div>
-        </div>
-
+        <h2>&#x1F4DD; Activité 1 — Découvrir l'Arduino et faire clignoter une LED (S25)</h2>
         <div class="info-box info-box-green">
-          <strong>Protocole d'entraînement :</strong>
-          <ol>
-            <li>Ouvrir Teachable Machine (teachablemachine.withgoogle.com)</li>
-            <li>Créer un projet « Image »</li>
-            <li>Définir 3 classes : « Plastique », « Métal », « Papier »</li>
-            <li>Prendre ~50 photos par classe avec la webcam</li>
-            <li>Entraîner le modèle et tester avec de nouveaux objets</li>
-          </ol>
+          <strong>Matériel :</strong> Arduino Uno, câble USB, breadboard, 1 LED, 1 résistance 220&#x2126;, fils dupont.
         </div>
 
-        <p><strong>a)</strong> Complète le tableau de tes résultats :</p>
+        <p><strong>Étape 1 — Identifier les éléments de la carte Arduino</strong></p>
+        <p>Observe la carte Arduino Uno et complète le tableau :</p>
         <table>
-          <thead><tr><th>Classe</th><th>Nb photos entraînement</th><th>Test 1 (correct ?)</th><th>Test 2 (correct ?)</th><th>Test 3 (correct ?)</th></tr></thead>
+          <thead><tr><th style="width:35%">Élément</th><th>Rôle</th></tr></thead>
           <tbody>
-            <tr><td>Plastique</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Métal</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Papier</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Microcontrôleur (ATmega328)</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Port USB</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Pins numériques (0-13)</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Pins analogiques (A0-A5)</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Pins d'alimentation (5V, 3.3V, GND)</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Ton modèle fait-il des erreurs ? Si oui, comment pourrais-tu l'améliorer ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
-      </div>
-
-      <!-- Activité 2 -->
-      <div class="content-card">
-        <h2>Activité 2 — IA et système automatisé</h2>
-
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
-          <div class="activity-step-content">
-            <h4>Concevoir un système avec IA</h4>
-            <p>Imagine un système automatisé qui utilise l'IA pour résoudre un problème concret.</p>
-          </div>
-        </div>
-
-        <p><strong>a)</strong> Complète le schéma fonctionnel d'un robot trieur avec IA :</p>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Câbler la LED sur la breadboard</strong></p>
+        <p>Réalise le montage suivant :</p>
         <table>
-          <thead><tr><th>Fonction</th><th>Composant</th><th>Description</th></tr></thead>
+          <thead><tr><th>Composant</th><th>Broche Arduino</th><th>Broche breadboard</th></tr></thead>
           <tbody>
-            <tr><td><strong>Acquérir</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Traiter (IA)</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Communiquer/Agir</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>LED (patte longue = +)</td><td>Pin 13 (via résistance)</td><td>Rangée A</td></tr>
+            <tr><td>Résistance 220&#x2126;</td><td>Entre pin 13 et LED</td><td>En série</td></tr>
+            <tr><td>LED (patte courte = −)</td><td>GND</td><td>Rail −</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Quelle est la différence entre le traitement classique et le traitement IA dans ce système ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50);"></div>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Écrire le programme « Blink »</strong></p>
+        <p>Ouvre Arduino IDE et écris le programme suivant :</p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.6;">
+          <span style="color:#0277BD;">void</span> <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(13, OUTPUT); <span style="color:#757575;">// Pin 13 en sortie</span><br>
+          }<br><br>
+          <span style="color:#0277BD;">void</span> <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;digitalWrite(13, HIGH); <span style="color:#757575;">// Allumer la LED</span><br>
+          &nbsp;&nbsp;delay(1000); <span style="color:#757575;">// Attendre 1 seconde</span><br>
+          &nbsp;&nbsp;digitalWrite(13, LOW); <span style="color:#757575;">// Éteindre la LED</span><br>
+          &nbsp;&nbsp;delay(1000); <span style="color:#757575;">// Attendre 1 seconde</span><br>
+          }
+        </div>
+        <p style="margin-top:var(--space-md);"><strong>Questions :</strong></p>
+        <ol>
+          <li>Que fait la fonction setup() ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:50%;">&nbsp;</span></li>
+          <li>Que fait la fonction loop() ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:50%;">&nbsp;</span></li>
+          <li>Modifie le programme pour faire clignoter la LED 2 fois plus vite. Quelle valeur changes-tu ? <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:30%;">&nbsp;</span></li>
+        </ol>
       </div>
 
-      <!-- Activité 3 -->
       <div class="content-card">
-        <h2>Activité 3 — IA responsable</h2>
-
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
-          <div class="activity-step-content">
-            <h4>Les limites et la responsabilité de l'IA</h4>
-            <p>L'IA n'est pas infaillible. Elle dépend de la qualité de ses données et peut avoir des <strong>biais</strong>.</p>
-          </div>
+        <h2>&#x1F4DD; Activité 2 — Lire un capteur et réagir (S26)</h2>
+        <div class="info-box info-box-green">
+          <strong>Matériel :</strong> Arduino Uno, capteur ultrason HC-SR04, LED, buzzer, breadboard, fils.
         </div>
 
-        <p><strong>a)</strong> Tu as entraîné ton modèle uniquement avec des bouteilles plastiques blanches. Il ne reconnaît pas les bouteilles colorées. Quel est le problème et comment le résoudre ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>b)</strong> Cite 3 domaines où l'IA est utilisée dans des systèmes automatisés, et pour chacun un avantage et une limite :</p>
+        <p><strong>Étape 1 — Câbler le capteur ultrason</strong></p>
         <table>
-          <thead><tr><th>Domaine</th><th>Avantage</th><th>Limite</th></tr></thead>
+          <thead><tr><th>Broche capteur</th><th>→ Broche Arduino</th></tr></thead>
           <tbody>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>VCC</td><td>5V</td></tr>
+            <tr><td>GND</td><td>GND</td></tr>
+            <tr><td>Trig</td><td>Pin 9</td></tr>
+            <tr><td>Echo</td><td>Pin 10</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Programme : mesurer une distance</strong></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.85rem; line-height:1.6;">
+          <span style="color:#0277BD;">int</span> distance;<br><br>
+          <span style="color:#0277BD;">void</span> <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(9, OUTPUT); <span style="color:#757575;">// Trig</span><br>
+          &nbsp;&nbsp;pinMode(10, INPUT); <span style="color:#757575;">// Echo</span><br>
+          &nbsp;&nbsp;Serial.begin(9600);<br>
+          }<br><br>
+          <span style="color:#0277BD;">void</span> <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;delayMicroseconds(2);<br>
+          &nbsp;&nbsp;digitalWrite(9, HIGH);<br>
+          &nbsp;&nbsp;delayMicroseconds(10);<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;distance = pulseIn(10, HIGH) / 58;<br>
+          &nbsp;&nbsp;Serial.print("Distance : ");<br>
+          &nbsp;&nbsp;Serial.print(distance);<br>
+          &nbsp;&nbsp;Serial.println(" cm");<br>
+          &nbsp;&nbsp;delay(500);<br>
+          }
+        </div>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Ajouter une condition : allumer la LED si distance &lt; 15 cm</strong></p>
+        <p>Complète le programme avec une structure conditionnelle :</p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.6;">
+          <span style="color:#0277BD;">if</span> (distance &lt; 15) {<br>
+          &nbsp;&nbsp;<span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:40%;">&nbsp;</span> <span style="color:#757575;">// Allumer LED</span><br>
+          } <span style="color:#0277BD;">else</span> {<br>
+          &nbsp;&nbsp;<span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:40%;">&nbsp;</span> <span style="color:#757575;">// Éteindre LED</span><br>
+          }
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DD; Activité 3 — Programmer le prototype de l'équipe (S27)</h2>
+        <div class="info-box info-box-yellow">
+          <strong>Objectif :</strong> Appliquer les connaissances pour programmer le système électronique de votre objet connecté (projet Séquence 7).
+        </div>
+
+        <p><strong>Étape 1 — Schéma de câblage du prototype</strong></p>
+        <p>Dessine le schéma de câblage de votre prototype en indiquant chaque composant et ses connexions :</p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:150px; background:var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Pseudo-code du programme</strong></p>
+        <p>Avant de coder, écris le pseudo-code du fonctionnement de votre prototype :</p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:100px; background:var(--gray-50); font-family:monospace;"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Programmer et tester</strong></p>
+        <table>
+          <thead><tr><th style="width:8%">N°</th><th>Action</th><th style="width:20%">Résultat</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Câbler les composants sur la breadboard</td><td style="border-bottom:1px dotted var(--gray-300);">&#x2B1C; OK / &#x2B1C; Problème</td></tr>
+            <tr><td>2</td><td>Écrire le programme dans Arduino IDE</td><td style="border-bottom:1px dotted var(--gray-300);">&#x2B1C; OK / &#x2B1C; Problème</td></tr>
+            <tr><td>3</td><td>Téléverser et tester le capteur</td><td style="border-bottom:1px dotted var(--gray-300);">&#x2B1C; OK / &#x2B1C; Problème</td></tr>
+            <tr><td>4</td><td>Tester l'actionneur (LED / servo / buzzer)</td><td style="border-bottom:1px dotted var(--gray-300);">&#x2B1C; OK / &#x2B1C; Problème</td></tr>
+            <tr><td>5</td><td>Tester le programme complet</td><td style="border-bottom:1px dotted var(--gray-300);">&#x2B1C; OK / &#x2B1C; Problème</td></tr>
           </tbody>
         </table>
       </div>
-
-      <!-- Synthèse -->
-      <div class="content-card">
-        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
-        <div class="info-box info-box-blue">
-          <p>Complète avec : <em>reconnaissance d'images, données d'entraînement, modèle, biais, qualité, automatisés, apprendre, tester</em></p>
-        </div>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          L'IA permet la ........................ : un ........................ est entraîné avec des ........................ pour ........................ à classifier des objets.
-        </p>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          L'IA améliore les systèmes ........................ mais dépend de la ........................ des données. Des données déséquilibrées créent des ........................ .
-        </p>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          Il est important de ........................ un modèle d'IA avec des données variées pour vérifier sa fiabilité.
-        </p>
-      </div>
-
     </main>
   </div>
   <script src="../../js/components.js"></script>

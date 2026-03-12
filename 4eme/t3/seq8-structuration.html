@@ -3,121 +3,105 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 8 — IA et systèmes automatisés · Structuration | 4ème</title>
+  <title>Structuration — Séq. 8 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Structuration"}]'
-    data-print-title="4ème — Séquence 8 : IA et systèmes automatisés"
-    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    data-print-title="STRUCTURATION — Séquence 8 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
-        <h1>Séquence 8 — IA et systèmes automatisés</h1>
-        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Structuration</span>
+        <h1>Structuration — Séquence 8</h1>
+        <p class="page-description">Programmation Arduino — Ce qu'il faut retenir</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq8-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
         <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
       </div>
-      <div class="content-card">
-        <table><tbody>
-          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 3 — Projet de création et innovation</td></tr>
-          <tr><td><strong>Séquence</strong></td><td>8 — IA automatisée</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Analyser un système automatisé</span> <span class="competence-badge">Créer un modèle IA</span></td></tr>
-        </tbody></table>
-      </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; Le système automatisé</h2>
-        <p>Un <strong>système automatisé</strong> réalise des actions sans intervention humaine permanente :</p>
-        <table>
-          <thead><tr><th>Partie</th><th>Rôle</th><th>Exemples</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Partie commande (PC)</strong></td><td>Traite les informations et prend les décisions</td><td>Arduino, automate, ordinateur</td></tr>
-            <tr><td><strong>Partie opérative (PO)</strong></td><td>Exécute les actions physiques</td><td>Moteur, vérin, LED, pompe</td></tr>
-            <tr><td><strong>Capteurs</strong></td><td>Mesurent l'état du système (entrées)</td><td>Ultrason, IR, température, lumière</td></tr>
-            <tr><td><strong>Actionneurs</strong></td><td>Agissent sur l'environnement (sorties)</td><td>Moteur, buzzer, électrovanne</td></tr>
-          </tbody>
-        </table>
+        <h2>&#x1F4D8; 1 — La carte Arduino Uno</h2>
         <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Un système automatisé se compose d'une <strong>partie commande</strong> (qui décide) et d'une <strong>partie opérative</strong> (qui agit), reliées par des capteurs et des actionneurs.
+          <strong>Définition :</strong> Arduino est une carte à microcontrôleur programmable. Elle permet de lire des capteurs et de piloter des actionneurs grâce à un programme écrit en langage C/C++.
         </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Boucle ouverte et boucle fermée</h2>
         <table>
-          <thead><tr><th>Type</th><th>Principe</th><th>Exemple</th></tr></thead>
+          <thead><tr><th style="width:35%">Élément</th><th>Description</th></tr></thead>
           <tbody>
-            <tr><td><strong>Boucle ouverte</strong></td><td>Le système exécute les ordres sans vérifier le résultat</td><td>Minuterie de four : chauffe pendant 30 min sans mesurer la température</td></tr>
-            <tr><td><strong>Boucle fermée</strong></td><td>Un capteur mesure le résultat et le système se corrige automatiquement</td><td>Thermostat : mesure la température et ajuste le chauffage</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:var(--space-sm);">Schéma d'une boucle fermée : <strong>Consigne → Comparer → Commander → Agir → Mesurer → (retour)</strong></p>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          En <strong>boucle fermée</strong>, le capteur permet au système de se corriger automatiquement. C'est plus précis et plus fiable qu'une boucle ouverte.
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Teachable Machine et classification par IA</h2>
-        <p><strong>Teachable Machine</strong> (Google) permet de créer un modèle IA sans coder :</p>
-        <table>
-          <thead><tr><th>Étape</th><th>Action</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1. Collecter</strong></td><td>Rassembler les exemples</td><td>Photos, sons ou postures pour chaque catégorie</td></tr>
-            <tr><td><strong>2. Entraîner</strong></td><td>Lancer l'apprentissage</td><td>L'IA analyse les exemples et trouve des patterns</td></tr>
-            <tr><td><strong>3. Tester</strong></td><td>Vérifier les résultats</td><td>Soumettre de nouvelles données pour évaluer la précision</td></tr>
-            <tr><td><strong>4. Exporter</strong></td><td>Utiliser le modèle</td><td>Intégrer dans un projet web ou mBlock</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:var(--space-sm);"><strong>Réseau de neurones simplifié :</strong></p>
-        <ul>
-          <li><strong>Couche d'entrée</strong> : reçoit les données brutes (pixels, fréquences)</li>
-          <li><strong>Couches cachées</strong> : extraient des caractéristiques de plus en plus abstraites</li>
-          <li><strong>Couche de sortie</strong> : donne la catégorie prédite (ex : « chat », « chien »)</li>
-        </ul>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          <strong>Teachable Machine</strong> permet de créer un modèle d'IA par apprentissage supervisé : on fournit des exemples étiquetés, l'IA apprend à les classifier automatiquement.
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Éthique et IA</h2>
-        <table>
-          <thead><tr><th>Principe</th><th>Explication</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Transparence</strong></td><td>L'utilisateur doit savoir qu'il interagit avec une IA</td></tr>
-            <tr><td><strong>Explicabilité</strong></td><td>On doit pouvoir comprendre pourquoi l'IA a pris une décision</td></tr>
-            <tr><td><strong>Responsabilité</strong></td><td>Un humain doit rester responsable des décisions de l'IA</td></tr>
-            <tr><td><strong>Non-discrimination</strong></td><td>L'IA ne doit pas reproduire les biais présents dans les données</td></tr>
+            <tr><td><strong>Microcontrôleur</strong></td><td>ATmega328 — le « cerveau » qui exécute le programme</td></tr>
+            <tr><td><strong>Pins numériques (0-13)</strong></td><td>Entrées/sorties ON ou OFF (0 ou 1) — bouton, LED</td></tr>
+            <tr><td><strong>Pins analogiques (A0-A5)</strong></td><td>Lecture de valeurs de 0 à 1023 — capteur de lumière, température</td></tr>
+            <tr><td><strong>Pins PWM (~3, 5, 6, 9, 10, 11)</strong></td><td>Simulent une sortie analogique (0-255) — varier luminosité, vitesse</td></tr>
+            <tr><td><strong>Alimentation</strong></td><td>5V et 3.3V pour les composants, GND = masse</td></tr>
+            <tr><td><strong>Port USB</strong></td><td>Alimentation + téléversement du programme</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
-        <div class="info-box info-box-orange">
-          <div class="info-box-title">Mots clés de la séquence</div>
-          <ul>
-            <li><strong>Système automatisé</strong> : système réalisant des actions sans intervention humaine permanente</li>
-            <li><strong>Partie commande (PC)</strong> : élément qui traite les informations et donne les ordres</li>
-            <li><strong>Partie opérative (PO)</strong> : élément qui exécute les actions physiques</li>
-            <li><strong>Boucle fermée</strong> : système qui mesure son résultat et se corrige automatiquement</li>
-            <li><strong>Teachable Machine</strong> : outil Google pour créer un modèle IA par apprentissage</li>
-            <li><strong>Réseau de neurones</strong> : modèle informatique inspiré du cerveau humain</li>
-            <li><strong>Apprentissage supervisé</strong> : l'IA apprend à partir d'exemples étiquetés par un humain</li>
-          </ul>
+        <h2>&#x1F4D8; 2 — Structure d'un programme Arduino</h2>
+        <div class="info-box info-box-green">
+          <strong>Tout programme Arduino a 2 blocs obligatoires :</strong>
         </div>
+        <table>
+          <thead><tr><th style="width:25%">Bloc</th><th>Rôle</th><th style="width:30%">Exécution</th></tr></thead>
+          <tbody>
+            <tr><td><strong>setup()</strong></td><td>Initialisation : configurer les pins (INPUT/OUTPUT), démarrer le moniteur série</td><td>Une seule fois au démarrage</td></tr>
+            <tr><td><strong>loop()</strong></td><td>Programme principal : lire capteurs, tester conditions, piloter actionneurs</td><td>En boucle, indéfiniment</td></tr>
+          </tbody>
+        </table>
       </div>
-      <div class="content-card no-print">
-        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 3</p>
+
+      <div class="content-card">
+        <h2>&#x1F4D8; 3 — Les instructions de base</h2>
+        <table>
+          <thead><tr><th style="width:40%">Instruction</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>pinMode(pin, OUTPUT)</code></td><td>Configurer une pin en sortie</td></tr>
+            <tr><td><code>pinMode(pin, INPUT)</code></td><td>Configurer une pin en entrée</td></tr>
+            <tr><td><code>digitalWrite(pin, HIGH)</code></td><td>Mettre une pin numérique à 1 (5V) — allumer</td></tr>
+            <tr><td><code>digitalWrite(pin, LOW)</code></td><td>Mettre une pin numérique à 0 (0V) — éteindre</td></tr>
+            <tr><td><code>digitalRead(pin)</code></td><td>Lire l'état d'une entrée numérique (0 ou 1)</td></tr>
+            <tr><td><code>analogRead(pin)</code></td><td>Lire une entrée analogique (valeur 0 à 1023)</td></tr>
+            <tr><td><code>analogWrite(pin, valeur)</code></td><td>Écrire une valeur PWM (0 à 255) sur une pin ~</td></tr>
+            <tr><td><code>delay(ms)</code></td><td>Pause en millisecondes (1000 = 1 seconde)</td></tr>
+            <tr><td><code>Serial.begin(9600)</code></td><td>Démarrer la communication série (moniteur)</td></tr>
+            <tr><td><code>Serial.println(valeur)</code></td><td>Afficher une valeur dans le moniteur série</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D8; 4 — Capteurs et actionneurs</h2>
+        <table>
+          <thead><tr><th style="width:15%">Type</th><th style="width:25%">Exemple</th><th style="width:20%">Signal</th><th>Fonction Arduino</th></tr></thead>
+          <tbody>
+            <tr><td rowspan="2"><strong>Capteur</strong></td><td>Bouton poussoir</td><td>Numérique (0/1)</td><td>digitalRead()</td></tr>
+            <tr><td>Capteur ultrason HC-SR04</td><td>Distance (cm)</td><td>pulseIn() + calcul</td></tr>
+            <tr><td rowspan="3"><strong>Actionneur</strong></td><td>LED</td><td>Numérique (ON/OFF)</td><td>digitalWrite()</td></tr>
+            <tr><td>Servo-moteur</td><td>Angle (0-180°)</td><td>Servo.write()</td></tr>
+            <tr><td>Buzzer</td><td>Son (fréquence)</td><td>tone(pin, fréq)</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D8; 5 — La structure conditionnelle</h2>
+        <div class="info-box info-box-yellow">
+          <strong>if / else</strong> permet au programme de prendre des décisions en fonction des valeurs lues par les capteurs.
+        </div>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.6;">
+          <span style="color:#0277BD;">if</span> (condition) {<br>
+          &nbsp;&nbsp;<span style="color:#757575;">// Actions si la condition est VRAIE</span><br>
+          } <span style="color:#0277BD;">else</span> {<br>
+          &nbsp;&nbsp;<span style="color:#757575;">// Actions si la condition est FAUSSE</span><br>
+          }
+        </div>
+        <p style="margin-top:var(--space-md);">Opérateurs de comparaison : <code>&lt;</code> (inférieur), <code>&gt;</code> (supérieur), <code>==</code> (égal), <code>!=</code> (différent), <code>&lt;=</code> et <code>&gt;=</code>.</p>
       </div>
     </main>
   </div>

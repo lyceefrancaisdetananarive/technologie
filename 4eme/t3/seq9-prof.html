@@ -3,148 +3,120 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 9 — Fiche Professeur | 4ème</title>
+  <title>Fiche Prof — Séq. 9 : Fabrication et validation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Fiche professeur"}]'
-    data-print-title="4ème — Séquence 9 : Fiche Professeur"
-    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Fiche Prof"}]'
+    data-print-title="FICHE PROFESSEUR — Séquence 9 : Fabrication et validation"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · PROFESSEUR</span>
-        <h1>Séquence 9 — Fabrication numérique (FabLab)</h1>
-        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Fiche Prof</span>
+        <h1>Fiche Professeur — Séquence 9</h1>
+        <p class="page-description">Fabrication, assemblage, validation et présentation (S28 → S30)</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
-        <a href="seq9-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq9-eval.html" class="btn btn-outline">&#x1F4CB; Évaluation</a>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <h2>&#x1F4CB; Déroulé de la séquence</h2>
         <table>
+          <thead><tr><th style="width:15%">Séance</th><th style="width:35%">Contenu</th><th style="width:25%">Activité élève</th><th style="width:25%">Support / Outil</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30) — inclut évaluation T3</td></tr>
-            <tr><td><strong>Compétences BO 2024</strong></td><td>
-              <span class="competence-badge">Concevoir et réaliser un prototype</span>
-              <span class="competence-badge">Valider par tests et simulations</span>
-            </td></tr>
-            <tr><td><strong>Objectifs</strong></td><td>
-              <ul>
-                <li>Connaître les machines du FabLab et leurs usages</li>
-                <li>Concevoir et fabriquer une pièce de réparation en 3D</li>
-                <li>Comprendre le processus complet de fabrication numérique</li>
-                <li>Analyser les apports de la fabrication numérique pour le développement durable</li>
-              </ul>
-            </td></tr>
-            <tr><td><strong>Matériel</strong></td><td>Imprimante 3D, PLA, Tinkercad, Cura (slicer), pied à coulisse, objets à réparer</td></tr>
+            <tr>
+              <td><strong>S28</strong><br>(1h)</td>
+              <td>Fabrication au FabLab : préparation fichiers, impression 3D et/ou découpe laser, contrôle qualité</td>
+              <td>Activité 1 — Fabrication</td>
+              <td>FabLab, imprimante 3D, xTool M1</td>
+            </tr>
+            <tr>
+              <td><strong>S29</strong><br>(1h)</td>
+              <td>Assemblage du prototype : intégration Arduino + composants + boîtier. Tests fonctionnels</td>
+              <td>Activité 2 — Assemblage et tests</td>
+              <td>Kits Arduino, tournevis, colle</td>
+            </tr>
+            <tr>
+              <td><strong>S30</strong><br>(1h)</td>
+              <td>Validation par rapport au CdCF. Présentation orale (5 min/groupe). Bilan de l'année</td>
+              <td>Activité 3 — Validation et présentation</td>
+              <td>Vidéoprojecteur, grille d'évaluation</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4C5; Déroulement</h2>
-
-        <h3>Séance 30 (1h30) — Machines du FabLab + conception</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S30</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Activité 1 (30 min)</h4>
-            <p>Présentation des machines. Vidéos courtes de chaque procédé. Les élèves complètent le tableau.</p>
-            <h4>Phase 2 — Activité 2 début (60 min)</h4>
-            <p>Mesure de la pièce à fabriquer (pied à coulisse). Croquis coté. Début de la modélisation Tinkercad.</p>
-          </div>
-        </div>
-
-        <h3>Séance 31 (1h30) — Impression + développement durable</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S31</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Fin modélisation + export (30 min)</h4>
-            <p>Finaliser le modèle Tinkercad. Export STL. Configuration dans Cura.</p>
-            <h4>Phase 2 — Impression (pendant le cours)</h4>
-            <p>Lancer les impressions (les plus simples/petites d'abord). En attendant : activité 3.</p>
-            <h4>Phase 3 — Activité 3 (45 min)</h4>
-            <p>Fabrication numérique et développement durable. Discussion et comparaison.</p>
-          </div>
-        </div>
-
-        <h3>Séance 32 (1h30) — Bilan + Évaluation T3</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S32</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Synthèse + post-traitement (30 min)</h4>
-            <p>Récupérer les pièces imprimées. Post-traitement. Synthèse de la séquence.</p>
-            <h4>Phase 2 — Évaluation T3 (45 min)</h4>
-            <p>Évaluation bilan sur les séquences 7 à 9 + note du projet (séq. 7).</p>
-            <h4>Phase 3 — Bilan de l'année (15 min)</h4>
-            <p>Retour sur l'année. Perspectives 3ème (projet brevet, Arduino avancé).</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x2705; Corrigé détaillé</h2>
-
-        <h3>Activité 1 — Machines du FabLab</h3>
+        <h2>&#x2705; Éléments de correction — Activité 1</h2>
+        <p><strong>Points de vigilance FabLab :</strong></p>
+        <ul>
+          <li>Vérifier que les fichiers STL sont « étanches » (pas de trous dans le maillage) avant le slicing</li>
+          <li>Paramètres slicer recommandés : remplissage 20%, épaisseur couche 0.2 mm, supports si nécessaire</li>
+          <li>Pour la découpe laser xTool M1 : vérifier que le fichier SVG a les bonnes dimensions et que les traits de coupe sont en rouge (puissance 100%)</li>
+          <li>Temps d'impression moyen : 1h-2h pour un petit boîtier. Prévoir de lancer les impressions en avance si possible</li>
+        </ul>
+        <p><strong>Problèmes fréquents :</strong></p>
         <table>
-          <thead><tr><th>Besoin</th><th>Machine</th><th>Justification</th></tr></thead>
+          <thead><tr><th>Problème</th><th>Solution</th></tr></thead>
           <tbody>
-            <tr><td>Pièce de remplacement robot</td><td><strong>Imprimante 3D</strong></td><td>Forme complexe, petite série, pièce sur mesure</td></tr>
-            <tr><td>Graver logo sur bois</td><td><strong>Découpeuse laser</strong></td><td>Gravure précise sur surface plane en bois</td></tr>
-            <tr><td>Support métallique précis</td><td><strong>Fraiseuse CNC</strong></td><td>Usinage précis de métal par enlèvement de matière</td></tr>
-            <tr><td>Numériser objet cassé</td><td><strong>Scanner 3D</strong></td><td>Numérise les dimensions exactes de l'objet réel</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Activité 3 — Développement durable</h3>
-        <p><strong>a) Avantages :</strong> 1. Réparation d'objets au lieu de les jeter. 2. Production locale (pas de transport). 3. Fabrication à la demande (pas de surproduction). 4. Personnalisation (pièces sur mesure).</p>
-        <p><strong>b) Limites :</strong> 1. Consommation d'énergie de l'imprimante. 2. Déchets plastiques (ratés d'impression, supports). 3. Le PLA est biodégradable mais dans des conditions industrielles uniquement.</p>
-        <p><strong>c) Comparaison :</strong></p>
-        <table>
-          <thead><tr><th>Critère</th><th>Industrielle</th><th>Numérique (FabLab)</th></tr></thead>
-          <tbody>
-            <tr><td>Quantité</td><td>Milliers/millions</td><td><strong>1 à quelques dizaines (petite série)</strong></td></tr>
-            <tr><td>Personnalisation</td><td>Très limitée</td><td><strong>Totale (chaque pièce peut être unique)</strong></td></tr>
-            <tr><td>Transport</td><td>Mondial</td><td><strong>Local (pas de transport)</strong></td></tr>
-            <tr><td>Réparation</td><td>Pièces standard</td><td><strong>Pièces sur mesure, même si plus disponibles</strong></td></tr>
+            <tr><td>Pièce qui ne colle pas au plateau</td><td>Ajouter une bordure (brim) ou du scotch de peintre</td></tr>
+            <tr><td>Dimensions incorrectes</td><td>Vérifier l'échelle dans le slicer (1:1)</td></tr>
+            <tr><td>Pièces qui ne s'emboîtent pas</td><td>Prévoir un jeu de 0.2-0.3 mm dans le modèle 3D</td></tr>
+            <tr><td>Fil qui casse pendant l'impression</td><td>Vérifier que la bobine se déroule librement</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CB; Saisie Pronote</h2>
-        <h3>Cahier de texte — Séance 30</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Séquence 9 — Fabrication numérique. Activité 1 : machines du FabLab. Activité 2 : mesure et modélisation 3D d'une pièce de réparation sur Tinkercad.<br>
-          <strong>Travail :</strong> Terminer la modélisation si non fini.
-        </div>
-        <h3>Cahier de texte — Séance 31</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Export STL, configuration Cura, lancement impression 3D. Activité 3 : fabrication numérique et développement durable.<br>
-          <strong>Travail :</strong> RÉVISER les séquences 7 à 9 pour l'évaluation T3.
-        </div>
-        <h3>Cahier de texte — Séance 32</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Post-traitement des pièces. Synthèse. Évaluation bilan T3. Bilan de l'année, perspectives 3ème.
-        </div>
-        <h3>Compétences Pronote</h3>
+        <h2>&#x2705; Éléments de correction — Activité 2</h2>
+        <p><strong>Ordre d'assemblage recommandé :</strong></p>
+        <ol>
+          <li>Fixer l'Arduino dans le boîtier (vis M3 ou colle chaude)</li>
+          <li>Positionner et fixer les capteurs aux ouvertures prévues</li>
+          <li>Câbler les composants (vérifier les branchements AVANT d'alimenter)</li>
+          <li>Téléverser le programme</li>
+          <li>Tester chaque fonction séparément, puis le programme complet</li>
+          <li>Fermer le boîtier</li>
+        </ol>
+        <p><strong>Erreurs courantes des élèves :</strong></p>
+        <ul>
+          <li>Inversion de polarité sur la LED (patte longue = +)</li>
+          <li>Fils mal enfoncés dans la breadboard → connexion intermittente</li>
+          <li>Oubli de la résistance en série avec la LED (risque de griller)</li>
+          <li>Mauvaise pin dans le programme (ne correspond pas au câblage)</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Grille d'évaluation — Présentation orale</h2>
         <table>
-          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <thead><tr><th>Critère</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
           <tbody>
-            <tr><td>Concevoir et réaliser un prototype</td><td>Activité 2 (modélisation + impression 3D)</td></tr>
-            <tr><td>Valider par tests et simulations</td><td>Activités 2 et 3 (paramètres d'impression, dév. durable)</td></tr>
+            <tr><td>Présentation claire et structurée</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>Respect du temps (5 min)</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>Vocabulaire technique approprié</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>Démonstration du prototype</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>Bilan critique (difficultés + améliorations)</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
           </tbody>
         </table>
       </div>
 
+      <div class="content-card">
+        <h2>&#x1F4CB; Entrées Pronote</h2>
+        <table>
+          <thead><tr><th>Séance</th><th>Entrée cahier de textes</th></tr></thead>
+          <tbody>
+            <tr><td>S28</td><td>Séq. 9 — Fabrication au FabLab. Préparation des fichiers (STL/SVG), lancement des fabrications (impression 3D / découpe laser), contrôle qualité. Fiche activité 1.</td></tr>
+            <tr><td>S29</td><td>Suite Séq. 9 — Assemblage du prototype : intégration Arduino + composants + boîtier. Tests fonctionnels et débogage. Fiche activité 2.</td></tr>
+            <tr><td>S30</td><td>Fin Séq. 9 — Validation du prototype vs CdCF. Présentation orale du projet (5 min/groupe). Bilan de l'année. Structuration.</td></tr>
+          </tbody>
+        </table>
+      </div>
     </main>
   </div>
   <script src="../../js/components.js"></script>

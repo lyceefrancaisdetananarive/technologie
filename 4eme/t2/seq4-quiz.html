@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 4 : Systèmes d'énergie | 4ème</title>
+  <title>Quiz — Séq. 4 : Documentation technique | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -14,8 +14,8 @@
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
-        <h1>Quiz — Systèmes d'énergie et conversions</h1>
-        <p class="page-description">Teste tes connaissances sur les formes d'énergie, la chaîne d'énergie et le rendement.</p>
+        <h1>Quiz — Cahier des charges et documentation technique</h1>
+        <p class="page-description">Teste tes connaissances sur le cahier des charges, le dessin de définition et la nomenclature.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -30,70 +30,70 @@
     const questions = [
       {
         type: 'qcm',
-        question: 'Quelle conversion d\'énergie réalise un moteur électrique ?',
-        options: ['Chimique → mécanique', 'Électrique → mécanique', 'Mécanique → électrique', 'Thermique → mécanique'],
+        question: 'Quel document décrit les besoins et les contraintes d\'un objet technique avant sa conception ?',
+        options: ['La nomenclature', 'Le cahier des charges', 'Le dessin de définition', 'Le cartouche'],
         correct: 1,
-        explanation: 'Un moteur électrique convertit l\'énergie électrique en énergie mécanique (mouvement de rotation).'
-      },
-      {
-        type: 'qcm',
-        question: 'Les 4 fonctions de la chaîne d\'énergie sont...',
-        options: ['Capter, traiter, communiquer, afficher', 'Alimenter, distribuer, convertir, transmettre', 'Mesurer, calculer, stocker, afficher', 'Produire, transformer, consommer, recycler'],
-        correct: 1,
-        explanation: 'La chaîne d\'énergie se décompose en 4 fonctions : ALIMENTER (source), DISTRIBUER (régulation), CONVERTIR (transformation), TRANSMETTRE (mouvement final).'
+        explanation: 'Le cahier des charges fonctionnel (CdCF) décrit les besoins, les fonctions et les contraintes d\'un objet technique avant sa conception.'
       },
       {
         type: 'vrai_faux',
-        question: 'Une voiture thermique a un rendement d\'environ 85%.',
+        question: 'La fonction principale (FP) d\'un feu tricolore est de réguler la circulation routière.',
+        correct: true,
+        explanation: 'La fonction principale décrit le but de l\'objet. Un feu tricolore sert bien à réguler la circulation en alternant les signaux lumineux.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que trouve-t-on dans le cartouche d\'un dessin de définition ?',
+        options: ['Les dimensions des pièces', 'Le nom de la pièce, le matériau, l\'échelle et l\'auteur', 'La liste de toutes les pièces', 'Les fonctions de contrainte'],
+        correct: 1,
+        explanation: 'Le cartouche contient les informations d\'identification : nom de la pièce, matériau, échelle, auteur et date.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel type de trait utilise-t-on pour représenter une arête cachée sur un dessin technique ?',
+        options: ['Trait continu fort', 'Trait interrompu (pointillés)', 'Trait mixte fin', 'Trait ondulé'],
+        correct: 1,
+        explanation: 'Le trait interrompu (pointillés) représente les arêtes cachées, invisibles de face. Le trait continu fort est pour les arêtes visibles.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La nomenclature liste uniquement les pièces les plus importantes d\'un objet.',
         correct: false,
-        explanation: 'Le rendement d\'une voiture thermique est d\'environ 25% seulement. 75% de l\'énergie de l\'essence est perdue sous forme de chaleur. C\'est la voiture électrique qui atteint ~85%.'
+        explanation: 'La nomenclature est la liste COMPLÈTE de toutes les pièces d\'un ensemble technique, sans exception. Elle inclut chaque composant avec sa quantité et son matériau.'
       },
       {
         type: 'qcm',
-        question: 'Quelle est la forme d\'énergie stockée dans une batterie lithium-ion ?',
-        options: ['Mécanique', 'Thermique', 'Chimique', 'Nucléaire'],
-        correct: 2,
-        explanation: 'Une batterie stocke l\'énergie sous forme chimique. Lors de la décharge, des réactions chimiques convertissent cette énergie en énergie électrique.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans la chaîne d\'énergie d\'un VAE, quel composant assure la fonction CONVERTIR ?',
-        options: ['La batterie', 'Le contrôleur', 'Le moteur électrique', 'La chaîne et le pignon'],
-        correct: 2,
-        explanation: 'Le moteur électrique assure la fonction CONVERTIR en transformant l\'énergie électrique en énergie mécanique de rotation.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un panneau solaire convertit l\'énergie lumineuse en énergie électrique.',
-        correct: true,
-        explanation: 'Un panneau solaire photovoltaïque convertit directement l\'énergie lumineuse du soleil en énergie électrique grâce à l\'effet photovoltaïque.'
-      },
-      {
-        type: 'qcm',
-        question: 'Si un moteur consomme 200 kWh et produit 170 kWh d\'énergie utile, quel est son rendement ?',
-        options: ['25%', '70%', '85%', '100%'],
-        correct: 2,
-        explanation: 'Rendement = (170/200) × 100 = 85%. Ce moteur a un bon rendement avec seulement 15% de pertes.'
-      },
-      {
-        type: 'qcm',
-        question: 'Pourquoi y a-t-il toujours de l\'énergie perdue lors d\'une conversion ?',
-        options: ['Parce que l\'énergie disparaît', 'À cause des frottements, de la chaleur et du bruit', 'Parce que les machines sont mal construites', 'L\'énergie est volée par le réseau'],
+        question: 'Quelles sont les 3 vues principales en projection orthogonale ?',
+        options: ['Avant, arrière, côté', 'Face, dessus, droite', 'Haut, bas, profil', 'Perspective, isométrique, éclatée'],
         correct: 1,
-        explanation: 'L\'énergie ne disparaît jamais (conservation de l\'énergie), mais elle se dégrade : frottements, chaleur, bruit, vibrations. Ces pertes sont inévitables mais peuvent être réduites.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Le freinage régénératif permet de récupérer de l\'énergie.',
-        correct: true,
-        explanation: 'Le freinage régénératif (utilisé dans les voitures électriques et VAE) convertit l\'énergie mécanique du freinage en énergie électrique qui recharge la batterie.'
+        explanation: 'Les 3 vues principales en projection orthogonale sont : la vue de face, la vue de dessus et la vue de droite.'
       },
       {
         type: 'qcm',
-        question: 'Dans un portail automatique, la fonction TRANSMETTRE est assurée par...',
-        options: ['Le réseau 230V', 'La carte électronique', 'Le moteur', 'L\'engrenage et la crémaillère'],
-        correct: 3,
-        explanation: 'L\'engrenage et la crémaillère transmettent le mouvement de rotation du moteur en mouvement de translation (ouverture/fermeture) du portail.'
+        question: 'Dans une nomenclature, la colonne « Rep. » correspond à...',
+        options: ['La réparation de la pièce', 'Le repère (numéro d\'identification) de la pièce', 'La répétition de la pièce', 'Le responsable de la pièce'],
+        correct: 1,
+        explanation: 'Le repère (Rep.) est le numéro qui identifie chaque pièce sur le dessin technique et dans la nomenclature.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La cotation indique les dimensions d\'une pièce en centimètres.',
+        correct: false,
+        explanation: 'En dessin technique, la cotation indique les dimensions en millimètres (mm), pas en centimètres.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'une fonction de contrainte (FC) ?',
+        options: ['La fonction principale de l\'objet', 'Une exigence imposée par l\'environnement (normes, sécurité, esthétique)', 'Le prix de fabrication', 'La liste des matériaux'],
+        correct: 1,
+        explanation: 'Les fonctions de contrainte sont les exigences imposées par l\'environnement : normes de sécurité, résistance, esthétique, alimentation, etc.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi la nomenclature est-elle indispensable avant la fabrication ?',
+        options: ['Pour décorer le dossier technique', 'Pour connaître les pièces à acheter et organiser la production', 'Pour remplacer le cahier des charges', 'Pour calculer le rendement'],
+        correct: 1,
+        explanation: 'La nomenclature permet de connaître toutes les pièces à acheter ou fabriquer, d\'estimer le coût et d\'organiser la production sans rien oublier.'
       }
     ];
 

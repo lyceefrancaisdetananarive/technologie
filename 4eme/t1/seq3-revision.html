@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Révision — Séq. 3 : Objets connectés (IoT) | 4ème</title>
+  <title>Révision — Séq. 3 : Programmation Micro:bit | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Révision"}]'
-    data-print-title="FICHE DE RÉVISION — Séquence 3 : Objets connectés (IoT)"
+    data-print-title="FICHE DE RÉVISION — Séquence 3 : Programmation Micro:bit"
     data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T1 · Révision</span>
         <h1>Révision — Séquence 3</h1>
-        <p class="page-description">Objets connectés (IoT) — Les notions clés</p>
+        <p class="page-description">Programmation Micro:bit — Les notions clés</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
@@ -29,11 +29,11 @@
         <table>
           <thead><tr><th style="width:30%">Mot</th><th>Définition</th></tr></thead>
           <tbody>
-            <tr><td><strong>IoT (Internet of Things)</strong></td><td>Réseau d'objets physiques connectés qui échangent des données via internet.</td></tr>
-            <tr><td><strong>Protocole</strong></td><td>Règle de communication entre appareils (Wi-Fi, Bluetooth, Zigbee, LoRa).</td></tr>
-            <tr><td><strong>Cloud</strong></td><td>Serveurs distants qui stockent et traitent les données des objets connectés.</td></tr>
-            <tr><td><strong>Passerelle (gateway)</strong></td><td>Dispositif qui relie le réseau local d'objets à internet.</td></tr>
-            <tr><td><strong>Données personnelles</strong></td><td>Informations qui permettent d'identifier une personne (nom, localisation, habitudes).</td></tr>
+            <tr><td><strong>Micro:bit</strong></td><td>Micro-ordinateur programmable avec capteurs et LEDs intégrés.</td></tr>
+            <tr><td><strong>MakeCode</strong></td><td>Éditeur en ligne pour programmer la Micro:bit par blocs visuels.</td></tr>
+            <tr><td><strong>Accéléromètre</strong></td><td>Capteur qui détecte les mouvements (secouer, incliner, chute libre).</td></tr>
+            <tr><td><strong>Variable</strong></td><td>Espace mémoire nommé qui stocke une valeur modifiable.</td></tr>
+            <tr><td><strong>Événement</strong></td><td>Action qui déclenche l'exécution d'un bloc (appui bouton, secouement).</td></tr>
           </tbody>
         </table>
       </div>
@@ -41,23 +41,24 @@
       <div class="content-card">
         <h2>&#x1F4A1; Ce qu'il faut retenir</h2>
         <div class="info-box info-box-green">
-          <strong>Architecture IoT :</strong> Objets (capteurs) → Réseau (protocoles) → Cloud (stockage/traitement) → Application (interface utilisateur).
+          <strong>La Micro:bit = capteurs + LEDs + boutons + radio.</strong> On la programme par blocs dans MakeCode.
         </div>
         <ul>
-          <li>Un objet connecté combine <strong>capteurs</strong>, <strong>microcontrôleur</strong> et <strong>module de communication</strong>.</li>
-          <li>Les protocoles varient selon la portée : Bluetooth (courte), Wi-Fi (moyenne), LoRa (longue).</li>
-          <li>Le <strong>cloud</strong> centralise les données et permet l'accès à distance.</li>
-          <li>La protection des <strong>données personnelles</strong> est un enjeu majeur (RGPD en Europe).</li>
+          <li>La matrice <strong>5×5 LEDs</strong> affiche texte, nombres et images.</li>
+          <li>Les <strong>boutons A et B</strong> permettent d'interagir avec le programme.</li>
+          <li>L'<strong>accéléromètre</strong> détecte quand on secoue la carte.</li>
+          <li>Une <strong>variable</strong> stocke une valeur qui change (score, compteur, dé).</li>
+          <li><strong>MakeCode</strong> : blocs Base (affichage), Entrée (capteurs), Logique (conditions), Variables, Maths.</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>&#x2705; Je vérifie mes connaissances</h2>
         <ol>
-          <li>Décris l'architecture d'un système IoT en 4 couches.</li>
-          <li>Cite 3 protocoles de communication et leur portée respective.</li>
-          <li>Quel est le rôle du cloud dans un système connecté ?</li>
-          <li>Pourquoi la protection des données personnelles est-elle importante avec l'IoT ?</li>
+          <li>Cite 3 capteurs intégrés dans la Micro:bit.</li>
+          <li>Quelle est la différence entre un capteur et un actionneur ? Donne un exemple sur la Micro:bit.</li>
+          <li>Explique ce qu'est une variable et donne un exemple d'utilisation.</li>
+          <li>Quels blocs faut-il pour programmer un dé numérique ?</li>
         </ol>
       </div>
     </main>

@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Révision — Séq. 6 : Réparabilité et diagnostic | 4ème</title>
+  <title>Révision — Séq. 6 : Modélisation 3D | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Révision"}]'
-    data-print-title="FICHE DE RÉVISION — Séquence 6 : Réparabilité et diagnostic"
+    data-print-title="FICHE DE RÉVISION — Séquence 6 : Modélisation 3D"
     data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T2 · Révision</span>
         <h1>Révision — Séquence 6</h1>
-        <p class="page-description">Réparabilité et diagnostic — Les notions clés</p>
+        <p class="page-description">Modélisation 3D et fabrication numérique — Les notions clés</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
@@ -29,11 +29,13 @@
         <table>
           <thead><tr><th style="width:30%">Mot</th><th>Définition</th></tr></thead>
           <tbody>
-            <tr><td><strong>Indice de réparabilité</strong></td><td>Note sur 10 indiquant la facilité de réparation d'un appareil.</td></tr>
-            <tr><td><strong>Obsolescence programmée</strong></td><td>Stratégie qui limite volontairement la durée de vie d'un produit.</td></tr>
-            <tr><td><strong>Diagnostic de panne</strong></td><td>Démarche méthodique pour identifier l'origine d'un dysfonctionnement.</td></tr>
-            <tr><td><strong>Pièce détachée</strong></td><td>Composant remplaçable permettant de réparer un appareil défaillant.</td></tr>
-            <tr><td><strong>Économie circulaire</strong></td><td>Modèle économique visant à réduire les déchets en réutilisant et recyclant.</td></tr>
+            <tr><td><strong>Modèle 3D</strong></td><td>Fichier numérique décrivant un objet en 3 dimensions.</td></tr>
+            <tr><td><strong>STL</strong></td><td>Format standard pour l'impression 3D (maillage de triangles).</td></tr>
+            <tr><td><strong>3MF</strong></td><td>Format amélioré incluant couleurs et matériaux.</td></tr>
+            <tr><td><strong>Slicer</strong></td><td>Logiciel qui tranche le modèle 3D en couches et génère le G-code.</td></tr>
+            <tr><td><strong>G-code</strong></td><td>Langage d'instructions pour piloter les machines numériques.</td></tr>
+            <tr><td><strong>FDM</strong></td><td>Impression 3D par dépôt de fil fondu couche par couche.</td></tr>
+            <tr><td><strong>xTool M1</strong></td><td>Machine combinant découpe et gravure laser.</td></tr>
           </tbody>
         </table>
       </div>
@@ -41,23 +43,25 @@
       <div class="content-card">
         <h2>&#x1F4A1; Ce qu'il faut retenir</h2>
         <div class="info-box info-box-green">
-          <strong>Diagnostic de panne :</strong> Observer le symptôme → Émettre des hypothèses → Tester → Identifier la cause → Réparer.
+          <strong>Chaîne de fabrication numérique :</strong> Modélisation 3D → Slicer → G-code → Machine (impression 3D ou découpe laser).
         </div>
         <ul>
-          <li>L'<strong>indice de réparabilité</strong> (obligatoire en France depuis 2021) aide les consommateurs à choisir.</li>
-          <li>La <strong>réparabilité</strong> dépend de : disponibilité des pièces, documentation, démontabilité, prix.</li>
-          <li>L'<strong>obsolescence programmée</strong> est un problème environnemental et économique.</li>
-          <li>L'<strong>économie circulaire</strong> s'oppose au modèle « fabriquer-consommer-jeter ».</li>
+          <li><strong>Impression 3D</strong> : objets en volume (3D), plastique fondu couche par couche, fichiers STL/3MF.</li>
+          <li><strong>Découpe laser</strong> : pièces plates (2D), coupe et gravure au laser, fichiers SVG/DXF.</li>
+          <li>Le <strong>slicer</strong> permet de paramétrer : épaisseur de couche, remplissage, supports.</li>
+          <li>Les <strong>supports</strong> sont nécessaires pour les parties en porte-à-faux (&gt; 45°).</li>
+          <li>La <strong>xTool M1</strong> découpe bois, acrylique, carton, cuir et grave des motifs.</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>&#x2705; Je vérifie mes connaissances</h2>
         <ol>
-          <li>Quelles sont les étapes d'un diagnostic de panne ?</li>
-          <li>Que mesure l'indice de réparabilité et quels critères utilise-t-il ?</li>
-          <li>Qu'est-ce que l'obsolescence programmée ? Donne un exemple.</li>
-          <li>En quoi l'économie circulaire est-elle meilleure pour l'environnement ?</li>
+          <li>Quelle est la différence entre un fichier STL et un fichier 3MF ?</li>
+          <li>Cite les 4 étapes de l'impression 3D dans l'ordre.</li>
+          <li>Quels matériaux peut-on couper avec la xTool M1 ?</li>
+          <li>Qu'est-ce que le G-code et qui le génère ?</li>
+          <li>Quand faut-il ajouter des supports lors de l'impression 3D ?</li>
         </ol>
       </div>
     </main>

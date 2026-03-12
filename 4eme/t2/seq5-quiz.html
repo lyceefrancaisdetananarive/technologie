@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 5 : Programmation Arduino/mBlock | 4ème</title>
+  <title>Quiz — Séq. 5 : Programmation mBlock / Scratch | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -14,8 +14,8 @@
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
-        <h1>Quiz — Programmation et automatisation</h1>
-        <p class="page-description">Teste tes connaissances sur Arduino, mBlock, capteurs, actionneurs et cybersécurité.</p>
+        <h1>Quiz — Programmation et automatisation (mBlock / Scratch)</h1>
+        <p class="page-description">Teste tes connaissances sur la programmation par blocs, les sprites, les messages et les interfaces graphiques.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -30,70 +30,70 @@
     const questions = [
       {
         type: 'qcm',
-        question: 'Quel est le rôle d\'un capteur dans un système automatisé ?',
-        options: ['Agir sur l\'environnement', 'Mesurer une grandeur de l\'environnement', 'Exécuter le programme', 'Stocker des données'],
+        question: 'Qu\'est-ce qu\'un sprite dans Scratch ou mBlock ?',
+        options: ['Une ligne de code', 'Un objet graphique programmable', 'Un type de variable', 'Un câble de connexion'],
         correct: 1,
-        explanation: 'Un capteur ACQUIERT des informations en mesurant une grandeur de l\'environnement (distance, lumière, son, température...).'
-      },
-      {
-        type: 'qcm',
-        question: 'Les 3 fonctions de la chaîne d\'information sont...',
-        options: ['Alimenter, distribuer, convertir', 'Acquérir, traiter, communiquer', 'Capter, analyser, afficher', 'Entrer, calculer, sortir'],
-        correct: 1,
-        explanation: 'La chaîne d\'information : ACQUÉRIR (capteur), TRAITER (microcontrôleur/Arduino), COMMUNIQUER (actionneur/afficheur).'
+        explanation: 'Un sprite est un objet graphique programmable (feu, bouton, personnage) que l\'on peut animer et programmer dans Scratch/mBlock.'
       },
       {
         type: 'vrai_faux',
-        question: 'Un moteur est un capteur.',
-        correct: false,
-        explanation: 'Un moteur est un ACTIONNEUR (il agit sur l\'environnement en produisant du mouvement). Un capteur mesure une grandeur, il n\'agit pas.'
-      },
-      {
-        type: 'qcm',
-        question: 'Que fait le capteur ultrason du mBot ?',
-        options: ['Il détecte les couleurs', 'Il mesure la distance aux obstacles', 'Il suit une ligne noire', 'Il mesure la température'],
-        correct: 1,
-        explanation: 'Le capteur ultrason envoie des ondes sonores et mesure le temps de retour de l\'écho pour calculer la distance aux obstacles.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quelle structure de programmation permet de prendre une décision ?',
-        options: ['Boucle RÉPÉTER', 'Variable', 'Condition SI...ALORS...SINON', 'Fonction AVANCER'],
-        correct: 2,
-        explanation: 'La structure SI...ALORS...SINON (condition) permet au programme de prendre des décisions différentes selon les informations reçues des capteurs.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Une variable en programmation permet de stocker une valeur qui peut changer.',
+        question: 'Un sprite peut avoir plusieurs costumes pour changer d\'apparence.',
         correct: true,
-        explanation: 'Une variable est un espace mémoire nommé qui stocke une valeur pouvant être modifiée pendant l\'exécution du programme (ex : compteur de tours).'
+        explanation: 'Un sprite peut avoir plusieurs costumes. Par exemple, un feu tricolore a 3 costumes : vert, orange et rouge. On bascule entre les costumes pour changer son apparence.'
       },
       {
         type: 'qcm',
-        question: 'Le capteur suiveur de ligne du mBot fonctionne avec...',
-        options: ['Des ultrasons', 'De la lumière infrarouge (IR)', 'Un GPS', 'Un accéléromètre'],
+        question: 'Comment synchroniser deux feux tricolores dans Scratch ?',
+        options: ['En utilisant des variables uniquement', 'En utilisant des messages (envoyer à tous / quand je reçois)', 'En dessinant les deux feux sur le même sprite', 'En utilisant deux ordinateurs'],
         correct: 1,
-        explanation: 'Le capteur suiveur de ligne utilise la lumière infrarouge : le noir absorbe la lumière (peu de réflexion) et le blanc la réfléchit (forte réflexion).'
+        explanation: 'On utilise les messages « envoyer à tous » et « quand je reçois » pour que les sprites communiquent entre eux et se synchronisent.'
       },
       {
         type: 'qcm',
-        question: 'Quel risque pose une connexion Bluetooth non sécurisée ?',
-        options: ['La batterie se vide plus vite', 'Un pirate peut prendre le contrôle du système', 'Le robot avance plus lentement', 'Les LED ne fonctionnent plus'],
+        question: 'Quel bloc permet de répéter le cycle du feu tricolore indéfiniment ?',
+        options: ['Attendre 1 seconde', 'Répéter indéfiniment', 'Si...alors', 'Quand drapeau vert cliqué'],
         correct: 1,
-        explanation: 'Sans sécurité Bluetooth, un pirate peut intercepter les données, envoyer de fausses commandes ou prendre le contrôle du robot à distance.'
+        explanation: 'Le bloc « Répéter indéfiniment » (boucle infinie) permet de faire tourner le cycle vert → orange → rouge en continu.'
       },
       {
         type: 'vrai_faux',
-        question: 'Arduino est un logiciel de traitement de texte.',
+        question: 'Dans un carrefour, les deux feux peuvent être verts en même temps.',
         correct: false,
-        explanation: 'Arduino est une carte électronique programmable (microcontrôleur) utilisée pour créer des systèmes automatisés. mBlock est le logiciel de programmation par blocs.'
+        explanation: 'Les deux feux ne doivent JAMAIS être verts en même temps, sinon les voitures des deux voies avanceraient et provoqueraient un accident.'
       },
       {
         type: 'qcm',
-        question: 'Pour que le mBot s\'arrête après 3 tours de piste, il faut utiliser...',
-        options: ['Un capteur de température', 'Une variable compteur et une condition', 'Un deuxième moteur', 'Un câble USB plus long'],
+        question: 'À quoi sert une variable « demandePieton » dans le programme du carrefour ?',
+        options: ['À compter les voitures', 'À savoir si un piéton a appuyé sur le bouton', 'À changer la couleur du feu', 'À mesurer la température'],
         correct: 1,
-        explanation: 'On utilise une variable "tours" initialisée à 0, incrémentée à chaque tour, et une condition SI tours = 3 ALORS s\'arrêter.'
+        explanation: 'La variable « demandePieton » (0 ou 1) permet au programme de savoir si un piéton a demandé à traverser, et de déclencher le cycle piéton.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre mBlock et Scratch ?',
+        options: ['mBlock est un langage textuel, Scratch est visuel', 'mBlock peut aussi piloter des cartes électroniques (Arduino)', 'Scratch est plus récent que mBlock', 'Il n\'y a aucune différence'],
+        correct: 1,
+        explanation: 'mBlock est basé sur Scratch mais ajoute la possibilité de piloter des cartes électroniques (Arduino, Micro:bit). Scratch est dédié à la programmation visuelle pure.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le bloc « quand drapeau vert cliqué » est un bloc de la catégorie Contrôle.',
+        correct: false,
+        explanation: 'Ce bloc appartient à la catégorie « Événements ». Les blocs de contrôle sont : répéter, attendre, si...alors, etc.'
+      },
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'une interface graphique ?',
+        options: ['Un câble reliant l\'ordinateur à l\'Arduino', 'Un programme visuel permettant l\'interaction homme-machine', 'Un type de capteur', 'Un langage de programmation'],
+        correct: 1,
+        explanation: 'Une interface graphique est un programme visuel (avec boutons, images, animations) qui permet à l\'utilisateur d\'interagir avec un système.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le cycle du feu tricolore, quelle couleur dure le moins longtemps ?',
+        options: ['Le vert', 'L\'orange', 'Le rouge', 'Elles durent toutes le même temps'],
+        correct: 1,
+        explanation: 'L\'orange (2 secondes) est la phase la plus courte car elle sert uniquement à avertir que le feu va passer au rouge. Le vert et le rouge durent 5 secondes chacun.'
       }
     ];
 

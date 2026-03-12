@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Évaluation Trimestre 3 | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 3"},{"label":"Évaluation"}]'
+    data-print-title="ÉVALUATION DE FIN DE TRIMESTRE 3"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Évaluation T3</span>
+        <h1>Évaluation de fin de trimestre 3</h1>
+        <p class="page-description">Projet collaboratif, Arduino et fabrication FabLab — Durée : 55 minutes</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <div class="content-card">
+        <h2>Compétences évaluées</h2>
+        <table>
+          <thead><tr><th>Compétence</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
+          <tbody>
+            <tr><td>C1 — Planifier et organiser un projet technologique</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C2 — Programmer un système Arduino (capteurs/actionneurs)</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C3 — Fabriquer et valider un prototype au FabLab</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+        <div style="display:flex; gap:var(--space-xl); margin-top:var(--space-md); font-size:0.85rem; color:var(--gray-500);">
+          <div><strong>Nom :</strong> ........................................</div><div><strong>Prénom :</strong> ........................................</div><div><strong>Classe :</strong> 4ème ........</div><div><strong>Date :</strong> ....../....../......</div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 1 — Gestion de projet (7 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C1 · <strong>Contexte :</strong> Un groupe d'élèves doit concevoir une station météo connectée.</div>
+
+        <p><strong>1.1</strong> Cite les 6 étapes de la démarche de projet dans l'ordre. <em>(3 pts)</em></p>
+        <ol>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+        </ol>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Pour la station météo, rédige un cahier des charges simplifié. <em>(2 pts)</em></p>
+        <table>
+          <thead><tr><th>Critère</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td>Fonction principale</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Capteur(s) utilisé(s)</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Actionneur(s) / Affichage</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.3</strong> Qu'est-ce qu'un jalon dans un diagramme de Gantt ? Donne un exemple pour ce projet. <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:50px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 2 — Programmation Arduino (7 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C2</div>
+
+        <p><strong>Contexte :</strong> La station météo utilise un capteur de température (DHT11) branché sur la pin A0. Si la température dépasse 30°C, un ventilateur (pin 6) se met en marche et une LED rouge (pin 7) s'allume. Sinon, le ventilateur s'arrête et une LED verte (pin 8) s'allume.</p>
+
+        <p><strong>2.1</strong> Complète le programme Arduino. <em>(4 pts)</em></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.8;">
+          <span style="color:#0277BD;">int</span> temperature;<br><br>
+          <span style="color:#0277BD;">void</span> <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(6, ________); <span style="color:#757575;">// Ventilateur</span><br>
+          &nbsp;&nbsp;pinMode(7, ________); <span style="color:#757575;">// LED rouge</span><br>
+          &nbsp;&nbsp;pinMode(8, ________); <span style="color:#757575;">// LED verte</span><br>
+          }<br><br>
+          <span style="color:#0277BD;">void</span> <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;temperature = analogRead(A0);<br><br>
+          &nbsp;&nbsp;<span style="color:#0277BD;">if</span> (temperature &gt; ________) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(6, ________); <span style="color:#757575;">// Ventilateur ON</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(7, ________); <span style="color:#757575;">// LED rouge ON</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(8, LOW);<br>
+          &nbsp;&nbsp;} <span style="color:#0277BD;">else</span> {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(6, ________); <span style="color:#757575;">// Ventilateur OFF</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(7, LOW);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;digitalWrite(8, ________); <span style="color:#757575;">// LED verte ON</span><br>
+          &nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;delay(1000);<br>
+          }
+        </div>
+
+        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Cite 2 différences entre une entrée numérique et une entrée analogique. <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:50px; background:var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-md);"><strong>2.3</strong> À quoi sert le moniteur série ? <em>(1 pt)</em></p>
+        <p style="border-bottom:1px dotted var(--gray-300); min-height:25px;">&nbsp;</p>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 3 — Fabrication et validation (6 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C3</div>
+
+        <p><strong>3.1</strong> Cite les 4 étapes de la chaîne numérique de l'impression 3D dans l'ordre. <em>(2 pts)</em></p>
+        <ol>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></li>
+        </ol>
+
+        <p style="margin-top:var(--space-lg);"><strong>3.2</strong> Le boîtier de la station météo doit mesurer 12 × 8 × 6 cm. Après impression, il mesure 12 × 8 × 6,5 cm. Le budget prévu est 10 € et la dépense réelle est 9 €. Complète le tableau de validation. <em>(2 pts)</em></p>
+        <table>
+          <thead><tr><th>Critère</th><th>Attendu</th><th>Obtenu</th><th style="width:15%">Respecté ?</th></tr></thead>
+          <tbody>
+            <tr><td>Dimensions</td><td>12 × 8 × 6 cm</td><td>12 × 8 × 6,5 cm</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td></tr>
+            <tr><td>Budget</td><td>Max 10 €</td><td>9 €</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-md);"><strong>3.3</strong> Rédige le plan de la présentation orale du projet (5 parties). <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:80px; background:var(--gray-50);"></div>
+      </div>
+
+      <div class="content-card">
+        <h2>Barème récapitulatif</h2>
+        <table>
+          <thead><tr><th>Exercice</th><th>Compétence</th><th style="text-align:center">Points</th></tr></thead>
+          <tbody>
+            <tr><td>Ex. 1 — Gestion de projet</td><td>C1</td><td style="text-align:center">7</td></tr>
+            <tr><td>Ex. 2 — Programmation Arduino</td><td>C2</td><td style="text-align:center">7</td></tr>
+            <tr><td>Ex. 3 — Fabrication et validation</td><td>C3</td><td style="text-align:center">6</td></tr>
+            <tr style="background:var(--gray-100);"><td colspan="2"><strong>Total</strong></td><td style="text-align:center"><strong>20</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

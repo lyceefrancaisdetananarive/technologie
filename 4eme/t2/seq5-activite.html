@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 5 — Programmation et automatisation (Arduino / mBlock) | 4ème</title>
+  <title>Séq. 5 — Programmation mBlock / Scratch | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -11,15 +11,15 @@
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 5"},{"label":"Fiche activité"}]'
     data-print-title="4ème — Séquence 5 : Fiche Activité Élève"
-    data-print-subtitle="Programmation et automatisation · Technologie LFT">
+    data-print-subtitle="Programmation et automatisation (mBlock / Scratch) · Technologie LFT">
 
     <main class="site-main">
 
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2</span>
-        <h1>Séquence 5 — Programmation et automatisation (Arduino / mBlock)</h1>
+        <h1>Séquence 5 — Programmation et automatisation (mBlock / Scratch)</h1>
         <p class="page-description">
-          Comment programmer un système automatisé avec des capteurs et des actionneurs ? Comment contrôler un mBot avec Arduino et mBlock ?
+          Comment programmer un feu tricolore avec mBlock ? Comment créer une interface graphique avec Scratch pour simuler un carrefour ?
         </p>
       </div>
 
@@ -36,17 +36,17 @@
               <td style="width:20%"><strong>Niveau</strong></td>
               <td>4ème</td>
               <td style="width:15%"><strong>Durée</strong></td>
-              <td>4 séances de 1h30</td>
+              <td>3 séances de 1h30</td>
             </tr>
             <tr>
               <td><strong>Thème</strong></td>
-              <td colspan="3">Thème 2 — Fonctionnement et comportement</td>
+              <td colspan="3">Thème 2 — Programmation et automatisation</td>
             </tr>
             <tr>
               <td><strong>Compétences</strong></td>
               <td colspan="3">
-                <span class="competence-badge">Comprendre/modifier un programme</span>
-                <span class="competence-badge">Analyser l'organisation interne et échanges</span>
+                <span class="competence-badge">Programmer un système automatisé</span>
+                <span class="competence-badge">Concevoir une interface de commande</span>
               </td>
             </tr>
           </tbody>
@@ -56,132 +56,130 @@
       <div class="content-card">
         <h2>&#x1F4A1; Situation déclenchante</h2>
         <div class="info-box info-box-blue">
-          <strong>Un robot mBot doit suivre une ligne noire, éviter les obstacles et s'arrêter quand il détecte un mur.</strong><br>
-          Comment programmer un robot pour qu'il réagisse automatiquement à son environnement ?
+          <strong>Dans la séquence 4, nous avons conçu le cahier des charges et la documentation technique du feu tricolore. Maintenant, il faut le programmer !</strong>
+          <ul style="margin-top:0.5rem;">
+            <li>Comment faire alterner les couleurs automatiquement ?</li>
+            <li>Comment créer une interface visuelle pour simuler le carrefour ?</li>
+          </ul>
         </div>
-        <p><strong>Problématique :</strong> Comment programmer un système automatisé utilisant des capteurs et des actionneurs ?</p>
+        <p><strong>Problématique :</strong> Comment programmer un feu tricolore et créer une interface graphique pour le piloter ?</p>
       </div>
 
       <!-- Activité 1 -->
       <div class="content-card">
-        <h2>Activité 1 — Découverte d'Arduino et mBlock</h2>
+        <h2>Activité 1 — Programmer le feu tricolore avec mBlock (40 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
           <div class="activity-step-content">
-            <h4>L'écosystème Arduino</h4>
-            <p><strong>Arduino</strong> est une carte électronique programmable (microcontrôleur). <strong>mBlock</strong> est un logiciel de programmation par blocs (basé sur Scratch) compatible Arduino et mBot.</p>
+            <h4>La programmation par blocs avec mBlock</h4>
+            <p><strong>mBlock</strong> est un logiciel de programmation par blocs (basé sur Scratch) qui permet de contrôler des cartes électroniques. On assemble des blocs comme des pièces de puzzle.</p>
           </div>
         </div>
 
         <div class="info-box info-box-green">
-          <strong>La chaîne d'information d'un système automatisé :</strong><br>
-          <strong>ACQUÉRIR</strong> (capteur) → <strong>TRAITER</strong> (Arduino / microcontrôleur) → <strong>COMMUNIQUER</strong> (actionneur, afficheur, LED)
+          <strong>Catégories de blocs utiles :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li><strong>Événements</strong> : quand le drapeau vert est cliqué, quand une touche est pressée</li>
+            <li><strong>Contrôle</strong> : répéter, attendre, si...alors...sinon</li>
+            <li><strong>Apparence</strong> : changer de costume, afficher un message</li>
+            <li><strong>Variables</strong> : créer et modifier des variables</li>
+          </ul>
         </div>
 
-        <p><strong>a)</strong> Identifie les composants du mBot :</p>
+        <p><strong>a)</strong> Écris l'algorithme du cycle d'un feu tricolore :</p>
         <table>
-          <thead><tr><th>Composant</th><th>Rôle</th><th>Fonction (acquérir, traiter ou communiquer)</th></tr></thead>
+          <thead><tr><th style="width:10%">Étape</th><th>Couleur</th><th>Durée</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Capteur ultrason</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Capteur suiveur de ligne</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Carte mCore (Arduino)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Moteurs DC</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>LED RGB</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Buzzer</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Les voitures peuvent passer</td></tr>
+            <tr><td>2</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Attention, le feu va passer au rouge</td></tr>
+            <tr><td>3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Les voitures doivent s'arrêter</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Quelle est la différence entre un capteur et un actionneur ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+        <p><strong>b)</strong> Écris le pseudo-code du programme mBlock pour faire alterner les 3 couleurs en boucle :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 100px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>c)</strong> Programme le feu dans mBlock en utilisant des sprites (costumes) pour chaque état. Teste ton programme.</p>
       </div>
 
       <!-- Activité 2 -->
       <div class="content-card">
-        <h2>Activité 2 — Programmation par blocs : premiers programmes</h2>
+        <h2>Activité 2 — Créer une interface graphique avec Scratch (40 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
           <div class="activity-step-content">
-            <h4>Programmer avec mBlock</h4>
-            <p>Utilise mBlock pour programmer le mBot étape par étape.</p>
+            <h4>Gestion d'interface avec Scratch</h4>
+            <p>On va créer une <strong>interface de simulation</strong> : un carrefour avec 2 feux tricolores synchronisés et des boutons de commande.</p>
           </div>
         </div>
 
-        <h3>Défi A — Avancer et tourner</h3>
         <div class="info-box info-box-green">
-          <strong>Objectif :</strong> Faire avancer le mBot pendant 2 secondes, tourner à droite 90°, avancer 2 secondes, puis s'arrêter.
+          <strong>Éléments de l'interface :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li><strong>Arrière-plan</strong> : dessin du carrefour (routes, passages piétons)</li>
+            <li><strong>Sprite Feu 1</strong> : feu tricolore de la voie principale (3 costumes)</li>
+            <li><strong>Sprite Feu 2</strong> : feu tricolore de la voie secondaire (3 costumes)</li>
+            <li><strong>Sprite Bouton</strong> : bouton piéton pour déclencher le changement</li>
+          </ul>
         </div>
-        <p><strong>Écris ton algorithme en pseudo-code :</strong></p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace; margin-bottom: var(--space-md);"></div>
 
-        <h3>Défi B — Éviter un obstacle</h3>
-        <div class="info-box info-box-green">
-          <strong>Objectif :</strong> Le mBot avance. Si le capteur ultrason détecte un obstacle à moins de 20 cm, il s'arrête, recule, tourne, puis repart.
-        </div>
-        <p><strong>Écris ton algorithme :</strong></p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 100px; background: var(--gray-50); font-family: monospace; margin-bottom: var(--space-md);"></div>
+        <p><strong>a)</strong> Complète le tableau de synchronisation des 2 feux :</p>
+        <table>
+          <thead><tr><th>Phase</th><th>Feu 1 (voie principale)</th><th>Feu 2 (voie secondaire)</th><th>Durée</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>2</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>4</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
 
-        <h3>Défi C — Suivre une ligne noire</h3>
-        <div class="info-box info-box-green">
-          <strong>Objectif :</strong> Le mBot suit une ligne noire au sol. Si le capteur gauche détecte du noir, tourner à gauche. Si le capteur droit détecte du noir, tourner à droite.
-        </div>
-        <p><strong>Écris ton algorithme :</strong></p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 100px; background: var(--gray-50); font-family: monospace;"></div>
+        <p><strong>b)</strong> Pourquoi les deux feux ne doivent-ils jamais être verts en même temps ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>c)</strong> Programme l'interface dans Scratch. Utilise des <strong>messages</strong> (envoyer à tous / quand je reçois) pour synchroniser les 2 feux.</p>
       </div>
 
       <!-- Activité 3 -->
       <div class="content-card">
-        <h2>Activité 3 — Variables, conditions et cybersécurité</h2>
+        <h2>Activité 3 — Mode piéton et variables (30 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
           <div class="activity-step-content">
-            <h4>Approfondir la programmation</h4>
-            <p>Utilise des <strong>variables</strong> pour stocker des valeurs et des <strong>conditions imbriquées</strong> pour des comportements plus complexes.</p>
+            <h4>Ajouter un bouton piéton</h4>
+            <p>On ajoute un <strong>bouton piéton</strong> qui, quand il est cliqué, déclenche un cycle spécial : tous les feux passent au rouge et un signal piéton s'allume.</p>
           </div>
         </div>
 
-        <h3>Défi D — Compteur de tours</h3>
-        <div class="info-box info-box-green">
-          <strong>Objectif :</strong> Le mBot suit la ligne noire et compte le nombre de tours complets. Après 3 tours, il s'arrête et joue une mélodie.
-          <br><em>Indice : utilise une variable "tours" initialisée à 0.</em>
-        </div>
-        <p><strong>Algorithme :</strong></p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace; margin-bottom: var(--space-md);"></div>
+        <p><strong>a)</strong> Quelle variable faut-il créer pour savoir si un piéton a appuyé sur le bouton ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 30px; background: var(--gray-50);"></div>
 
-        <h3>Notion de cybersécurité</h3>
-        <div class="info-box info-box-orange">
-          <strong>Quand un système est connecté (Bluetooth, Wi-Fi), il peut être vulnérable :</strong>
-          <ul>
-            <li><strong>Interception</strong> : quelqu'un capte les données échangées</li>
-            <li><strong>Prise de contrôle</strong> : un pirate envoie des commandes au robot</li>
-            <li><strong>Déni de service</strong> : saturer le système pour le bloquer</li>
-          </ul>
-        </div>
+        <p style="margin-top:var(--space-md);"><strong>b)</strong> Écris l'algorithme du mode piéton :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace;"></div>
 
-        <p><strong>a)</strong> Si le mBot communique par Bluetooth sans protection, quels risques cela pose-t-il ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>b)</strong> Propose 2 solutions pour sécuriser la communication Bluetooth du mBot.</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+        <p style="margin-top:var(--space-md);"><strong>c)</strong> Programme le mode piéton dans Scratch et teste le programme complet.</p>
       </div>
 
       <!-- Synthèse -->
       <div class="content-card">
         <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
         <div class="info-box info-box-blue">
-          <p>Complète avec : <em>capteurs, actionneurs, microcontrôleur, acquérir, traiter, communiquer, variable, condition, cybersécurité</em></p>
+          <p>Complète avec : <em>mBlock, Scratch, blocs, interface, sprites, costumes, messages, variable, boucle</em></p>
         </div>
-
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          Un système automatisé utilise des ........................ pour ........................ des informations, un ........................ pour les ........................, et des ........................ pour ........................ (agir sur l'environnement).
+          ........................ et ........................ sont des logiciels de programmation par ........................ visuels.
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          En programmation, une ........................ stocke une valeur, et une ........................ permet au programme de prendre des décisions (SI... ALORS... SINON).
+          Pour créer une ........................ graphique, on utilise des ........................ (personnages/objets) avec plusieurs ........................ (états visuels différents).
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          La ........................ est essentielle pour protéger les systèmes connectés contre les intrusions.
+          Les ........................ permettent de synchroniser plusieurs sprites entre eux.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Une ........................ stocke une information (ex : « bouton piéton appuyé »), et une ........................ permet de répéter le cycle du feu indéfiniment.
         </p>
       </div>
 

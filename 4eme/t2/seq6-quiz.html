@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 6 : Réparabilité et diagnostic | 4ème</title>
+  <title>Quiz — Séq. 6 : Modélisation 3D | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 6"},{"label":"Quiz"}]'>
-
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
-        <h1>Quiz — Réparabilité et diagnostic</h1>
-        <p class="page-description">Teste tes connaissances sur le diagnostic, la réparabilité et l'obsolescence.</p>
+        <h1>Quiz — Modélisation 3D et fabrication numérique</h1>
+        <p class="page-description">Teste tes connaissances sur les fichiers 3D, l'impression 3D et la découpe laser.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -23,80 +22,78 @@
       <div class="quiz-container" id="quiz-container"></div>
     </main>
   </div>
-
   <script src="../../js/components.js"></script>
   <script src="../../js/quiz-engine.js"></script>
   <script>
     const questions = [
       {
         type: 'qcm',
-        question: 'Quelle est la première étape de la démarche de diagnostic ?',
-        options: ['Réparer immédiatement', 'Constater le symptôme', 'Démonter l\'objet', 'Acheter un nouvel objet'],
+        question: 'Quel est le format de fichier le plus utilisé pour l\'impression 3D ?',
+        options: ['PDF', 'STL', 'MP3', 'HTML'],
         correct: 1,
-        explanation: 'La première étape est de CONSTATER : décrire précisément ce qui ne fonctionne pas (le symptôme) avant de chercher les causes.'
-      },
-      {
-        type: 'qcm',
-        question: 'Combien d\'étapes comporte la démarche de diagnostic ?',
-        options: ['3 étapes', '4 étapes', '5 étapes', '7 étapes'],
-        correct: 2,
-        explanation: 'La démarche de diagnostic comprend 5 étapes : constater, émettre des hypothèses, tester, identifier la cause, réparer.'
+        explanation: 'Le format STL (Standard Tessellation Language) est le format standard pour l\'impression 3D. Il décrit la géométrie de l\'objet par un maillage de triangles.'
       },
       {
         type: 'vrai_faux',
-        question: 'L\'obsolescence programmée signifie que l\'objet est conçu pour tomber en panne volontairement.',
+        question: 'L\'impression 3D FDM dépose du plastique fondu couche par couche.',
         correct: true,
-        explanation: 'L\'obsolescence programmée est une stratégie où le fabricant conçoit délibérément le produit pour qu\'il tombe en panne ou devienne inutilisable après un certain temps.'
+        explanation: 'FDM (Fused Deposition Modeling) fonctionne en faisant fondre un filament plastique (PLA, ABS) et en le déposant couche par couche pour construire l\'objet.'
       },
       {
         type: 'qcm',
-        question: 'Un smartphone qui ne reçoit plus de mises à jour de sécurité après 3 ans est victime de...',
-        options: ['Obsolescence programmée', 'Obsolescence logicielle', 'Obsolescence esthétique', 'Ce n\'est pas de l\'obsolescence'],
+        question: 'Qu\'est-ce qu\'un slicer ?',
+        options: ['Une imprimante 3D', 'Un logiciel qui tranche le modèle 3D en couches', 'Un format de fichier', 'Un type de plastique'],
         correct: 1,
-        explanation: 'C\'est de l\'obsolescence logicielle : le fabricant arrête les mises à jour, rendant l\'appareil vulnérable ou incompatible avec les nouvelles applications.'
+        explanation: 'Le slicer est un logiciel (ex : Cura, PrusaSlicer) qui découpe le modèle 3D en couches et génère le G-code, les instructions pour l\'imprimante.'
       },
       {
         type: 'qcm',
-        question: 'Si une lampe ne s\'allume pas, quelle est la première hypothèse à tester ?',
-        options: ['L\'ampoule est grillée', 'Le câble est coupé', 'L\'interrupteur est cassé', 'Toutes ces hypothèses sont valables'],
-        correct: 3,
-        explanation: 'Les 3 hypothèses sont valables. On commence par tester la plus simple (vérifier l\'ampoule et la prise) avant de passer aux causes plus complexes.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Il est toujours plus écologique de remplacer un objet que de le réparer.',
-        correct: false,
-        explanation: 'C\'est le contraire ! Réparer est presque toujours plus écologique car cela évite l\'extraction de nouvelles matières premières, la fabrication et le transport d\'un nouvel objet.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans une enceinte, le haut-parleur assure quelle fonction de la chaîne d\'énergie ?',
-        options: ['Alimenter', 'Distribuer', 'Convertir', 'Transmettre'],
+        question: 'Quelle machine utilise un faisceau laser pour couper des matériaux plats ?',
+        options: ['L\'imprimante 3D', 'La fraiseuse CNC', 'La découpeuse laser (xTool M1)', 'Le tour à métaux'],
         correct: 2,
-        explanation: 'Le haut-parleur CONVERTIT l\'énergie électrique en énergie sonore (mécanique/acoustique).'
-      },
-      {
-        type: 'qcm',
-        question: 'Quand faut-il envisager de remplacer plutôt que de réparer ?',
-        options: ['Quand la réparation coûte plus cher que le remplacement', 'Quand on s\'ennuie de l\'ancien', 'Quand une nouvelle couleur sort', 'On ne devrait jamais remplacer'],
-        correct: 0,
-        explanation: 'Le remplacement se justifie quand la réparation coûte plus cher, quand les pièces ne sont plus disponibles, ou quand l\'objet représente un danger. Le coût environnemental doit aussi être considéré.'
+        explanation: 'La découpeuse laser (comme la xTool M1) utilise un faisceau laser concentré pour couper ou graver des matériaux plats : bois, acrylique, carton, cuir.'
       },
       {
         type: 'vrai_faux',
-        question: 'Vouloir changer de téléphone car le design est démodé est un exemple d\'obsolescence esthétique.',
+        question: 'Le format 3MF peut contenir des informations de couleur et de matériau, contrairement au STL.',
         correct: true,
-        explanation: 'L\'obsolescence esthétique (ou psychologique) pousse à remplacer un objet fonctionnel simplement parce qu\'il n\'est plus à la mode ou qu\'un nouveau design est sorti.'
+        explanation: 'Le format 3MF est plus riche que le STL : il peut inclure les couleurs, les matériaux, les textures et d\'autres métadonnées, en plus de la géométrie.'
       },
       {
         type: 'qcm',
-        question: 'Pour diagnostiquer une panne sur un mBot, on teste...',
-        options: ['Uniquement les moteurs', 'Chaque élément de la chaîne d\'information et d\'énergie', 'Seulement le Bluetooth', 'Rien, on le remplace'],
+        question: 'Pourquoi ajoute-t-on parfois des supports lors de l\'impression 3D ?',
+        options: ['Pour que l\'objet soit plus lourd', 'Pour soutenir les parties en porte-à-faux', 'Pour économiser du plastique', 'Pour rendre l\'objet plus joli'],
         correct: 1,
-        explanation: 'On teste méthodiquement chaque élément : capteurs (acquérir), carte Arduino (traiter), actionneurs (communiquer), alimentation (batterie), connexions (câbles).'
+        explanation: 'Les supports soutiennent les parties « en l\'air » (porte-à-faux > 45°). Sans support, le plastique fondu tomberait car il n\'y a rien en dessous.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel matériau NE peut PAS être découpé à la découpeuse laser ?',
+        options: ['Bois contreplaqué', 'Acrylique', 'Métal épais', 'Carton'],
+        correct: 2,
+        explanation: 'Le métal épais ne peut pas être découpé avec une découpeuse laser de type xTool M1. Ce type de machine est adapté au bois, acrylique, carton, cuir et tissu.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le G-code est un langage d\'instructions compréhensible par les machines numériques.',
+        correct: true,
+        explanation: 'Le G-code contient les instructions de déplacement et de fabrication pour les machines numériques : positions X/Y/Z, vitesse, température, débit de plastique, etc.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel paramètre du slicer détermine la solidité de la pièce imprimée ?',
+        options: ['La couleur du filament', 'Le pourcentage de remplissage', 'Le nom du fichier', 'La marque de l\'imprimante'],
+        correct: 1,
+        explanation: 'Le pourcentage de remplissage (infill) détermine la quantité de plastique à l\'intérieur : 20% = léger et économique, 100% = très solide mais long et coûteux.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel type de fichier utilise la découpeuse laser ?',
+        options: ['STL et 3MF', 'SVG et DXF (dessins vectoriels)', 'MP4 et AVI', 'DOCX et PDF'],
+        correct: 1,
+        explanation: 'La découpeuse laser utilise des fichiers vectoriels 2D (SVG, DXF) car elle travaille sur des matériaux plats. L\'impression 3D utilise STL/3MF.'
       }
     ];
-
     const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
   </script>
 </body>

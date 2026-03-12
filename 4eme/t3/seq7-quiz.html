@@ -9,94 +9,103 @@
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Quiz"}]'>
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Quiz"}]'
+    data-print-title="QUIZ — Séquence 7 : Projet collaboratif"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · Quiz</span>
-        <h1>Quiz — Projet collaboratif</h1>
-        <p class="page-description">Teste tes connaissances sur la démarche de projet, le cahier des charges et la gestion de projet.</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Quiz</span>
+        <h1>Quiz — Séquence 7</h1>
+        <p class="page-description">Projet collaboratif — Teste tes connaissances !</p>
       </div>
       <div class="page-actions no-print">
-        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+        <a href="seq7-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
+        <a href="seq7-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
       </div>
-      <div class="quiz-container" id="quiz-container"></div>
+
+      <div class="content-card">
+        <div id="quiz-container"></div>
+      </div>
     </main>
   </div>
-
   <script src="../../js/components.js"></script>
   <script src="../../js/quiz-engine.js"></script>
   <script>
     const questions = [
       {
         type: 'qcm',
-        question: 'Qu\'est-ce qu\'une fonction de service dans un cahier des charges ?',
-        options: ['Le prix du produit', 'Un service rendu par le produit à l\'utilisateur ou à son environnement', 'Le matériau utilisé', 'La marque du fabricant'],
+        question: 'Quelle est la première étape de la démarche de projet ?',
+        options: ['Fabrication', 'Analyse du besoin', 'Présentation orale', 'Programmation'],
         correct: 1,
-        explanation: 'Une fonction de service décrit ce que le produit doit faire pour satisfaire le besoin de l\'utilisateur (fonction principale) ou s\'adapter à son environnement (fonction contrainte).'
+        explanation: 'La démarche de projet commence toujours par l\'analyse du besoin : identifier le problème à résoudre.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel outil permet de planifier les tâches d\'un projet sur un axe temporel ?',
+        options: ['Le cahier des charges', 'Le diagramme de Gantt', 'La nomenclature', 'Le dessin de définition'],
+        correct: 1,
+        explanation: 'Le diagramme de Gantt représente les tâches et leur durée sur un axe temporel (semaines).'
       },
       {
         type: 'vrai_faux',
-        question: 'Le diagramme de Gantt montre les tâches d\'un projet sur un axe de temps.',
+        question: 'Un jalon est une tâche qui dure plusieurs semaines.',
+        correct: false,
+        explanation: 'Un jalon est un point de contrôle (durée zéro) pour vérifier l\'avancement du projet, pas une tâche.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le rôle du chef de projet ?',
+        options: ['Programmer l\'Arduino', 'Modéliser le boîtier en 3D', 'Coordonner l\'équipe et suivre le planning', 'Fabriquer les pièces au FabLab'],
+        correct: 2,
+        explanation: 'Le chef de projet coordonne l\'équipe, suit le planning et vérifie les jalons.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que contient le cahier des charges fonctionnel ?',
+        options: ['Le programme Arduino', 'Les fonctions, contraintes et critères de réussite', 'Le diagramme de Gantt', 'Les fichiers STL'],
+        correct: 1,
+        explanation: 'Le CdCF décrit les fonctions (ce que l\'objet doit faire), les contraintes et les critères de réussite.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Dans un diagramme de Gantt, certaines tâches peuvent se dérouler en parallèle.',
         correct: true,
-        explanation: 'Le diagramme de Gantt est un outil de planification : chaque tâche est représentée par une barre horizontale dont la longueur correspond à sa durée. Il permet de visualiser les dépendances entre tâches.'
+        explanation: 'Le diagramme de Gantt permet de visualiser les tâches en parallèle (ex : modélisation 3D et programmation Arduino en même temps).'
       },
       {
         type: 'qcm',
-        question: 'Quelle est la bonne séquence des étapes d\'un projet technique ?',
-        options: ['Réaliser → Concevoir → Tester → Besoin', 'Besoin → Cahier des charges → Conception → Réalisation → Tests → Présentation', 'Présenter → Fabriquer → Tester → Concevoir', 'Tester → Besoin → Réaliser → Concevoir'],
+        question: 'Qu\'est-ce qu\'un livrable dans un projet ?',
+        options: ['Un livre de cours', 'Un résultat concret produit à la fin d\'une étape', 'Un logiciel de planification', 'Le budget du projet'],
         correct: 1,
-        explanation: 'La démarche de projet suit un ordre logique : on part du besoin, on définit les contraintes (CdC), on conçoit une solution, on la réalise, on teste et enfin on présente le résultat.'
-      },
-      {
-        type: 'qcm',
-        question: 'À quoi sert une revue de projet ?',
-        options: ['À critiquer le travail des autres', 'À faire un point d\'étape pour valider l\'avancement et ajuster si nécessaire', 'À distribuer les notes', 'À supprimer des tâches du planning'],
-        correct: 1,
-        explanation: 'La revue de projet est un point d\'étape où l\'équipe vérifie l\'avancement, identifie les problèmes et décide des ajustements à apporter.'
+        explanation: 'Un livrable est un résultat concret et mesurable attendu à la fin d\'une étape du projet.'
       },
       {
         type: 'vrai_faux',
-        question: 'Dans un projet collaboratif, tous les membres du groupe doivent faire exactement la même chose.',
+        question: 'Le cahier des charges décrit comment fabriquer l\'objet.',
         correct: false,
-        explanation: 'Le travail collaboratif implique une répartition des rôles : chaque membre a des tâches spécifiques adaptées à ses compétences, tout en contribuant à l\'objectif commun.'
+        explanation: 'Le CdCF décrit ce que l\'objet doit faire (les fonctions), pas comment le fabriquer. C\'est la phase de conception qui répond au "comment".'
       },
       {
         type: 'qcm',
-        question: 'Qu\'est-ce qu\'un critère d\'appréciation dans un cahier des charges ?',
-        options: ['La note attribuée au projet', 'Un moyen mesurable de vérifier qu\'une fonction est remplie', 'Le délai de livraison', 'Le nom du responsable'],
-        correct: 1,
-        explanation: 'Un critère d\'appréciation est une grandeur mesurable associée à une fonction. Par exemple, pour "détecter un obstacle", le critère peut être "distance de détection" avec un niveau de "20 cm minimum".'
+        question: 'Quel outil numérique permet de suivre l\'avancement des tâches en équipe ?',
+        options: ['TinkerCAD', 'Arduino IDE', 'Trello / Kanban', 'Un slicer'],
+        correct: 2,
+        explanation: 'Trello (tableau Kanban) permet de suivre les tâches : à faire, en cours, terminé.'
       },
       {
         type: 'qcm',
-        question: 'Quelle est la différence entre un croquis et un dessin technique ?',
-        options: ['Il n\'y a aucune différence', 'Le croquis est fait à main levée, le dessin technique est normalisé avec des cotes', 'Le dessin technique est en couleur, le croquis en noir et blanc', 'Le croquis est numérique, le dessin technique est sur papier'],
-        correct: 1,
-        explanation: 'Le croquis est un dessin rapide à main levée pour exprimer une idée. Le dessin technique respecte des normes (traits, cotes, échelle) pour permettre la fabrication.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un prototype doit être parfait dès la première version.',
-        correct: false,
-        explanation: 'Un prototype sert justement à tester une solution. Il est normal de devoir l\'améliorer après les tests. C\'est le principe de la démarche itérative : concevoir → tester → améliorer → re-tester.'
-      },
-      {
-        type: 'qcm',
-        question: 'Que représente le "chemin critique" dans un diagramme de Gantt ?',
-        options: ['Les tâches les plus faciles', 'La séquence de tâches la plus longue qui détermine la durée totale du projet', 'Les tâches optionnelles', 'Les tâches à supprimer'],
-        correct: 1,
-        explanation: 'Le chemin critique est la chaîne de tâches dépendantes la plus longue. Tout retard sur ces tâches retarde l\'ensemble du projet.'
-      },
-      {
-        type: 'qcm',
-        question: 'Pourquoi utilise-t-on des outils numériques collaboratifs dans un projet ?',
-        options: ['Pour jouer à des jeux vidéo', 'Pour partager des documents, planifier et communiquer en temps réel', 'Pour remplacer le professeur', 'Pour imprimer les documents'],
-        correct: 1,
-        explanation: 'Les outils collaboratifs (documents partagés, messagerie, planning en ligne) permettent à tous les membres du groupe de travailler ensemble, même à distance, et de garder une trace de l\'avancement.'
+        question: 'Dans quel ordre se déroule le cycle de projet ?',
+        options: [
+          'Besoin → CdCF → Conception → Fabrication → Validation → Présentation',
+          'Fabrication → Besoin → CdCF → Validation → Conception',
+          'Conception → Besoin → Fabrication → CdCF → Validation',
+          'CdCF → Fabrication → Conception → Besoin → Présentation'
+        ],
+        correct: 0,
+        explanation: 'Le cycle de projet suit l\'ordre logique : analyser le besoin, rédiger le CdCF, concevoir, fabriquer, valider puis présenter.'
       }
     ];
-    new QuizEngine('quiz-container', questions);
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
   </script>
 </body>
 </html>

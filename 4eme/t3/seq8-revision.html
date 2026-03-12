@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Révision — Séq. 8 : IA et systèmes automatisés | 4ème</title>
+  <title>Révision — Séq. 8 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Révision"}]'
-    data-print-title="FICHE DE RÉVISION — Séquence 8 : IA et systèmes automatisés"
+    data-print-title="FICHE DE RÉVISION — Séquence 8 : Programmation Arduino"
     data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Révision</span>
         <h1>Révision — Séquence 8</h1>
-        <p class="page-description">IA et systèmes automatisés — Les notions clés</p>
+        <p class="page-description">Programmation Arduino — Les notions clés</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
@@ -29,11 +29,13 @@
         <table>
           <thead><tr><th style="width:30%">Mot</th><th>Définition</th></tr></thead>
           <tbody>
-            <tr><td><strong>Système intelligent</strong></td><td>Système automatisé capable d'adapter son comportement grâce à l'IA.</td></tr>
-            <tr><td><strong>Réseau de neurones</strong></td><td>Modèle informatique inspiré du cerveau humain, utilisé pour l'apprentissage.</td></tr>
-            <tr><td><strong>Jeu de données</strong></td><td>Ensemble de données utilisées pour entraîner un modèle d'IA (dataset).</td></tr>
-            <tr><td><strong>Biais algorithmique</strong></td><td>Erreur systématique dans un algorithme due à des données d'entraînement déséquilibrées.</td></tr>
-            <tr><td><strong>Éthique de l'IA</strong></td><td>Réflexion sur l'utilisation responsable et juste de l'intelligence artificielle.</td></tr>
+            <tr><td><strong>Arduino</strong></td><td>Carte à microcontrôleur programmable pour piloter des capteurs et actionneurs.</td></tr>
+            <tr><td><strong>setup()</strong></td><td>Fonction d'initialisation, exécutée une seule fois au démarrage.</td></tr>
+            <tr><td><strong>loop()</strong></td><td>Boucle principale du programme, exécutée en continu indéfiniment.</td></tr>
+            <tr><td><strong>Entrée numérique</strong></td><td>Signal ON/OFF (0 ou 1) — bouton poussoir, capteur de présence.</td></tr>
+            <tr><td><strong>Entrée analogique</strong></td><td>Valeur de 0 à 1023 — capteur de lumière, température, humidité.</td></tr>
+            <tr><td><strong>PWM</strong></td><td>Modulation de largeur d'impulsion — simule un signal analogique en sortie (0-255).</td></tr>
+            <tr><td><strong>Condition (if/else)</strong></td><td>Structure qui permet au programme de prendre des décisions selon les valeurs lues.</td></tr>
           </tbody>
         </table>
       </div>
@@ -41,23 +43,28 @@
       <div class="content-card">
         <h2>&#x1F4A1; Ce qu'il faut retenir</h2>
         <div class="info-box info-box-green">
-          <strong>IA = Données + Algorithme + Puissance de calcul.</strong> La qualité des données détermine la qualité des résultats.
+          <strong>Chaîne d'information Arduino :</strong> Capteur (entrée) → Arduino (traitement) → Actionneur (sortie).
         </div>
         <ul>
-          <li>Un <strong>réseau de neurones</strong> apprend en ajustant ses paramètres à partir d'exemples.</li>
-          <li>Les <strong>biais algorithmiques</strong> peuvent conduire à des discriminations (ex : reconnaissance faciale).</li>
-          <li>L'IA est utilisée dans : santé, transport, industrie, divertissement, éducation.</li>
-          <li>L'<strong>éthique</strong> impose de questionner la transparence, la vie privée et la responsabilité de l'IA.</li>
+          <li><strong>setup()</strong> s'exécute 1 fois, <strong>loop()</strong> tourne en boucle.</li>
+          <li><code>pinMode()</code> configure une pin en entrée (INPUT) ou sortie (OUTPUT).</li>
+          <li><code>digitalWrite()</code> pour allumer/éteindre, <code>digitalRead()</code> pour lire un bouton.</li>
+          <li><code>analogRead()</code> lit une valeur analogique (0-1023), <code>analogWrite()</code> écrit en PWM (0-255).</li>
+          <li><code>delay(ms)</code> met le programme en pause (1000 ms = 1 seconde).</li>
+          <li>Le <strong>moniteur série</strong> permet d'afficher des valeurs pour le débogage.</li>
+          <li>La structure <strong>if/else</strong> permet de réagir selon les capteurs.</li>
         </ul>
       </div>
 
       <div class="content-card">
         <h2>&#x2705; Je vérifie mes connaissances</h2>
         <ol>
-          <li>Quels sont les 3 éléments nécessaires au fonctionnement de l'IA ?</li>
-          <li>Qu'est-ce qu'un biais algorithmique ? Donne un exemple concret.</li>
-          <li>Cite 3 domaines d'application de l'IA et un exemple pour chacun.</li>
-          <li>Pourquoi l'éthique est-elle essentielle dans le développement de l'IA ?</li>
+          <li>Quels sont les 2 blocs obligatoires d'un programme Arduino ?</li>
+          <li>Quelle est la différence entre une entrée numérique et une entrée analogique ?</li>
+          <li>Quelle instruction permet d'allumer une LED branchée sur la pin 7 ?</li>
+          <li>Que fait le programme suivant : <code>if (distance &lt; 15) { digitalWrite(7, HIGH); }</code> ?</li>
+          <li>Cite 2 capteurs et 2 actionneurs utilisables avec Arduino.</li>
+          <li>À quoi sert le moniteur série (Serial Monitor) ?</li>
         </ol>
       </div>
     </main>

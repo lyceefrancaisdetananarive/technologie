@@ -3,27 +3,31 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 9 : Fabrication numérique | 4ème</title>
+  <title>Quiz — Séq. 9 : Fabrication et validation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Quiz"}]'>
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Quiz"}]'
+    data-print-title="QUIZ — Séquence 9 : Fabrication et validation"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · Quiz</span>
-        <h1>Quiz — Fabrication numérique (FabLab)</h1>
-        <p class="page-description">Teste tes connaissances sur le FabLab, l'impression 3D et la fabrication numérique.</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Quiz</span>
+        <h1>Quiz — Séquence 9</h1>
+        <p class="page-description">Fabrication et validation au FabLab — Teste tes connaissances !</p>
       </div>
       <div class="page-actions no-print">
-        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+        <a href="seq9-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
+        <a href="seq9-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
       </div>
-      <div class="quiz-container" id="quiz-container"></div>
+
+      <div class="content-card">
+        <div id="quiz-container"></div>
+      </div>
     </main>
   </div>
-
   <script src="../../js/components.js"></script>
   <script src="../../js/quiz-engine.js"></script>
   <script>
@@ -31,72 +35,76 @@
       {
         type: 'qcm',
         question: 'Que signifie FabLab ?',
-        options: ['Fabrication Laboratory', 'Factory Label', 'Fabric Lab', 'Fashion Laboratory'],
-        correct: 0,
-        explanation: 'FabLab signifie "Fabrication Laboratory" (laboratoire de fabrication). C\'est un atelier ouvert équipé de machines à commande numérique.'
+        options: ['Fabrique de Laboratoire', 'Fabrication Laboratory', 'Fabrication Laser Base', 'Fabrique Libre'],
+        correct: 1,
+        explanation: 'FabLab signifie Fabrication Laboratory (laboratoire de fabrication). C\'est un atelier de fabrication numérique ouvert.'
       },
       {
         type: 'qcm',
-        question: 'L\'impression 3D FDM fonctionne en...',
-        options: ['Découpant de la matière', 'Déposant du fil fondu couche par couche', 'Moulant du plastique liquide', 'Collant des feuilles de papier'],
-        correct: 1,
-        explanation: 'L\'impression FDM (Fused Deposition Modeling) fonctionne en faisant fondre un filament de plastique (PLA, ABS) et en le déposant couche par couche.'
+        question: 'Quel fichier faut-il pour lancer une impression 3D ?',
+        options: ['Un fichier SVG', 'Un fichier PDF', 'Un fichier STL ou 3MF', 'Un fichier MP3'],
+        correct: 2,
+        explanation: 'L\'impression 3D utilise des fichiers STL ou 3MF qui décrivent la géométrie 3D de la pièce.'
       },
       {
         type: 'vrai_faux',
-        question: 'Le format de fichier pour l\'impression 3D est le STL.',
-        correct: true,
-        explanation: 'Le fichier STL (Standard Tessellation Language) est le format standard exporté depuis les logiciels de modélisation 3D vers les logiciels slicer (Cura) pour l\'impression.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel logiciel transforme un fichier STL en instructions pour l\'imprimante 3D ?',
-        options: ['Tinkercad', 'Un slicer (ex : Cura)', 'Word', 'mBlock'],
-        correct: 1,
-        explanation: 'Un slicer (comme Cura) découpe le modèle 3D en couches et génère le G-code, les instructions que l\'imprimante 3D exécute.'
-      },
-      {
-        type: 'qcm',
-        question: 'Pour graver un logo sur du bois, la machine la plus adaptée est...',
-        options: ['L\'imprimante 3D', 'La découpeuse laser', 'La fraiseuse CNC', 'Le scanner 3D'],
-        correct: 1,
-        explanation: 'La découpeuse laser est idéale pour graver avec précision sur des surfaces planes en bois, acrylique ou carton.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'La fabrication numérique ne produit aucun déchet.',
+        question: 'On peut toucher la buse de l\'imprimante 3D pendant l\'impression.',
         correct: false,
-        explanation: 'La fabrication numérique produit des déchets : ratés d\'impression, supports à retirer, chutes de matière. Cependant, elle en produit moins que la fabrication par usinage (enlèvement de matière).'
+        explanation: 'JAMAIS ! La buse est à plus de 200°C pendant l\'impression. C\'est une règle de sécurité fondamentale au FabLab.'
       },
       {
         type: 'qcm',
-        question: 'Quel est l\'avantage principal de la fabrication numérique pour la réparabilité ?',
-        options: ['C\'est gratuit', 'On peut fabriquer des pièces sur mesure même si elles ne sont plus vendues', 'Les pièces sont plus solides que les originales', 'C\'est plus rapide que l\'usine'],
+        question: 'Quel est le rôle du slicer dans la chaîne de fabrication ?',
+        options: ['Modéliser la pièce en 3D', 'Trancher le modèle 3D en couches et générer le G-code', 'Découper au laser', 'Programmer l\'Arduino'],
         correct: 1,
-        explanation: 'La fabrication numérique permet de concevoir et produire des pièces de remplacement sur mesure, même pour des objets dont les pièces ne sont plus disponibles dans le commerce.'
-      },
-      {
-        type: 'qcm',
-        question: 'Le PLA (acide polylactique) utilisé en impression 3D est fabriqué à partir de...',
-        options: ['Pétrole', 'Amidon de maïs (ressource renouvelable)', 'Minerai de fer', 'Sable'],
-        correct: 1,
-        explanation: 'Le PLA est un bioplastique fabriqué à partir d\'amidon de maïs ou de canne à sucre. Il est biodégradable (dans des conditions industrielles) et renouvelable.'
+        explanation: 'Le slicer (Cura, PrusaSlicer) tranche le modèle STL en couches et génère le fichier G-code que l\'imprimante comprend.'
       },
       {
         type: 'vrai_faux',
-        question: 'Un scanner 3D permet de numériser un objet réel pour en créer un modèle 3D.',
+        question: 'La découpe laser utilise un fichier SVG.',
         correct: true,
-        explanation: 'Le scanner 3D capture la forme et les dimensions d\'un objet physique pour créer un fichier numérique 3D, utile pour reproduire ou modifier l\'objet.'
+        explanation: 'La découpe laser xTool M1 utilise des fichiers SVG (dessins vectoriels 2D) pour découper ou graver des matériaux plats.'
       },
       {
         type: 'qcm',
-        question: 'Comparée à la fabrication industrielle, la fabrication numérique locale...',
-        options: ['Produit en plus grande quantité', 'Réduit les transports et permet la personnalisation', 'Est toujours moins chère', 'Utilise les mêmes machines'],
+        question: 'Comment valide-t-on un prototype ?',
+        options: ['En le montrant au professeur', 'En vérifiant qu\'il respecte le cahier des charges point par point', 'En le pesant', 'En le photographiant'],
         correct: 1,
-        explanation: 'La fabrication numérique locale réduit les transports (pas d\'importation), permet une personnalisation totale de chaque pièce, et produit à la demande (pas de surproduction).'
+        explanation: 'La validation consiste à vérifier que le prototype respecte chaque critère du cahier des charges.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans quel ordre se déroule la chaîne numérique pour l\'impression 3D ?',
+        options: [
+          'Modélisation → Export STL → Slicing → Impression',
+          'Impression → Slicing → Export STL → Modélisation',
+          'Slicing → Modélisation → Impression → Export STL',
+          'Export STL → Impression → Modélisation → Slicing'
+        ],
+        correct: 0,
+        explanation: 'On modélise d\'abord en 3D, puis on exporte en STL, on passe par le slicer pour obtenir le G-code, et enfin on lance l\'impression.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un prototype qui ne respecte pas un critère du CdCF est considéré comme validé.',
+        correct: false,
+        explanation: 'Un prototype doit respecter TOUS les critères du CdCF pour être validé. Sinon, il faut proposer des améliorations.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la dernière partie d\'une présentation orale de projet ?',
+        options: ['L\'introduction', 'Le cahier des charges', 'La démonstration', 'Le bilan (difficultés + améliorations)'],
+        correct: 3,
+        explanation: 'La présentation se termine par le bilan : difficultés rencontrées, solutions trouvées et améliorations possibles.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi faut-il activer la ventilation lors de la découpe laser ?',
+        options: ['Pour refroidir la machine', 'Pour évacuer les fumées toxiques', 'Pour faire moins de bruit', 'Pour améliorer la qualité de coupe'],
+        correct: 1,
+        explanation: 'La découpe laser produit des fumées toxiques. La ventilation est obligatoire pour les évacuer et protéger la santé.'
       }
     ];
-
     const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
   </script>
 </body>

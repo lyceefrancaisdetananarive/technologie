@@ -3,115 +3,102 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 9 — FabLab · Structuration | 4ème</title>
+  <title>Structuration — Séq. 9 : Fabrication et validation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Structuration"}]'
-    data-print-title="4ème — Séquence 9 : Fabrication numérique (FabLab)"
-    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    data-print-title="STRUCTURATION — Séquence 9 : Fabrication et validation"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
-        <h1>Séquence 9 — Fabrication numérique (FabLab)</h1>
-        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Structuration</span>
+        <h1>Structuration — Séquence 9</h1>
+        <p class="page-description">Fabrication et validation au FabLab — Ce qu'il faut retenir</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq9-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
         <a href="seq9-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
       </div>
+
       <div class="content-card">
-        <table><tbody>
-          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 3 — Projet de création et innovation</td></tr>
-          <tr><td><strong>Séquence</strong></td><td>9 — FabLab</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Choisir un procédé de fabrication</span> <span class="competence-badge">Réaliser un objet avec des outils numériques</span></td></tr>
-        </tbody></table>
+        <h2>&#x1F4D8; 1 — Le FabLab</h2>
+        <div class="info-box info-box-blue">
+          <strong>Définition :</strong> Un FabLab (Fabrication Laboratory) est un atelier de fabrication numérique équipé de machines pilotées par ordinateur. Il permet de passer du modèle numérique à l'objet réel.
+        </div>
+        <table>
+          <thead><tr><th style="width:30%">Machine</th><th>Ce qu'elle fait</th><th style="width:25%">Fichier utilisé</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Imprimante 3D (FDM)</strong></td><td>Fabrique des pièces en 3D couche par couche (plastique fondu PLA)</td><td>STL ou 3MF → G-code</td></tr>
+            <tr><td><strong>Découpe laser (xTool M1)</strong></td><td>Coupe et grave des matériaux plats (bois, acrylique, carton)</td><td>SVG</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; Qu'est-ce qu'un FabLab ?</h2>
-        <p>Un <strong>FabLab</strong> (Fabrication Laboratory) est un atelier ouvert de fabrication numérique :</p>
+        <h2>&#x1F4D8; 2 — Sécurité au FabLab</h2>
+        <div class="info-box info-box-yellow">
+          <strong>&#x26A0; Règles obligatoires :</strong>
+        </div>
+        <table>
+          <thead><tr><th style="width:40%">Règle</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Porter les EPI</strong> (lunettes de protection)</td><td>Protéger les yeux des projections et du laser</td></tr>
+            <tr><td><strong>Ne pas toucher la buse chaude</strong></td><td>Température supérieure à 200°C → brûlure grave</td></tr>
+            <tr><td><strong>Ventilation activée</strong></td><td>Les fumées de découpe laser sont toxiques</td></tr>
+            <tr><td><strong>Ne pas regarder le laser</strong></td><td>Le faisceau peut endommager les yeux</td></tr>
+            <tr><td><strong>Attendre le refroidissement</strong></td><td>Les pièces sont chaudes en sortie de machine</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D8; 3 — De la conception à la fabrication</h2>
+        <div class="info-box info-box-green">
+          <strong>Chaîne numérique complète :</strong>
+        </div>
+        <table>
+          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Étape</th><th>Outil</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:center;">1</td><td><strong>Modélisation 3D</strong></td><td>TinkerCAD / OnShape → fichier STL</td></tr>
+            <tr><td style="text-align:center;">2</td><td><strong>Préparation (slicing)</strong></td><td>Cura / PrusaSlicer → fichier G-code</td></tr>
+            <tr><td style="text-align:center;">3</td><td><strong>Fabrication</strong></td><td>Imprimante 3D ou découpe laser</td></tr>
+            <tr><td style="text-align:center;">4</td><td><strong>Contrôle qualité</strong></td><td>Pied à coulisse, vérification visuelle</td></tr>
+            <tr><td style="text-align:center;">5</td><td><strong>Assemblage</strong></td><td>Intégration Arduino + composants + boîtier</td></tr>
+            <tr><td style="text-align:center;">6</td><td><strong>Tests</strong></td><td>Vérification de chaque fonction</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D8; 4 — La validation du prototype</h2>
+        <div class="info-box info-box-blue">
+          <strong>Principe :</strong> Valider un prototype, c'est vérifier qu'il respecte le cahier des charges point par point.
+        </div>
+        <p>Pour chaque critère du CdCF, on se demande :</p>
         <ul>
-          <li><strong>Accès ouvert</strong> : tout le monde peut venir fabriquer</li>
-          <li><strong>Machines partagées</strong> : équipements coûteux mutualisés</li>
-          <li><strong>Partage</strong> : les plans et projets sont documentés et partagés</li>
-          <li><strong>Apprentissage par la pratique</strong> : « learning by doing »</li>
+          <li><strong>La fonction principale est-elle remplie ?</strong> → L'objet fait-il ce qu'il doit faire ?</li>
+          <li><strong>Les contraintes sont-elles respectées ?</strong> → Dimensions, budget, matériaux…</li>
+          <li><strong>Quelles améliorations possibles ?</strong> → Si un critère n'est pas respecté, que faudrait-il changer ?</li>
         </ul>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Un <strong>FabLab</strong> est un lieu de fabrication numérique partagé qui favorise l'innovation, la collaboration et l'apprentissage par la pratique.
-        </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; Fabrication additive vs soustractive</h2>
+        <h2>&#x1F4D8; 5 — La présentation orale</h2>
+        <p>La présentation orale d'un projet technique suit un plan structuré :</p>
         <table>
-          <thead><tr><th>Procédé</th><th>Principe</th><th>Machines</th><th>Matériaux</th></tr></thead>
+          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Partie</th><th>Contenu</th></tr></thead>
           <tbody>
-            <tr><td><strong>Fabrication additive</strong></td><td>Ajouter de la matière couche par couche</td><td>Imprimante 3D (FDM, SLA)</td><td>PLA, ABS, PETG, résine</td></tr>
-            <tr><td><strong>Fabrication soustractive</strong></td><td>Retirer de la matière d'un bloc</td><td>Fraiseuse CNC, découpe laser</td><td>Bois, aluminium, acrylique</td></tr>
-            <tr><td><strong>Découpe</strong></td><td>Découper une forme dans un matériau plat</td><td>Découpe laser, vinyle</td><td>Bois, carton, tissu, vinyle</td></tr>
+            <tr><td style="text-align:center;">1</td><td><strong>Introduction</strong></td><td>Présenter l'équipe, le problème à résoudre</td></tr>
+            <tr><td style="text-align:center;">2</td><td><strong>Cahier des charges</strong></td><td>Rappeler les fonctions et contraintes</td></tr>
+            <tr><td style="text-align:center;">3</td><td><strong>Démarche de réalisation</strong></td><td>Expliquer les étapes de conception et fabrication</td></tr>
+            <tr><td style="text-align:center;">4</td><td><strong>Démonstration</strong></td><td>Montrer le prototype en fonctionnement</td></tr>
+            <tr><td style="text-align:center;">5</td><td><strong>Bilan</strong></td><td>Difficultés rencontrées, solutions, améliorations possibles</td></tr>
           </tbody>
         </table>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          La fabrication <strong>additive</strong> ajoute de la matière couche par couche. La fabrication <strong>soustractive</strong> retire de la matière. Le choix dépend de la pièce, du matériau et de la précision.
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; La chaîne numérique de fabrication</h2>
-        <table>
-          <thead><tr><th>Étape</th><th>Action</th><th>Outil</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1. Conception CAO</strong></td><td>Dessiner la pièce en 3D</td><td>Tinkercad, FreeCAD, Fusion 360</td></tr>
-            <tr><td><strong>2. Export</strong></td><td>Enregistrer au format STL (3D) ou DXF/SVG (2D)</td><td>Fonction export du logiciel</td></tr>
-            <tr><td><strong>3. Préparation</strong></td><td>Configurer les paramètres machine</td><td>Slicer (Cura) ou logiciel laser (LightBurn)</td></tr>
-            <tr><td><strong>4. Fabrication</strong></td><td>Lancer la machine</td><td>Imprimante 3D, découpe laser, CNC</td></tr>
-            <tr><td><strong>5. Post-traitement</strong></td><td>Finition de la pièce</td><td>Ponçage, ébavurage, assemblage</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Paramètres d'impression 3D</h2>
-        <table>
-          <thead><tr><th>Paramètre</th><th>Rôle</th><th>Valeur courante</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Hauteur de couche</strong></td><td>Épaisseur de chaque couche (précision vs vitesse)</td><td>0,2 mm (standard)</td></tr>
-            <tr><td><strong>Taux de remplissage</strong></td><td>Quantité de matière à l'intérieur</td><td>15-20% (léger), 100% (plein)</td></tr>
-            <tr><td><strong>Supports</strong></td><td>Structures temporaires pour les porte-à-faux</td><td>Si angle > 45°</td></tr>
-            <tr><td><strong>Température buse</strong></td><td>Température de fusion du filament</td><td>200°C (PLA), 240°C (ABS)</td></tr>
-            <tr><td><strong>Vitesse</strong></td><td>Vitesse de déplacement de la tête</td><td>50-60 mm/s</td></tr>
-          </tbody>
-        </table>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Les paramètres d'impression (hauteur de couche, remplissage, supports, température, vitesse) influencent directement la <strong>qualité</strong>, la <strong>solidité</strong> et le <strong>temps</strong> d'impression.
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
-        <div class="info-box info-box-orange">
-          <div class="info-box-title">Mots clés de la séquence</div>
-          <ul>
-            <li><strong>FabLab</strong> : atelier ouvert de fabrication numérique avec machines partagées</li>
-            <li><strong>Fabrication additive</strong> : construction par ajout de matière couche par couche</li>
-            <li><strong>Fabrication soustractive</strong> : mise en forme par retrait de matière</li>
-            <li><strong>CAO</strong> : Conception Assistée par Ordinateur</li>
-            <li><strong>STL</strong> : format de fichier standard pour l'impression 3D</li>
-            <li><strong>Slicer</strong> : logiciel qui prépare le fichier pour l'imprimante 3D</li>
-            <li><strong>G-code</strong> : fichier d'instructions machine pour la fabrication numérique</li>
-            <li><strong>CNC</strong> : Commande Numérique par Calculateur</li>
-            <li><strong>PLA</strong> : filament biodégradable courant en impression 3D scolaire</li>
-          </ul>
-        </div>
-      </div>
-      <div class="content-card no-print">
-        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 3</p>
       </div>
     </main>
   </div>

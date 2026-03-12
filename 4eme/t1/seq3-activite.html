@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 3 — Objets connectés : avantages, inconvénients et impact | 4ème</title>
+  <title>Séq. 3 — Programmation d'objets connectés (Micro:bit) | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -11,15 +11,15 @@
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 3"},{"label":"Fiche activité"}]'
     data-print-title="4ème — Séquence 3 : Fiche Activité Élève"
-    data-print-subtitle="Objets connectés : avantages, inconvénients et impact · Technologie LFT">
+    data-print-subtitle="Programmation Micro:bit · Technologie LFT">
 
     <main class="site-main">
 
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
-        <h1>Séquence 3 — Objets connectés : avantages, inconvénients et impact</h1>
+        <h1>Séquence 3 — Programmation d'objets connectés (Micro:bit)</h1>
         <p class="page-description">
-          Comment comparer des objets connectés et évaluer leur impact sur l'environnement et la société ? Quels critères guident un choix éco-responsable ?
+          Comment programmer une carte Micro:bit pour créer un objet interactif ? Comment utiliser les capteurs et l'affichage LED ?
         </p>
       </div>
 
@@ -40,13 +40,13 @@
             </tr>
             <tr>
               <td><strong>Thème</strong></td>
-              <td colspan="3">Thème 1 — Usages et interactions</td>
+              <td colspan="3">Thème 2 — Programmation et objets numériques</td>
             </tr>
             <tr>
               <td><strong>Compétences</strong></td>
               <td colspan="3">
-                <span class="competence-badge">Comparer et justifier le choix d'un objet</span>
-                <span class="competence-badge">Analyser les interactions objet/environnement</span>
+                <span class="competence-badge">Programmer un objet connecté</span>
+                <span class="competence-badge">Utiliser capteurs et actionneurs</span>
               </td>
             </tr>
           </tbody>
@@ -54,146 +54,134 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4A1; Situation déclenchante</h2>
-        <div class="info-box info-box-blue">
-          <strong>Ta famille veut acheter un thermostat connecté pour réduire sa facture d'énergie. Mais entre les différents modèles, les données personnelles collectées et l'impact écologique...</strong><br>
-          Comment faire un choix éclairé parmi les objets connectés ?
+        <h2>&#x1F4A1; Présentation de la carte Micro:bit</h2>
+        <div class="info-box info-box-green">
+          <strong>La carte Micro:bit</strong> est un mini-ordinateur programmable. Elle possède :
+          <ul style="margin-top:0.5rem;">
+            <li><strong>25 LEDs</strong> (matrice 5×5) pour afficher des images et du texte</li>
+            <li><strong>2 boutons</strong> (A et B) pour interagir</li>
+            <li><strong>Accéléromètre</strong> pour détecter les mouvements (secouer, incliner)</li>
+            <li><strong>Boussole</strong> pour détecter l'orientation</li>
+            <li><strong>Capteur de température</strong> et <strong>de luminosité</strong></li>
+            <li><strong>Communication radio</strong> entre cartes Micro:bit</li>
+          </ul>
         </div>
-        <p><strong>Problématique :</strong> Comment comparer des objets connectés et faire un choix responsable ?</p>
+        <p>On programme la Micro:bit sur le site <strong>makecode.microbit.org</strong> avec des blocs (comme Scratch).</p>
       </div>
 
       <!-- Activité 1 -->
       <div class="content-card">
-        <h2>Activité 1 — Architecture d'un système IoT</h2>
+        <h2>Activité 1 — Découverte : afficher sur les LEDs (20 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
           <div class="activity-step-content">
-            <h4>De l'objet au cloud</h4>
-            <p>Un objet connecté fait partie d'un <strong>écosystème</strong> plus large qui relie capteurs, réseaux et serveurs.</p>
+            <h4>Premiers programmes</h4>
+            <p>Ouvre <strong>makecode.microbit.org</strong> et crée un nouveau projet. Réalise les programmes suivants :</p>
           </div>
         </div>
 
-        <div class="info-box info-box-green">
-          <strong>Architecture d'un système IoT :</strong><br>
-          <strong>Capteurs</strong> (mesure) &#x2192; <strong>Microcontrôleur</strong> (traitement local) &#x2192; <strong>Réseau</strong> (Wi-Fi, Bluetooth, 4G, LoRa) &#x2192; <strong>Cloud/Serveur</strong> (stockage, analyse IA) &#x2192; <strong>Application</strong> (interface utilisateur)
-        </div>
-
-        <p><strong>a)</strong> Pour chaque objet connecté, complète l'architecture complète :</p>
+        <p><strong>a)</strong> Programme 1 : Affiche ton prénom en défilement sur les LEDs.</p>
         <table>
-          <thead><tr><th>Objet</th><th>Capteur(s)</th><th>Réseau</th><th>Traitement cloud</th><th>Application</th></tr></thead>
+          <thead><tr><th>Bloc utilisé</th><th>Catégorie</th><th>Action</th></tr></thead>
           <tbody>
-            <tr>
-              <td><strong>Thermostat Nest</strong></td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-            </tr>
-            <tr>
-              <td><strong>Montre Fitbit</strong></td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-            </tr>
-            <tr>
-              <td><strong>Caméra Ring</strong></td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
-            </tr>
+            <tr><td><code>au démarrage</code></td><td>Base</td><td>Exécuter au démarrage</td></tr>
+            <tr><td><code>montrer texte "..."</code></td><td>Base</td><td>Afficher ton prénom</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Quel est le rôle du cloud dans un système IoT ? Pourquoi est-il indispensable ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+        <p><strong>b)</strong> Programme 2 : Affiche un smiley heureux quand tu appuies sur le bouton A, et un smiley triste quand tu appuies sur B.</p>
+        <table>
+          <thead><tr><th>Bloc utilisé</th><th>Catégorie</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td><code>lorsque le bouton A est pressé</code></td><td>Entrée</td><td>Détecter appui sur A</td></tr>
+            <tr><td><code>montrer icône &#x1F600;</code></td><td>Base</td><td>Smiley heureux</td></tr>
+            <tr><td><code>lorsque le bouton B est pressé</code></td><td>Entrée</td><td>Détecter appui sur B</td></tr>
+            <tr><td><code>montrer icône &#x2639;</code></td><td>Base</td><td>Smiley triste</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- Activité 2 -->
       <div class="content-card">
-        <h2>Activité 2 — Comparaison multicritères</h2>
+        <h2>Activité 2 — Les capteurs de la Micro:bit (30 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
           <div class="activity-step-content">
-            <h4>Comparer pour mieux choisir</h4>
-            <p>Pour choisir un objet connecté de manière éclairée, il faut le comparer sur plusieurs <strong>critères</strong> : fonctionnalités, prix, données collectées, impact environnemental...</p>
+            <h4>Utiliser les capteurs intégrés</h4>
+            <p>La Micro:bit possède des capteurs. Tu vas les programmer pour créer des interactions.</p>
           </div>
         </div>
 
-        <p><strong>a)</strong> Compare deux enceintes connectées sur les critères suivants :</p>
+        <p><strong>a)</strong> Programme 3 — Thermomètre : Affiche la température quand on appuie sur A+B.</p>
+        <p>Quels blocs as-tu utilisés ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+
+        <p><strong>b)</strong> Programme 4 — Dé numérique : Quand on secoue la Micro:bit, afficher un nombre aléatoire entre 1 et 6.</p>
         <table>
-          <thead><tr><th>Critère</th><th>Enceinte A (bas de gamme)</th><th>Enceinte B (haut de gamme)</th></tr></thead>
+          <thead><tr><th>Bloc utilisé</th><th>Catégorie</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td><strong>Prix</strong></td><td>30 &#x20AC;</td><td>120 &#x20AC;</td></tr>
-            <tr><td><strong>Assistant vocal</strong></td><td>Non</td><td>Oui (Alexa)</td></tr>
-            <tr><td><strong>Données collectées</strong></td><td>Aucune</td><td>Voix, habitudes, historique</td></tr>
-            <tr><td><strong>Réparabilité</strong></td><td>Indice 3/10</td><td>Indice 6/10</td></tr>
-            <tr><td><strong>Durée de vie estimée</strong></td><td>2 ans</td><td>5 ans</td></tr>
-            <tr><td><strong>Recyclabilité</strong></td><td>Faible</td><td>Moyenne</td></tr>
+            <tr><td><code>lorsque secoué</code></td><td>Entrée</td><td>Détecter le secouement</td></tr>
+            <tr><td><code>montrer nombre</code></td><td>Base</td><td>Afficher le résultat</td></tr>
+            <tr><td><code>choisir au hasard de 1 à 6</code></td><td>Maths</td><td>Nombre aléatoire</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Quelle enceinte choisirais-tu ? Justifie ton choix en t'appuyant sur au moins 3 critères.</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>c)</strong> Quels risques pose la collecte de données vocales par l'enceinte B ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+        <p><strong>c)</strong> Quel capteur est utilisé pour détecter le secouement ?</p>
+        <p style="border-bottom: 1px dotted var(--gray-300); padding-bottom:0.5rem;">&nbsp;</p>
       </div>
 
       <!-- Activité 3 -->
       <div class="content-card">
-        <h2>Activité 3 — Impact environnemental du numérique</h2>
+        <h2>Activité 3 — Projet : Jeu de Ludo Micro:bit (40 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
           <div class="activity-step-content">
-            <h4>L'empreinte cachée des objets connectés</h4>
-            <p>Les objets connectés ont un impact environnemental souvent sous-estimé : énergie des data centers, extraction de minerais, obsolescence...</p>
+            <h4>Créer un jeu interactif</h4>
+            <p>Tu vas programmer un <strong>jeu de Ludo</strong> (jeu de l'oie simplifié) en utilisant la Micro:bit comme dé électronique.</p>
           </div>
         </div>
 
-        <div class="info-box info-box-orange">
-          <strong>Le saviez-vous ?</strong>
-          <ul>
-            <li>Le numérique représente <strong>4% des émissions mondiales de CO2</strong> (autant que l'aviation)</li>
-            <li>Un data center consomme autant d'électricité qu'une <strong>ville de 30 000 habitants</strong></li>
-            <li>Un smartphone contient plus de <strong>50 métaux différents</strong> dont certains rares (tantale, indium)</li>
+        <div class="info-box info-box-blue">
+          <strong>Cahier des charges du jeu :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li>Secouer la Micro:bit = lancer le dé (nombre aléatoire 1-6)</li>
+            <li>Le nombre s'affiche sur les LEDs</li>
+            <li>Bouton A = afficher le score du joueur 1</li>
+            <li>Bouton B = afficher le score du joueur 2</li>
+            <li>A+B = remettre les scores à zéro</li>
           </ul>
         </div>
 
-        <p><strong>a)</strong> Associe chaque source d'impact à l'étape correspondante :</p>
-        <table>
-          <thead><tr><th>Source d'impact</th><th>Étape du cycle</th></tr></thead>
-          <tbody>
-            <tr><td>Extraction du cobalt au Congo dans des conditions dangereuses</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Les serveurs cloud fonctionnent 24h/24 et consomment beaucoup d'électricité</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>L'emballage plastique du produit livré par avion depuis la Chine</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Un objet non réparable jeté après 2 ans d'utilisation</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
+        <p><strong>a)</strong> Crée une variable « score1 » et une variable « score2 ». À quel moment sont-elles modifiées ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50);"></div>
 
-        <p><strong>b)</strong> Propose 3 gestes concrets pour réduire l'impact environnemental de nos objets connectés :</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50);"></div>
+        <p><strong>b)</strong> Écris l'algorithme du jeu en pseudo-code :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50);"></div>
+
+        <p><strong>c)</strong> Programme le jeu dans MakeCode et teste-le sur le simulateur.</p>
+        <p><strong>d)</strong> Transfère le programme sur la carte Micro:bit réelle et joue avec un camarade.</p>
       </div>
 
       <!-- Synthèse -->
       <div class="content-card">
         <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
         <div class="info-box info-box-blue">
-          <p>Complète avec : <em>écosystème, cloud, multicritères, données personnelles, empreinte carbone, réparabilité, data centers, responsable</em></p>
+          <p>Complète avec : <em>Micro:bit, LEDs, boutons, accéléromètre, capteurs, variable, MakeCode, blocs</em></p>
         </div>
-
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          Un objet connecté fait partie d'un ........................ qui relie capteurs, réseau et ........................ .
+          La carte ........................ est un mini-ordinateur programmable avec des ........................ (matrice 5×5), des ........................ (A et B) et des ........................ intégrés.
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          Pour choisir un objet connecté, on utilise une comparaison ........................ (prix, fonctionnalités, ........................, ........................).
+          L'........................ permet de détecter les mouvements (secouer, incliner).
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          Le numérique a une ........................ importante (énergie des ........................, extraction de minerais). Un choix ........................ allonge la durée de vie des objets et réduit les déchets.
+          On programme la Micro:bit avec ........................ en utilisant des ........................ visuels.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Une ........................ stocke une valeur qui peut changer pendant le programme (ex : score d'un joueur).
         </p>
       </div>
 

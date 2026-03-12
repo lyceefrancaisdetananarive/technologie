@@ -10,119 +10,99 @@
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 2"},{"label":"Évaluation"}]'
-    data-print-title="4ème — Évaluation bilan Trimestre 2"
-    data-print-subtitle="Séquences 4 à 6 · Technologie LFT · Durée : 1 heure">
-
+    data-print-title="ÉVALUATION DE FIN DE TRIMESTRE 2"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · ÉVALUATION</span>
-        <h1>Évaluation bilan — Trimestre 2</h1>
-        <p class="page-description">Séquences 4 à 6 — Énergie, programmation et diagnostic · Durée : 1 heure · /20 points</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Évaluation T2</span>
+        <h1>Évaluation de fin de trimestre 2</h1>
+        <p class="page-description">Documentation technique, programmation mBlock/Scratch, modélisation 3D — Durée : 55 minutes</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
       </div>
 
       <div class="content-card">
+        <h2>Compétences évaluées</h2>
         <table>
+          <thead><tr><th>Compétence</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
           <tbody>
-            <tr><td style="width:20%"><strong>Nom</strong></td><td style="border-bottom: 1px dotted var(--gray-300); width:30%">&nbsp;</td><td style="width:20%"><strong>Prénom</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Classe</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td><strong>Date</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>C1 — Rédiger un cahier des charges et lire un document technique</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C2 — Programmer un système automatisé (mBlock/Scratch)</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C3 — Modéliser et préparer une fabrication numérique</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+        <div style="display:flex; gap:var(--space-xl); margin-top:var(--space-md); font-size:0.85rem; color:var(--gray-500);">
+          <div><strong>Nom :</strong> ........................................</div><div><strong>Prénom :</strong> ........................................</div><div><strong>Classe :</strong> 4ème ........</div><div><strong>Date :</strong> ....../....../......</div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>Exercice 1 — Documentation technique (7 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C1 · <strong>Contexte :</strong> Conception d'un robot suiveur de ligne</div>
+
+        <p><strong>1.1</strong> Rédige la fonction principale (FP) du robot suiveur de ligne. <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:30px; background:var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Cite 3 fonctions de contrainte (FC) du robot. <em>(3 pts)</em></p>
+        <p>FC1 : <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></p>
+        <p>FC2 : <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></p>
+        <p>FC3 : <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></p>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.3</strong> Complète la nomenclature du robot : <em>(2 pts)</em></p>
+        <table>
+          <thead><tr><th>Rep.</th><th>Nb</th><th>Désignation</th><th>Matériau</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td>PLA</td></tr>
+            <tr><td>2</td><td>2</td><td>Moteur DC</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>3</td><td>1</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td>Composant</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>Exercice 1 — Chaîne d'énergie (7 points)</h2>
-        <p class="text-sm text-muted">Compétence : Analyser l'organisation interne et échanges</p>
+        <h2>Exercice 2 — Programmation mBlock/Scratch (7 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C2</div>
 
-        <p><strong>1.1</strong> Cite les 4 fonctions de la chaîne d'énergie dans l'ordre (2 pts) :</p>
-        <p>&#x25FB; ........................ → &#x25FB; ........................ → &#x25FB; ........................ → &#x25FB; ........................</p>
+        <p><strong>2.1</strong> On programme un feu de signalisation dans Scratch. Écris le pseudo-code du cycle : vert 5s → orange 2s → rouge 5s, en boucle. <em>(3 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:80px; background:var(--gray-50); font-family:monospace;"></div>
 
-        <p><strong>1.2</strong> Complète la chaîne d'énergie d'une trottinette électrique (2 pts) :</p>
-        <table>
-          <tbody>
-            <tr><td style="width:25%"><strong>ALIMENTER</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>DISTRIBUER</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>CONVERTIR</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>TRANSMETTRE</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
+        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Comment synchronise-t-on 2 feux dans Scratch pour qu'ils ne soient jamais verts en même temps ? <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:50px; background:var(--gray-50);"></div>
 
-        <p><strong>1.3</strong> Un moteur électrique consomme 500 kWh et produit 425 kWh d'énergie mécanique. Calcule son rendement. (1.5 pts)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>1.4</strong> Sous quelle forme principale l'énergie est-elle perdue dans un moteur ? (0.5 pt)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 30px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>1.5</strong> Cite une solution pour améliorer le rendement d'un véhicule électrique. (1 pt)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 30px; background: var(--gray-50);"></div>
+        <p style="margin-top:var(--space-lg);"><strong>2.3</strong> Qu'est-ce qu'un sprite et qu'est-ce qu'un costume dans Scratch ? <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:50px; background:var(--gray-50);"></div>
       </div>
 
       <div class="content-card">
-        <h2>Exercice 2 — Programmation (7 points)</h2>
-        <p class="text-sm text-muted">Compétence : Comprendre/modifier un programme</p>
+        <h2>Exercice 3 — Modélisation 3D (6 points)</h2>
+        <div class="info-box info-box-blue"><strong>Compétence :</strong> C3</div>
 
-        <p><strong>2.1</strong> Quelle est la différence entre un capteur et un actionneur ? Donne un exemple de chaque. (2 pts)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+        <p><strong>3.1</strong> Quelle est la différence entre un fichier STL et un fichier SVG ? <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:40px; background:var(--gray-50);"></div>
 
-        <p><strong>2.2</strong> Écris l'algorithme en pseudo-code pour qu'un mBot avance et s'arrête quand il détecte un obstacle à moins de 15 cm. (3 pts)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 100px; background: var(--gray-50); font-family: monospace; margin-bottom: var(--space-md);"></div>
+        <p style="margin-top:var(--space-lg);"><strong>3.2</strong> Cite les 4 étapes pour imprimer un objet en 3D, dans l'ordre. <em>(2 pts)</em></p>
+        <p>1. <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
+        <p>2. <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
+        <p>3. <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
+        <p>4. <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
 
-        <p><strong>2.3</strong> Qu'est-ce qu'une variable en programmation ? À quoi sert-elle ? (1 pt)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>2.4</strong> Cite un risque de cybersécurité pour un robot connecté en Bluetooth. (1 pt)</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 30px; background: var(--gray-50);"></div>
+        <p style="margin-top:var(--space-lg);"><strong>3.3</strong> On veut graver un logo sur du bois. Quelle machine utilise-t-on et quel type de fichier ? <em>(2 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:40px; background:var(--gray-50);"></div>
       </div>
 
       <div class="content-card">
-        <h2>Exercice 3 — Diagnostic et réparabilité (6 points)</h2>
-        <p class="text-sm text-muted">Compétence : Identifier des défaillances et proposer des solutions</p>
-
-        <p><strong>3.1</strong> Cite les 5 étapes de la démarche de diagnostic dans l'ordre. (2.5 pts)</p>
-        <ol>
-          <li style="margin-bottom: var(--space-sm);"><span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 250px;">&nbsp;</span></li>
-          <li style="margin-bottom: var(--space-sm);"><span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 250px;">&nbsp;</span></li>
-          <li style="margin-bottom: var(--space-sm);"><span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 250px;">&nbsp;</span></li>
-          <li style="margin-bottom: var(--space-sm);"><span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 250px;">&nbsp;</span></li>
-          <li style="margin-bottom: var(--space-sm);"><span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 250px;">&nbsp;</span></li>
-        </ol>
-
-        <p><strong>3.2</strong> Identifie le type d'obsolescence (1.5 pts) :</p>
+        <h2>Barème récapitulatif</h2>
         <table>
+          <thead><tr><th>Exercice</th><th>Compétence</th><th style="text-align:center">Points</th></tr></thead>
           <tbody>
-            <tr><td>Une tablette qui rame après une mise à jour système</td><td style="width:30%; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Un lave-linge dont le tambour casse après exactement 5 ans</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Envie du nouveau modèle d'écouteurs car le design a changé</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
-
-        <p><strong>3.3</strong> Un vélo électrique ne démarre plus. Propose 2 hypothèses et le test correspondant. (2 pts)</p>
-        <table>
-          <thead><tr><th>Hypothèse</th><th>Test à effectuer</th></tr></thead>
-          <tbody>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Ex. 1 — Documentation technique</td><td>C1</td><td style="text-align:center">7</td></tr>
+            <tr><td>Ex. 2 — Programmation mBlock/Scratch</td><td>C2</td><td style="text-align:center">7</td></tr>
+            <tr><td>Ex. 3 — Modélisation 3D</td><td>C3</td><td style="text-align:center">6</td></tr>
+            <tr style="background:var(--gray-100);"><td colspan="2"><strong>Total</strong></td><td style="text-align:center"><strong>20</strong></td></tr>
           </tbody>
         </table>
       </div>
-
-      <div class="content-card no-print">
-        <h2>&#x1F4CA; Barème et compétences</h2>
-        <table>
-          <thead><tr><th>Compétence</th><th>Exercice</th><th>Points</th></tr></thead>
-          <tbody>
-            <tr><td>Analyser l'organisation interne et échanges</td><td>Exercice 1</td><td><strong>7 pts</strong></td></tr>
-            <tr><td>Comprendre/modifier un programme</td><td>Exercice 2</td><td><strong>7 pts</strong></td></tr>
-            <tr><td>Identifier des défaillances et proposer des solutions</td><td>Exercice 3</td><td><strong>6 pts</strong></td></tr>
-            <tr><td colspan="2" style="text-align:right;"><strong>TOTAL</strong></td><td><strong>20 pts</strong></td></tr>
-          </tbody>
-        </table>
-      </div>
-
     </main>
   </div>
   <script src="../../js/components.js"></script>

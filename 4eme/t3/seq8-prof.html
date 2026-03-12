@@ -3,135 +3,135 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 8 — Fiche Professeur | 4ème</title>
+  <title>Fiche Prof — Séq. 8 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Fiche professeur"}]'
-    data-print-title="4ème — Séquence 8 : Fiche Professeur"
-    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 8"},{"label":"Fiche Prof"}]'
+    data-print-title="FICHE PROFESSEUR — Séquence 8 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · PROFESSEUR</span>
-        <h1>Séquence 8 — IA et systèmes automatisés</h1>
-        <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Fiche Prof</span>
+        <h1>Fiche Professeur — Séquence 8</h1>
+        <p class="page-description">Programmation Arduino — Commander capteurs et actionneurs (S25 → S27)</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
-        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq8-eval.html" class="btn btn-outline">&#x1F4CB; Évaluation</a>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <h2>&#x1F4CB; Déroulé de la séquence</h2>
         <table>
+          <thead><tr><th style="width:15%">Séance</th><th style="width:35%">Contenu</th><th style="width:25%">Activité élève</th><th style="width:25%">Support / Outil</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30)</td></tr>
-            <tr><td><strong>Compétences BO 2024</strong></td><td>
-              <span class="competence-badge">Développer un programme</span>
-              <span class="competence-badge">Valider par tests et simulations</span>
-            </td></tr>
-            <tr><td><strong>Objectifs</strong></td><td>
-              <ul>
-                <li>Entraîner un modèle d'IA simple avec Teachable Machine</li>
-                <li>Comprendre le lien entre données et performance du modèle</li>
-                <li>Concevoir un système automatisé intégrant l'IA</li>
-                <li>Identifier les biais et limites de l'IA</li>
-              </ul>
-            </td></tr>
-            <tr><td><strong>Matériel</strong></td><td>Ordinateurs avec webcam, accès internet (Teachable Machine), objets à classifier (plastique, métal, papier)</td></tr>
+            <tr>
+              <td><strong>S25</strong><br>(1h)</td>
+              <td>Découverte Arduino Uno, breadboard, câblage LED, programme Blink</td>
+              <td>Activité 1 — LED clignotante</td>
+              <td>Arduino IDE, kit Arduino</td>
+            </tr>
+            <tr>
+              <td><strong>S26</strong><br>(1h)</td>
+              <td>Capteur ultrason, lecture distance, condition if/else, moniteur série</td>
+              <td>Activité 2 — Capteur + réaction</td>
+              <td>HC-SR04, LED, buzzer</td>
+            </tr>
+            <tr>
+              <td><strong>S27</strong><br>(1h)</td>
+              <td>Programmation du prototype d'équipe (projet Séq. 7)</td>
+              <td>Activité 3 — Programme du prototype</td>
+              <td>Composants du projet</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4C5; Déroulement</h2>
+        <h2>&#x2705; Éléments de correction — Activité 1</h2>
+        <p><strong>Identification des éléments Arduino :</strong></p>
+        <table>
+          <thead><tr><th>Élément</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Microcontrôleur (ATmega328)</td><td>Le « cerveau » qui exécute le programme</td></tr>
+            <tr><td>Port USB</td><td>Alimentation + communication avec l'ordinateur (téléversement)</td></tr>
+            <tr><td>Pins numériques (0-13)</td><td>Entrées/sorties tout-ou-rien (0 ou 1) — boutons, LEDs</td></tr>
+            <tr><td>Pins analogiques (A0-A5)</td><td>Lecture de valeurs 0 à 1023 — capteurs de lumière, température</td></tr>
+            <tr><td>Alimentation (5V, 3.3V, GND)</td><td>Fournir l'énergie aux composants externes</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-md);"><strong>Questions :</strong></p>
+        <ol>
+          <li><strong>setup()</strong> = initialisation, s'exécute une seule fois au démarrage (configuration des pins)</li>
+          <li><strong>loop()</strong> = boucle principale, s'exécute en continu indéfiniment</li>
+          <li>Pour clignoter 2× plus vite : remplacer delay(1000) par <strong>delay(500)</strong></li>
+        </ol>
+      </div>
 
-        <h3>Séance 27 (1h30) — Teachable Machine</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S27</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Accroche (15 min)</h4>
-            <p>Vidéo : robot trieur de déchets industriel. Question : "Comment le robot sait-il quel est le type de déchet ?"</p>
-            <h4>Phase 2 — Activité 1 (60 min)</h4>
-            <p>En binômes : créer un modèle sur Teachable Machine. Prendre les photos, entraîner, tester.</p>
-            <h4>Phase 3 — Bilan (15 min)</h4>
-            <p>Comparaison des résultats entre binômes. Discussion sur les facteurs de qualité.</p>
-          </div>
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 2</h2>
+        <p><strong>Condition if/else attendue :</strong></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.6;">
+          <span style="color:#0277BD;">if</span> (distance &lt; 15) {<br>
+          &nbsp;&nbsp;digitalWrite(ledPin, <strong>HIGH</strong>); <span style="color:#757575;">// Allumer LED</span><br>
+          } <span style="color:#0277BD;">else</span> {<br>
+          &nbsp;&nbsp;digitalWrite(ledPin, <strong>LOW</strong>); <span style="color:#757575;">// Éteindre LED</span><br>
+          }
         </div>
+        <p style="margin-top:var(--space-md);"><strong>Points de vigilance :</strong></p>
+        <ul>
+          <li>Vérifier que les élèves utilisent le bon sens du capteur (Trig = OUTPUT, Echo = INPUT)</li>
+          <li>Le moniteur série (Serial Monitor) doit être à 9600 bauds</li>
+          <li>Bien câbler la résistance en série avec la LED (risque de griller la LED sans résistance)</li>
+        </ul>
+      </div>
 
-        <h3>Séance 28 (1h30) — Système avec IA</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S28</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Activité 2 (45 min)</h4>
-            <p>Schéma fonctionnel du robot trieur. Différence traitement classique vs IA.</p>
-            <h4>Phase 2 — Activité 3 (45 min)</h4>
-            <p>Biais et limites. Discussion sur l'IA responsable.</p>
-          </div>
-        </div>
-
-        <h3>Séance 29 (1h30) — Synthèse + Quiz</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S29</div>
-          <div class="activity-step-content">
-            <p>Synthèse (20 min). Quiz numérique (30 min). Amélioration des modèles Teachable Machine ou exploration d'autres projets IA (40 min).</p>
-          </div>
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 3</h2>
+        <p><strong>Exemple de programme pour distributeur de gel :</strong></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.85rem; line-height:1.5;">
+          #include &lt;Servo.h&gt;<br>
+          Servo monServo;<br>
+          <span style="color:#0277BD;">int</span> distance;<br><br>
+          <span style="color:#0277BD;">void</span> <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(9, OUTPUT);&nbsp;&nbsp;<span style="color:#757575;">// Trig</span><br>
+          &nbsp;&nbsp;pinMode(10, INPUT);&nbsp;&nbsp;<span style="color:#757575;">// Echo</span><br>
+          &nbsp;&nbsp;monServo.attach(6);&nbsp;&nbsp;<span style="color:#757575;">// Servo pin 6</span><br>
+          &nbsp;&nbsp;monServo.write(0);&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Position initiale</span><br>
+          }<br><br>
+          <span style="color:#0277BD;">void</span> <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;delayMicroseconds(2);<br>
+          &nbsp;&nbsp;digitalWrite(9, HIGH);<br>
+          &nbsp;&nbsp;delayMicroseconds(10);<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;distance = pulseIn(10, HIGH) / 58;<br><br>
+          &nbsp;&nbsp;<span style="color:#0277BD;">if</span> (distance &lt; 10) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;monServo.write(90);&nbsp;&nbsp;<span style="color:#757575;">// Appuyer</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;delay(1000);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;monServo.write(0);&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Relâcher</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;delay(2000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Anti-spam</span><br>
+          &nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;delay(200);<br>
+          }
         </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x2705; Corrigé détaillé</h2>
-
-        <h3>Activité 1 — Amélioration du modèle</h3>
-        <p><strong>b)</strong> Pour améliorer : ajouter plus de photos variées (angles, éclairages, arrière-plans différents), augmenter le nombre d'exemples, utiliser des objets de tailles et couleurs différentes.</p>
-
-        <h3>Activité 2 — Robot trieur avec IA</h3>
+        <h2>&#x1F4CB; Entrées Pronote</h2>
         <table>
-          <thead><tr><th>Fonction</th><th>Composant</th><th>Description</th></tr></thead>
+          <thead><tr><th>Séance</th><th>Entrée cahier de textes</th></tr></thead>
           <tbody>
-            <tr><td>Acquérir</td><td><strong>Caméra</strong></td><td>Capture l'image du déchet sur le tapis</td></tr>
-            <tr><td>Traiter (IA)</td><td><strong>Ordinateur + modèle IA</strong></td><td>Analyse l'image, classifie le déchet (plastique/métal/papier)</td></tr>
-            <tr><td>Communiquer/Agir</td><td><strong>Bras robotique + servomoteur</strong></td><td>Oriente le déchet vers le bon bac</td></tr>
-          </tbody>
-        </table>
-        <p><strong>b)</strong> Traitement classique : règles fixes (ex : si magnétique → métal). L'IA : apprend à reconnaître les objets visuellement, peut gérer des cas variés et imprévus.</p>
-
-        <h3>Activité 3 — IA responsable</h3>
-        <p><strong>a)</strong> Le problème est un biais de données : le modèle n'a vu que des bouteilles blanches, il ne généralise pas. Solution : entraîner avec des bouteilles de toutes les couleurs.</p>
-        <p><strong>b)</strong> Exemples : Médecine (avantage : diagnostic plus rapide / limite : erreurs si données biaisées), Transport (avantage : conduite plus sûre / limite : responsabilité en cas d'accident), Agriculture (avantage : détection maladies / limite : coût des capteurs).</p>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CB; Saisie Pronote</h2>
-        <h3>Cahier de texte — Séance 27</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Séquence 8 — IA et systèmes automatisés. Activité 1 : entraînement d'un modèle de reconnaissance d'images avec Teachable Machine.<br>
-          <strong>Travail :</strong> Réfléchir à 3 applications possibles de la reconnaissance d'images.
-        </div>
-        <h3>Cahier de texte — Séance 28</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Activités 2 et 3 : conception d'un système automatisé avec IA. Biais et limites. IA responsable.
-        </div>
-        <h3>Cahier de texte — Séance 29</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Synthèse. Quiz de révision. Amélioration des projets IA.
-        </div>
-        <h3>Compétences Pronote</h3>
-        <table>
-          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
-          <tbody>
-            <tr><td>Développer un programme</td><td>Activités 1 et 2 (Teachable Machine, système IA)</td></tr>
-            <tr><td>Valider par tests et simulations</td><td>Activités 1 et 3 (tests du modèle, biais)</td></tr>
+            <tr><td>S25</td><td>Séq. 8 — Programmation Arduino. Découverte de la carte Arduino Uno, câblage d'une LED sur breadboard, programme Blink (setup/loop/delay). Fiche activité 1.</td></tr>
+            <tr><td>S26</td><td>Suite Séq. 8 — Capteur ultrason HC-SR04 : câblage, mesure de distance, structure conditionnelle if/else, moniteur série. Fiche activité 2.</td></tr>
+            <tr><td>S27</td><td>Fin Séq. 8 — Programmation du prototype d'équipe : schéma de câblage, pseudo-code, codage et tests. Fiche activité 3. Structuration.</td></tr>
           </tbody>
         </table>
       </div>
-
     </main>
   </div>
   <script src="../../js/components.js"></script>

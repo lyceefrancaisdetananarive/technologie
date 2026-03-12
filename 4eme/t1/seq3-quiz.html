@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 3 : Objets connectés | 4ème</title>
+  <title>Quiz — Séq. 3 : Programmation Micro:bit | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -14,8 +14,8 @@
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
-        <h1>Quiz — Objets connectés : avantages, inconvénients et impact</h1>
-        <p class="page-description">Teste tes connaissances sur les objets connectés, leur architecture et leur impact.</p>
+        <h1>Quiz — Programmation Micro:bit</h1>
+        <p class="page-description">Teste tes connaissances sur la carte Micro:bit, ses capteurs et la programmation MakeCode.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -30,70 +30,70 @@
     const questions = [
       {
         type: 'qcm',
-        question: 'Dans l\'architecture IoT, quel est le rôle du cloud ?',
-        options: ['Mesurer des grandeurs physiques', 'Stocker et analyser les données avec des algorithmes puissants', 'Afficher les résultats à l\'utilisateur', 'Transmettre les données par Wi-Fi'],
-        correct: 1,
-        explanation: 'Le cloud (serveur distant) stocke les données sur le long terme et les analyse avec des algorithmes puissants (dont l\'IA), ce que le microcontrôleur de l\'objet ne peut pas faire.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Le numérique représente environ 4% des émissions mondiales de CO2.',
-        correct: true,
-        explanation: 'Le numérique (data centers, fabrication d\'appareils, réseaux) représente environ 4% des émissions mondiales de CO2, soit autant que l\'aviation civile.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel type de réseau une montre connectée utilise-t-elle pour communiquer avec le smartphone ?',
-        options: ['Wi-Fi uniquement', 'Bluetooth', '4G/5G', 'Câble USB'],
-        correct: 1,
-        explanation: 'Les montres connectées utilisent principalement le Bluetooth pour communiquer avec le smartphone à courte distance, puis le smartphone peut relayer les données via Wi-Fi au cloud.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel est le principal risque lié à une enceinte connectée avec assistant vocal ?',
-        options: ['Elle consomme trop d\'électricité', 'Elle peut enregistrer des conversations privées', 'Elle prend trop de place', 'Elle est trop compliquée à utiliser'],
-        correct: 1,
-        explanation: 'L\'enceinte avec assistant vocal écoute en permanence pour détecter le mot de réveil, et peut enregistrer des conversations privées stockées sur les serveurs de l\'entreprise.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un data center consomme autant d\'électricité qu\'une ville de 30 000 habitants.',
-        correct: true,
-        explanation: 'Les data centers, qui stockent les données du cloud, sont de gros consommateurs d\'énergie (serveurs + refroidissement). Certains consomment autant qu\'une ville de 30 000 habitants.'
-      },
-      {
-        type: 'qcm',
-        question: 'Combien de métaux différents contient un smartphone ?',
-        options: ['5 à 10', '15 à 20', 'Plus de 50', 'Plus de 200'],
+        question: 'Combien de LEDs possède la matrice de la Micro:bit ?',
+        options: ['9 (3×3)', '16 (4×4)', '25 (5×5)', '36 (6×6)'],
         correct: 2,
-        explanation: 'Un smartphone contient plus de 50 métaux différents, dont certains sont rares (tantale, indium, gallium) et leur extraction est très polluante.'
-      },
-      {
-        type: 'qcm',
-        question: 'Pour faire un choix responsable d\'objet connecté, quel critère est le plus important pour l\'environnement ?',
-        options: ['Le prix le plus bas', 'La réparabilité et la durée de vie', 'La couleur et le design', 'Le nombre de fonctionnalités'],
-        correct: 1,
-        explanation: 'La réparabilité et la durée de vie sont les critères les plus importants pour l\'environnement : un objet qui dure plus longtemps réduit la nécessité d\'en fabriquer de nouveaux.'
+        explanation: 'La Micro:bit possède une matrice de 25 LEDs organisées en 5 lignes et 5 colonnes.'
       },
       {
         type: 'vrai_faux',
-        question: 'Le thermostat Nest utilise l\'IA pour optimiser le chauffage.',
+        question: 'La Micro:bit possède un accéléromètre intégré.',
         correct: true,
-        explanation: 'Le thermostat Nest analyse les habitudes des occupants grâce à l\'IA et optimise automatiquement le chauffage pour réduire la consommation d\'énergie.'
+        explanation: 'L\'accéléromètre est un capteur intégré qui permet de détecter les mouvements (secouer, incliner, tourner).'
       },
       {
         type: 'qcm',
-        question: 'Que signifie "comparaison multicritères" ?',
-        options: ['Comparer uniquement le prix', 'Comparer sur plusieurs critères différents (prix, fonction, impact...)', 'Comparer les marques entre elles', 'Comparer la taille des objets'],
+        question: 'Quel événement utilise-t-on pour lancer un dé numérique ?',
+        options: ['Lorsque bouton A pressé', 'Lorsque secoué', 'Au démarrage', 'Toutes les 500 ms'],
         correct: 1,
-        explanation: 'Une comparaison multicritères évalue un objet sur plusieurs critères simultanément : prix, fonctionnalités, données collectées, réparabilité, impact environnemental, etc.'
+        explanation: 'On utilise "lorsque secoué" pour simuler le lancer d\'un dé : secouer la carte = lancer le dé.'
       },
       {
         type: 'qcm',
-        question: 'Pour réduire l\'impact du numérique, le geste le plus efficace est...',
-        options: ['Acheter le dernier modèle plus économe', 'Garder ses appareils le plus longtemps possible', 'Utiliser uniquement le Wi-Fi', 'Supprimer ses photos du cloud'],
+        question: 'Qu\'est-ce qu\'une variable en programmation ?',
+        options: ['Un bloc de couleur dans MakeCode', 'Un espace mémoire qui stocke une valeur modifiable', 'Un capteur de la Micro:bit', 'Un type de câble USB'],
         correct: 1,
-        explanation: 'Garder ses appareils plus longtemps est le geste le plus efficace car l\'essentiel de l\'impact se situe lors de la fabrication (extraction, usinage). Prolonger la durée de vie réduit le besoin de renouvellement.'
+        explanation: 'Une variable est un espace mémoire auquel on donne un nom (ex : score) et qui stocke une valeur pouvant changer pendant l\'exécution du programme.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'On programme la Micro:bit avec le logiciel Scratch.',
+        correct: false,
+        explanation: 'On programme la Micro:bit avec MakeCode (makecode.microbit.org), pas Scratch. MakeCode utilise des blocs visuels similaires mais adaptés à la Micro:bit.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur mesure la température sur la Micro:bit ?',
+        options: ['Un thermomètre externe', 'Le capteur de température intégré au processeur', 'L\'accéléromètre', 'Le bouton A'],
+        correct: 1,
+        explanation: 'La Micro:bit possède un capteur de température intégré dans le processeur. Il mesure la température ambiante.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour afficher un nombre aléatoire entre 1 et 6, on utilise le bloc...',
+        options: ['montrer texte', 'montrer nombre + choisir au hasard de 1 à 6', 'montrer icône', 'définir variable à 6'],
+        correct: 1,
+        explanation: 'On combine "montrer nombre" avec "choisir au hasard de 1 à 6" pour afficher un résultat aléatoire comme un dé.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La Micro:bit peut communiquer avec une autre Micro:bit par radio.',
+        correct: true,
+        explanation: 'La Micro:bit possède un module radio intégré qui permet d\'envoyer et recevoir des messages entre plusieurs cartes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que fait le bloc "lorsque bouton A+B pressé" ?',
+        options: ['Il appuie automatiquement sur les boutons', 'Il exécute du code quand on appuie sur A et B en même temps', 'Il désactive les boutons', 'Il affiche les lettres A et B'],
+        correct: 1,
+        explanation: '"Lorsque bouton A+B pressé" est un événement qui se déclenche quand l\'utilisateur appuie simultanément sur les deux boutons A et B.'
+      },
+      {
+        type: 'qcm',
+        question: 'La matrice LED de la Micro:bit est un...',
+        options: ['Capteur', 'Actionneur', 'Processeur', 'Module de communication'],
+        correct: 1,
+        explanation: 'La matrice LED est un actionneur : elle produit une action visible (affichage lumineux) en réponse aux instructions du programme.'
       }
     ];
 

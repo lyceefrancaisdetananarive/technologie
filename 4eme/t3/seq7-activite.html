@@ -3,178 +3,149 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 7 — Projet collaboratif : Système de détection | 4ème</title>
+  <title>Activité — Séq. 7 : Projet collaboratif | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Fiche activité"}]'
-    data-print-title="4ème — Séquence 7 : Fiche Activité Élève"
-    data-print-subtitle="Projet collaboratif · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Activité"}]'
+    data-print-title="ACTIVITÉ — Séquence 7 : Projet collaboratif"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
-        <h1>Séquence 7 — Projet collaboratif : Concevoir un système de détection</h1>
-        <p class="page-description">
-          En équipe, concevez un système automatisé avec Arduino ou mBot qui détecte et réagit à un événement.
-        </p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Activité</span>
+        <h1>Activité — Séquence 7</h1>
+        <p class="page-description">Projet collaboratif — Conception d'un objet connecté pour le FabLab</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq7-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq7-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
       </div>
 
       <div class="content-card">
-        <table>
-          <tbody>
-            <tr>
-              <td style="width:20%"><strong>Niveau</strong></td>
-              <td>4ème</td>
-              <td style="width:15%"><strong>Durée</strong></td>
-              <td>4 séances de 1h30</td>
-            </tr>
-            <tr>
-              <td><strong>Thème</strong></td>
-              <td colspan="3">Thème 3 — Conception et réalisation</td>
-            </tr>
-            <tr>
-              <td><strong>Compétences</strong></td>
-              <td colspan="3">
-                <span class="competence-badge">Concevoir et réaliser un prototype</span>
-                <span class="competence-badge">Valider par tests et simulations</span>
-                <span class="competence-badge">Développer un programme</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F3AF; Le projet</h2>
+        <h2>&#x1F3AF; Objectifs de la séquence</h2>
         <div class="info-box info-box-blue">
-          <strong>Mission :</strong> En équipe de 3-4 élèves, concevez un <strong>système de détection automatisé</strong> qui utilise au moins un capteur et un actionneur. Le système doit résoudre un problème réel.
+          <strong>Problématique :</strong> Comment organiser un projet d'équipe pour concevoir un objet connecté ?
         </div>
+        <ul>
+          <li>Travailler en équipe avec des rôles définis</li>
+          <li>Rédiger un cahier des charges simplifié</li>
+          <li>Planifier les étapes du projet avec un diagramme de Gantt</li>
+          <li>Choisir et concevoir un prototype d'objet connecté</li>
+        </ul>
+      </div>
 
-        <h3>Sujets au choix</h3>
+      <div class="content-card">
+        <h2>&#x1F4DD; Activité 1 — Lancement du projet (S22)</h2>
         <div class="info-box info-box-green">
-          <ul>
-            <li><strong>Alarme anti-intrusion</strong> : détection de mouvement + alerte sonore/lumineuse</li>
-            <li><strong>Station météo</strong> : capteur de température + affichage + alerte seuil</li>
-            <li><strong>Détecteur de luminosité</strong> : éclairage automatique quand il fait sombre</li>
-            <li><strong>Robot éviteur d'obstacles</strong> : mBot amélioré avec comportements complexes</li>
-            <li><strong>Système d'arrosage intelligent</strong> : capteur d'humidité + pompe automatique</li>
-            <li><strong>Sujet libre</strong> (avec validation du professeur)</li>
-          </ul>
+          <strong>Contexte :</strong> Vous devez concevoir en équipe de 4 un objet connecté utile au quotidien, qui sera fabriqué au FabLab. L'objet devra utiliser un Arduino et au moins un capteur et un actionneur.
         </div>
+
+        <p><strong>Étape 1 — Former les équipes et attribuer les rôles</strong></p>
+        <table>
+          <thead><tr><th>Rôle</th><th>Responsabilités</th><th>Nom de l'élève</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Chef de projet</strong></td><td>Coordonne l'équipe, gère le planning, anime les réunions</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dessinateur / Modélisateur</strong></td><td>Conçoit le boîtier en 3D (TinkerCAD / OnShape)</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Programmeur</strong></td><td>Programme l'Arduino (capteurs, actionneurs, logique)</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Fabricant / Testeur</strong></td><td>Prépare les fichiers de fabrication, assemble et teste</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Brainstorming : choisir l'objet connecté</strong></p>
+        <div class="info-box info-box-yellow">
+          <strong>Exemples de projets possibles :</strong> Station météo, distributeur automatique de gel, arroseur intelligent, alarme anti-intrusion, compteur de passages, veilleuse automatique…
+        </div>
+        <p>En équipe, proposez au moins 3 idées puis votez pour en retenir une :</p>
+        <table>
+          <thead><tr><th>Idée</th><th>Capteur(s) nécessaire(s)</th><th>Actionneur(s)</th><th>Votes</th></tr></thead>
+          <tbody>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-md);"><strong>Projet retenu :</strong> <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CB; Les étapes du projet</h2>
+        <h2>&#x1F4DD; Activité 2 — Cahier des charges et conception (S23)</h2>
 
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
-          <div class="activity-step-content">
-            <h4>Étape 1 — Cahier des charges (Séance 23)</h4>
-            <p>Définissez le besoin, les contraintes et les composants nécessaires.</p>
-          </div>
-        </div>
-
+        <p><strong>Étape 1 — Rédiger le cahier des charges simplifié</strong></p>
         <table>
+          <thead><tr><th style="width:35%">Critère</th><th>Description</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Nom de l'équipe</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Membres</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Sujet choisi</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Besoin identifié</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Fonction principale</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Contrainte technique 1</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Contrainte technique 2</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Matériaux envisagés</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dimensions max.</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Budget maximum</strong></td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
 
-        <p><strong>Composants nécessaires :</strong></p>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Croquis du prototype</strong></p>
+        <p>Dessine le croquis de ton objet connecté en indiquant l'emplacement des composants électroniques :</p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:180px; background:var(--gray-50);"></div>
+        <p style="margin-top:var(--space-sm); font-size:0.85rem; color:var(--gray-500);">Légende : place les capteurs, actionneurs, Arduino, alimentation sur le croquis.</p>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Nomenclature des composants</strong></p>
         <table>
-          <thead><tr><th>Composant</th><th>Rôle dans le système</th><th>Fonction (chaîne)</th></tr></thead>
+          <thead><tr><th>Rep.</th><th>Désignation</th><th>Qté</th><th>Rôle</th></tr></thead>
           <tbody>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>1</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>2</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>3</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>4</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>5</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
-
-        <div class="activity-step" style="margin-top: var(--space-lg);">
-          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
-          <div class="activity-step-content">
-            <h4>Étape 2 — Algorithme et programmation (Séances 24-25)</h4>
-            <p>Écrivez l'algorithme, puis programmez en mBlock.</p>
-          </div>
-        </div>
-
-        <p><strong>Algorithme en pseudo-code :</strong></p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 120px; background: var(--gray-50); font-family: monospace; margin-bottom: var(--space-md);"></div>
-
-        <p><strong>Chaîne d'information de votre système :</strong></p>
-        <table>
-          <tbody>
-            <tr><td style="width:25%"><strong>ACQUÉRIR</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>TRAITER</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>COMMUNIQUER</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
-
-        <div class="activity-step" style="margin-top: var(--space-lg);">
-          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
-          <div class="activity-step-content">
-            <h4>Étape 3 — Tests et validation (Séance 25)</h4>
-            <p>Testez votre système, identifiez les problèmes et améliorez-le.</p>
-          </div>
-        </div>
-
-        <table>
-          <thead><tr><th>Test effectué</th><th>Résultat</th><th>Correction apportée</th></tr></thead>
-          <tbody>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
-
-        <div class="activity-step" style="margin-top: var(--space-lg);">
-          <div class="activity-step-number" style="background: var(--color-4eme);">4</div>
-          <div class="activity-step-content">
-            <h4>Étape 4 — Présentation orale (Séance 26)</h4>
-            <p>Présentez votre projet (3-5 min) avec démonstration.</p>
-          </div>
-        </div>
-
-        <div class="info-box info-box-orange">
-          <strong>Votre présentation doit contenir :</strong>
-          <ul>
-            <li>Le <strong>besoin</strong> identifié et le cahier des charges</li>
-            <li>La <strong>chaîne d'information et d'énergie</strong> de votre système</li>
-            <li>L'<strong>algorithme</strong> et les choix de programmation</li>
-            <li>Une <strong>démonstration</strong> fonctionnelle</li>
-            <li>Les <strong>tests</strong> réalisés et les <strong>améliorations</strong></li>
-          </ul>
-        </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CA; Grille d'évaluation du projet</h2>
+        <h2>&#x1F4DD; Activité 3 — Planification et Gantt (S24)</h2>
+
+        <p><strong>Étape 1 — Lister les tâches du projet</strong></p>
         <table>
-          <thead><tr><th>Critère</th><th style="width:8%; text-align:center">1</th><th style="width:8%; text-align:center">2</th><th style="width:8%; text-align:center">3</th><th style="width:8%; text-align:center">4</th></tr></thead>
+          <thead><tr><th>N°</th><th>Tâche</th><th>Responsable</th><th>Durée (semaines)</th></tr></thead>
           <tbody>
-            <tr><td>Cahier des charges complet et pertinent</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
-            <tr><td>Programme fonctionnel et bien structuré</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
-            <tr><td>Système testé et validé</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
-            <tr><td>Présentation orale claire et complète</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
-            <tr><td>Travail d'équipe et organisation</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>T1</td><td>Rédaction du cahier des charges</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">1</td></tr>
+            <tr><td>T2</td><td>Modélisation 3D du boîtier</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">2</td></tr>
+            <tr><td>T3</td><td>Programmation Arduino</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">2</td></tr>
+            <tr><td>T4</td><td>Fabrication au FabLab</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">1</td></tr>
+            <tr><td>T5</td><td>Assemblage et tests</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">1</td></tr>
+            <tr><td>T6</td><td>Validation et présentation orale</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">1</td></tr>
           </tbody>
         </table>
-        <p style="font-size:0.85rem; color:var(--gray-500);">1 = Insuffisant | 2 = Fragile | 3 = Satisfaisant | 4 = Très bien</p>
-      </div>
 
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Tracer le diagramme de Gantt</strong></p>
+        <p>Reporte les tâches sur l'axe temporel. Colorie les cases correspondant à la durée de chaque tâche :</p>
+        <table>
+          <thead>
+            <tr><th style="width:25%">Tâche</th><th style="text-align:center">S1</th><th style="text-align:center">S2</th><th style="text-align:center">S3</th><th style="text-align:center">S4</th><th style="text-align:center">S5</th><th style="text-align:center">S6</th><th style="text-align:center">S7</th><th style="text-align:center">S8</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>T1 — CdCF</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T2 — Modélisation</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T3 — Arduino</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T4 — Fabrication</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T5 — Assemblage</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T6 — Présentation</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Identifier les jalons</strong></p>
+        <table>
+          <thead><tr><th>Jalon</th><th>Date prévue</th><th>Livrable attendu</th></tr></thead>
+          <tbody>
+            <tr><td>J1 — CdCF validé</td><td style="border-bottom:1px dotted var(--gray-300);">Fin S1</td><td>Document CdCF complet</td></tr>
+            <tr><td>J2 — Conception terminée</td><td style="border-bottom:1px dotted var(--gray-300);">Fin S3</td><td>Modèle 3D + programme Arduino</td></tr>
+            <tr><td>J3 — Prototype fabriqué</td><td style="border-bottom:1px dotted var(--gray-300);">Fin S6</td><td>Boîtier imprimé + circuits assemblés</td></tr>
+            <tr><td>J4 — Prototype validé</td><td style="border-bottom:1px dotted var(--gray-300);">Fin S8</td><td>Prototype fonctionnel + présentation</td></tr>
+          </tbody>
+        </table>
+      </div>
     </main>
   </div>
   <script src="../../js/components.js"></script>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 1 : Innovations technologiques | 4ème</title>
+  <title>Quiz — Séq. 1 : Analyse fonctionnelle | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -14,8 +14,8 @@
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
-        <h1>Quiz — Innovations technologiques et évolution</h1>
-        <p class="page-description">Teste tes connaissances sur les innovations, leur évolution et le cycle de vie.</p>
+        <h1>Quiz — Analyse fonctionnelle d'un système automatisé</h1>
+        <p class="page-description">Teste tes connaissances sur les systèmes automatisés, la bête à cornes et l'organigramme.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -30,70 +30,70 @@
     const questions = [
       {
         type: 'qcm',
-        question: 'Qu\'est-ce qu\'une innovation de rupture ?',
-        options: ['Une amélioration progressive', 'Un changement radical qui transforme l\'objet', 'Une réparation d\'un objet cassé', 'Un retour à une technologie ancienne'],
+        question: 'Quels sont les 3 éléments d\'un système automatisé ?',
+        options: ['Moteur, batterie, câble', 'Capteur, traitement, actionneur', 'Écran, clavier, souris', 'Entrée, mémoire, sortie'],
         correct: 1,
-        explanation: 'Une innovation de rupture est un changement radical qui transforme fondamentalement l\'objet ou son usage. Par exemple, l\'ajout d\'un moteur électrique au vélo.'
-      },
-      {
-        type: 'qcm',
-        question: 'Le passage de 3 à 21 vitesses sur un vélo est une innovation...',
-        options: ['De rupture', 'Incrémentale', 'Numérique', 'Écologique'],
-        correct: 1,
-        explanation: 'C\'est une innovation incrémentale car elle améliore progressivement une fonction existante (le changement de vitesses) sans transformer radicalement l\'objet.'
+        explanation: 'Un système automatisé fonctionne grâce à 3 éléments : les capteurs (acquérir), le traitement (décider) et les actionneurs (agir).'
       },
       {
         type: 'vrai_faux',
-        question: 'La draisienne de 1817 avait des pédales.',
+        question: 'Un système automatisé nécessite une intervention humaine permanente pour fonctionner.',
         correct: false,
-        explanation: 'La draisienne n\'avait PAS de pédales. Le conducteur avançait en poussant le sol avec ses pieds. Les pédales sont apparues en 1861 avec le vélocipède de Michaux.'
+        explanation: 'Un système automatisé fonctionne SANS intervention humaine permanente. C\'est ce qui le distingue d\'un système manuel.'
       },
       {
         type: 'qcm',
-        question: 'Quelle est la première étape du cycle de vie d\'un objet ?',
-        options: ['La fabrication', 'L\'utilisation', 'L\'extraction des matières premières', 'La distribution'],
-        correct: 2,
-        explanation: 'Le cycle de vie commence par l\'extraction des matières premières (minerais, pétrole, bois...) nécessaires à la fabrication de l\'objet.'
+        question: 'Dans le tourniquet ZKTeco, quel est le rôle du lecteur de badge ?',
+        options: ['Actionneur : il fait tourner les bras', 'Capteur : il acquiert l\'information d\'identification', 'Traitement : il décide si la personne peut passer', 'Interface : il affiche un message'],
+        correct: 1,
+        explanation: 'Le lecteur de badge est un capteur : il acquiert l\'information (identité de la personne) et la transmet au système de traitement.'
       },
       {
         type: 'qcm',
-        question: 'Combien d\'étapes comporte le cycle de vie d\'un objet technique ?',
-        options: ['3 étapes', '4 étapes', '5 étapes', '7 étapes'],
-        correct: 2,
-        explanation: 'Le cycle de vie comporte 5 étapes : extraction, fabrication, distribution, utilisation, fin de vie.'
+        question: 'Dans la bête à cornes, la question « À qui rend-il service ? » permet d\'identifier...',
+        options: ['La fonction principale', 'L\'utilisateur principal', 'Le prix du système', 'Les matériaux utilisés'],
+        correct: 1,
+        explanation: 'La question « À qui rend-il service ? » identifie l\'utilisateur principal du système (pour le tourniquet : les utilisateurs autorisés et le responsable sécurité).'
       },
       {
         type: 'vrai_faux',
-        question: 'L\'étape « fin de vie » concerne uniquement la mise en décharge.',
+        question: 'Une fonction de contrainte (FC) relie deux éléments du milieu extérieur.',
         correct: false,
-        explanation: 'La fin de vie comprend plusieurs possibilités : le recyclage, le réemploi, la revente, l\'incinération OU la mise en décharge. Le recyclage et le réemploi sont à privilégier.'
+        explanation: 'C\'est la Fonction Principale (FP) qui relie deux éléments du milieu extérieur. La Fonction de Contrainte (FC) est imposée par l\'environnement (normes, résistance, esthétique...).'
       },
       {
         type: 'qcm',
-        question: 'Quel est un impact négatif majeur du smartphone ?',
-        options: ['L\'accès à l\'information', 'La communication facilitée', 'L\'extraction de minerais rares (pollution)', 'Le GPS intégré'],
+        question: 'Dans un organigramme, quelle forme représente un test ou une condition ?',
+        options: ['Un rectangle', 'Un ovale', 'Un losange', 'Un cercle'],
         correct: 2,
-        explanation: 'L\'extraction de minerais rares (lithium, cobalt, tantale, or) nécessaires aux smartphones pollue les sols et l\'eau, et pose des problèmes éthiques (conditions de travail).'
+        explanation: 'Le losange représente un test ou une condition (question Oui/Non). Le rectangle représente une action, et l\'ovale le début ou la fin.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le matériau principal du tourniquet ZKTeco ?',
+        options: ['Aluminium', 'Plastique renforcé', 'Acier inoxydable', 'Bois composite'],
+        correct: 2,
+        explanation: 'Le tourniquet est fabriqué en acier inoxydable, un matériau robuste et durable, adapté à un usage intensif et aux conditions extérieures.'
       },
       {
         type: 'vrai_faux',
-        question: 'Une voiture électrique n\'a aucun impact négatif sur l\'environnement.',
-        correct: false,
-        explanation: 'Même si elle n\'émet pas de CO2 en roulant, la fabrication de ses batteries (lithium, cobalt) est très polluante, et le recyclage des batteries reste difficile.'
+        question: 'Le diagramme pieuvre sert à identifier les fonctions de service d\'un système.',
+        correct: true,
+        explanation: 'Le diagramme pieuvre permet d\'identifier la fonction principale (FP) et les fonctions de contrainte (FC) d\'un système technique.'
       },
       {
         type: 'qcm',
-        question: 'Pour réduire l\'impact environnemental d\'un objet, il faut prioritairement...',
-        options: ['Acheter le dernier modèle', 'Allonger sa durée de vie (réparer, réutiliser)', 'Le jeter à la poubelle classique', 'Ne pas l\'utiliser du tout'],
-        correct: 1,
-        explanation: 'Allonger la durée de vie d\'un objet (réparation, réemploi) réduit la nécessité de produire un nouvel objet, ce qui diminue les impacts sur toutes les étapes du cycle de vie.'
+        question: 'Dans l\'organigramme du tourniquet, que se passe-t-il si le badge n\'est PAS valide ?',
+        options: ['Le bras tourne à droite', 'Le bras tourne à gauche', 'Le système s\'éteint', 'La porte reste verrouillée'],
+        correct: 3,
+        explanation: 'Si le badge n\'est pas valide, la porte reste verrouillée et le système retourne au début (attente d\'un nouveau badge).'
       },
       {
         type: 'qcm',
-        question: 'Le sigle DEEE signifie...',
-        options: ['Département d\'Études Électriques Européen', 'Déchets d\'Équipements Électriques et Électroniques', 'Direction de l\'Énergie et de l\'Environnement', 'Dispositif d\'Évaluation des Émissions Environnementales'],
-        correct: 1,
-        explanation: 'DEEE = Déchets d\'Équipements Électriques et Électroniques. Ce sont les appareils en fin de vie qui doivent être déposés dans des points de collecte spécifiques pour être recyclés.'
+        question: 'Quelle est la fonction principale du tourniquet ZKTeco ?',
+        options: ['Décorer l\'entrée d\'un bâtiment', 'Compter le nombre de visiteurs', 'Contrôler et sécuriser l\'accès à un lieu', 'Remplacer un gardien de sécurité'],
+        correct: 2,
+        explanation: 'La fonction principale du tourniquet est de contrôler et sécuriser l\'accès à un lieu en laissant passer une personne à la fois.'
       }
     ];
 

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 2 — Intelligence Artificielle et automatisation | 4ème</title>
+  <title>Séq. 2 — Algorithme et logique de programmation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -11,15 +11,15 @@
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Fiche activité"}]'
     data-print-title="4ème — Séquence 2 : Fiche Activité Élève"
-    data-print-subtitle="Intelligence Artificielle et automatisation · Technologie LFT">
+    data-print-subtitle="Algorithme et logique de programmation · Technologie LFT">
 
     <main class="site-main">
 
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
-        <h1>Séquence 2 — Intelligence Artificielle et automatisation</h1>
+        <h1>Séquence 2 — Algorithme et logique de programmation</h1>
         <p class="page-description">
-          Comment l'IA prend-elle des décisions ? Comment les systèmes automatisés fonctionnent-ils et quels impacts ont-ils sur la société ?
+          Comment décrire le fonctionnement d'un système à l'aide d'un algorithme ? Comment traduire un algorithme en organigramme ?
         </p>
       </div>
 
@@ -45,8 +45,8 @@
             <tr>
               <td><strong>Compétences</strong></td>
               <td colspan="3">
-                <span class="competence-badge">Identifier les évolutions technologiques et impacts</span>
-                <span class="competence-badge">Analyser les interactions objet/environnement</span>
+                <span class="competence-badge">Écrire un algorithme simple</span>
+                <span class="competence-badge">Traduire un algorithme en organigramme</span>
               </td>
             </tr>
           </tbody>
@@ -54,138 +54,149 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4A1; Situation déclenchante</h2>
-        <div class="info-box info-box-blue">
-          <strong>Une voiture autonome doit choisir entre freiner brusquement ou dévier de sa trajectoire quand un piéton traverse soudainement...</strong><br>
-          Comment une machine peut-elle prendre des décisions ? Sur quels principes repose l'intelligence artificielle et quelles questions éthiques soulève-t-elle ?
+        <h2>&#x1F4A1; Rappel — Les symboles de l'organigramme</h2>
+        <div class="info-box info-box-green">
+          <strong>Un organigramme</strong> est la représentation graphique d'un algorithme. Il utilise des symboles normalisés.
         </div>
-        <p><strong>Problématique :</strong> Comment l'IA fonctionne-t-elle et quels enjeux pose l'automatisation des décisions ?</p>
+        <table>
+          <thead><tr><th>Symbole</th><th>Forme</th><th>Signification</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Début / Fin</strong></td><td>Ovale</td><td>Marque le début ou la fin de l'algorithme</td></tr>
+            <tr><td><strong>Action</strong></td><td>Rectangle</td><td>Instruction à exécuter (traitement)</td></tr>
+            <tr><td><strong>Test / Condition</strong></td><td>Losange</td><td>Question Oui/Non — branchement conditionnel</td></tr>
+            <tr><td><strong>Flèche</strong></td><td>Ligne fléchée</td><td>Indique le sens du déroulement</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <!-- Activité 1 -->
       <div class="content-card">
-        <h2>Activité 1 — Comment fonctionne l'IA ?</h2>
+        <h2>Activité 1 — Algorithme du quotidien (15 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
           <div class="activity-step-content">
-            <h4>Les principes de l'apprentissage automatique</h4>
-            <p>L'IA ne « pense » pas comme un humain. Elle utilise l'<strong>apprentissage automatique</strong> (machine learning) : elle analyse des milliers d'exemples pour détecter des <strong>patterns</strong> (motifs récurrents) et faire des prédictions.</p>
+            <h4>Écrire un algorithme en langage naturel</h4>
+            <p>Un algorithme est une suite ordonnée d'instructions. Tu en utilises tous les jours sans le savoir !</p>
           </div>
         </div>
 
-        <div class="info-box info-box-green">
-          <strong>Les 3 étapes de l'apprentissage automatique :</strong>
-          <ol>
-            <li><strong>Données d'entraînement</strong> : l'IA reçoit des milliers d'exemples étiquetés (ex : 10 000 photos de chats et de chiens)</li>
-            <li><strong>Entraînement du modèle</strong> : l'IA cherche des patterns (forme des oreilles, taille du museau...)</li>
-            <li><strong>Prédiction</strong> : face à une nouvelle image, l'IA utilise ce qu'elle a appris pour deviner "chat" ou "chien"</li>
-          </ol>
+        <p><strong>a)</strong> Écris l'algorithme pour « traverser la route en sécurité » en numérotant les étapes :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50);">
+          <p style="color:var(--gray-400); font-size:0.85rem; margin:0;">1. ................................<br>2. ................................<br>3. ................................<br>4. ................................<br>5. ................................</p>
         </div>
 
-        <p><strong>a)</strong> Associe chaque application d'IA au type de données qu'elle utilise pour apprendre :</p>
-        <table>
-          <thead><tr><th>Application d'IA</th><th>Données d'entraînement</th></tr></thead>
-          <tbody>
-            <tr><td>Reconnaissance vocale (Siri, Alexa)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Traduction automatique (DeepL)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Détection de spam dans les e-mails</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Recommandation YouTube / Netflix</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Voiture autonome</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
-
-        <p><strong>b)</strong> Pourquoi dit-on que l'IA a besoin de <strong>beaucoup de données</strong> pour bien fonctionner ?</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+        <p><strong>b)</strong> Identifie dans ton algorithme : un <strong>test</strong> (question Oui/Non) et une <strong>action</strong>.</p>
+        <p>Test : <span style="border-bottom: 1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
+        <p>Action : <span style="border-bottom: 1px dotted var(--gray-300); display:inline-block; width:60%;">&nbsp;</span></p>
       </div>
 
       <!-- Activité 2 -->
       <div class="content-card">
-        <h2>Activité 2 — Systèmes automatisés et prise de décision</h2>
+        <h2>Activité 2 — L'organigramme du tourniquet (30 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
           <div class="activity-step-content">
-            <h4>De l'automatisation simple à l'IA</h4>
-            <p>Un <strong>système automatisé</strong> exécute des tâches sans intervention humaine. Il peut être simple (minuteur) ou complexe (IA avec capteurs).</p>
+            <h4>Compléter un organigramme</h4>
+            <p>En séquence 1, tu as étudié le tourniquet ZKTeco. Maintenant, complète son organigramme de fonctionnement.</p>
           </div>
         </div>
 
-        <div class="info-box info-box-green">
-          <strong>Les 3 niveaux d'automatisation :</strong>
-          <ul>
-            <li><strong>Niveau 1 — Automatisation simple</strong> : règles fixes programmées à l'avance (ex : lave-linge, feu tricolore)</li>
-            <li><strong>Niveau 2 — Automatisation avec capteurs</strong> : le système réagit à son environnement (ex : porte automatique, thermostat)</li>
-            <li><strong>Niveau 3 — Automatisation avec IA</strong> : le système apprend et s'adapte (ex : voiture autonome, assistant vocal)</li>
-          </ul>
-        </div>
+        <p><strong>a)</strong> Complète l'organigramme avec les mots suivants :<br>
+        <em>Récupération des informations (Capteur) — Badge valide ? — Tourner le bras à droite — Tourner le bras à gauche — Verrouillage de la porte — Entré ou Sorti ?</em></p>
 
-        <p><strong>a)</strong> Classe chaque système dans le bon niveau d'automatisation :</p>
         <table>
-          <thead><tr><th>Système</th><th>Niveau (1, 2 ou 3)</th><th>Justification</th></tr></thead>
+          <thead><tr><th style="text-align:center">Étape</th><th>Symbole</th><th>Contenu à écrire</th></tr></thead>
           <tbody>
-            <tr><td>Aspirateur robot qui cartographie la maison</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Machine à laver avec programme fixe</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Caméra de surveillance avec détection faciale</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Distributeur automatique de boissons</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Éclairage qui s'allume au passage</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>ChatGPT</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">1</td><td>Ovale</td><td>Début</td></tr>
+            <tr><td style="text-align:center">2</td><td>Rectangle</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">3</td><td>Losange</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">4 (si OUI)</td><td>Losange</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">5a</td><td>Rectangle</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">5b</td><td>Rectangle</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">6</td><td>Rectangle</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center">7</td><td>Ovale</td><td>Retour au début</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Dessine le schéma de fonctionnement d'un système automatisé de niveau 2 (éclairage automatique) :</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 120px; background: var(--gray-50); text-align:center;">
-          <span style="color:var(--gray-400); font-size:0.8rem;">Capteur → Traitement → Actionneur (avec rétroaction)</span>
-        </div>
+        <p><strong>b)</strong> Dessine l'organigramme complet en utilisant les bons symboles :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50);"></div>
       </div>
 
       <!-- Activité 3 -->
       <div class="content-card">
-        <h2>Activité 3 — Éthique et enjeux de l'IA</h2>
+        <h2>Activité 3 — Algorithme d'un feu tricolore (20 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
           <div class="activity-step-content">
-            <h4>Les questions que pose l'IA</h4>
-            <p>L'IA soulève des questions importantes sur les <strong>biais</strong>, la <strong>vie privée</strong>, l'<strong>emploi</strong> et la <strong>responsabilité</strong>.</p>
+            <h4>Créer un algorithme à partir d'un système connu</h4>
+            <p>Un feu tricolore de circulation est un système automatisé simple. Décris son fonctionnement sous forme d'algorithme.</p>
           </div>
         </div>
 
-        <div class="info-box info-box-orange">
-          <strong>Qu'est-ce qu'un biais algorithmique ?</strong><br>
-          Si l'IA est entraînée avec des données déséquilibrées, elle reproduit ces déséquilibres. Exemple : une IA de recrutement entraînée principalement sur des CV masculins risque de discriminer les candidates.
+        <p><strong>a)</strong> Écris l'algorithme du feu tricolore en langage naturel (utilise les mots : allumer, éteindre, attendre, boucler) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50);"></div>
+
+        <p><strong>b)</strong> Dessine l'organigramme correspondant :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 150px; background: var(--gray-50);"></div>
+
+        <p><strong>c)</strong> Ce feu a-t-il besoin d'un <strong>test</strong> (losange) dans son organigramme ? Explique pourquoi.</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 4 -->
+      <div class="content-card">
+        <h2>Activité 4 — Pseudo-code (20 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">4</div>
+          <div class="activity-step-content">
+            <h4>Écrire un algorithme en pseudo-code</h4>
+            <p>Le pseudo-code est une façon d'écrire un algorithme qui ressemble à un programme informatique, mais en français.</p>
+          </div>
         </div>
 
-        <p><strong>a)</strong> Pour chaque situation, identifie le problème éthique posé par l'IA :</p>
-        <table>
-          <thead><tr><th>Situation</th><th>Problème éthique</th></tr></thead>
-          <tbody>
-            <tr><td>Une IA de recrutement rejette systématiquement les CV de femmes</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Un assistant vocal enregistre toutes les conversations de la famille</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Des robots remplacent les ouvriers dans une usine automobile</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Une voiture autonome provoque un accident : qui est responsable ?</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-          </tbody>
-        </table>
+        <div class="info-box info-box-blue">
+          <strong>Mots clés du pseudo-code :</strong> DÉBUT, FIN, SI... ALORS... SINON, TANT QUE, FAIRE, LIRE, AFFICHER
+        </div>
 
-        <p><strong>b)</strong> Rédige un court paragraphe (5-6 lignes) : Es-tu pour ou contre l'utilisation de l'IA à l'école ? Donne 2 arguments pour et 2 contre.</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 80px; background: var(--gray-50);"></div>
+        <p><strong>a)</strong> Complète le pseudo-code du tourniquet :</p>
+        <div style="background: var(--gray-100); border-radius: var(--radius-sm); padding: var(--space-lg); font-family: monospace; font-size: 0.9rem; line-height: 1.8;">
+          DÉBUT<br>
+          &nbsp;&nbsp;LIRE ........................ (capteur badge)<br>
+          &nbsp;&nbsp;SI badge ........................ ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;LIRE ........................ (capteur direction)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SI direction = "entrée" ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAIRE tourner bras à ........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;FAIRE tourner bras à ........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;FIN SI<br>
+          &nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;FAIRE ........................ la porte<br>
+          &nbsp;&nbsp;FIN SI<br>
+          FIN
+        </div>
       </div>
 
       <!-- Synthèse -->
       <div class="content-card">
         <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
         <div class="info-box info-box-blue">
-          <p>Complète avec : <em>apprentissage automatique, données, patterns, capteurs, biais, vie privée, automatisé, prédictions</em></p>
+          <p>Complète avec : <em>algorithme, organigramme, ovale, rectangle, losange, test, action, pseudo-code</em></p>
         </div>
-
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          L'intelligence artificielle repose sur l'........................ : elle analyse des milliers de ........................ pour détecter des ........................ et faire des ........................ .
+          Un ........................ est une suite ordonnée d'instructions pour décrire le fonctionnement d'un système.
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          Un système ........................ peut fonctionner avec des règles fixes, des ........................ ou de l'IA.
+          On le représente graphiquement par un ........................ qui utilise des symboles normalisés.
         </p>
         <p style="line-height: 2.2; font-size: 0.95rem;">
-          L'IA pose des questions éthiques : ........................ algorithmiques, ........................ et remplacement des emplois.
+          Le symbole ........................ (forme ovale) indique le début ou la fin. Le ........................ (forme rectangulaire) représente une ........................ . Le ........................ représente un ........................ (question Oui/Non).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ est une façon d'écrire un algorithme en français simplifié.
         </p>
       </div>
 

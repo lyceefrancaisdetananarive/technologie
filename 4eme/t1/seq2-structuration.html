@@ -3,92 +3,88 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 2 — IA et automatisation · Structuration | 4ème</title>
+  <title>Séq. 2 — Structuration | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Structuration"}]'
-    data-print-title="4ème — Séquence 2 : IA et automatisation"
-    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    data-print-title="4ème — Séquence 2 : Structuration des connaissances"
+    data-print-subtitle="Algorithme et logique de programmation · Technologie LFT">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
-        <h1>Séquence 2 — IA et automatisation</h1>
-        <p class="page-description">&#x1F4D8; Fiche de structuration des connaissances</p>
+        <h1>Structuration — Algorithme et logique de programmation</h1>
+        <p class="page-description">&#x1F4D8; Ce que je dois retenir de la séquence 2.</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
         <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
         <a href="seq2-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
       </div>
-      <div class="content-card">
-        <table><tbody>
-          <tr><td><strong>Niveau</strong></td><td>4ème</td><td><strong>Thème</strong></td><td>Thème 1 — Design, innovation et créativité</td></tr>
-          <tr><td><strong>Séquence</strong></td><td>2 — IA</td><td><strong>Compétences</strong></td><td><span class="competence-badge">Comprendre le fonctionnement d'une IA</span> <span class="competence-badge">Identifier les biais algorithmiques</span></td></tr>
-        </tbody></table>
-      </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; Les types d'intelligence artificielle</h2>
+        <h2>&#x1F4CC; Qu'est-ce qu'un algorithme ?</h2>
+        <div class="info-box info-box-green">
+          <div class="info-box-title">À retenir</div>
+          Un <strong>algorithme</strong> est une suite ordonnée d'instructions qui permet de résoudre un problème ou de décrire le fonctionnement d'un système. On l'utilise en technologie pour décrire la logique d'un système automatisé.
+        </div>
         <table>
-          <thead><tr><th>Type</th><th>Principe</th><th>Exemple</th></tr></thead>
+          <thead><tr><th>Caractéristique</th><th>Description</th></tr></thead>
           <tbody>
-            <tr><td><strong>IA faible (spécialisée)</strong></td><td>Conçue pour une tâche précise, sans conscience</td><td>Reconnaissance vocale, filtre photo, jeu d'échecs</td></tr>
-            <tr><td><strong>IA forte (générale)</strong></td><td>Hypothétique IA capable de raisonner comme un humain</td><td>N'existe pas encore</td></tr>
-            <tr><td><strong>IA générative</strong></td><td>Crée du contenu nouveau (texte, image, son)</td><td>ChatGPT, DALL-E, Midjourney</td></tr>
+            <tr><td><strong>Fini</strong></td><td>Un algorithme a un début et une fin</td></tr>
+            <tr><td><strong>Précis</strong></td><td>Chaque instruction est claire et sans ambiguïté</td></tr>
+            <tr><td><strong>Ordonné</strong></td><td>Les instructions se suivent dans un ordre logique</td></tr>
+            <tr><td><strong>Universel</strong></td><td>Il fonctionne pour tous les cas prévus</td></tr>
           </tbody>
         </table>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Toutes les IA actuelles sont des <strong>IA faibles</strong> : elles excellent dans une tâche précise mais ne « comprennent » pas ce qu'elles font.
-        </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; L'apprentissage automatique (Machine Learning)</h2>
+        <h2>&#x1F4CC; L'organigramme</h2>
+        <div class="info-box info-box-green">
+          <div class="info-box-title">À retenir</div>
+          Un <strong>organigramme</strong> est la représentation graphique d'un algorithme. Il utilise des <strong>symboles normalisés</strong> reliés par des flèches.
+        </div>
         <table>
-          <thead><tr><th>Étape</th><th>Description</th></tr></thead>
+          <thead><tr><th>Symbole</th><th>Forme</th><th>Signification</th><th>Exemple</th></tr></thead>
           <tbody>
-            <tr><td><strong>1. Collecte des données</strong></td><td>Rassembler un grand nombre d'exemples (images, textes, sons)</td></tr>
-            <tr><td><strong>2. Entraînement</strong></td><td>L'algorithme analyse les données et détecte des patterns (régularités)</td></tr>
-            <tr><td><strong>3. Modèle</strong></td><td>Le résultat de l'entraînement : un programme capable de faire des prédictions</td></tr>
-            <tr><td><strong>4. Prédiction</strong></td><td>Le modèle traite de nouvelles données et donne un résultat</td></tr>
+            <tr><td><strong>Début / Fin</strong></td><td>Ovale</td><td>Début ou fin de l'algorithme</td><td>« Début », « Fin »</td></tr>
+            <tr><td><strong>Action</strong></td><td>Rectangle</td><td>Instruction à exécuter</td><td>« Tourner le bras à droite »</td></tr>
+            <tr><td><strong>Test</strong></td><td>Losange</td><td>Question Oui/Non (condition)</td><td>« Badge valide ? »</td></tr>
+            <tr><td><strong>Flèche</strong></td><td>Ligne fléchée</td><td>Sens du déroulement</td><td>Relie les symboles entre eux</td></tr>
           </tbody>
         </table>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Le <strong>Machine Learning</strong> permet à l'IA d'apprendre à partir d'exemples, sans être explicitement programmée pour chaque cas. Plus elle a de données, plus elle est précise.
-        </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; Les biais algorithmiques</h2>
-        <p>Un <strong>biais</strong> est une erreur systématique dans les résultats de l'IA, due aux données d'entraînement :</p>
+        <h2>&#x1F4CC; Le pseudo-code</h2>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">À retenir</div>
+          Le <strong>pseudo-code</strong> est une manière d'écrire un algorithme en français simplifié, proche du langage informatique mais compréhensible par tous.
+        </div>
         <table>
-          <thead><tr><th>Type de biais</th><th>Cause</th><th>Exemple</th></tr></thead>
+          <thead><tr><th>Mot-clé</th><th>Signification</th></tr></thead>
           <tbody>
-            <tr><td><strong>Biais de sélection</strong></td><td>Données d'entraînement non représentatives</td><td>IA de recrutement entraînée sur 80% de CV masculins → discrimine les femmes</td></tr>
-            <tr><td><strong>Biais historique</strong></td><td>Les données reflètent des inégalités passées</td><td>IA de crédit qui reproduit des discriminations raciales historiques</td></tr>
-            <tr><td><strong>Biais de confirmation</strong></td><td>L'IA renforce les croyances existantes</td><td>Recommandations qui enferment dans une « bulle de filtre »</td></tr>
+            <tr><td><strong>DÉBUT / FIN</strong></td><td>Marque le début et la fin du programme</td></tr>
+            <tr><td><strong>LIRE</strong></td><td>Récupérer une information (capteur, saisie)</td></tr>
+            <tr><td><strong>AFFICHER</strong></td><td>Montrer un résultat à l'utilisateur</td></tr>
+            <tr><td><strong>SI... ALORS... SINON</strong></td><td>Condition : exécuter selon le résultat du test</td></tr>
+            <tr><td><strong>TANT QUE</strong></td><td>Boucle : répéter tant que la condition est vraie</td></tr>
+            <tr><td><strong>FAIRE</strong></td><td>Exécuter une action</td></tr>
           </tbody>
         </table>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          Une IA n'est <strong>jamais neutre</strong> : elle reflète les données sur lesquelles elle a été entraînée. Des données biaisées produisent des résultats biaisés.
-        </div>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CC; IA et automatisation au quotidien</h2>
+        <h2>&#x1F4CC; Boucle vs Branchement</h2>
         <table>
-          <thead><tr><th>Domaine</th><th>Application de l'IA</th><th>Impact</th></tr></thead>
+          <thead><tr><th>Structure</th><th>Description</th><th>Exemple</th></tr></thead>
           <tbody>
-            <tr><td><strong>Santé</strong></td><td>Diagnostic médical assisté par IA</td><td>Détection précoce de maladies</td></tr>
-            <tr><td><strong>Transport</strong></td><td>Véhicules autonomes, GPS intelligent</td><td>Sécurité routière, optimisation des trajets</td></tr>
-            <tr><td><strong>Industrie</strong></td><td>Robots de production, maintenance prédictive</td><td>Productivité, mais suppression d'emplois</td></tr>
-            <tr><td><strong>Éducation</strong></td><td>Tuteurs intelligents, correction automatique</td><td>Personnalisation de l'apprentissage</td></tr>
+            <tr><td><strong>Boucle simple</strong></td><td>Répétition sans condition (cycle fixe)</td><td>Feu tricolore : Vert → Orange → Rouge → Vert...</td></tr>
+            <tr><td><strong>Branchement conditionnel</strong></td><td>Choix entre 2 chemins selon un test</td><td>Tourniquet : badge valide ? Oui → ouvrir / Non → verrouiller</td></tr>
+            <tr><td><strong>Boucle conditionnelle</strong></td><td>Répétition tant qu'une condition est vraie</td><td>TANT QUE badge invalide : attendre nouveau badge</td></tr>
           </tbody>
         </table>
       </div>
@@ -98,17 +94,14 @@
         <div class="info-box info-box-orange">
           <div class="info-box-title">Mots clés de la séquence</div>
           <ul>
-            <li><strong>Intelligence artificielle (IA)</strong> : programme capable d'imiter certaines capacités cognitives humaines</li>
-            <li><strong>Machine Learning</strong> : apprentissage automatique à partir de données</li>
-            <li><strong>Données d'entraînement</strong> : exemples utilisés pour entraîner un modèle d'IA</li>
-            <li><strong>Biais algorithmique</strong> : erreur systématique due à des données non représentatives</li>
-            <li><strong>IA générative</strong> : IA capable de créer du contenu nouveau (texte, image, son)</li>
-            <li><strong>Automatisation</strong> : remplacement de tâches humaines par des machines ou programmes</li>
+            <li><strong>Algorithme</strong> : suite ordonnée d'instructions pour résoudre un problème</li>
+            <li><strong>Organigramme</strong> : représentation graphique d'un algorithme avec des symboles normalisés</li>
+            <li><strong>Pseudo-code</strong> : écriture d'un algorithme en français simplifié</li>
+            <li><strong>Test / Condition</strong> : question Oui/Non qui oriente le déroulement</li>
+            <li><strong>Boucle</strong> : répétition d'une séquence d'instructions</li>
+            <li><strong>Branchement</strong> : choix entre plusieurs chemins selon une condition</li>
           </ul>
         </div>
-      </div>
-      <div class="content-card no-print">
-        <p class="text-sm text-muted">&#x1F4CE; Référence : Programme de Technologie, BO n°9 du 29 février 2024 — Thème 1</p>
       </div>
     </main>
   </div>

@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 2 : IA et automatisation | 4ème</title>
+  <title>Quiz — Séq. 2 : Algorithme | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
@@ -14,8 +14,8 @@
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
-        <h1>Quiz — Intelligence Artificielle et automatisation</h1>
-        <p class="page-description">Teste tes connaissances sur l'IA, l'apprentissage automatique et les enjeux éthiques.</p>
+        <h1>Quiz — Algorithme et logique de programmation</h1>
+        <p class="page-description">Teste tes connaissances sur les algorithmes, organigrammes et pseudo-code.</p>
       </div>
       <div class="page-actions no-print">
         <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
@@ -30,70 +30,70 @@
     const questions = [
       {
         type: 'qcm',
-        question: 'Quelle est la première étape de l\'apprentissage automatique ?',
-        options: ['La prédiction', 'L\'entraînement du modèle', 'Les données d\'entraînement', 'L\'installation du logiciel'],
+        question: 'Qu\'est-ce qu\'un algorithme ?',
+        options: ['Un programme informatique', 'Une suite ordonnée d\'instructions', 'Un schéma électrique', 'Un type de robot'],
+        correct: 1,
+        explanation: 'Un algorithme est une suite ordonnée d\'instructions qui permet de résoudre un problème ou de décrire le fonctionnement d\'un système.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un organigramme, quelle forme représente une action ?',
+        options: ['Un ovale', 'Un losange', 'Un rectangle', 'Un triangle'],
         correct: 2,
-        explanation: 'L\'apprentissage automatique commence par les données d\'entraînement : l\'IA reçoit des milliers d\'exemples étiquetés pour pouvoir apprendre.'
+        explanation: 'Le rectangle représente une action (instruction à exécuter). L\'ovale = début/fin. Le losange = test/condition.'
       },
       {
         type: 'vrai_faux',
-        question: 'L\'IA pense comme un être humain.',
+        question: 'Un losange dans un organigramme représente le début ou la fin.',
         correct: false,
-        explanation: 'L\'IA ne « pense » pas. Elle détecte des patterns (motifs récurrents) dans de grandes quantités de données et fait des prédictions statistiques, sans conscience ni compréhension.'
+        explanation: 'Le losange représente un test (question Oui/Non). C\'est l\'ovale qui représente le début ou la fin de l\'algorithme.'
       },
       {
         type: 'qcm',
-        question: 'Un feu de circulation qui passe du vert au rouge toutes les 30 secondes est un système automatisé de niveau...',
-        options: ['Niveau 1 (règles fixes)', 'Niveau 2 (capteurs)', 'Niveau 3 (IA)', 'Ce n\'est pas un système automatisé'],
-        correct: 0,
-        explanation: 'C\'est un système de niveau 1 : il suit des règles fixes programmées (timer), sans capteur ni adaptation à l\'environnement.'
-      },
-      {
-        type: 'qcm',
-        question: 'Qu\'est-ce qu\'un biais algorithmique ?',
-        options: ['Un bug dans le code de l\'IA', 'Une discrimination causée par des données d\'entraînement déséquilibrées', 'Un virus informatique', 'Une erreur de calcul'],
-        correct: 1,
-        explanation: 'Un biais algorithmique se produit quand l\'IA reproduit des déséquilibres présents dans ses données d\'entraînement, causant des discriminations.'
+        question: 'Quel mot-clé du pseudo-code permet de faire un choix ?',
+        options: ['DÉBUT', 'LIRE', 'SI... ALORS... SINON', 'AFFICHER'],
+        correct: 2,
+        explanation: 'SI... ALORS... SINON permet d\'exécuter différentes instructions selon le résultat d\'un test (branchement conditionnel).'
       },
       {
         type: 'vrai_faux',
-        question: 'Un aspirateur robot qui cartographie la maison utilise de l\'IA (niveau 3).',
-        correct: true,
-        explanation: 'L\'aspirateur robot cartographe apprend la disposition de la maison et optimise ses parcours, ce qui relève de l\'intelligence artificielle (niveau 3).'
+        question: 'Un feu tricolore classique (sans capteur) utilise un branchement conditionnel.',
+        correct: false,
+        explanation: 'Un feu tricolore classique suit un cycle fixe (boucle simple) : Vert → Orange → Rouge → Vert... Il n\'a pas de test ni de condition.'
       },
       {
         type: 'qcm',
-        question: 'Pour entraîner une IA de traduction, on utilise...',
-        options: ['Des images de paysages', 'Des millions de textes bilingues', 'Des enregistrements audio uniquement', 'Des formules mathématiques'],
-        correct: 1,
-        explanation: 'Une IA de traduction est entraînée sur des millions de paires de phrases dans deux langues différentes pour apprendre les correspondances.'
+        question: 'Dans l\'organigramme du tourniquet, "Badge valide ?" est représenté par...',
+        options: ['Un rectangle (action)', 'Un ovale (début/fin)', 'Un losange (test)', 'Une flèche'],
+        correct: 2,
+        explanation: '"Badge valide ?" est une question Oui/Non, donc c\'est un test représenté par un losange dans l\'organigramme.'
       },
       {
         type: 'qcm',
-        question: 'Quel problème éthique pose un assistant vocal qui enregistre en permanence ?',
-        options: ['Il consomme trop d\'électricité', 'Il menace la vie privée et les données personnelles', 'Il fait trop de bruit', 'Il est trop cher'],
+        question: 'Quelle est la différence entre une boucle et un branchement ?',
+        options: ['Il n\'y a pas de différence', 'Une boucle répète, un branchement choisit', 'Un branchement répète, une boucle choisit', 'Les deux sont des actions'],
         correct: 1,
-        explanation: 'Un assistant vocal qui enregistre en permanence pose un problème de vie privée : les conversations privées sont captées et potentiellement stockées par l\'entreprise.'
+        explanation: 'Une boucle répète une séquence d\'instructions. Un branchement conditionnel choisit entre deux chemins selon un test.'
       },
       {
         type: 'vrai_faux',
-        question: 'Plus l\'IA dispose de données d\'entraînement, plus ses prédictions sont fiables.',
-        correct: true,
-        explanation: 'En général, plus l\'IA a d\'exemples d\'entraînement, mieux elle peut identifier des patterns fiables et faire des prédictions précises (à condition que les données soient de qualité).'
+        question: 'Le pseudo-code s\'écrit en langage informatique (Python, JavaScript...).',
+        correct: false,
+        explanation: 'Le pseudo-code s\'écrit en français simplifié. C\'est un langage intermédiaire entre le langage naturel et le langage informatique.'
       },
       {
         type: 'qcm',
-        question: 'Une porte automatique qui s\'ouvre quand quelqu\'un s\'approche est de quel niveau ?',
-        options: ['Niveau 1 (règles fixes)', 'Niveau 2 (capteurs)', 'Niveau 3 (IA)', 'Pas un système automatisé'],
+        question: 'Que signifie "LIRE" en pseudo-code ?',
+        options: ['Afficher un texte à l\'écran', 'Récupérer une information (capteur, saisie)', 'Supprimer une donnée', 'Terminer le programme'],
         correct: 1,
-        explanation: 'La porte automatique utilise un capteur de mouvement/présence pour détecter les personnes et réagir. C\'est un système de niveau 2 (automatisation avec capteurs).'
+        explanation: '"LIRE" signifie récupérer une information depuis un capteur ou une saisie utilisateur.'
       },
       {
         type: 'qcm',
-        question: 'En cas d\'accident causé par une voiture autonome, le problème éthique est...',
-        options: ['Le prix de la réparation', 'La question de la responsabilité (qui est coupable ?)', 'La couleur de la voiture', 'La vitesse maximale'],
-        correct: 1,
-        explanation: 'Quand une voiture autonome cause un accident, on ne sait pas qui est responsable : le constructeur, le programmeur de l\'IA, ou le passager ? C\'est un problème juridique et éthique majeur.'
+        question: 'Combien de symboles de base utilise un organigramme ?',
+        options: ['2 (rectangle et losange)', '3 (ovale, rectangle, losange)', '4 (ovale, rectangle, losange, flèche)', '5 ou plus'],
+        correct: 2,
+        explanation: 'Un organigramme utilise 4 symboles de base : l\'ovale (début/fin), le rectangle (action), le losange (test) et la flèche (sens du déroulement).'
       }
     ];
 

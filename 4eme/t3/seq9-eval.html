@@ -3,20 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Évaluation — Séq. 9 : Fabrication numérique (FabLab) | 4ème</title>
+  <title>Évaluation — Séq. 9 : Fabrication et validation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
     data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Évaluation"}]'
-    data-print-title="ÉVALUATION — Séquence 9 : Fabrication numérique (FabLab)"
+    data-print-title="ÉVALUATION — Séquence 9 : Fabrication et validation"
     data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · Évaluation</span>
         <h1>Évaluation — Séquence 9</h1>
-        <p class="page-description">Fabrication numérique (FabLab) — Durée : 50 minutes</p>
+        <p class="page-description">Fabrication et validation au FabLab — Durée : 50 minutes</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
@@ -29,8 +29,8 @@
         <table>
           <thead><tr><th>Compétence</th><th style="width:12%">Insuff.</th><th style="width:12%">Fragile</th><th style="width:12%">Satisf.</th><th style="width:12%">T. bonne</th></tr></thead>
           <tbody>
-            <tr><td>C1 — Connaître les procédés de fabrication numérique</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
-            <tr><td>C2 — Choisir un procédé adapté à un besoin</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C1 — Réaliser un prototype à l'aide de machines numériques</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
+            <tr><td>C2 — Valider un prototype par rapport au cahier des charges</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td><td style="text-align:center">&#x2B1C;</td></tr>
           </tbody>
         </table>
         <div style="display:flex; gap:var(--space-xl); margin-top:var(--space-md); font-size:0.85rem; color:var(--gray-500);">
@@ -39,36 +39,78 @@
       </div>
 
       <div class="content-card">
-        <h2>Exercice 1 — Procédés de fabrication (10 points)</h2>
+        <h2>Exercice 1 — Fabrication numérique (10 points)</h2>
         <div class="info-box info-box-blue"><strong>Compétence :</strong> C1</div>
-        <p><strong>1.1</strong> Complète le tableau en associant chaque machine à son procédé et un matériau compatible. <em>(6 pts)</em></p>
+
+        <p><strong>1.1</strong> Remets dans l'ordre les étapes de la chaîne numérique pour fabriquer une pièce en impression 3D. <em>(3 pts)</em></p>
+        <div class="info-box info-box-yellow">
+          <strong>Étapes à ordonner :</strong> Impression de la pièce · Modélisation 3D (TinkerCAD) · Slicing (Cura) · Exportation en STL
+        </div>
         <table>
-          <thead><tr><th>Machine</th><th>Procédé (ajout / retrait / déformation)</th><th>Matériau</th></tr></thead>
+          <thead><tr><th style="width:15%">Ordre</th><th>Étape</th></tr></thead>
           <tbody>
-            <tr><td>Imprimante 3D (FDM)</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Découpeuse laser</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Fraiseuse CNC</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center;">1.</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center;">2.</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center;">3.</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="text-align:center;">4.</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
-        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Explique la différence entre fabrication additive et fabrication soustractive. <em>(2 pts)</em></p>
-        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:60px; background:var(--gray-50);"></div>
-        <p style="margin-top:var(--space-md);"><strong>1.3</strong> Qu'est-ce qu'un FabLab ? Cite 2 de ses principes fondateurs. <em>(2 pts)</em></p>
-        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:60px; background:var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.2</strong> Cite 3 règles de sécurité obligatoires au FabLab. <em>(3 pts)</em></p>
+        <ol>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></li>
+        </ol>
+
+        <p style="margin-top:var(--space-lg);"><strong>1.3</strong> Compare l'impression 3D et la découpe laser en complétant le tableau. <em>(4 pts)</em></p>
+        <table>
+          <thead><tr><th>Critère</th><th>Impression 3D (FDM)</th><th>Découpe laser</th></tr></thead>
+          <tbody>
+            <tr><td>Type de pièce</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Matériau typique</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Fichier d'entrée</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Principe</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
       </div>
 
       <div class="content-card">
-        <h2>Exercice 2 — Choix d'un procédé (10 points)</h2>
+        <h2>Exercice 2 — Validation et présentation (10 points)</h2>
         <div class="info-box info-box-blue"><strong>Compétence :</strong> C2</div>
-        <p><strong>Contexte :</strong> Tu dois fabriquer un boîtier pour un capteur Arduino.</p>
-        <p><strong>2.1</strong> Quel procédé choisirais-tu ? Justifie ton choix en considérant : forme, matériau, quantité, coût. <em>(4 pts)</em></p>
-        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-xl); min-height:80px; background:var(--gray-50);"></div>
-        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Décris les étapes du processus de fabrication, du fichier numérique à la pièce finie. <em>(4 pts)</em></p>
-        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:80px; background:var(--gray-50);">
-          <p style="color:var(--gray-400); font-size:0.85rem; margin:0;">Étape 1 : ..............................<br>Étape 2 : ..............................<br>Étape 3 : ..............................<br>Étape 4 : ..............................</p>
-        </div>
-        <p style="margin-top:var(--space-md);"><strong>2.3</strong> Cite un avantage et une limite de l'impression 3D par rapport à la fabrication industrielle traditionnelle. <em>(2 pts)</em></p>
-        <p>Avantage : <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></p>
-        <p>Limite : <span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:70%;">&nbsp;</span></p>
+
+        <p><strong>Contexte :</strong> Un groupe a conçu un distributeur automatique de gel. Voici leur cahier des charges et les résultats obtenus :</p>
+        <table>
+          <thead><tr><th>Critère CdCF</th><th>Attendu</th><th>Résultat obtenu</th></tr></thead>
+          <tbody>
+            <tr><td>Fonction principale</td><td>Distribuer du gel quand une main approche</td><td>Le gel est distribué correctement</td></tr>
+            <tr><td>Distance de détection</td><td>Moins de 15 cm</td><td>Détection à 12 cm</td></tr>
+            <tr><td>Dimensions</td><td>Max 15 × 10 × 20 cm</td><td>14 × 9 × 22 cm</td></tr>
+            <tr><td>Budget</td><td>Max 15 €</td><td>13,50 €</td></tr>
+            <tr><td>Alimentation</td><td>USB ou pile</td><td>USB uniquement</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>2.1</strong> Pour chaque critère, indique s'il est respecté ou non. Justifie pour les critères non respectés. <em>(5 pts)</em></p>
+        <table>
+          <thead><tr><th>Critère</th><th style="width:15%">Respecté ?</th><th>Justification</th></tr></thead>
+          <tbody>
+            <tr><td>Fonction principale</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Distance de détection</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Dimensions</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Budget</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Alimentation</td><td style="border-bottom:1px dotted var(--gray-300); text-align:center;">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>2.2</strong> Propose 2 améliorations concrètes pour corriger les critères non respectés. <em>(2 pts)</em></p>
+        <ol>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:80%;">&nbsp;</span></li>
+          <li><span style="border-bottom:1px dotted var(--gray-300); display:inline-block; width:80%;">&nbsp;</span></li>
+        </ol>
+
+        <p style="margin-top:var(--space-lg);"><strong>2.3</strong> Rédige le plan d'une présentation orale de ce projet (5 parties). <em>(3 pts)</em></p>
+        <div style="border:1px dashed var(--gray-300); border-radius:var(--radius-sm); padding:var(--space-md); min-height:100px; background:var(--gray-50);"></div>
       </div>
 
       <div class="content-card">
@@ -76,8 +118,8 @@
         <table>
           <thead><tr><th>Exercice</th><th>Compétence</th><th style="text-align:center">Points</th></tr></thead>
           <tbody>
-            <tr><td>Ex. 1 — Procédés de fabrication</td><td>C1</td><td style="text-align:center">10</td></tr>
-            <tr><td>Ex. 2 — Choix d'un procédé</td><td>C2</td><td style="text-align:center">10</td></tr>
+            <tr><td>Ex. 1 — Fabrication numérique</td><td>C1</td><td style="text-align:center">10</td></tr>
+            <tr><td>Ex. 2 — Validation et présentation</td><td>C2</td><td style="text-align:center">10</td></tr>
             <tr style="background:var(--gray-100);"><td colspan="2"><strong>Total</strong></td><td style="text-align:center"><strong>20</strong></td></tr>
           </tbody>
         </table>

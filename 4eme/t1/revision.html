@@ -3,138 +3,80 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Fiche de révision — Trimestre 1 | 4ème</title>
+  <title>Révision Trimestre 1 | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 1"},{"label":"Fiche de révision"}]'
-    data-print-title="4ème — Fiche de révision Trimestre 1"
-    data-print-subtitle="Séquences 1 à 3 · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 1"},{"label":"Révision T1"}]'
+    data-print-title="FICHE DE RÉVISION — Trimestre 1"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Révision</span>
-        <h1>Fiche de révision — Trimestre 1</h1>
-        <p class="page-description">Tout ce qu'il faut savoir pour l'évaluation du T1 (séquences 1 à 3).</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Révision T1</span>
+        <h1>Révision — Trimestre 1</h1>
+        <p class="page-description">Toutes les notions clés des séquences 1, 2 et 3</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
       </div>
 
-      <!-- Séquence 1 -->
       <div class="content-card">
-        <h2>Séquence 1 — Innovations technologiques et évolution</h2>
-
-        <h3>Vocabulaire clé</h3>
+        <h2>&#x1F4D6; Séquence 1 — Analyse fonctionnelle</h2>
         <table>
-          <thead><tr><th style="width:30%">Terme</th><th>Définition</th></tr></thead>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
           <tbody>
-            <tr><td><strong>Innovation de rupture</strong></td><td>Changement radical qui transforme fondamentalement un objet ou son usage</td></tr>
-            <tr><td><strong>Innovation incrémentale</strong></td><td>Amélioration progressive d'un objet existant, sans changement radical</td></tr>
-            <tr><td><strong>Cycle de vie</strong></td><td>Ensemble des étapes d'un objet : extraction → fabrication → distribution → utilisation → fin de vie</td></tr>
-            <tr><td><strong>DEEE</strong></td><td>Déchets d'Équipements Électriques et Électroniques — à recycler dans des filières spécifiques</td></tr>
+            <tr><td><strong>Système automatisé</strong></td><td>Système qui fonctionne seul grâce à des capteurs, un programme et des actionneurs.</td></tr>
+            <tr><td><strong>Bête à cornes</strong></td><td>Diagramme qui définit : à qui ? sur quoi ? dans quel but ?</td></tr>
+            <tr><td><strong>Diagramme pieuvre</strong></td><td>Représente les fonctions principales (FP) et contraintes (FC) d'un objet.</td></tr>
+            <tr><td><strong>Capteur / Actionneur</strong></td><td>Capteur = mesure l'environnement. Actionneur = agit sur l'environnement.</td></tr>
           </tbody>
         </table>
+      </div>
 
-        <h3>Les 5 étapes du cycle de vie</h3>
+      <div class="content-card">
+        <h2>&#x1F4D6; Séquence 2 — Algorithme et logique</h2>
+        <table>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Algorithme</strong></td><td>Suite d'instructions ordonnées pour résoudre un problème.</td></tr>
+            <tr><td><strong>Organigramme</strong></td><td>Représentation graphique : ovale (début/fin), rectangle (action), losange (test).</td></tr>
+            <tr><td><strong>Pseudo-code</strong></td><td>Écriture simplifiée d'un algorithme en français structuré.</td></tr>
+            <tr><td><strong>SI...ALORS...SINON</strong></td><td>Structure conditionnelle : le programme prend une décision selon un test.</td></tr>
+            <tr><td><strong>Boucle</strong></td><td>Structure qui répète des instructions (TANT QUE, RÉPÉTER).</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Séquence 3 — Programmation Micro:bit</h2>
+        <table>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Micro:bit</strong></td><td>Carte programmable avec 25 LEDs, 2 boutons, accéléromètre, capteur de température.</td></tr>
+            <tr><td><strong>MakeCode</strong></td><td>Logiciel de programmation par blocs pour Micro:bit.</td></tr>
+            <tr><td><strong>Variable</strong></td><td>Espace mémoire nommé qui stocke une valeur modifiable (ex : score).</td></tr>
+            <tr><td><strong>Événement</strong></td><td>Ce qui déclenche une action : bouton pressé, secouer, démarrage.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Je vérifie mes connaissances — T1</h2>
         <div class="info-box info-box-green">
-          <ol>
-            <li><strong>Extraction des matières premières</strong> (minerais, pétrole, bois)</li>
-            <li><strong>Fabrication</strong> (usinage, assemblage)</li>
-            <li><strong>Distribution</strong> (transport, emballage, livraison)</li>
-            <li><strong>Utilisation</strong> (énergie, entretien, réparation)</li>
-            <li><strong>Fin de vie</strong> (recyclage, réemploi, incinération, décharge)</li>
-          </ol>
+          <strong>Questions de révision pour l'évaluation T1 :</strong>
         </div>
-
-        <h3>Exemple : évolution du vélo</h3>
-        <p>Draisienne (1817, rupture) → Vélocipède à pédales (1861, rupture) → Bicyclette à chaîne (1885, rupture) → Pneumatiques (1888, incrémentale) → Dérailleur (1937, incrémentale) → VAE (2010+, rupture)</p>
+        <ol>
+          <li>Complète la bête à cornes d'un tourniquet automatique (ZKTeco).</li>
+          <li>Quelle est la différence entre un capteur et un actionneur ? Donne 2 exemples de chaque.</li>
+          <li>Dessine l'organigramme d'un programme qui affiche « Bonjour » si un bouton est pressé.</li>
+          <li>Que représentent l'ovale, le rectangle et le losange dans un organigramme ?</li>
+          <li>Écris le pseudo-code d'un compteur Micro:bit (bouton A = +1, bouton B = remise à zéro).</li>
+          <li>Qu'est-ce qu'une variable ? Pourquoi en a-t-on besoin pour un jeu sur Micro:bit ?</li>
+          <li>Cite 3 composants de la Micro:bit et leur rôle.</li>
+        </ol>
       </div>
-
-      <!-- Séquence 2 -->
-      <div class="content-card">
-        <h2>Séquence 2 — Intelligence Artificielle et automatisation</h2>
-
-        <h3>Vocabulaire clé</h3>
-        <table>
-          <thead><tr><th style="width:30%">Terme</th><th>Définition</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Apprentissage automatique</strong></td><td>Machine learning — l'IA apprend à partir de milliers de données pour faire des prédictions</td></tr>
-            <tr><td><strong>Données d'entraînement</strong></td><td>Exemples étiquetés fournis à l'IA pour qu'elle apprenne (photos, textes, sons...)</td></tr>
-            <tr><td><strong>Pattern</strong></td><td>Motif récurrent détecté par l'IA dans les données</td></tr>
-            <tr><td><strong>Biais algorithmique</strong></td><td>Discrimination causée par des données d'entraînement déséquilibrées</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Les 3 niveaux d'automatisation</h3>
-        <table>
-          <thead><tr><th>Niveau</th><th>Fonctionnement</th><th>Exemples</th></tr></thead>
-          <tbody>
-            <tr><td><strong>1 — Simple</strong></td><td>Règles fixes programmées</td><td>Lave-linge, feu tricolore, distributeur</td></tr>
-            <tr><td><strong>2 — Capteurs</strong></td><td>Réagit à l'environnement</td><td>Porte automatique, éclairage au mouvement, thermostat simple</td></tr>
-            <tr><td><strong>3 — IA</strong></td><td>Apprend et s'adapte</td><td>Aspirateur robot, voiture autonome, ChatGPT</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Enjeux éthiques de l'IA</h3>
-        <div class="info-box info-box-orange">
-          <ul>
-            <li><strong>Biais</strong> : données déséquilibrées → discriminations</li>
-            <li><strong>Vie privée</strong> : collecte massive de données personnelles</li>
-            <li><strong>Emploi</strong> : automatisation → remplacement de certains métiers</li>
-            <li><strong>Responsabilité</strong> : qui est coupable si une IA cause un accident ?</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- Séquence 3 -->
-      <div class="content-card">
-        <h2>Séquence 3 — Objets connectés et impact</h2>
-
-        <h3>Vocabulaire clé</h3>
-        <table>
-          <thead><tr><th style="width:30%">Terme</th><th>Définition</th></tr></thead>
-          <tbody>
-            <tr><td><strong>IoT</strong></td><td>Internet of Things — réseau d'objets connectés échangeant des données via internet</td></tr>
-            <tr><td><strong>Cloud</strong></td><td>Serveurs distants qui stockent et analysent les données (Google, Amazon, Microsoft)</td></tr>
-            <tr><td><strong>Data center</strong></td><td>Centre de données : bâtiment rempli de serveurs, très énergivore</td></tr>
-            <tr><td><strong>Comparaison multicritères</strong></td><td>Évaluation d'un objet sur plusieurs critères simultanément</td></tr>
-            <tr><td><strong>Empreinte carbone</strong></td><td>Quantité totale de CO2 émise par un objet tout au long de son cycle de vie</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Architecture d'un système IoT</h3>
-        <div class="info-box info-box-green">
-          <strong>Capteurs</strong> (mesure) → <strong>Microcontrôleur</strong> (traitement local) → <strong>Réseau</strong> (Wi-Fi, Bluetooth, 4G) → <strong>Cloud</strong> (stockage, analyse IA) → <strong>Application</strong> (interface)
-        </div>
-
-        <h3>Impact environnemental du numérique</h3>
-        <ul>
-          <li>4% des émissions mondiales de CO2 (= aviation)</li>
-          <li>Plus de 50 métaux dans un smartphone</li>
-          <li>Data centers = consommation d'une ville de 30 000 habitants</li>
-          <li>Geste le plus efficace : <strong>garder ses appareils plus longtemps</strong></li>
-        </ul>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4DD; Conseils pour l'évaluation</h2>
-        <div class="info-box info-box-blue">
-          <ul>
-            <li>Savoir <strong>distinguer</strong> innovation de rupture et incrémentale avec des exemples</li>
-            <li>Connaître les <strong>5 étapes du cycle de vie</strong> et savoir y associer des exemples</li>
-            <li>Savoir expliquer les <strong>3 étapes de l'apprentissage automatique</strong></li>
-            <li>Pouvoir <strong>classer</strong> un système dans les 3 niveaux d'automatisation</li>
-            <li>Savoir <strong>argumenter</strong> un choix d'objet connecté (multicritères)</li>
-            <li>Connaître les <strong>enjeux éthiques</strong> de l'IA et les <strong>impacts environnementaux</strong> du numérique</li>
-          </ul>
-        </div>
-      </div>
-
     </main>
   </div>
   <script src="../../js/components.js"></script>

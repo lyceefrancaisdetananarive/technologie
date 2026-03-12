@@ -3,197 +3,158 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 9 — Fabrication numérique (FabLab) | 4ème</title>
+  <title>Activité — Séq. 9 : Fabrication et validation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Fiche activité"}]'
-    data-print-title="4ème — Séquence 9 : Fiche Activité Élève"
-    data-print-subtitle="Fabrication numérique (FabLab) · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Activité"}]'
+    data-print-title="ACTIVITÉ — Séquence 9 : Fabrication et validation au FabLab"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3</span>
-        <h1>Séquence 9 — Fabrication numérique (FabLab)</h1>
-        <p class="page-description">
-          Comment fabriquer un objet avec des outils numériques ? Comment la fabrication numérique favorise-t-elle la réparabilité et le développement durable ?
-        </p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Activité</span>
+        <h1>Activité — Séquence 9</h1>
+        <p class="page-description">Fabrication au FabLab, assemblage, validation et présentation orale</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq9-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
-        <a href="seq9-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq9-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
       </div>
 
       <div class="content-card">
-        <table>
-          <tbody>
-            <tr>
-              <td style="width:20%"><strong>Niveau</strong></td>
-              <td>4ème</td>
-              <td style="width:15%"><strong>Durée</strong></td>
-              <td>3 séances de 1h30</td>
-            </tr>
-            <tr>
-              <td><strong>Thème</strong></td>
-              <td colspan="3">Thème 3 — Conception et réalisation</td>
-            </tr>
-            <tr>
-              <td><strong>Compétences</strong></td>
-              <td colspan="3">
-                <span class="competence-badge">Concevoir et réaliser un prototype</span>
-                <span class="competence-badge">Valider par tests et simulations</span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <h2>&#x1F3AF; Objectifs de la séquence</h2>
         <div class="info-box info-box-blue">
-          <strong>La poignée de ton cartable est cassée. Au lieu de jeter le cartable, tu peux concevoir et imprimer une nouvelle poignée en 3D !</strong><br>
-          Comment la fabrication numérique permet-elle de réparer, personnaliser et créer des objets de manière responsable ?
+          <strong>Problématique :</strong> Comment fabriquer, assembler et valider notre prototype au FabLab ?
         </div>
-        <p><strong>Problématique :</strong> Comment les outils de fabrication numérique permettent-ils de concevoir et réparer des objets de manière durable ?</p>
+        <ul>
+          <li>Fabriquer les pièces du prototype (impression 3D et/ou découpe laser)</li>
+          <li>Assembler les composants électroniques et le boîtier</li>
+          <li>Valider le prototype en le testant par rapport au cahier des charges</li>
+          <li>Préparer et réaliser une présentation orale du projet</li>
+        </ul>
       </div>
 
-      <!-- Activité 1 -->
       <div class="content-card">
-        <h2>Activité 1 — Les outils du FabLab</h2>
-
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
-          <div class="activity-step-content">
-            <h4>Les machines de fabrication numérique</h4>
-            <p>Un FabLab (Fabrication Laboratory) est un atelier ouvert équipé de machines à commande numérique.</p>
-          </div>
+        <h2>&#x1F4DD; Activité 1 — Fabrication au FabLab (S28)</h2>
+        <div class="info-box info-box-green">
+          <strong>Lieu :</strong> FabLab — Impression 3D et/ou découpe laser selon le prototype.
         </div>
 
-        <div class="info-box info-box-green">
-          <strong>Les principales machines du FabLab :</strong>
-          <ul>
-            <li><strong>Imprimante 3D (FDM)</strong> : dépose de fil fondu couche par couche (PLA, ABS)</li>
-            <li><strong>Découpeuse laser</strong> : découpe et grave bois, acrylique, carton</li>
-            <li><strong>Fraiseuse CNC</strong> : usinage par enlèvement de matière (bois, aluminium)</li>
-            <li><strong>Scanner 3D</strong> : numérise un objet réel en modèle 3D</li>
+        <div class="info-box info-box-yellow">
+          <strong>&#x26A0; Rappel sécurité FabLab :</strong>
+          <ul style="margin:0; padding-left:var(--space-lg);">
+            <li>Porter les EPI obligatoires (lunettes de protection)</li>
+            <li>Ne jamais toucher la buse chaude de l'imprimante 3D</li>
+            <li>Ne jamais regarder directement le faisceau laser</li>
+            <li>S'assurer que la ventilation est en marche pour la découpe laser</li>
+            <li>Attendre que les pièces refroidissent avant de les manipuler</li>
           </ul>
         </div>
 
-        <p><strong>a)</strong> Pour chaque besoin de fabrication, choisis la machine la plus adaptée et justifie :</p>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 1 — Préparer les fichiers de fabrication</strong></p>
         <table>
-          <thead><tr><th>Besoin</th><th>Machine choisie</th><th>Justification</th></tr></thead>
+          <thead><tr><th>Procédé</th><th>Fichier nécessaire</th><th>Logiciel de préparation</th><th style="width:15%">Prêt ?</th></tr></thead>
           <tbody>
-            <tr><td>Fabriquer une pièce de remplacement pour un robot</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Graver un logo sur un boîtier en bois</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Usiner un support métallique avec précision</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td>Numériser un objet cassé pour le reproduire</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Impression 3D</td><td>Fichier STL ou 3MF</td><td>Slicer (Cura / PrusaSlicer)</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Découpe laser</td><td>Fichier SVG</td><td>xTool Creative Space</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Lancer la fabrication</strong></p>
+        <table>
+          <thead><tr><th>Pièce</th><th>Procédé</th><th>Matériau</th><th>Durée estimée</th><th style="width:12%">État</th></tr></thead>
+          <tbody>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Contrôle qualité des pièces fabriquées</strong></p>
+        <table>
+          <thead><tr><th>Critère de vérification</th><th style="width:12%">OK ?</th><th>Remarque</th></tr></thead>
+          <tbody>
+            <tr><td>Les dimensions correspondent au modèle 3D</td><td style="text-align:center;">&#x2B1C;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Les pièces s'emboîtent correctement</td><td style="text-align:center;">&#x2B1C;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Les ouvertures pour capteurs/câbles sont correctes</td><td style="text-align:center;">&#x2B1C;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>La finition est propre (pas de bavures)</td><td style="text-align:center;">&#x2B1C;</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Activité 2 -->
       <div class="content-card">
-        <h2>Activité 2 — Concevoir une pièce de réparation en 3D</h2>
+        <h2>&#x1F4DD; Activité 2 — Assemblage et tests (S29)</h2>
 
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
-          <div class="activity-step-content">
-            <h4>De la mesure à l'impression</h4>
-            <p>Conçois une pièce de remplacement sur <strong>Tinkercad</strong>, puis prépare-la pour l'impression 3D.</p>
-          </div>
-        </div>
-
-        <div class="info-box info-box-green">
-          <strong>Les étapes de la fabrication numérique :</strong>
-          <ol>
-            <li><strong>Mesurer</strong> : relever les dimensions exactes de la pièce à remplacer</li>
-            <li><strong>Modéliser</strong> : créer le modèle 3D (Tinkercad, Fusion 360)</li>
-            <li><strong>Exporter</strong> : fichier STL pour l'imprimante 3D</li>
-            <li><strong>Trancher</strong> : logiciel slicer (Cura) pour générer le G-code</li>
-            <li><strong>Imprimer</strong> : fabrication couche par couche</li>
-            <li><strong>Post-traitement</strong> : retirer les supports, poncer, assembler</li>
-          </ol>
-        </div>
-
-        <p><strong>Pièce à concevoir :</strong> <span style="border-bottom: 1px dotted var(--gray-300); display: inline-block; width: 300px;">&nbsp;</span></p>
-
-        <p><strong>a)</strong> Mesures relevées :</p>
+        <p><strong>Étape 1 — Assembler le prototype</strong></p>
         <table>
+          <thead><tr><th style="width:8%">N°</th><th>Opération d'assemblage</th><th style="width:12%">Fait ?</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Longueur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">_______ mm</td></tr>
-            <tr><td><strong>Largeur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">_______ mm</td></tr>
-            <tr><td><strong>Hauteur/Épaisseur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">_______ mm</td></tr>
+            <tr><td>1</td><td>Fixer l'Arduino dans le boîtier</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>2</td><td>Installer le capteur à son emplacement</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>3</td><td>Installer l'actionneur (LED / servo / buzzer)</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>4</td><td>Câbler les composants à l'Arduino</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>5</td><td>Brancher l'alimentation (USB ou pile)</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>6</td><td>Fermer le boîtier</td><td style="text-align:center;">&#x2B1C;</td></tr>
           </tbody>
         </table>
 
-        <p><strong>b)</strong> Croquis coté de la pièce :</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 150px; background: var(--gray-50); text-align:center;">
-          <span style="color:var(--gray-400); font-size:0.8rem;">Croquis avec dimensions</span>
-        </div>
-
-        <p style="margin-top: var(--space-md);"><strong>c)</strong> Paramètres d'impression choisis :</p>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Tests fonctionnels</strong></p>
         <table>
+          <thead><tr><th>Test</th><th style="width:15%">Résultat</th><th>Problème rencontré / Solution</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Matériau</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Hauteur de couche</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Remplissage (%)</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Temps estimé</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Le capteur détecte correctement</td><td style="text-align:center;">&#x2B1C; OK / &#x2B1C; KO</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>L'actionneur réagit comme prévu</td><td style="text-align:center;">&#x2B1C; OK / &#x2B1C; KO</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Le programme fonctionne correctement</td><td style="text-align:center;">&#x2B1C; OK / &#x2B1C; KO</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>L'objet est solide et stable</td><td style="text-align:center;">&#x2B1C; OK / &#x2B1C; KO</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
       </div>
 
-      <!-- Activité 3 -->
       <div class="content-card">
-        <h2>Activité 3 — Fabrication numérique et développement durable</h2>
+        <h2>&#x1F4DD; Activité 3 — Validation et présentation orale (S30)</h2>
 
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
-          <div class="activity-step-content">
-            <h4>Fabriquer pour réparer : un acte éco-responsable</h4>
-            <p>La fabrication numérique permet de réparer au lieu de jeter, de personnaliser, et de produire localement.</p>
-          </div>
-        </div>
-
-        <p><strong>a)</strong> Cite 3 avantages de la fabrication numérique pour le développement durable :</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>b)</strong> Cite 2 limites de l'impression 3D du point de vue environnemental :</p>
-        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
-
-        <p><strong>c)</strong> Compare fabrication industrielle et fabrication numérique locale :</p>
+        <p><strong>Étape 1 — Validation par rapport au cahier des charges</strong></p>
+        <p>Reprends le cahier des charges de la Séquence 7 et vérifie chaque critère :</p>
         <table>
-          <thead><tr><th>Critère</th><th>Industrielle (usine)</th><th>Numérique (FabLab)</th></tr></thead>
+          <thead><tr><th>Critère du CdCF</th><th style="width:15%">Respecté ?</th><th>Commentaire</th></tr></thead>
           <tbody>
-            <tr><td><strong>Quantité</strong></td><td>Milliers/millions de pièces</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Personnalisation</strong></td><td>Très limitée</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Transport</strong></td><td>Mondial (CO2 important)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
-            <tr><td><strong>Réparation</strong></td><td>Pièces standard, parfois indisponibles</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Fonction principale</td><td style="text-align:center;">&#x2B1C; Oui / &#x2B1C; Non</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Contrainte technique 1</td><td style="text-align:center;">&#x2B1C; Oui / &#x2B1C; Non</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Contrainte technique 2</td><td style="text-align:center;">&#x2B1C; Oui / &#x2B1C; Non</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Dimensions respectées</td><td style="text-align:center;">&#x2B1C; Oui / &#x2B1C; Non</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Budget respecté</td><td style="text-align:center;">&#x2B1C; Oui / &#x2B1C; Non</td><td style="border-bottom:1px dotted var(--gray-300);">&nbsp;</td></tr>
           </tbody>
         </table>
-      </div>
 
-      <!-- Synthèse -->
-      <div class="content-card">
-        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <p style="margin-top:var(--space-lg);"><strong>Étape 2 — Préparer la présentation orale (5 minutes par groupe)</strong></p>
         <div class="info-box info-box-blue">
-          <p>Complète avec : <em>FabLab, imprimante 3D, découpeuse laser, modéliser, STL, slicer, réparation, local, développement durable</em></p>
+          <strong>Plan de la présentation :</strong>
         </div>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          Un ........................ est un atelier équipé de machines numériques : ........................, ........................, fraiseuse CNC.
-        </p>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          Pour fabriquer une pièce en 3D, il faut ........................ l'objet, exporter en ........................, puis utiliser un ........................ pour préparer l'impression.
-        </p>
-        <p style="line-height: 2.2; font-size: 0.95rem;">
-          La fabrication numérique favorise la ........................ des objets, la production en ........................ et le ........................ .
-        </p>
-      </div>
+        <table>
+          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Partie</th><th>Contenu à préparer</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Introduction</strong></td><td>Nom du projet, équipe, problème à résoudre</td></tr>
+            <tr><td>2</td><td><strong>Cahier des charges</strong></td><td>Fonction principale, contraintes, composants</td></tr>
+            <tr><td>3</td><td><strong>Réalisation</strong></td><td>Étapes de fabrication, programmation, outils utilisés</td></tr>
+            <tr><td>4</td><td><strong>Démonstration</strong></td><td>Montrer le prototype en fonctionnement</td></tr>
+            <tr><td>5</td><td><strong>Bilan</strong></td><td>Difficultés, solutions trouvées, améliorations possibles</td></tr>
+          </tbody>
+        </table>
 
+        <p style="margin-top:var(--space-lg);"><strong>Étape 3 — Auto-évaluation du projet</strong></p>
+        <table>
+          <thead><tr><th>Critère</th><th style="text-align:center; width:12%">&#x1F534;</th><th style="text-align:center; width:12%">&#x1F7E0;</th><th style="text-align:center; width:12%">&#x1F7E2;</th></tr></thead>
+          <tbody>
+            <tr><td>Organisation de l'équipe</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Respect du planning</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Qualité du prototype</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Programme fonctionnel</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Présentation orale</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
     </main>
   </div>
   <script src="../../js/components.js"></script>

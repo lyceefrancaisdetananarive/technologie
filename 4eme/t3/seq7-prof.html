@@ -3,122 +3,123 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 7 — Fiche Professeur | 4ème</title>
+  <title>Fiche Prof — Séq. 7 : Projet collaboratif | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Fiche professeur"}]'
-    data-print-title="4ème — Séquence 7 : Fiche Professeur"
-    data-print-subtitle="Corrigé et guide pédagogique · Technologie LFT">
-
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Fiche Prof"}]'
+    data-print-title="FICHE PROFESSEUR — Séquence 7 : Projet collaboratif"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
-
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 3 · PROFESSEUR</span>
-        <h1>Séquence 7 — Projet collaboratif : Système de détection</h1>
-        <p class="page-description">Fiche professeur : objectifs, organisation, grille d'évaluation et saisie Pronote.</p>
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Fiche Prof</span>
+        <h1>Fiche Professeur — Séquence 7</h1>
+        <p class="page-description">Projet collaboratif — Conception d'un objet connecté (S22 → S24)</p>
       </div>
-
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Fiche élève</a>
+        <a href="seq7-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq7-eval.html" class="btn btn-outline">&#x1F4CB; Évaluation</a>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F3AF; Objectifs pédagogiques</h2>
+        <h2>&#x1F4CB; Déroulé de la séquence</h2>
         <table>
+          <thead><tr><th style="width:15%">Séance</th><th style="width:35%">Contenu</th><th style="width:25%">Activité élève</th><th style="width:25%">Support / Outil</th></tr></thead>
           <tbody>
-            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6 heures)</td></tr>
-            <tr><td><strong>Compétences BO 2024</strong></td><td>
-              <span class="competence-badge">Concevoir et réaliser un prototype</span>
-              <span class="competence-badge">Valider par tests et simulations</span>
-              <span class="competence-badge">Développer un programme</span>
-            </td></tr>
-            <tr><td><strong>Objectifs</strong></td><td>
-              <ul>
-                <li>Mener un projet technique avec programmation de A à Z</li>
-                <li>Rédiger un cahier des charges avec composants et chaînes</li>
-                <li>Programmer un système capteur-actionneur fonctionnel</li>
-                <li>Tester, valider et améliorer un prototype</li>
-              </ul>
-            </td></tr>
-            <tr><td><strong>Matériel</strong></td><td>mBot, Arduino, capteurs divers (ultrason, lumière, température, humidité), LED, buzzer, servomoteurs, mBlock</td></tr>
+            <tr>
+              <td><strong>S22</strong><br>(1h)</td>
+              <td>Lancement du projet : formation des équipes, attribution des rôles, brainstorming</td>
+              <td>Activité 1 — Choix de l'objet connecté</td>
+              <td>Fiche activité, tableau blanc, post-it</td>
+            </tr>
+            <tr>
+              <td><strong>S23</strong><br>(1h)</td>
+              <td>Rédaction du cahier des charges, croquis, nomenclature</td>
+              <td>Activité 2 — CdCF et conception</td>
+              <td>Fiche activité, papier A3 pour croquis</td>
+            </tr>
+            <tr>
+              <td><strong>S24</strong><br>(1h)</td>
+              <td>Planification du projet, diagramme de Gantt, jalons</td>
+              <td>Activité 3 — Planning et Gantt</td>
+              <td>Fiche activité, règle, crayons de couleur</td>
+            </tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4C5; Déroulement</h2>
+        <h2>&#x2705; Éléments de correction — Activité 1</h2>
 
-        <h3>Séance 23 — Lancement + cahier des charges</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S23</div>
-          <div class="activity-step-content">
-            <p>Présentation des sujets (15 min). Formation des équipes (10 min). Rédaction du cahier des charges avec identification des composants et chaînes d'information/énergie (65 min). Validation par le professeur.</p>
-          </div>
-        </div>
+        <p><strong>Rôles dans l'équipe :</strong></p>
+        <ul>
+          <li><strong>Chef de projet :</strong> coordonne, vérifie le respect du planning, anime les réunions</li>
+          <li><strong>Dessinateur :</strong> réalise les croquis et la modélisation 3D du boîtier</li>
+          <li><strong>Programmeur :</strong> code le programme Arduino (capteurs → traitement → actionneurs)</li>
+          <li><strong>Fabricant :</strong> prépare les fichiers (STL, SVG), lance les fabrications, assemble</li>
+        </ul>
 
-        <h3>Séances 24-25 — Programmation + tests</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S24-25</div>
-          <div class="activity-step-content">
-            <p><strong>S24 :</strong> Écriture de l'algorithme en pseudo-code puis programmation en mBlock. Le professeur accompagne chaque groupe.<br>
-            <strong>S25 :</strong> Tests de fonctionnement, corrections, améliorations. Préparation de la présentation.</p>
-          </div>
-        </div>
-
-        <h3>Séance 26 — Présentations orales</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S26</div>
-          <div class="activity-step-content">
-            <p>3-5 minutes par groupe + démonstration. Questions du public. Évaluation avec la grille.</p>
-          </div>
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x2705; Grille d'évaluation détaillée</h2>
+        <p style="margin-top:var(--space-md);"><strong>Exemples de projets acceptables :</strong></p>
         <table>
-          <thead><tr><th>Critère</th><th>Insuffisant (1)</th><th>Fragile (2)</th><th>Satisfaisant (3)</th><th>Très bien (4)</th></tr></thead>
+          <thead><tr><th>Projet</th><th>Capteur</th><th>Actionneur</th><th>Difficulté</th></tr></thead>
           <tbody>
-            <tr><td><strong>Cahier des charges</strong></td><td>Incomplet, composants non identifiés</td><td>Partiellement rempli</td><td>Complet avec chaînes</td><td>Détaillé, pertinent, créatif</td></tr>
-            <tr><td><strong>Programme</strong></td><td>Non fonctionnel</td><td>Partiellement fonctionnel</td><td>Fonctionnel, bien structuré</td><td>Optimisé, avec variables et commentaires</td></tr>
-            <tr><td><strong>Tests/Validation</strong></td><td>Pas de tests</td><td>Tests basiques</td><td>Tests méthodiques documentés</td><td>Tests exhaustifs + améliorations</td></tr>
-            <tr><td><strong>Oral</strong></td><td>Confus, pas de démo</td><td>Structure visible</td><td>Clair, démonstration réussie</td><td>Captivant, technique maîtrisée</td></tr>
-            <tr><td><strong>Équipe</strong></td><td>Un seul a travaillé</td><td>Déséquilibré</td><td>Bonne répartition</td><td>Excellente collaboration</td></tr>
+            <tr><td>Station météo</td><td>DHT11 (temp/humidité)</td><td>Écran LCD</td><td>Moyenne</td></tr>
+            <tr><td>Distributeur de gel</td><td>Ultrason HC-SR04</td><td>Servo-moteur</td><td>Facile</td></tr>
+            <tr><td>Arroseur intelligent</td><td>Capteur d'humidité sol</td><td>Pompe / LED</td><td>Moyenne</td></tr>
+            <tr><td>Alarme anti-intrusion</td><td>PIR (mouvement)</td><td>Buzzer + LED</td><td>Facile</td></tr>
+            <tr><td>Compteur de passages</td><td>Ultrason HC-SR04</td><td>Écran LCD / LED</td><td>Moyenne</td></tr>
           </tbody>
         </table>
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4CB; Saisie Pronote</h2>
-        <h3>Cahier de texte — Séance 23</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Séquence 7 — Projet collaboratif. Choix du sujet. Cahier des charges avec composants et chaînes d'information/énergie.<br>
-          <strong>Travail :</strong> Préparer l'algorithme en pseudo-code pour la prochaine séance.
-        </div>
-        <h3>Cahier de texte — Séances 24-25</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Programmation en mBlock. Tests et validation du système. Améliorations.<br>
-          <strong>Travail :</strong> Préparer la présentation orale (3-5 min + démonstration).
-        </div>
-        <h3>Cahier de texte — Séance 26</h3>
-        <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Présentations orales des projets avec démonstrations.
-        </div>
-        <h3>Compétences Pronote</h3>
+        <h2>&#x2705; Éléments de correction — Activité 2</h2>
+        <p><strong>Exemple de CdCF pour un distributeur de gel :</strong></p>
         <table>
-          <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
+          <thead><tr><th>Critère</th><th>Description</th></tr></thead>
           <tbody>
-            <tr><td>Concevoir et réaliser un prototype</td><td>Cahier des charges + montage</td></tr>
-            <tr><td>Valider par tests et simulations</td><td>Tests et corrections</td></tr>
-            <tr><td>Développer un programme</td><td>Algorithme + programme mBlock</td></tr>
+            <tr><td>Fonction principale</td><td>Distribuer du gel hydroalcoolique automatiquement quand une main approche</td></tr>
+            <tr><td>Contrainte technique 1</td><td>Détection à moins de 10 cm (capteur ultrason)</td></tr>
+            <tr><td>Contrainte technique 2</td><td>Alimentation USB ou pile 9V</td></tr>
+            <tr><td>Matériaux</td><td>PLA (boîtier imprimé 3D), MDF (support découpé laser)</td></tr>
+            <tr><td>Dimensions max.</td><td>15 × 10 × 20 cm</td></tr>
+            <tr><td>Budget</td><td>15 € maximum</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-md);"><strong>Nomenclature type :</strong> Arduino Uno (×1), capteur ultrason HC-SR04 (×1), servo-moteur SG90 (×1), breadboard (×1), fils dupont (×10), boîtier PLA (×1).</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 3</h2>
+        <p><strong>Diagramme de Gantt type :</strong></p>
+        <table>
+          <thead><tr><th style="width:25%">Tâche</th><th style="text-align:center">S1</th><th style="text-align:center">S2</th><th style="text-align:center">S3</th><th style="text-align:center">S4</th><th style="text-align:center">S5</th><th style="text-align:center">S6</th><th style="text-align:center">S7</th><th style="text-align:center">S8</th></tr></thead>
+          <tbody>
+            <tr><td>T1 — CdCF</td><td style="background:#4CAF50;color:#fff;text-align:center;">■</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T2 — Modélisation</td><td>&nbsp;</td><td style="background:#2196F3;color:#fff;text-align:center;">■</td><td style="background:#2196F3;color:#fff;text-align:center;">■</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T3 — Arduino</td><td>&nbsp;</td><td style="background:#FF9800;color:#fff;text-align:center;">■</td><td style="background:#FF9800;color:#fff;text-align:center;">■</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T4 — Fabrication</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="background:#9C27B0;color:#fff;text-align:center;">■</td><td style="background:#9C27B0;color:#fff;text-align:center;">■</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>
+            <tr><td>T5 — Assemblage</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="background:#F44336;color:#fff;text-align:center;">■</td><td style="background:#F44336;color:#fff;text-align:center;">■</td><td>&nbsp;</td></tr>
+            <tr><td>T6 — Présentation</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td style="background:#607D8B;color:#fff;text-align:center;">■</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-md);"><strong>4 jalons attendus :</strong> J1 = CdCF validé (fin S1), J2 = Conception terminée (fin S3), J3 = Prototype fabriqué (fin S7), J4 = Prototype validé (fin S8).</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Entrées Pronote</h2>
+        <table>
+          <thead><tr><th>Séance</th><th>Entrée cahier de textes</th></tr></thead>
+          <tbody>
+            <tr><td>S22</td><td>Séq. 7 — Projet collaboratif. Formation des équipes, attribution des rôles, brainstorming pour choisir l'objet connecté. Fiche activité 1.</td></tr>
+            <tr><td>S23</td><td>Suite Séq. 7 — Rédaction du cahier des charges simplifié, croquis du prototype, nomenclature des composants. Fiche activité 2.</td></tr>
+            <tr><td>S24</td><td>Fin Séq. 7 — Planification du projet : liste des tâches, diagramme de Gantt, jalons. Fiche activité 3. Structuration.</td></tr>
           </tbody>
         </table>
       </div>
-
     </main>
   </div>
   <script src="../../js/components.js"></script>

@@ -17,7 +17,7 @@
 
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · PROFESSEUR</span>
-        <h1>Séquence 5 — Programmation et automatisation (Arduino / mBlock)</h1>
+        <h1>Séquence 5 — Programmation et automatisation (mBlock / Scratch)</h1>
         <p class="page-description">Fiche professeur : objectifs, déroulement, corrigé et saisie Pronote.</p>
       </div>
 
@@ -31,20 +31,21 @@
         <h2>&#x1F3AF; Objectifs pédagogiques</h2>
         <table>
           <tbody>
-            <tr><td style="width:30%"><strong>Durée</strong></td><td>4 séances de 1h30 (6 heures)</td></tr>
+            <tr><td style="width:30%"><strong>Durée</strong></td><td>3 séances de 1h30 (4h30)</td></tr>
             <tr><td><strong>Compétences BO 2024</strong></td><td>
-              <span class="competence-badge">Comprendre/modifier un programme</span>
-              <span class="competence-badge">Analyser l'organisation interne et échanges</span>
+              <span class="competence-badge">Programmer un système automatisé</span>
+              <span class="competence-badge">Concevoir une interface de commande</span>
             </td></tr>
             <tr><td><strong>Objectifs</strong></td><td>
               <ul>
-                <li>Identifier capteurs et actionneurs dans la chaîne d'information</li>
-                <li>Programmer un mBot en blocs (mBlock) : séquences, boucles, conditions</li>
-                <li>Utiliser des variables dans un programme</li>
-                <li>Comprendre les enjeux de cybersécurité des systèmes connectés</li>
+                <li>Programmer le cycle du feu tricolore en blocs (mBlock)</li>
+                <li>Créer une interface graphique de carrefour (Scratch)</li>
+                <li>Synchroniser deux feux avec des messages</li>
+                <li>Utiliser des variables et des événements</li>
               </ul>
             </td></tr>
-            <tr><td><strong>Matériel</strong></td><td>Robots mBot (1 pour 2-3 élèves), ordinateurs avec mBlock installé, piste de suivi de ligne, obstacles</td></tr>
+            <tr><td><strong>Prérequis</strong></td><td>Séq. 2 (algorithme), Séq. 3 (Micro:bit/MakeCode), Séq. 4 (CdCF feu tricolore)</td></tr>
+            <tr><td><strong>Matériel</strong></td><td>Ordinateurs avec mBlock et Scratch installés (ou version en ligne)</td></tr>
           </tbody>
         </table>
       </div>
@@ -52,51 +53,42 @@
       <div class="content-card">
         <h2>&#x1F4C5; Déroulement séance par séance</h2>
 
-        <h3>Séance 16 (1h30) — Découverte Arduino + mBot</h3>
+        <h3>Séance 16 (1h30) — Programmation mBlock</h3>
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">S16</div>
           <div class="activity-step-content">
-            <h4>Phase 1 — Présentation (20 min)</h4>
-            <p>Montrer le mBot démonté. Identifier chaque composant. Lien avec la chaîne d'information (5ème).</p>
-            <h4>Phase 2 — Activité 1 (40 min)</h4>
-            <p>Les élèves identifient les composants et leur fonction. Installation de mBlock, connexion Bluetooth.</p>
-            <h4>Phase 3 — Premier test (30 min)</h4>
-            <p>Faire avancer/reculer le mBot avec un programme simple. Tester les LED et le buzzer.</p>
+            <h4>Phase 1 — Rappel et découverte mBlock (20 min)</h4>
+            <p>Rappel du cahier des charges du feu (Séq. 4). Présentation de mBlock : interface, catégories de blocs, sprites et costumes.</p>
+            <h4>Phase 2 — Activité 1 (50 min)</h4>
+            <p>Écrire l'algorithme du cycle. Programmer le feu tricolore avec 3 costumes (vert, orange, rouge). Tester et ajuster les durées.</p>
+            <h4>Phase 3 — Mise en commun (20 min)</h4>
+            <p>Comparer les programmes. Discuter des durées réalistes d'un vrai feu tricolore.</p>
           </div>
         </div>
 
-        <h3>Séance 17 (1h30) — Défis A et B</h3>
+        <h3>Séance 17 (1h30) — Interface Scratch</h3>
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">S17</div>
           <div class="activity-step-content">
-            <h4>Phase 1 — Défi A (30 min)</h4>
-            <p>Avancer et tourner. Les élèves écrivent d'abord l'algorithme en pseudo-code, puis le programment en blocs.</p>
-            <h4>Phase 2 — Défi B (60 min)</h4>
-            <p>Évitement d'obstacles avec le capteur ultrason. Introduction de la structure SI...ALORS...SINON.</p>
+            <h4>Phase 1 — Présentation interface (15 min)</h4>
+            <p>Montrer l'interface finale attendue. Expliquer le concept de synchronisation par messages.</p>
+            <h4>Phase 2 — Activité 2 (60 min)</h4>
+            <p>Créer l'arrière-plan du carrefour. Programmer les 2 feux synchronisés. Utiliser « envoyer à tous » et « quand je reçois ».</p>
+            <h4>Phase 3 — Test et correction (15 min)</h4>
+            <p>Vérifier que les deux feux ne sont jamais verts en même temps.</p>
           </div>
         </div>
 
-        <h3>Séance 18 (1h30) — Défi C (suivi de ligne)</h3>
+        <h3>Séance 18 (1h30) — Mode piéton + synthèse</h3>
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">S18</div>
           <div class="activity-step-content">
-            <h4>Phase 1 — Rappel capteur suiveur de ligne (15 min)</h4>
-            <p>Expliquer le fonctionnement du capteur IR (noir/blanc). Valeurs renvoyées.</p>
-            <h4>Phase 2 — Défi C (75 min)</h4>
-            <p>Suivi de ligne. Les élèves doivent ajuster vitesse et sensibilité. Course entre les groupes à la fin !</p>
-          </div>
-        </div>
-
-        <h3>Séance 19 (1h30) — Variables + cybersécurité</h3>
-        <div class="activity-step">
-          <div class="activity-step-number" style="background: var(--color-4eme);">S19</div>
-          <div class="activity-step-content">
-            <h4>Phase 1 — Défi D (45 min)</h4>
-            <p>Introduction des variables. Le mBot compte les tours. Les élèves les plus avancés peuvent ajouter un affichage sur l'écran LCD.</p>
-            <h4>Phase 2 — Cybersécurité (30 min)</h4>
-            <p>Discussion sur la sécurité des systèmes connectés. Démonstration : envoyer des commandes via Bluetooth non sécurisé.</p>
-            <h4>Phase 3 — Synthèse (15 min)</h4>
-            <p>Compléter la synthèse de la séquence.</p>
+            <h4>Phase 1 — Activité 3 (45 min)</h4>
+            <p>Ajouter le bouton piéton. Créer la variable « demandePieton ». Programmer le cycle spécial piéton.</p>
+            <h4>Phase 2 — Présentation des projets (25 min)</h4>
+            <p>Chaque binôme présente son interface. Vote pour la meilleure interface.</p>
+            <h4>Phase 3 — Synthèse (20 min)</h4>
+            <p>Compléter la synthèse. Lien avec la séquence 6 (modélisation 3D du feu).</p>
           </div>
         </div>
       </div>
@@ -104,56 +96,54 @@
       <div class="content-card">
         <h2>&#x2705; Corrigé détaillé</h2>
 
-        <h3>Activité 1 — Composants du mBot</h3>
+        <h3>Activité 1 — Cycle du feu tricolore</h3>
         <table>
-          <thead><tr><th>Composant</th><th>Rôle</th><th>Fonction</th></tr></thead>
+          <thead><tr><th>Étape</th><th>Couleur</th><th>Durée</th><th>Action</th></tr></thead>
           <tbody>
-            <tr><td>Capteur ultrason</td><td><strong>Mesure la distance aux obstacles</strong></td><td><strong>Acquérir</strong></td></tr>
-            <tr><td>Capteur suiveur de ligne</td><td><strong>Détecte le noir/blanc au sol (IR)</strong></td><td><strong>Acquérir</strong></td></tr>
-            <tr><td>Carte mCore</td><td><strong>Exécute le programme, prend les décisions</strong></td><td><strong>Traiter</strong></td></tr>
-            <tr><td>Moteurs DC</td><td><strong>Font avancer/tourner le robot</strong></td><td><strong>Communiquer (agir)</strong></td></tr>
-            <tr><td>LED RGB</td><td><strong>Affiche des couleurs</strong></td><td><strong>Communiquer (signaler)</strong></td></tr>
-            <tr><td>Buzzer</td><td><strong>Émet des sons</strong></td><td><strong>Communiquer (alerter)</strong></td></tr>
+            <tr><td>1</td><td><strong>Vert</strong></td><td><strong>5 secondes</strong></td><td>Les voitures peuvent passer</td></tr>
+            <tr><td>2</td><td><strong>Orange</strong></td><td><strong>2 secondes</strong></td><td>Attention, le feu va passer au rouge</td></tr>
+            <tr><td>3</td><td><strong>Rouge</strong></td><td><strong>5 secondes</strong></td><td>Les voitures doivent s'arrêter</td></tr>
           </tbody>
         </table>
-        <p><strong>b)</strong> Un capteur MESURE une grandeur de l'environnement (distance, lumière, température). Un actionneur AGIT sur l'environnement (moteur, LED, haut-parleur).</p>
-
-        <h3>Activité 2 — Algorithmes</h3>
-        <p><strong>Défi A :</strong></p>
+        <p><strong>b) Pseudo-code :</strong></p>
         <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
-          Avancer vitesse 150 pendant 2 secondes<br>
-          Tourner à droite vitesse 150 pendant 0.8 seconde<br>
-          Avancer vitesse 150 pendant 2 secondes<br>
-          Arrêter les moteurs
-        </div>
-
-        <p><strong>Défi B :</strong></p>
-        <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
+          Quand drapeau vert cliqué<br>
           Répéter indéfiniment :<br>
-          &nbsp;&nbsp;SI distance ultrason &lt; 20 cm ALORS<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Arrêter<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Reculer pendant 1 seconde<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à droite pendant 0.5 seconde<br>
-          &nbsp;&nbsp;SINON<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Avancer vitesse 150
+          &nbsp;&nbsp;Basculer sur le costume « vert »<br>
+          &nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;Basculer sur le costume « orange »<br>
+          &nbsp;&nbsp;Attendre 2 secondes<br>
+          &nbsp;&nbsp;Basculer sur le costume « rouge »<br>
+          &nbsp;&nbsp;Attendre 5 secondes
         </div>
 
-        <p><strong>Défi C :</strong></p>
+        <h3>Activité 2 — Synchronisation des 2 feux</h3>
+        <table>
+          <thead><tr><th>Phase</th><th>Feu 1 (principale)</th><th>Feu 2 (secondaire)</th><th>Durée</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td><strong>Vert</strong></td><td><strong>Rouge</strong></td><td><strong>5 s</strong></td></tr>
+            <tr><td>2</td><td><strong>Orange</strong></td><td><strong>Rouge</strong></td><td><strong>2 s</strong></td></tr>
+            <tr><td>3</td><td><strong>Rouge</strong></td><td><strong>Vert</strong></td><td><strong>5 s</strong></td></tr>
+            <tr><td>4</td><td><strong>Rouge</strong></td><td><strong>Orange</strong></td><td><strong>2 s</strong></td></tr>
+          </tbody>
+        </table>
+        <p><strong>b)</strong> Les deux feux ne doivent jamais être verts en même temps car cela provoquerait des accidents : les voitures des deux voies avanceraient simultanément au carrefour.</p>
+
+        <h3>Activité 3 — Mode piéton</h3>
+        <p><strong>a)</strong> Variable : « demandePieton » (booléenne : 0 ou 1).</p>
+        <p><strong>b) Algorithme :</strong></p>
         <div class="info-box info-box-green" style="font-family: monospace; font-size: 0.85rem;">
-          Répéter indéfiniment :<br>
-          &nbsp;&nbsp;SI capteur gauche = noir ET capteur droit = blanc ALORS<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à gauche<br>
-          &nbsp;&nbsp;SI capteur gauche = blanc ET capteur droit = noir ALORS<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Tourner à droite<br>
-          &nbsp;&nbsp;SI capteur gauche = noir ET capteur droit = noir ALORS<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Avancer tout droit<br>
-          &nbsp;&nbsp;SINON<br>
-          &nbsp;&nbsp;&nbsp;&nbsp;Arrêter (piste perdue)
+          Quand le sprite « Bouton piéton » est cliqué :<br>
+          &nbsp;&nbsp;Mettre demandePieton à 1<br><br>
+          Dans la boucle principale (après chaque cycle complet) :<br>
+          &nbsp;&nbsp;SI demandePieton = 1 ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Feu 1 → Rouge<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Feu 2 → Rouge<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Afficher signal piéton (bonhomme vert)<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Attendre 4 secondes<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Cacher signal piéton<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Mettre demandePieton à 0
         </div>
-
-        <h3>Activité 3 — Cybersécurité</h3>
-        <p><strong>a)</strong> Risques Bluetooth non protégé : un pirate peut intercepter les données, prendre le contrôle du robot, envoyer de fausses commandes, ou bloquer la communication.</p>
-        <p><strong>b)</strong> Solutions : 1. Utiliser un code d'appairage (mot de passe Bluetooth). 2. Chiffrer les données échangées. 3. Limiter la portée de la connexion.</p>
       </div>
 
       <div class="content-card">
@@ -161,27 +151,28 @@
 
         <h3>Cahier de texte — Séance 16</h3>
         <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Séquence 5 — Programmation Arduino/mBlock. Activité 1 : découverte du mBot, identification des capteurs et actionneurs. Chaîne d'information.<br>
-          <strong>Travail :</strong> Revoir la chaîne d'information (acquérir, traiter, communiquer).
+          <strong>Contenu :</strong> Séquence 5 — Programmation du feu tricolore avec mBlock. Algorithme du cycle vert-orange-rouge. Programmation par blocs avec sprites et costumes.<br>
+          <strong>Travail :</strong> Revoir l'algorithme du feu tricolore.
         </div>
 
-        <h3>Cahier de texte — Séances 17-18</h3>
+        <h3>Cahier de texte — Séance 17</h3>
         <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Activité 2 : programmation par blocs. Défis A (déplacement), B (évitement obstacles), C (suivi de ligne). Structures conditionnelles SI/SINON.<br>
-          <strong>Travail :</strong> Améliorer son programme de suivi de ligne (vitesse, précision).
+          <strong>Contenu :</strong> Interface graphique Scratch : carrefour avec 2 feux synchronisés. Utilisation des messages pour la synchronisation.<br>
+          <strong>Travail :</strong> Terminer l'interface si non finie.
         </div>
 
-        <h3>Cahier de texte — Séance 19</h3>
+        <h3>Cahier de texte — Séance 18</h3>
         <div class="info-box info-box-blue" style="font-family: monospace; font-size: 0.85rem;">
-          <strong>Contenu :</strong> Activité 3 : variables, compteur de tours. Introduction à la cybersécurité des systèmes connectés. Synthèse.
+          <strong>Contenu :</strong> Mode piéton avec variable et événement. Présentation des projets. Synthèse de la séquence.<br>
+          <strong>Travail :</strong> Préparer la séquence 6 (modélisation 3D).
         </div>
 
         <h3>Compétences Pronote</h3>
         <table>
           <thead><tr><th>Compétence</th><th>Exercice/Activité</th></tr></thead>
           <tbody>
-            <tr><td>Comprendre/modifier un programme</td><td>Activités 2 et 3 (défis mBot, variables)</td></tr>
-            <tr><td>Analyser l'organisation interne et échanges</td><td>Activité 1 (chaîne d'information, capteurs/actionneurs)</td></tr>
+            <tr><td>Programmer un système automatisé</td><td>Activités 1 et 3 (cycle feu, mode piéton)</td></tr>
+            <tr><td>Concevoir une interface de commande</td><td>Activité 2 (interface Scratch carrefour)</td></tr>
           </tbody>
         </table>
       </div>
