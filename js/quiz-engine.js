@@ -1,5 +1,5 @@
 /* =============================================
-   TECHNOLOGIE LFT — Quiz Engine
+   TECHNOLOGIE LFT : Quiz Engine
    Moteur de quiz interactif réutilisable
    ============================================= */
 

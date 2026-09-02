@@ -1,5 +1,14 @@
-# Fichiers parasites macOS sur volumes non-HFS
-._*
+# OS files
 .DS_Store
-.Spotlight-V100
-.Trashes
+Thumbs.db
+
+# Editor files
+*.swp
+*.swo
+*~
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak

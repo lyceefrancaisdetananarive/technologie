@@ -1,5 +1,5 @@
 /* =============================================
-   TECHNOLOGIE LFT — Design System "Liquid Glass"
+   TECHNOLOGIE LFT : Design System "Liquid Glass"
    Lycée Français de Tananarive | Réseau AEFE
    ============================================= */
 
@@ -1438,7 +1438,7 @@ img {
    RESPONSIVE
    ======================================== */
 @media (max-width: 768px) {
-  :root {
+ :root {
     --header-height: 64px;
   }
 

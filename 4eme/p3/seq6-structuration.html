@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Structuration — Séq. 6 : Programmation Arduino | 4ème</title>
+  <title>Structuration · Séq. 6 : Programmation Arduino | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
   <style>
@@ -17,14 +17,14 @@
 </head>
 <body>
   <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 6"},{"label":"Structuration"}]'
-    data-print-title="STRUCTURATION — Séquence 6 : Programmation Arduino"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 · Séquence 6"},{"label":"Structuration"}]'
+    data-print-title="STRUCTURATION · Séquence 6 : Programmation Arduino"
     data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3 · Structuration</span>
-        <h1>Structuration — Séquence 6</h1>
-        <p class="page-description">Programmation Arduino — Ce qu'il faut retenir</p>
+        <h1>Structuration : Séquence 6</h1>
+        <p class="page-description">Programmation Arduino : Ce qu'il faut retenir</p>
       </div>
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
@@ -48,17 +48,17 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4D8; 1 — La carte Arduino Uno</h2>
+        <h2>&#x1F4D8; 1 : La carte Arduino Uno</h2>
         <div class="info-box info-box-blue">
           <strong>Définition :</strong> Arduino est une carte à microcontrôleur programmable. Elle permet de lire des capteurs et de piloter des actionneurs grâce à un programme écrit en langage C/C++.
         </div>
         <table>
           <thead><tr><th style="width:35%">Élément</th><th>Description</th></tr></thead>
           <tbody>
-            <tr><td><strong>Microcontrôleur</strong></td><td>ATmega328 — le « cerveau » qui exécute le programme</td></tr>
-            <tr><td><strong>Pins numériques (0-13)</strong></td><td>Entrées/sorties ON ou OFF (0 ou 1) — bouton, LED</td></tr>
-            <tr><td><strong>Pins analogiques (A0-A5)</strong></td><td>Lecture de valeurs de 0 à 1023 — capteur de lumière, température</td></tr>
-            <tr><td><strong>Pins PWM (~3, 5, 6, 9, 10, 11)</strong></td><td>Simulent une sortie analogique (0-255) — varier luminosité, vitesse</td></tr>
+            <tr><td><strong>Microcontrôleur</strong></td><td>ATmega328 : le « cerveau » qui exécute le programme</td></tr>
+            <tr><td><strong>Pins numériques (0-13)</strong></td><td>Entrées/sorties ON ou OFF (0 ou 1) : bouton, LED</td></tr>
+            <tr><td><strong>Pins analogiques (A0-A5)</strong></td><td>Lecture de valeurs de 0 à 1023 : capteur de lumière, température</td></tr>
+            <tr><td><strong>Pins PWM (~3, 5, 6, 9, 10, 11)</strong></td><td>Simulent une sortie analogique (0-255) : varier luminosité, vitesse</td></tr>
             <tr><td><strong>Alimentation</strong></td><td>5V et 3.3V pour les composants, GND = masse</td></tr>
             <tr><td><strong>Port USB</strong></td><td>Alimentation + téléversement du programme</td></tr>
           </tbody>
@@ -66,7 +66,7 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4D8; 2 — Structure d'un programme Arduino</h2>
+        <h2>&#x1F4D8; 2 : Structure d'un programme Arduino</h2>
         <div class="info-box info-box-green">
           <strong>Tout programme Arduino a 2 blocs obligatoires :</strong>
         </div>
@@ -80,14 +80,14 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4D8; 3 — Les instructions de base</h2>
+        <h2>&#x1F4D8; 3 : Les instructions de base</h2>
         <table>
           <thead><tr><th style="width:40%">Instruction</th><th>Action</th></tr></thead>
           <tbody>
             <tr><td><code>pinMode(pin, OUTPUT)</code></td><td>Configurer une pin en sortie</td></tr>
             <tr><td><code>pinMode(pin, INPUT)</code></td><td>Configurer une pin en entrée</td></tr>
-            <tr><td><code>digitalWrite(pin, HIGH)</code></td><td>Mettre une pin numérique à 1 (5V) — allumer</td></tr>
-            <tr><td><code>digitalWrite(pin, LOW)</code></td><td>Mettre une pin numérique à 0 (0V) — éteindre</td></tr>
+            <tr><td><code>digitalWrite(pin, HIGH)</code></td><td>Mettre une pin numérique à 1 (5V) : allumer</td></tr>
+            <tr><td><code>digitalWrite(pin, LOW)</code></td><td>Mettre une pin numérique à 0 (0V) : éteindre</td></tr>
             <tr><td><code>digitalRead(pin)</code></td><td>Lire l'état d'une entrée numérique (0 ou 1)</td></tr>
             <tr><td><code>analogRead(pin)</code></td><td>Lire une entrée analogique (valeur 0 à 1023)</td></tr>
             <tr><td><code>analogWrite(pin, valeur)</code></td><td>Écrire une valeur PWM (0 à 255) sur une pin ~</td></tr>
@@ -99,7 +99,7 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4D8; 4 — Capteurs et actionneurs</h2>
+        <h2>&#x1F4D8; 4 : Capteurs et actionneurs</h2>
         <table>
           <thead><tr><th style="width:15%">Type</th><th style="width:25%">Exemple</th><th style="width:20%">Signal</th><th>Fonction Arduino</th></tr></thead>
           <tbody>
@@ -113,7 +113,7 @@
       </div>
 
       <div class="content-card">
-        <h2>&#x1F4D8; 5 — La structure conditionnelle</h2>
+        <h2>&#x1F4D8; 5 : La structure conditionnelle</h2>
         <div class="info-box info-box-yellow">
           <strong>if / else</strong> permet au programme de prendre des décisions en fonction des valeurs lues par les capteurs.
         </div>
