@@ -1742,6 +1742,15 @@ img {
   .activity-step-content { flex: 1; }
 
   /* ------------------------------------------------- zones de reponse eleve */
+  /* Fiche de révision : un trait de pliage sépare la question de la réponse,
+     pour que l'élève puisse se tester au lieu de lire la réponse en même temps. */
+  .consigne-pliage { font-size: 9pt; font-style: italic; margin: 0 0 2mm; }
+  /* On ne force pas les largeurs : chaque tableau garde la sienne, et le trait
+     de pliage se place a la separation reelle des deux colonnes. */
+  .table-pliage th:first-child, .table-pliage td:first-child {
+    border-right: .9pt dashed #000 !important;
+  }
+
   /* Le quiz interactif n'a pas de sens sur papier : on lui substitue la liste
      complete des questions, avec des cases a cocher. */
   .quiz-container, .quiz-progress, .quiz-score, .quiz-nav { display: none !important; }
@@ -1835,6 +1844,10 @@ img {
 .print-header, .print-identite, .print-pied { display: none; }
 
 
+
+/* Tableaux à plier des fiches de révision : l'élève cache la colonne de droite */
+.consigne-pliage { font-size: .9rem; font-style: italic; color: var(--gray-600); margin-bottom: .5rem; }
+.table-pliage td:first-child, .table-pliage th:first-child { border-right: 2px dashed var(--gray-400); }
 
 /* Version papier du quiz, imprimée seulement */
 .quiz-papier { display: none; }
