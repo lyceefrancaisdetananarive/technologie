@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Systèmes automatisés complexes | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P2 — Séquence 4"},{"label":"Fiche activité"}]'
+    data-print-title="3ème — Séquence 4 : Fiche Activité Élève"
+    data-print-subtitle="Systèmes automatisés complexes · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 2</span>
+        <h1>Séquence 4 — Systèmes automatisés complexes</h1>
+        <p class="page-description">
+          Comment un système automatisé complexe gère-t-il plusieurs capteurs et actionneurs pour fonctionner de manière autonome ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/34A.svg" alt="QR code 34A">
+          <div>
+            <div class="lien-code">34A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=34A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Analyse fonctionnelle et technique</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Décomposer en sous-systèmes fonctionnels</span>
+                <span class="competence-badge">Modéliser un comportement</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Une serre intelligente maintient automatiquement la température, l'humidité et la luminosité idéales pour les plantes. Comment gère-t-elle autant de paramètres en même temps ?</strong>
+        </div>
+        <p><strong>Problématique :</strong> Comment décomposer et modéliser le comportement d'un système automatisé complexe ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/130698-dispositif-douverture-de-porte-pmrmp4/?is_iframe=true" loading="lazy" allowfullscreen title="Dispositif d&#x27;ouverture de porte PMR.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>Dispositif d&#x27;ouverture de porte PMR.mp4</strong> — 00:00:30 · PodEduc — chaîne « Eduscol - STI »</p><p class="vid-licence">Auteur : Ajouté par Eduscol STI ; maquette développée par l&#x27;académie de Bordeaux (Technologie collège). Licence : Licence Creative Commons : Attribution - Pas d&#x27;Utilisation Commerciale 4.0 International (CC BY-NC 4.0). Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/130698-dispositif-douverture-de-porte-pmrmp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> URL vérifiée le 2 septembre 2026 : page active, titre, description et durée (00:00:30) conformes, chaîne « Eduscol - STI », mise à jour le 11 février 2026, type « Autre ». LICENCE RELUE À LA SOURCE ET CONFIRMÉE : CC BY-NC 4.0. CORRECTION IMPORTANTE : le relevé initial annonçait « telechargement autorise ». C&#x27;est faux en pratique — la section « Téléchargements » de la fiche n&#x27;affiche que les intitulés vides « Fichiers vidéos : » et « Fichier audio : », et le code de la page ne contient AUCUN lien de fichier. La licence CC BY-NC 4.0 autoriserait une copie locale avec citation de l&#x27;auteur, mais la plateforme n&#x27;en propose aucune : le mode de réutilisation effectif est l&#x27;iframe. Ne pas compter sur une copie hors ligne sans l&#x27;avoir obtenue autrement. Une seule chaîne fonctionnelle, alors que la séquence porte sur un système à PLUSIEURS sous-systèmes : la vidéo ouvre la question mais ne montre pas la complexité annoncée par la serre intelligente. Contenu non visionné ; l&#x27;absence de parole n&#x27;est pas garantie par la fiche.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#3eme-4">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Décomposition fonctionnelle</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Du système global aux sous-systèmes</h4>
+            <p>Décompose un système complexe en sous-systèmes fonctionnels indépendants.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Décomposition fonctionnelle :</strong>
+          <ul>
+            <li><strong>Système global</strong> : l'ensemble du système (serre intelligente)</li>
+            <li><strong>Sous-système</strong> : partie autonome avec une fonction précise (régulation température)</li>
+            <li><strong>Chaîne fonctionnelle</strong> : capteur → traitement → actionneur pour chaque sous-système</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Décompose la serre intelligente en sous-systèmes :</p>
+        <table>
+          <thead><tr><th>Sous-système</th><th>Capteur</th><th>Actionneur</th><th>Fonction</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Régulation température</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Régulation humidité</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Régulation luminosité</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Arrosage automatique</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Quel composant centralise le traitement de tous les sous-systèmes ? Pourquoi ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Modélisation par organigramme</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Représenter le comportement d'un système</h4>
+            <p>Utilise un organigramme (logigramme) pour modéliser le comportement de la serre.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Symboles de l'organigramme :</strong>
+          <ul>
+            <li><strong>Ovale</strong> : début / fin</li>
+            <li><strong>Rectangle</strong> : action (traitement)</li>
+            <li><strong>Losange</strong> : condition (test OUI/NON)</li>
+            <li><strong>Parallélogramme</strong> : entrée / sortie (capteur / actionneur)</li>
+            <li><strong>Flèches</strong> : flux du programme</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Dessine l'organigramme du sous-système « régulation de température » :</p>
+        <div class="info-box info-box-orange" style="font-size: 0.85rem;">
+          Indices : Lire température → Si T > 30°C alors activer ventilateur → Si T < 15°C alors activer chauffage → Sinon ne rien faire → Boucle
+        </div>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Organigramme avec symboles normalisés</span>
+        </div>
+
+        <p style="margin-top: var(--space-md);"><strong>b)</strong> Écris l'algorithme en pseudo-code correspondant :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 120px; background: var(--gray-50); font-family: monospace; font-size: 0.85rem;">
+          DÉBUT<br>
+          &nbsp;&nbsp;RÉPÉTER indéfiniment :<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;température ← lire capteur_température<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SI ........................ ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON SI ........................ ALORS<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;SINON<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;........................<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;FIN SI<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;Attendre 5 secondes<br>
+          &nbsp;&nbsp;FIN RÉPÉTER<br>
+          FIN
+        </div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Étude de cas : la barrière automatique</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Un système à plusieurs états</h4>
+            <p>Analyse une barrière de parking automatique et modélise ses différents états.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Identifie les composants de la barrière automatique :</p>
+        <table>
+          <thead><tr><th>Composant</th><th>Type</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Lecteur de badge</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Capteur de présence véhicule</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Moteur de la barrière</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Feux (vert/rouge)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Automate programmable</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Dessine l'organigramme complet de fonctionnement de la barrière :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 200px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Organigramme : attente → badge valide ? → ouvrir → véhicule passé ? → fermer → boucle</span>
+        </div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>sous-systèmes, organigramme, losange, rectangle, chaîne fonctionnelle, capteur, actionneur, microcontrôleur</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un système complexe se décompose en ........................ fonctionnels. Chaque sous-système possède une ........................ : ........................ → traitement → ........................ .
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ centralise le traitement de tous les sous-systèmes. L'........................ permet de modéliser le comportement du système.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Dans un organigramme, le ........................ représente une condition (test) et le ........................ représente une action.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

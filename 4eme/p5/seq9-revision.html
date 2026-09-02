@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 9 — Révision | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P5 — Séquence 9"},{"label":"Révision"}]'
+    data-print-title="4ème — Séquence 9 : Révision"
+    data-print-subtitle="Fiche de révision · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Révision</span>
+        <h1>Séquence 9 — Du besoin au prototype : concevoir et fabriquer un objet technique programmé</h1>
+        <p class="page-description">Fiche de révision : l&#x27;essentiel et les questions flash.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq9-quiz.html" class="btn btn-outline">&#x2753; Quiz</a><a href="seq9-structuration.html" class="btn btn-outline">&#x1F4D8; Cours complet</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/49R.svg" alt="QR code 49R">
+          <div>
+            <div class="lien-code">49R</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=49R</div>
+          </div>
+        </div>
+
+      </div>
+
+<div class="content-card"><h2>&#x2B50; L'essentiel</h2><div class="info-box info-box-green"><ul><li>Un objet technique programmé suit toujours la même chaîne : un capteur mesure, la carte traite, un actionneur agit. Cette chaîne vient de la séquence 8 et se retrouve dans tous les projets de la séquence 9.</li><li>Le cahier des charges fonctionnel contient la fonction principale, les fonctions de contrainte et les critères d&#x27;appréciation. Il dit ce que l&#x27;objet doit faire, jamais comment le fabriquer.</li><li>Toute contrainte porte une valeur mesurable avec son unité, et cette valeur doit pouvoir être vérifiée dans le temps d&#x27;une séance. Sans cela, on ne peut ni la vérifier ni la valider en fin de projet.</li><li>Le croquis est à main levée mais coté en millimètres ; la nomenclature liste les composants en quatre colonnes — repère, désignation, quantité, rôle — et chaque repère se retrouve sur le croquis.</li><li>Les quatre mots de la gestion de projet : tâche (durée et responsable), jalon (contrôle de durée nulle), livrable (résultat concret d&#x27;une étape), parallélisme (deux tâches en même temps par deux personnes différentes).</li><li>Le diagramme de Gantt place les tâches et les jalons sur les six séances. Nos quatre jalons : J1 cahier des charges validé en fin de séance 2, J2 fichiers prêts en fin de séance 4, J3 prototype validé en fin de séance 5, J4 projet soutenu en séance 6.</li><li>Chaîne numérique : impression 3D avec fichier STL, découpage en couches, remplissage 20 %, couche 0,2 mm, échelle 1:1 ; découpe laser avec fichier SVG aux dimensions réelles, coupe en trait plein et gravure en trait pointillé.</li><li>Un jeu d&#x27;assemblage de 0,2 à 0,3 mm est toujours prévu dans le modèle entre deux pièces qui s&#x27;emboîtent, et l&#x27;épaisseur de paroi est choisie pour tenir dans le quota de 40 g de PLA.</li><li>Sécurité au FabLab, cinq règles : lunettes de protection ; ne jamais toucher la buse à plus de 200 °C ; ne jamais regarder le faisceau laser ; ventilation en marche pendant la découpe, car les fumées sont toxiques ; attendre le refroidissement des pièces.</li><li>Sécurité électrique : alimentation par câble USB ou batterie externe, jamais par le secteur ; LED toujours avec sa résistance de 220 ohms en série ; actionneur de puissance commandé par un transistor ou un relais, jamais branché directement sur une broche ; câblage vérifié avant la mise sous tension et jamais modifié sous tension.</li><li>Tester, c&#x27;est vérifier que l&#x27;objet fonctionne et écrire le problème rencontré avec la solution appliquée. Valider, c&#x27;est reprendre chaque ligne du cahier des charges et écrire « respecté » ou « non respecté », avec la mesure.</li><li>L&#x27;exposé comporte cinq parties — introduction, cahier des charges, réalisation, démonstration, bilan — sur un support A3 en mots-clés. Il prépare l&#x27;oral de soutenance du DNB : 15 minutes, noté sur 20, dont 8 points d&#x27;expression orale et 12 points de maîtrise du sujet.</li></ul></div></div>
+<div class="content-card"><h2>&#x26A1; Questions flash</h2><table><thead><tr><th style="width:50%">Question</th><th>Réponse</th></tr></thead><tbody>
+<tr><td>Que contient un cahier des charges fonctionnel ?</td><td>La fonction principale, les fonctions de contrainte et les critères d&#x27;appréciation.</td></tr>
+<tr><td>Quelle est la règle qu&#x27;il ne faut jamais oublier à propos du cahier des charges ?</td><td>Il dit ce que l&#x27;objet doit faire ; il ne dit pas comment le fabriquer.</td></tr>
+<tr><td>Pourquoi refuse-t-on la contrainte « l&#x27;objet doit bien détecter » ?</td><td>Parce qu&#x27;elle ne porte aucune valeur mesurable : on ne pourra pas vérifier si elle est respectée à la fin du projet.</td></tr>
+<tr><td>Pourquoi la contrainte « fonctionner 4 heures sur batterie » pose-t-elle problème ?</td><td>Elle porte bien une valeur chiffrée, mais quatre heures ne se mesurent pas pendant une séance de 90 minutes. Il vaut mieux écrire une durée vérifiable en classe, par exemple 15 minutes.</td></tr>
+<tr><td>Le croquis est à main levée : qu&#x27;est-ce qui reste pourtant obligatoire ?</td><td>Les cotes, écrites en millimètres, et la légende des composants avec leurs repères.</td></tr>
+<tr><td>Quelles sont les quatre colonnes d&#x27;une nomenclature ?</td><td>Repère, désignation, quantité, rôle du composant.</td></tr>
+<tr><td>Qu&#x27;est-ce qu&#x27;un jalon, et combien de temps dure-t-il ?</td><td>C&#x27;est un point de contrôle où l&#x27;on vérifie l&#x27;avancement avant de continuer. Sa durée est nulle.</td></tr>
+<tr><td>Qu&#x27;est-ce que le parallélisme dans un projet ?</td><td>Deux tâches menées en même temps par deux personnes différentes, parce qu&#x27;aucune n&#x27;attend le résultat de l&#x27;autre. Chez nous : la modélisation 3D et la programmation, en séances 3 et 4.</td></tr>
+<tr><td>Cite les quatre jalons de la séquence et le moment où ils sont franchis.</td><td>J1 cahier des charges validé, fin de séance 2. J2 fichiers de fabrication prêts, fin de séance 4. J3 prototype assemblé et validé, fin de séance 5. J4 projet soutenu, séance 6.</td></tr>
+<tr><td>Quel format de fichier pour l&#x27;impression 3D, quel format pour la découpe laser ?</td><td>Le format STL pour l&#x27;impression 3D, le format SVG pour la découpe laser.</td></tr>
+<tr><td>Quels sont les réglages imposés pour le découpage en couches ?</td><td>Remplissage 20 %, épaisseur de couche 0,2 mm, bordure d&#x27;accroche si la pièce est étroite. Et toujours vérifier l&#x27;échelle à 1:1.</td></tr>
+<tr><td>Sur un fichier de découpe imprimé en noir et blanc, comment distingue-t-on la coupe de la gravure ?</td><td>La coupe est un trait plein fin, la gravure un trait pointillé. Dans le logiciel de la machine, on ajoute en plus deux couleurs différentes.</td></tr>
+<tr><td>Pourquoi laisse-t-on un jeu de 0,2 à 0,3 mm entre deux pièces qui s&#x27;emboîtent ?</td><td>Parce qu&#x27;une pièce fabriquée n&#x27;est jamais exactement aux cotes du modèle. Sans ce jeu, le couvercle ne rentre pas et il faut limer.</td></tr>
+<tr><td>Cite les cinq règles de sécurité du FabLab.</td><td>Porter les lunettes ; ne jamais toucher la buse de l&#x27;imprimante 3D ; ne jamais regarder le faisceau laser ; vérifier que la ventilation est en marche pendant la découpe ; attendre le refroidissement des pièces.</td></tr>
+<tr><td>Pourquoi la ventilation doit-elle être en marche pendant la découpe laser ?</td><td>Parce que la découpe dégage des fumées toxiques qu&#x27;il ne faut pas respirer.</td></tr>
+<tr><td>Comment le prototype est-il alimenté, et comment ne l&#x27;est-il jamais ?</td><td>Par le câble USB de l&#x27;ordinateur ou par une batterie externe de téléphone. Jamais par le secteur.</td></tr>
+<tr><td>Quelles sont les deux règles à respecter pour monter une LED ?</td><td>Une résistance de 220 ohms en série, obligatoire, et la patte longue reliée au plus.</td></tr>
+<tr><td>Comment se branche un actionneur de puissance ?</td><td>Jamais directement sur une broche de la carte : il passe par un organe de commande, transistor ou relais.</td></tr>
+<tr><td>Quand vérifie-t-on le câblage d&#x27;un montage ?</td><td>Avant de mettre sous tension, jamais après. Et on débranche le câble USB avant de modifier un câblage.</td></tr>
+<tr><td>Cite deux erreurs de câblage fréquentes et leur remède.</td><td>La LED reste éteinte : polarité inversée, il faut la retourner, patte longue vers le plus. Rien ne réagit : le numéro de broche du programme ne correspond pas au câblage, il faut corriger le numéro ou déplacer le fil.</td></tr>
+<tr><td>Quelle est la différence entre tester et valider ?</td><td>Tester, c&#x27;est vérifier que l&#x27;objet fonctionne. Valider, c&#x27;est reprendre chaque ligne du cahier des charges et écrire si elle est respectée, avec la mesure obtenue.</td></tr>
+<tr><td>Que fait-on pour une ligne du cahier des charges non respectée ?</td><td>On écrit « non respecté », on explique l&#x27;écart, et on propose une amélioration concrète, chiffrée quand c&#x27;est possible.</td></tr>
+<tr><td>Quelles sont les cinq parties de l&#x27;exposé ?</td><td>Introduction, cahier des charges, réalisation, démonstration, bilan.</td></tr>
+<tr><td>Quelle est la règle d&#x27;or pour l&#x27;utilisation du support A3 pendant l&#x27;exposé ?</td><td>On s&#x27;appuie sur le support, on ne le lit pas. Il porte des mots-clés, pas des phrases entières.</td></tr>
+<tr><td>Quelles sont les caractéristiques de l&#x27;oral de soutenance du DNB ?</td><td>Il dure 15 minutes, environ 5 minutes d&#x27;exposé et environ 10 minutes d&#x27;entretien, seul ou en groupe de 3 élèves au maximum. Il est noté sur 20 : 8 points pour l&#x27;expression orale et 12 points pour la maîtrise du sujet.</td></tr>
+</tbody></table></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+</body>
+</html>

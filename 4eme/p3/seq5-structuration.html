@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Structuration | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 5"},{"label":"Structuration"}]'
+    data-print-title="4ème — Séquence 5 : Programmation mBlock / Scratch"
+    data-print-subtitle="Fiche de structuration des connaissances · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3</span>
+        <h1>Structuration — Programmation et automatisation (mBlock / Scratch)</h1>
+        <p class="page-description">&#x1F4D8; Ce que je dois retenir de la séquence 5.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/45S.svg" alt="QR code 45S">
+          <div>
+            <div class="lien-code">45S</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=45S</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; La programmation par blocs</h2>
+        <div class="info-box info-box-green">
+          <div class="info-box-title">À retenir</div>
+          <strong>mBlock</strong> et <strong>Scratch</strong> sont des environnements de programmation par blocs visuels. On assemble des blocs comme des pièces de puzzle pour créer un programme, sans écrire de code textuel.
+        </div>
+        <table>
+          <thead><tr><th>Catégorie de blocs</th><th>Rôle</th><th>Exemples</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Événements</strong></td><td>Déclenchent le programme</td><td>Quand drapeau vert cliqué, quand touche pressée</td></tr>
+            <tr><td><strong>Contrôle</strong></td><td>Gèrent le flux du programme</td><td>Répéter, attendre, si...alors...sinon</td></tr>
+            <tr><td><strong>Apparence</strong></td><td>Modifient l'aspect des sprites</td><td>Basculer sur le costume, afficher message</td></tr>
+            <tr><td><strong>Variables</strong></td><td>Stockent des informations</td><td>Créer variable, mettre à, ajouter</td></tr>
+            <tr><td><strong>Messages</strong></td><td>Communiquent entre sprites</td><td>Envoyer à tous, quand je reçois</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; L'interface graphique</h2>
+        <div class="info-box info-box-green">
+          <div class="info-box-title">À retenir</div>
+          Une <strong>interface graphique</strong> est un programme visuel qui permet à l'utilisateur d'interagir avec un système. Dans Scratch, on crée l'interface avec des <strong>sprites</strong> (objets) et un <strong>arrière-plan</strong>.
+        </div>
+        <table>
+          <thead><tr><th>Élément</th><th>Description</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Sprite</strong></td><td>Objet graphique programmable (feu, bouton, personnage)</td></tr>
+            <tr><td><strong>Costume</strong></td><td>Apparence d'un sprite (ex : feu vert, feu orange, feu rouge = 3 costumes)</td></tr>
+            <tr><td><strong>Arrière-plan</strong></td><td>Image de fond de la scène (ex : le carrefour)</td></tr>
+            <tr><td><strong>Message</strong></td><td>Signal envoyé entre sprites pour les synchroniser</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CC; Synchronisation de systèmes</h2>
+        <div class="info-box info-box-green">
+          <div class="info-box-title">À retenir</div>
+          Pour synchroniser plusieurs objets (ex : 2 feux de carrefour), on utilise des <strong>messages</strong>. Un sprite envoie un message, un autre le reçoit et exécute une action. C'est la <strong>communication inter-sprites</strong>.
+        </div>
+        <table>
+          <thead><tr><th>Principe</th><th>Application au feu tricolore</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Les 2 feux ne sont jamais verts en même temps</strong></td><td>Quand Feu 1 passe au vert, Feu 2 est rouge (et inversement)</td></tr>
+            <tr><td><strong>Le message déclenche le changement</strong></td><td>Feu 1 envoie « phase2 » → Feu 2 reçoit « phase2 » et passe au vert</td></tr>
+            <tr><td><strong>L'événement piéton interrompt le cycle</strong></td><td>Le clic sur le bouton met une variable à 1, le cycle vérifie cette variable</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Mots clés de la séquence</div>
+          <ul>
+            <li><strong>mBlock</strong> : logiciel de programmation par blocs compatible avec Arduino, basé sur Scratch</li>
+            <li><strong>Scratch</strong> : environnement de programmation visuelle par blocs</li>
+            <li><strong>Sprite</strong> : objet graphique programmable dans Scratch/mBlock</li>
+            <li><strong>Costume</strong> : apparence d'un sprite (un sprite peut avoir plusieurs costumes)</li>
+            <li><strong>Message</strong> : signal envoyé entre sprites pour les synchroniser</li>
+            <li><strong>Variable</strong> : espace mémoire nommé qui stocke une valeur modifiable</li>
+            <li><strong>Interface graphique</strong> : programme visuel permettant l'interaction homme-machine</li>
+            <li><strong>Synchronisation</strong> : coordination de plusieurs éléments pour qu'ils fonctionnent ensemble</li>
+          </ul>
+        </div>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

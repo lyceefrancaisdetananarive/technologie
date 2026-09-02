@@ -1,0 +1,177 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnostique 5ème — élève</title><style>
+@page { size: A4 portrait; margin: 16mm 15mm 18mm 15mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14pt; line-height: 1.5; color: #000; background: #fff;
+  margin: 0; padding: 16mm 15mm;
+}
+.doc { max-width: 180mm; margin: 0 auto; }
+
+.entete {
+  border-bottom: 3px solid #000; padding-bottom: 8px; margin-bottom: 14px;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+}
+.entete .etab { font-size: 10pt; line-height: 1.3; }
+.entete .etab strong { display: block; font-size: 11pt; }
+.entete .niv {
+  font-size: 22pt; font-weight: 800; border: 3px solid #000;
+  padding: 2px 12px; white-space: nowrap;
+}
+h1 { font-size: 17pt; margin: 0 0 4px; line-height: 1.2; }
+.sous-titre { font-size: 11pt; margin: 0 0 12px; }
+
+.identite {
+  border: 2px solid #000; padding: 8px 10px; margin-bottom: 14px;
+  font-size: 12pt; line-height: 1.9; white-space: pre-line;
+}
+.mot {
+  border-left: 5px solid #000; padding: 8px 0 8px 12px; margin-bottom: 16px;
+  font-size: 12.5pt; white-space: pre-line;
+}
+
+.partie { margin-top: 20px; break-inside: avoid; }
+.partie-titre {
+  background: #000; color: #fff; padding: 5px 10px;
+  font-size: 13pt; font-weight: 700; margin-bottom: 4px;
+}
+.partie-duree { font-size: 10pt; margin-bottom: 10px; }
+
+.item { margin-bottom: 16px; break-inside: avoid; }
+.item-num {
+  display: inline-block; min-width: 30px; font-weight: 800; font-size: 14pt;
+}
+.enonce { white-space: pre-line; margin-bottom: 6px; }
+.support { margin: 8px 0; white-space: pre-line; font-size: 13pt; }
+.support-encadre { border: 1.5px solid #000; padding: 8px 10px; margin: 8px 0; }
+
+table.doc-t { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 13pt; }
+table.doc-t th, table.doc-t td { border: 1.2px solid #000; padding: 7px 8px; text-align: left; }
+table.doc-t th { font-weight: 700; }
+table.doc-t td.vide { height: 30px; }
+
+ul.props { list-style: none; margin: 6px 0; padding: 0; }
+ul.props li { margin: 5px 0; }
+ul.props li::before {
+  content: ''; display: inline-block; width: 13px; height: 13px;
+  border: 1.5px solid #000; margin-right: 9px; vertical-align: -1px;
+}
+.lignes { margin-top: 6px; }
+.lignes div { border-bottom: 1px dotted #000; height: 26px; }
+svg.fig { display: block; margin: 10px auto; max-width: 100%; height: auto; }
+.fab { font-size: 11pt; }
+.fab li { margin-bottom: 6px; }
+
+.pied {
+  margin-top: 22px; border-top: 1.5px solid #000; padding-top: 6px;
+  font-size: 9.5pt; display: flex; justify-content: space-between;
+}
+.saut { break-before: page; page-break-before: always; }
+
+/* --- Livret professeur --- */
+.bloc { border: 1.5px solid #000; padding: 10px 12px; margin-bottom: 14px; break-inside: avoid; }
+.bloc h2 { font-size: 13pt; margin: 0 0 8px; border-bottom: 1.5px solid #000; padding-bottom: 4px; }
+.bloc h3 { font-size: 12pt; margin: 12px 0 4px; }
+.bloc p, .bloc li { font-size: 12pt; }
+.corrige { border-left: 5px solid #000; padding-left: 12px; margin: 6px 0 14px; }
+.corrige .lab {
+  font-size: 9.5pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.meta { font-size: 10.5pt; margin-top: 4px; }
+table.grille { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin-top: 8px; }
+table.grille th, table.grille td { border: 1px solid #000; padding: 3px 4px; text-align: center; }
+table.grille th.nom, table.grille td.nom { text-align: left; width: 42mm; }
+table.grille td.case { height: 20px; }
+.paysage { break-before: page; page-break-before: always; }
+
+@media screen {
+  body { background: #EEF2F6; padding: 24px 12px; }
+  .doc { background: #fff; padding: 20mm 16mm; box-shadow: 0 2px 14px rgba(0,0,0,.16); }
+  .rappel-impression {
+    max-width: 180mm; margin: 0 auto 16px; background: #fff; border: 2px solid #000;
+    padding: 10px 14px; font-size: 11pt;
+  }
+}
+@media print { .rappel-impression { display: none; } body { padding: 0; } }
+</style></head><body><div class='rappel-impression'>Document prêt à photocopier. Impression A4, recto-verso, noir et blanc, corps 14. La <strong>Feuille B</strong> est en dernière page : la photocopier à part, la distribuer après le ramassage, et ne jamais la rendre.</div>
+<div class="doc"><div class="entete">
+  <div class="etab"><strong>Lycée Français de Tananarive</strong>
+  Ambatobe, Antananarivo — Réseau AEFE<br>Technologie — Année scolaire 2026-2027</div>
+  <div class="niv">5ème</div>
+</div>
+<h1>Ce que tu sais déjà</h1>
+<p class="sous-titre">Évaluation diagnostique de rentrée — ce travail n&#x27;est pas noté</p><div class='identite'>Nom : ..................................... Prénom : ..................................... Classe : 5ème ..... Date : ...... / ...... / 2026
+Ce travail n&#x27;est pas noté. Il ne compte pas dans ta moyenne.</div><div class='mot'>Bienvenue en Technologie.
+Ce travail n&#x27;est pas une note : il ne compte pas dans ta moyenne, et personne ne te reprochera une erreur.
+Il me sert seulement à savoir ce que tu connais déjà, pour préparer les séances de l&#x27;année et t&#x27;aider là où tu en as besoin.
+Tu n&#x27;es pas censé tout savoir : beaucoup de questions portent sur des choses que nous verrons ensemble plus tard.
+Réponds avec tes mots. L&#x27;orthographe n&#x27;est pas comptée. Si tu hésites, écris quand même ce que tu penses : une réponse fausse m&#x27;apprend plus qu&#x27;une case vide. Si tu ne sais pas, écris « je ne sais pas » : c&#x27;est une vraie réponse.
+Tu as 35 minutes. Ce n&#x27;est pas une course : si tu n&#x27;as pas tout fini, ce n&#x27;est pas grave, cela ne te sera pas reproché.</div><div class='partie'><div class='partie-titre'>Partie 1 — Les objets autour de moi</div><div class='partie-duree'>Durée indicative : 9 minutes</div></div><div class='item'><span class='item-num'>1.</span><span class='enonce'>Un objet technique est un objet fabriqué par l&#x27;homme pour rendre un service. Un objet naturel existe dans la nature sans que l&#x27;homme l&#x27;ait fabriqué.
+Écris le numéro de chaque élément dans la bonne colonne du tableau.
+1. le taxi-be
+2. le galet ramassé au bord de la rivière
+3. la lampe à pétrole
+4. la fleur sauvage
+5. le téléphone mobile
+6. le nuage</span><table class='doc-t'><thead><tr><th>Objet technique</th><th>Objet naturel</th></tr></thead><tbody><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr></tbody></table></div><div class='item'><span class='item-num'>2.</span><span class='enonce'>Écris devant chaque objet la lettre du besoin auquel il répond.
+Attention : il y a six besoins et cinq objets. Un besoin ne sert pas. Chaque lettre ne sert qu&#x27;une seule fois.
+Objets :
+1. la moustiquaire posée au-dessus du lit ...
+2. le panneau solaire posé sur le toit ...
+3. le foyer amélioré ...
+4. le pousse-pousse ...
+5. le parapluie ...</span><ul class='props'><li>A. Produire de l&#x27;électricité à partir de la lumière du soleil.</li><li>B. Transporter une personne dans la rue.</li><li>C. Empêcher les moustiques de piquer pendant la nuit.</li><li>D. Se protéger de la pluie.</li><li>E. Cuire les aliments en dépensant moins de charbon.</li><li>F. Conserver les aliments au froid.</li></ul></div><div class='item'><span class='item-num'>3.</span><span class='enonce'>Voici quatre phrases sur le vélo. Entoure la seule phrase qui dit à quoi sert le vélo.</span><ul class='props'><li>a) Le vélo est vieux et un peu rouillé.</li><li>b) Le vélo est fabriqué avec du métal.</li><li>c) Le vélo sert à se déplacer plus vite qu&#x27;à pied.</li><li>d) Le vélo appartient à mon voisin.</li></ul></div><div class='item'><span class='item-num'>4.</span><span class='enonce'>Cite un objet technique que tu utilises souvent à la maison ou sur le chemin du collège. Écris son nom, puis une phrase pour dire à quoi il sert.
+Exemple de la forme attendue (n&#x27;utilise pas cet exemple dans ta réponse) : « La règle. Elle sert à tracer des traits droits. »
+Objet : .....................................
+À quoi il sert : .....................................................................</span><div class='lignes'><div></div><div></div></div></div><div class='partie'><div class='partie-titre'>Partie 2 — Matériaux et énergie</div><div class='partie-duree'>Durée indicative : 9 minutes</div></div><div class='item'><span class='item-num'>5.</span><span class='enonce'>Pour chaque objet, écris la lettre du matériau principal dont il est fait.
+Attention : il y a six matériaux et cinq objets. Un matériau ne sert pas. Chaque lettre ne sert qu&#x27;une seule fois.
+Objets :
+1. la marmite posée sur le foyer à charbon ...
+2. le seau que l&#x27;on remplit à la borne-fontaine ...
+3. le manche de l&#x27;angady (la bêche) ...
+4. la vitre de la fenêtre de la classe ...
+5. le panier tressé du marché ...</span><ul class='props'><li>A. le verre</li><li>B. le métal</li><li>C. la fibre végétale (raphia, paille)</li><li>D. le plastique</li><li>E. le bois</li><li>F. le caoutchouc</li></ul></div><div class='item'><span class='item-num'>6.</span><span class='enonce'>La marmite que l&#x27;on pose sur le foyer à charbon est faite en métal, et non en plastique. Pourquoi ? Entoure la seule bonne réponse.</span><ul class='props'><li>a) parce que le métal coûte moins cher que le plastique</li><li>b) parce que le métal résiste à la chaleur du feu, alors que le plastique fondrait</li><li>c) parce que le métal est plus léger que le plastique</li><li>d) parce que le métal est plus joli</li></ul></div><div class='item'><span class='item-num'>7.</span><span class='enonce'>Une source d&#x27;énergie est ce qui fournit l&#x27;énergie nécessaire pour faire fonctionner un objet, chauffer, éclairer ou déplacer quelque chose.
+Écris le numéro de chaque mot dans la bonne colonne du tableau.
+1. le soleil
+2. un tournevis
+3. le charbon de bois
+4. une roue
+5. le pétrole que l&#x27;on met dans la lampe
+6. le vent</span><table class='doc-t'><thead><tr><th>C&#x27;est une source d&#x27;énergie</th><th>Ce n&#x27;est pas une source d&#x27;énergie</th></tr></thead><tbody><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr></tbody></table></div><div class='item'><span class='item-num'>8.</span><span class='enonce'>Écris V (vrai) ou F (faux) devant chaque phrase.
+a) Un téléphone mobile a besoin d&#x27;énergie pour fonctionner. ...
+b) Une lampe à pétrole éclaire sans consommer aucune énergie. ...
+c) Un panneau solaire produit de l&#x27;électricité à partir de la lumière du soleil. ...
+d) Une charrette tirée par un zébu se déplace sans aucune énergie. ...
+e) Quand il n&#x27;y a plus de charbon dans le foyer, le feu finit par s&#x27;éteindre. ...</span><div class='lignes'><div></div><div></div></div></div><div class='partie'><div class='partie-titre'>Partie 3 — Lire un schéma, comprendre un fonctionnement</div><div class='partie-duree'>Durée indicative : 13 minutes</div></div><div class='item'><span class='item-num'>9.</span><span class='enonce'>Le schéma ci-dessous représente une lampe torche qui fonctionne avec des piles. Le courant électrique fait un tour complet : il part d&#x27;un élément, traverse les autres, et revient à son point de départ.
+Cadre 1 : il fournit l&#x27;énergie électrique.
+Cadre 2 : il permet d&#x27;ouvrir ou de fermer le passage du courant.
+Cadre 3 : il produit la lumière.
+Écris dans chaque cadre le mot qui convient, choisi dans la liste : ampoule — fil électrique — interrupteur — pile.
+Attention : il y a quatre mots et trois cadres. Un mot ne sert pas. L&#x27;orthographe n&#x27;est pas comptée.
+Cadre 1 : .....................  Cadre 2 : .....................  Cadre 3 : .....................</span><svg class="fig" viewBox="0 0 600 205" style="width:145mm" xmlns="http://www.w3.org/2000/svg" role="img"><defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="70" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="110" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 1</text><rect x="260" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="300" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 2</text><rect x="450" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="490" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 3</text><line x1="150" y1="70" x2="260" y2="70" fill="none" stroke="#000" stroke-width="2.4"/><line x1="340" y1="70" x2="450" y2="70" fill="none" stroke="#000" stroke-width="2.4"/><path d="M490 110 L490 170 L110 170 L110 110" fill="none" stroke="#000" stroke-width="2.4"/><text x="300" y="192" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">fil électrique</text></svg></div><div class='item'><span class='item-num'>10.</span><span class='enonce'>En une phrase, explique ce qui se passe dans la lampe torche quand on allume l&#x27;interrupteur.
+........................................................................................
+........................................................................................</span><div class='lignes'><div></div><div></div></div></div><div class='item'><span class='item-num'>11.</span><span class='enonce'>Lis le texte ci-dessous, puis réponds à la question. Ce texte sert aussi à la question 12.
+D&#x27;après ce texte, à quoi sert la bougie filtrante ? Entoure la seule bonne réponse.</span><div class='support-encadre'>LE FILTRE À EAU
+Dans beaucoup de maisons, on utilise un filtre à eau. On verse l&#x27;eau dans le réservoir du haut. L&#x27;eau traverse ensuite la bougie filtrante. C&#x27;est une pièce en céramique percée de trous très fins. Elle retient les saletés et une partie des microbes. L&#x27;eau propre tombe goutte à goutte dans le réservoir du bas. Pour la boire, on ouvre le petit robinet placé sur le côté.</div><div class='lignes'><div></div><div></div><div></div></div></div><div class='item'><span class='item-num'>12.</span><span class='enonce'>Toujours d&#x27;après le texte sur le filtre à eau, remets les quatre étapes dans l&#x27;ordre du trajet de l&#x27;eau. Écris 1, 2, 3 et 4 devant chaque phrase.
+... L&#x27;eau traverse la bougie filtrante.
+... On ouvre le robinet pour prendre l&#x27;eau propre.
+... On verse l&#x27;eau dans le réservoir du haut.
+... L&#x27;eau propre tombe dans le réservoir du bas.</span></div><div class='item'><span class='item-num'>13.</span><span class='enonce'>Complète chaque phrase avec le mot qui convient, choisi dans la liste.
+Attention : il y a six mots et cinq phrases. Un mot ne sert pas. Chaque mot ne sert qu&#x27;une seule fois. L&#x27;orthographe n&#x27;est pas comptée.
+Liste : la panne — le moteur — l&#x27;outil — l&#x27;utilisateur — la pièce — réparer
+a) La personne qui se sert d&#x27;un objet technique est son ..................... .
+b) Le marteau et le tournevis sont des ..................... .
+c) La roue et le guidon sont deux ..................... du vélo.
+d) Quand la lampe ne s&#x27;allume plus, on dit qu&#x27;elle est en ..................... .
+e) Le mécanicien va ..................... le vélo cassé.</span><div class='lignes'><div></div><div></div></div></div><div class="pied"><span>Diagnostique 5ème — feuille élève — 35 min</span>
+<span>Lycée Français de Tananarive — Technologie — 2026-2027</span></div><div class='saut'></div><div class="entete">
+  <div class="etab"><strong>Lycée Français de Tananarive</strong>
+  Ambatobe, Antananarivo — Réseau AEFE<br>Technologie — Année scolaire 2026-2027</div>
+  <div class="niv">5ème</div>
+</div>
+<h1>Feuille B — Toi et les outils de travail (cette feuille n&#x27;est pas notée et ne sera pas rendue)</h1>
+<p class="sous-titre">À remettre séparément — ne sera pas rendue</p><div class='mot'>Cette page n&#x27;est pas notée et ne sera pas rendue. Elle sert seulement à préparer les séances sur ordinateur. Personne d&#x27;autre que le professeur ne la lit. Écris ton nom, ou ne l&#x27;écris pas : les deux sont autorisés.
+Nom (facultatif) : .....................................  Classe : 5ème .....</div><div class="pied"><span>Feuille B — non notée, non rendue, conservée à part</span>
+<span>Lycée Français de Tananarive — Technologie — 2026-2027</span></div></div></body></html>

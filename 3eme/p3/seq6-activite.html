@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 6 — Tests et mise au point de prototypes | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P3 — Séquence 6"},{"label":"Fiche activité"}]'
+    data-print-title="3ème — Séquence 6 : Fiche Activité Élève"
+    data-print-subtitle="Tests et mise au point de prototypes · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 3</span>
+        <h1>Séquence 6 — Tests et mise au point de prototypes</h1>
+        <p class="page-description">
+          Comment vérifier qu'un prototype fonctionne conformément au cahier des charges et corriger les dysfonctionnements ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/36A.svg" alt="QR code 36A">
+          <div>
+            <div class="lien-code">36A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=36A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Analyse fonctionnelle et technique</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Modéliser un comportement</span>
+                <span class="competence-badge">Mettre en œuvre un programme (capteurs/actionneurs)</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Tu as programmé un mBot pour suivre une ligne, mais il zigzague et perd la ligne dans les virages. Comment identifier le problème et le corriger de manière méthodique ?</strong>
+        </div>
+        <p><strong>Problématique :</strong> Comment tester, valider et corriger un prototype de manière méthodique et structurée ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/154855-college-gfouace-st-vaast-la-hougue-defi-robotique-juin-2025-a-ameliorermov/?is_iframe=true" loading="lazy" allowfullscreen title="Collège G.Fouace st vaast la hougue. défi robotique Juin 2025 - a améliorer.mov"></iframe><p style="margin:.6rem 0 .2rem"><strong>Collège G.Fouace st vaast la hougue. défi robotique Juin 2025 - a améliorer.mov</strong> — 00:00:20 · PodEduc — dépôt individuel, hors chaîne</p><p class="vid-licence">Auteur : Ajouté par Anthony Roy (collège G. Fouace, Saint-Vaast-la-Hougue, d&#x27;après le titre). Licence : Licence Creative Commons : Attribution - Pas d&#x27;Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0). Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/154855-college-gfouace-st-vaast-la-hougue-defi-robotique-juin-2025-a-ameliorermov/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> URL vérifiée le 2 septembre 2026 : page active, titre, mots-clés et durée (00:00:20) conformes, mise à jour le 3 juillet 2026, 6 vues, type « Cours » (le type déclaré ne doit pas tromper : c&#x27;est une captation de passage de robot, pas un cours filmé — mais cela reste à confirmer par visionnage). LICENCE RELUE ET CONFIRMÉE : CC BY-NC-ND 4.0 — projection et intégration possibles, AUCUNE modification (donc pas de ralenti ni de montage), et aucun fichier téléchargeable sur la fiche (section « Téléchargements » vide dans le code de la page). Aucune description : impossible de vérifier ce que le robot rate précisément, ni si le défaut est visible en 20 secondes — VISIONNAGE PRÉALABLE OBLIGATOIRE. Dépôt individuel hors chaîne, pérennité non garantie. Élèves possiblement visibles à l&#x27;image.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#3eme-6">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Protocole de test</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Planifier les tests avant de les exécuter</h4>
+            <p>Rédige un protocole de test pour valider le comportement du mBot.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les 5 étapes d'un protocole de test :</strong>
+          <ol>
+            <li><strong>Définir</strong> les critères de réussite (issu du cahier des charges)</li>
+            <li><strong>Planifier</strong> les scénarios de test</li>
+            <li><strong>Exécuter</strong> les tests dans des conditions contrôlées</li>
+            <li><strong>Observer</strong> et noter les résultats</li>
+            <li><strong>Analyser</strong> les écarts entre attendu et observé</li>
+          </ol>
+        </div>
+
+        <p><strong>a)</strong> Pour le mBot suiveur de ligne, rédige les scénarios de test :</p>
+        <table>
+          <thead><tr><th>Test N°</th><th>Scénario</th><th>Résultat attendu</th><th>Résultat observé</th><th>Validé ?</th></tr></thead>
+          <tbody>
+            <tr><td>T1</td><td>Ligne droite</td><td>Suit la ligne sans déviation</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>T2</td><td>Virage à droite</td><td>Tourne et reste sur la ligne</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>T3</td><td>Virage à gauche</td><td>Tourne et reste sur la ligne</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>T4</td><td>Obstacle sur la ligne</td><td>S'arrête ou contourne</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>T5</td><td>Fin de ligne (pas de ligne)</td><td>S'arrête</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Débogage méthodique</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Identifier et corriger les erreurs</h4>
+            <p>Applique une méthode de débogage structurée pour corriger le programme du mBot.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les 4 types d'erreurs en programmation :</strong>
+          <ul>
+            <li><strong>Erreur de syntaxe</strong> : blocs mal connectés, paramètres manquants</li>
+            <li><strong>Erreur de logique</strong> : algorithme incorrect (ex : > au lieu de <)</li>
+            <li><strong>Erreur de valeur</strong> : seuils incorrects (vitesse, distance)</li>
+            <li><strong>Erreur de séquencement</strong> : instructions dans le mauvais ordre</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Pour chaque test échoué, identifie le type d'erreur et propose une correction :</p>
+        <table>
+          <thead><tr><th>Test échoué</th><th>Symptôme</th><th>Type d'erreur</th><th>Correction</th></tr></thead>
+          <tbody>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Diagramme de flux du débogage — Complète :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 180px; background: var(--gray-50); text-align:center;">
+          <span style="color:var(--gray-400); font-size:0.8rem;">Test → Erreur trouvée ? → OUI → Identifier type → Corriger → Re-tester → NON → Validé</span>
+        </div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Validation et documentation</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-3eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Documenter son travail</h4>
+            <p>Rédige un rapport de test qui pourra servir pour le projet du T3 et la soutenance DNB.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Complète le rapport de test :</p>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Nom du prototype</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Objectif</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Tests réalisés</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Tests réussis</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Tests échoués</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Corrections apportées</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Conclusion</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Le prototype est-il conforme au cahier des charges ? Justifie :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>protocole de test, scénarios, critères de réussite, déboguer, syntaxe, logique, valeur, rapport</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un ........................ définit les ........................ de test et les ........................ pour valider un prototype.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          ........................ un programme consiste à corriger 4 types d'erreurs : ........................, ........................, ........................ et séquencement.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ de test documente les résultats et les corrections pour prouver que le prototype fonctionne.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

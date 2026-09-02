@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Révision — Séq. 6 : Programmation Arduino | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 6"},{"label":"Révision"}]'
+    data-print-title="FICHE DE RÉVISION — Séquence 6 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3 · Révision</span>
+        <h1>Révision — Séquence 6</h1>
+        <p class="page-description">Programmation Arduino — Les notions clés</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq6-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/46R.svg" alt="QR code 46R">
+          <div>
+            <div class="lien-code">46R</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=46R</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Vocabulaire essentiel</h2>
+        <table>
+          <thead><tr><th style="width:30%">Mot</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Arduino</strong></td><td>Carte à microcontrôleur programmable pour piloter des capteurs et actionneurs.</td></tr>
+            <tr><td><strong>setup()</strong></td><td>Fonction d'initialisation, exécutée une seule fois au démarrage.</td></tr>
+            <tr><td><strong>loop()</strong></td><td>Boucle principale du programme, exécutée en continu indéfiniment.</td></tr>
+            <tr><td><strong>Entrée numérique</strong></td><td>Signal ON/OFF (0 ou 1) — bouton poussoir, capteur de présence.</td></tr>
+            <tr><td><strong>Entrée analogique</strong></td><td>Valeur de 0 à 1023 — capteur de lumière, température, humidité.</td></tr>
+            <tr><td><strong>PWM</strong></td><td>Modulation de largeur d'impulsion — simule un signal analogique en sortie (0-255).</td></tr>
+            <tr><td><strong>Condition (if/else)</strong></td><td>Structure qui permet au programme de prendre des décisions selon les valeurs lues.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Ce qu'il faut retenir</h2>
+        <div class="info-box info-box-green">
+          <strong>Chaîne d'information Arduino :</strong> Capteur (entrée) → Arduino (traitement) → Actionneur (sortie).
+        </div>
+        <ul>
+          <li><strong>setup()</strong> s'exécute 1 fois, <strong>loop()</strong> tourne en boucle.</li>
+          <li><code>pinMode()</code> configure une pin en entrée (INPUT) ou sortie (OUTPUT).</li>
+          <li><code>digitalWrite()</code> pour allumer/éteindre, <code>digitalRead()</code> pour lire un bouton.</li>
+          <li><code>analogRead()</code> lit une valeur analogique (0-1023), <code>analogWrite()</code> écrit en PWM (0-255).</li>
+          <li><code>delay(ms)</code> met le programme en pause (1000 ms = 1 seconde).</li>
+          <li>Le <strong>moniteur série</strong> permet d'afficher des valeurs pour le débogage.</li>
+          <li>La structure <strong>if/else</strong> permet de réagir selon les capteurs.</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Je vérifie mes connaissances</h2>
+        <ol>
+          <li>Quels sont les 2 blocs obligatoires d'un programme Arduino ?</li>
+          <li>Quelle est la différence entre une entrée numérique et une entrée analogique ?</li>
+          <li>Quelle instruction permet d'allumer une LED branchée sur la pin 7 ?</li>
+          <li>Que fait le programme suivant : <code>if (distance &lt; 15) { digitalWrite(7, HIGH); }</code> ?</li>
+          <li>Cite 2 capteurs et 2 actionneurs utilisables avec Arduino.</li>
+          <li>À quoi sert le moniteur série (Serial Monitor) ?</li>
+        </ol>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

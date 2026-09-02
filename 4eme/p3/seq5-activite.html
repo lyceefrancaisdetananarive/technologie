@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Programmation mBlock / Scratch | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 5"},{"label":"Fiche activité"}]'
+    data-print-title="4ème — Séquence 5 : Fiche Activité Élève"
+    data-print-subtitle="Programmation et automatisation (mBlock / Scratch) · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3</span>
+        <h1>Séquence 5 — Programmation et automatisation (mBlock / Scratch)</h1>
+        <p class="page-description">
+          Comment programmer un feu tricolore avec mBlock ? Comment créer une interface graphique avec Scratch pour simuler un carrefour ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq5-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/45A.svg" alt="QR code 45A">
+          <div>
+            <div class="lien-code">45A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=45A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>4ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Programmation et automatisation</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Programmer un système automatisé</span>
+                <span class="competence-badge">Concevoir une interface de commande</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Dans la séquence 4, nous avons conçu le cahier des charges et la documentation technique du feu tricolore. Maintenant, il faut le programmer !</strong>
+          <ul style="margin-top:0.5rem;">
+            <li>Comment faire alterner les couleurs automatiquement ?</li>
+            <li>Comment créer une interface visuelle pour simuler le carrefour ?</li>
+          </ul>
+        </div>
+        <p><strong>Problématique :</strong> Comment programmer un feu tricolore et créer une interface graphique pour le piloter ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/13858-feu-de-carrefour-avec-feu-pieton-technologie-collegemp4/?is_iframe=true" loading="lazy" allowfullscreen title="feu de carrefour avec feu pieton technologie college.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>feu de carrefour avec feu pieton technologie college.mp4</strong> — 00:00:19 · PodEduc</p><p class="vid-licence">Auteur : Philippe Perennes, professeur de technologie et formateur académique (académie de Normandie). Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/13858-feu-de-carrefour-avec-feu-pieton-technologie-collegemp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> Aucune licence affichée sur la fiche PodEduc, malgré la présence d&#x27;une section « Téléchargements » : intégration seulement, pas de copie sur clé. Aucune description sur la fiche : visionner avant la séance. Très court, à relancer plusieurs fois. C&#x27;est la même vidéo qu&#x27;en séquence 4 : choisir une seule des deux séquences, et de préférence celle-ci.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#4eme-5">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Programmer le feu tricolore avec mBlock (40 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
+          <div class="activity-step-content">
+            <h4>La programmation par blocs avec mBlock</h4>
+            <p><strong>mBlock</strong> est un logiciel de programmation par blocs (basé sur Scratch) qui permet de contrôler des cartes électroniques. On assemble des blocs comme des pièces de puzzle.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Catégories de blocs utiles :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li><strong>Événements</strong> : quand le drapeau vert est cliqué, quand une touche est pressée</li>
+            <li><strong>Contrôle</strong> : répéter, attendre, si...alors...sinon</li>
+            <li><strong>Apparence</strong> : changer de costume, afficher un message</li>
+            <li><strong>Variables</strong> : créer et modifier des variables</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Écris l'algorithme du cycle d'un feu tricolore :</p>
+        <table>
+          <thead><tr><th style="width:10%">Étape</th><th>Couleur</th><th>Durée</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Les voitures peuvent passer</td></tr>
+            <tr><td>2</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Attention, le feu va passer au rouge</td></tr>
+            <tr><td>3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Les voitures doivent s'arrêter</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Écris le pseudo-code du programme mBlock pour faire alterner les 3 couleurs en boucle :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 100px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>c)</strong> Programme le feu dans mBlock en utilisant des sprites (costumes) pour chaque état. Teste ton programme.</p>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Créer une interface graphique avec Scratch (40 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Gestion d'interface avec Scratch</h4>
+            <p>On va créer une <strong>interface de simulation</strong> : un carrefour avec 2 feux tricolores synchronisés et des boutons de commande.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Éléments de l'interface :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li><strong>Arrière-plan</strong> : dessin du carrefour (routes, passages piétons)</li>
+            <li><strong>Sprite Feu 1</strong> : feu tricolore de la voie principale (3 costumes)</li>
+            <li><strong>Sprite Feu 2</strong> : feu tricolore de la voie secondaire (3 costumes)</li>
+            <li><strong>Sprite Bouton</strong> : bouton piéton pour déclencher le changement</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Complète le tableau de synchronisation des 2 feux :</p>
+        <table>
+          <thead><tr><th>Phase</th><th>Feu 1 (voie principale)</th><th>Feu 2 (voie secondaire)</th><th>Durée</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>2</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>4</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Pourquoi les deux feux ne doivent-ils jamais être verts en même temps ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-lg);"><strong>c)</strong> Programme l'interface dans Scratch. Utilise des <strong>messages</strong> (envoyer à tous / quand je reçois) pour synchroniser les 2 feux.</p>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Mode piéton et variables (30 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Ajouter un bouton piéton</h4>
+            <p>On ajoute un <strong>bouton piéton</strong> qui, quand il est cliqué, déclenche un cycle spécial : tous les feux passent au rouge et un signal piéton s'allume.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Quelle variable faut-il créer pour savoir si un piéton a appuyé sur le bouton ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 30px; background: var(--gray-50);"></div>
+
+        <p style="margin-top:var(--space-md);"><strong>b)</strong> Écris l'algorithme du mode piéton :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 80px; background: var(--gray-50); font-family: monospace;"></div>
+
+        <p style="margin-top:var(--space-md);"><strong>c)</strong> Programme le mode piéton dans Scratch et teste le programme complet.</p>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>mBlock, Scratch, blocs, interface, sprites, costumes, messages, variable, boucle</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          ........................ et ........................ sont des logiciels de programmation par ........................ visuels.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Pour créer une ........................ graphique, on utilise des ........................ (personnages/objets) avec plusieurs ........................ (états visuels différents).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Les ........................ permettent de synchroniser plusieurs sprites entre eux.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Une ........................ stocke une information (ex : « bouton piéton appuyé »), et une ........................ permet de répéter le cycle du feu indéfiniment.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

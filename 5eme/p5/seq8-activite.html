@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — IA, objets connectés et réparabilité | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"P5 — Séquence 8"},{"label":"Fiche activité"}]'
+    data-print-title="5ème — Séquence 8 : Fiche Activité Élève"
+    data-print-subtitle="IA, objets connectés et réparabilité · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Période 5</span>
+        <h1>Séquence 8 — IA, objets connectés et réparabilité</h1>
+        <p class="page-description">
+          Comment l'intelligence artificielle et les objets connectés transforment-ils notre quotidien ? Comment prolonger la durée de vie de nos objets ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/58A.svg" alt="QR code 58A">
+          <div>
+            <div class="lien-code">58A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=58A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>5ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 3 — Création, conception, réalisation</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Imaginer, concevoir, réaliser</span>
+                <span class="competence-badge">Concevoir, écrire, tester un programme</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Ton assistant vocal te parle, ta montre mesure ton rythme cardiaque, ton réfrigérateur te prévient quand il manque du lait...</strong><br>
+          Les objets « intelligents » sont partout. Mais comment fonctionnent-ils ? Et comment faire pour qu'ils durent plus longtemps au lieu de les jeter ?
+        </div>
+        <p><strong>Problématique :</strong> Comment l'IA et les objets connectés fonctionnent-ils, et comment concevoir des objets plus durables ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/56322-cest-quoi-la-reparabilite-des-objetsmp4/?is_iframe=true" loading="lazy" allowfullscreen title="C&#x27;est quoi la reparabilite des objets.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>C&#x27;est quoi la reparabilite des objets.mp4</strong> — 00:00:33 · PodEduc (aucune chaîne indiquée ; auteur rattaché à l&#x27;académie de Normandie)</p><p class="vid-licence">Auteur : Philippe Perennes. Licence : Licence Creative Commons : Attribution - Pas de Modification 4.0 International (CC BY-ND 4.0). Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/56322-cest-quoi-la-reparabilite-des-objetsmp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> VÉRIFIÉ LE 02/09/2026 : page en ligne, titre et durée 00:00:33 conformes, auteur Philippe Perennes confirmé (adresse académique en ac-normandie.fr) ; LICENCE CC BY-ND 4.0 CONFIRMÉE — attention, CC BY-ND n&#x27;interdit pas l&#x27;usage commercial mais interdit toute modification : diffusion telle quelle. AUCUNE DESCRIPTION sur la fiche, seul le mot-clé « technologie ». RISQUE DE REQUALIFICATION : la formule « c&#x27;est quoi… » annonce plutôt une définition qu&#x27;une question ouverte ; rien ne garantit que la vidéo pose le problème au lieu de le résoudre. VISIONNAGE PRÉALABLE OBLIGATOIRE, et abandon sans état d&#x27;âme si elle donne la réponse. Ne couvre pas du tout le volet IA et objets connectés, qui est pourtant l&#x27;entrée de la séquence.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#5eme-8">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Qu'est-ce que l'intelligence artificielle ?</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Comprendre l'IA au quotidien</h4>
+            <p>L'intelligence artificielle est un programme informatique capable d'<strong>apprendre</strong> et de <strong>s'adapter</strong> à partir de données, sans être reprogrammé à chaque fois.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Exemples d'IA dans la vie courante :</strong>
+          <ul>
+            <li><strong>Reconnaissance vocale</strong> : Siri, Alexa, Google Assistant</li>
+            <li><strong>Recommandations</strong> : YouTube, Netflix, Spotify (suggestions personnalisées)</li>
+            <li><strong>Reconnaissance d'image</strong> : déverrouillage facial, Google Lens</li>
+            <li><strong>Traduction automatique</strong> : Google Traduction, DeepL</li>
+            <li><strong>Voiture autonome</strong> : capteurs + IA pour conduire sans humain</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Pour chaque situation, indique si c'est de l'IA ou de la programmation classique :</p>
+        <table>
+          <thead><tr><th>Situation</th><th>IA ou Programme classique ?</th></tr></thead>
+          <tbody>
+            <tr><td>Un feu de circulation qui passe du vert au rouge toutes les 30 secondes</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Un assistant vocal qui comprend ta question et te répond</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Un thermostat qui apprend tes habitudes et ajuste la température</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Une calculatrice qui additionne deux nombres</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Un filtre Instagram qui détecte ton visage et ajoute des effets</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Cite 2 avantages et 2 risques de l'IA :</p>
+        <table>
+          <thead><tr><th style="width:50%">Avantages</th><th>Risques</th></tr></thead>
+          <tbody>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">1. </td><td style="border-bottom: 1px dotted var(--gray-300);">1. </td></tr>
+            <tr><td style="border-bottom: 1px dotted var(--gray-300);">2. </td><td style="border-bottom: 1px dotted var(--gray-300);">2. </td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Les objets connectés (IoT)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Comprendre le fonctionnement d'un objet connecté</h4>
+            <p>Un objet connecté (IoT = Internet of Things) est un objet relié à internet qui échange des données.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Le fonctionnement d'un objet connecté :</strong><br>
+          <strong>Capteur</strong> (mesure) &#x2192; <strong>Microcontrôleur</strong> (traite) &#x2192; <strong>Communication</strong> (Wi-Fi/Bluetooth) &#x2192; <strong>Application/Cloud</strong> (affiche/stocke)
+        </div>
+
+        <p><strong>Pour chaque objet connecté, complète le tableau :</strong></p>
+        <table>
+          <thead><tr><th>Objet connecté</th><th>Capteur</th><th>Donnée transmise</th><th>Utilité</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Montre connectée</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Thermostat connecté</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Caméra de surveillance</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Réparabilité et durabilité</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">3</div>
+          <div class="activity-step-content">
+            <h4>L'indice de réparabilité</h4>
+            <p>Depuis 2021 en France, certains produits électroniques affichent un <strong>indice de réparabilité</strong> sur 10. Plus le score est élevé, plus l'objet est facile à réparer.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les 5 critères de l'indice de réparabilité :</strong>
+          <ol>
+            <li><strong>Documentation</strong> : le fabricant fournit-il des guides de réparation ?</li>
+            <li><strong>Démontabilité</strong> : peut-on ouvrir et démonter l'objet facilement ?</li>
+            <li><strong>Disponibilité des pièces</strong> : trouve-t-on facilement les pièces de rechange ?</li>
+            <li><strong>Prix des pièces</strong> : les pièces sont-elles abordables ?</li>
+            <li><strong>Critères spécifiques</strong> : mises à jour logicielles, résistance, etc.</li>
+          </ol>
+        </div>
+
+        <p><strong>a)</strong> Pourquoi est-il important de réparer plutôt que de jeter ? Cite 3 raisons.</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 60px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>b)</strong> Compare deux smartphones avec des indices de réparabilité différents. Lequel choisirais-tu ? Justifie.</p>
+        <table>
+          <thead><tr><th>Critère</th><th>Smartphone A (indice 3.5/10)</th><th>Smartphone B (indice 8.2/10)</th></tr></thead>
+          <tbody>
+            <tr><td>Batterie</td><td>Collée, non remplaçable</td><td>Amovible, remplaçable</td></tr>
+            <tr><td>Écran</td><td>Pièce chère, peu disponible</td><td>Pièce abordable et disponible</td></tr>
+            <tr><td>Guide de réparation</td><td>Non fourni</td><td>Disponible en ligne</td></tr>
+          </tbody>
+        </table>
+        <p><strong>Mon choix :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>intelligence artificielle, apprendre, objets connectés, capteurs, internet, réparabilité, durée de vie</em></p>
+        </div>
+
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          L'........................ est un programme capable d'........................ à partir de données (reconnaissance vocale, recommandations...).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Les ........................ utilisent des ........................ et sont reliés à ........................ pour échanger des données.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          L'indice de ........................ nous aide à choisir des objets plus faciles à réparer pour allonger leur ........................ et protéger l'environnement.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

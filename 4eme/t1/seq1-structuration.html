@@ -1,100 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Séq. 1 — Structuration | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Structuration"}]'
-    data-print-title="4ème — Séquence 1 : Structuration des connaissances"
-    data-print-subtitle="Analyse fonctionnelle · Technologie LFT">
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1</span>
-        <h1>Structuration — Analyse fonctionnelle d'un système automatisé</h1>
-        <p class="page-description">&#x1F4D8; Ce que je dois retenir de la séquence 1.</p>
-      </div>
-      <div class="page-actions no-print">
-        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
-        <a href="seq1-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Le système automatisé</h2>
-        <div class="info-box info-box-green">
-          <div class="info-box-title">À retenir</div>
-          Un <strong>système automatisé</strong> fonctionne sans intervention humaine permanente grâce à 3 éléments : <strong>capteurs</strong> (acquérir), <strong>traitement</strong> (décider), <strong>actionneurs</strong> (agir).
-        </div>
-        <table>
-          <thead><tr><th>Élément</th><th>Rôle</th><th>Exemples (tourniquet ZKTeco)</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Capteur</strong></td><td>Acquérir des informations de l'environnement</td><td>Lecteur de badge/QR code, détecteur de passage</td></tr>
-            <tr><td><strong>Traitement</strong></td><td>Analyser et décider de l'action</td><td>Carte électronique embarquée</td></tr>
-            <tr><td><strong>Actionneur</strong></td><td>Effectuer une action physique</td><td>Moteur (rotation bras), verrou électromagnétique</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; Les outils de l'analyse fonctionnelle</h2>
-        <h3>La bête à cornes</h3>
-        <table>
-          <thead><tr><th>Question</th><th>Ce qu'on cherche</th><th>Exemple : tourniquet</th></tr></thead>
-          <tbody>
-            <tr><td><strong>À qui rend-il service ?</strong></td><td>L'utilisateur principal</td><td>Utilisateurs autorisés + responsable sécurité</td></tr>
-            <tr><td><strong>Sur quoi agit-il ?</strong></td><td>La matière d'oeuvre</td><td>Le flux de personnes entrant/sortant</td></tr>
-            <tr><td><strong>Dans quel but ?</strong></td><td>La fonction globale</td><td>Contrôler et sécuriser l'accès</td></tr>
-          </tbody>
-        </table>
-
-        <h3>Le diagramme pieuvre</h3>
-        <div class="info-box info-box-blue">
-          <div class="info-box-title">À retenir</div>
-          <strong>FP (Fonction Principale)</strong> : raison d'être du système, relie 2 éléments du milieu extérieur.<br>
-          <strong>FC (Fonction de Contrainte)</strong> : contrainte imposée par l'environnement (normes, résistance, esthétique...).
-        </div>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4CC; L'algorithme et l'organigramme</h2>
-        <div class="info-box info-box-green">
-          <div class="info-box-title">À retenir</div>
-          Un <strong>algorithme</strong> est une suite ordonnée d'instructions pour décrire le fonctionnement d'un système. On le représente par un <strong>organigramme</strong>.
-        </div>
-        <table>
-          <thead><tr><th>Symbole</th><th>Forme</th><th>Signification</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Début / Fin</strong></td><td>Ovale</td><td>Début ou fin de l'algorithme</td></tr>
-            <tr><td><strong>Action</strong></td><td>Rectangle</td><td>Instruction à exécuter (traitement)</td></tr>
-            <tr><td><strong>Test / Condition</strong></td><td>Losange</td><td>Question Oui/Non (décision)</td></tr>
-            <tr><td><strong>Flèche</strong></td><td>Ligne fléchée</td><td>Sens du déroulement</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4DA; Vocabulaire essentiel</h2>
-        <div class="info-box info-box-orange">
-          <div class="info-box-title">Mots clés de la séquence</div>
-          <ul>
-            <li><strong>Système automatisé</strong> : fonctionne sans intervention humaine permanente</li>
-            <li><strong>Capteur</strong> : composant qui mesure/détecte une grandeur physique</li>
-            <li><strong>Actionneur</strong> : composant qui produit une action (mouvement, son, lumière)</li>
-            <li><strong>Analyse fonctionnelle</strong> : méthode d'identification des fonctions d'un système</li>
-            <li><strong>Bête à cornes</strong> : outil d'expression du besoin</li>
-            <li><strong>Diagramme pieuvre</strong> : outil d'identification des fonctions de service</li>
-            <li><strong>Algorithme</strong> : suite ordonnée d'instructions</li>
-            <li><strong>Organigramme</strong> : représentation graphique d'un algorithme</li>
-          </ul>
-        </div>
-      </div>
-    </main>
-  </div>
-  <script src="../../js/components.js"></script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p1/seq1-structuration.html">
+<link rel="canonical" href="../p1/seq1-structuration.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p1/seq1-structuration.html">Continuer vers la nouvelle page</a></p>
+</body></html>

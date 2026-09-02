@@ -1,103 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 1 : Analyse fonctionnelle | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 1"},{"label":"Quiz"}]'>
-
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
-        <h1>Quiz — Analyse fonctionnelle d'un système automatisé</h1>
-        <p class="page-description">Teste tes connaissances sur les systèmes automatisés, la bête à cornes et l'organigramme.</p>
-      </div>
-      <div class="page-actions no-print">
-        <a href="seq1-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
-      </div>
-      <div class="quiz-container" id="quiz-container"></div>
-    </main>
-  </div>
-
-  <script src="../../js/components.js"></script>
-  <script src="../../js/quiz-engine.js"></script>
-  <script>
-    const questions = [
-      {
-        type: 'qcm',
-        question: 'Quels sont les 3 éléments d\'un système automatisé ?',
-        options: ['Moteur, batterie, câble', 'Capteur, traitement, actionneur', 'Écran, clavier, souris', 'Entrée, mémoire, sortie'],
-        correct: 1,
-        explanation: 'Un système automatisé fonctionne grâce à 3 éléments : les capteurs (acquérir), le traitement (décider) et les actionneurs (agir).'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un système automatisé nécessite une intervention humaine permanente pour fonctionner.',
-        correct: false,
-        explanation: 'Un système automatisé fonctionne SANS intervention humaine permanente. C\'est ce qui le distingue d\'un système manuel.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans le tourniquet ZKTeco, quel est le rôle du lecteur de badge ?',
-        options: ['Actionneur : il fait tourner les bras', 'Capteur : il acquiert l\'information d\'identification', 'Traitement : il décide si la personne peut passer', 'Interface : il affiche un message'],
-        correct: 1,
-        explanation: 'Le lecteur de badge est un capteur : il acquiert l\'information (identité de la personne) et la transmet au système de traitement.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans la bête à cornes, la question « À qui rend-il service ? » permet d\'identifier...',
-        options: ['La fonction principale', 'L\'utilisateur principal', 'Le prix du système', 'Les matériaux utilisés'],
-        correct: 1,
-        explanation: 'La question « À qui rend-il service ? » identifie l\'utilisateur principal du système (pour le tourniquet : les utilisateurs autorisés et le responsable sécurité).'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Une fonction de contrainte (FC) relie deux éléments du milieu extérieur.',
-        correct: false,
-        explanation: 'C\'est la Fonction Principale (FP) qui relie deux éléments du milieu extérieur. La Fonction de Contrainte (FC) est imposée par l\'environnement (normes, résistance, esthétique...).'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans un organigramme, quelle forme représente un test ou une condition ?',
-        options: ['Un rectangle', 'Un ovale', 'Un losange', 'Un cercle'],
-        correct: 2,
-        explanation: 'Le losange représente un test ou une condition (question Oui/Non). Le rectangle représente une action, et l\'ovale le début ou la fin.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel est le matériau principal du tourniquet ZKTeco ?',
-        options: ['Aluminium', 'Plastique renforcé', 'Acier inoxydable', 'Bois composite'],
-        correct: 2,
-        explanation: 'Le tourniquet est fabriqué en acier inoxydable, un matériau robuste et durable, adapté à un usage intensif et aux conditions extérieures.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Le diagramme pieuvre sert à identifier les fonctions de service d\'un système.',
-        correct: true,
-        explanation: 'Le diagramme pieuvre permet d\'identifier la fonction principale (FP) et les fonctions de contrainte (FC) d\'un système technique.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans l\'organigramme du tourniquet, que se passe-t-il si le badge n\'est PAS valide ?',
-        options: ['Le bras tourne à droite', 'Le bras tourne à gauche', 'Le système s\'éteint', 'La porte reste verrouillée'],
-        correct: 3,
-        explanation: 'Si le badge n\'est pas valide, la porte reste verrouillée et le système retourne au début (attente d\'un nouveau badge).'
-      },
-      {
-        type: 'qcm',
-        question: 'Quelle est la fonction principale du tourniquet ZKTeco ?',
-        options: ['Décorer l\'entrée d\'un bâtiment', 'Compter le nombre de visiteurs', 'Contrôler et sécuriser l\'accès à un lieu', 'Remplacer un gardien de sécurité'],
-        correct: 2,
-        explanation: 'La fonction principale du tourniquet est de contrôler et sécuriser l\'accès à un lieu en laissant passer une personne à la fois.'
-      }
-    ];
-
-    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
-  </script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p1/seq1-quiz.html">
+<link rel="canonical" href="../p1/seq1-quiz.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p1/seq1-quiz.html">Continuer vers la nouvelle page</a></p>
+</body></html>

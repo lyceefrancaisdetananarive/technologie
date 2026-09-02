@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rendre les travaux avec PRONOTE | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="outils"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Outils","url":"index.html"},{"label":"Rendre les travaux"}]'
+    data-print-title="Rendre les travaux avec PRONOTE"
+    data-print-subtitle="Mise en place · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge">&#x1F4E4; Outils</span>
+        <h1>Rendre les travaux avec PRONOTE</h1>
+        <p class="page-description">Comment les élèves déposent leur travail, et comment le
+        mettre en place en quinze minutes.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="qrcodes.html" class="btn btn-outline">&#x1F4F1; Planche de QR codes</a>
+        <a href="../enseignant/index.html" class="btn btn-outline">&#x1F4DA; Espace enseignant</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AF; Pourquoi PRONOTE plutôt qu'autre chose</h2>
+        <p>Vingt-huit solutions ont été comparées avant d'arrêter ce choix. PRONOTE l'emporte pour
+        une raison qui n'est pas technique : <strong>c'est la seule qui ne crée aucune dette de
+        conformité</strong>. Aucun nouveau responsable de traitement, aucun nouveau transfert de
+        données, aucune famille à réinformer, et les élèves ont déjà leurs identifiants.</p>
+        <table>
+          <tbody>
+            <tr><td style="width:26%"><strong>Coût</strong></td><td>Nul. PRONOTE est déjà payé par l'établissement.</td></tr>
+            <tr><td><strong>Pour l'élève</strong></td><td>Un seul identifiant, celui qu'il utilise déjà. Le dépôt peut se faire par photo depuis l'application mobile.</td></tr>
+            <tr><td><strong>Pour l'enseignant</strong></td><td>Le paramétrage se fait dans le cahier de textes, un geste déjà connu.</td></tr>
+            <tr><td><strong>En bas débit</strong></td><td>Le site reste consultable et imprimable même quand PRONOTE est injoignable. PRONOTE n'est sollicité que le temps du dépôt.</td></tr>
+            <tr><td><strong>Réversibilité</strong></td><td>Les contenus pédagogiques restent dans le dépôt Git, en format ouvert, propriété de l'équipe.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2699; Mise en place, séance par séance</h2>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Ouvrir la fiche professeur de la séquence</h4>
+            <p>Chaque fiche contient une section <strong>Cahier de texte Pronote</strong> avec un
+            texte prêt à copier-coller par séance, et le travail à faire correspondant.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Créer le travail à faire dans le cahier de textes</h4>
+            <p>Coller le texte de la séance, puis le travail à faire. Cocher le mode de rendu
+            <strong>« à déposer dans l'Espace Élèves »</strong> : c'est ce réglage, et lui seul,
+            qui fait apparaître le bouton de dépôt chez l'élève.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Donner le code de l'activité</h4>
+            <p>Coller dans le travail à faire le lien direct de l'activité, ou projeter son QR
+            code. Les codes se lisent ainsi : niveau, numéro de séquence, puis type de document.
+            <strong>43A</strong> est l'activité de la séquence 3 de 4<sup>ème</sup>.
+            La planche complète est <a href="qrcodes.html">ici</a>.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">4</div>
+          <div class="activity-step-content">
+            <h4>Récupérer les copies</h4>
+            <p>Les dépôts arrivent dans le cahier de textes, à la ligne du travail concerné. Ils
+            peuvent être téléchargés groupés pour la classe entière.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Quatre vérifications à faire avant de lancer</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">À traiter dans les quinze premiers jours</div>
+          Ces quatre points n'ont pas encore été vérifiés sur l'installation de l'établissement.
+          Le deuxième est le seul risque réel du dispositif.
+        </div>
+        <table>
+          <thead><tr><th style="width:34%">Vérification</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Le mode de rendu « à déposer dans l'Espace Élèves » est-il activé pour les professeurs de Technologie ?</strong></td>
+              <td>Sans ce droit, le bouton de dépôt n'apparaît pas chez l'élève. À voir avec le référent PRONOTE.</td>
+            </tr>
+            <tr>
+              <td><strong>Le téléchargement groupé des rendus en <code>.zip</code> fonctionne-t-il ?</strong></td>
+              <td>C'est le seul vrai risque du scénario. À tester sur une classe pilote avant de généraliser : sans lui, la correction d'une classe entière devient pénible.</td>
+            </tr>
+            <tr>
+              <td><strong>L'usage est-il inscrit au registre des traitements de l'établissement ?</strong></td>
+              <td>Vérifier que l'analyse d'impact existante couvre bien la remise de travaux d'élèves.</td>
+            </tr>
+            <tr>
+              <td><strong>La convention de codes est-elle figée ?</strong></td>
+              <td>Une fois les QR codes imprimés et collés dans les cahiers, les codes ne doivent plus changer.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F504; Solutions de repli</h2>
+        <p>À déployer <strong>si</strong> le téléchargement groupé s'avère absent ou inutilisable,
+        <strong>ou</strong> si les fichiers volumineux — modèles 3D, vidéos de prototypes —
+        saturent PRONOTE.</p>
+        <table>
+          <thead><tr><th style="width:26%">Solution</th><th>Usage</th><th>Point de vigilance</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Quizinière</strong><br><span class="text-sm text-muted">Réseau Canopé</span></td>
+              <td>Évaluation formative et sommative courte. Lien, code et QR code ; <strong>aucun compte élève</strong>. Opérateur public français.</td>
+              <td>Les copies sont anonymisées automatiquement en fin d'année scolaire.</td>
+            </tr>
+            <tr>
+              <td><strong>Nuage</strong><br><span class="text-sm text-muted">apps.education.fr</span></td>
+              <td>Dossier de dépôt pour les fichiers lourds. Le lien de dépôt ne nécessite aucun compte, et le déposant ne voit pas les fichiers des autres.</td>
+              <td>L'éligibilité des personnels AEFE à apps.education.fr reste à vérifier.</td>
+            </tr>
+            <tr>
+              <td><strong>Nextcloud hébergé dans l'Union européenne</strong></td>
+              <td>Repli du repli, si l'accès à apps.education.fr est refusé. À la charge de l'établissement.</td>
+              <td>Nécessite une décision de la direction et une inscription au registre.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x26A0; Le mode dégradé n'est pas un repli, c'est le mode normal</h2>
+        <div class="info-box info-box-blue">
+          Coupures de courant et connexion intermittente sont la règle, pas l'exception. Toute
+          activité doit rester <strong>imprimable sans perte</strong>, et le rendu doit rester
+          possible sur papier. La trace écrite existe en A4 avant d'exister en ligne.
+          Un élève qui rend sa feuille en main propre a rendu son travail.
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+</body>
+</html>

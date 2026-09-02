@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 2 : Algorithme | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P1 — Séquence 2"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 1 · Quiz</span>
+        <h1>Quiz — Algorithme et logique de programmation</h1>
+        <p class="page-description">Teste tes connaissances sur les algorithmes, organigrammes et pseudo-code.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/42Q.svg" alt="QR code 42Q">
+          <div>
+            <div class="lien-code">42Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=42Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Qu\'est-ce qu\'un algorithme ?',
+        options: ['Un programme informatique', 'Une suite ordonnée d\'instructions', 'Un schéma électrique', 'Un type de robot'],
+        correct: 1,
+        explanation: 'Un algorithme est une suite ordonnée d\'instructions qui permet de résoudre un problème ou de décrire le fonctionnement d\'un système.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un organigramme, quelle forme représente une action ?',
+        options: ['Un ovale', 'Un losange', 'Un rectangle', 'Un triangle'],
+        correct: 2,
+        explanation: 'Le rectangle représente une action (instruction à exécuter). L\'ovale = début/fin. Le losange = test/condition.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un losange dans un organigramme représente le début ou la fin.',
+        correct: false,
+        explanation: 'Le losange représente un test (question Oui/Non). C\'est l\'ovale qui représente le début ou la fin de l\'algorithme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel mot-clé du pseudo-code permet de faire un choix ?',
+        options: ['DÉBUT', 'LIRE', 'SI... ALORS... SINON', 'AFFICHER'],
+        correct: 2,
+        explanation: 'SI... ALORS... SINON permet d\'exécuter différentes instructions selon le résultat d\'un test (branchement conditionnel).'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un feu tricolore classique (sans capteur) utilise un branchement conditionnel.',
+        correct: false,
+        explanation: 'Un feu tricolore classique suit un cycle fixe (boucle simple) : Vert → Orange → Rouge → Vert... Il n\'a pas de test ni de condition.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans l\'organigramme du tourniquet, "Badge valide ?" est représenté par...',
+        options: ['Un rectangle (action)', 'Un ovale (début/fin)', 'Un losange (test)', 'Une flèche'],
+        correct: 2,
+        explanation: '"Badge valide ?" est une question Oui/Non, donc c\'est un test représenté par un losange dans l\'organigramme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre une boucle et un branchement ?',
+        options: ['Il n\'y a pas de différence', 'Une boucle répète, un branchement choisit', 'Un branchement répète, une boucle choisit', 'Les deux sont des actions'],
+        correct: 1,
+        explanation: 'Une boucle répète une séquence d\'instructions. Un branchement conditionnel choisit entre deux chemins selon un test.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le pseudo-code s\'écrit en langage informatique (Python, JavaScript...).',
+        correct: false,
+        explanation: 'Le pseudo-code s\'écrit en français simplifié. C\'est un langage intermédiaire entre le langage naturel et le langage informatique.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie "LIRE" en pseudo-code ?',
+        options: ['Afficher un texte à l\'écran', 'Récupérer une information (capteur, saisie)', 'Supprimer une donnée', 'Terminer le programme'],
+        correct: 1,
+        explanation: '"LIRE" signifie récupérer une information depuis un capteur ou une saisie utilisateur.'
+      },
+      {
+        type: 'qcm',
+        question: 'Combien de symboles de base utilise un organigramme ?',
+        options: ['2 (rectangle et losange)', '3 (ovale, rectangle, losange)', '4 (ovale, rectangle, losange, flèche)', '5 ou plus'],
+        correct: 2,
+        explanation: 'Un organigramme utilise 4 symboles de base : l\'ovale (début/fin), le rectangle (action), le losange (test) et la flèche (sens du déroulement).'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

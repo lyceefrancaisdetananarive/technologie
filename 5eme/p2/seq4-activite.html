@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Structure interne des objets techniques | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"P2 — Séquence 4"},{"label":"Fiche activité"}]'
+    data-print-title="5ème — Séquence 4 : Fiche Activité Élève"
+    data-print-subtitle="Structure interne des objets techniques · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Période 2</span>
+        <h1>Séquence 4 — Structure interne des objets techniques</h1>
+        <p class="page-description">
+          De quoi sont composés les objets techniques ? Comment identifier leurs composants, matériaux et sources d'énergie ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/54A.svg" alt="QR code 54A">
+          <div>
+            <div class="lien-code">54A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=54A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <!-- Métadonnées -->
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>5ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Structure, fonctionnement, comportement</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Décrire l'organisation interne et les échanges</span>
+                <span class="competence-badge">Identifier un dysfonctionnement</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Situation déclenchante -->
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Un vélo qui ne freine plus !</strong><br>
+          Tu roules à vélo et soudain, les freins ne répondent plus. Pour comprendre ce qui ne fonctionne pas, il faut d'abord connaître la <strong>structure interne</strong> de l'objet : ses composants, ses matériaux et comment ils sont assemblés.
+        </div>
+        <p><strong>Problématique :</strong> Comment décrire la structure interne d'un objet technique pour comprendre son fonctionnement ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/156433-time-lapse-demontage-piano-4e5/?is_iframe=true" loading="lazy" allowfullscreen title="Time Lapse - démontage piano - 4e5"></iframe><p style="margin:.6rem 0 .2rem"><strong>Time Lapse - démontage piano - 4e5</strong> — 00:00:40 · PodEduc (aucune chaîne indiquée sur la fiche)</p><p class="vid-licence">Auteur : Estelle Lechardeur. Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/156433-time-lapse-demontage-piano-4e5/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> VÉRIFIÉ LE 02/09/2026 : page en ligne, titre et durée 00:00:40 conformes, auteur Estelle Lechardeur confirmé — mais la mention « (classe de 4e5) » portée au champ auteur du relevé initial n&#x27;est pas sur la page, elle vient du titre : auteur corrigé. AUCUNE CHAÎNE, AUCUNE DESCRIPTION, AUCUNE LICENCE AFFICHÉE ; la fiche indique seulement « cette vidéo a été téléversée sur Pod ; son origine est Fichier vidéo ». Le contenu n&#x27;est donc garanti que par son titre : VISIONNAGE PRÉALABLE OBLIGATOIRE. Un time lapse est en principe sans parole, mais la page ne le dit pas : à confirmer au visionnage plutôt qu&#x27;à supposer. Le piano n&#x27;est pas la trottinette de l&#x27;activité 1 : le professeur devra faire le pont. Fiche récente et peu vue, donc peu éprouvée. Intégration par iframe seulement, aucun téléchargement proposé.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#5eme-4">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Décomposer un objet technique</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Observe la trottinette électrique ci-dessous</h4>
+            <p>Identifie ses principaux composants et complète le tableau.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les principaux composants d'une trottinette électrique :</strong>
+          <ul>
+            <li>Plateau (deck) — structure principale</li>
+            <li>Roues (avant et arrière) — déplacement</li>
+            <li>Moteur électrique — propulsion</li>
+            <li>Batterie lithium — stockage d'énergie</li>
+            <li>Frein (à disque ou électromagnétique) — arrêt</li>
+            <li>Guidon + poignées — direction</li>
+            <li>Contrôleur électronique — gestion du moteur</li>
+            <li>Éclairage LED — sécurité</li>
+          </ul>
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>Composant</th><th>Fonction technique</th><th>Matériau principal</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Plateau (deck)</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Roues</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Moteur</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Batterie</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Frein</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Guidon</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Matériaux et propriétés</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Les familles de matériaux</h4>
+            <p>Classe chaque matériau dans la bonne famille, puis indique une propriété importante.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les 4 grandes familles de matériaux :</strong>
+          <ul>
+            <li><strong>Métaux</strong> — Acier, aluminium, cuivre, fer...</li>
+            <li><strong>Plastiques (organiques)</strong> — PVC, polypropylène, ABS, silicone...</li>
+            <li><strong>Céramiques / verres</strong> — Verre, porcelaine, béton...</li>
+            <li><strong>Matériaux composites</strong> — Fibre de carbone, fibre de verre...</li>
+          </ul>
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>Matériau</th><th>Famille</th><th>Propriété principale</th><th>Exemple d'utilisation</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Aluminium</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>ABS (plastique)</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Caoutchouc</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Fibre de carbone</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Acier</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Verre</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="activity-step" style="margin-top: var(--space-lg);">
+          <div class="activity-step-number" style="background: var(--color-5eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Pourquoi choisir un matériau plutôt qu'un autre ?</h4>
+            <p>Pour chaque situation, indique quel matériau tu choisirais et pourquoi.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Le cadre d'un vélo de compétition (il doit être très léger et résistant) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>b)</strong> La coque d'un smartphone (il doit résister aux chocs et être esthétique) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>c)</strong> Les pneus d'une voiture (ils doivent adhérer à la route et absorber les chocs) :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Sources et chaînes d'énergie</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">4</div>
+          <div class="activity-step-content">
+            <h4>D'où vient l'énergie ?</h4>
+            <p>Complète le tableau en identifiant la source d'énergie et le type de conversion pour chaque objet.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Rappel :</strong> La <strong>chaîne d'énergie</strong> décrit le parcours de l'énergie dans un objet technique : <em>source d'énergie &#x2192; conversion &#x2192; transmission &#x2192; action</em>.
+        </div>
+
+        <table>
+          <thead>
+            <tr><th>Objet</th><th>Source d'énergie</th><th>Convertisseur</th><th>Action réalisée</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><strong>Trottinette électrique</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Vélo classique</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Lampe de poche</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Moulin à vent</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+            <tr>
+              <td><strong>Panneau solaire</strong></td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+              <td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="activity-step" style="margin-top: var(--space-lg);">
+          <div class="activity-step-number" style="background: var(--color-5eme);">5</div>
+          <div class="activity-step-content">
+            <h4>Schématise la chaîne d'énergie</h4>
+            <p>Complète la chaîne d'énergie de la trottinette électrique en plaçant les bons mots dans les cases.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-orange">
+          <strong>Mots à placer :</strong> Batterie lithium · Moteur électrique · Courroie/engrenage · Roue arrière tourne
+        </div>
+
+        <div style="display: flex; gap: var(--space-md); align-items: center; flex-wrap: wrap; margin: var(--space-lg) 0; justify-content: center;">
+          <div style="min-width: 120px; padding: var(--space-md); border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); text-align:center; background: var(--gray-50);">
+            <span style="font-size:0.75rem; color:var(--gray-400);">SOURCE</span><br>
+            <span style="color:var(--gray-300);">............</span>
+          </div>
+          <span style="font-size:1.5rem; color:var(--color-5eme);">&#x2192;</span>
+          <div style="min-width: 120px; padding: var(--space-md); border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); text-align:center; background: var(--gray-50);">
+            <span style="font-size:0.75rem; color:var(--gray-400);">CONVERTIR</span><br>
+            <span style="color:var(--gray-300);">............</span>
+          </div>
+          <span style="font-size:1.5rem; color:var(--color-5eme);">&#x2192;</span>
+          <div style="min-width: 120px; padding: var(--space-md); border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); text-align:center; background: var(--gray-50);">
+            <span style="font-size:0.75rem; color:var(--gray-400);">TRANSMETTRE</span><br>
+            <span style="color:var(--gray-300);">............</span>
+          </div>
+          <span style="font-size:1.5rem; color:var(--color-5eme);">&#x2192;</span>
+          <div style="min-width: 120px; padding: var(--space-md); border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); text-align:center; background: var(--gray-50);">
+            <span style="font-size:0.75rem; color:var(--gray-400);">ACTION</span><br>
+            <span style="color:var(--gray-300);">............</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète la synthèse avec les mots suivants : <em>composants, matériaux, énergie, fonction technique, chaîne d'énergie, convertisseur, familles</em></p>
+        </div>
+
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un objet technique est composé de plusieurs ........................ . Chaque composant a une ........................ (ce qu'il fait dans l'objet).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Les composants sont fabriqués avec différents ........................ . On classe les matériaux en 4 grandes ........................ : métaux, plastiques, céramiques/verres et composites.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Pour fonctionner, un objet technique a besoin d'........................ . La ........................ décrit le parcours de l'énergie : source &#x2192; ........................ &#x2192; transmission &#x2192; action.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

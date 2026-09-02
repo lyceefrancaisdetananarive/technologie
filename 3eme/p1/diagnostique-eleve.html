@@ -1,0 +1,186 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Diagnostique 3ème — élève</title><style>
+@page { size: A4 portrait; margin: 16mm 15mm 18mm 15mm; }
+* { box-sizing: border-box; }
+body {
+  font-family: 'Inter', -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+  font-size: 14pt; line-height: 1.5; color: #000; background: #fff;
+  margin: 0; padding: 16mm 15mm;
+}
+.doc { max-width: 180mm; margin: 0 auto; }
+
+.entete {
+  border-bottom: 3px solid #000; padding-bottom: 8px; margin-bottom: 14px;
+  display: flex; justify-content: space-between; align-items: flex-end; gap: 12px;
+}
+.entete .etab { font-size: 10pt; line-height: 1.3; }
+.entete .etab strong { display: block; font-size: 11pt; }
+.entete .niv {
+  font-size: 22pt; font-weight: 800; border: 3px solid #000;
+  padding: 2px 12px; white-space: nowrap;
+}
+h1 { font-size: 17pt; margin: 0 0 4px; line-height: 1.2; }
+.sous-titre { font-size: 11pt; margin: 0 0 12px; }
+
+.identite {
+  border: 2px solid #000; padding: 8px 10px; margin-bottom: 14px;
+  font-size: 12pt; line-height: 1.9; white-space: pre-line;
+}
+.mot {
+  border-left: 5px solid #000; padding: 8px 0 8px 12px; margin-bottom: 16px;
+  font-size: 12.5pt; white-space: pre-line;
+}
+
+.partie { margin-top: 20px; break-inside: avoid; }
+.partie-titre {
+  background: #000; color: #fff; padding: 5px 10px;
+  font-size: 13pt; font-weight: 700; margin-bottom: 4px;
+}
+.partie-duree { font-size: 10pt; margin-bottom: 10px; }
+
+.item { margin-bottom: 16px; break-inside: avoid; }
+.item-num {
+  display: inline-block; min-width: 30px; font-weight: 800; font-size: 14pt;
+}
+.enonce { white-space: pre-line; margin-bottom: 6px; }
+.support { margin: 8px 0; white-space: pre-line; font-size: 13pt; }
+.support-encadre { border: 1.5px solid #000; padding: 8px 10px; margin: 8px 0; }
+
+table.doc-t { border-collapse: collapse; width: 100%; margin: 8px 0; font-size: 13pt; }
+table.doc-t th, table.doc-t td { border: 1.2px solid #000; padding: 7px 8px; text-align: left; }
+table.doc-t th { font-weight: 700; }
+table.doc-t td.vide { height: 30px; }
+
+ul.props { list-style: none; margin: 6px 0; padding: 0; }
+ul.props li { margin: 5px 0; }
+ul.props li::before {
+  content: ''; display: inline-block; width: 13px; height: 13px;
+  border: 1.5px solid #000; margin-right: 9px; vertical-align: -1px;
+}
+.lignes { margin-top: 6px; }
+.lignes div { border-bottom: 1px dotted #000; height: 26px; }
+svg.fig { display: block; margin: 10px auto; max-width: 100%; height: auto; }
+.fab { font-size: 11pt; }
+.fab li { margin-bottom: 6px; }
+
+.pied {
+  margin-top: 22px; border-top: 1.5px solid #000; padding-top: 6px;
+  font-size: 9.5pt; display: flex; justify-content: space-between;
+}
+.saut { break-before: page; page-break-before: always; }
+
+/* --- Livret professeur --- */
+.bloc { border: 1.5px solid #000; padding: 10px 12px; margin-bottom: 14px; break-inside: avoid; }
+.bloc h2 { font-size: 13pt; margin: 0 0 8px; border-bottom: 1.5px solid #000; padding-bottom: 4px; }
+.bloc h3 { font-size: 12pt; margin: 12px 0 4px; }
+.bloc p, .bloc li { font-size: 12pt; }
+.corrige { border-left: 5px solid #000; padding-left: 12px; margin: 6px 0 14px; }
+.corrige .lab {
+  font-size: 9.5pt; font-weight: 700; letter-spacing: .06em; text-transform: uppercase;
+}
+.meta { font-size: 10.5pt; margin-top: 4px; }
+table.grille { border-collapse: collapse; width: 100%; font-size: 9.5pt; margin-top: 8px; }
+table.grille th, table.grille td { border: 1px solid #000; padding: 3px 4px; text-align: center; }
+table.grille th.nom, table.grille td.nom { text-align: left; width: 42mm; }
+table.grille td.case { height: 20px; }
+.paysage { break-before: page; page-break-before: always; }
+
+@media screen {
+  body { background: #EEF2F6; padding: 24px 12px; }
+  .doc { background: #fff; padding: 20mm 16mm; box-shadow: 0 2px 14px rgba(0,0,0,.16); }
+  .rappel-impression {
+    max-width: 180mm; margin: 0 auto 16px; background: #fff; border: 2px solid #000;
+    padding: 10px 14px; font-size: 11pt;
+  }
+}
+@media print { .rappel-impression { display: none; } body { padding: 0; } }
+</style></head><body><div class='rappel-impression'>Document prêt à photocopier. Impression A4, recto-verso, noir et blanc, corps 14. La <strong>Feuille B</strong> est en dernière page : la photocopier à part, la distribuer après le ramassage, et ne jamais la rendre.</div>
+<div class="doc"><div class="entete">
+  <div class="etab"><strong>Lycée Français de Tananarive</strong>
+  Ambatobe, Antananarivo — Réseau AEFE<br>Technologie — Année scolaire 2026-2027</div>
+  <div class="niv">3ème</div>
+</div>
+<h1>Ce que tu sais déjà</h1>
+<p class="sous-titre">Évaluation diagnostique de rentrée — ce travail n&#x27;est pas noté</p><div class='identite'>Nom : ..................................... Prénom : ..................................... Classe : 3ème ..... Date : ...... / ...... / 2026
+Ce travail n&#x27;est pas noté. Il ne compte pas dans ta moyenne.</div><div class='mot'>Bienvenue en 3ème.
+Ce travail n&#x27;est pas un contrôle : il n&#x27;est pas noté, il ne compte pas dans ta moyenne, et il ne sera pas rendu avec une note.
+Il me sert, à moi ton professeur, à savoir ce que tu sais déjà faire et ce que nous allons travailler ensemble cette année.
+Réponds seul, calmement, avec tes propres mots. L&#x27;orthographe n&#x27;est pas prise en compte.
+Si tu n&#x27;arrives pas à répondre à une question, passe à la suivante. Tu reviendras après si tu as le temps. Si tu ne sais pas, écris « je ne sais pas » : c&#x27;est une vraie réponse, ce n&#x27;est pas une faute.
+Tu as environ trente-huit minutes. Je t&#x27;annoncerai le temps qui reste à chaque nouvelle partie. Si tu ne finis pas, ce n&#x27;est pas grave.</div><div class='partie'><div class='partie-titre'>Partie 1 — À quoi sert un objet ? (analyse fonctionnelle et cahier des charges)</div><div class='partie-duree'>Durée indicative : 8 minutes</div></div><div class='item'><span class='item-num'>1.</span><span class='enonce'>On installe un cadenas à code sur la porte du magasin de matériel de l&#x27;école. Parmi les quatre phrases ci-dessous, une seule exprime le BESOIN auquel ce cadenas répond. Entoure la lettre de cette phrase.</span><ul class='props'><li>A. Il est fabriqué en acier.</li><li>B. Il empêche une personne non autorisée d&#x27;ouvrir la porte.</li><li>C. Il coûte 25 000 ariary.</li><li>D. Il est de forme ronde.</li></ul></div><div class='item'><span class='item-num'>2.</span><span class='enonce'>Voici quatre phrases écrites au sujet du même cadenas à code. Relie chaque phrase (1 à 4) à l&#x27;étiquette qui lui convient (A à D). Chaque étiquette est utilisée une seule fois. Écris tes réponses ainsi : 1 → …  2 → …  3 → …  4 → …
+Phrase 1 : « Le cadenas doit empêcher l&#x27;ouverture de la porte par une personne non autorisée. »
+Phrase 2 : « Le cadenas doit coûter moins de 30 000 ariary. »
+Phrase 3 : « Nombre de chiffres du code. »
+Phrase 4 : « Au moins 4 chiffres. »</span><ul class='props'><li>Étiquette A : une fonction de service (ce que l&#x27;objet doit faire)</li><li>Étiquette B : une contrainte (une limite que l&#x27;objet doit respecter)</li><li>Étiquette C : un critère (ce que l&#x27;on mesure pour vérifier)</li><li>Étiquette D : un niveau (la valeur attendue pour ce critère)</li></ul></div><div class='item'><span class='item-num'>3.</span><span class='enonce'>En une seule phrase, explique à quoi sert un cahier des charges quand on va concevoir un objet technique. Écris avec tes propres mots.
+........................................................................................
+........................................................................................</span><div class='lignes'><div></div><div></div></div></div><div class='item'><span class='item-num'>4.</span><span class='enonce'>Pour chacune des trois phrases, entoure VRAI ou FAUX. Écris tes réponses ainsi : a) …  b) …  c) …
+a) Le cahier des charges est écrit avant de fabriquer l&#x27;objet.  VRAI / FAUX
+b) Le cahier des charges indique ce que l&#x27;objet doit faire.  VRAI / FAUX
+c) Le cahier des charges impose la matière et la forme de l&#x27;objet.  VRAI / FAUX</span><div class='lignes'><div></div><div></div></div></div><div class='partie'><div class='partie-titre'>Partie 2 — Comment fonctionne un objet ? (chaîne d&#x27;énergie et chaîne d&#x27;information)</div><div class='partie-duree'>Durée indicative : 6 minutes</div></div><div class='item'><span class='item-num'>5.</span><span class='enonce'>Un lampadaire solaire éclaire la cour d&#x27;une école. Il s&#x27;allume tout seul quand la nuit arrive. Voici six éléments qui le composent. Écris le NUMÉRO de chaque élément dans la bonne colonne du tableau. Il y a trois numéros dans chaque colonne.
+1. le panneau solaire
+2. le capteur de luminosité
+3. la batterie
+4. la carte électronique programmée
+5. la lampe LED
+6. le petit écran qui affiche le niveau de charge de la batterie</span><table class='doc-t'><thead><tr><th>CHAÎNE D&#x27;ÉNERGIE (l&#x27;électricité circule)</th><th>CHAÎNE D&#x27;INFORMATION (l&#x27;information circule)</th></tr></thead><tbody><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr><tr><td class='vide'></td><td class='vide'></td></tr></tbody></table></div><div class='item'><span class='item-num'>6.</span><span class='enonce'>Le portail motorisé de l&#x27;entrée du lycée s&#x27;ouvre automatiquement. Un moteur électrique fait coulisser le portail. Dans ce système, ce moteur est : entoure la bonne lettre.</span><ul class='props'><li>A. un capteur</li><li>B. un actionneur</li><li>C. une unité de traitement</li><li>D. une information</li></ul></div><div class='item'><span class='item-num'>7.</span><span class='enonce'>Voici trois objets : un téléphone mobile — une porte de magasin qui s&#x27;ouvre toute seule quand une personne s&#x27;approche — une balance électronique du marché.
+Choisis UN seul de ces trois objets. Cite un capteur de cet objet, puis indique quelle information ce capteur capte.
+Écris ta réponse ainsi : « Objet : … / Capteur : … / Information captée : … »
+........................................................................................</span><div class='lignes'><div></div><div></div></div></div><div class='item'><span class='item-num'>8.</span><span class='enonce'>Une école possède une citerne (grand réservoir d&#x27;eau). Quand le niveau de l&#x27;eau descend trop bas, une sonnerie prévient le gardien. Voici la chaîne d&#x27;information de ce système. Écris dans chaque case le NUMÉRO de l&#x27;élément qui convient. Chaque numéro est utilisé une seule fois.
+1. la sonnerie
+2. la carte électronique programmée
+3. le capteur de niveau d&#x27;eau</span><svg class="fig" viewBox="0 0 600 145" style="width:145mm" xmlns="http://www.w3.org/2000/svg" role="img"><defs><marker id="fl" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="70" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="110" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">ACQUÉRIR</text><rect x="260" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="300" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">TRAITER</text><rect x="450" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="490" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">COMMUNIQUER</text><line x1="150" y1="60" x2="258" y2="60" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#fl)"/><line x1="340" y1="60" x2="448" y2="60" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#fl)"/></svg></div><div class='partie'><div class='partie-titre'>Partie 3 — Lire un programme (suite d&#x27;instructions, condition, organigramme)</div><div class='partie-duree'>Durée indicative : 8 minutes</div></div><div class='item'><span class='item-num'>9.</span><span class='enonce'>Un lampadaire solaire est piloté par le programme ci-dessous. Le capteur mesure la luminosité : il donne un nombre entier compris entre 0 (nuit noire) et 100 (plein soleil). Il est 13 heures, le soleil est fort : le capteur donne 80. Que fait la lampe ? Entoure la bonne lettre.</span><div class='support-encadre'>Programme du lampadaire :
+
+  RÉPÉTER INDÉFINIMENT
+      SI luminosité &lt; 30 ALORS
+            allumer la lampe
+      SINON
+            éteindre la lampe
+      FIN SI
+  FIN RÉPÉTER</div><ul class='props'><li>A. Elle s&#x27;allume.</li><li>B. Elle reste éteinte.</li><li>C. Elle clignote.</li><li>D. On ne peut pas le savoir avec ce programme.</li></ul></div><div class='item'><span class='item-num'>10.</span><span class='enonce'>On veut maintenant que la lampe s&#x27;allume aussi lorsque la luminosité vaut exactement 30. Recopie la ligne du programme qu&#x27;il faut modifier, puis écris la ligne corrigée.
+Ligne à modifier : ......................................................................
+Ligne corrigée : ........................................................................</span><div class='support-encadre'>Rappel du programme (le même qu&#x27;à la question 9) :
+
+  RÉPÉTER INDÉFINIMENT
+      SI luminosité &lt; 30 ALORS
+            allumer la lampe
+      SINON
+            éteindre la lampe
+      FIN SI
+  FIN RÉPÉTER</div><div class='lignes'><div></div><div></div></div></div><div class='item'><span class='item-num'>11.</span><span class='enonce'>Voici quatre formes utilisées dans un organigramme. Relie chaque forme (1 à 4) à son rôle (A à D). Chaque rôle est utilisé une seule fois. Écris tes réponses ainsi : 1 → …  2 → …  3 → …  4 → …</span><ul class='props'><li>Rôle A : poser une question, tester une condition (la réponse est oui ou non)</li><li>Rôle B : effectuer une action</li><li>Rôle C : marquer le début ou la fin de l&#x27;organigramme</li><li>Rôle D : indiquer l&#x27;ordre dans lequel on parcourt l&#x27;organigramme</li></ul></div><div class='item'><span class='item-num'>12.</span><span class='enonce'>Pour chacune des trois phrases ci-dessous, entoure VRAI ou FAUX. Écris tes réponses ainsi : a) …  b) …  c) …
+a) Une boucle « répéter indéfiniment » exécute les instructions qu&#x27;elle contient une seule fois.  VRAI / FAUX
+b) Dans un bloc « SI … ALORS … SINON … », une seule des deux parties est exécutée à chaque passage.  VRAI / FAUX
+c) Une variable est une case mémoire dont la valeur peut changer pendant l&#x27;exécution du programme.  VRAI / FAUX</span><div class='lignes'><div></div><div></div></div></div><div class='partie'><div class='partie-titre'>Partie 4 — Posture d&#x27;examen : lire un document technique et justifier</div><div class='partie-duree'>Durée indicative : 10 minutes</div></div><div class='item'><span class='item-num'>13.</span><span class='enonce'>Lis le Document 1, imprimé sur la feuille jointe. Il servira aussi pour les questions 14 et 15.
+Question : combien de lampes peut-on brancher en même temps sur ce kit solaire ? Recopie ensuite la ligne du document qui t&#x27;a permis de répondre.
+Réponse : ..............................................................................
+Ligne du document : ....................................................................</span><div class='support-encadre'>DOCUMENT 1 — Notice simplifiée d&#x27;un kit solaire domestique « Masoandro 30 » (document pédagogique)
+
+Puissance du panneau solaire ......................... 30 W
+Tension de sortie ................................... 12 V
+Batterie ............................................ 12 V — 18 Ah
+Durée de charge complète au soleil .................. 7 heures
+Sorties disponibles ................................. 3 prises pour lampes de 3 W + 1 prise USB 5 V
+Autonomie annoncée avec les 3 lampes allumées ....... 8 heures
+Température de fonctionnement ....................... de 0 °C à 45 °C
+Poids du kit complet ................................ 4,2 kg
+Garantie ............................................ 2 ans
+
+Deux mots du document :
+Autonomie : durée pendant laquelle le kit peut faire fonctionner les lampes sans être rechargé.
+Durée de charge complète : temps de soleil nécessaire pour remplir complètement la batterie.</div><div class='lignes'><div></div><div></div><div></div></div></div><div class='item'><span class='item-num'>14.</span><span class='enonce'>Une famille veut éclairer trois pièces avec ce kit, tous les soirs, de 18 h à 22 h, soit 4 heures par soir. Nous sommes en saison sèche : le ciel est dégagé, le panneau reçoit le soleil toute la journée.
+Ce kit convient-il ? Réponds d&#x27;abord par OUI ou NON, puis justifie ta réponse avec une donnée chiffrée du Document 1. Écris deux lignes au maximum.
+........................................................................................
+........................................................................................</span><div class='lignes'><div></div><div></div><div></div></div></div><div class='item'><span class='item-num'>15.</span><span class='enonce'>Pendant la saison des pluies, le ciel reste couvert : le panneau ne reçoit un bon soleil que 4 heures par jour. Explique pourquoi, dans ces conditions, la batterie risque de ne pas être complètement chargée. Ta réponse doit contenir une donnée chiffrée du Document 1.
+........................................................................................
+........................................................................................</span><div class='lignes'><div></div><div></div><div></div></div></div><div class='partie'><div class='partie-titre'>Partie 5 — Organiser un projet</div><div class='partie-duree'>Durée indicative : 2 minutes</div></div><div class='item'><span class='item-num'>16.</span><span class='enonce'>Dans un projet de groupe, un élève est chargé de tenir le planning. En une phrase, explique à quoi sert un planning dans un projet.
+........................................................................................
+........................................................................................</span><div class='lignes'><div></div><div></div></div></div><div class="pied"><span>Diagnostique 3ème — feuille élève — 38 min</span>
+<span>Lycée Français de Tananarive — Technologie — 2026-2027</span></div><div class='saut'></div><div class="entete">
+  <div class="etab"><strong>Lycée Français de Tananarive</strong>
+  Ambatobe, Antananarivo — Réseau AEFE<br>Technologie — Année scolaire 2026-2027</div>
+  <div class="niv">3ème</div>
+</div>
+<h1>Feuille B — Toi, le projet et les outils de travail (cette feuille n&#x27;est pas notée et ne sera pas rendue)</h1>
+<p class="sous-titre">À remettre séparément — ne sera pas rendue</p><div class='mot'>Cette page n&#x27;est pas notée et ne sera pas rendue. Elle me sert à composer les groupes de projet et à préparer les séances sur ordinateur. Personne d&#x27;autre que ton professeur ne la lit. Il n&#x27;y a pas de bonne réponse : réponds honnêtement, cela m&#x27;aide à préparer l&#x27;année.
+Nom : .....................................  Classe : 3ème .....</div><div class="pied"><span>Feuille B — non notée, non rendue, conservée à part</span>
+<span>Lycée Français de Tananarive — Technologie — 2026-2027</span></div></div></body></html>

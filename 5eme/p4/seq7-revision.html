@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Révision — Séq. 7 : Modélisation 3D | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"P4 — Séquence 7"},{"label":"Révision"}]'
+    data-print-title="FICHE DE RÉVISION — Séquence 7 : Modélisation 3D"
+    data-print-subtitle="5ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Période 4 · Révision</span>
+        <h1>Révision — Séquence 7</h1>
+        <p class="page-description">Modélisation 3D — Les notions clés</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+        <a href="seq7-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/57R.svg" alt="QR code 57R">
+          <div>
+            <div class="lien-code">57R</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=57R</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Vocabulaire essentiel</h2>
+        <table>
+          <thead><tr><th style="width:30%">Mot</th><th>Définition</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Modélisation 3D</strong></td><td>Représentation numérique d'un objet en trois dimensions (longueur, largeur, hauteur).</td></tr>
+            <tr><td><strong>CAO</strong></td><td>Conception Assistée par Ordinateur : logiciel pour dessiner des pièces en 3D.</td></tr>
+            <tr><td><strong>Volume</strong></td><td>Forme pleine dans l'espace : cube, cylindre, sphère, etc.</td></tr>
+            <tr><td><strong>Esquisse</strong></td><td>Dessin 2D de base utilisé pour créer un volume 3D (extrusion, révolution).</td></tr>
+            <tr><td><strong>Impression 3D</strong></td><td>Fabrication d'un objet physique couche par couche à partir d'un modèle numérique.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Ce qu'il faut retenir</h2>
+        <div class="info-box info-box-blue">
+          <strong>Processus de modélisation :</strong> Esquisse 2D → Volume 3D → Modifications (trous, chanfreins) → Export pour fabrication.
+        </div>
+        <ul>
+          <li>Un logiciel de CAO (TinkerCAD, BlocksCAD, OnShape) permet de concevoir des objets en 3D.</li>
+          <li>On part toujours d'une <strong>esquisse 2D</strong> que l'on transforme en volume (extrusion).</li>
+          <li>Les <strong>cotes</strong> (dimensions) doivent être précises pour que l'objet soit fabriquable.</li>
+          <li>Le fichier 3D est exporté en <strong>STL</strong> pour l'impression 3D.</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Je vérifie mes connaissances</h2>
+        <ol>
+          <li>Qu'est-ce que la CAO ? Cite un logiciel de CAO.</li>
+          <li>Quelles sont les étapes pour passer d'une idée à un objet imprimé en 3D ?</li>
+          <li>Pourquoi les cotes sont-elles importantes en modélisation ?</li>
+          <li>Quel format de fichier utilise-t-on pour l'impression 3D ?</li>
+        </ol>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

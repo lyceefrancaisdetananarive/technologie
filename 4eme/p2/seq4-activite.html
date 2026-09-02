@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 4 — Cahier des charges et documentation technique | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P2 — Séquence 4"},{"label":"Fiche activité"}]'
+    data-print-title="4ème — Séquence 4 : Fiche Activité Élève"
+    data-print-subtitle="Cahier des charges et documentation technique · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 2</span>
+        <h1>Séquence 4 — Cahier des charges et documentation technique</h1>
+        <p class="page-description">
+          Comment rédiger un cahier des charges ? Comment lire et produire des documents techniques (dessin de définition, nomenclature) ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq4-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq4-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/44A.svg" alt="QR code 44A">
+          <div>
+            <div class="lien-code">44A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=44A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>4ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 2 — Conception et modélisation</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Rédiger un cahier des charges</span>
+                <span class="competence-badge">Lire et produire un document technique</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>On veut concevoir un feu tricolore de signalisation pour une maquette de carrefour. Avant de le fabriquer, il faut :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li>Définir ce qu'on attend de l'objet (cahier des charges)</li>
+            <li>Produire les documents techniques pour le réaliser</li>
+          </ul>
+        </div>
+        <p><strong>Problématique :</strong> Quels documents faut-il préparer avant de fabriquer un objet technique ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/13858-feu-de-carrefour-avec-feu-pieton-technologie-collegemp4/?is_iframe=true" loading="lazy" allowfullscreen title="feu de carrefour avec feu pieton technologie college.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>feu de carrefour avec feu pieton technologie college.mp4</strong> — 00:00:19 · PodEduc</p><p class="vid-licence">Auteur : Philippe Perennes, professeur de technologie et formateur académique (collège Le Clos Tardif, Saint-James, académie de Normandie). Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/13858-feu-de-carrefour-avec-feu-pieton-technologie-collegemp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> POINT DE VIGILANCE JURIDIQUE : la fiche comporte bien une section « Téléchargements », MAIS AUCUNE LICENCE n&#x27;y est affichée. Le téléchargement technique ne vaut pas autorisation de réhéberger : mode d&#x27;emploi retenu, intégration par iframe uniquement. La fiche ne porte pas non plus de description de la vidéo ; le contenu annoncé n&#x27;a donc pas pu être confirmé par les métadonnées et doit être visionné avant la séance. Dix-neuf secondes suffisent à peine à voir un cycle complet — prévoir de relancer. Même vidéo que celle proposée en séquence 5 : ne la dépenser qu&#x27;une fois.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#4eme-4">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Rédiger le cahier des charges du feu tricolore (30 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Le cahier des charges fonctionnel (CdCF)</h4>
+            <p>Le cahier des charges définit les <strong>besoins</strong> et les <strong>contraintes</strong> d'un objet technique avant sa conception.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Complète le cahier des charges du feu tricolore :</p>
+        <table>
+          <thead><tr><th style="width:35%">Rubrique</th><th>Réponse</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Besoin / Fonction principale</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Utilisateur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Matériaux possibles</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dimensions maximales</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Alimentation</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Nombre de LEDs</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Couleurs</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Contraintes de sécurité</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Identifie les fonctions de contrainte (FC) du feu tricolore :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Le dessin de définition (30 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Lire et compléter un dessin technique</h4>
+            <p>Le <strong>dessin de définition</strong> représente une pièce avec ses dimensions exactes, ses formes et ses tolérances.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Éléments d'un dessin de définition :</strong>
+          <ul style="margin-top:0.5rem;">
+            <li><strong>Vues</strong> : face, dessus, droite (projection orthogonale)</li>
+            <li><strong>Cotation</strong> : dimensions en mm avec flèches</li>
+            <li><strong>Cartouche</strong> : nom de la pièce, échelle, matériau, auteur</li>
+            <li><strong>Traits</strong> : continu fort (arêtes visibles), interrompu (arêtes cachées), mixte fin (axes)</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Complète le cartouche du boîtier du feu tricolore :</p>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Nom de la pièce</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Matériau</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Échelle</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dessiné par</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Date</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Dessine la vue de face du boîtier du feu tricolore (forme rectangulaire avec 3 trous circulaires pour les LEDs). Ajoute les cotes.</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 180px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — La nomenclature (20 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Lister toutes les pièces d'un ensemble</h4>
+            <p>La <strong>nomenclature</strong> est la liste complète de toutes les pièces qui composent un objet, avec leur quantité, matériau et désignation.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Complète la nomenclature du feu tricolore :</p>
+        <table>
+          <thead><tr><th style="width:10%">Rep.</th><th style="width:10%">Nb</th><th>Désignation</th><th>Matériau</th><th>Observation</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>Boîtier</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>2</td><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Acier ou PVC</td><td>Support vertical</td></tr>
+            <tr><td>3</td><td>1</td><td>LED rouge</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>5mm</td></tr>
+            <tr><td>4</td><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>5mm</td></tr>
+            <tr><td>5</td><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>5mm</td></tr>
+            <tr><td>6</td><td>3</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>220 Ω</td></tr>
+            <tr><td>7</td><td>1</td><td>Carte Arduino / Micro:bit</td><td>—</td><td>Commande</td></tr>
+            <tr><td>8</td><td>1</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>—</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <p><strong>b)</strong> Pourquoi la nomenclature est-elle indispensable avant la fabrication ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 40px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>cahier des charges, besoins, contraintes, dessin de définition, cotation, cartouche, nomenclature, pièces</em></p>
+        </div>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ définit les ........................ et les ........................ d'un objet avant sa conception.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Le ........................ représente une pièce avec ses dimensions exactes (........................) et un ........................ (informations).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          La ........................ liste toutes les ........................ d'un ensemble avec leur quantité et matériau.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

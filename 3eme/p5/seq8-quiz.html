@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Quiz | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P5 — Séquence 8"},{"label":"Quiz"}]'
+    data-print-title="3ème — Séquence 8 : Quiz"
+    data-print-subtitle="Quiz · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 5 · Quiz</span>
+        <h1>Séquence 8 — Projet Smart Object — de la conception au prototype</h1>
+        <p class="page-description">16 questions pour vérifier tes acquis, avec correction immédiate.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-structuration.html" class="btn btn-outline">&#x1F4D8; Revoir le cours</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/38Q.svg" alt="QR code 38Q">
+          <div>
+            <div class="lien-code">38Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=38Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quels sont les trois blocs d\'un Smart Object, dans l\'ordre du fonctionnement ?',
+        options: ['L\'actionneur, puis le capteur, puis le microcontrôleur', 'Le capteur, puis le microcontrôleur, puis l\'actionneur', 'Le microcontrôleur, puis l\'actionneur, puis le capteur', 'Le capteur, puis l\'actionneur, puis le microcontrôleur'],
+        correct: 1,
+        explanation: 'Le capteur mesure une grandeur physique. Le microcontrôleur compare cette mesure à un seuil et décide. L\'actionneur agit sur le monde réel. Un quatrième élément, l\'alimentation par port USB ou par bloc de piles, fournit l\'énergie à l\'ensemble.'
+      },
+      {
+        type: 'qcm',
+        question: 'Parmi ces quatre fonctions de service, laquelle le professeur accepte-t-il dans le cahier des charges ?',
+        options: ['L\'objet doit prévenir rapidement quand la citerne se vide', 'L\'objet doit être joli et facile à porter', 'L\'objet doit sonner dès que la hauteur d\'eau est inférieure à 20 cm', 'L\'objet doit consommer peu d\'énergie'],
+        correct: 2,
+        explanation: 'Une fonction de service porte toujours un critère de performance chiffré, avec son unité. « Inférieure à 20 cm » se mesure à la règle graduée, donc l\'essai de la séance 4 est possible. « Rapidement », « joli » et « peu » ne sont pas des nombres : une fonction qui ne peut pas se mesurer ne peut pas se valider.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une fonction de service qui ne peut pas être mesurée peut quand même être déclarée conforme lors des essais de la séance 4.',
+        correct: false,
+        explanation: 'Faux. Sans valeur chiffrée, il n\'existe aucune manière de faire l\'essai, donc aucune valeur mesurée à écrire dans la fiche d\'essai, donc aucune conclusion possible. C\'est pourquoi le professeur refuse dès la séance 1 toute fonction non mesurable.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un critère chiffré comme « fonctionner 2 heures sur piles » est utilisable tel quel dans ce projet.',
+        correct: false,
+        explanation: 'Faux. Le critère est chiffré, mais l\'essai ne tient pas dans une séance de 1h30 : on ne peut donc rien écrire dans la colonne « valeur mesurée ». Il faut le réécrire sous une forme vérifiable en classe, par exemple « l\'objet continue de fonctionner quand le câble USB est débranché, pendant au moins 30 minutes d\'essai ».'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi place-t-on une résistance de 220 ohms en série avec chaque LED ?',
+        options: ['Pour limiter le courant qui traverse la LED et l\'empêcher d\'être détruite', 'Pour augmenter la luminosité de la LED', 'Pour transformer la LED en capteur de lumière', 'Pour alimenter la LED en 220 volts'],
+        correct: 0,
+        explanation: 'La résistance limite le courant. Sans elle, le courant est trop fort et la LED est détruite. Elle se place en série, c\'est-à-dire coupée dans le fil lui-même, et jamais en parallèle. Attention à ne pas confondre 220 ohms, qui est une résistance, et 220 volts, qui est la tension du réseau électrique et n\'a aucune place dans un montage d\'élève.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une mini-pompe 5 V peut être branchée directement sur une broche de la carte, à condition que le programme soit correct.',
+        correct: false,
+        explanation: 'Faux, et c\'est une règle sans exception. Une broche de carte ne fournit qu\'un courant très faible : la pompe ne tournerait pas et la carte serait détruite. La pompe passe toujours par un organe de commande, ici un module relais, et elle est alimentée par son propre bloc de piles. Le relais est un interrupteur commandé : il sépare le circuit de commande, en 5 V, du circuit de puissance.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Dans ce projet, un montage d\'élève peut être alimenté par le réseau électrique 220 V si le professeur a vérifié le câblage.',
+        correct: false,
+        explanation: 'Faux. Aucun montage d\'élève n\'approche le secteur 220 V, quelles que soient les vérifications faites. Tout reste en très basse tension : l\'alimentation vient du port USB ou d\'un bloc de piles, et de rien d\'autre. Aucune activité du projet ne demande de mesurer ni de toucher le courant du réseau.'
+      },
+      {
+        type: 'qcm',
+        question: 'Où se branche le bloc de piles qui alimente la carte Arduino ?',
+        options: ['Sur la broche +5V et sur la broche GND', 'Sur la prise d\'alimentation de la carte', 'Sur deux broches numériques, par exemple D7 et D8', 'Sur les rails de la plaque d\'essai'],
+        correct: 1,
+        explanation: 'Le bloc de piles se branche sur la prise d\'alimentation de la carte, et jamais sur la broche +5V. La broche +5V est une sortie de la carte, pas une entrée : c\'est le régulateur de la carte qui fabrique le 5 V à partir de la tension des piles, puis alimente les rails de la plaque d\'essai.'
+      },
+      {
+        type: 'qcm',
+        question: 'Sur un schéma de câblage, que signifient les étiquettes « GND » et « D7 » ?',
+        options: ['GND est la masse, D7 est une tension de 7 volts', 'GND est le nom du capteur, D7 est le nom de l\'actionneur', 'GND est la masse, c\'est-à-dire le retour commun du courant ; D7 est la broche numérique 7 de la carte', 'GND est l\'alimentation 5 volts, D7 est la durée en secondes'],
+        correct: 2,
+        explanation: 'Trois étiquettes suffisent sur un schéma : « +5V » pour l\'alimentation en 5 volts, « GND » pour la masse, et « D7 », « D8 » ou « A0 » pour le numéro de la broche qui porte le signal. Ces étiquettes sont écrites, ce qui permet de lire le schéma en noir et blanc.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Sur le dessin du schéma de câblage, on peut remplacer les étiquettes écrites par des fils tracés en rouge et en noir.',
+        correct: false,
+        explanation: 'Faux. Le schéma se lit entièrement en noir et blanc : l\'information est portée par une étiquette écrite, jamais par une couleur. Le fil rouge pour le +5 V et le fil noir pour la masse sont une règle de câblage du montage réel, utile pour repérer rapidement une erreur d\'alimentation. Cette règle ne remplace pas les étiquettes du dessin.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un organigramme, que représente le losange, et combien de flèches en sortent ?',
+        options: ['Un calcul, avec une seule flèche de sortie', 'Un test, avec deux flèches de sortie, l\'une marquée « oui », l\'autre marquée « non »', 'Le début du programme, avec une seule flèche de sortie', 'Une entrée ou une sortie, avec deux flèches marquées « avant » et « après »'],
+        correct: 1,
+        explanation: 'Quatre symboles seulement sont autorisés : l\'ovale pour le début et la fin, le parallélogramme pour une entrée ou une sortie, le rectangle pour un calcul, le losange pour un test. Du losange sortent toujours deux flèches. Un losange sans sortie « non » rend l\'organigramme faux : le chemin s\'arrête.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un capteur ultrason est fixé sous le couvercle d\'une citerne de 30 cm de hauteur. Il mesure une distance de 12 cm jusqu\'à la surface de l\'eau. Quelle est la hauteur d\'eau ?',
+        options: ['12 cm', '30 cm', '42 cm', '18 cm'],
+        correct: 3,
+        explanation: 'Hauteur d\'eau égale 30 moins 12, soit 18 cm. Le capteur ne mesure pas la hauteur d\'eau : il mesure la distance entre le couvercle et la surface. Le calcul est indispensable. Sans lui, le test porterait sur la distance, et l\'alerte se déclencherait au moment où la citerne est pleine, c\'est-à-dire exactement à l\'envers.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la méthode imposée pour mettre au point le programme, et pourquoi ?',
+        options: ['Écrire le programme entier, puis le téléverser une seule fois à la fin, pour gagner du temps', 'Avancer par blocs et tester chaque bloc avant d\'écrire le suivant, pour savoir dans quel bloc se trouve une panne', 'Recopier le programme d\'un autre groupe, puis changer le seuil', 'Téléverser sans lire le programme, puis corriger au hasard jusqu\'à ce que cela fonctionne'],
+        correct: 1,
+        explanation: 'Bloc 1 : lire le capteur et afficher la valeur. Bloc 2 : comparer la valeur au seuil. Bloc 3 : commander l\'actionneur. On teste après chaque bloc et on sauvegarde sur le poste et sur la clé USB. Un programme écrit en une seule fois qui ne fonctionne pas ne se dépanne pas en une séance.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La valeur du seuil écrite dans le programme peut être différente du critère de performance écrit dans le cahier des charges.',
+        correct: false,
+        explanation: 'Faux. Le seuil du programme est exactement le critère de performance chiffré du cahier des charges. C\'est le seul point que le professeur vérifie pour chaque groupe en séance 2. Si les deux valeurs diffèrent, l\'objet ne fait pas ce qu\'il annonce, et la fonction ne peut pas être déclarée conforme lors des essais.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pourquoi ajoute-t-on un jeu de 2 mm à chaque dimension intérieure du boîtier, et comment se dessine une cote ?',
+        options: ['Pour que les composants entrent sans forcer ; une cote est une ligne fine à deux flèches, avec la valeur en millimètres écrite au-dessus', 'Pour économiser de la matière ; une cote est une flèche unique portant la valeur en centimètres', 'Pour rendre la boîte plus solide ; une cote est un trait de couleur qui entoure la pièce', 'Pour respecter le budget en ariary ; une cote est un nombre écrit dans un coin de la feuille'],
+        correct: 0,
+        explanation: 'Le jeu est l\'espace en plus qui permet de poser les composants sans forcer. Sans lui, la plaque d\'essai et la carte n\'entrent pas, ou entrent en écrasant les fils. Une cote est une ligne fine terminée par une flèche à chaque extrémité, avec la valeur écrite au-dessus, toujours en millimètres. Les percements sont hachurés au crayon, jamais coloriés.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelles sont les quatre colonnes de la fiche d\'essai remplie en séance 4 ?',
+        options: ['Le nom de l\'élève, la date, la note, la signature', 'Le composant utilisé, son prix en ariary, son fournisseur, sa durée de vie', 'Ce qui est attendu, la manière de faire l\'essai, la valeur mesurée, la conclusion conforme ou non conforme', 'Le besoin, l\'utilisateur visé, le budget, les dimensions du boîtier'],
+        correct: 2,
+        explanation: 'Une ligne par fonction de service et quatre colonnes. La colonne « ce qui est attendu » reprend la valeur chiffrée du cahier des charges. La manière de faire l\'essai est écrite assez précisément pour qu\'une autre personne le refasse à l\'identique. Une fonction non conforme n\'est pas un échec : on écrit la cause, on apporte une correction, puis on refait l\'essai et on consigne le second résultat.'
+      }
+    ];
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

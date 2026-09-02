@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 5 : Programmation avancée | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P3 — Séquence 5"},{"label":"Quiz"}]'>
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 3 · Quiz</span>
+        <h1>Quiz — Programmation avancée</h1>
+        <p class="page-description">Teste tes connaissances sur la programmation avancée, les variables et les opérateurs logiques.</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/35Q.svg" alt="QR code 35Q">
+          <div>
+            <div class="lien-code">35Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=35Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quel est le résultat de VRAI ET FAUX ?',
+        options: ['VRAI', 'FAUX', 'ERREUR', 'PEUT-ÊTRE'],
+        correct: 1,
+        explanation: 'L\'opérateur ET nécessite que les DEUX conditions soient VRAIES. Si l\'une est FAUX, le résultat est FAUX.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel est le résultat de FAUX OU VRAI ?',
+        options: ['FAUX', 'VRAI', 'ERREUR', 'NUL'],
+        correct: 1,
+        explanation: 'L\'opérateur OU donne VRAI si AU MOINS UNE des conditions est VRAIE. Ici, la seconde est VRAIE, donc le résultat est VRAI.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une variable ne peut stocker qu\'un seul type de valeur (nombre OU texte).',
+        correct: false,
+        explanation: 'En mBlock/Scratch, une variable peut stocker aussi bien un nombre qu\'un texte. En revanche, dans les langages typés comme Arduino C++, il faut déclarer le type.'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie « conditions imbriquées » ?',
+        options: ['Des conditions qui s\'excluent', 'Des conditions placées les unes dans les autres (SI...SINON SI)', 'Des conditions identiques', 'Des conditions qui s\'annulent'],
+        correct: 1,
+        explanation: 'Des conditions imbriquées sont des structures SI...SINON SI...SINON qui permettent de tester plusieurs cas successivement.'
+      },
+      {
+        type: 'qcm',
+        question: 'Pour compter le nombre de tours d\'un robot, on utilise...',
+        options: ['Un capteur', 'Une variable qui s\'incrémente', 'Un actionneur', 'Le buzzer'],
+        correct: 1,
+        explanation: 'On utilise une variable (ex : tours ← tours + 1) qui augmente de 1 à chaque tour détecté par le capteur.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'L\'opérateur NON inverse une condition : NON(VRAI) = FAUX.',
+        correct: true,
+        explanation: 'L\'opérateur NON (NOT) inverse la valeur logique : NON(VRAI) = FAUX et NON(FAUX) = VRAI.'
+      },
+      {
+        type: 'qcm',
+        question: 'Déboguer un programme signifie...',
+        options: ['Supprimer le programme', 'Identifier et corriger les erreurs', 'Ajouter des bugs', 'Réécrire tout le programme'],
+        correct: 1,
+        explanation: 'Déboguer consiste à identifier les erreurs (bugs) dans un programme et à les corriger pour qu\'il fonctionne comme prévu.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la condition « SI distance < 15 ET ligne = détectée », le robot agit si...',
+        options: ['L\'obstacle est proche seulement', 'La ligne est détectée seulement', 'L\'obstacle est proche ET la ligne est détectée', 'L\'une OU l\'autre condition est vraie'],
+        correct: 2,
+        explanation: 'Avec l\'opérateur ET, les DEUX conditions doivent être vraies simultanément pour que le robot exécute l\'action.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Il faut toujours écrire le pseudo-code avant de programmer en blocs.',
+        correct: true,
+        explanation: 'Écrire le pseudo-code d\'abord permet de réfléchir à la logique de l\'algorithme avant de se concentrer sur la syntaxe des blocs. C\'est une bonne pratique de développement.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle structure utiliser pour répéter une action un nombre précis de fois ?',
+        options: ['SI...ALORS', 'RÉPÉTER indéfiniment', 'RÉPÉTER N fois', 'ET/OU'],
+        correct: 2,
+        explanation: 'La boucle « RÉPÉTER N fois » exécute le bloc d\'instructions exactement N fois, contrairement à « RÉPÉTER indéfiniment » qui ne s\'arrête jamais.'
+      }
+    ];
+
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

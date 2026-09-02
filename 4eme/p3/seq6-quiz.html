@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — Séq. 6 : Programmation Arduino | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 6"},{"label":"Quiz"}]'
+    data-print-title="QUIZ — Séquence 6 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3 · Quiz</span>
+        <h1>Quiz — Séquence 6</h1>
+        <p class="page-description">Programmation Arduino — Teste tes connaissances !</p>
+      </div>
+      <div class="page-actions no-print">
+        <a href="seq6-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
+        <a href="seq6-structuration.html" class="btn btn-outline">&#x1F4D8; Structuration</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/46Q.svg" alt="QR code 46Q">
+          <div>
+            <div class="lien-code">46Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=46Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="content-card">
+        <div id="quiz-container"></div>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quel est le rôle de la fonction setup() dans un programme Arduino ?',
+        options: ['Répéter le programme en boucle', 'Initialiser les pins et démarrer la communication', 'Mesurer la distance', 'Allumer une LED'],
+        correct: 1,
+        explanation: 'setup() s\'exécute une seule fois au démarrage pour initialiser les pins (INPUT/OUTPUT) et démarrer le moniteur série.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle instruction permet d\'allumer une LED connectée à la pin 13 ?',
+        options: ['analogRead(13)', 'digitalWrite(13, HIGH)', 'digitalRead(13)', 'pinMode(13, OUTPUT)'],
+        correct: 1,
+        explanation: 'digitalWrite(13, HIGH) met la pin 13 à 5V (état haut), ce qui allume la LED.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une entrée analogique peut lire des valeurs de 0 à 1023.',
+        correct: true,
+        explanation: 'Les pins analogiques (A0-A5) convertissent un signal analogique en une valeur numérique de 0 à 1023 (résolution 10 bits).'
+      },
+      {
+        type: 'qcm',
+        question: 'Que fait l\'instruction delay(2000) ?',
+        options: ['Met la pin 2000 en sortie', 'Attend 2 secondes', 'Attend 2 millisecondes', 'Lit la pin 2000'],
+        correct: 1,
+        explanation: 'delay() met le programme en pause. La valeur est en millisecondes : 2000 ms = 2 secondes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel capteur permet de mesurer une distance ?',
+        options: ['DHT11', 'HC-SR04 (ultrason)', 'LDR (photorésistance)', 'Bouton poussoir'],
+        correct: 1,
+        explanation: 'Le capteur ultrason HC-SR04 mesure la distance en envoyant un signal sonore et en mesurant le temps de retour.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un bouton poussoir est un actionneur.',
+        correct: false,
+        explanation: 'Un bouton poussoir est un capteur (entrée). Il envoie un signal 0 ou 1 à l\'Arduino. Un actionneur est un composant de sortie (LED, moteur, buzzer).'
+      },
+      {
+        type: 'qcm',
+        question: 'Que signifie PWM ?',
+        options: ['Power Wave Modulator', 'Pulse Width Modulation', 'Pin Width Management', 'Programmable Wireless Module'],
+        correct: 1,
+        explanation: 'PWM = Pulse Width Modulation (modulation de largeur d\'impulsion). Cela simule un signal analogique en sortie pour varier la luminosité ou la vitesse.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La fonction loop() s\'exécute une seule fois puis s\'arrête.',
+        correct: false,
+        explanation: 'loop() s\'exécute en boucle indéfiniment tant que l\'Arduino est alimenté. C\'est la boucle principale du programme.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle instruction permet de lire la valeur d\'un capteur branché sur A0 ?',
+        options: ['digitalRead(A0)', 'analogWrite(A0)', 'analogRead(A0)', 'Serial.read(A0)'],
+        correct: 2,
+        explanation: 'analogRead(A0) lit la valeur analogique du capteur branché sur la pin A0 (valeur de 0 à 1023).'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans une condition if (distance < 15), que se passe-t-il si distance vaut 20 ?',
+        options: ['Le bloc if est exécuté', 'Le bloc else est exécuté', 'Le programme s\'arrête', 'Rien ne se passe'],
+        correct: 1,
+        explanation: '20 n\'est pas inférieur à 15, donc la condition est fausse : le programme exécute le bloc else.'
+      }
+    ];
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

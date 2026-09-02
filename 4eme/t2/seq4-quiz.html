@@ -1,103 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 4 : Documentation technique | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T2 — Séquence 4"},{"label":"Quiz"}]'>
-
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 2 · Quiz</span>
-        <h1>Quiz — Cahier des charges et documentation technique</h1>
-        <p class="page-description">Teste tes connaissances sur le cahier des charges, le dessin de définition et la nomenclature.</p>
-      </div>
-      <div class="page-actions no-print">
-        <a href="seq4-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
-      </div>
-      <div class="quiz-container" id="quiz-container"></div>
-    </main>
-  </div>
-
-  <script src="../../js/components.js"></script>
-  <script src="../../js/quiz-engine.js"></script>
-  <script>
-    const questions = [
-      {
-        type: 'qcm',
-        question: 'Quel document décrit les besoins et les contraintes d\'un objet technique avant sa conception ?',
-        options: ['La nomenclature', 'Le cahier des charges', 'Le dessin de définition', 'Le cartouche'],
-        correct: 1,
-        explanation: 'Le cahier des charges fonctionnel (CdCF) décrit les besoins, les fonctions et les contraintes d\'un objet technique avant sa conception.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'La fonction principale (FP) d\'un feu tricolore est de réguler la circulation routière.',
-        correct: true,
-        explanation: 'La fonction principale décrit le but de l\'objet. Un feu tricolore sert bien à réguler la circulation en alternant les signaux lumineux.'
-      },
-      {
-        type: 'qcm',
-        question: 'Que trouve-t-on dans le cartouche d\'un dessin de définition ?',
-        options: ['Les dimensions des pièces', 'Le nom de la pièce, le matériau, l\'échelle et l\'auteur', 'La liste de toutes les pièces', 'Les fonctions de contrainte'],
-        correct: 1,
-        explanation: 'Le cartouche contient les informations d\'identification : nom de la pièce, matériau, échelle, auteur et date.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel type de trait utilise-t-on pour représenter une arête cachée sur un dessin technique ?',
-        options: ['Trait continu fort', 'Trait interrompu (pointillés)', 'Trait mixte fin', 'Trait ondulé'],
-        correct: 1,
-        explanation: 'Le trait interrompu (pointillés) représente les arêtes cachées, invisibles de face. Le trait continu fort est pour les arêtes visibles.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'La nomenclature liste uniquement les pièces les plus importantes d\'un objet.',
-        correct: false,
-        explanation: 'La nomenclature est la liste COMPLÈTE de toutes les pièces d\'un ensemble technique, sans exception. Elle inclut chaque composant avec sa quantité et son matériau.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quelles sont les 3 vues principales en projection orthogonale ?',
-        options: ['Avant, arrière, côté', 'Face, dessus, droite', 'Haut, bas, profil', 'Perspective, isométrique, éclatée'],
-        correct: 1,
-        explanation: 'Les 3 vues principales en projection orthogonale sont : la vue de face, la vue de dessus et la vue de droite.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans une nomenclature, la colonne « Rep. » correspond à...',
-        options: ['La réparation de la pièce', 'Le repère (numéro d\'identification) de la pièce', 'La répétition de la pièce', 'Le responsable de la pièce'],
-        correct: 1,
-        explanation: 'Le repère (Rep.) est le numéro qui identifie chaque pièce sur le dessin technique et dans la nomenclature.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'La cotation indique les dimensions d\'une pièce en centimètres.',
-        correct: false,
-        explanation: 'En dessin technique, la cotation indique les dimensions en millimètres (mm), pas en centimètres.'
-      },
-      {
-        type: 'qcm',
-        question: 'Qu\'est-ce qu\'une fonction de contrainte (FC) ?',
-        options: ['La fonction principale de l\'objet', 'Une exigence imposée par l\'environnement (normes, sécurité, esthétique)', 'Le prix de fabrication', 'La liste des matériaux'],
-        correct: 1,
-        explanation: 'Les fonctions de contrainte sont les exigences imposées par l\'environnement : normes de sécurité, résistance, esthétique, alimentation, etc.'
-      },
-      {
-        type: 'qcm',
-        question: 'Pourquoi la nomenclature est-elle indispensable avant la fabrication ?',
-        options: ['Pour décorer le dossier technique', 'Pour connaître les pièces à acheter et organiser la production', 'Pour remplacer le cahier des charges', 'Pour calculer le rendement'],
-        correct: 1,
-        explanation: 'La nomenclature permet de connaître toutes les pièces à acheter ou fabriquer, d\'estimer le coût et d\'organiser la production sans rien oublier.'
-      }
-    ];
-
-    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
-  </script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p2/seq4-quiz.html">
+<link rel="canonical" href="../p2/seq4-quiz.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p2/seq4-quiz.html">Continuer vers la nouvelle page</a></p>
+</body></html>

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Révision Trimestre 2 | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Trimestre 2"},{"label":"Révision T2"}]'
+    data-print-title="FICHE DE RÉVISION — Trimestre 2"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Révision T2</span>
+        <h1>Révision — Trimestre 2</h1>
+        <p class="page-description">Toutes les notions clés des séquences 4, 5 et 6</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Séquence 4 — Cahier des charges et documentation technique</h2>
+        <table>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Cahier des charges</strong></td><td>Document qui définit les besoins et contraintes avant la conception.</td></tr>
+            <tr><td><strong>Fonction principale</strong></td><td>Ce que l'objet doit faire (son but).</td></tr>
+            <tr><td><strong>Dessin de définition</strong></td><td>Représentation d'une pièce avec vues, cotation (mm) et cartouche.</td></tr>
+            <tr><td><strong>Nomenclature</strong></td><td>Liste complète des pièces avec repère, quantité, désignation, matériau.</td></tr>
+            <tr><td><strong>Cartouche</strong></td><td>Cadre d'informations : nom pièce, matériau, échelle, auteur, date.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Séquence 5 — Programmation mBlock / Scratch</h2>
+        <table>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>mBlock / Scratch</strong></td><td>Logiciels de programmation par blocs visuels (comme des puzzles).</td></tr>
+            <tr><td><strong>Sprite</strong></td><td>Objet graphique programmable (feu tricolore, bouton piéton).</td></tr>
+            <tr><td><strong>Costume</strong></td><td>Apparence d'un sprite (3 costumes pour le feu : vert, orange, rouge).</td></tr>
+            <tr><td><strong>Message</strong></td><td>Signal envoyé entre sprites pour les synchroniser.</td></tr>
+            <tr><td><strong>Cycle du feu</strong></td><td>Vert (5s) → Orange (2s) → Rouge (5s) → recommence.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4D6; Séquence 7 — Modélisation 3D et fabrication numérique</h2>
+        <table>
+          <thead><tr><th style="width:30%">Notion</th><th>À retenir</th></tr></thead>
+          <tbody>
+            <tr><td><strong>STL / 3MF</strong></td><td>Formats de fichiers 3D pour l'impression 3D.</td></tr>
+            <tr><td><strong>Impression 3D (FDM)</strong></td><td>Fabrication par dépôt de plastique fondu couche par couche.</td></tr>
+            <tr><td><strong>Découpe laser</strong></td><td>xTool M1 : coupe et grave des matériaux plats (bois, acrylique).</td></tr>
+            <tr><td><strong>Slicer</strong></td><td>Logiciel qui tranche le modèle 3D en couches et génère le G-code.</td></tr>
+            <tr><td><strong>G-code</strong></td><td>Instructions machine pour piloter l'imprimante 3D.</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Je vérifie mes connaissances — T2</h2>
+        <div class="info-box info-box-green">
+          <strong>Questions de révision pour l'évaluation T2 :</strong>
+        </div>
+        <ol>
+          <li>Quelle est la différence entre la fonction principale et une fonction de contrainte ?</li>
+          <li>Cite les 4 informations du cartouche d'un dessin de définition.</li>
+          <li>Écris le pseudo-code du cycle d'un feu tricolore en boucle.</li>
+          <li>Comment synchronise-t-on 2 feux avec des messages dans Scratch ?</li>
+          <li>Qu'est-ce qu'un sprite et un costume ?</li>
+          <li>Cite les 4 étapes de l'impression 3D dans l'ordre.</li>
+          <li>Quelle est la différence entre un fichier STL et un fichier SVG ?</li>
+          <li>Quand faut-il ajouter des supports lors de l'impression 3D ?</li>
+        </ol>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

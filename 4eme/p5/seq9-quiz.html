@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 9 — Quiz | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P5 — Séquence 9"},{"label":"Quiz"}]'
+    data-print-title="4ème — Séquence 9 : Quiz"
+    data-print-subtitle="Quiz · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Quiz</span>
+        <h1>Séquence 9 — Du besoin au prototype : concevoir et fabriquer un objet technique programmé</h1>
+        <p class="page-description">16 questions pour vérifier tes acquis, avec correction immédiate.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq9-structuration.html" class="btn btn-outline">&#x1F4D8; Revoir le cours</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/49Q.svg" alt="QR code 49Q">
+          <div>
+            <div class="lien-code">49Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=49Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Que dit un cahier des charges fonctionnel ?',
+        options: ['Comment fabriquer l\'objet, étape par étape', 'Ce que l\'objet doit faire, et les contraintes à respecter', 'La liste des machines du FabLab', 'Le programme Arduino à recopier'],
+        correct: 1,
+        explanation: 'Le cahier des charges fonctionnel dit le service rendu par l\'objet et les limites à respecter. Il ne dit jamais comment le fabriquer : nommer un composant, une broche ou une opération de montage, c\'est décrire une solution, pas un besoin.'
+      },
+      {
+        type: 'qcm',
+        question: 'Parmi ces quatre contraintes, laquelle est acceptée dans un cahier des charges ?',
+        options: ['L\'objet doit bien détecter.', 'L\'objet doit être joli.', 'L\'objet doit détecter une main à moins de 15 cm.', 'L\'objet doit être solide.'],
+        correct: 2,
+        explanation: 'Une contrainte porte une valeur que l\'on peut mesurer, avec son unité. « Moins de 15 cm » se vérifie à la règle en séance 5. Les trois autres formulations ne peuvent pas être vérifiées : elles ne servent à rien au moment de valider le prototype.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une contrainte chiffrée est toujours vérifiable, même si elle demande quatre heures de mesure.',
+        correct: false,
+        explanation: 'Faux. « Fonctionner 4 heures sur batterie » porte bien une valeur avec son unité, mais elle ne se mesure pas pendant une séance de 90 minutes. Une contrainte se rédige en pensant au temps dont on disposera pour la vérifier : « 15 minutes sans rebranchement » se mesure au chronomètre en classe.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le croquis se fait à main levée : écrire les cotes n\'est donc pas obligatoire.',
+        correct: false,
+        explanation: 'Faux. Le croquis est à main levée, sans règle et sans échelle, mais les cotes sont obligatoires et écrites en millimètres. Ce sont elles que le dessinateur saisit ensuite dans FreeCAD pour construire le modèle 3D.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelles sont les quatre colonnes d\'une nomenclature ?',
+        options: ['Repère, désignation, quantité, rôle du composant', 'Nom, prénom, classe, note', 'Longueur, largeur, hauteur, masse', 'Capteur, traitement, actionneur, alimentation'],
+        correct: 0,
+        explanation: 'La nomenclature liste les composants en quatre colonnes : repère, désignation, quantité, rôle. Chaque repère du tableau doit se retrouver sur le croquis, dans un petit cercle relié à la pièce par un trait fin.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un jalon est une tâche qui occupe une séance entière.',
+        correct: false,
+        explanation: 'Faux. Un jalon est un point de contrôle, et sa durée est nulle. On vérifie l\'avancement, puis on continue ou on corrige. C\'est pour cette raison qu\'il se dessine dans le coin d\'une case, et non sur toute une case.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans un projet, qu\'est-ce que le parallélisme ?',
+        options: ['Deux élèves qui font la même tâche l\'un après l\'autre', 'Deux tâches menées en même temps par deux personnes différentes', 'Deux traits parallèles tracés sur le croquis', 'Deux jalons placés dans la même séance'],
+        correct: 1,
+        explanation: 'Deux tâches sont menées en parallèle quand deux personnes différentes s\'en occupent en même temps, et qu\'aucun des deux travaux n\'attend le résultat de l\'autre. Dans notre projet, la modélisation 3D et la programmation sont menées en parallèle, en séances 3 et 4.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quels formats de fichier utilise-t-on pour chaque machine ?',
+        options: ['SVG pour l\'impression 3D, STL pour la découpe laser', 'STL pour l\'impression 3D, SVG pour la découpe laser', 'PDF pour les deux machines', 'STL pour les deux machines'],
+        correct: 1,
+        explanation: 'Le fichier STL décrit la surface d\'un volume par un maillage de triangles : c\'est le fichier de l\'impression 3D, qui passe ensuite dans le logiciel de découpage en couches. Le fichier SVG est un dessin vectoriel aux dimensions réelles : c\'est le fichier de la découpe laser.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quel jeu d\'assemblage prévoit-on dans le modèle, entre le boîtier et son couvercle ?',
+        options: ['Aucun jeu, 0 mm', 'De 0,2 à 0,3 mm', 'De 2 à 3 mm', '20 mm'],
+        correct: 1,
+        explanation: 'Une pièce fabriquée n\'est jamais exactement aux cotes du modèle. On prévoit donc un jeu de 0,2 à 0,3 mm. Sans ce jeu, le couvercle ne rentre pas après impression et il faut limer. Avec 2 ou 3 mm, le couvercle ne tiendrait plus.'
+      },
+      {
+        type: 'qcm',
+        question: 'Sur un fichier de découpe imprimé en noir et blanc, comment distingue-t-on la coupe de la gravure ?',
+        options: ['La coupe est un trait plein fin, la gravure un trait pointillé', 'La coupe est un trait pointillé, la gravure un trait plein fin', 'La coupe est en rouge, la gravure en bleu', 'On ne peut pas les distinguer sur du papier'],
+        correct: 0,
+        explanation: 'Sur le papier, la coupe est un trait plein fin et la gravure un trait pointillé : la distinction survit à la photocopie en noir et blanc. Dans le logiciel xTool Creative Space, on donne en plus deux couleurs différentes aux deux familles de traits, pour leur attribuer deux réglages de machine.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Pendant la découpe laser, la ventilation doit être en marche, car la découpe dégage des fumées toxiques.',
+        correct: true,
+        explanation: 'Vrai. C\'est la règle 4 des cinq règles du FabLab. Une règle de sécurité s\'explique toujours par le danger qu\'elle écarte : ici, respirer des fumées toxiques. Répondre « parce que c\'est le règlement » n\'est pas une justification.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le prototype peut être branché sur une prise du secteur, à condition que le professeur soit à côté.',
+        correct: false,
+        explanation: 'Faux, et il n\'existe aucune exception. Le prototype est alimenté par le câble USB de l\'ordinateur ou par une batterie externe de téléphone. Aucun projet de la séquence ne se branche sur le secteur, quelle que soit la surveillance.'
+      },
+      {
+        type: 'qcm',
+        question: 'Comment monte-t-on une LED sur le montage ?',
+        options: ['Directement sur la broche de la carte, sans résistance', 'Avec une résistance de 220 ohms en série, patte longue vers le plus', 'Avec une résistance de 220 ohms en parallèle, patte courte vers le plus', 'Avec deux LED montées l\'une derrière l\'autre, sans résistance'],
+        correct: 1,
+        explanation: 'La résistance de 220 ohms est obligatoire et se monte en série avec la LED : sans elle, la LED reçoit trop de courant et elle est détruite. La patte longue de la LED est le plus.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Un actionneur de puissance peut être branché directement sur une broche de la carte Arduino.',
+        correct: false,
+        explanation: 'Faux. Un actionneur de puissance passe toujours par un organe de commande : un transistor ou un relais. Aucun projet de cette séquence n\'en comporte, puisque les trois actionneurs disponibles sont la LED avec sa résistance, le buzzer et le servo-moteur SG90.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'On peut déplacer un fil sur la plaque d\'essai pendant que la carte est branchée, si on fait attention.',
+        correct: false,
+        explanation: 'Faux. On débranche d\'abord le câble USB, on modifie le câblage, on vérifie tout le câblage, et seulement ensuite on rebranche. On ne modifie jamais un câblage sous tension, et on vérifie toujours avant de mettre sous tension, jamais après.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre tester et valider ?',
+        options: ['Tester, c\'est vérifier que l\'objet fonctionne ; valider, c\'est reprendre chaque ligne du cahier des charges et écrire la mesure obtenue.', 'Tester et valider veulent dire exactement la même chose.', 'Tester, c\'est présenter à l\'oral ; valider, c\'est imprimer la pièce.', 'Tester, c\'est le travail du professeur ; valider, c\'est le travail de l\'élève.'],
+        correct: 0,
+        explanation: 'Tester répond à quatre questions : le capteur détecte-t-il, l\'actionneur réagit-il, le programme va-t-il jusqu\'au bout, l\'objet est-il stable ? Valider, c\'est ressortir le cahier des charges de la séance 2 et écrire pour chaque ligne « respecté » ou « non respecté », avec la mesure et, si besoin, une amélioration chiffrée.'
+      }
+    ];
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

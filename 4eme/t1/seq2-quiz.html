@@ -1,103 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Quiz — Séq. 2 : Algorithme | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T1 — Séquence 2"},{"label":"Quiz"}]'>
-
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Trimestre 1 · Quiz</span>
-        <h1>Quiz — Algorithme et logique de programmation</h1>
-        <p class="page-description">Teste tes connaissances sur les algorithmes, organigrammes et pseudo-code.</p>
-      </div>
-      <div class="page-actions no-print">
-        <a href="seq2-activite.html" class="btn btn-outline">&#x1F4DD; Revoir la fiche</a>
-      </div>
-      <div class="quiz-container" id="quiz-container"></div>
-    </main>
-  </div>
-
-  <script src="../../js/components.js"></script>
-  <script src="../../js/quiz-engine.js"></script>
-  <script>
-    const questions = [
-      {
-        type: 'qcm',
-        question: 'Qu\'est-ce qu\'un algorithme ?',
-        options: ['Un programme informatique', 'Une suite ordonnée d\'instructions', 'Un schéma électrique', 'Un type de robot'],
-        correct: 1,
-        explanation: 'Un algorithme est une suite ordonnée d\'instructions qui permet de résoudre un problème ou de décrire le fonctionnement d\'un système.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans un organigramme, quelle forme représente une action ?',
-        options: ['Un ovale', 'Un losange', 'Un rectangle', 'Un triangle'],
-        correct: 2,
-        explanation: 'Le rectangle représente une action (instruction à exécuter). L\'ovale = début/fin. Le losange = test/condition.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un losange dans un organigramme représente le début ou la fin.',
-        correct: false,
-        explanation: 'Le losange représente un test (question Oui/Non). C\'est l\'ovale qui représente le début ou la fin de l\'algorithme.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quel mot-clé du pseudo-code permet de faire un choix ?',
-        options: ['DÉBUT', 'LIRE', 'SI... ALORS... SINON', 'AFFICHER'],
-        correct: 2,
-        explanation: 'SI... ALORS... SINON permet d\'exécuter différentes instructions selon le résultat d\'un test (branchement conditionnel).'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Un feu tricolore classique (sans capteur) utilise un branchement conditionnel.',
-        correct: false,
-        explanation: 'Un feu tricolore classique suit un cycle fixe (boucle simple) : Vert → Orange → Rouge → Vert... Il n\'a pas de test ni de condition.'
-      },
-      {
-        type: 'qcm',
-        question: 'Dans l\'organigramme du tourniquet, "Badge valide ?" est représenté par...',
-        options: ['Un rectangle (action)', 'Un ovale (début/fin)', 'Un losange (test)', 'Une flèche'],
-        correct: 2,
-        explanation: '"Badge valide ?" est une question Oui/Non, donc c\'est un test représenté par un losange dans l\'organigramme.'
-      },
-      {
-        type: 'qcm',
-        question: 'Quelle est la différence entre une boucle et un branchement ?',
-        options: ['Il n\'y a pas de différence', 'Une boucle répète, un branchement choisit', 'Un branchement répète, une boucle choisit', 'Les deux sont des actions'],
-        correct: 1,
-        explanation: 'Une boucle répète une séquence d\'instructions. Un branchement conditionnel choisit entre deux chemins selon un test.'
-      },
-      {
-        type: 'vrai_faux',
-        question: 'Le pseudo-code s\'écrit en langage informatique (Python, JavaScript...).',
-        correct: false,
-        explanation: 'Le pseudo-code s\'écrit en français simplifié. C\'est un langage intermédiaire entre le langage naturel et le langage informatique.'
-      },
-      {
-        type: 'qcm',
-        question: 'Que signifie "LIRE" en pseudo-code ?',
-        options: ['Afficher un texte à l\'écran', 'Récupérer une information (capteur, saisie)', 'Supprimer une donnée', 'Terminer le programme'],
-        correct: 1,
-        explanation: '"LIRE" signifie récupérer une information depuis un capteur ou une saisie utilisateur.'
-      },
-      {
-        type: 'qcm',
-        question: 'Combien de symboles de base utilise un organigramme ?',
-        options: ['2 (rectangle et losange)', '3 (ovale, rectangle, losange)', '4 (ovale, rectangle, losange, flèche)', '5 ou plus'],
-        correct: 2,
-        explanation: 'Un organigramme utilise 4 symboles de base : l\'ovale (début/fin), le rectangle (action), le losange (test) et la flèche (sens du déroulement).'
-      }
-    ];
-
-    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
-  </script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p1/seq2-quiz.html">
+<link rel="canonical" href="../p1/seq2-quiz.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p1/seq2-quiz.html">Continuer vers la nouvelle page</a></p>
+</body></html>

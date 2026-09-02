@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 1 — Analyse fonctionnelle d'un système automatisé | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P1 — Séquence 1"},{"label":"Fiche activité"}]'
+    data-print-title="4ème — Séquence 1 : Fiche Activité Élève"
+    data-print-subtitle="Analyse fonctionnelle — Tourniquet pleine hauteur · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 1</span>
+        <h1>Séquence 1 — Analyse fonctionnelle d'un système automatisé</h1>
+        <p class="page-description">
+          Comment fonctionne un tourniquet pleine hauteur ? Comment analyser un système automatisé à l'aide des outils de l'analyse fonctionnelle ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq1-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq1-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/41A.svg" alt="QR code 41A">
+          <div>
+            <div class="lien-code">41A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=41A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>4ème — 3ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>4 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 1 — Usages et interactions</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Analyser les interactions objet/environnement</span>
+                <span class="competence-badge">Identifier les évolutions technologiques et impacts</span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Le tourniquet pleine hauteur ZKTeco</strong><br>
+          Dans les stades, les entreprises et les bâtiments sécurisés, on utilise des tourniquets pleine hauteur pour contrôler l'accès. Comment fonctionne ce système automatisé ? Quels sont ses composants et ses fonctions ?
+        </div>
+        <p><strong>Problématique :</strong> Comment comprendre et analyser le fonctionnement d'un système automatisé à partir d'un exemple réel ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/130698-dispositif-douverture-de-porte-pmrmp4/?is_iframe=true" loading="lazy" allowfullscreen title="Dispositif d&#x27;ouverture de porte PMR.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>Dispositif d&#x27;ouverture de porte PMR.mp4</strong> — 00:00:30 · PodEduc — chaîne « Eduscol - STI »</p><p class="vid-licence">Auteur : Eduscol STI (maquette développée par l&#x27;académie de Bordeaux, Technologie collège). Licence : Attribution - Pas d&#x27;Utilisation Commerciale 4.0 International (CC BY-NC 4.0). Réutilisation : telechargement autorise. <a href="https://podeduc.apps.education.fr/eduscol-sti/video/130698-dispositif-douverture-de-porte-pmrmp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> Trente secondes, c&#x27;est court : prévoir deux ou trois passages. Maquette de laboratoire et non scène de rue — décor neutre, plutôt un avantage ici. Fiche ajoutée le 11 février 2026 : peu de recul sur sa pérennité. Vidéo également proposée en séquence 8 : ne la dépenser qu&#x27;une fois dans l&#x27;année.</p><p class="vid-licence"><strong>&#x2B07; Téléchargeable.</strong> Sa licence autorise la copie : téléchargez-la depuis sa fiche et posez-la sur l'ordinateur de la salle. Elle sera lisible même sans connexion. Créditez l'auteur à la projection.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#4eme-1">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Étape 1 -->
+      <div class="content-card">
+        <h2>Étape 1 — Observation (10 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Visionner la vidéo de présentation du tourniquet pleine hauteur</h4>
+            <p>Observe attentivement la vidéo ZKTeco puis réponds aux questions suivantes.</p>
+          </div>
+        </div>
+
+        <p><strong>a)</strong> Quelle est la <strong>fonction principale</strong> de ce système ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>b)</strong> Dans quels <strong>lieux</strong> est-il utilisé ? Pourquoi ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>c)</strong> Quels <strong>avantages</strong> apporte-t-il en matière de sécurité ?</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 50px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>d)</strong> Complète la <strong>fiche technique</strong> du tourniquet :</p>
+        <table>
+          <tbody>
+            <tr><td style="width:25%"><strong>Matériau</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Sections</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Résistance</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Modes</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Options</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 2 -->
+      <div class="content-card">
+        <h2>Étape 2 — Analyse fonctionnelle (15 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
+          <div class="activity-step-content">
+            <h4>La « Bête à cornes »</h4>
+            <p>Cet outil permet de définir le besoin auquel répond un système technique. Complète le diagramme.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Rappel — La Bête à cornes répond à 3 questions :</strong>
+          <ul>
+            <li><strong>À qui</strong> le système rend-il service ?</li>
+            <li><strong>Sur quoi</strong> agit-il ?</li>
+            <li><strong>Dans quel but</strong> ?</li>
+          </ul>
+        </div>
+
+        <table>
+          <tbody>
+            <tr><td style="width:35%"><strong>À qui rend-il service ?</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Sur quoi agit-il ?</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dans quel but ?</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+
+        <h3 style="margin-top: var(--space-lg);">Diagramme pieuvre</h3>
+        <p>Le diagramme pieuvre identifie les <strong>fonctions de service</strong> d'un système par rapport à son environnement. Complète le tableau :</p>
+        <table>
+          <thead><tr><th>Fonction</th><th>Description</th><th>Éléments liés</th></tr></thead>
+          <tbody>
+            <tr><td><strong>FP</strong> (principale)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>FC1</strong> (contrainte)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>FC2</strong> (contrainte)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>FC3</strong> (contrainte)</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 3 -->
+      <div class="content-card">
+        <h2>Étape 3 — Dessin technique (15 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Identifier les composants du tourniquet</h4>
+            <p>À partir de la vidéo et des documents fournis, identifie et légende les principaux composants du tourniquet.</p>
+          </div>
+        </div>
+
+        <p>Complète le tableau des <strong>composants techniques</strong> du tourniquet :</p>
+        <table>
+          <thead><tr><th>Composant</th><th>Fonction</th><th>Type (mécanique / électronique)</th></tr></thead>
+          <tbody>
+            <tr><td>Colonne centrale</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Bras pivotants</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Lecteur de badges / QR code</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Capteurs</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td>Motorisation</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Étape 4 -->
+      <div class="content-card">
+        <h2>Étape 4 — Notion d'algorithme (30 min)</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">4</div>
+          <div class="activity-step-content">
+            <h4>L'organigramme du tourniquet</h4>
+            <p>Un algorithme décrit les étapes logiques du fonctionnement d'un système. Complète l'organigramme ci-dessous.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Rappel — Symboles d'un organigramme :</strong>
+          <ul>
+            <li><strong>Ovale</strong> : Début / Fin</li>
+            <li><strong>Rectangle</strong> : Action / Traitement</li>
+            <li><strong>Losange</strong> : Test / Condition (Oui / Non)</li>
+            <li><strong>Flèche</strong> : Sens du déroulement</li>
+          </ul>
+        </div>
+
+        <p><strong>a)</strong> Complète l'organigramme avec les mots suivants :</p>
+        <div class="info-box info-box-blue">
+          <em>Début — Récupération des informations (Capteur) — Test Capteur Entré ou Sorti — Tourner le bras pivotant à droite — Tourner le bras pivotant à gauche — Verrouillage de la porte — Test d'information</em>
+        </div>
+
+        <div style="border: 2px dashed var(--gray-300); border-radius: var(--radius-md); padding: var(--space-xl); min-height: 300px; background: var(--gray-50); margin: var(--space-md) 0;">
+          <p style="color: var(--gray-400); text-align: center; font-style: italic;">Zone pour dessiner / compléter l'organigramme</p>
+        </div>
+
+        <p><strong>b)</strong> Explique le fonctionnement du système en utilisant l'organigramme :</p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg); min-height: 80px; background: var(--gray-50);"></div>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète avec : <em>analyse fonctionnelle, bête à cornes, diagramme pieuvre, fonctions de service, algorithme, organigramme, capteurs, actionneurs</em></p>
+        </div>
+
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          L'........................ permet de comprendre le fonctionnement d'un système technique. La ........................ définit le besoin (à qui, sur quoi, dans quel but) et le ........................ identifie les ........................ du système.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un système automatisé utilise des ........................ pour acquérir des informations et des ........................ pour agir.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Un ........................ décrit la logique de fonctionnement d'un système. On le représente sous forme d'........................ avec des symboles normalisés.
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

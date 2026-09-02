@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 7 — Modélisation 3D et conception | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"P4 — Séquence 7"},{"label":"Fiche activité"}]'
+    data-print-title="5ème — Séquence 7 : Fiche Activité Élève"
+    data-print-subtitle="Modélisation 3D et conception · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-5eme">&#x1F535; 5ème · Période 4</span>
+        <h1>Séquence 7 — Modélisation 3D et conception</h1>
+        <p class="page-description">
+          Comment représenter un objet technique en 3D sur ordinateur avant de le fabriquer ?
+        </p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-prof.html" class="btn btn-outline">&#x1F4D7; Fiche Prof</a>
+        <a href="seq7-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/57A.svg" alt="QR code 57A">
+          <div>
+            <div class="lien-code">57A</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=57A</div>
+          </div>
+        </div>
+<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title">&#x1F4E4; Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre <strong>PRONOTE — Espace Élèves</strong>, avec l'identifiant que tu utilises déjà.</li><li>Va dans <strong>Cahier de textes</strong>, puis <strong>Travail à faire</strong>.</li><li>Choisis la ligne de Technologie correspondant à cette activité.</li><li>Clique sur <strong>Déposer ma copie</strong> et joins ton fichier, ou une photo nette de ta feuille.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
+      </div>
+
+      <div class="content-card">
+        <table>
+          <tbody>
+            <tr>
+              <td style="width:20%"><strong>Niveau</strong></td>
+              <td>5ème</td>
+              <td style="width:15%"><strong>Durée</strong></td>
+              <td>3 séances de 1h30</td>
+            </tr>
+            <tr>
+              <td><strong>Thème</strong></td>
+              <td colspan="3">Thème 3 — Création, conception, réalisation</td>
+            </tr>
+            <tr>
+              <td><strong>Compétences</strong></td>
+              <td colspan="3">
+                <span class="competence-badge">Imaginer, concevoir, réaliser</span>
+                <span class="competence-badge">Valider par simulations et tests</span>
+              </td>
+            </tr>
+            <tr>
+              <td><strong>Logiciel</strong></td>
+              <td colspan="3">Tinkercad (modélisation 3D en ligne)</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4A1; Situation déclenchante</h2>
+        <div class="info-box info-box-blue">
+          <strong>Concevoir avant de fabriquer</strong><br>
+          Avant de construire un pont, une maison ou même un simple support de téléphone, les ingénieurs créent un <strong>modèle 3D numérique</strong>. Cela permet de vérifier les dimensions, tester la solidité et corriger les erreurs <strong>avant la fabrication</strong>.
+        </div>
+        <p><strong>Problématique :</strong> Comment utiliser la modélisation 3D pour concevoir un objet technique avant de le fabriquer ?</p>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F3AC; Situation déclenchante en vidéo</h2>
+        <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/53406-skartepark-impression-3d-2024/?is_iframe=true" loading="lazy" allowfullscreen title="Skartepark impression 3D 2024"></iframe><p style="margin:.6rem 0 .2rem"><strong>Skartepark impression 3D 2024</strong> — 00:00:31 · PodEduc (catégorie « travaux d&#x27;élèves »)</p><p class="vid-licence">Auteur : Anthony Roy. Licence : Licence Creative Commons : Attribution - Pas d&#x27;Utilisation Commerciale - Pas de Modification 4.0 International (CC BY-NC-ND 4.0). Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/53406-skartepark-impression-3d-2024/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong>Réserve :</strong> VÉRIFIÉ LE 02/09/2026 : page en ligne, titre et durée 00:00:31 conformes, auteur Anthony Roy confirmé ; LICENCE CC BY-NC-ND 4.0 CONFIRMÉE telle qu&#x27;écrite. La fiche ne porte AUCUNE DESCRIPTION : seulement la catégorie « travaux d&#x27;élèves » et les mots-clés 3d, impression, skatepark — la mention « (travaux d&#x27;élèves) » figurait à tort au champ auteur du relevé initial, elle est déplacée au champ source. Contenu à confirmer au visionnage. REQUALIFICATION PARTIELLE : elle montre le résultat, pas le problème ; sans relance immédiate du professeur (« et vous, par quoi commenceriez-vous ? »), elle reste une vitrine. CC BY-NC-ND : ni modification ni remontage, intégration telle quelle.</p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
+        <p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
+          Prompt de génération, variantes et repli sans écran :
+          <a href="../../outils/videos.html#5eme-7">dossier des situations déclenchantes</a>.</p>
+      </div>
+
+
+
+      
+
+
+
+      <!-- Activité 1 -->
+      <div class="content-card">
+        <h2>Activité 1 — Le cahier des charges</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Comprendre le cahier des charges</h4>
+            <p>Avant de concevoir un objet, on rédige un <strong>cahier des charges</strong> qui liste les contraintes à respecter.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Le cahier des charges contient :</strong>
+          <ul>
+            <li><strong>La fonction d'usage</strong> : à quoi sert l'objet ?</li>
+            <li><strong>Les contraintes techniques</strong> : dimensions, poids, matériaux...</li>
+            <li><strong>Les contraintes esthétiques</strong> : forme, couleur, design...</li>
+            <li><strong>Les contraintes économiques</strong> : coût de fabrication</li>
+            <li><strong>Les contraintes environnementales</strong> : recyclable, éco-conçu...</li>
+          </ul>
+        </div>
+
+        <p><strong>Exercice :</strong> Rédige le cahier des charges d'un <strong>support de smartphone</strong> pour bureau.</p>
+        <table>
+          <thead><tr><th style="width:35%">Critère</th><th>Ta réponse</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Fonction d'usage</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Dimensions max</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Matériau envisagé</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Contrainte esthétique</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+            <tr><td><strong>Contrainte environnementale</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Activité 2 -->
+      <div class="content-card">
+        <h2>Activité 2 — Découverte de Tinkercad</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Prends en main l'outil de modélisation 3D</h4>
+            <p>Tinkercad est un logiciel en ligne gratuit qui permet de créer des objets 3D en assemblant des formes simples.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-green">
+          <strong>Les outils de base de Tinkercad :</strong>
+          <ul>
+            <li><strong>Formes primitives</strong> : cube, cylindre, sphère, cône, tore...</li>
+            <li><strong>Déplacer</strong> : cliquer-glisser une forme sur le plan</li>
+            <li><strong>Redimensionner</strong> : tirer les poignées blanches</li>
+            <li><strong>Regrouper</strong> : fusionner plusieurs formes en une seule</li>
+            <li><strong>Percer</strong> : utiliser une forme "trou" pour creuser une autre forme</li>
+            <li><strong>Aligner</strong> : centrer des formes les unes par rapport aux autres</li>
+          </ul>
+        </div>
+
+        <h3>Défis de prise en main</h3>
+        <p><strong>Défi A :</strong> Crée un cube de 20mm &#xD7; 20mm &#xD7; 20mm. Change sa couleur en bleu.</p>
+        <p>Fait ? &#x2B1C; oui &nbsp; &#x2B1C; non</p>
+
+        <p><strong>Défi B :</strong> Crée un cylindre et place-le <strong>au-dessus</strong> du cube pour former un champignon.</p>
+        <p>Fait ? &#x2B1C; oui &nbsp; &#x2B1C; non</p>
+
+        <p><strong>Défi C :</strong> Perce un trou cylindrique au centre du cube (utilise un cylindre "trou" + regrouper).</p>
+        <p>Fait ? &#x2B1C; oui &nbsp; &#x2B1C; non</p>
+
+        <p><strong>Défi D :</strong> Crée tes initiales en 3D (lettres de ton prénom, épaisseur 5mm).</p>
+        <p>Fait ? &#x2B1C; oui &nbsp; &#x2B1C; non</p>
+      </div>
+
+      <!-- Activité 3 -->
+      <div class="content-card">
+        <h2>Activité 3 — Concevoir le support de smartphone</h2>
+
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-5eme);">3</div>
+          <div class="activity-step-content">
+            <h4>Modélise ton support de smartphone sur Tinkercad</h4>
+            <p>En respectant le cahier des charges de l'activité 1, conçois un support de smartphone fonctionnel et esthétique.</p>
+          </div>
+        </div>
+
+        <div class="info-box info-box-orange">
+          <strong>Critères d'évaluation du modèle 3D :</strong>
+          <ul>
+            <li>Le support tient debout de manière stable</li>
+            <li>Le téléphone est maintenu sans tomber (angle d'inclinaison adapté)</li>
+            <li>Les dimensions sont réalistes et respectent le cahier des charges</li>
+            <li>Le design est soigné (formes harmonieuses, nom gravé...)</li>
+          </ul>
+        </div>
+
+        <p><strong>Fais un croquis de ton support avant de le modéliser :</strong></p>
+        <div style="border: 1px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-xl); min-height: 150px; background: var(--gray-50); margin-bottom: var(--space-md);"></div>
+
+        <p><strong>Dimensions de ton modèle 3D :</strong></p>
+        <table>
+          <tbody>
+            <tr><td style="width:30%"><strong>Largeur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;mm</td></tr>
+            <tr><td><strong>Profondeur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;mm</td></tr>
+            <tr><td><strong>Hauteur</strong></td><td style="border-bottom: 1px dotted var(--gray-300);">&nbsp;mm</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Synthèse -->
+      <div class="content-card">
+        <h2>&#x1F4DD; Synthèse — Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p>Complète la synthèse avec les mots suivants : <em>cahier des charges, modèle 3D, contraintes, Tinkercad, formes primitives, regrouper</em></p>
+        </div>
+
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          Avant de fabriquer un objet, on rédige un ........................ qui définit les ........................ à respecter (techniques, esthétiques, économiques, environnementales).
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          On utilise un logiciel comme ........................ pour créer un ........................ de l'objet.
+        </p>
+        <p style="line-height: 2.2; font-size: 0.95rem;">
+          On modélise en assemblant des ........................ (cube, cylindre, sphère...) que l'on peut déplacer, redimensionner, percer et ........................ .
+        </p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

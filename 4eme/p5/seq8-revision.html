@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Révision | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P5 — Séquence 8"},{"label":"Révision"}]'
+    data-print-title="4ème — Séquence 8 : Révision"
+    data-print-subtitle="Fiche de révision · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Révision</span>
+        <h1>Séquence 8 — Chaîne d&#x27;énergie et chaîne d&#x27;information</h1>
+        <p class="page-description">Fiche de révision : l&#x27;essentiel et les questions flash.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a><a href="seq8-structuration.html" class="btn btn-outline">&#x1F4D8; Cours complet</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/48R.svg" alt="QR code 48R">
+          <div>
+            <div class="lien-code">48R</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=48R</div>
+          </div>
+        </div>
+
+      </div>
+
+<div class="content-card"><h2>&#x2B50; L'essentiel</h2><div class="info-box info-box-green"><ul><li>Chaîne d&#x27;énergie, quatre maillons dans l&#x27;ordre : ALIMENTER, DISTRIBUER, CONVERTIR, TRANSMETTRE. Pour chacun, je dois savoir citer un composant réel vu en classe : panneau solaire ou batterie ; interrupteur général ou carte électronique ; moteur ou bloc de LED ; crémaillère, tuyau, pales ou réflecteur.</li><li>Chaîne d&#x27;information, trois maillons dans l&#x27;ordre : ACQUÉRIR, TRAITER, COMMUNIQUER. Composants : capteur de luminosité, capteur d&#x27;humidité, flotteur, détecteur de mouvement ou récepteur de télécommande ; microcontrôleur de la carte ; voyant, buzzer ou feu clignotant.</li><li>Tous les objets ont une chaîne d&#x27;énergie. Seuls les objets automatisés ont une chaîne d&#x27;information. Pour savoir : je me demande QUI DÉCIDE. Si c&#x27;est une personne, il n&#x27;y a pas de chaîne d&#x27;information. Si c&#x27;est une carte électronique, il y en a une.</li><li>Quatre mots de vocabulaire à savoir définir et illustrer : capteur (prend un renseignement), actionneur (transforme l&#x27;énergie pour produire l&#x27;action utile), unité de traitement (décide), source d&#x27;énergie (fournit l&#x27;énergie au départ).</li><li>Deux questions pour ne pas confondre capteur et actionneur. Question 1 : est-ce que ce composant BOUGE, CHAUFFE ou ÉCLAIRE quelque chose ? Si oui, c&#x27;est un actionneur, chaîne d&#x27;énergie. Question 2 : est-ce que ce composant PREND UN RENSEIGNEMENT ? Si oui, c&#x27;est un capteur, chaîne d&#x27;information.</li><li>Règle de la lampe. Si la lumière est l&#x27;action utile de l&#x27;objet, la lampe est dans la chaîne d&#x27;énergie : c&#x27;est le bloc de LED du lampadaire. Si la lumière prévient seulement une personne, c&#x27;est un voyant, dans la chaîne d&#x27;information, au maillon communiquer : c&#x27;est le voyant de la citerne, le feu orange du portail, le voyant de marche de la pompe.</li><li>Convertir et transmettre ne veulent pas dire la même chose. Convertir, c&#x27;est CHANGER la forme de l&#x27;énergie : le moteur change l&#x27;électricité en mouvement. Transmettre, c&#x27;est la DÉPLACER sans la changer : la crémaillère déplace le mouvement jusqu&#x27;au vantail.</li><li>Règle de classement : on classe un composant selon ce qu&#x27;il PRODUIT, pas selon ce qu&#x27;il consomme. La carte électronique consomme de l&#x27;électricité, mais elle produit une décision : elle est dans la chaîne d&#x27;information.</li><li>Un interrupteur coupe ou laisse passer le courant : chaîne d&#x27;énergie, maillon distribuer. Une télécommande n&#x27;ouvre aucun courant de puissance : chaîne d&#x27;information, maillon acquérir.</li><li>Sur mon schéma à blocs : deux étages, énergie en bas au trait plein, information en haut au trait en pointillés ; le nom du maillon dans le bloc et le composant sous le bloc ; quatre flèches, l&#x27;énergie qui entre à gauche, l&#x27;action qui sort à droite, le RENSEIGNEMENT qui monte, l&#x27;ORDRE qui descend. Sans les deux flèches entre les étages, le schéma est incomplet.</li></ul></div></div>
+<div class="content-card"><h2>&#x26A1; Questions flash</h2><table><thead><tr><th style="width:50%">Question</th><th>Réponse</th></tr></thead><tbody>
+<tr><td>Cite les quatre maillons de la chaîne d&#x27;énergie, dans l&#x27;ordre.</td><td>Alimenter, distribuer, convertir, transmettre.</td></tr>
+<tr><td>Cite les trois maillons de la chaîne d&#x27;information, dans l&#x27;ordre.</td><td>Acquérir, traiter, communiquer.</td></tr>
+<tr><td>Quel composant prend un renseignement ? Donne son nom général et un exemple.</td><td>Le capteur. Par exemple le capteur d&#x27;humidité du sol de la pompe de rizière, ou l&#x27;interrupteur à flotteur de la citerne d&#x27;école.</td></tr>
+<tr><td>Quel composant transforme l&#x27;énergie pour produire l&#x27;action utile ? Donne son nom général et un exemple.</td><td>L&#x27;actionneur. Par exemple le moteur du portail automatique, ou le bloc de LED du lampadaire solaire.</td></tr>
+<tr><td>Quelle chaîne commande l&#x27;autre ?</td><td>La chaîne d&#x27;information commande la chaîne d&#x27;énergie. Elle lui envoie un ordre.</td></tr>
+<tr><td>Dans le lampadaire solaire de rue, où l&#x27;énergie est-elle stockée, et qui décide de l&#x27;allumage ?</td><td>L&#x27;énergie est stockée dans la batterie. C&#x27;est la carte électronique qui décide de l&#x27;allumage, à partir des renseignements du capteur de luminosité et du détecteur de mouvement.</td></tr>
+<tr><td>Le ventilateur de table possède-t-il une chaîne d&#x27;information ? Justifie.</td><td>Non. C&#x27;est la personne qui tourne le bouton et qui décide. Il n&#x27;y a ni capteur ni carte électronique qui décide à sa place.</td></tr>
+<tr><td>Quelle est la différence entre convertir et transmettre ?</td><td>Convertir, c&#x27;est changer la forme de l&#x27;énergie. Transmettre, c&#x27;est la déplacer sans changer sa forme.</td></tr>
+<tr><td>Dans le portail automatique, à quel maillon appartiennent la télécommande et la cellule photoélectrique ?</td><td>Toutes les deux au maillon acquérir de la chaîne d&#x27;information. La télécommande apporte l&#x27;ordre de l&#x27;usager, la cellule apporte un renseignement de sécurité.</td></tr>
+<tr><td>Dans la citerne d&#x27;école, à quelle chaîne appartient le buzzer, et à quel maillon ?</td><td>À la chaîne d&#x27;information, au maillon communiquer. Il ne fait pas monter l&#x27;eau : il prévient une personne.</td></tr>
+<tr><td>Le bloc de LED du lampadaire et le voyant de la citerne éclairent tous les deux. Pourquoi ne sont-ils pas dans la même chaîne ?</td><td>La lumière du bloc de LED est l&#x27;action utile du lampadaire : il est dans la chaîne d&#x27;énergie, au maillon convertir. La lumière du voyant prévient seulement une personne : il est dans la chaîne d&#x27;information, au maillon communiquer.</td></tr>
+<tr><td>Un élève place la batterie du lampadaire dans la chaîne d&#x27;information, parce que la carte a besoin d&#x27;électricité. Que réponds-tu ?</td><td>On classe un composant selon ce qu&#x27;il produit, pas selon ce qu&#x27;il consomme. La batterie produit de l&#x27;énergie : elle est dans la chaîne d&#x27;énergie.</td></tr>
+<tr><td>Pourquoi l&#x27;interrupteur général du lampadaire n&#x27;est-il pas dans la chaîne d&#x27;information, alors que la télécommande du portail y est ?</td><td>Dans l&#x27;interrupteur passe le courant qui alimente la lampe : il coupe l&#x27;énergie, il est au maillon distribuer. Dans la télécommande ne passe aucun courant de puissance : elle envoie seulement un signal à la carte, elle est au maillon acquérir.</td></tr>
+<tr><td>Cite les quatre flèches d&#x27;un schéma à blocs et leur sens.</td><td>L&#x27;énergie d&#x27;entrée, qui entre à gauche de l&#x27;étage du bas ; l&#x27;action produite, qui sort à droite de l&#x27;étage du bas ; le renseignement, qui monte de la chaîne d&#x27;énergie vers la chaîne d&#x27;information ; l&#x27;ordre, qui descend de la chaîne d&#x27;information vers la chaîne d&#x27;énergie.</td></tr>
+<tr><td>Le foyer amélioré a-t-il une chaîne d&#x27;énergie ? A-t-il une chaîne d&#x27;information ?</td><td>Il a une chaîne d&#x27;énergie : le charbon ou le bois fournit l&#x27;énergie, le foyer la convertit en chaleur, les parois la transmettent à la marmite. Il n&#x27;a pas de chaîne d&#x27;information : c&#x27;est l&#x27;utilisateur qui allume et qui règle tout.</td></tr>
+<tr><td>Quel est le nom du composant qui décide dans un objet automatisé, et où se trouve-t-il ?</td><td>L&#x27;unité de traitement. C&#x27;est le microcontrôleur de la carte électronique. Il appartient au maillon traiter.</td></tr>
+</tbody></table></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+</body>
+</html>

@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 7 — Quiz | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P4 — Séquence 7"},{"label":"Quiz"}]'
+    data-print-title="3ème — Séquence 7 : Quiz"
+    data-print-subtitle="Quiz · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 4 · Quiz</span>
+        <h1>Séquence 7 — Méthodologie du brevet</h1>
+        <p class="page-description">13 questions pour vérifier tes acquis, avec correction immédiate.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq7-structuration.html" class="btn btn-outline">&#x1F4D8; Revoir le cours</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/37Q.svg" alt="QR code 37Q">
+          <div>
+            <div class="lien-code">37Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=37Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Combien de temps dure l\'épreuve de sciences du DNB, et sur combien de disciplines porte-t-elle ?',
+        options: ['2 heures, sur les trois disciplines scientifiques', '1 heure, sur deux disciplines choisies parmi trois', '1 heure, sur la technologie seulement', '30 minutes, sur une seule discipline'],
+        correct: 1,
+        explanation: 'L\'épreuve de sciences dure 1 heure. Elle porte sur deux disciplines seulement, choisies parmi la physique-chimie, la SVT et la technologie. Elle est notée sur 20, coefficient 2, chaque discipline comptant pour 10 points.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La technologie figure obligatoirement au sujet de l\'épreuve de sciences.',
+        correct: false,
+        explanation: 'Faux. Deux disciplines seulement sont retenues sur les trois : la technologie peut ne pas être retenue. Le choix est communiqué au centre d\'examen par l\'académie de rattachement, La Réunion pour Madagascar. C\'est pourquoi nous travaillons une méthode qui sert aussi en physique-chimie, en SVT et à l\'oral.'
+      },
+      {
+        type: 'qcm',
+        question: 'Si la technologie est retenue, combien de points et combien de minutes cela représente-t-il environ ?',
+        options: ['20 points et 60 minutes', '10 points et environ 30 minutes', '5 points et environ 15 minutes', '12 points et environ 45 minutes'],
+        correct: 1,
+        explanation: 'Chacune des deux disciplines retenues compte pour 10 points sur les 20 de l\'épreuve. Comme l\'épreuve dure 1 heure, la partie technologie représente environ 30 minutes de travail pour 10 points.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Les sujets écrits de la session 2027 portent sur le programme de la classe de troisième seulement.',
+        correct: true,
+        explanation: 'Vrai. Les sujets des années passées portaient sur un autre périmètre : ils ne constituent donc pas un entraînement utile. C\'est la raison pour laquelle cette séquence travaille la méthode et non des sujets anciens.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans une consigne, que demande exactement le verbe JUSTIFIER ?',
+        options: ['Recopier une valeur du document sans rien calculer', 'Donner son avis personnel sur la solution technique', 'Citer une donnée du document, puis en tirer la conséquence', 'Poser une opération et écrire le résultat avec son unité'],
+        correct: 2,
+        explanation: 'Justifier, c\'est écrire en deux temps : d\'abord la donnée relevée, en disant d\'où elle vient, puis la conséquence qu\'on en tire. Recopier une valeur, c\'est RELEVER. Poser une opération, c\'est CALCULER. Donner son avis sans donnée n\'est jamais une justification.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Une question laissée vide peut quand même rapporter quelques points si l\'on a bien réussi les autres questions.',
+        correct: false,
+        explanation: 'Faux. Une question vide vaut zéro de façon certaine. Une réponse imparfaite, elle, rapporte souvent la moitié des points : une seule phrase reprise du document peut valoir 1 point. D\'où la règle : je ne rends jamais une copie avec une question vide.'
+      },
+      {
+        type: 'qcm',
+        question: 'Devant un tableau de caractéristiques, que faut-il lire en plus des lignes de valeurs ?',
+        options: ['La note écrite sous le tableau et le texte qui l\'entoure', 'Uniquement la colonne du modèle le moins cher', 'Seulement la première et la dernière ligne', 'Rien d\'autre : tout est dans les cases du tableau'],
+        correct: 0,
+        explanation: 'Ce qui est écrit autour d\'un tableau compte autant que le tableau lui-même. La note sous le tableau précise souvent les conditions de mesure : par exemple qu\'un débit est mesuré à 5 mètres de hauteur, ou qu\'une consommation de carburant est mesurée à mi-charge. L\'oublier fait perdre des questions entières.'
+      },
+      {
+        type: 'qcm',
+        question: 'Une question porte sur un organigramme : « le groupe électrogène démarre-t-il ? ». Comment rédige-t-on la réponse pour obtenir tous les points ?',
+        options: ['En écrivant seulement « oui » ou « non »', 'En expliquant comment fonctionne d\'habitude un groupe électrogène', 'En nommant le test utilisé, en écrivant la réponse OUI ou NON qu\'il donne, puis la conséquence', 'En recopiant tous les blocs de l\'organigramme dans l\'ordre'],
+        correct: 2,
+        explanation: 'Dans un organigramme, on répond en suivant un chemin, pas en devinant. La réponse doit montrer ce chemin : le test nommé (par sa phrase ou par son numéro), la réponse OUI ou NON qu\'il donne, puis la conséquence sur le système. Une conclusion sans chemin ne rapporte aucun point.'
+      },
+      {
+        type: 'qcm',
+        question: 'Une lampe de 7 watts est allumée 540 heures par an. Quelle énergie consomme-t-elle en un an ?',
+        options: ['7 wattheures', '540 wattheures', '3 780 wattheures, soit 3,78 kilowattheures', '3 780 watts'],
+        correct: 2,
+        explanation: 'On multiplie la puissance par la durée : 7 W × 540 h = 3 780 Wh, soit 3,78 kWh. Le watt dit à quelle vitesse on consomme ; le wattheure dit combien on a consommé en tout. Écrire « 3 780 watts » est une erreur d\'unité qui coûte un point.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Si le résultat final d\'un calcul est faux, l\'opération posée ne rapporte aucun point.',
+        correct: false,
+        explanation: 'Faux. Le barème découpe la question en petites parts : une part pour l\'opération posée, une part pour le résultat, une part pour l\'unité. L\'opération posée rapporte son point même si le résultat final est faux. C\'est pourquoi je pose toujours l\'opération avant d\'écrire le résultat.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le squelette de la réponse longue, qu\'écrit-on à la première ligne ?',
+        options: ['La liste de toutes les données du document', 'Un inconvénient de la solution retenue', 'Son choix ou sa conclusion, annoncé dès la première phrase', 'Une question posée au correcteur pour montrer qu\'on a réfléchi'],
+        correct: 2,
+        explanation: 'Le squelette tient en quatre lignes : ligne 1, j\'annonce mon choix ou ma conclusion ; ligne 2, premier argument chiffré et sa conséquence ; ligne 3, deuxième argument chiffré et sa conséquence ; ligne 4, je reconnais un inconvénient. Annoncer sa conclusion d\'emblée rapporte un point et coûte dix secondes.'
+      },
+      {
+        type: 'qcm',
+        question: 'Comment se répartissent les 20 points de l\'oral de soutenance ?',
+        options: ['10 points d\'expression orale et 10 points de maîtrise du sujet', '8 points d\'expression orale et 12 points de maîtrise du sujet', '12 points d\'expression orale et 8 points de maîtrise du sujet', '20 points de maîtrise du sujet, l\'expression n\'étant pas notée'],
+        correct: 1,
+        explanation: 'L\'oral dure 15 minutes et il est noté sur 20 : 8 points pour l\'expression orale, c\'est-à-dire la manière de parler, et 12 points pour la maîtrise du sujet. Il se déroule entre le 15 avril et le dernier jour des épreuves écrites.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le contrôle continu représente 40 % de la note finale du diplôme.',
+        correct: true,
+        explanation: 'Vrai. Le contrôle continu compte pour 40 % de la note finale, les épreuves terminales pour 60 %. La moyenne annuelle de technologie de troisième entre dans ce contrôle continu : les évaluations de la période 5 comptent donc encore.'
+      }
+    ];
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

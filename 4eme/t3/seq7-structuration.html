@@ -1,101 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Structuration — Séq. 7 : Projet collaboratif | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 7"},{"label":"Structuration"}]'
-    data-print-title="STRUCTURATION — Séquence 7 : Projet collaboratif"
-    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Structuration</span>
-        <h1>Structuration — Séquence 7</h1>
-        <p class="page-description">Projet collaboratif — Ce qu'il faut retenir</p>
-      </div>
-      <div class="page-actions no-print">
-        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq7-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
-        <a href="seq7-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 1 — La démarche de projet</h2>
-        <div class="info-box info-box-blue">
-          <strong>Définition :</strong> Un projet technologique suit un cycle organisé d'étapes pour passer d'un besoin à un objet fonctionnel.
-        </div>
-        <table>
-          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Étape</th><th>Description</th></tr></thead>
-          <tbody>
-            <tr><td style="text-align:center;">1</td><td><strong>Analyse du besoin</strong></td><td>Identifier le problème à résoudre et les utilisateurs</td></tr>
-            <tr><td style="text-align:center;">2</td><td><strong>Cahier des charges</strong></td><td>Définir les fonctions, contraintes et critères de réussite</td></tr>
-            <tr><td style="text-align:center;">3</td><td><strong>Conception</strong></td><td>Dessiner, modéliser, programmer le prototype</td></tr>
-            <tr><td style="text-align:center;">4</td><td><strong>Fabrication</strong></td><td>Réaliser le prototype (impression 3D, découpe laser, assemblage)</td></tr>
-            <tr><td style="text-align:center;">5</td><td><strong>Tests et validation</strong></td><td>Vérifier que le prototype respecte le cahier des charges</td></tr>
-            <tr><td style="text-align:center;">6</td><td><strong>Présentation</strong></td><td>Communiquer les résultats, difficultés et améliorations possibles</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 2 — Le travail collaboratif</h2>
-        <div class="info-box info-box-green">
-          <strong>Principe :</strong> Chaque membre de l'équipe a un rôle précis. La répartition des tâches permet de travailler en parallèle et de gagner du temps.
-        </div>
-        <table>
-          <thead><tr><th style="width:30%">Rôle</th><th>Responsabilités</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Chef de projet</strong></td><td>Coordonne l'équipe, suit le planning, vérifie les jalons</td></tr>
-            <tr><td><strong>Dessinateur</strong></td><td>Réalise les croquis, modélise en 3D (TinkerCAD / OnShape)</td></tr>
-            <tr><td><strong>Programmeur</strong></td><td>Écrit le programme Arduino, teste les capteurs et actionneurs</td></tr>
-            <tr><td><strong>Fabricant</strong></td><td>Prépare les fichiers de fabrication, assemble le prototype</td></tr>
-          </tbody>
-        </table>
-        <p style="margin-top:var(--space-md);"><strong>Outils numériques collaboratifs :</strong> Google Drive (partage de documents), Trello (suivi des tâches), TinkerCAD (modélisation partagée).</p>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 3 — Le cahier des charges fonctionnel (CdCF)</h2>
-        <div class="info-box info-box-yellow">
-          <strong>Rappel :</strong> Le CdCF est le document de référence du projet. Il décrit ce que l'objet doit faire, sans dire comment le faire.
-        </div>
-        <p>Un CdCF contient :</p>
-        <ul>
-          <li><strong>Fonction principale :</strong> le but de l'objet (ce qu'il doit faire)</li>
-          <li><strong>Fonctions de contrainte :</strong> les limites à respecter (dimensions, budget, matériaux, normes)</li>
-          <li><strong>Critères d'appréciation :</strong> comment mesurer si le besoin est satisfait</li>
-        </ul>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 4 — La planification : diagramme de Gantt</h2>
-        <div class="info-box info-box-blue">
-          <strong>Définition :</strong> Le diagramme de Gantt est un outil de planification qui représente les tâches du projet sur un axe temporel (semaines).
-        </div>
-        <p>Il permet de :</p>
-        <ul>
-          <li>Visualiser la durée de chaque tâche</li>
-          <li>Identifier les tâches qui peuvent se faire en parallèle</li>
-          <li>Repérer les <strong>jalons</strong> (points de contrôle)</li>
-          <li>Anticiper les retards éventuels</li>
-        </ul>
-        <table>
-          <thead><tr><th>Terme</th><th>Définition</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Tâche</strong></td><td>Action à réaliser avec une durée et un responsable</td></tr>
-            <tr><td><strong>Jalon</strong></td><td>Point de contrôle pour vérifier l'avancement du projet</td></tr>
-            <tr><td><strong>Livrable</strong></td><td>Résultat concret attendu à la fin d'une étape</td></tr>
-            <tr><td><strong>Parallélisme</strong></td><td>Plusieurs tâches peuvent se dérouler en même temps</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
-  <script src="../../js/components.js"></script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p5/seq9-structuration.html">
+<link rel="canonical" href="../p5/seq9-structuration.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p5/seq9-structuration.html">Continuer vers la nouvelle page</a></p>
+</body></html>

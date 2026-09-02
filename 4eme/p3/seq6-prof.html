@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fiche Prof — Séq. 6 : Programmation Arduino | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 6"},{"label":"Fiche Prof"}]'
+    data-print-title="FICHE PROFESSEUR — Séquence 6 : Programmation Arduino"
+    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 3 · Fiche Prof</span>
+        <h1>Fiche Professeur — Séquence 6</h1>
+        <p class="page-description">Programmation Arduino — Commander capteurs et actionneurs (S25 → S27)</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq6-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a>
+        <a href="seq6-eval.html" class="btn btn-outline">&#x1F4CB; Évaluation</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Déroulé de la séquence</h2>
+        <table>
+          <thead><tr><th style="width:15%">Séance</th><th style="width:35%">Contenu</th><th style="width:25%">Activité élève</th><th style="width:25%">Support / Outil</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>S25</strong><br>(1h)</td>
+              <td>Découverte Arduino Uno, breadboard, câblage LED, programme Blink</td>
+              <td>Activité 1 — LED clignotante</td>
+              <td>Arduino IDE, kit Arduino</td>
+            </tr>
+            <tr>
+              <td><strong>S26</strong><br>(1h)</td>
+              <td>Capteur ultrason, lecture distance, condition if/else, moniteur série</td>
+              <td>Activité 2 — Capteur + réaction</td>
+              <td>HC-SR04, LED, buzzer</td>
+            </tr>
+            <tr>
+              <td><strong>S27</strong><br>(1h)</td>
+              <td>Programmation du prototype d'équipe (projet Séq. 9)</td>
+              <td>Activité 3 — Programme du prototype</td>
+              <td>Composants du projet</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 1</h2>
+        <p><strong>Identification des éléments Arduino :</strong></p>
+        <table>
+          <thead><tr><th>Élément</th><th>Rôle</th></tr></thead>
+          <tbody>
+            <tr><td>Microcontrôleur (ATmega328)</td><td>Le « cerveau » qui exécute le programme</td></tr>
+            <tr><td>Port USB</td><td>Alimentation + communication avec l'ordinateur (téléversement)</td></tr>
+            <tr><td>Pins numériques (0-13)</td><td>Entrées/sorties tout-ou-rien (0 ou 1) — boutons, LEDs</td></tr>
+            <tr><td>Pins analogiques (A0-A5)</td><td>Lecture de valeurs 0 à 1023 — capteurs de lumière, température</td></tr>
+            <tr><td>Alimentation (5V, 3.3V, GND)</td><td>Fournir l'énergie aux composants externes</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:var(--space-md);"><strong>Questions :</strong></p>
+        <ol>
+          <li><strong>setup()</strong> = initialisation, s'exécute une seule fois au démarrage (configuration des pins)</li>
+          <li><strong>loop()</strong> = boucle principale, s'exécute en continu indéfiniment</li>
+          <li>Pour clignoter 2× plus vite : remplacer delay(1000) par <strong>delay(500)</strong></li>
+        </ol>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 2</h2>
+        <p><strong>Condition if/else attendue :</strong></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.9rem; line-height:1.6;">
+          <span style="color:#0277BD;">if</span> (distance &lt; 15) {<br>
+          &nbsp;&nbsp;digitalWrite(ledPin, <strong>HIGH</strong>); <span style="color:#757575;">// Allumer LED</span><br>
+          } <span style="color:#0277BD;">else</span> {<br>
+          &nbsp;&nbsp;digitalWrite(ledPin, <strong>LOW</strong>); <span style="color:#757575;">// Éteindre LED</span><br>
+          }
+        </div>
+        <p style="margin-top:var(--space-md);"><strong>Points de vigilance :</strong></p>
+        <ul>
+          <li>Vérifier que les élèves utilisent le bon sens du capteur (Trig = OUTPUT, Echo = INPUT)</li>
+          <li>Le moniteur série (Serial Monitor) doit être à 9600 bauds</li>
+          <li>Bien câbler la résistance en série avec la LED (risque de griller la LED sans résistance)</li>
+        </ul>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x2705; Éléments de correction — Activité 3</h2>
+        <p><strong>Exemple de programme pour distributeur de gel :</strong></p>
+        <div style="background:var(--gray-100); padding:var(--space-md); border-radius:var(--radius-sm); font-family:monospace; font-size:0.85rem; line-height:1.5;">
+          #include &lt;Servo.h&gt;<br>
+          Servo monServo;<br>
+          <span style="color:#0277BD;">int</span> distance;<br><br>
+          <span style="color:#0277BD;">void</span> <strong>setup</strong>() {<br>
+          &nbsp;&nbsp;pinMode(9, OUTPUT);&nbsp;&nbsp;<span style="color:#757575;">// Trig</span><br>
+          &nbsp;&nbsp;pinMode(10, INPUT);&nbsp;&nbsp;<span style="color:#757575;">// Echo</span><br>
+          &nbsp;&nbsp;monServo.attach(6);&nbsp;&nbsp;<span style="color:#757575;">// Servo pin 6</span><br>
+          &nbsp;&nbsp;monServo.write(0);&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Position initiale</span><br>
+          }<br><br>
+          <span style="color:#0277BD;">void</span> <strong>loop</strong>() {<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;delayMicroseconds(2);<br>
+          &nbsp;&nbsp;digitalWrite(9, HIGH);<br>
+          &nbsp;&nbsp;delayMicroseconds(10);<br>
+          &nbsp;&nbsp;digitalWrite(9, LOW);<br>
+          &nbsp;&nbsp;distance = pulseIn(10, HIGH) / 58;<br><br>
+          &nbsp;&nbsp;<span style="color:#0277BD;">if</span> (distance &lt; 10) {<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;monServo.write(90);&nbsp;&nbsp;<span style="color:#757575;">// Appuyer</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;delay(1000);<br>
+          &nbsp;&nbsp;&nbsp;&nbsp;monServo.write(0);&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Relâcher</span><br>
+          &nbsp;&nbsp;&nbsp;&nbsp;delay(2000);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#757575;">// Anti-spam</span><br>
+          &nbsp;&nbsp;}<br>
+          &nbsp;&nbsp;delay(200);<br>
+          }
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F4CB; Entrées Pronote</h2>
+        <table>
+          <thead><tr><th>Séance</th><th>Entrée cahier de textes</th></tr></thead>
+          <tbody>
+            <tr><td>S25</td><td>Séq. 6 — Programmation Arduino. Découverte de la carte Arduino Uno, câblage d'une LED sur breadboard, programme Blink (setup/loop/delay). Fiche activité 1.</td></tr>
+            <tr><td>S26</td><td>Suite Séq. 6 — Capteur ultrason HC-SR04 : câblage, mesure de distance, structure conditionnelle if/else, moniteur série. Fiche activité 2.</td></tr>
+            <tr><td>S27</td><td>Fin Séq. 6 — Programmation du prototype d'équipe : schéma de câblage, pseudo-code, codage et tests. Fiche activité 3. Structuration.</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

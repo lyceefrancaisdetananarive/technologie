@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Accès direct — Technologie LFT</title>
+  <link rel="icon" type="image/png" href="img/logo-lft.png">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <div id="app" data-page="accueil">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge">&#x1F517; Accès direct</span>
+        <h1>Ouvrir une ressource par son code</h1>
+        <p class="page-description">Saisis le code inscrit sous le QR code, par exemple
+        <strong>51A</strong>.</p>
+      </div>
+
+      <div class="content-card">
+        <div id="etat"></div>
+        <form id="f" style="display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
+          <input id="code" name="c" type="text" inputmode="text" autocapitalize="characters"
+                 autocomplete="off" placeholder="Ex. 51A"
+                 style="font-size:1.4rem; padding:.6rem .9rem; border:2px solid var(--gray-300);
+                        border-radius:var(--radius-sm); width:9rem; text-transform:uppercase;">
+          <button class="btn btn-print" type="submit">Ouvrir</button>
+        </form>
+        <p style="margin-top:var(--space-md); font-size:.95rem; color:var(--gray-600)">
+          Le code se lit ainsi : le premier chiffre est le niveau, le deuxième le numéro de
+          séquence, la lettre le type de document —
+          <strong>A</strong> activité, <strong>S</strong> structuration,
+          <strong>E</strong> évaluation, <strong>Q</strong> quiz,
+          <strong>B</strong> version adaptée, <strong>R</strong> révision.
+          <strong>5D</strong> désigne l'évaluation diagnostique de 5<sup>ème</sup>.
+        </p>
+      </div>
+    </main>
+  </div>
+
+  <script src="js/components.js"></script>
+  <script>
+    const TABLE = {
+"5D": "5eme/p1/diagnostique-eleve.html",
+"51A": "5eme/p1/seq1-activite.html",
+"51S": "5eme/p1/seq1-structuration.html",
+"51E": "5eme/p1/seq1-eval.html",
+"51Q": "5eme/p1/seq1-quiz.html",
+"51B": "5eme/p1/seq1-ebep.html",
+"51R": "5eme/p1/seq1-revision.html",
+"52A": "5eme/p1/seq2-activite.html",
+"52S": "5eme/p1/seq2-structuration.html",
+"52E": "5eme/p1/seq2-eval.html",
+"52Q": "5eme/p1/seq2-quiz.html",
+"52B": "5eme/p1/seq2-ebep.html",
+"52R": "5eme/p1/seq2-revision.html",
+"53A": "5eme/p2/seq3-activite.html",
+"53S": "5eme/p2/seq3-structuration.html",
+"53E": "5eme/p2/seq3-eval.html",
+"53Q": "5eme/p2/seq3-quiz.html",
+"53B": "5eme/p2/seq3-ebep.html",
+"53R": "5eme/p2/seq3-revision.html",
+"54A": "5eme/p2/seq4-activite.html",
+"54S": "5eme/p2/seq4-structuration.html",
+"54E": "5eme/p2/seq4-eval.html",
+"54Q": "5eme/p2/seq4-quiz.html",
+"54B": "5eme/p2/seq4-ebep.html",
+"54R": "5eme/p2/seq4-revision.html",
+"55A": "5eme/p3/seq5-activite.html",
+"55S": "5eme/p3/seq5-structuration.html",
+"55E": "5eme/p3/seq5-eval.html",
+"55Q": "5eme/p3/seq5-quiz.html",
+"55B": "5eme/p3/seq5-ebep.html",
+"55R": "5eme/p3/seq5-revision.html",
+"56A": "5eme/p3/seq6-activite.html",
+"56S": "5eme/p3/seq6-structuration.html",
+"56E": "5eme/p3/seq6-eval.html",
+"56Q": "5eme/p3/seq6-quiz.html",
+"56B": "5eme/p3/seq6-ebep.html",
+"56R": "5eme/p3/seq6-revision.html",
+"57A": "5eme/p4/seq7-activite.html",
+"57S": "5eme/p4/seq7-structuration.html",
+"57E": "5eme/p4/seq7-eval.html",
+"57Q": "5eme/p4/seq7-quiz.html",
+"57B": "5eme/p4/seq7-ebep.html",
+"57R": "5eme/p4/seq7-revision.html",
+"58A": "5eme/p5/seq8-activite.html",
+"58S": "5eme/p5/seq8-structuration.html",
+"58E": "5eme/p5/seq8-eval.html",
+"58Q": "5eme/p5/seq8-quiz.html",
+"58B": "5eme/p5/seq8-ebep.html",
+"58R": "5eme/p5/seq8-revision.html",
+"59A": "5eme/p5/seq9-activite.html",
+"59S": "5eme/p5/seq9-structuration.html",
+"59E": "5eme/p5/seq9-eval.html",
+"59Q": "5eme/p5/seq9-quiz.html",
+"59B": "5eme/p5/seq9-ebep.html",
+"59R": "5eme/p5/seq9-revision.html",
+"4D": "4eme/p1/diagnostique-eleve.html",
+"41A": "4eme/p1/seq1-activite.html",
+"41S": "4eme/p1/seq1-structuration.html",
+"41E": "4eme/p1/seq1-eval.html",
+"41Q": "4eme/p1/seq1-quiz.html",
+"41B": "4eme/p1/seq1-ebep.html",
+"41R": "4eme/p1/seq1-revision.html",
+"42A": "4eme/p1/seq2-activite.html",
+"42S": "4eme/p1/seq2-structuration.html",
+"42E": "4eme/p1/seq2-eval.html",
+"42Q": "4eme/p1/seq2-quiz.html",
+"42B": "4eme/p1/seq2-ebep.html",
+"42R": "4eme/p1/seq2-revision.html",
+"43A": "4eme/p2/seq3-activite.html",
+"43S": "4eme/p2/seq3-structuration.html",
+"43E": "4eme/p2/seq3-eval.html",
+"43Q": "4eme/p2/seq3-quiz.html",
+"43B": "4eme/p2/seq3-ebep.html",
+"43R": "4eme/p2/seq3-revision.html",
+"44A": "4eme/p2/seq4-activite.html",
+"44S": "4eme/p2/seq4-structuration.html",
+"44E": "4eme/p2/seq4-eval.html",
+"44Q": "4eme/p2/seq4-quiz.html",
+"44B": "4eme/p2/seq4-ebep.html",
+"44R": "4eme/p2/seq4-revision.html",
+"45A": "4eme/p3/seq5-activite.html",
+"45S": "4eme/p3/seq5-structuration.html",
+"45E": "4eme/p3/seq5-eval.html",
+"45Q": "4eme/p3/seq5-quiz.html",
+"45B": "4eme/p3/seq5-ebep.html",
+"45R": "4eme/p3/seq5-revision.html",
+"46A": "4eme/p3/seq6-activite.html",
+"46S": "4eme/p3/seq6-structuration.html",
+"46E": "4eme/p3/seq6-eval.html",
+"46Q": "4eme/p3/seq6-quiz.html",
+"46B": "4eme/p3/seq6-ebep.html",
+"46R": "4eme/p3/seq6-revision.html",
+"47A": "4eme/p4/seq7-activite.html",
+"47S": "4eme/p4/seq7-structuration.html",
+"47E": "4eme/p4/seq7-eval.html",
+"47Q": "4eme/p4/seq7-quiz.html",
+"47B": "4eme/p4/seq7-ebep.html",
+"47R": "4eme/p4/seq7-revision.html",
+"48A": "4eme/p5/seq8-activite.html",
+"48S": "4eme/p5/seq8-structuration.html",
+"48E": "4eme/p5/seq8-eval.html",
+"48Q": "4eme/p5/seq8-quiz.html",
+"48B": "4eme/p5/seq8-ebep.html",
+"48R": "4eme/p5/seq8-revision.html",
+"49A": "4eme/p5/seq9-activite.html",
+"49S": "4eme/p5/seq9-structuration.html",
+"49E": "4eme/p5/seq9-eval.html",
+"49Q": "4eme/p5/seq9-quiz.html",
+"49B": "4eme/p5/seq9-ebep.html",
+"49R": "4eme/p5/seq9-revision.html",
+"3D": "3eme/p1/diagnostique-eleve.html",
+"31A": "3eme/p1/seq1-activite.html",
+"31S": "3eme/p1/seq1-structuration.html",
+"31E": "3eme/p1/seq1-eval.html",
+"31Q": "3eme/p1/seq1-quiz.html",
+"31B": "3eme/p1/seq1-ebep.html",
+"31R": "3eme/p1/seq1-revision.html",
+"32A": "3eme/p1/seq2-activite.html",
+"32S": "3eme/p1/seq2-structuration.html",
+"32E": "3eme/p1/seq2-eval.html",
+"32Q": "3eme/p1/seq2-quiz.html",
+"32B": "3eme/p1/seq2-ebep.html",
+"32R": "3eme/p1/seq2-revision.html",
+"33A": "3eme/p2/seq3-activite.html",
+"33S": "3eme/p2/seq3-structuration.html",
+"33E": "3eme/p2/seq3-eval.html",
+"33Q": "3eme/p2/seq3-quiz.html",
+"33B": "3eme/p2/seq3-ebep.html",
+"33R": "3eme/p2/seq3-revision.html",
+"34A": "3eme/p2/seq4-activite.html",
+"34S": "3eme/p2/seq4-structuration.html",
+"34E": "3eme/p2/seq4-eval.html",
+"34Q": "3eme/p2/seq4-quiz.html",
+"34B": "3eme/p2/seq4-ebep.html",
+"34R": "3eme/p2/seq4-revision.html",
+"35A": "3eme/p3/seq5-activite.html",
+"35S": "3eme/p3/seq5-structuration.html",
+"35E": "3eme/p3/seq5-eval.html",
+"35Q": "3eme/p3/seq5-quiz.html",
+"35B": "3eme/p3/seq5-ebep.html",
+"35R": "3eme/p3/seq5-revision.html",
+"36A": "3eme/p3/seq6-activite.html",
+"36S": "3eme/p3/seq6-structuration.html",
+"36E": "3eme/p3/seq6-eval.html",
+"36Q": "3eme/p3/seq6-quiz.html",
+"36B": "3eme/p3/seq6-ebep.html",
+"36R": "3eme/p3/seq6-revision.html",
+"37A": "3eme/p4/seq7-activite.html",
+"37S": "3eme/p4/seq7-structuration.html",
+"37E": "3eme/p4/seq7-eval.html",
+"37Q": "3eme/p4/seq7-quiz.html",
+"37B": "3eme/p4/seq7-ebep.html",
+"37R": "3eme/p4/seq7-revision.html",
+"38A": "3eme/p5/seq8-activite.html",
+"38S": "3eme/p5/seq8-structuration.html",
+"38E": "3eme/p5/seq8-eval.html",
+"38Q": "3eme/p5/seq8-quiz.html",
+"38B": "3eme/p5/seq8-ebep.html",
+"38R": "3eme/p5/seq8-revision.html",
+"39A": "3eme/p5/seq9-activite.html",
+"39S": "3eme/p5/seq9-structuration.html",
+"39E": "3eme/p5/seq9-eval.html",
+"39Q": "3eme/p5/seq9-quiz.html",
+"39B": "3eme/p5/seq9-ebep.html",
+"39R": "3eme/p5/seq9-revision.html"
+};
+
+    function ouvrir(code) {
+      const c = (code || '').trim().toUpperCase().replace(/[^0-9A-Z]/g, '');
+      if (!c) return false;
+      const cible = TABLE[c];
+      if (cible) { location.replace(cible); return true; }
+      document.getElementById('etat').innerHTML =
+        '<div class="info-box info-box-orange"><div class="info-box-title">Code inconnu</div>' +
+        'Le code <strong>' + c.replace(/[<>&]/g, '') + '</strong> ne correspond à aucune ressource. ' +
+        'Vérifie la lettre à la fin, puis réessaie.</div>';
+      return false;
+    }
+
+    const p = new URLSearchParams(location.search).get('c') || location.hash.replace('#', '');
+    if (p) ouvrir(p);
+    document.getElementById('f').addEventListener('submit', function (e) {
+      e.preventDefault();
+      ouvrir(document.getElementById('code').value);
+    });
+  </script>
+</body>
+</html>

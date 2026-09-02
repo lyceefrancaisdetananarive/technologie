@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Impression par lot | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .lot-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                  gap: var(--space-lg); }
+    .lot-bloc h3 { font-size: 1rem; margin-bottom: .4rem; }
+    .lot-liste { max-height: 300px; overflow-y: auto; border: 1px solid var(--gray-200);
+                 border-radius: var(--radius-sm); padding: .5rem .7rem; background: var(--gray-50); }
+    .lot-liste label { display: block; padding: .22rem 0; font-size: .93rem; cursor: pointer; }
+    .lot-liste input { margin-right: .5rem; }
+    .lot-seq { font-weight: 600; margin-top: .5rem; font-size: .86rem; color: var(--gray-600); }
+    .lot-resume { font-size: 1.05rem; }
+    .lot-etat { margin-top: var(--space-md); }
+    #sortie { display: none; }
+    .doc-lot { break-after: page; page-break-after: always; }
+    .doc-lot:last-child { break-after: auto; page-break-after: auto; }
+    .doc-entete { border-bottom: 2px solid var(--gray-300); padding-bottom: .4rem;
+                  margin-bottom: 1rem; font-size: .85rem; color: var(--gray-600);
+                  display: flex; justify-content: space-between; gap: 1rem; }
+    .garde { break-after: page; page-break-after: always; text-align: center; padding-top: 28mm; }
+    .garde h2 { font-size: 1.6rem; margin-bottom: .4rem; }
+    .garde .ligne { border-bottom: 1px solid #000; height: 2.1rem; max-width: 420px;
+                    margin: 1.4rem auto 0; }
+    @media print {
+      .no-print { display: none !important; }
+      #sortie { display: block !important; }
+      .site-header, .site-footer, .breadcrumb, .page-header, .page-actions { display: none !important; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="outils"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Outils","url":"index.html"},{"label":"Impression par lot"}]'
+    data-print-title="Lot de documents — Technologie"
+    data-print-subtitle="Lycée Français de Tananarive">
+    <main class="site-main">
+
+      <div class="page-header no-print">
+        <span class="page-level-badge">&#x1F5A8; Outils</span>
+        <h1>Impression par lot</h1>
+        <p class="page-description">Assembler en un seul tirage tous les documents d'une séquence,
+        d'une période ou d'un niveau.</p>
+      </div>
+
+      <div class="content-card no-print" id="avert" style="display:none">
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">À ouvrir depuis le site, pas depuis un fichier local</div>
+          Cette page a besoin de lire les autres pages du site pour les assembler. Ouverte
+          directement depuis un dossier de l'ordinateur, votre navigateur le lui interdit.
+          Ouvrez-la depuis l'adresse du site en ligne.
+        </div>
+      </div>
+
+      <div class="content-card no-print">
+        <h2>&#x1F4CC; Raccourcis</h2>
+        <div style="display:flex; gap:var(--space-md); flex-wrap:wrap;">
+          <button class="btn btn-outline" data-preset="diag">Les trois évaluations diagnostiques</button>
+          <button class="btn btn-outline" data-preset="eleve">Tout ce que l'élève doit avoir, période en cours</button>
+          <button class="btn btn-outline" data-preset="seq">Jeu complet d'une séquence</button>
+          <button class="btn btn-outline" data-preset="vider">Tout décocher</button>
+        </div>
+      </div>
+
+      <div class="content-card no-print">
+        <h2>&#x2699; Choisir les documents</h2>
+        <div class="lot-grille">
+          <div class="lot-bloc">
+            <h3>Niveau</h3>
+            <div class="lot-liste" id="f-niveau"></div>
+          </div>
+          <div class="lot-bloc">
+            <h3>Période</h3>
+            <div class="lot-liste" id="f-periode"></div>
+          </div>
+          <div class="lot-bloc">
+            <h3>Type de document</h3>
+            <div class="lot-liste" id="f-type"></div>
+          </div>
+        </div>
+        <h3 style="margin-top:var(--space-lg)">Documents retenus</h3>
+        <div class="lot-liste" id="f-docs" style="max-height:320px"></div>
+      </div>
+
+      <div class="content-card no-print">
+        <h2>&#x1F4C4; Page de garde</h2>
+        <label style="display:block; margin-bottom:.5rem;">
+          <input type="checkbox" id="garde"> Ajouter une page de garde avec un cadre pour le nom
+        </label>
+        <div style="display:flex; gap:var(--space-md); flex-wrap:wrap; align-items:center;">
+          <input id="classe" type="text" placeholder="Classe, par exemple 4ème B"
+                 style="padding:.5rem .7rem; border:2px solid var(--gray-300);
+                        border-radius:var(--radius-sm); min-width:16rem;">
+        </div>
+      </div>
+
+      <div class="content-card no-print">
+        <h2>&#x1F5A8; Préparer et imprimer</h2>
+        <p class="lot-resume" id="resume">Aucun document sélectionné.</p>
+        <div style="display:flex; gap:var(--space-md); flex-wrap:wrap;">
+          <button class="btn btn-print" id="preparer">Préparer le lot</button>
+          <button class="btn btn-outline" id="imprimer" disabled>Imprimer / PDF</button>
+        </div>
+        <div class="lot-etat" id="etat"></div>
+        <div class="info-box info-box-blue" style="margin-top:var(--space-md)">
+          Pour tirer le lot en plusieurs exemplaires, indiquez le nombre de copies dans la boîte
+          de dialogue d'impression de votre navigateur. Le lot est assemblé une fois, la
+          photocopieuse fait le reste.
+        </div>
+      </div>
+
+      <div id="sortie"></div>
+
+    </main>
+  </div>
+
+  <script src="../js/components.js"></script>
+  <script>
+    const CAT = [{"code":"5D","n":"5eme","s":0,"p":"p1","t":"diagnostique","l":"Évaluation diagnostique","ti":"Évaluation diagnostique de rentrée","u":"5eme/p1/diagnostique-eleve.html"},{"code":"51A","n":"5eme","s":1,"p":"p1","t":"activite","l":"Activité","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-activite.html"},{"code":"51S","n":"5eme","s":1,"p":"p1","t":"structuration","l":"Structuration","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-structuration.html"},{"code":"51E","n":"5eme","s":1,"p":"p1","t":"eval","l":"Évaluation","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-eval.html"},{"code":"51Q","n":"5eme","s":1,"p":"p1","t":"quiz","l":"Quiz","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-quiz.html"},{"code":"51B","n":"5eme","s":1,"p":"p1","t":"ebep","l":"Version adaptée","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-ebep.html"},{"code":"51R","n":"5eme","s":1,"p":"p1","t":"revision","l":"Révision","ti":"Découverte des objets techniques","u":"5eme/p1/seq1-revision.html"},{"code":"52A","n":"5eme","s":2,"p":"p1","t":"activite","l":"Activité","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-activite.html"},{"code":"52S","n":"5eme","s":2,"p":"p1","t":"structuration","l":"Structuration","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-structuration.html"},{"code":"52E","n":"5eme","s":2,"p":"p1","t":"eval","l":"Évaluation","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-eval.html"},{"code":"52Q","n":"5eme","s":2,"p":"p1","t":"quiz","l":"Quiz","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-quiz.html"},{"code":"52B","n":"5eme","s":2,"p":"p1","t":"ebep","l":"Version adaptée","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-ebep.html"},{"code":"52R","n":"5eme","s":2,"p":"p1","t":"revision","l":"Révision","ti":"L'évolution des objets techniques","u":"5eme/p1/seq2-revision.html"},{"code":"53A","n":"5eme","s":3,"p":"p2","t":"activite","l":"Activité","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-activite.html"},{"code":"53S","n":"5eme","s":3,"p":"p2","t":"structuration","l":"Structuration","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-structuration.html"},{"code":"53E","n":"5eme","s":3,"p":"p2","t":"eval","l":"Évaluation","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-eval.html"},{"code":"53Q","n":"5eme","s":3,"p":"p2","t":"quiz","l":"Quiz","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-quiz.html"},{"code":"53B","n":"5eme","s":3,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-ebep.html"},{"code":"53R","n":"5eme","s":3,"p":"p2","t":"revision","l":"Révision","ti":"Cycle de vie et impact environnemental","u":"5eme/p2/seq3-revision.html"},{"code":"54A","n":"5eme","s":4,"p":"p2","t":"activite","l":"Activité","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-activite.html"},{"code":"54S","n":"5eme","s":4,"p":"p2","t":"structuration","l":"Structuration","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-structuration.html"},{"code":"54E","n":"5eme","s":4,"p":"p2","t":"eval","l":"Évaluation","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-eval.html"},{"code":"54Q","n":"5eme","s":4,"p":"p2","t":"quiz","l":"Quiz","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-quiz.html"},{"code":"54B","n":"5eme","s":4,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-ebep.html"},{"code":"54R","n":"5eme","s":4,"p":"p2","t":"revision","l":"Révision","ti":"Structure interne des objets techniques","u":"5eme/p2/seq4-revision.html"},{"code":"55A","n":"5eme","s":5,"p":"p3","t":"activite","l":"Activité","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-activite.html"},{"code":"55S","n":"5eme","s":5,"p":"p3","t":"structuration","l":"Structuration","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-structuration.html"},{"code":"55E","n":"5eme","s":5,"p":"p3","t":"eval","l":"Évaluation","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-eval.html"},{"code":"55Q","n":"5eme","s":5,"p":"p3","t":"quiz","l":"Quiz","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-quiz.html"},{"code":"55B","n":"5eme","s":5,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-ebep.html"},{"code":"55R","n":"5eme","s":5,"p":"p3","t":"revision","l":"Révision","ti":"Transmission et transformation de mouvement","u":"5eme/p3/seq5-revision.html"},{"code":"56A","n":"5eme","s":6,"p":"p3","t":"activite","l":"Activité","ti":"Initiation à la programmation","u":"5eme/p3/seq6-activite.html"},{"code":"56S","n":"5eme","s":6,"p":"p3","t":"structuration","l":"Structuration","ti":"Initiation à la programmation","u":"5eme/p3/seq6-structuration.html"},{"code":"56E","n":"5eme","s":6,"p":"p3","t":"eval","l":"Évaluation","ti":"Initiation à la programmation","u":"5eme/p3/seq6-eval.html"},{"code":"56Q","n":"5eme","s":6,"p":"p3","t":"quiz","l":"Quiz","ti":"Initiation à la programmation","u":"5eme/p3/seq6-quiz.html"},{"code":"56B","n":"5eme","s":6,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Initiation à la programmation","u":"5eme/p3/seq6-ebep.html"},{"code":"56R","n":"5eme","s":6,"p":"p3","t":"revision","l":"Révision","ti":"Initiation à la programmation","u":"5eme/p3/seq6-revision.html"},{"code":"57A","n":"5eme","s":7,"p":"p4","t":"activite","l":"Activité","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-activite.html"},{"code":"57S","n":"5eme","s":7,"p":"p4","t":"structuration","l":"Structuration","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-structuration.html"},{"code":"57E","n":"5eme","s":7,"p":"p4","t":"eval","l":"Évaluation","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-eval.html"},{"code":"57Q","n":"5eme","s":7,"p":"p4","t":"quiz","l":"Quiz","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-quiz.html"},{"code":"57B","n":"5eme","s":7,"p":"p4","t":"ebep","l":"Version adaptée","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-ebep.html"},{"code":"57R","n":"5eme","s":7,"p":"p4","t":"revision","l":"Révision","ti":"Modélisation 3D et conception","u":"5eme/p4/seq7-revision.html"},{"code":"58A","n":"5eme","s":8,"p":"p5","t":"activite","l":"Activité","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-activite.html"},{"code":"58S","n":"5eme","s":8,"p":"p5","t":"structuration","l":"Structuration","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-structuration.html"},{"code":"58E","n":"5eme","s":8,"p":"p5","t":"eval","l":"Évaluation","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-eval.html"},{"code":"58Q","n":"5eme","s":8,"p":"p5","t":"quiz","l":"Quiz","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-quiz.html"},{"code":"58B","n":"5eme","s":8,"p":"p5","t":"ebep","l":"Version adaptée","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-ebep.html"},{"code":"58R","n":"5eme","s":8,"p":"p5","t":"revision","l":"Révision","ti":"IA, objets connectés et réparabilité","u":"5eme/p5/seq8-revision.html"},{"code":"59A","n":"5eme","s":9,"p":"p5","t":"activite","l":"Activité","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-activite.html"},{"code":"59S","n":"5eme","s":9,"p":"p5","t":"structuration","l":"Structuration","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-structuration.html"},{"code":"59E","n":"5eme","s":9,"p":"p5","t":"eval","l":"Évaluation","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-eval.html"},{"code":"59Q","n":"5eme","s":9,"p":"p5","t":"quiz","l":"Quiz","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-quiz.html"},{"code":"59B","n":"5eme","s":9,"p":"p5","t":"ebep","l":"Version adaptée","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-ebep.html"},{"code":"59R","n":"5eme","s":9,"p":"p5","t":"revision","l":"Révision","ti":"Projet de groupe : Concevoir un objet technique","u":"5eme/p5/seq9-revision.html"},{"code":"4D","n":"4eme","s":0,"p":"p1","t":"diagnostique","l":"Évaluation diagnostique","ti":"Évaluation diagnostique de rentrée","u":"4eme/p1/diagnostique-eleve.html"},{"code":"41A","n":"4eme","s":1,"p":"p1","t":"activite","l":"Activité","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-activite.html"},{"code":"41S","n":"4eme","s":1,"p":"p1","t":"structuration","l":"Structuration","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-structuration.html"},{"code":"41E","n":"4eme","s":1,"p":"p1","t":"eval","l":"Évaluation","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-eval.html"},{"code":"41Q","n":"4eme","s":1,"p":"p1","t":"quiz","l":"Quiz","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-quiz.html"},{"code":"41B","n":"4eme","s":1,"p":"p1","t":"ebep","l":"Version adaptée","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-ebep.html"},{"code":"41R","n":"4eme","s":1,"p":"p1","t":"revision","l":"Révision","ti":"Analyse fonctionnelle d'un système automatisé","u":"4eme/p1/seq1-revision.html"},{"code":"42A","n":"4eme","s":2,"p":"p1","t":"activite","l":"Activité","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-activite.html"},{"code":"42S","n":"4eme","s":2,"p":"p1","t":"structuration","l":"Structuration","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-structuration.html"},{"code":"42E","n":"4eme","s":2,"p":"p1","t":"eval","l":"Évaluation","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-eval.html"},{"code":"42Q","n":"4eme","s":2,"p":"p1","t":"quiz","l":"Quiz","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-quiz.html"},{"code":"42B","n":"4eme","s":2,"p":"p1","t":"ebep","l":"Version adaptée","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-ebep.html"},{"code":"42R","n":"4eme","s":2,"p":"p1","t":"revision","l":"Révision","ti":"Algorithme et logique de programmation","u":"4eme/p1/seq2-revision.html"},{"code":"43A","n":"4eme","s":3,"p":"p2","t":"activite","l":"Activité","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-activite.html"},{"code":"43S","n":"4eme","s":3,"p":"p2","t":"structuration","l":"Structuration","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-structuration.html"},{"code":"43E","n":"4eme","s":3,"p":"p2","t":"eval","l":"Évaluation","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-eval.html"},{"code":"43Q","n":"4eme","s":3,"p":"p2","t":"quiz","l":"Quiz","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-quiz.html"},{"code":"43B","n":"4eme","s":3,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-ebep.html"},{"code":"43R","n":"4eme","s":3,"p":"p2","t":"revision","l":"Révision","ti":"Programmation Micro:bit","u":"4eme/p2/seq3-revision.html"},{"code":"44A","n":"4eme","s":4,"p":"p2","t":"activite","l":"Activité","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-activite.html"},{"code":"44S","n":"4eme","s":4,"p":"p2","t":"structuration","l":"Structuration","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-structuration.html"},{"code":"44E","n":"4eme","s":4,"p":"p2","t":"eval","l":"Évaluation","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-eval.html"},{"code":"44Q","n":"4eme","s":4,"p":"p2","t":"quiz","l":"Quiz","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-quiz.html"},{"code":"44B","n":"4eme","s":4,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-ebep.html"},{"code":"44R","n":"4eme","s":4,"p":"p2","t":"revision","l":"Révision","ti":"Cahier des charges et documentation technique","u":"4eme/p2/seq4-revision.html"},{"code":"45A","n":"4eme","s":5,"p":"p3","t":"activite","l":"Activité","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-activite.html"},{"code":"45S","n":"4eme","s":5,"p":"p3","t":"structuration","l":"Structuration","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-structuration.html"},{"code":"45E","n":"4eme","s":5,"p":"p3","t":"eval","l":"Évaluation","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-eval.html"},{"code":"45Q","n":"4eme","s":5,"p":"p3","t":"quiz","l":"Quiz","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-quiz.html"},{"code":"45B","n":"4eme","s":5,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-ebep.html"},{"code":"45R","n":"4eme","s":5,"p":"p3","t":"revision","l":"Révision","ti":"Programmation et automatisation (mBlock / Scratch)","u":"4eme/p3/seq5-revision.html"},{"code":"46A","n":"4eme","s":6,"p":"p3","t":"activite","l":"Activité","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-activite.html"},{"code":"46S","n":"4eme","s":6,"p":"p3","t":"structuration","l":"Structuration","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-structuration.html"},{"code":"46E","n":"4eme","s":6,"p":"p3","t":"eval","l":"Évaluation","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-eval.html"},{"code":"46Q","n":"4eme","s":6,"p":"p3","t":"quiz","l":"Quiz","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-quiz.html"},{"code":"46B","n":"4eme","s":6,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-ebep.html"},{"code":"46R","n":"4eme","s":6,"p":"p3","t":"revision","l":"Révision","ti":"Fiche Professeur — Séquence 6","u":"4eme/p3/seq6-revision.html"},{"code":"47A","n":"4eme","s":7,"p":"p4","t":"activite","l":"Activité","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-activite.html"},{"code":"47S","n":"4eme","s":7,"p":"p4","t":"structuration","l":"Structuration","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-structuration.html"},{"code":"47E","n":"4eme","s":7,"p":"p4","t":"eval","l":"Évaluation","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-eval.html"},{"code":"47Q","n":"4eme","s":7,"p":"p4","t":"quiz","l":"Quiz","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-quiz.html"},{"code":"47B","n":"4eme","s":7,"p":"p4","t":"ebep","l":"Version adaptée","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-ebep.html"},{"code":"47R","n":"4eme","s":7,"p":"p4","t":"revision","l":"Révision","ti":"Modélisation 3D et fabrication numérique","u":"4eme/p4/seq7-revision.html"},{"code":"48A","n":"4eme","s":8,"p":"p5","t":"activite","l":"Activité","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-activite.html"},{"code":"48S","n":"4eme","s":8,"p":"p5","t":"structuration","l":"Structuration","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-structuration.html"},{"code":"48E","n":"4eme","s":8,"p":"p5","t":"eval","l":"Évaluation","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-eval.html"},{"code":"48Q","n":"4eme","s":8,"p":"p5","t":"quiz","l":"Quiz","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-quiz.html"},{"code":"48B","n":"4eme","s":8,"p":"p5","t":"ebep","l":"Version adaptée","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-ebep.html"},{"code":"48R","n":"4eme","s":8,"p":"p5","t":"revision","l":"Révision","ti":"Chaîne d'énergie et chaîne d'information","u":"4eme/p5/seq8-revision.html"},{"code":"49A","n":"4eme","s":9,"p":"p5","t":"activite","l":"Activité","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-activite.html"},{"code":"49S","n":"4eme","s":9,"p":"p5","t":"structuration","l":"Structuration","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-structuration.html"},{"code":"49E","n":"4eme","s":9,"p":"p5","t":"eval","l":"Évaluation","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-eval.html"},{"code":"49Q","n":"4eme","s":9,"p":"p5","t":"quiz","l":"Quiz","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-quiz.html"},{"code":"49B","n":"4eme","s":9,"p":"p5","t":"ebep","l":"Version adaptée","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-ebep.html"},{"code":"49R","n":"4eme","s":9,"p":"p5","t":"revision","l":"Révision","ti":"Du besoin au prototype : concevoir et fabriquer un objet technique programmé","u":"4eme/p5/seq9-revision.html"},{"code":"3D","n":"3eme","s":0,"p":"p1","t":"diagnostique","l":"Évaluation diagnostique","ti":"Évaluation diagnostique de rentrée","u":"3eme/p1/diagnostique-eleve.html"},{"code":"31A","n":"3eme","s":1,"p":"p1","t":"activite","l":"Activité","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-activite.html"},{"code":"31S","n":"3eme","s":1,"p":"p1","t":"structuration","l":"Structuration","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-structuration.html"},{"code":"31E","n":"3eme","s":1,"p":"p1","t":"eval","l":"Évaluation","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-eval.html"},{"code":"31Q","n":"3eme","s":1,"p":"p1","t":"quiz","l":"Quiz","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-quiz.html"},{"code":"31B","n":"3eme","s":1,"p":"p1","t":"ebep","l":"Version adaptée","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-ebep.html"},{"code":"31R","n":"3eme","s":1,"p":"p1","t":"revision","l":"Révision","ti":"Étude critique d'un objet connecté","u":"3eme/p1/seq1-revision.html"},{"code":"32A","n":"3eme","s":2,"p":"p1","t":"activite","l":"Activité","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-activite.html"},{"code":"32S","n":"3eme","s":2,"p":"p1","t":"structuration","l":"Structuration","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-structuration.html"},{"code":"32E","n":"3eme","s":2,"p":"p1","t":"eval","l":"Évaluation","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-eval.html"},{"code":"32Q","n":"3eme","s":2,"p":"p1","t":"quiz","l":"Quiz","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-quiz.html"},{"code":"32B","n":"3eme","s":2,"p":"p1","t":"ebep","l":"Version adaptée","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-ebep.html"},{"code":"32R","n":"3eme","s":2,"p":"p1","t":"revision","l":"Révision","ti":"IA embarquée — Études de cas","u":"3eme/p1/seq2-revision.html"},{"code":"33A","n":"3eme","s":3,"p":"p2","t":"activite","l":"Activité","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-activite.html"},{"code":"33S","n":"3eme","s":3,"p":"p2","t":"structuration","l":"Structuration","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-structuration.html"},{"code":"33E","n":"3eme","s":3,"p":"p2","t":"eval","l":"Évaluation","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-eval.html"},{"code":"33Q","n":"3eme","s":3,"p":"p2","t":"quiz","l":"Quiz","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-quiz.html"},{"code":"33B","n":"3eme","s":3,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-ebep.html"},{"code":"33R","n":"3eme","s":3,"p":"p2","t":"revision","l":"Révision","ti":"Éthique et impacts des technologies","u":"3eme/p2/seq3-revision.html"},{"code":"34A","n":"3eme","s":4,"p":"p2","t":"activite","l":"Activité","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-activite.html"},{"code":"34S","n":"3eme","s":4,"p":"p2","t":"structuration","l":"Structuration","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-structuration.html"},{"code":"34E","n":"3eme","s":4,"p":"p2","t":"eval","l":"Évaluation","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-eval.html"},{"code":"34Q","n":"3eme","s":4,"p":"p2","t":"quiz","l":"Quiz","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-quiz.html"},{"code":"34B","n":"3eme","s":4,"p":"p2","t":"ebep","l":"Version adaptée","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-ebep.html"},{"code":"34R","n":"3eme","s":4,"p":"p2","t":"revision","l":"Révision","ti":"Systèmes automatisés complexes","u":"3eme/p2/seq4-revision.html"},{"code":"35A","n":"3eme","s":5,"p":"p3","t":"activite","l":"Activité","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-activite.html"},{"code":"35S","n":"3eme","s":5,"p":"p3","t":"structuration","l":"Structuration","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-structuration.html"},{"code":"35E","n":"3eme","s":5,"p":"p3","t":"eval","l":"Évaluation","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-eval.html"},{"code":"35Q","n":"3eme","s":5,"p":"p3","t":"quiz","l":"Quiz","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-quiz.html"},{"code":"35B","n":"3eme","s":5,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-ebep.html"},{"code":"35R","n":"3eme","s":5,"p":"p3","t":"revision","l":"Révision","ti":"Programmation avancée (Arduino / mBlock)","u":"3eme/p3/seq5-revision.html"},{"code":"36A","n":"3eme","s":6,"p":"p3","t":"activite","l":"Activité","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-activite.html"},{"code":"36S","n":"3eme","s":6,"p":"p3","t":"structuration","l":"Structuration","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-structuration.html"},{"code":"36E","n":"3eme","s":6,"p":"p3","t":"eval","l":"Évaluation","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-eval.html"},{"code":"36Q","n":"3eme","s":6,"p":"p3","t":"quiz","l":"Quiz","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-quiz.html"},{"code":"36B","n":"3eme","s":6,"p":"p3","t":"ebep","l":"Version adaptée","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-ebep.html"},{"code":"36R","n":"3eme","s":6,"p":"p3","t":"revision","l":"Révision","ti":"Tests et mise au point de prototypes","u":"3eme/p3/seq6-revision.html"},{"code":"37A","n":"3eme","s":7,"p":"p4","t":"activite","l":"Activité","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-activite.html"},{"code":"37S","n":"3eme","s":7,"p":"p4","t":"structuration","l":"Structuration","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-structuration.html"},{"code":"37E","n":"3eme","s":7,"p":"p4","t":"eval","l":"Évaluation","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-eval.html"},{"code":"37Q","n":"3eme","s":7,"p":"p4","t":"quiz","l":"Quiz","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-quiz.html"},{"code":"37B","n":"3eme","s":7,"p":"p4","t":"ebep","l":"Version adaptée","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-ebep.html"},{"code":"37R","n":"3eme","s":7,"p":"p4","t":"revision","l":"Révision","ti":"Méthodologie du brevet","u":"3eme/p4/seq7-revision.html"},{"code":"38A","n":"3eme","s":8,"p":"p5","t":"activite","l":"Activité","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-activite.html"},{"code":"38S","n":"3eme","s":8,"p":"p5","t":"structuration","l":"Structuration","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-structuration.html"},{"code":"38E","n":"3eme","s":8,"p":"p5","t":"eval","l":"Évaluation","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-eval.html"},{"code":"38Q","n":"3eme","s":8,"p":"p5","t":"quiz","l":"Quiz","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-quiz.html"},{"code":"38B","n":"3eme","s":8,"p":"p5","t":"ebep","l":"Version adaptée","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-ebep.html"},{"code":"38R","n":"3eme","s":8,"p":"p5","t":"revision","l":"Révision","ti":"Projet Smart Object — de la conception au prototype","u":"3eme/p5/seq8-revision.html"},{"code":"39A","n":"3eme","s":9,"p":"p5","t":"activite","l":"Activité","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-activite.html"},{"code":"39S","n":"3eme","s":9,"p":"p5","t":"structuration","l":"Structuration","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-structuration.html"},{"code":"39E","n":"3eme","s":9,"p":"p5","t":"eval","l":"Évaluation","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-eval.html"},{"code":"39Q","n":"3eme","s":9,"p":"p5","t":"quiz","l":"Quiz","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-quiz.html"},{"code":"39B","n":"3eme","s":9,"p":"p5","t":"ebep","l":"Version adaptée","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-ebep.html"},{"code":"39R","n":"3eme","s":9,"p":"p5","t":"revision","l":"Révision","ti":"Soutenance et présentation du projet","u":"3eme/p5/seq9-revision.html"}];
+    const LIBN = {"5eme":"5ème","4eme":"4ème","3eme":"3ème"};
+    const LIBP = {"p1": "Période 1", "p2": "Période 2", "p3": "Période 3", "p4": "Période 4", "p5": "Période 5"};
+    const LIBT = {"activite":"Activité","structuration":"Structuration","eval":"Évaluation",
+                   "quiz":"Quiz","ebep":"Version adaptée","revision":"Révision",
+                   "diagnostique":"Diagnostique"};
+
+    if (location.protocol === 'file:') document.getElementById('avert').style.display = '';
+
+    function cases(id, valeurs, libelles, coches) {
+      const h = document.getElementById(id);
+      h.innerHTML = valeurs.map(v =>
+        `<label><input type="checkbox" value="${v}" ${coches.includes(v) ? 'checked' : ''}>` +
+        `${libelles[v] || v}</label>`).join('');
+      h.addEventListener('change', rafraichir);
+    }
+
+    cases('f-niveau', ['5eme','4eme','3eme'], LIBN, ['5eme','4eme','3eme']);
+    cases('f-periode', ['p1','p2','p3','p4','p5'], LIBP, ['p1']);
+    cases('f-type', Object.keys(LIBT), LIBT, ['activite']);
+
+    function coches(id) {
+      return [...document.querySelectorAll('#' + id + ' input:checked')].map(i => i.value);
+    }
+
+    function filtres() {
+      const n = coches('f-niveau'), p = coches('f-periode'), t = coches('f-type');
+      return CAT.filter(c => n.includes(c.n) && (c.t === 'diagnostique' || p.includes(c.p))
+                             && t.includes(c.t));
+    }
+
+    function rafraichir() {
+      const sel = filtres();
+      const h = document.getElementById('f-docs');
+      let dernier = '';
+      h.innerHTML = sel.map(c => {
+        const cle = c.n + '|' + c.s;
+        let titre = '';
+        if (cle !== dernier) {
+          dernier = cle;
+          titre = `<div class="lot-seq">${LIBN[c.n]} — ` +
+                  (c.s ? `Séquence ${c.s} : ${c.ti}` : 'Évaluation diagnostique') + `</div>`;
+        }
+        return titre + `<label><input type="checkbox" class="doc" value="${c.code}" checked>` +
+               `<strong>${c.code}</strong> — ${LIBT[c.t]}</label>`;
+      }).join('') || '<em>Aucun document ne correspond à ces filtres.</em>';
+      h.removeEventListener('change', maj); h.addEventListener('change', maj);
+      maj();
+    }
+
+    function retenus() {
+      const codes = [...document.querySelectorAll('#f-docs input.doc:checked')].map(i => i.value);
+      return CAT.filter(c => codes.includes(c.code));
+    }
+
+    function maj() {
+      const n = retenus().length;
+      document.getElementById('resume').textContent = n === 0
+        ? 'Aucun document sélectionné.'
+        : n + (n > 1 ? ' documents seront assemblés.' : ' document sera assemblé.');
+      document.getElementById('imprimer').disabled = true;
+      document.getElementById('sortie').innerHTML = '';
+    }
+
+    document.querySelectorAll('[data-preset]').forEach(b => b.addEventListener('click', () => {
+      const p = b.dataset.preset;
+      const set = (id, vals) => document.querySelectorAll('#' + id + ' input')
+        .forEach(i => i.checked = vals.includes(i.value));
+      if (p === 'diag') { set('f-niveau', ['5eme','4eme','3eme']); set('f-periode', []);
+                          set('f-type', ['diagnostique']); }
+      if (p === 'eleve') { set('f-type', ['activite','structuration','revision']); }
+      if (p === 'seq') { set('f-type', ['activite','structuration','eval','ebep','revision']); }
+      if (p === 'vider') { set('f-niveau', []); set('f-periode', []); set('f-type', []); }
+      rafraichir();
+    }));
+
+    document.getElementById('preparer').addEventListener('click', async () => {
+      const sel = retenus();
+      const etat = document.getElementById('etat');
+      const sortie = document.getElementById('sortie');
+      if (!sel.length) { etat.innerHTML = '<div class="info-box info-box-orange">Sélectionnez au moins un document.</div>'; return; }
+      sortie.innerHTML = '';
+      let ok = 0, rates = [];
+
+      if (document.getElementById('garde').checked) {
+        const cl = (document.getElementById('classe').value || '').trim();
+        const d = document.createElement('div');
+        d.className = 'garde';
+        d.innerHTML = '<h2>Technologie</h2><p>Lycée Français de Tananarive — 2026-2027</p>' +
+          (cl ? '<p style="font-size:1.15rem;margin-top:1rem"><strong>' +
+                cl.replace(/[<>&]/g, '') + '</strong></p>' : '') +
+          '<p style="margin-top:2rem">Nom et prénom</p><div class="ligne"></div>';
+        sortie.appendChild(d);
+      }
+
+      for (let i = 0; i < sel.length; i++) {
+        const c = sel[i];
+        etat.innerHTML = '<div class="info-box info-box-blue">Assemblage… ' + (i + 1) +
+                         ' sur ' + sel.length + '</div>';
+        try {
+          const r = await fetch('../' + c.u);
+          if (!r.ok) throw new Error(r.status);
+          const doc = new DOMParser().parseFromString(await r.text(), 'text/html');
+          const m = doc.querySelector('main.site-main') || doc.body;
+          m.querySelectorAll('.no-print, .page-actions, script').forEach(e => e.remove());
+          const bloc = document.createElement('section');
+          bloc.className = 'doc-lot';
+          const ent = document.createElement('div');
+          ent.className = 'doc-entete';
+          ent.innerHTML = '<span>' + LIBN[c.n] + ' · ' +
+            (c.s ? 'Séquence ' + c.s + ' — ' + c.ti : 'Évaluation diagnostique') +
+            ' · ' + LIBT[c.t] + '</span><span>' + c.code + '</span>';
+          bloc.appendChild(ent);
+          bloc.appendChild(m);
+          sortie.appendChild(bloc);
+          ok++;
+        } catch (e) { rates.push(c.code); }
+      }
+
+      etat.innerHTML = '<div class="info-box info-box-green"><div class="info-box-title">' +
+        'Lot prêt</div>' + ok + ' document' + (ok > 1 ? 's' : '') + ' assemblé' +
+        (ok > 1 ? 's' : '') +
+        (rates.length ? '. Échec sur : ' + rates.join(', ') + '.' : '.') +
+        ' Cliquez sur Imprimer, puis choisissez « Enregistrer au format PDF » si vous préférez ' +
+        'un fichier.</div>';
+      document.getElementById('imprimer').disabled = ok === 0;
+    });
+
+    document.getElementById('imprimer').addEventListener('click', () => window.print());
+
+    rafraichir();
+  </script>
+</body>
+</html>

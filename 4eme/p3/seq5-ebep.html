@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 5 — Version EBEP | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+    .ebep-fill { border: 2px dashed var(--gray-300); border-radius: var(--radius-sm); padding: var(--space-lg) var(--space-xl); margin: var(--space-sm) 0; min-height: 50px; background: var(--gray-50); }
+  </style>
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P3 — Séquence 5"},{"label":"Version EBEP"}]'
+    data-print-title="4ème — Séquence 5 — ADAPTATION EBEP"
+    data-print-subtitle="Programmation mBlock / Scratch · Fiche adaptée · Technologie LFT">
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 4ème · ADAPTATION EBEP</span>
+        <h1>Séquence 5 — Programmation mBlock / Scratch</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq5-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/45B.svg" alt="QR code 45B">
+          <div>
+            <div class="lien-code">45B</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=45B</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul><li>Police Arial 14pt, interligne 1.8</li><li>Consignes simplifiées et reformulées</li><li>Nombre de questions réduit</li><li>Aides visuelles et amorces de réponse</li></ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; C'est quoi mBlock et Scratch ?</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">Ce sont des logiciels pour programmer avec des blocs visuels (comme des puzzles).</strong>
+        </div>
+        <p>
+          On utilise des <strong>blocs</strong> qu'on emboîte pour créer un programme.<br>
+          Un <strong>sprite</strong> = un objet qu'on peut programmer (le feu tricolore).<br>
+          Un <strong>costume</strong> = l'apparence du sprite (feu vert, feu orange, feu rouge).
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — Le cycle du feu tricolore</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Un feu tricolore change de couleur dans cet ordre : <strong>Vert → Orange → Rouge</strong>, puis ça recommence.
+        </div>
+        <p><strong>Mets les étapes dans le bon ordre (1, 2, 3) :</strong></p>
+        <table>
+          <thead><tr><th style="text-align:center; width:15%">Ordre</th><th>Couleur</th><th>Ce que font les voitures</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Rouge</td><td>Les voitures s'arrêtent</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Vert</td><td>Les voitures passent</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Orange</td><td>Attention ! Ça va changer</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — Les blocs de programme</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong><br>
+          &#x1F7E1; <strong>Événement</strong> = ce qui démarre le programme<br>
+          &#x1F535; <strong>Contrôle</strong> = répéter ou attendre<br>
+          &#x1F7E3; <strong>Apparence</strong> = changer l'image du sprite
+        </div>
+        <p><strong>Associe chaque bloc à sa catégorie :</strong></p>
+        <table>
+          <thead><tr><th style="width:50%">Bloc</th><th style="text-align:center;">Événement &#x1F7E1;</th><th style="text-align:center;">Contrôle &#x1F535;</th><th style="text-align:center;">Apparence &#x1F7E3;</th></tr></thead>
+          <tbody>
+            <tr><td>Quand drapeau vert cliqué</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Répéter indéfiniment</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Basculer sur le costume « vert »</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Attendre 5 secondes</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>sprite</em> / <em>costume</em> / <em>message</em> / <em>boucle</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ est un objet qu'on programme (le feu).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ est une apparence du sprite (vert, orange, rouge).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Un ........................ permet à deux sprites de communiquer.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Une ........................ permet de répéter le cycle du feu pour toujours.</p>
+      </div>
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

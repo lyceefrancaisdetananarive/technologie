@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Révision | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"P5 — Séquence 8"},{"label":"Révision"}]'
+    data-print-title="3ème — Séquence 8 : Révision"
+    data-print-subtitle="Fiche de révision · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-3eme">&#x1F7E0; 3ème · Période 5 · Révision</span>
+        <h1>Séquence 8 — Projet Smart Object — de la conception au prototype</h1>
+        <p class="page-description">Fiche de révision : l&#x27;essentiel et les questions flash.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-quiz.html" class="btn btn-outline">&#x2753; Quiz</a><a href="seq8-structuration.html" class="btn btn-outline">&#x1F4D8; Cours complet</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/38R.svg" alt="QR code 38R">
+          <div>
+            <div class="lien-code">38R</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=38R</div>
+          </div>
+        </div>
+
+      </div>
+
+<div class="content-card"><h2>&#x2B50; L'essentiel</h2><div class="info-box info-box-green"><ul><li>Un Smart Object mesure, décide et agit. Trois blocs le composent : le capteur mesure une grandeur physique, le microcontrôleur compare cette mesure à un seuil et décide, l&#x27;actionneur agit sur le monde réel. Un quatrième élément, l&#x27;alimentation, fournit l&#x27;énergie : port USB ou bloc de piles branché sur la prise d&#x27;alimentation de la carte.</li><li>Le cahier des charges dit ce que l&#x27;objet doit faire, avant de dire comment il le fera. Il contient le besoin, l&#x27;utilisateur visé, les fonctions de service et les contraintes. Chaque fonction de service porte un critère de performance chiffré avec son unité. Règle à retenir : une fonction qui ne peut pas se mesurer ne peut pas se valider, et son essai doit tenir dans une séance.</li><li>Le schéma de câblage se lit en noir et blanc. Chaque fil porte une étiquette écrite : +5V, GND, ou le nom de la broche. Sur le montage réel, le fil rouge est le +5 V et le fil noir la masse GND, mais cette règle de câblage ne remplace jamais les étiquettes écrites du dessin.</li><li>Quatre règles de sécurité électrique, sans exception. Une résistance de 220 ohms en série avec chaque LED. Un actionneur de puissance, mini-pompe ou gros servomoteur, passe toujours par un organe de commande, relais ou transistor, avec sa propre alimentation, et jamais directement sur une broche de la carte. Le bloc de piles de la carte arrive sur la prise d&#x27;alimentation, jamais sur la broche +5V. Aucun montage d&#x27;élève n&#x27;approche le secteur 220 V : tout reste en très basse tension, 5 V ou 12 V sur batterie au maximum.</li><li>On écrit l&#x27;algorithme avant le programme. Le pseudo-code décrit la logique en français, en quatre ou cinq lignes d&#x27;action. L&#x27;organigramme la représente avec quatre symboles seulement : ovale pour le début et la fin, parallélogramme pour une entrée ou une sortie, rectangle pour un calcul, losange pour un test avec ses deux sorties « oui » et « non ».</li><li>Un programme s&#x27;écrit et se met au point par blocs successifs : lire le capteur et afficher la valeur ; comparer la valeur au seuil ; commander l&#x27;actionneur. On teste chaque bloc avant d&#x27;écrire le suivant. Un programme écrit en une seule fois ne se dépanne pas.</li><li>Le boîtier part de mesures réelles. On mesure les composants, on en déduit les dimensions intérieures, on ajoute un jeu de 2 mm sur chaque dimension, puis on dessine un croquis coté. Une cote est une ligne à deux flèches portant une valeur en millimètres. Le croquis coté est le document de conception : c&#x27;est lui qui permet de fabriquer.</li><li>Un prototype se valide par des essais, pas par une impression générale. La fiche d&#x27;essai comporte une ligne par fonction de service et quatre colonnes : la valeur attendue, la manière de faire l&#x27;essai, la valeur mesurée, la conclusion conforme ou non conforme. Un essai doit pouvoir être refait à l&#x27;identique par une autre personne.</li></ul></div></div>
+<div class="content-card"><h2>&#x26A1; Questions flash</h2><table><thead><tr><th style="width:50%">Question</th><th>Réponse</th></tr></thead><tbody>
+<tr><td>Quels sont les trois blocs d&#x27;un Smart Object, dans l&#x27;ordre du fonctionnement ?</td><td>Le capteur, qui mesure. Le microcontrôleur, qui traite et décide. L&#x27;actionneur, qui agit.</td></tr>
+<tr><td>Qu&#x27;est-ce qu&#x27;un critère de performance, et à quoi sert-il en fin de projet ?</td><td>C&#x27;est la valeur chiffrée, avec son unité, associée à une fonction de service. Il sert à écrire l&#x27;essai qui validera cette fonction : sans valeur chiffrée, aucun essai n&#x27;est possible.</td></tr>
+<tr><td>Pourquoi met-on une résistance de 220 ohms en série avec une LED ?</td><td>Pour limiter le courant qui traverse la LED. Sans cette résistance, le courant est trop fort et la LED est détruite.</td></tr>
+<tr><td>Peut-on brancher une mini-pompe 5 V directement sur une broche de la carte ? Pourquoi ?</td><td>Non, jamais. Une broche ne fournit qu&#x27;un courant très faible : la pompe ne tournerait pas et la carte serait détruite. La pompe passe par un module relais et par son propre bloc de piles.</td></tr>
+<tr><td>Où se branche le bloc de piles qui alimente la carte ?</td><td>Sur la prise d&#x27;alimentation de la carte, et jamais sur la broche +5V. La broche +5V est une sortie de la carte, pas une entrée : c&#x27;est le régulateur de la carte qui fabrique le 5 V.</td></tr>
+<tr><td>Que signifie chacune des étiquettes +5V, GND et D7 sur un schéma de câblage ?</td><td>+5V est l&#x27;alimentation en 5 volts. GND est la masse, le retour du courant. D7 est le numéro de la broche numérique 7 de la carte, celle qui porte le signal.</td></tr>
+<tr><td>Que représentent le losange et le parallélogramme dans un organigramme ?</td><td>Le losange représente un test, avec deux sorties, l&#x27;une « oui », l&#x27;autre « non ». Le parallélogramme représente une entrée ou une sortie, par exemple lire un capteur ou allumer une LED.</td></tr>
+<tr><td>Quelle est la méthode imposée pour mettre au point un programme, et pourquoi ?</td><td>Avancer par blocs et tester chaque bloc avant d&#x27;écrire le suivant : lire, comparer, agir. Ainsi, quand une panne apparaît, on sait dans quel bloc elle se trouve.</td></tr>
+<tr><td>Pourquoi ajoute-t-on 2 mm de jeu aux dimensions intérieures du boîtier ?</td><td>Pour que les composants entrent sans forcer. Sans ce jeu, la plaque d&#x27;essai et la carte ne rentrent pas, ou entrent en écrasant les fils.</td></tr>
+<tr><td>Comment se dessine une cote sur un croquis, et dans quelle unité ?</td><td>Par une ligne fine terminée par une flèche à chaque extrémité, avec la valeur écrite au-dessus. L&#x27;unité est le millimètre.</td></tr>
+<tr><td>Quelles sont les quatre colonnes d&#x27;une fiche d&#x27;essai ?</td><td>Ce qui est attendu, la manière de faire l&#x27;essai, la valeur mesurée, et la conclusion : conforme ou non conforme.</td></tr>
+<tr><td>Un capteur ultrason est fixé sous le couvercle d&#x27;une citerne de 30 cm de hauteur et mesure 14 cm. Quelle est la hauteur d&#x27;eau ?</td><td>16 cm, car hauteur d&#x27;eau égale 30 moins 14. Le capteur mesure la distance jusqu&#x27;à la surface de l&#x27;eau, pas la hauteur d&#x27;eau : il faut faire le calcul.</td></tr>
+<tr><td>Un groupe écrit « l&#x27;objet fonctionne 2 heures sur piles ». Pourquoi le professeur demande-t-il de réécrire ce critère ?</td><td>Parce que l&#x27;essai ne tient pas dans une séance de 1h30. On le réécrit sous une forme vérifiable en classe : « l&#x27;objet continue de fonctionner quand le câble USB est débranché, pendant au moins 30 minutes d&#x27;essai ».</td></tr>
+<tr><td>Pourquoi sauvegarde-t-on à la fin de chaque phase, sur le poste et sur la clé USB ?</td><td>Parce que les coupures de courant sont fréquentes. Un travail non sauvegardé est un travail perdu, et une seule clé peut être oubliée ou perdue.</td></tr>
+</tbody></table></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+</body>
+</html>

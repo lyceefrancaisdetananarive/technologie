@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 3 — Version EBEP | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .ebep-content { font-size: 1.05rem; line-height: 1.8; }
+    .ebep-content p { margin-bottom: var(--space-lg); }
+    .ebep-content table { font-size: 1rem; }
+    .ebep-content td, .ebep-content th { padding: 0.85rem 1rem; }
+    .ebep-hint { background: #FFF8E1; border-left: 4px solid #FFB300; padding: var(--space-md); border-radius: var(--radius-sm); margin: var(--space-sm) 0; font-size: 0.95rem; }
+    .ebep-hint strong { color: #E65100; }
+  </style>
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P2 — Séquence 3"},{"label":"Version EBEP"}]'
+    data-print-title="4ème — Séquence 3 — ADAPTATION EBEP"
+    data-print-subtitle="Micro:bit · Fiche adaptée · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge" style="background: var(--accent-light); color: var(--accent);">&#x267F; 4ème · ADAPTATION EBEP</span>
+        <h1>Séquence 3 — Programmation Micro:bit</h1>
+        <p class="page-description">Version adaptée pour les Élèves à Besoins Éducatifs Particuliers (DYS, TDAH, allophones, PAP/PPS).</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq3-activite.html" class="btn btn-outline">&#x1F4DD; Version standard</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/43B.svg" alt="QR code 43B">
+          <div>
+            <div class="lien-code">43B</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=43B</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="info-box info-box-orange" style="margin-bottom: var(--space-xl);">
+        <div class="info-box-title">Adaptations de cette fiche</div>
+        <ul>
+          <li>Police Arial 14pt, interligne 1.8</li>
+          <li>Consignes simplifiées</li>
+          <li>Nombre d'exercices réduit</li>
+          <li>Aides visuelles</li>
+        </ul>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4A1; C'est quoi la Micro:bit ?</h2>
+        <div class="info-box info-box-blue">
+          <strong style="font-size: 1.1rem;">La Micro:bit est un petit ordinateur qu'on peut programmer !</strong>
+        </div>
+        <p>
+          Elle a :<br>
+          - <strong>25 petites lumières</strong> (LEDs) pour afficher des dessins et du texte<br>
+          - <strong>2 boutons</strong> (A et B) pour interagir<br>
+          - Un <strong>capteur de mouvement</strong> (accéléromètre) : il sait quand tu la secoues !
+        </p>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 1 — C'est quoi chaque partie ?</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> <strong>Capteur</strong> = il détecte. <strong>Actionneur</strong> = il fait quelque chose qu'on voit/entend.
+        </div>
+        <p><strong>Coche la bonne colonne :</strong></p>
+        <table>
+          <thead>
+            <tr><th style="width:40%">Partie de la Micro:bit</th><th style="text-align:center;">Capteur</th><th style="text-align:center;">Actionneur</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Les 25 LEDs</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>L'accéléromètre</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+            <tr><td>Le capteur de température</td><td style="text-align:center;">&#x2B1C;</td><td style="text-align:center;">&#x2B1C;</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>Activité 2 — Mon premier programme</h2>
+        <div class="ebep-hint">
+          <strong>Aide :</strong> Sur MakeCode, tu assembles des <strong>blocs</strong> (comme des pièces de puzzle) pour programmer.
+        </div>
+        <p><strong>Mets les étapes dans le bon ordre pour afficher un smiley :</strong></p>
+        <table>
+          <thead><tr><th style="text-align:center; width:15%">Ordre</th><th>Étape</th></tr></thead>
+          <tbody>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Transférer le programme sur la carte</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Ouvrir MakeCode</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Ajouter le bloc « montrer icône smiley »</td></tr>
+            <tr><td style="text-align:center; border-bottom: 1px dotted var(--gray-300);">&nbsp;</td><td>Tester sur le simulateur</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card ebep-content">
+        <h2>&#x1F4DD; Ce que je retiens</h2>
+        <div class="info-box info-box-blue">
+          <p><strong>Choisis le bon mot :</strong> <em>Micro:bit</em> / <em>MakeCode</em> / <em>accéléromètre</em> / <em>variable</em></p>
+        </div>
+        <p style="font-size: 1.1rem; line-height: 2.2;">La ........................ est un petit ordinateur programmable.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">On la programme avec ........................ (des blocs visuels).</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">L'........................ détecte quand on secoue la carte.</p>
+        <p style="font-size: 1.1rem; line-height: 2.2;">Une ........................ stocke un nombre qui peut changer (ex : le score).</p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../../js/components.js"></script>
+</body>
+</html>

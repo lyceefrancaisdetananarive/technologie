@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Séq. 8 — Quiz | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
+    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
+    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
+                 font-size: 1.5rem; letter-spacing: .06em; }
+    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
+    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"P5 — Séquence 8"},{"label":"Quiz"}]'
+    data-print-title="4ème — Séquence 8 : Quiz"
+    data-print-subtitle="Quiz · Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Quiz</span>
+        <h1>Séquence 8 — Chaîne d&#x27;énergie et chaîne d&#x27;information</h1>
+        <p class="page-description">12 questions pour vérifier tes acquis, avec correction immédiate.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
+        <a href="seq8-structuration.html" class="btn btn-outline">&#x1F4D8; Revoir le cours</a>
+      </div>
+
+
+      <div class="content-card">
+        <h2>&#x1F517; Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/48Q.svg" alt="QR code 48Q">
+          <div>
+            <div class="lien-code">48Q</div>
+            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
+            d'accès direct du site.</p>
+            <div class="lien-url">https://lyceefrancaisdetananarive.github.io/technologie/go.html?c=48Q</div>
+          </div>
+        </div>
+
+      </div>
+
+      <div class="quiz-container" id="quiz-container"></div>
+    </main>
+  </div>
+
+  <script src="../../js/components.js"></script>
+  <script src="../../js/quiz-engine.js"></script>
+  <script>
+    const questions = [
+      {
+        type: 'qcm',
+        question: 'Quels sont les quatre maillons de la chaîne d\'énergie, dans le bon ordre ?',
+        options: ['Acquérir, traiter, communiquer, transmettre', 'Alimenter, distribuer, convertir, transmettre', 'Alimenter, convertir, distribuer, transmettre', 'Distribuer, alimenter, transmettre, convertir'],
+        correct: 1,
+        explanation: 'L\'ordre est toujours le même : alimenter, puis distribuer, puis convertir, puis transmettre. Exemple du lampadaire solaire : le panneau et la batterie alimentent, l\'interrupteur et la carte distribuent, le bloc de LED convertit, le réflecteur transmet la lumière vers la rue.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le portail automatique, à quel maillon appartiennent la télécommande et la cellule photoélectrique de sécurité ?',
+        options: ['Toutes les deux au maillon acquérir', 'La télécommande au maillon traiter, la cellule au maillon acquérir', 'Toutes les deux au maillon communiquer', 'La télécommande au maillon distribuer, la cellule au maillon acquérir'],
+        correct: 0,
+        explanation: 'Les deux sont au maillon acquérir de la chaîne d\'information. La télécommande apporte l\'ordre de l\'usager, la cellule apporte un renseignement de sécurité. Dans les deux cas, ce sont des renseignements qui entrent dans la carte électronique. Aucun courant de puissance ne passe par la télécommande : ce n\'est pas un interrupteur.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Tous les objets techniques possèdent une chaîne d\'information.',
+        correct: false,
+        explanation: 'Faux. Tous les objets techniques possèdent une chaîne d\'énergie, mais seuls les objets automatisés possèdent en plus une chaîne d\'information. Le ventilateur de table, le foyer amélioré et le pousse-pousse n\'ont pas de chaîne d\'information : c\'est l\'utilisateur qui décide.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans la pompe d\'arrosage de rizière, quel composant est l\'actionneur ?',
+        options: ['Le capteur d\'humidité du sol', 'La carte électronique', 'Le moteur de la pompe', 'Le voyant de marche'],
+        correct: 2,
+        explanation: 'L\'actionneur est le moteur de la pompe : il transforme l\'énergie électrique en mouvement de rotation. Il occupe le maillon convertir de la chaîne d\'énergie. La turbine et le tuyau, eux, transmettent cette énergie à l\'eau.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Dans la citerne d\'école, le buzzer appartient à la chaîne d\'énergie parce qu\'il consomme de l\'électricité.',
+        correct: false,
+        explanation: 'Faux. On classe un composant selon ce qu\'il produit, pas selon ce qu\'il consomme. Le buzzer ne fait pas monter l\'eau : il prévient une personne. Il appartient donc à la chaîne d\'information, au maillon communiquer.'
+      },
+      {
+        type: 'qcm',
+        question: 'Quelle est la différence entre convertir et transmettre ?',
+        options: ['Convertir déplace l\'énergie, transmettre la change de forme', 'Convertir change la forme de l\'énergie, transmettre la déplace sans la changer', 'Convertir stocke l\'énergie, transmettre la produit', 'Convertir coupe le courant, transmettre le laisse passer'],
+        correct: 1,
+        explanation: 'Convertir, c\'est CHANGER la forme de l\'énergie : le moteur change l\'électricité en mouvement. Transmettre, c\'est la DÉPLACER sans la changer : la crémaillère du portail déplace le mouvement du pignon jusqu\'au vantail.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'La chaîne d\'information commande la chaîne d\'énergie : elle lui envoie un ordre.',
+        correct: true,
+        explanation: 'Vrai. L\'ordre descend de la chaîne d\'information vers le maillon distribuer de la chaîne d\'énergie, et le renseignement monte des capteurs vers l\'unité de traitement. L\'information ne fait rien bouger toute seule : elle décide seulement à quel moment l\'énergie doit passer.'
+      },
+      {
+        type: 'qcm',
+        question: 'Un élève place la batterie du lampadaire solaire dans la chaîne d\'information, parce que la carte électronique a besoin d\'électricité pour fonctionner. Que faut-il lui répondre ?',
+        options: ['Il a raison, la batterie alimente la carte, donc elle est dans la chaîne d\'information', 'La batterie n\'appartient à aucune des deux chaînes', 'On classe un composant selon ce qu\'il produit : la batterie produit de l\'énergie, elle est dans la chaîne d\'énergie', 'La batterie est dans les deux chaînes en même temps'],
+        correct: 2,
+        explanation: 'Le raisonnement de départ est juste : la carte est bien alimentée. Mais la règle de classement est claire : on classe un composant selon ce qu\'il PRODUIT, pas selon ce qu\'il consomme. La batterie produit de l\'énergie, la carte produit une décision.'
+      },
+      {
+        type: 'qcm',
+        question: 'Le bloc de LED du lampadaire solaire et le voyant de la citerne d\'école éclairent tous les deux. Pourquoi ne sont-ils pas dans la même chaîne ?',
+        options: ['Parce que le bloc de LED est plus puissant que le voyant', 'Parce que la lumière du bloc de LED est l\'action utile du lampadaire, alors que la lumière du voyant sert seulement à prévenir une personne', 'Parce que le voyant ne consomme pas d\'électricité', 'Parce que le bloc de LED est un capteur et le voyant un actionneur'],
+        correct: 1,
+        explanation: 'C\'est la règle de la lampe. Le lampadaire est fait pour éclairer la rue : son bloc de LED est dans la chaîne d\'énergie, au maillon convertir. Le voyant de la citerne, lui, ne fait pas monter l\'eau ; il prévient le personnel de l\'école. Il est dans la chaîne d\'information, au maillon communiquer. Question de contrôle : si j\'enlève ce composant, est-ce que l\'objet fait encore son travail ?'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Sur un schéma à blocs, on peut supprimer les flèches entre les deux étages si les blocs sont bien remplis.',
+        correct: false,
+        explanation: 'Faux. Un schéma à blocs sans les deux flèches entre les étages est un schéma incomplet : il montre deux chaînes séparées, ce qui ne correspond à aucun objet réel. La flèche « ordre » descend et la flèche « renseignement » monte.'
+      },
+      {
+        type: 'qcm',
+        question: 'Dans le ventilateur de table, qui décide de la mise en marche, et pourquoi ?',
+        options: ['Le moteur, car il reçoit l\'énergie électrique', 'La personne, car il n\'y a ni capteur ni carte électronique qui décide à sa place', 'Le cordon, car il apporte le courant depuis la prise', 'L\'hélice, car elle produit l\'air en mouvement'],
+        correct: 1,
+        explanation: 'C\'est la personne qui tourne le bouton. Le ventilateur de table n\'a ni capteur ni unité de traitement : il n\'a pas de chaîne d\'information. Dans le lampadaire solaire, au contraire, c\'est la carte électronique qui a remplacé la main de la personne.'
+      },
+      {
+        type: 'vrai_faux',
+        question: 'Le foyer amélioré et le pousse-pousse n\'ont aucune chaîne : ni chaîne d\'énergie, ni chaîne d\'information.',
+        correct: false,
+        explanation: 'Faux. Ces deux objets ont bien une chaîne d\'énergie. Dans le foyer amélioré, le bois ou le charbon fournit l\'énergie, le foyer la convertit en chaleur, les parois la transmettent à la marmite. Dans le pousse-pousse, la force musculaire fournit l\'énergie, les brancards et les roues la transmettent. Ce qui leur manque, c\'est la chaîne d\'information : personne ne décide à leur place.'
+      }
+    ];
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
+  </script>
+</body>
+</html>

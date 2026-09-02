@@ -1,107 +1,11 @@
 <!DOCTYPE html>
-<html lang="fr">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Structuration — Séq. 9 : Fabrication et validation | 4ème</title>
-  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
-  <link rel="stylesheet" href="../../css/style.css">
-</head>
-<body>
-  <div id="app" data-page="4eme"
-    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"T3 — Séquence 9"},{"label":"Structuration"}]'
-    data-print-title="STRUCTURATION — Séquence 9 : Fabrication et validation"
-    data-print-subtitle="4ème · Technologie · Lycée Français de Tananarive">
-    <main class="site-main">
-      <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · T3 · Structuration</span>
-        <h1>Structuration — Séquence 9</h1>
-        <p class="page-description">Fabrication et validation au FabLab — Ce qu'il faut retenir</p>
-      </div>
-      <div class="page-actions no-print">
-        <button class="btn btn-print" onclick="printPage()">&#x1F5A8; Imprimer / PDF</button>
-        <a href="seq9-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
-        <a href="seq9-quiz.html" class="btn btn-outline">&#x2753; Quiz</a>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 1 — Le FabLab</h2>
-        <div class="info-box info-box-blue">
-          <strong>Définition :</strong> Un FabLab (Fabrication Laboratory) est un atelier de fabrication numérique équipé de machines pilotées par ordinateur. Il permet de passer du modèle numérique à l'objet réel.
-        </div>
-        <table>
-          <thead><tr><th style="width:30%">Machine</th><th>Ce qu'elle fait</th><th style="width:25%">Fichier utilisé</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Imprimante 3D (FDM)</strong></td><td>Fabrique des pièces en 3D couche par couche (plastique fondu PLA)</td><td>STL ou 3MF → G-code</td></tr>
-            <tr><td><strong>Découpe laser (xTool M1)</strong></td><td>Coupe et grave des matériaux plats (bois, acrylique, carton)</td><td>SVG</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 2 — Sécurité au FabLab</h2>
-        <div class="info-box info-box-yellow">
-          <strong>&#x26A0; Règles obligatoires :</strong>
-        </div>
-        <table>
-          <thead><tr><th style="width:40%">Règle</th><th>Pourquoi</th></tr></thead>
-          <tbody>
-            <tr><td><strong>Porter les EPI</strong> (lunettes de protection)</td><td>Protéger les yeux des projections et du laser</td></tr>
-            <tr><td><strong>Ne pas toucher la buse chaude</strong></td><td>Température supérieure à 200°C → brûlure grave</td></tr>
-            <tr><td><strong>Ventilation activée</strong></td><td>Les fumées de découpe laser sont toxiques</td></tr>
-            <tr><td><strong>Ne pas regarder le laser</strong></td><td>Le faisceau peut endommager les yeux</td></tr>
-            <tr><td><strong>Attendre le refroidissement</strong></td><td>Les pièces sont chaudes en sortie de machine</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 3 — De la conception à la fabrication</h2>
-        <div class="info-box info-box-green">
-          <strong>Chaîne numérique complète :</strong>
-        </div>
-        <table>
-          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Étape</th><th>Outil</th></tr></thead>
-          <tbody>
-            <tr><td style="text-align:center;">1</td><td><strong>Modélisation 3D</strong></td><td>TinkerCAD / OnShape → fichier STL</td></tr>
-            <tr><td style="text-align:center;">2</td><td><strong>Préparation (slicing)</strong></td><td>Cura / PrusaSlicer → fichier G-code</td></tr>
-            <tr><td style="text-align:center;">3</td><td><strong>Fabrication</strong></td><td>Imprimante 3D ou découpe laser</td></tr>
-            <tr><td style="text-align:center;">4</td><td><strong>Contrôle qualité</strong></td><td>Pied à coulisse, vérification visuelle</td></tr>
-            <tr><td style="text-align:center;">5</td><td><strong>Assemblage</strong></td><td>Intégration Arduino + composants + boîtier</td></tr>
-            <tr><td style="text-align:center;">6</td><td><strong>Tests</strong></td><td>Vérification de chaque fonction</td></tr>
-          </tbody>
-        </table>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 4 — La validation du prototype</h2>
-        <div class="info-box info-box-blue">
-          <strong>Principe :</strong> Valider un prototype, c'est vérifier qu'il respecte le cahier des charges point par point.
-        </div>
-        <p>Pour chaque critère du CdCF, on se demande :</p>
-        <ul>
-          <li><strong>La fonction principale est-elle remplie ?</strong> → L'objet fait-il ce qu'il doit faire ?</li>
-          <li><strong>Les contraintes sont-elles respectées ?</strong> → Dimensions, budget, matériaux…</li>
-          <li><strong>Quelles améliorations possibles ?</strong> → Si un critère n'est pas respecté, que faudrait-il changer ?</li>
-        </ul>
-      </div>
-
-      <div class="content-card">
-        <h2>&#x1F4D8; 5 — La présentation orale</h2>
-        <p>La présentation orale d'un projet technique suit un plan structuré :</p>
-        <table>
-          <thead><tr><th style="width:8%">N°</th><th style="width:30%">Partie</th><th>Contenu</th></tr></thead>
-          <tbody>
-            <tr><td style="text-align:center;">1</td><td><strong>Introduction</strong></td><td>Présenter l'équipe, le problème à résoudre</td></tr>
-            <tr><td style="text-align:center;">2</td><td><strong>Cahier des charges</strong></td><td>Rappeler les fonctions et contraintes</td></tr>
-            <tr><td style="text-align:center;">3</td><td><strong>Démarche de réalisation</strong></td><td>Expliquer les étapes de conception et fabrication</td></tr>
-            <tr><td style="text-align:center;">4</td><td><strong>Démonstration</strong></td><td>Montrer le prototype en fonctionnement</td></tr>
-            <tr><td style="text-align:center;">5</td><td><strong>Bilan</strong></td><td>Difficultés rencontrées, solutions, améliorations possibles</td></tr>
-          </tbody>
-        </table>
-      </div>
-    </main>
-  </div>
-  <script src="../../js/components.js"></script>
-</body>
-</html>
+<html lang="fr"><head><meta charset="UTF-8">
+<meta http-equiv="refresh" content="0; url=../p5/seq9-structuration.html">
+<link rel="canonical" href="../p5/seq9-structuration.html">
+<title>Page déplacée — Technologie LFT</title></head>
+<body style="font-family:system-ui,sans-serif;max-width:38rem;margin:14vh auto;padding:0 1.5rem;line-height:1.6">
+<h1 style="font-size:1.3rem">Cette page a changé d'adresse</h1>
+<p>La progression est désormais organisée en <strong>cinq périodes</strong> et non plus en trois
+trimestres. Vous êtes redirigé automatiquement.</p>
+<p><a href="../p5/seq9-structuration.html">Continuer vers la nouvelle page</a></p>
+</body></html>
