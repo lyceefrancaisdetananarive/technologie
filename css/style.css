@@ -1717,12 +1717,21 @@ img {
   .info-box-green { border-left-style: solid !important; border-left-width: 3.4pt !important; }
   .info-box-orange { border-left-style: double !important; border-left-width: 3.4pt !important; }
   .info-box-blue { border-left-style: solid !important; }
+  /* Un encadre plus haut qu'une page ne peut pas rester d'un seul tenant :
+     lui interdire la coupure ne ferait que creer une page blanche avant lui. */
+  .info-box-long { break-inside: auto !important; page-break-inside: auto !important; }
 
   /* ------------------------------------------------------- etapes d'activite */
   .activity-step {
     display: flex; gap: 3mm; align-items: flex-start;
-    margin: 0 0 3mm; break-inside: avoid; page-break-inside: avoid;
+    margin: 0 0 3mm;
+    /* Ces blocs depassent souvent la demi-page : interdire la coupure
+       renvoyait l'etape entiere a la page suivante et laissait de grands
+       blancs. On autorise la coupure, en gardant le titre avec son debut. */
+    break-inside: auto; page-break-inside: auto;
+    orphans: 3; widows: 3;
   }
+  .activity-step-content h4 { break-after: avoid; page-break-after: avoid; }
   .activity-step-number {
     background: #fff !important; color: #000 !important;
     border: 1.2pt solid #000; border-radius: 50%;
@@ -1733,6 +1742,14 @@ img {
   .activity-step-content { flex: 1; }
 
   /* ------------------------------------------------- zones de reponse eleve */
+  .doc-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 2mm 0 3mm; }
+  .doc-table th, .doc-table td { border: .7pt solid #000 !important; padding: 1.4mm 1.8mm; }
+  .doc-table th { background: #e8e8e8 !important; font-weight: 700;
+                  -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .doc-note { border: none !important; border-left: 2.4pt solid #000 !important;
+              padding: 1.2mm 0 1.2mm 3mm !important; margin: 2mm 0 3mm !important;
+              font-size: 9.5pt; break-inside: avoid; }
+
   .zone-reponse {
     border: none !important;
     background: #fff !important;
@@ -1791,6 +1808,12 @@ img {
 .print-header, .print-identite, .print-pied { display: none; }
 
 
+
+/* Documents supports : tableaux techniques et notes */
+.doc-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; font-size: .93rem; }
+.doc-table th, .doc-table td { border: 1px solid var(--gray-300); padding: .5rem .7rem; text-align: left; vertical-align: top; }
+.doc-table th { background: var(--gray-100); font-weight: 600; }
+.doc-note { border: 1px solid var(--gray-400); border-left-width: 4px; padding: .6rem .8rem; margin: var(--space-md) 0; font-size: .93rem; }
 
 /* Zones de réponse de l'élève */
 .zone-reponse {
