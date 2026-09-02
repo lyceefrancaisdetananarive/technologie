@@ -1571,116 +1571,237 @@ img {
    PRINT STYLES
    ======================================== */
 @media print {
-  /* Hide navigation and interactive elements */
-  .site-header,
-  .site-nav,
-  .site-footer,
-  .breadcrumb,
-  .page-actions,
-  .quiz-actions,
-  .btn-print,
-  .menu-toggle,
-  .header-search,
-  .no-print {
+
+  /* ---------------------------------------------------------------- page */
+  @page {
+    size: A4 portrait;
+    margin: 14mm 14mm 16mm 14mm;
+  }
+
+  html, body {
+    background: #fff !important;
+    color: #000 !important;
+    font-size: 10.5pt;
+    line-height: 1.42;
+    font-family: "Inter", "Segoe UI", Arial, sans-serif;
+  }
+
+  body::before, body::after { display: none !important; }
+
+  /* ------------------------------------------------- mobilier d'ecran masque */
+  .site-header, .site-nav, .site-footer, .breadcrumb, .page-actions,
+  .quiz-actions, .btn, .btn-print, .btn-outline, .menu-toggle, .header-search,
+  .no-print, .lien-encart, .vid-copier, .tab-btn, .trimester-tabs,
+  iframe, video, audio, .seq-card-links, #sortie:empty {
     display: none !important;
   }
 
-  /* Reset backgrounds for print */
-  body {
-    background: white !important;
-    color: black !important;
-    font-size: 11pt;
-    line-height: 1.5;
-  }
+  /* Les onglets impriment tout leur contenu, pas seulement l'onglet actif */
+  .tab-content { display: block !important; }
 
-  body::before,
-  body::after {
-    display: none !important;
-  }
+  /* Pas d'echo d'URL derriere les liens : la page devenait illisible */
+  a, a[href^="http"] { color: #000 !important; text-decoration: none !important; }
+  a[href^="http"]::after { content: none !important; }
 
-  .glass,
-  .glass-strong,
-  .content-card,
-  .quiz-question {
-    background: white !important;
-    backdrop-filter: none !important;
-    box-shadow: none !important;
-    border: 1px solid #ddd !important;
-    border-radius: 0 !important;
-  }
+  .site-main { max-width: 100%; padding: 0; margin: 0; }
 
-  .site-main {
-    max-width: 100%;
-    padding: 0;
-    margin: 0;
-  }
-
-  /* Print header */
+  /* ------------------------------------------------------- en-tete du document */
+  /* Cosignature charte AEFE : etablissement a gauche, AEFE a droite */
   .print-header {
     display: flex !important;
     align-items: center;
     justify-content: space-between;
-    padding-bottom: 0.5rem;
-    border-bottom: 2px solid var(--aefe-blue);
-    margin-bottom: 1rem;
+    gap: 6mm;
+    padding-bottom: 2.5mm;
+    margin-bottom: 4mm;
+    border-bottom: 1.6pt solid #000;
+  }
+  .print-header .ph-etab { display: flex; align-items: center; gap: 2.5mm; flex: 0 0 auto; }
+  .print-header .ph-etab img { height: 13mm; width: auto; }
+  .print-header .ph-etab-texte { line-height: 1.25; }
+  .print-header .ph-etab-texte strong { display: block; font-size: 9.5pt; }
+  .print-header .ph-etab-texte span { font-size: 7.5pt; color: #333; }
+  .print-header .ph-doc { flex: 1; text-align: center; line-height: 1.25; padding: 0 3mm; }
+  .print-header .ph-doc strong { display: block; font-size: 9.5pt; }
+  .print-header .ph-doc span { font-size: 7.5pt; color: #333; }
+  /* Taille minimale du logo AEFE fixee a 25 mm par la charte : on retient 30 mm */
+  .print-header .ph-aefe { flex: 0 0 auto; width: 30mm; height: auto; }
+  .print-header-text { display: none; }
+
+  /* Bandeau de titre de la fiche */
+  .page-header { margin: 0 0 4mm; padding: 0; }
+  .page-header h1 {
+    font-size: 15pt; line-height: 1.2; margin: 0 0 1mm;
+    page-break-after: avoid; break-after: avoid;
+  }
+  .page-description { font-size: 9.5pt; color: #222 !important; margin: 0 0 2mm; }
+  .page-level-badge {
+    display: inline-block !important; font-size: 8.5pt; font-weight: 700;
+    letter-spacing: .04em; text-transform: uppercase;
+    border: 1pt solid #000; border-radius: 0; padding: .6mm 2mm; margin-bottom: 1.5mm;
+    background: #fff !important; color: #000 !important;
   }
 
-  .print-header img {
-    height: 50px;
+  /* ------------------------------------------- bloc identite, ajoute a l'impression */
+  .print-identite {
+    display: block !important;
+    border: 1.2pt solid #000;
+    padding: 2.5mm 3mm;
+    margin: 0 0 4mm;
+    font-size: 10pt;
+    line-height: 2.1;
+  }
+  .print-identite .pi-ligne { display: flex; gap: 6mm; }
+  .print-identite .pi-champ { flex: 1; white-space: nowrap; }
+  .print-identite .pi-note {
+    display: block; margin-top: 1mm; font-size: 8.5pt; line-height: 1.3; font-style: italic;
   }
 
-  .print-header-text {
-    text-align: right;
-    font-size: 9pt;
-    color: #555;
+  /* --------------------------------------------------------------- cartes */
+  .content-card, .glass, .glass-strong, .quiz-question {
+    background: #fff !important;
+    backdrop-filter: none !important;
+    box-shadow: none !important;
+    border: none !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 0 0 5mm !important;
+    break-inside: auto;
   }
-
-  /* Page setup */
-  @page {
-    size: A4;
-    margin: 1.5cm 1.5cm 2cm 1.5cm;
+  .content-card > h2 {
+    font-size: 11.5pt; margin: 0 0 2mm; padding: 0 0 1mm;
+    border-bottom: .8pt solid #000;
+    page-break-after: avoid; break-after: avoid;
   }
+  h2, h3, h4 { page-break-after: avoid; break-after: avoid; }
+  h3 { font-size: 10.5pt; margin: 3mm 0 1.5mm; }
+  h4 { font-size: 10pt; margin: 2.5mm 0 1mm; }
+  p { margin: 0 0 2mm; orphans: 3; widows: 3; }
+  ul, ol { margin: 0 0 2mm; padding-left: 6mm; }
+  li { margin-bottom: .8mm; }
 
-  @page :first {
-    margin-top: 1cm;
-  }
-
-  /* Avoid page breaks inside */
-  .activity-step,
-  .quiz-question,
-  table,
-  .info-box {
-    page-break-inside: avoid;
-  }
-
-  h2, h3, h4 {
-    page-break-after: avoid;
-  }
-
-  /* Links - show URL */
-  a[href^="http"]::after {
-    content: " (" attr(href) ")";
-    font-size: 8pt;
-    color: #666;
-  }
-
-  /* Tables */
+  /* --------------------------------------------------------------- tableaux */
   table {
-    font-size: 9pt;
+    width: 100%; border-collapse: collapse; font-size: 9.5pt;
+    margin: 0 0 3mm; break-inside: auto;
   }
-
+  th, td {
+    border: .7pt solid #000 !important;
+    padding: 1.6mm 2mm; vertical-align: top; text-align: left;
+  }
   th {
-    background: #f0f0f0 !important;
-    color: black !important;
-    -webkit-print-color-adjust: exact;
-    print-color-adjust: exact;
+    background: #e8e8e8 !important; color: #000 !important; font-weight: 700;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
   }
+  thead { display: table-header-group; }
+  tr { break-inside: avoid; page-break-inside: avoid; }
+  /* Le tableau de metadonnees en tete de fiche : premiere colonne etroite et fixe */
+  .content-card:first-of-type table td:first-child { width: 32mm; font-weight: 600; }
+
+  /* ------------------------------------------------------------- encadres */
+  .info-box {
+    border: none !important;
+    border-left: 2.4pt solid #000 !important;
+    background: #fff !important;
+    padding: 1.5mm 0 1.5mm 3mm !important;
+    margin: 0 0 3mm !important;
+    border-radius: 0 !important;
+    break-inside: avoid; page-break-inside: avoid;
+    font-size: 10pt;
+  }
+  .info-box-title {
+    font-weight: 700; font-size: 9.5pt; text-transform: uppercase;
+    letter-spacing: .03em; margin-bottom: .8mm;
+  }
+  /* Distinction sans couleur : le trait change d'epaisseur et de style */
+  .info-box-green { border-left-style: solid !important; border-left-width: 3.4pt !important; }
+  .info-box-orange { border-left-style: double !important; border-left-width: 3.4pt !important; }
+  .info-box-blue { border-left-style: solid !important; }
+
+  /* ------------------------------------------------------- etapes d'activite */
+  .activity-step {
+    display: flex; gap: 3mm; align-items: flex-start;
+    margin: 0 0 3mm; break-inside: avoid; page-break-inside: avoid;
+  }
+  .activity-step-number {
+    background: #fff !important; color: #000 !important;
+    border: 1.2pt solid #000; border-radius: 50%;
+    min-width: 7mm; width: 7mm; height: 7mm; line-height: 6.6mm;
+    text-align: center; font-weight: 700; font-size: 9.5pt;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+  }
+  .activity-step-content { flex: 1; }
+
+  /* ------------------------------------------------- zones de reponse eleve */
+  .zone-reponse {
+    border: none !important;
+    background: #fff !important;
+    border-radius: 0 !important;
+    padding: 0 !important;
+    margin: 1.5mm 0 4mm !important;
+    min-height: 0 !important;
+    /* Trois lignes a ecrire, tracees en fond repete */
+    height: 24.5mm;
+    background-image: repeating-linear-gradient(
+      to bottom, transparent 0, transparent 8mm,
+      #555 8mm, #555 8.25mm) !important;
+    -webkit-print-color-adjust: exact; print-color-adjust: exact;
+    break-inside: avoid;
+  }
+  .zone-reponse-haute { height: 48.5mm; }
+
+  .ebep-fill {
+    border: none !important;
+    border-bottom: .6pt dotted #000 !important;
+    border-radius: 0 !important;
+    background: #fff !important;
+    min-height: 9mm; padding: 0 !important; margin: 1mm 0 3mm !important;
+  }
+  .lignes div { border-bottom: .5pt dotted #000; height: 7mm; }
+
+  /* --------------------------------------------------------------- badges */
+  .competence-badge {
+    background: #fff !important; color: #000 !important;
+    border: .6pt solid #000; border-radius: 0;
+    padding: .4mm 1.4mm; font-size: 8.5pt; margin: 0 1mm .8mm 0;
+    display: inline-block;
+  }
+
+  /* -------------------------------------------------------------- figures */
+  svg, img { max-width: 100%; height: auto; break-inside: avoid; }
+  .fig { display: block; margin: 2mm auto; }
+
+  /* ----------------------------------------------------------- pied de fiche */
+  .print-pied {
+    display: block !important;
+    margin-top: 5mm; padding-top: 1.5mm;
+    border-top: .7pt solid #000;
+    font-size: 8pt; color: #000;
+    display: flex !important; justify-content: space-between;
+  }
+
+  /* Emojis decoratifs : ecran seulement */
+  .ico { display: none !important; }
+
+  /* Sauts de page explicites */
+  .saut-page { break-before: page; page-break-before: always; }
 }
 
-/* Print header (hidden on screen) */
-.print-header {
-  display: none;
+/* Elements reserves a l'impression, masques a l'ecran */
+.print-header, .print-identite, .print-pied { display: none; }
+
+
+
+/* Zones de réponse de l'élève */
+.zone-reponse {
+  border: 1px dashed var(--gray-300);
+  border-radius: var(--radius-sm);
+  padding: var(--space-md);
+  min-height: 50px;
+  background: var(--gray-50);
+  margin-bottom: var(--space-md);
 }
+.zone-reponse-haute { min-height: 110px; }
 
 /* ========================================
    UTILITY CLASSES

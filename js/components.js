@@ -355,19 +355,63 @@
   }
 
   // ---- PRINT HEADER ----
+  // Cosignature conforme a la charte graphique de l'AEFE : logo de l'etablissement
+  // a gauche, logo AEFE avec sa declinaison de statut a droite, sur une meme ligne.
+  // Le logo AEFE est utilise avec l'ensemble de ses elements et au-dela de sa
+  // taille minimale de 25 mm.
   function renderPrintHeader(title, subtitle) {
     const ph = document.createElement('div');
     ph.className = 'print-header';
     ph.innerHTML = `
-      <div>
-        <img src="${ROOT}/img/logo-lft.png" alt="LFT">
+      <div class="ph-etab">
+        <img src="${ROOT}/img/logo-lft.png" alt="Lyc\u00e9e Fran\u00e7ais de Tananarive">
+        <div class="ph-etab-texte">
+          <strong>Lyc\u00e9e Fran\u00e7ais de Tananarive</strong>
+          <span>Ambatobe, Antananarivo \u00b7 Madagascar</span>
+        </div>
       </div>
-      <div class="print-header-text">
-        <strong>${title || 'Technologie'}</strong><br>
-        ${subtitle || 'Lyc\u00e9e Fran\u00e7ais de Tananarive'}
+      <div class="ph-doc">
+        <strong>Technologie \u00b7 Cycle 4</strong>
+        <span>Ann\u00e9e scolaire 2026-2027</span>
       </div>
+      <img class="ph-aefe" src="${ROOT}/img/aefe-egd-monochrome.png"
+           alt="AEFE \u2013 \u00e9tablissement en gestion directe">
     `;
     return ph;
+  }
+
+  // ---- BLOC IDENTITE ELEVE ----
+  // Ajoute a l'impression sur les documents destines a l'eleve, jamais sur les
+  // fiches professeur. Inspire des trames de l'academie de Bordeaux.
+  function renderPrintIdentite(title) {
+    const pourEleve = !/professeur|fiche prof|corrig/i.test(title || '');
+    if (!pourEleve) return null;
+    const d = document.createElement('div');
+    d.className = 'print-identite';
+    d.innerHTML = `
+      <div class="pi-ligne">
+        <span class="pi-champ">Nom : ....................................</span>
+        <span class="pi-champ">Pr\u00e9nom : ....................................</span>
+      </div>
+      <div class="pi-ligne">
+        <span class="pi-champ">Classe : ....................</span>
+        <span class="pi-champ">Date : ........ / ........ / 20........</span>
+        <span class="pi-champ">Groupe : ....................</span>
+      </div>
+    `;
+    return d;
+  }
+
+  // ---- PIED DE FICHE ----
+  function renderPrintPied() {
+    const d = document.createElement('div');
+    d.className = 'print-pied';
+    const code = document.querySelector('.lien-code');
+    d.innerHTML = `
+      <span>Technologie \u00b7 Lyc\u00e9e Fran\u00e7ais de Tananarive \u00b7 2026-2027</span>
+      <span>${code ? 'Fiche ' + code.textContent.trim() : ''}</span>
+    `;
+    return d;
   }
 
   // ---- SEARCH FUNCTIONALITY ----
@@ -514,6 +558,15 @@
 
     // Print header (visible only when printing)
     parent.insertBefore(renderPrintHeader(printTitle, printSubtitle), app);
+
+    // Bloc identite eleve et pied de fiche, a l'impression uniquement
+    const mainPourImpression = app.querySelector('.site-main');
+    if (mainPourImpression) {
+      const ident = renderPrintIdentite(printTitle);
+      const entete = mainPourImpression.querySelector('.page-header');
+      if (ident && entete) entete.insertAdjacentElement('afterend', ident);
+      mainPourImpression.appendChild(renderPrintPied());
+    }
 
     // Header
     parent.insertBefore(renderHeader(), app);
