@@ -1742,6 +1742,17 @@ img {
   .activity-step-content { flex: 1; }
 
   /* ------------------------------------------------- zones de reponse eleve */
+  .liste-etiquetee { list-style: none; margin: 2mm 0 3mm; padding: 0; }
+  .liste-etiquetee li { padding: .8mm 0 .8mm 3mm; border-left: 1.4pt solid #000;
+                        margin-bottom: 1.2mm; break-inside: avoid; }
+  /* Le rappel EBEP portait un aplat jaune : illisible en photocopie */
+  .ebep-hint { background: #fff !important; border: none !important;
+               border-left: 2.4pt double #000 !important; border-radius: 0 !important;
+               padding: 1.2mm 0 1.2mm 3mm !important; margin: 2mm 0 3mm !important;
+               font-size: 9.5pt; break-inside: avoid; }
+  .ebep-hint strong { color: #000 !important; }
+  .ebep-content { font-size: 10.5pt; line-height: 1.42; }
+
   .doc-table { width: 100%; border-collapse: collapse; font-size: 9.5pt; margin: 2mm 0 3mm; }
   .doc-table th, .doc-table td { border: .7pt solid #000 !important; padding: 1.4mm 1.8mm; }
   .doc-table th { background: #e8e8e8 !important; font-weight: 700;
@@ -1808,6 +1819,10 @@ img {
 .print-header, .print-identite, .print-pied { display: none; }
 
 
+
+/* Listes à étiquettes des fiches de structuration */
+.liste-etiquetee { list-style: none; margin: var(--space-md) 0; padding: 0; }
+.liste-etiquetee li { padding: .45rem 0 .45rem .9rem; border-left: 3px solid var(--gray-300); margin-bottom: .4rem; }
 
 /* Documents supports : tableaux techniques et notes */
 .doc-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; font-size: .93rem; }

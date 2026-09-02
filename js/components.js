@@ -384,7 +384,10 @@
   // Ajoute a l'impression sur les documents destines a l'eleve, jamais sur les
   // fiches professeur. Inspire des trames de l'academie de Bordeaux.
   function renderPrintIdentite(title) {
-    const pourEleve = !/professeur|fiche prof|corrig/i.test(title || '');
+    // La fiche EBEP decrit les besoins nommes de l'eleve (« trouble du langage
+    // ecrit », « trouble de l'attention ») : elle s'adresse au professeur et ne
+    // se remet pas a l'eleve. Pas de bloc identite dessus.
+    const pourEleve = !/professeur|fiche prof|corrig|ebep|adaptation/i.test(title || '');
     if (!pourEleve) return null;
     const d = document.createElement('div');
     d.className = 'print-identite';
