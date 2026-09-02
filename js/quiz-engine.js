@@ -27,6 +27,37 @@ class QuizEngine {
     }
 
     this.render();
+    this.renderPapier();
+  }
+
+  /* Version papier : le quiz interactif n'affiche qu'une question a la fois.
+     Imprime tel quel, il ne donnait qu'une question sur douze, avec une barre
+     de progression et un score sans objet sur du papier. On genere ici la liste
+     complete des questions, visible uniquement a l'impression. Les reponses ne
+     figurent pas : la feuille se distribue aux eleves. */
+  renderPapier() {
+    if (!this.container || document.querySelector('.quiz-papier')) return;
+    const lettres = ['A', 'B', 'C', 'D', 'E', 'F'];
+    const esc = s => String(s == null ? '' : s)
+      .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+    let h = '<ol class="quiz-papier-liste">';
+    this.questions.forEach(q => {
+      h += '<li class="quiz-papier-q"><p class="quiz-papier-enonce">' + esc(q.question) + '</p>';
+      if (q.type === 'vrai_faux') {
+        h += '<ul class="quiz-papier-opts"><li>Vrai</li><li>Faux</li></ul>';
+      } else if (Array.isArray(q.options)) {
+        h += '<ul class="quiz-papier-opts">'
+           + q.options.map((o, i) => '<li><span class="qp-lettre">' + (lettres[i] || '?')
+                                     + '</span> ' + esc(o) + '</li>').join('')
+           + '</ul>';
+      }
+      h += '</li>';
+    });
+    h += '</ol>';
+    const d = document.createElement('div');
+    d.className = 'quiz-papier';
+    d.innerHTML = '<p class="quiz-papier-consigne">Coche une seule réponse par question.</p>' + h;
+    this.container.insertAdjacentElement('afterend', d);
   }
 
   render() {

@@ -1742,6 +1742,22 @@ img {
   .activity-step-content { flex: 1; }
 
   /* ------------------------------------------------- zones de reponse eleve */
+  /* Le quiz interactif n'a pas de sens sur papier : on lui substitue la liste
+     complete des questions, avec des cases a cocher. */
+  .quiz-container, .quiz-progress, .quiz-score, .quiz-nav { display: none !important; }
+  .quiz-papier { display: block !important; }
+  .quiz-papier-consigne { font-style: italic; font-size: 9.5pt; margin: 0 0 3mm; }
+  .quiz-papier-liste { margin: 0; padding-left: 7mm; }
+  .quiz-papier-q { margin-bottom: 4mm; break-inside: avoid; page-break-inside: avoid; }
+  .quiz-papier-enonce { font-weight: 600; margin: 0 0 1.5mm; }
+  .quiz-papier-opts { list-style: none; margin: 0; padding: 0; }
+  .quiz-papier-opts li { margin: 0 0 1mm; padding-left: 7mm; position: relative; }
+  .quiz-papier-opts li::before {
+    content: ''; position: absolute; left: 0; top: .6mm;
+    width: 3.4mm; height: 3.4mm; border: .7pt solid #000;
+  }
+  .qp-lettre { font-weight: 700; margin-right: 1mm; }
+
   .liste-etiquetee { list-style: none; margin: 2mm 0 3mm; padding: 0; }
   .liste-etiquetee li { padding: .8mm 0 .8mm 3mm; border-left: 1.4pt solid #000;
                         margin-bottom: 1.2mm; break-inside: avoid; }
@@ -1819,6 +1835,9 @@ img {
 .print-header, .print-identite, .print-pied { display: none; }
 
 
+
+/* Version papier du quiz, imprimée seulement */
+.quiz-papier { display: none; }
 
 /* Listes à étiquettes des fiches de structuration */
 .liste-etiquetee { list-style: none; margin: var(--space-md) 0; padding: 0; }
