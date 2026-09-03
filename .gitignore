@@ -12,3 +12,9 @@ Thumbs.db
 # Temporary files
 *.tmp
 *.bak
+
+# macOS AppleDouble, recrees en continu sur les volumes exFAT
+._*
+.AppleDouble
+.Spotlight-V100
+.Trashes
