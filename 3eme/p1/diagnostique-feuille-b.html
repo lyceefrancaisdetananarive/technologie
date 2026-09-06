@@ -39,6 +39,30 @@ h1 { font-size: 13pt; margin: 0 0 2px; }
 .lg div { border-bottom: 0.9px solid #444; height: 15px; margin-top: 3px; }
 .pied { margin-top: 8px; border-top: 1.8px solid #000; padding-top: 3px;
   font-size: 8pt; display: flex; justify-content: space-between; }
+
+.pf-bt { position: fixed; right: 14px; bottom: 14px; z-index: 60; font: inherit;
+  font-size: 10.5pt; font-weight: 700; border: 0; padding: 9px 15px; cursor: pointer;
+  background: #00549F; color: #fff; border-radius: 3px; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.pf-fond { position: fixed; inset: 0; z-index: 61; background: rgba(0,0,0,.45);
+  display: none; align-items: center; justify-content: center; padding: 20px; }
+.pf-fond.ouvert { display: flex; }
+.pf-boite { background: #fff; max-width: 560px; width: 100%; max-height: 86vh;
+  overflow-y: auto; padding: 20px 24px; box-shadow: 0 8px 40px rgba(0,0,0,.3); }
+.pf-boite h2 { margin: 0 0 4px; font-size: 15pt; }
+.pf-boite .pf-intro { font-size: 10pt; color: #444; margin: 0 0 14px; line-height: 1.45; }
+.pf-l { display: flex; gap: 10px; align-items: baseline; margin-bottom: 9px; }
+.pf-l label { flex: 0 0 44%; font-size: 10.5pt; }
+.pf-l input, .pf-l select { flex: 1 1 auto; font: inherit; font-size: 11pt;
+  border: 1.4px solid #666; padding: 4px 7px; background: #fff; min-width: 0; }
+.pf-l input:focus, .pf-l select:focus { outline: 2px solid #00549F; }
+.pf-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;
+  flex-wrap: wrap; }
+.pf-actions button { font: inherit; font-size: 10.5pt; font-weight: 700; padding: 8px 15px;
+  cursor: pointer; border: 1.5px solid #00549F; background: #00549F; color: #fff; }
+.pf-actions .pf-sec { background: #fff; color: #00549F; }
+.pf-vide { color: #666; letter-spacing: .5px; }
+@media print { .pf-bt, .pf-fond { display: none !important; } }
+
 </style></head><body><div class="doc">
 
 <div class="entete">
@@ -93,7 +117,7 @@ h1 { font-size: 13pt; margin: 0 0 2px; }
 <div class="bloc">
 <div class="bloc-t"><span class="bn">4</span>Le travail en groupe</div>
 <div class="bloc-note">Cette année, tu travailleras en projet. Ces réponses m'aident à composer les groupes. Personne d'autre que moi ne les lit.</div>
-<div class="q"><div class="q-t">Dans quelle classe es-tu ?</div><div class="q-r"><span class="c"></span>&nbsp;3<sup>e</sup> M3 <span class="c"></span>&nbsp;3<sup>e</sup> M4</div></div>
+<div class="q"><div class="q-t">Dans quelle classe es-tu ?</div><div class="q-r"><span class="c"></span>&nbsp;<span data-profil="classeA" data-large="6" data-defaut="3<sup>e</sup> M3">3<sup>e</sup> M3</span> <span class="c"></span>&nbsp;<span data-profil="classeB" data-large="6" data-defaut="3<sup>e</sup> M4">3<sup>e</sup> M4</span></div></div>
 <div class="q"><div class="q-t">Cite deux camarades avec qui tu travaillerais bien. Ce ne sont pas forcément tes meilleurs amis : pense à qui te fait avancer.</div><div class="q-r"><div class="lg"><div></div></div></div></div>
 <div class="q"><div class="q-t">Y a-t-il quelqu'un avec qui il vaut mieux ne pas te mettre ? Tu n'es pas obligé de répondre, et tu n'as pas à expliquer pourquoi.</div><div class="q-r"><div class="lg"><div></div></div></div></div>
 <div class="q"><div class="q-t">Qu'est-ce que tu sais faire qui pourrait servir dans un projet ? Par exemple : dessiner, programmer, bricoler, filmer, monter une vidéo, organiser, parler devant la classe, expliquer aux autres.</div><div class="q-r"><div class="lg"><div></div><div></div></div></div></div>
@@ -110,4 +134,128 @@ h1 { font-size: 13pt; margin: 0 0 2px; }
   <span>Lycée Français de Tananarive &middot; Technologie &middot; 2026-2027</span>
 </div>
 
-</div></body></html>
+</div><script>
+(function () {
+  var CLE = 'techno-lft-profil';
+  var CHAMPS = ["nom", "groupe", "classeA", "classeB", "salle", "effectif", "postes", "debut", "fin", "date", "suivante"];
+
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE) || '{}'); } catch (e) { return {}; }
+  }
+  function ecrire(o) {
+    try { localStorage.setItem(CLE, JSON.stringify(o)); return true; } catch (e) { return false; }
+  }
+
+  function minutes(h) {
+    var m = /^(\d{1,2})\s*h\s*(\d{0,2})$/.exec((h || '').trim());
+    return m ? parseInt(m[1], 10) * 60 + parseInt(m[2] || '0', 10) : null;
+  }
+
+  function calcule(p) {
+    var a = minutes(p.debut), b = minutes(p.fin);
+    p.duree = (a !== null && b !== null && b > a) ? String(b - a) : '';
+    p.creneau = (p.debut && p.fin) ? p.debut + ' \u2013 ' + p.fin : '';
+    p.classes = [p.classeA, p.classeB].filter(Boolean).join(' et ');
+    return p;
+  }
+
+  function pointilles(n) {
+    return new Array(Math.max(4, n || 10) + 1).join('.');
+  }
+
+  function appliquer(racine) {
+    var p = calcule(lire());
+    (racine || document).querySelectorAll('[data-profil]').forEach(function (e) {
+      var k = e.getAttribute('data-profil');
+      var v = p[k];
+      if (v) { e.textContent = v; e.classList.remove('pf-vide'); }
+      else {
+        e.textContent = pointilles(parseInt(e.getAttribute('data-large') || '0', 10)
+                                   || (e.getAttribute('data-defaut') || '').length);
+        e.classList.add('pf-vide');
+      }
+    });
+
+    // Les heures du deroule sont des decalages en minutes depuis le debut du
+    // creneau : sans ce recalcul, le tableau contredirait l'en-tete.
+    var base = minutes(p.debut);
+    if (base !== null) {
+      (racine || document).querySelectorAll('[data-heure]').forEach(function (e) {
+        var v = base + parseInt(e.getAttribute('data-heure'), 10);
+        e.textContent = Math.floor(v / 60) + 'h' + ('0' + (v % 60)).slice(-2);
+      });
+    }
+  }
+
+  window.Profil = { lire: lire, ecrire: ecrire, appliquer: appliquer, CHAMPS: CHAMPS,
+                    calcule: calcule };
+  document.addEventListener('DOMContentLoaded', function () { appliquer(document); });
+})();
+</script>
+
+<button type="button" class="pf-bt no-print" id="pf_ouvrir">Personnaliser cette fiche</button>
+<div class="pf-fond no-print" id="pf_fond">
+  <div class="pf-boite">
+    <h2>Mes informations</h2>
+    <p class="pf-intro">Ces informations restent dans <b>ce navigateur</b> : elles ne partent nulle
+    part et ne sont visibles que de vous. Elles remplacent les mentions de la fiche, à l'écran
+    comme à l'impression. Ce qui n'est pas renseigné s'imprime en pointillés, à remplir à la main.</p>
+    <div class="pf-l"><label for="pf_nom">Votre nom, tel qu'il s'affichera</label><input type="text" id="pf_nom" placeholder="M. DUPONT" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_groupe">Libellé du groupe</label><input type="text" id="pf_groupe" placeholder="barrette 3M3 et 3M4" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_classeA">Première classe du groupe</label><select id="pf_classeA"><option value=""></option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+    <div class="pf-l"><label for="pf_classeB">Seconde classe, si barrette</label><select id="pf_classeB"><option value=""></option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+    <div class="pf-l"><label for="pf_salle">Salle</label><select id="pf_salle"><option value=""></option><option value="AH13">AH13</option><option value="AH14">AH14</option><option value="AH15">AH15</option><option value="AH10">AH10</option><option value="AH12">AH12</option><option value="1C01">1C01</option><option value="1C02">1C02</option><option value="1C03">1C03</option><option value="1C04">1C04</option><option value="__autre">autre…</option></select></div>
+    <div class="pf-l"><label for="pf_effectif">Nombre d'élèves</label><input type="text" id="pf_effectif" placeholder="17" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_postes">Nombre de postes</label><input type="text" id="pf_postes" placeholder="9" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_debut">Début du créneau</label><input type="text" id="pf_debut" placeholder="13h35" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_fin">Fin du créneau</label><input type="text" id="pf_fin" placeholder="15h05" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_date">Date de la séance</label><input type="text" id="pf_date" placeholder="17 septembre 2026" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_suivante">Séance suivante</label><input type="text" id="pf_suivante" placeholder="24 septembre" autocomplete="off"></div>
+    <div class="pf-actions">
+      <button type="button" class="pf-sec" id="pf_effacer">Tout effacer</button>
+      <button type="button" class="pf-sec" id="pf_fermer">Fermer</button>
+      <button type="button" id="pf_ok">Enregistrer</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var champs = Profil.CHAMPS;
+  var fond = document.getElementById('pf_fond');
+  function remplir() {
+    var p = Profil.lire();
+    champs.forEach(function (c) {
+      var e = document.getElementById('pf_' + c);
+      if (!e) return;
+      if (e.tagName === 'SELECT' && p[c] && !Array.prototype.some.call(e.options, function (o) { return o.value === p[c]; })) {
+        var o = document.createElement('option'); o.value = o.textContent = p[c]; e.appendChild(o);
+      }
+      e.value = p[c] || '';
+    });
+  }
+  document.getElementById('pf_ouvrir').addEventListener('click', function () {
+    remplir(); fond.classList.add('ouvert');
+  });
+  document.getElementById('pf_fermer').addEventListener('click', function () {
+    fond.classList.remove('ouvert');
+  });
+  fond.addEventListener('click', function (ev) { if (ev.target === fond) fond.classList.remove('ouvert'); });
+  document.getElementById('pf_ok').addEventListener('click', function () {
+    var p = {};
+    champs.forEach(function (c) {
+      var e = document.getElementById('pf_' + c);
+      if (e && e.value && e.value !== '__autre') p[c] = e.value.trim();
+    });
+    if (!Profil.ecrire(p)) {
+      alert("Ce navigateur refuse d'enregistrer. Les informations s'appliquent quand même à cette page, mais elles seront perdues si vous la rechargez.");
+    }
+    Profil.appliquer(document);
+    fond.classList.remove('ouvert');
+  });
+  document.getElementById('pf_effacer').addEventListener('click', function () {
+    if (!confirm('Effacer toutes vos informations de ce navigateur ?')) return;
+    Profil.ecrire({}); remplir(); Profil.appliquer(document);
+  });
+})();
+</script>
+</body></html>

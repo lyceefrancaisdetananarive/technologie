@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mes informations | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .mi-l { display: flex; gap: var(--space-md); align-items: baseline;
+            margin-bottom: .6rem; flex-wrap: wrap; }
+    .mi-l label { flex: 0 0 15rem; font-weight: 600; }
+    .mi-champ { flex: 1 1 12rem; font: inherit; font-size: 1rem;
+                border: 1.5px solid var(--gray-400); padding: .4rem .6rem;
+                background: #fff; min-width: 0; }
+    .mi-champ:focus { outline: 2px solid var(--aefe-blue); }
+    .mi-apercu { border: 2px solid var(--gray-800); padding: .9rem 1.1rem;
+                 display: flex; flex-wrap: wrap; gap: .5rem .9rem; }
+    .mi-apercu > div { border: 1.5px solid var(--gray-800); padding: .3rem .6rem;
+                       font-size: .9rem; }
+    .mi-apercu b { display: block; font-size: .7rem; text-transform: uppercase;
+                   letter-spacing: .4px; }
+    .pf-vide { color: var(--gray-500); letter-spacing: .5px; }
+    .mi-etat { font-weight: 700; margin-left: .8rem; }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="enseignant"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant","url":"index.html"},{"label":"Mes informations"}]'
+    data-print-title="Mes informations"
+    data-print-subtitle="Personnalisation des fiches &middot; Technologie LFT">
+
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge"><span class="ico">&#x1F511;</span> Enseignant</span>
+        <h1>Mes informations</h1>
+        <p class="page-description">Renseignez-les une fois : les fiches de préparation, le relevé
+        des comptes et la feuille B porteront votre nom, vos groupes et vos horaires, à l'écran
+        comme à l'impression.</p>
+      </div>
+
+      <div class="content-card" style="border-left:5px solid var(--aefe-blue);">
+        <h2><span class="ico">&#x1F512;</span> Où vont ces informations</h2>
+        <p><strong>Nulle part.</strong> Elles restent dans le navigateur de cet ordinateur, dans
+        son stockage local. Elles ne sont envoyées à aucun serveur, elles n'entrent pas dans le
+        dépôt du site, et aucun de vos collègues ne les voit. C'est ce qui permet à quatre
+        professeurs de partager un site public sans y publier leurs groupes.</p>
+        <p>Conséquence à connaître : si vous changez d'ordinateur ou de navigateur, il faut les
+        saisir de nouveau. Et une fiche ouverte depuis la clé USB ne lit pas les réglages faits
+        ici : utilisez alors le bouton <strong>« Personnaliser cette fiche »</strong> présent sur
+        la fiche elle-même.</p>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x270F;</span> Vos informations</h2>
+        <div class="mi-l"><label for="pf_nom">Votre nom, tel qu'il s'affichera</label><input type="text" id="pf_nom" class="mi-champ" placeholder="M. DUPONT" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_groupe">Libellé du groupe</label><input type="text" id="pf_groupe" class="mi-champ" placeholder="barrette 3M3 et 3M4" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_classeA">Première classe du groupe</label><select id="pf_classeA" class="mi-champ"><option value="">—</option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+        <div class="mi-l"><label for="pf_classeB">Seconde classe, si barrette</label><select id="pf_classeB" class="mi-champ"><option value="">—</option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+        <div class="mi-l"><label for="pf_salle">Salle</label><select id="pf_salle" class="mi-champ"><option value="">—</option><option value="AH13">AH13</option><option value="AH14">AH14</option><option value="AH15">AH15</option><option value="AH10">AH10</option><option value="AH12">AH12</option><option value="1C01">1C01</option><option value="1C02">1C02</option><option value="1C03">1C03</option><option value="1C04">1C04</option></select></div>
+        <div class="mi-l"><label for="pf_effectif">Nombre d'élèves</label><input type="text" id="pf_effectif" class="mi-champ" placeholder="17" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_postes">Nombre de postes</label><input type="text" id="pf_postes" class="mi-champ" placeholder="9" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_debut">Début du créneau</label><input type="text" id="pf_debut" class="mi-champ" placeholder="13h35" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_fin">Fin du créneau</label><input type="text" id="pf_fin" class="mi-champ" placeholder="15h05" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_date">Date de la séance</label><input type="text" id="pf_date" class="mi-champ" placeholder="17 septembre 2026" autocomplete="off"></div>
+        <div class="mi-l"><label for="pf_suivante">Séance suivante</label><input type="text" id="pf_suivante" class="mi-champ" placeholder="24 septembre" autocomplete="off"></div>
+        <div class="page-actions no-print" style="margin-top:1rem">
+          <button class="btn btn-print" type="button" id="mi_ok"><span class="ico">&#x1F4BE;</span> Enregistrer</button>
+          <button class="btn btn-outline" type="button" id="mi_effacer"><span class="ico">&#x1F5D1;</span> Tout effacer</button>
+          <span class="mi-etat" id="mi_etat"></span>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x1F441;</span> Aperçu</h2>
+        <p>Voici le bandeau tel qu'il s'imprimera en tête de vos fiches. Ce qui reste en pointillés
+        s'imprimera en pointillés, à remplir à la main.</p>
+        <div class="mi-apercu">
+          <div><b>Date</b>jeudi <span data-profil="date" data-large="20"></span></div>
+          <div><b>Horaire</b><span data-profil="creneau" data-large="15"></span>, soit <span data-profil="duree" data-large="3"></span> min</div>
+          <div><b>Salle</b><span data-profil="salle" data-large="6"></span></div>
+          <div><b>Groupe</b><span data-profil="groupe" data-large="22"></span></div>
+          <div><b>Effectif</b><span data-profil="effectif" data-large="3"></span> élèves</div>
+          <div><b>Postes</b><span data-profil="postes" data-large="3"></span></div>
+          <div><b>Professeur</b><span data-profil="nom" data-large="18"></span></div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x1F4C4;</span> Les fiches concernées</h2>
+        <div style="display:flex; gap: var(--space-md); flex-wrap: wrap;">
+          <a href="../3eme/p1/seance1-preparation.html" class="btn btn-outline"><span class="ico">&#x1F4D6;</span> Fiche de préparation</a>
+          <a href="../3eme/p1/releve-comptes.html" class="btn btn-outline"><span class="ico">&#x2705;</span> Relevé des comptes</a>
+          <a href="../3eme/p1/diagnostique-feuille-b.html" class="btn btn-outline"><span class="ico">&#x1F4CB;</span> Feuille B</a>
+        </div>
+        <p style="margin-top:.8rem"><strong>Le diaporama est un fichier PowerPoint :</strong> il ne
+        peut pas lire ces réglages. Sa première diapositive porte des pointillés, à compléter dans
+        PowerPoint avant de projeter.</p>
+      </div>
+
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+  <script>
+(function () {
+  var CLE = 'techno-lft-profil';
+  var CHAMPS = ["nom", "groupe", "classeA", "classeB", "salle", "effectif", "postes", "debut", "fin", "date", "suivante"];
+
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE) || '{}'); } catch (e) { return {}; }
+  }
+  function ecrire(o) {
+    try { localStorage.setItem(CLE, JSON.stringify(o)); return true; } catch (e) { return false; }
+  }
+
+  function minutes(h) {
+    var m = /^(\d{1,2})\s*h\s*(\d{0,2})$/.exec((h || '').trim());
+    return m ? parseInt(m[1], 10) * 60 + parseInt(m[2] || '0', 10) : null;
+  }
+
+  function calcule(p) {
+    var a = minutes(p.debut), b = minutes(p.fin);
+    p.duree = (a !== null && b !== null && b > a) ? String(b - a) : '';
+    p.creneau = (p.debut && p.fin) ? p.debut + ' \u2013 ' + p.fin : '';
+    p.classes = [p.classeA, p.classeB].filter(Boolean).join(' et ');
+    return p;
+  }
+
+  function pointilles(n) {
+    return new Array(Math.max(4, n || 10) + 1).join('.');
+  }
+
+  function appliquer(racine) {
+    var p = calcule(lire());
+    (racine || document).querySelectorAll('[data-profil]').forEach(function (e) {
+      var k = e.getAttribute('data-profil');
+      var v = p[k];
+      if (v) { e.textContent = v; e.classList.remove('pf-vide'); }
+      else {
+        e.textContent = pointilles(parseInt(e.getAttribute('data-large') || '0', 10)
+                                   || (e.getAttribute('data-defaut') || '').length);
+        e.classList.add('pf-vide');
+      }
+    });
+
+    // Les heures du deroule sont des decalages en minutes depuis le debut du
+    // creneau : sans ce recalcul, le tableau contredirait l'en-tete.
+    var base = minutes(p.debut);
+    if (base !== null) {
+      (racine || document).querySelectorAll('[data-heure]').forEach(function (e) {
+        var v = base + parseInt(e.getAttribute('data-heure'), 10);
+        e.textContent = Math.floor(v / 60) + 'h' + ('0' + (v % 60)).slice(-2);
+      });
+    }
+  }
+
+  window.Profil = { lire: lire, ecrire: ecrire, appliquer: appliquer, CHAMPS: CHAMPS,
+                    calcule: calcule };
+  document.addEventListener('DOMContentLoaded', function () { appliquer(document); });
+})();
+</script>
+  <script>
+  (function () {
+    var champs = Profil.CHAMPS;
+    function remplir() {
+      var p = Profil.lire();
+      champs.forEach(function (c) {
+        var e = document.getElementById('pf_' + c);
+        if (!e) return;
+        if (e.tagName === 'SELECT' && p[c] &&
+            !Array.prototype.some.call(e.options, function (o) { return o.value === p[c]; })) {
+          var o = document.createElement('option'); o.value = o.textContent = p[c]; e.appendChild(o);
+        }
+        e.value = p[c] || '';
+      });
+    }
+    function collecte() {
+      var p = {};
+      champs.forEach(function (c) {
+        var e = document.getElementById('pf_' + c);
+        if (e && e.value.trim()) p[c] = e.value.trim();
+      });
+      return p;
+    }
+    var etat = document.getElementById('mi_etat');
+    function dire(m, ok) {
+      etat.textContent = m;
+      etat.style.color = ok ? 'var(--success)' : 'var(--error)';
+      setTimeout(function () { etat.textContent = ''; }, 4000);
+    }
+    document.querySelectorAll('.mi-champ').forEach(function (e) {
+      e.addEventListener('input', function () {
+        var p = Profil.calcule(collecte());
+        document.querySelectorAll('#app [data-profil]').forEach(function (s) {
+          var v = p[s.getAttribute('data-profil')];
+          if (v) { s.textContent = v; s.classList.remove('pf-vide'); }
+          else {
+            s.textContent = new Array(parseInt(s.getAttribute('data-large') || '10', 10) + 1).join('.');
+            s.classList.add('pf-vide');
+          }
+        });
+      });
+    });
+    document.getElementById('mi_ok').addEventListener('click', function () {
+      if (Profil.ecrire(collecte())) dire('Enregistré', true);
+      else dire("Ce navigateur refuse d'enregistrer", false);
+      Profil.appliquer(document);
+    });
+    document.getElementById('mi_effacer').addEventListener('click', function () {
+      if (!confirm('Effacer toutes vos informations de ce navigateur ?')) return;
+      Profil.ecrire({}); remplir(); Profil.appliquer(document); dire('Effacé', true);
+    });
+    remplir();
+  })();
+  </script>
+</body>
+</html>

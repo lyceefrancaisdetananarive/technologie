@@ -1,5 +1,5 @@
 <!DOCTYPE html><html lang="fr"><head><meta charset="utf-8">
-<title>Préparation &middot; séance 1 &middot; 3e &middot; 17 septembre</title>
+<title>Préparation &middot; première séance &middot; 3e</title>
 <style>
 @page { size: A4 portrait; margin: 13mm 13mm 15mm; }
 * { box-sizing: border-box; }
@@ -42,6 +42,30 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
   -webkit-print-color-adjust: exact; print-color-adjust: exact; }
 .pied { margin-top: 12px; border-top: 2px solid #000; padding-top: 4px;
   font-size: 8.2pt; display: flex; justify-content: space-between; }
+
+.pf-bt { position: fixed; right: 14px; bottom: 14px; z-index: 60; font: inherit;
+  font-size: 10.5pt; font-weight: 700; border: 0; padding: 9px 15px; cursor: pointer;
+  background: #00549F; color: #fff; border-radius: 3px; box-shadow: 0 2px 10px rgba(0,0,0,.25); }
+.pf-fond { position: fixed; inset: 0; z-index: 61; background: rgba(0,0,0,.45);
+  display: none; align-items: center; justify-content: center; padding: 20px; }
+.pf-fond.ouvert { display: flex; }
+.pf-boite { background: #fff; max-width: 560px; width: 100%; max-height: 86vh;
+  overflow-y: auto; padding: 20px 24px; box-shadow: 0 8px 40px rgba(0,0,0,.3); }
+.pf-boite h2 { margin: 0 0 4px; font-size: 15pt; }
+.pf-boite .pf-intro { font-size: 10pt; color: #444; margin: 0 0 14px; line-height: 1.45; }
+.pf-l { display: flex; gap: 10px; align-items: baseline; margin-bottom: 9px; }
+.pf-l label { flex: 0 0 44%; font-size: 10.5pt; }
+.pf-l input, .pf-l select { flex: 1 1 auto; font: inherit; font-size: 11pt;
+  border: 1.4px solid #666; padding: 4px 7px; background: #fff; min-width: 0; }
+.pf-l input:focus, .pf-l select:focus { outline: 2px solid #00549F; }
+.pf-actions { display: flex; gap: 8px; justify-content: flex-end; margin-top: 16px;
+  flex-wrap: wrap; }
+.pf-actions button { font: inherit; font-size: 10.5pt; font-weight: 700; padding: 8px 15px;
+  cursor: pointer; border: 1.5px solid #00549F; background: #00549F; color: #fff; }
+.pf-actions .pf-sec { background: #fff; color: #00549F; }
+.pf-vide { color: #666; letter-spacing: .5px; }
+@media print { .pf-bt, .pf-fond { display: none !important; } }
+
 </style></head><body><div class="doc">
 
 <div class="entete">
@@ -59,12 +83,12 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
 <p class="sous">Rentrée numérique : ouvrir les comptes, faire passer le diagnostic, apprendre le geste du rendu.</p>
 
 <div class="fiche">
-  <div><b>Date</b>jeudi 17 septembre 2026</div>
-  <div><b>Horaire</b>13h35 &ndash; 15h05, soit 90 min</div>
-  <div><b>Salle</b>AH13</div>
-  <div><b>Groupe</b>barrette 3M3 et 3M4</div>
-  <div><b>Effectif</b>17 élèves, 8 binômes et 1 trinôme</div>
-  <div><b>Postes</b>9 nécessaires</div>
+  <div><b>Date</b>jeudi <span data-profil="date" data-large="20" data-defaut="17 septembre 2026">17 septembre 2026</span></div>
+  <div><b>Horaire</b><span data-profil="creneau" data-large="15" data-defaut="13h35 &ndash; 15h05">13h35 &ndash; 15h05</span>, soit <span data-profil="duree" data-large="3" data-defaut="90">90</span> min</div>
+  <div><b>Salle</b><span data-profil="salle" data-large="6" data-defaut="AH13">AH13</span></div>
+  <div><b>Groupe</b><span data-profil="groupe" data-large="22" data-defaut="barrette 3M3 et 3M4">barrette 3M3 et 3M4</span></div>
+  <div><b>Effectif</b><span data-profil="effectif" data-large="3" data-defaut="17">17</span> élèves, 8 binômes et 1 trinôme</div>
+  <div><b>Postes</b><span data-profil="postes" data-large="3" data-defaut="9">9</span> nécessaires</div>
 </div>
 
 <div class="enc fort">
@@ -72,14 +96,13 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
   ordinateur pèsent 43 minutes à elles seules : accueil et installation d'un groupe inconnu,
   allumage des postes, deux tours de connexion, dépouillement, rituel de fermeture, sortie.
   Il reste 47 minutes. Le parcours PIX de rentrée dure à lui seul une heure et doit se faire
-  individuellement, ce que le binôme interdit. <b>PIX ne tient pas le 17 septembre.</b>
-  Il est reporté au 24, où il aura la séance entière et le travail individuel qu'il exige.
+  individuellement, ce que le binôme interdit. <b>PIX ne tient pas le <span data-profil="date" data-large="14" data-defaut="17 septembre">17 septembre</span>.</b> Il est reporté au <span data-profil="suivante" data-large="14" data-defaut="24 septembre">24 septembre</span>, où il aura la séance entière et le travail individuel qu'il exige.
   Ce qui reste ce jour-là est déjà dense : les comptes, le diagnostic, le geste du rendu.
 </div>
 
 <h2><span class="n">1</span>Ce que vise la séance</h2>
 <ul>
-  <li><b>Vérifier les 17 accès au compte @eleve.egd.mg</b>, sans jamais voir ni collecter un mot de passe.
+  <li><b>Vérifier les <span data-profil="effectif" data-large="3" data-defaut="17">17</span> accès au compte @eleve.egd.mg</b>, sans jamais voir ni collecter un mot de passe.
   La preuve est un courriel test envoyé par l'élève lui-même : il atteste d'un coup l'accès au compte,
   l'orthographe exacte de l'adresse et la capacité à rendre un travail.</li>
   <li><b>Faire passer l'évaluation diagnostique</b>, parties 1 à 3, en binôme sur ordinateur.</li>
@@ -90,41 +113,50 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
 </ul>
 
 <h2><span class="n">2</span>Avant la séance</h2>
-<div class="etape"><b class="q">J moins 7</b><ul><li>Écrire à l'administrateur du domaine <b>@eleve.egd.mg</b> : liste exacte des 17 adresses avec leur orthographe officielle, état d'activation de chaque compte, validation en deux étapes imposée ou non, délai réel d'une réinitialisation.</li><li><b>Et surtout, la question dont tout le reste dépend : un compte élève peut-il ENVOYER un courriel, et vers quelles adresses ?</b> Beaucoup d'établissements restreignent la messagerie élève à l'interne, ou la désactivent. Si l'envoi est bloqué, le courriel test et le rendu par courriel tombent tous les deux, et la séance change de forme.</li><li>Demander au référent numérique si l'espace <b>PIX Orga</b> du lycée est activé et si la liste des élèves y est importée. À l'étranger, la voie SIECLE n'existe pas : la question est ouverte.</li><li>Se faire inviter comme membre de PIX Orga. Sans cette invitation, aucune campagne n'est possible.</li></ul></div>
-<div class="etape"><b class="q">J moins 1</b><ul><li>Imprimer le relevé des comptes, 17 lignes, et y noter le nombre de postes réellement en marche.</li><li>Créer dans la boîte professionnelle un filtre sur l'objet contenant <b>TEST17</b>, avec un libellé dédié. C'est le filtre qui fait le relevé, pas le professeur.</li><li>Passer en AH13 : compter les postes qui démarrent, supprimer les comptes enregistrés et les mots de passe mémorisés dans les navigateurs, se déconnecter de toutes les sessions.</li><li>Composer les binômes sur papier et les afficher. Mélanger 3M3 et 3M4 dans chaque binôme : c'est le seul moment de l'année où le groupe peut se souder.</li><li>Photocopier 17 feuilles B et vérifier que la page du diagnostic s'ouvre sur un poste élève.</li></ul></div>
-<div class="etape"><b class="q">Le jour même, avant 13h35</b><ul><li>Écrire au tableau, en grand : l'adresse professionnelle, l'objet imposé <b>TEST17 NOM Prénom poste N</b>, et les trois étapes de l'heure.</li><li>Ouvrir la boîte professionnelle sur le poste professeur, sur le libellé filtré.</li><li>Afficher les binômes à la porte.</li><li><b>Précharger la salle entre 13h05 et 13h30</b> : allumer les 9 postes, ouvrir les sessions, laisser une fenêtre de navigation privée sur la page de connexion. C'est cette demi-heure qui rend tenable le rituel de 5 minutes ; sans elle, il en coûte 12.</li></ul></div>
+<div class="etape"><b class="q">J moins 7</b><ul><li>Écrire à l'administrateur du domaine <b>@eleve.egd.mg</b> : liste exacte des <span data-profil="effectif" data-large="3" data-defaut="17">17</span> adresses avec leur orthographe officielle, état d'activation de chaque compte, validation en deux étapes imposée ou non, délai réel d'une réinitialisation.</li><li><b>Et surtout, la question dont tout le reste dépend : un compte élève peut-il ENVOYER un courriel, et vers quelles adresses ?</b> Beaucoup d'établissements restreignent la messagerie élève à l'interne, ou la désactivent. Si l'envoi est bloqué, le courriel test et le rendu par courriel tombent tous les deux, et la séance change de forme.</li><li>Demander au référent numérique si l'espace <b>PIX Orga</b> du lycée est activé et si la liste des élèves y est importée. À l'étranger, la voie SIECLE n'existe pas : la question est ouverte.</li><li>Se faire inviter comme membre de PIX Orga. Sans cette invitation, aucune campagne n'est possible.</li></ul></div>
+<div class="etape"><b class="q">J moins 1</b><ul><li>Imprimer le relevé des comptes, <span data-profil="effectif" data-large="3" data-defaut="17">17</span> lignes, et y noter le nombre de postes réellement en marche.</li><li>Créer dans la boîte professionnelle un filtre sur l'objet contenant <b>TEST17</b>, avec un libellé dédié. C'est le filtre qui fait le relevé, pas le professeur.</li><li>Passer en <span data-profil="salle" data-large="6" data-defaut="AH13">AH13</span> : compter les postes qui démarrent, supprimer les comptes enregistrés et les mots de passe mémorisés dans les navigateurs, se déconnecter de toutes les sessions.</li><li>Composer les binômes sur papier et les afficher. Mélanger <span data-profil="classes" data-large="12" data-defaut="3M3 et 3M4">3M3 et 3M4</span> dans chaque binôme : c'est le seul moment de l'année où le groupe peut se souder.</li><li>Photocopier <span data-profil="effectif" data-large="3" data-defaut="17">17</span> feuilles B et vérifier que la page du diagnostic s'ouvre sur un poste élève.</li></ul></div>
+<div class="etape"><b class="q">Le jour même, avant <span data-profil="debut" data-large="6" data-defaut="13h35">13h35</span></b><ul><li>Écrire au tableau, en grand : l'adresse professionnelle, l'objet imposé <b>TEST17 NOM Prénom poste N</b>, et les trois étapes de l'heure.</li><li>Ouvrir la boîte professionnelle sur le poste professeur, sur le libellé filtré.</li><li>Afficher les binômes à la porte.</li><li><b>Précharger la salle entre 13h05 et 13h30</b> : allumer les <span data-profil="postes" data-large="2" data-defaut="9">9</span> postes, ouvrir les sessions, laisser une fenêtre de navigation privée sur la page de connexion. C'est cette demi-heure qui rend tenable le rituel de 5 minutes ; sans elle, il en coûte 12.</li></ul></div>
+
+<div class="enc" style="border-style:dashed">
+  <b>Ce que la personnalisation change, et ce qu'elle ne change pas.</b> Le bouton
+  « Personnaliser cette fiche », en bas à droite, remplace votre nom, votre groupe, votre salle,
+  votre effectif et vos horaires, à l'écran comme à l'impression. Les heures du déroulé se
+  recalculent à partir de votre heure de début. En revanche <b>les durées, elles, ne se
+  recalculent pas</b> : elles ont été chiffrées pour 17 élèves sur 9 postes. Avec un effectif
+  sensiblement différent, refaites l'addition avant de vous fier au minutage.
+</div>
 
 <h2><span class="n">3</span>Le déroulé</h2>
 <table>
 <thead><tr><th>Heure</th><th>Durée</th><th>Étape</th><th>Le professeur</th><th>Les élèves</th></tr></thead>
-<tbody><tr><td class="h">13h35</td><td class="d">6 min</td><td class="t">Accueil à la porte</td><td>Binômes affichés à la porte, sur papier. Chaque élève lit son poste et s'installe sans discussion. Appel dans la foulée, à voix haute, en regardant chaque élève.</td><td class="eff">Entrent, trouvent leur poste, posent le sac. Ne touchent pas encore au clavier.</td></tr>
-<tr><td class="h">13h41</td><td class="d">4 min</td><td class="t">La règle du mot de passe, une seule fois</td><td>Trois phrases : je ne vous demanderai jamais votre mot de passe, je ne le regarde pas, je ne le note pas. Montrer le relevé et faire constater qu'il n'y a aucune colonne mot de passe. Annoncer le déroulé de l'heure en trois lignes au tableau.</td><td class="eff">Écoutent. Aucun matériel sorti.</td></tr>
-<tr><td class="h">13h45</td><td class="d">5 min</td><td class="t">Rituel poste propre</td><td>Faire allumer les 9 postes ensemble. Consigne unique : tout ce qui touche au compte se fait en fenêtre de navigation privée. Passer dans l'allée, ne jamais se placer derrière un écran.</td><td class="eff">Allument, ouvrent la session, ouvrent une fenêtre de navigation privée. Si un avatar apparaît dans le navigateur ordinaire : se déconnecter de tous les comptes.</td></tr>
-<tr><td class="h">13h50</td><td class="d">6 min</td><td class="t">Tour 1 : élève A se connecte</td><td>Chronométrer 3 minutes. Rester dans l'allée. Cocher au fur et à mesure les heures de connexion.</td><td class="eff">L'élève A se connecte seul à son compte, puis envoie un courriel vide au professeur, objet TEST17 NOM Prénom poste N. L'élève B remplit sa feuille B, au crayon.</td></tr>
-<tr><td class="h">13h56</td><td class="d">6 min</td><td class="t">Tour 2 : élève B se connecte</td><td>Même procédure. Règle répétée avant le tour : personne ne se connecte à la place de personne.</td><td class="eff">L'élève B fait de même. L'élève A remplit sa feuille B.</td></tr>
-<tr><td class="h">14h02</td><td class="d">5 min</td><td class="t">Dépouillement et tri des cas</td><td>Ouvrir le libellé de la boîte professionnelle, trié par expéditeur. Cocher les colonnes 5 à 8. Deux tentatives maximum par élève, ensuite on note le statut et on passe. Désigner le compte porteur de chaque binôme. Sa fenêtre privée reste ouverte jusqu'au rendu ; les autres se ferment dès le courriel test envoyé, un seul compte ouvert par poste.</td><td class="eff">Les binômes complets ouvrent la page du diagnostic. Les élèves en attente aident leur voisin.</td></tr>
-<tr><td class="h">14h07</td><td class="d">4 min</td><td class="t">Lancement du diagnostic</td><td>Consigne en trois points : ce n'est pas noté, vous répondez à deux après discussion, vous n'êtes pas obligés de finir. Annoncer l'arrêt à la fin de la partie 3.</td><td class="eff">Ouvrent la page, saisissent les deux noms, le numéro de poste et la date.</td></tr>
-<tr><td class="h">14h11</td><td class="d">33 min</td><td class="t">Passation, parties 1 à 3</td><td>Annoncer le temps restant au changement de partie. Ne pas répondre au contenu, seulement à la technique. Noter au passage ce qui bloque, cela nourrit la séquence 1.</td><td class="eff">Répondent à deux, à l'écran. Les binômes en avance enchaînent sur la partie 4.</td></tr>
-<tr><td class="h">14h44</td><td class="d">9 min</td><td class="t">Rendu du PDF</td><td>Vérifier l'arrivée des 9 rendus dans la boîte AVANT que quiconque ne se lève. Un binôme dont le rendu n'arrive pas recommence tout de suite.</td><td class="eff">Cliquent sur Générer le PDF à envoyer, enregistrent, joignent le fichier à un courriel envoyé depuis le compte porteur, les deux noms dans l'objet.</td></tr>
-<tr><td class="h">14h53</td><td class="d">7 min</td><td class="t">Rituel de fermeture</td><td>Valider les 9 postes un par un, d'un coup d'œil sur l'écran. Personne ne se lève avant que les 9 soient validés. C'est la contrepartie non négociable du travail en salle partagée. Sept minutes, pas cinq : à 15h05 la sonnerie ne se négocie pas.</td><td class="eff">Se déconnectent de tous les comptes, ferment les fenêtres privées, vérifient qu'aucun avatar n'apparaît. Un responsable par poste lève la main.</td></tr>
-<tr><td class="h">15h00</td><td class="d">5 min</td><td class="t">Ce qui vous attend, et sortie</td><td>Machines éteintes, on parle. Trois choses, pas une de plus : le DNB de juin 2027, la certification PIX du printemps, le projet de fin d'année. Annoncer PIX pour le 24 septembre. Voir l'encadré sur les précautions de formulation. Ramasser les feuilles B à la porte, une par une, en nommant chaque élève.</td><td class="eff">Écoutent, debout ou assis aux tables, plus aux postes. Rendent leur feuille B en sortant.</td></tr>
-<tr class="total"><td class="h">15h05</td><td class="d">90 min</td><td class="t">Total</td><td colspan="2">Le compte tombe juste. Il n'y a aucune marge : chaque minute prise quelque part est retirée de la passation.</td></tr></tbody>
+<tbody><tr><td class="h" data-heure="0">13h35</td><td class="d">6 min</td><td class="t">Accueil à la porte</td><td>Binômes affichés à la porte, sur papier. Chaque élève lit son poste et s'installe sans discussion. Appel dans la foulée, à voix haute, en regardant chaque élève.</td><td class="eff">Entrent, trouvent leur poste, posent le sac. Ne touchent pas encore au clavier.</td></tr>
+<tr><td class="h" data-heure="6">13h41</td><td class="d">4 min</td><td class="t">La règle du mot de passe, une seule fois</td><td>Trois phrases : je ne vous demanderai jamais votre mot de passe, je ne le regarde pas, je ne le note pas. Montrer le relevé et faire constater qu'il n'y a aucune colonne mot de passe. Annoncer le déroulé de l'heure en trois lignes au tableau.</td><td class="eff">Écoutent. Aucun matériel sorti.</td></tr>
+<tr><td class="h" data-heure="10">13h45</td><td class="d">5 min</td><td class="t">Rituel poste propre</td><td>Faire allumer les <span data-profil="postes" data-large="2" data-defaut="9">9</span> postes ensemble. Consigne unique : tout ce qui touche au compte se fait en fenêtre de navigation privée. Passer dans l'allée, ne jamais se placer derrière un écran.</td><td class="eff">Allument, ouvrent la session, ouvrent une fenêtre de navigation privée. Si un avatar apparaît dans le navigateur ordinaire : se déconnecter de tous les comptes.</td></tr>
+<tr><td class="h" data-heure="15">13h50</td><td class="d">6 min</td><td class="t">Tour 1 : élève A se connecte</td><td>Chronométrer 3 minutes. Rester dans l'allée. Cocher au fur et à mesure les heures de connexion.</td><td class="eff">L'élève A se connecte seul à son compte, puis envoie un courriel vide au professeur, objet TEST17 NOM Prénom poste N. L'élève B remplit sa feuille B, au crayon.</td></tr>
+<tr><td class="h" data-heure="21">13h56</td><td class="d">6 min</td><td class="t">Tour 2 : élève B se connecte</td><td>Même procédure. Règle répétée avant le tour : personne ne se connecte à la place de personne.</td><td class="eff">L'élève B fait de même. L'élève A remplit sa feuille B.</td></tr>
+<tr><td class="h" data-heure="27">14h02</td><td class="d">5 min</td><td class="t">Dépouillement et tri des cas</td><td>Ouvrir le libellé de la boîte professionnelle, trié par expéditeur. Cocher les colonnes 5 à 8. Deux tentatives maximum par élève, ensuite on note le statut et on passe. Désigner le compte porteur de chaque binôme. Sa fenêtre privée reste ouverte jusqu'au rendu ; les autres se ferment dès le courriel test envoyé, un seul compte ouvert par poste.</td><td class="eff">Les binômes complets ouvrent la page du diagnostic. Les élèves en attente aident leur voisin.</td></tr>
+<tr><td class="h" data-heure="32">14h07</td><td class="d">4 min</td><td class="t">Lancement du diagnostic</td><td>Consigne en trois points : ce n'est pas noté, vous répondez à deux après discussion, vous n'êtes pas obligés de finir. Annoncer l'arrêt à la fin de la partie 3.</td><td class="eff">Ouvrent la page, saisissent les deux noms, le numéro de poste et la date.</td></tr>
+<tr><td class="h" data-heure="36">14h11</td><td class="d">33 min</td><td class="t">Passation, parties 1 à 3</td><td>Annoncer le temps restant au changement de partie. Ne pas répondre au contenu, seulement à la technique. Noter au passage ce qui bloque, cela nourrit la séquence 1.</td><td class="eff">Répondent à deux, à l'écran. Les binômes en avance enchaînent sur la partie 4.</td></tr>
+<tr><td class="h" data-heure="69">14h44</td><td class="d">9 min</td><td class="t">Rendu du PDF</td><td>Vérifier l'arrivée des 9 rendus dans la boîte AVANT que quiconque ne se lève. Un binôme dont le rendu n'arrive pas recommence tout de suite.</td><td class="eff">Cliquent sur Générer le PDF à envoyer, enregistrent, joignent le fichier à un courriel envoyé depuis le compte porteur, les deux noms dans l'objet.</td></tr>
+<tr><td class="h" data-heure="78">14h53</td><td class="d">7 min</td><td class="t">Rituel de fermeture</td><td>Valider les <span data-profil="postes" data-large="2" data-defaut="9">9</span> postes un par un, d'un coup d'œil sur l'écran. Personne ne se lève avant que les <span data-profil="postes" data-large="2" data-defaut="9">9</span> soient validés. C'est la contrepartie non négociable du travail en salle partagée. Sept minutes, pas cinq : à <span data-profil="fin" data-large="6" data-defaut="15h05">15h05</span> la sonnerie ne se négocie pas.</td><td class="eff">Se déconnectent de tous les comptes, ferment les fenêtres privées, vérifient qu'aucun avatar n'apparaît. Un responsable par poste lève la main.</td></tr>
+<tr><td class="h" data-heure="85">15h00</td><td class="d">5 min</td><td class="t">Ce qui vous attend, et sortie</td><td>Machines éteintes, on parle. Trois choses, pas une de plus : le DNB de juin 2027, la certification PIX du printemps, le projet de fin d'année. Annoncer PIX pour le <span data-profil="suivante" data-large="14" data-defaut="24 septembre">24 septembre</span>. Voir l'encadré sur les précautions de formulation. Ramasser les feuilles B à la porte, une par une, en nommant chaque élève.</td><td class="eff">Écoutent, debout ou assis aux tables, plus aux postes. Rendent leur feuille B en sortant.</td></tr>
+<tr class="total"><td class="h" data-heure="90">15h05</td><td class="d">90 min</td><td class="t">Total</td><td colspan="2">Le compte tombe juste. Il n'y a aucune marge : chaque minute prise quelque part est retirée de la passation.</td></tr></tbody>
 </table>
 
 <h2><span class="n">4</span>Les replis</h2>
 <table>
 <thead><tr><th>Si cela arrive</th><th>Ce qu'on fait</th><th>Quand on décide</th></tr></thead>
 <tbody><tr><td style="width:48mm"><b>La messagerie élève ne permet pas d'envoyer</b>, ou seulement en interne</td><td>C'est le seul risque qui fait tomber toute la séance, et il se lève au J moins 7, pas le jour même. Si l'envoi est bloqué : le courriel test devient une capture d'écran de la page d'accueil du compte, montrée au professeur et cochée sur le relevé, et les PDF sont déposés dans un dossier partagé de la salle, ramassés en fin d'heure sur une clé. Le diagnostic et les connexions se font quand même.</td><td style="width:30mm;font-size:8.6pt"><i>réponse attendue avant le 10 septembre</i></td></tr>
-<tr><td style="width:48mm"><b>Moins de 9 postes en état de marche</b></td><td>On adapte la composition, pas le protocole : trinômes, et trois tours de connexion de 3 minutes au lieu de deux. Coût : 3 minutes prises sur la passation.</td><td style="width:30mm;font-size:8.6pt"><i>au plus tard la veille</i></td></tr>
-<tr><td style="width:48mm"><b>Les 9 postes n'ont pas atteint la page de connexion</b></td><td>Le diagnostic passe en version papier, individuelle, et les connexions sont reportées au 24 septembre. La version papier reste dans la sacoche, prête.</td><td style="width:30mm;font-size:8.6pt"><i>décision à 13h52, jamais après</i></td></tr>
+<tr><td style="width:48mm"><b>Moins de <span data-profil="postes" data-large="2" data-defaut="9">9</span> postes en état de marche</b></td><td>On adapte la composition, pas le protocole : trinômes, et trois tours de connexion de 3 minutes au lieu de deux. Coût : 3 minutes prises sur la passation.</td><td style="width:30mm;font-size:8.6pt"><i>au plus tard la veille</i></td></tr>
+<tr><td style="width:48mm"><b>Les <span data-profil="postes" data-large="2" data-defaut="9">9</span> postes n'ont pas atteint la page de connexion</b></td><td>Le diagnostic passe en version papier, individuelle, et les connexions sont reportées au <span data-profil="suivante" data-large="14" data-defaut="24 septembre">24 septembre</span>. La version papier reste dans la sacoche, prête.</td><td style="width:30mm;font-size:8.6pt"><i>décision à 13h52, jamais après</i></td></tr>
 <tr><td style="width:48mm"><b>Un élève dicte son mot de passe à voix haute ou le laisse visible</b></td><td>Interrompre aussitôt. Ne rien noter, ne rien répéter. L'élève change son mot de passe seul avant de sortir. Le relevé ne porte que le statut.</td><td style="width:30mm;font-size:8.6pt"><i>immédiat</i></td></tr>
-<tr><td style="width:48mm"><b>Validation en deux étapes bloquante, sans téléphone utilisable</b></td><td>On ne tente rien. Statut E, l'évaluation se poursuit sur le compte porteur du binôme. Demande à l'administrateur d'enregistrer les postes d'AH13 comme fiables.</td><td style="width:30mm;font-size:8.6pt"><i>immédiat</i></td></tr>
-<tr><td style="width:48mm"><b>Un rendu n'arrive pas dans la boîte</b></td><td>Le binôme recommence tout de suite, avant de se lever. Si l'envoi échoue deux fois, le fichier est enregistré sur le poste et repris au 24 septembre.</td><td style="width:30mm;font-size:8.6pt"><i>avant 15h03, sans exception</i></td></tr>
+<tr><td style="width:48mm"><b>Validation en deux étapes bloquante, sans téléphone utilisable</b></td><td>On ne tente rien. Statut E, l'évaluation se poursuit sur le compte porteur du binôme. Demande à l'administrateur d'enregistrer les postes de <span data-profil="salle" data-large="6" data-defaut="AH13">AH13</span> comme fiables.</td><td style="width:30mm;font-size:8.6pt"><i>immédiat</i></td></tr>
+<tr><td style="width:48mm"><b>Un rendu n'arrive pas dans la boîte</b></td><td>Le binôme recommence tout de suite, avant de se lever. Si l'envoi échoue deux fois, le fichier est enregistré sur le poste et repris au <span data-profil="suivante" data-large="14" data-defaut="24 septembre">24 septembre</span>.</td><td style="width:30mm;font-size:8.6pt"><i>avant 15h03, sans exception</i></td></tr>
 <tr><td style="width:48mm"><b>Un élève arrive en retard</b></td><td>Il rejoint le binôme le plus proche et devient le troisième. Sa connexion se fait au tour suivant, pas en dehors des tours.</td><td style="width:30mm;font-size:8.6pt"><i>sans négociation</i></td></tr></tbody>
 </table>
 
 <h2><span class="n">5</span>Après la séance</h2>
-<div class="etape"><b class="q">Le soir même</b><ul><li>Un seul courriel au service informatique avec les élèves en statut C, D et E. Aucun mot de passe n'y figure. Copie aux professeurs principaux de 3M3 et 3M4.</li><li>Dépouiller les 9 PDF reçus. Relever ce qui bloque, question par question : c'est la matière de la séquence 1.</li><li>Lire les feuilles B. Repérer les élèves sans ordinateur ni connexion à la maison, et ceux qui signalent une difficulté. Ces informations ne quittent pas la sacoche.</li><li>Saisir le cahier de texte dans PRONOTE, et le travail à faire pour le 24.</li></ul></div>
+<div class="etape"><b class="q">Le soir même</b><ul><li>Un seul courriel au service informatique avec les élèves en statut C, D et E. Aucun mot de passe n'y figure. Copie aux professeurs principaux de <span data-profil="classes" data-large="12" data-defaut="3M3 et 3M4">3M3 et 3M4</span>.</li><li>Dépouiller les 9 PDF reçus. Relever ce qui bloque, question par question : c'est la matière de la séquence 1.</li><li>Lire les feuilles B. Repérer les élèves sans ordinateur ni connexion à la maison, et ceux qui signalent une difficulté. Ces informations ne quittent pas la sacoche.</li><li>Saisir le cahier de texte dans PRONOTE, et le travail à faire pour le 24.</li></ul></div>
 <div class="etape"><b class="q">Le lendemain</b><ul><li>Remettre un billet de passage nominatif aux élèves dont le compte est défaillant : le service à voir, le créneau, ce qu'ils apportent, et la phrase « aucun mot de passe ne transite par le professeur ».</li><li>Composer les binômes de projet à partir des feuilles B.</li></ul></div>
 
 <div class="enc">
@@ -142,7 +174,7 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
 </div>
 
 <div class="enc">
-  <b>Ce qui bascule au 24 septembre.</b> Le parcours PIX de rentrée, individuel, sur la séance entière.
+  <b>Ce qui bascule au <span data-profil="suivante" data-large="14" data-defaut="24 septembre">24 septembre</span>.</b> Le parcours PIX de rentrée, individuel, sur la séance entière.
   La partie 4 du diagnostic, la lecture de document technique, qui ouvre le travail de posture
   d'examen. Le lancement de la séquence 1 sur l'objet connecté. Les élèves dont le compte a été
   réparé entre-temps refont leur connexion en début d'heure.
@@ -153,4 +185,128 @@ ul { margin: 4px 0; padding-left: 17px; } li { margin-bottom: 3px; }
   <span>Lycée Français de Tananarive &middot; Technologie &middot; 2026-2027</span>
 </div>
 
-</div></body></html>
+</div><script>
+(function () {
+  var CLE = 'techno-lft-profil';
+  var CHAMPS = ["nom", "groupe", "classeA", "classeB", "salle", "effectif", "postes", "debut", "fin", "date", "suivante"];
+
+  function lire() {
+    try { return JSON.parse(localStorage.getItem(CLE) || '{}'); } catch (e) { return {}; }
+  }
+  function ecrire(o) {
+    try { localStorage.setItem(CLE, JSON.stringify(o)); return true; } catch (e) { return false; }
+  }
+
+  function minutes(h) {
+    var m = /^(\d{1,2})\s*h\s*(\d{0,2})$/.exec((h || '').trim());
+    return m ? parseInt(m[1], 10) * 60 + parseInt(m[2] || '0', 10) : null;
+  }
+
+  function calcule(p) {
+    var a = minutes(p.debut), b = minutes(p.fin);
+    p.duree = (a !== null && b !== null && b > a) ? String(b - a) : '';
+    p.creneau = (p.debut && p.fin) ? p.debut + ' \u2013 ' + p.fin : '';
+    p.classes = [p.classeA, p.classeB].filter(Boolean).join(' et ');
+    return p;
+  }
+
+  function pointilles(n) {
+    return new Array(Math.max(4, n || 10) + 1).join('.');
+  }
+
+  function appliquer(racine) {
+    var p = calcule(lire());
+    (racine || document).querySelectorAll('[data-profil]').forEach(function (e) {
+      var k = e.getAttribute('data-profil');
+      var v = p[k];
+      if (v) { e.textContent = v; e.classList.remove('pf-vide'); }
+      else {
+        e.textContent = pointilles(parseInt(e.getAttribute('data-large') || '0', 10)
+                                   || (e.getAttribute('data-defaut') || '').length);
+        e.classList.add('pf-vide');
+      }
+    });
+
+    // Les heures du deroule sont des decalages en minutes depuis le debut du
+    // creneau : sans ce recalcul, le tableau contredirait l'en-tete.
+    var base = minutes(p.debut);
+    if (base !== null) {
+      (racine || document).querySelectorAll('[data-heure]').forEach(function (e) {
+        var v = base + parseInt(e.getAttribute('data-heure'), 10);
+        e.textContent = Math.floor(v / 60) + 'h' + ('0' + (v % 60)).slice(-2);
+      });
+    }
+  }
+
+  window.Profil = { lire: lire, ecrire: ecrire, appliquer: appliquer, CHAMPS: CHAMPS,
+                    calcule: calcule };
+  document.addEventListener('DOMContentLoaded', function () { appliquer(document); });
+})();
+</script>
+
+<button type="button" class="pf-bt no-print" id="pf_ouvrir">Personnaliser cette fiche</button>
+<div class="pf-fond no-print" id="pf_fond">
+  <div class="pf-boite">
+    <h2>Mes informations</h2>
+    <p class="pf-intro">Ces informations restent dans <b>ce navigateur</b> : elles ne partent nulle
+    part et ne sont visibles que de vous. Elles remplacent les mentions de la fiche, à l'écran
+    comme à l'impression. Ce qui n'est pas renseigné s'imprime en pointillés, à remplir à la main.</p>
+    <div class="pf-l"><label for="pf_nom">Votre nom, tel qu'il s'affichera</label><input type="text" id="pf_nom" placeholder="M. DUPONT" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_groupe">Libellé du groupe</label><input type="text" id="pf_groupe" placeholder="barrette 3M3 et 3M4" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_classeA">Première classe du groupe</label><select id="pf_classeA"><option value=""></option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+    <div class="pf-l"><label for="pf_classeB">Seconde classe, si barrette</label><select id="pf_classeB"><option value=""></option><option value="5M1">5M1</option><option value="5M2">5M2</option><option value="5M3">5M3</option><option value="5M4">5M4</option><option value="5M5">5M5</option><option value="5M6">5M6</option><option value="5M7">5M7</option><option value="4M1">4M1</option><option value="4M2">4M2</option><option value="4M3">4M3</option><option value="4M4">4M4</option><option value="4M5">4M5</option><option value="4M6">4M6</option><option value="4M7">4M7</option><option value="3M1">3M1</option><option value="3M2">3M2</option><option value="3M3">3M3</option><option value="3M4">3M4</option><option value="3M5">3M5</option><option value="3M6">3M6</option><option value="3M7">3M7</option></select></div>
+    <div class="pf-l"><label for="pf_salle">Salle</label><select id="pf_salle"><option value=""></option><option value="AH13">AH13</option><option value="AH14">AH14</option><option value="AH15">AH15</option><option value="AH10">AH10</option><option value="AH12">AH12</option><option value="1C01">1C01</option><option value="1C02">1C02</option><option value="1C03">1C03</option><option value="1C04">1C04</option><option value="__autre">autre…</option></select></div>
+    <div class="pf-l"><label for="pf_effectif">Nombre d'élèves</label><input type="text" id="pf_effectif" placeholder="17" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_postes">Nombre de postes</label><input type="text" id="pf_postes" placeholder="9" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_debut">Début du créneau</label><input type="text" id="pf_debut" placeholder="13h35" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_fin">Fin du créneau</label><input type="text" id="pf_fin" placeholder="15h05" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_date">Date de la séance</label><input type="text" id="pf_date" placeholder="17 septembre 2026" autocomplete="off"></div>
+    <div class="pf-l"><label for="pf_suivante">Séance suivante</label><input type="text" id="pf_suivante" placeholder="24 septembre" autocomplete="off"></div>
+    <div class="pf-actions">
+      <button type="button" class="pf-sec" id="pf_effacer">Tout effacer</button>
+      <button type="button" class="pf-sec" id="pf_fermer">Fermer</button>
+      <button type="button" id="pf_ok">Enregistrer</button>
+    </div>
+  </div>
+</div>
+<script>
+(function () {
+  var champs = Profil.CHAMPS;
+  var fond = document.getElementById('pf_fond');
+  function remplir() {
+    var p = Profil.lire();
+    champs.forEach(function (c) {
+      var e = document.getElementById('pf_' + c);
+      if (!e) return;
+      if (e.tagName === 'SELECT' && p[c] && !Array.prototype.some.call(e.options, function (o) { return o.value === p[c]; })) {
+        var o = document.createElement('option'); o.value = o.textContent = p[c]; e.appendChild(o);
+      }
+      e.value = p[c] || '';
+    });
+  }
+  document.getElementById('pf_ouvrir').addEventListener('click', function () {
+    remplir(); fond.classList.add('ouvert');
+  });
+  document.getElementById('pf_fermer').addEventListener('click', function () {
+    fond.classList.remove('ouvert');
+  });
+  fond.addEventListener('click', function (ev) { if (ev.target === fond) fond.classList.remove('ouvert'); });
+  document.getElementById('pf_ok').addEventListener('click', function () {
+    var p = {};
+    champs.forEach(function (c) {
+      var e = document.getElementById('pf_' + c);
+      if (e && e.value && e.value !== '__autre') p[c] = e.value.trim();
+    });
+    if (!Profil.ecrire(p)) {
+      alert("Ce navigateur refuse d'enregistrer. Les informations s'appliquent quand même à cette page, mais elles seront perdues si vous la rechargez.");
+    }
+    Profil.appliquer(document);
+    fond.classList.remove('ouvert');
+  });
+  document.getElementById('pf_effacer').addEventListener('click', function () {
+    if (!confirm('Effacer toutes vos informations de ce navigateur ?')) return;
+    Profil.ecrire({}); remplir(); Profil.appliquer(document);
+  });
+})();
+</script>
+</body></html>
