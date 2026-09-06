@@ -1916,3 +1916,17 @@ img {
 .vp-etat { font-size: .85rem; font-weight: 700; }
 .vp-apercu { margin-top: .6rem; }
 @media print { .vp-form { display: none !important; } }
+
+
+/* Choix du profil, sur la page d'accueil */
+.profil-choix { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: var(--space-md); margin: 0 0 var(--space-2xl); }
+.profil-carte { display: flex; flex-direction: column; gap: .35rem; text-decoration: none;
+  background: #fff; border: 1px solid var(--gray-200); border-radius: var(--radius-md);
+  padding: var(--space-lg); transition: border-color .15s, transform .15s, box-shadow .15s;
+  color: var(--gray-800); }
+.profil-carte:hover { border-color: var(--primary); transform: translateY(-2px);
+  box-shadow: var(--shadow-md); }
+.profil-carte .profil-ico { font-size: 2rem; }
+.profil-carte strong { font-size: 1.15rem; }
+.profil-carte span:last-child { font-size: .9rem; color: var(--gray-600); line-height: 1.5; }
