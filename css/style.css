@@ -1930,3 +1930,17 @@ img {
 .profil-carte .profil-ico { font-size: 2rem; }
 .profil-carte strong { font-size: 1.15rem; }
 .profil-carte span:last-child { font-size: .9rem; color: var(--gray-600); line-height: 1.5; }
+
+/* Deblocage progressif des sequences (reglage cote professeur) */
+.seq-etat{display:inline-block;font-size:.68rem;font-weight:700;letter-spacing:.04em;
+  text-transform:uppercase;padding:2px 8px;border-radius:999px;margin-bottom:.35rem}
+.seq-etat-faite{background:#dcfce7;color:#166534}
+.seq-etat-encours{background:#fef3c7;color:#92400e}
+.seq-etat-avenir{background:#e5e7eb;color:#6b7280}
+.seq-card.seq-faite{opacity:.85}
+.seq-card.seq-avenir{opacity:.62}
+.seq-card.seq-avenir .seq-card-links{display:none}
+.seq-card.seq-avenir::after{content:"Séquence pas encore ouverte";display:block;
+  font-size:.82rem;color:#6b7280;font-style:italic;margin-top:.4rem}
+.seq-card.seq-encours{box-shadow:0 0 0 2px #f59e0b inset;border-radius:var(--radius-md)}
+@media print{.seq-etat{border:1px solid #999}}

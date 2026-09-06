@@ -6,6 +6,13 @@
   <title>Espace Enseignant · Technologie LFT</title>
   <link rel="icon" type="image/png" href="../img/logo-lft.png">
   <link rel="stylesheet" href="../css/style.css">
+
+<style>
+.prog-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-md);margin:.5rem 0}
+.prog-niv{display:flex;flex-direction:column;gap:.4rem}
+.prog-sel{font:inherit;font-size:.92rem;padding:.45rem .6rem;border:1.4px solid var(--gray-400);background:#fff}
+.prog-sel:focus{outline:2px solid var(--aefe-blue)}
+</style>
 </head>
 <body>
   <div id="app" data-page="enseignant"
@@ -54,6 +61,8 @@
           <a href="mes-informations.html" class="btn btn-print"><span class="ico">&#x270F;</span> Renseigner mes informations</a>
         </div>
       </div>
+
+      <div class="content-card"><h2><span class="ico">&#x1F513;</span> Déblocage progressif des séquences</h2><p>Réglez, pour chaque niveau, la séquence où en est votre classe. Sur les pages de niveau, les séquences précédentes seront marquées <em>Fait</em>, la séquence en cours sera mise en valeur, et les suivantes apparaîtront <em>À venir</em>, leurs liens masqués. Cela évite que les élèves ne partent en avant sur une séquence pas encore traitée.</p><div class="prog-grille"><div class="prog-niv"><label for="prog_5eme"><span class="page-level-badge level-5eme"><span class="ico">&#x1F535;</span> 5ᵉ</span></label><select id="prog_5eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div><div class="prog-niv"><label for="prog_4eme"><span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ᵉ</span></label><select id="prog_4eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div><div class="prog-niv"><label for="prog_3eme"><span class="page-level-badge level-3eme"><span class="ico">&#x1F7E0;</span> 3ᵉ</span></label><select id="prog_3eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div></div><div class="page-actions no-print" style="margin-top:1rem"><button class="btn btn-print" type="button" id="prog_ok"><span class="ico">&#x1F4BE;</span> Enregistrer</button><button class="btn btn-outline" type="button" id="prog_export"><span class="ico">&#x1F501;</span> Exporter pour tout le site</button><span class="mi-etat" id="prog_etat"></span></div><div style="background:#fef3c7;border:1.5px solid #f59e0b;border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.9rem;font-size:.9rem"><strong>À savoir.</strong> Ce réglage vaut pour <strong>ce navigateur</strong>. Il est parfait pour l'écran que vous projetez en classe et pour un poste partagé. Il ne suit pas l'élève sur son propre téléphone : un site public sans serveur n'a pas de mémoire par personne, et une adresse de séquence reste de toute façon atteignable si on la connaît. Pour un déblocage qui s'applique partout et à tous, cliquez sur <em>Exporter pour tout le site</em> et transmettez le texte obtenu : il sera intégré au site pour l'ensemble des élèves.</div><textarea id="prog_echange" rows="4" style="display:none;width:100%;margin-top:.6rem;font-family:ui-monospace,Menlo,monospace;font-size:.8rem;padding:.5rem;border:1.4px solid var(--gray-400);"></textarea></div>
 
       <div class="content-card">
         <h2 style="display:flex;align-items:center;gap:var(--space-sm);"><span class="page-level-badge level-5eme" style="font-size:0.75rem;"><span class="ico">&#x1F535;</span> 5ème</span> Fiches professeur : 5ème</h2>
@@ -195,5 +204,45 @@
     </main>
   </div>
   <script src="../js/components.js"></script>
+
+<script src="../js/progression.js"></script>
+<script>
+(function () {
+  var niveaux = ['5eme','4eme','3eme'];
+  function remplir() {
+    var d = Progression.lire();
+    niveaux.forEach(function (n) {
+      var e = document.getElementById('prog_' + n);
+      var v = d[n] || {};
+      e.value = (v.actif ? v.jusqu : 0);
+    });
+  }
+  function collecte() {
+    var d = {};
+    niveaux.forEach(function (n) {
+      var v = parseInt(document.getElementById('prog_' + n).value, 10);
+      d[n] = { actif: v > 0, jusqu: v };
+    });
+    return d;
+  }
+  function dire(m, ok) {
+    var e = document.getElementById('prog_etat');
+    e.textContent = m; e.style.color = ok ? 'var(--success)' : 'var(--error)';
+    setTimeout(function () { e.textContent = ''; }, 4000);
+  }
+  remplir();
+  document.getElementById('prog_ok').addEventListener('click', function () {
+    dire(Progression.ecrire(collecte()) ? 'Enregistré' : "Ce navigateur refuse d'enregistrer",
+         Progression.ecrire(collecte()));
+  });
+  document.getElementById('prog_export').addEventListener('click', function () {
+    var z = document.getElementById('prog_echange');
+    z.style.display = 'block';
+    z.value = JSON.stringify(collecte(), null, 1);
+    z.focus(); z.select();
+    dire('Copiez ce texte et transmettez-le pour publication', true);
+  });
+})();
+</script>
 </body>
 </html>
