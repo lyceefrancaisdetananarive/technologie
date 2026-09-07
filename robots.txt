@@ -1,0 +1,6 @@
+# Site de Technologie, Lycée Français de Tananarive
+# Les ressources réservées aux professeurs ne doivent pas être indexées.
+User-agent: *
+Disallow: /enseignant/
+Disallow: /*-prof.html$
+Disallow: /*-ebep.html$

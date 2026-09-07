@@ -367,18 +367,24 @@ En une phrase, explique à quoi sert un planning dans un projet.</p><textarea na
 
   function tous() { return form.querySelectorAll('input, textarea'); }
 
+  // Les champs d'identite ne sont JAMAIS enregistres. Ils figurent sur le PDF
+  // remis au professeur, mais ne doivent pas rester dans le navigateur d'un
+  // poste partage, ou le binome suivant les retrouverait.
+  var NOMINATIF = /^eleve\d_(nom|prenom|classe)$/;
+
   function lire() {
     var d = {};
     tous().forEach(function (e) {
+      if (!e.name || NOMINATIF.test(e.name)) return;
       if (e.type === 'radio') { if (e.checked) d[e.name] = e.value; }
-      else if (e.name) { d[e.name] = e.value; }
+      else { d[e.name] = e.value; }
     });
     return d;
   }
 
   function ecrire(d) {
     tous().forEach(function (e) {
-      if (!(e.name in d)) return;
+      if (!(e.name in d) || NOMINATIF.test(e.name)) return;
       if (e.type === 'radio') { e.checked = (e.value === d[e.name]); }
       else { e.value = d[e.name]; }
     });
