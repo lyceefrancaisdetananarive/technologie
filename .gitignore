@@ -18,3 +18,10 @@ Thumbs.db
 .AppleDouble
 .Spotlight-V100
 .Trashes
+
+# Secrets et dossiers internes Vercel : ne JAMAIS versionner
+.vercel
+.vercel/
+.env
+.env.*
+node_modules/
