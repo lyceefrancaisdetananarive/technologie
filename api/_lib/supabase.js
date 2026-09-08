@@ -245,8 +245,19 @@ export async function utilisateurParEmail(email) {
  * Séparateurs acceptés : virgule, point-virgule, espace, retour à la ligne.
  */
 export function profsAutorises() {
-  return String(process.env.PROFS_TECHNO ?? '')
-    .split(/[\s,;]+/)
-    .map((x) => x.trim().toLowerCase())
-    .filter((x) => x.includes('@'));
+  // EXTRACTION PAR MOTIF, ET NON PAR DÉCOUPAGE.
+  //
+  // Le contenu exact de cette variable n'est pas connu du code : elle a été
+  // remplie à la main dans Vercel, et elle est marquée secrète, donc illisible
+  // depuis le tableau de bord. Découper sur des séparateurs supposés faisait
+  // dépendre l'accès de TOUTE l'équipe d'un format deviné : une liste écrite
+  // en JSON, avec des noms devant les adresses, ou séparée autrement, aurait
+  // rendu la liste vide ou inexacte, et le contrôle continu du rôle aurait
+  // enfermé les quatre professeurs dehors sans rien expliquer.
+  //
+  // On cherche donc les adresses là où elles sont, quel que soit ce qui les
+  // entoure : guillemets, crochets, virgules, chevrons, retours à la ligne.
+  return (String(process.env.PROFS_TECHNO ?? '')
+    .toLowerCase()
+    .match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/g) ?? []);
 }
