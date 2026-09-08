@@ -17,7 +17,7 @@ export default async function handler(req, res) {
     const rendus = await lire('rendus',
       `groupe_id=eq.${groupe}` +
       `&select=id,sequence,document,fichier,commentaire,binome,` +
-      `appreciation,note,depose_le,corrige_le,profils(prenom,nom)` +
+      `appreciation,note,depose_le,corrige_le,profil_id,profils(id,prenom,nom)` +
       `&order=depose_le.desc`);
 
     // Effectif du groupe : sans lui, on ne voit pas qui n'a rien rendu.

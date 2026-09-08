@@ -96,9 +96,22 @@ alter table profils alter column mdp_pose_le drop default;
 -- l'export EDUKA contient au moins une élève dont l'adresse est en @egd.mg,
 -- et sans cette contrainte elle serait créée avec le rôle professeur.
 alter table profils drop constraint if exists profils_domaine_coherent;
+-- Corrigé le 8 septembre 2026 : la version précédente exigeait
+-- « role = 'eleve' and email like '%@eleve.egd.mg' », ce qui EXCLUAIT du
+-- système l'élève que le commentaire ci-dessus nomme, la seule dont
+-- l'adresse est en @egd.mg. Elle n'avait alors que deux issues : aucun
+-- compte, ou un compte professeur, c'est-à-dire exactement ce que la
+-- contrainte voulait empêcher.
+--
+-- La contrainte ne garde donc plus que le rôle PROFESSEUR, qui est le seul
+-- qui ouvre quelque chose : une adresse d'élève ne peut jamais devenir
+-- professeur. Un élève, lui, peut porter l'un ou l'autre domaine.
+-- Attention au piège de LIKE : « %@egd.mg » n'attrape PAS
+-- « prenom.nom@eleve.egd.mg », car le caractère qui précède « egd.mg » y est
+-- un point et non une arobase. Les deux domaines doivent donc être écrits.
 alter table profils add constraint profils_domaine_coherent check (
-  (role = 'eleve' and email like '%@eleve.egd.mg') or
-  (role = 'prof'  and email like '%@egd.mg' and email not like '%@eleve.egd.mg')
+  (email like '%@egd.mg' or email like '%@eleve.egd.mg')
+  and (role = 'eleve' or email not like '%@eleve.egd.mg')
 );
 
 -- ---------------------------------------------------------------- groupes

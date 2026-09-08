@@ -131,11 +131,14 @@ async function voirGroupe() {
   const d = await api('/api/prof/rendus?groupe=' + $('groupe').value);
 
   // Qui n'a rien rendu ? C'est souvent l'information la plus utile.
+  // Comparaison sur l'IDENTIFIANT, jamais sur le nom. Deux homonymes dans un
+  // groupe, et le dépôt de l'un couvrait l'absence de l'autre : le professeur
+  // lisait « tous les élèves ont déposé » alors que l'un n'avait rien rendu.
   const auteurs = new Set(d.rendus.filter((r) => r.fichier)
-    .map((r) => `${r.profils?.prenom} ${r.profils?.nom}`));
+    .map((r) => r.profil_id ?? r.profils?.id));
   const absents = d.eleves
-    .map((e) => `${e.prenom} ${e.nom}`)
-    .filter((n) => !auteurs.has(n));
+    .filter((e) => !auteurs.has(e.id))
+    .map((e) => `${e.prenom} ${e.nom}`);
   $('manquants').innerHTML = absents.length
     ? `<b>${absents.length} élève(s) n'ont rien déposé :</b> ${echapper(absents.join(', '))}`
     : `<b>Tous les élèves du groupe ont déposé au moins un travail.</b>`;
