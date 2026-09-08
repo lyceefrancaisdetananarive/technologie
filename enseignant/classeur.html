@@ -197,15 +197,26 @@ $('sortir').addEventListener('click', async () => {
 
 $('reinit').addEventListener('click', async () => {
   const nom = $('eleve').selectedOptions[0]?.textContent || 'cet élève';
-  if (!confirm(`Réinitialiser l'accès de ${nom} ?\n\n` +
-    `Un mot de passe provisoire s'affichera à l'écran. ` +
-    `L'opération est journalisée et signalée à l'élève.`)) return;
+
+  // Ressaisie du mot de passe, et non une simple confirmation. Un « OK » se
+  // clique : si une session professeur reste ouverte sur un poste de salle
+  // informatique, l'élève suivant s'en servirait pour fabriquer le mot de
+  // passe d'un camarade, et le journal accuserait le professeur. Le mot de
+  // passe, lui, il ne l'a pas.
+  const motDePasse = prompt(
+    `Réinitialiser l'accès de ${nom}.\n\n` +
+    `Un mot de passe provisoire s'affichera à l'écran et devra être dit à ` +
+    `voix haute. L'opération est journalisée et signalée à l'élève.\n\n` +
+    `Retapez VOTRE mot de passe pour confirmer :`);
+  if (!motDePasse) return;
 
   $('reinit').disabled = true;
   try {
     const d = await api('/api/prof/reinitialiser-eleve', {
       method: 'POST',
-      body: JSON.stringify({ eleve: $('eleve').value, motif: $('motif').value }),
+      body: JSON.stringify({
+        eleve: $('eleve').value, motif: $('motif').value, confirmation: motDePasse,
+      }),
     });
     $('mr').className = 'msg attention';
     $('mr').innerHTML =

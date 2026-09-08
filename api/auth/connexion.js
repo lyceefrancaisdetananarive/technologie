@@ -14,6 +14,20 @@ const ECHEC = "Adresse ou mot de passe incorrect.";
 const MAX_TENTATIVES = 8;
 const FENETRE_MINUTES = 15;
 
+// Durée de vie d'un mot de passe PROVISOIRE, c'est-à-dire de celui que le
+// professeur dicte à voix haute ou que l'élève reçoit par courriel. Passé ce
+// délai, il ne connecte plus rien : la bandelette retrouvée dans une trousse
+// à la période suivante est morte.
+//
+// 24 heures, et pas 30 minutes : un mot de passe donné en fin de séance doit
+// encore servir le soir même à la maison. Et pas une semaine : le seul usage
+// légitime est immédiat. En redonner un coûte un clic au professeur.
+//
+// Ce contrôle ne s'applique QUE tant que mdp_provisoire est vrai. Dès que
+// l'élève a choisi son mot de passe, il ne s'applique plus jamais : sans
+// cette précaution on l'enfermerait dehors le lendemain de sa connexion.
+const PROVISOIRE_HEURES = 24;
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
   if (!configuree()) return refus(res, 503, "Le service n'est pas encore configuré.");
@@ -29,7 +43,8 @@ export default async function handler(req, res) {
     //    exister côté authentification et avoir été désactivé ici.
     const profils = await lire(
       'profils',
-      `email=eq.${encodeURIComponent(email)}&select=id,role,actif,mdp_provisoire,prenom`
+      `email=eq.${encodeURIComponent(email)}` +
+      `&select=id,role,actif,mdp_provisoire,mdp_pose_le,prenom`
     );
     const profil = profils[0];
 
@@ -55,7 +70,22 @@ export default async function handler(req, res) {
       return refus(res, 401, ECHEC);
     }
 
-    // 4. Le rôle est relu EN BASE. Jamais dans user_metadata, que
+    // 4. Le mot de passe est bon. Mais s'il est encore PROVISOIRE, a-t-il
+    //    encore le droit de servir ? On refuse APRÈS avoir vérifié le mot de
+    //    passe, jamais avant : sinon la page dirait à qui l'essaie que ce
+    //    compte existe et qu'il attend sa première connexion.
+    if (profil.mdp_provisoire) {
+      const pose = Date.parse(profil.mdp_pose_le ?? '');
+      const limite = Date.now() - PROVISOIRE_HEURES * 3600_000;
+      if (!Number.isFinite(pose) || pose < limite) {
+        return refus(res, 403,
+          "Ce mot de passe provisoire a expiré : il ne sert que pendant " +
+          `${PROVISOIRE_HEURES} heures. Demandez-en un nouveau à votre ` +
+          "professeur, ou passez par « Première connexion ».");
+      }
+    }
+
+    // 5. Le rôle est relu EN BASE. Jamais dans user_metadata, que
     //    l'utilisateur peut réécrire lui-même avec updateUser().
     const jeton = await sceller(
       { sub: profil.id, role: profil.role, prov: profil.mdp_provisoire },
@@ -67,7 +97,7 @@ export default async function handler(req, res) {
     await ecrire('profils', `id=eq.${profil.id}`,
       { derniere_connexion: new Date().toISOString() }).catch(() => {});
 
-    res.setHeader('Set-Cookie', poserCookie(jeton));
+    res.setHeader('Set-Cookie', poserCookie(jeton, profil.role));
     res.status(200).json({
       ok: true,
       role: profil.role,

@@ -1,6 +1,7 @@
 import { ouvrir, lireCookie } from '../_lib/session.js';
 import {
-  definirMotDePasse, lire, ecrire, configuree, origineLegitime, refus,
+  definirMotDePasse, verifierMotDePasse, lire, ecrire,
+  configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
 
 // Mot de passe prononçable : il sera DICTÉ à voix haute dans une salle de
@@ -30,16 +31,30 @@ export default async function handler(req, res) {
 
   const eleveId = String(req.body?.eleve ?? '');
   const motif = String(req.body?.motif ?? '').slice(0, 200);
+  const confirmation = String(req.body?.confirmation ?? '');
   if (!eleveId) return refus(res, 400, 'Élève non précisé.');
+  if (!confirmation) return refus(res, 400, 'Confirmation manquante.');
 
   try {
     // Le rôle est RELU EN BASE, jamais pris au mot du cookie. Un cookie
     // reste valable une heure après une révocation : pour une action aussi
     // lourde que prendre la main sur le compte d'un mineur, on revérifie.
     const prof = (await lire('profils',
-      `id=eq.${session.sub}&select=id,role,actif`))[0];
+      `id=eq.${session.sub}&select=id,email,role,actif`))[0];
     if (!prof || prof.role !== 'prof' || !prof.actif) {
       return refus(res, 403, 'Action réservée aux professeurs.');
+    }
+
+    // BARRIÈRE, et non simple confirmation. Le cookie de session suffit à
+    // prouver qu'on est DEVANT le poste du professeur ; il ne prouve pas
+    // qu'on EST le professeur. Sur un poste de salle informatique où une
+    // session est restée ouverte, l'élève suivant fabriquerait le mot de
+    // passe d'un camarade, et le journal accuserait le professeur, puisque
+    // le contrôle d'appartenance au groupe passerait : l'appelant EST bien
+    // le professeur de cet élève. Le mot de passe, lui, il ne l'a pas.
+    if (!(await verifierMotDePasse(prof.email, confirmation))) {
+      return refus(res, 401,
+        'Mot de passe incorrect. Cette action demande de retaper le vôtre.');
     }
 
     // Et surtout : cet élève est-il DANS UN DE SES GROUPES ? Sans ce
@@ -62,7 +77,8 @@ export default async function handler(req, res) {
 
     const provisoire = motDePasseProvisoire();
     await definirMotDePasse(eleve.id, provisoire);
-    await ecrire('profils', `id=eq.${eleve.id}`, { mdp_provisoire: true });
+    await ecrire('profils', `id=eq.${eleve.id}`,
+      { mdp_provisoire: true, mdp_pose_le: new Date().toISOString() });
     await ecrire('journal_repli', '',
       { prof_id: prof.id, eleve_id: eleve.id, motif }, 'POST');
 

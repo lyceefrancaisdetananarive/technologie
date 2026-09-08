@@ -20,6 +20,18 @@
 
 const NOM_COOKIE = 'lft_session';
 
+// Le témoin. Il ne contient AUCUN jeton et AUCUNE identité : seulement le
+// rôle, en clair, pour que les 228 pages sachent afficher un avertissement
+// sans un octet de réseau. Le cookie de session, lui, est HttpOnly : le
+// JavaScript des pages ne peut ni le lire ni l'effacer, donc sans ce témoin
+// une session laissée ouverte est rigoureusement invisible.
+//
+// C'EST UN VOYANT, PAS UNE BARRIÈRE. Un élève peut l'effacer lui-même dans
+// son navigateur : il n'y gagne rien, la session reste ce qu'elle est et le
+// portier décide toujours sur le cookie scellé. Ne jamais fonder un contrôle
+// d'accès dessus.
+const NOM_TEMOIN = 'lft_ouvert';
+
 // Base64url sans dépendance, valable en Edge comme en Node.
 const enc = (buf) =>
   btoa(String.fromCharCode(...new Uint8Array(buf)))
@@ -100,12 +112,23 @@ export function lireCookie(entete) {
  *              poste partagé, c'est la seule garantie qui ne dépende pas
  *              d'un élève qui pense à cliquer sur « Se déconnecter ».
  */
-export function poserCookie(jeton) {
-  return `${NOM_COOKIE}=${jeton}; Path=/; HttpOnly; Secure; SameSite=Strict`;
+export function poserCookie(jeton, role) {
+  const cookies = [
+    `${NOM_COOKIE}=${jeton}; Path=/; HttpOnly; Secure; SameSite=Strict`,
+  ];
+  // Le témoin accompagne la session et meurt avec elle. Pas de HttpOnly,
+  // puisque tout son intérêt est d'être lisible par js/components.js.
+  if (role === 'eleve' || role === 'prof') {
+    cookies.push(`${NOM_TEMOIN}=${role}; Path=/; Secure; SameSite=Strict`);
+  }
+  return cookies;
 }
 
 export function effacerCookie() {
-  return `${NOM_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`;
+  return [
+    `${NOM_COOKIE}=; Path=/; HttpOnly; Secure; SameSite=Strict; Max-Age=0`,
+    `${NOM_TEMOIN}=; Path=/; Secure; SameSite=Strict; Max-Age=0`,
+  ];
 }
 
-export { NOM_COOKIE };
+export { NOM_COOKIE, NOM_TEMOIN };

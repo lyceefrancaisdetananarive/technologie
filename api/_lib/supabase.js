@@ -68,6 +68,25 @@ export async function definirMotDePasse(idUtilisateur, motDePasse) {
   return true;
 }
 
+/**
+ * À qui appartient ce jeton de récupération ? Sert au parcours « première
+ * connexion » : l'élève arrive depuis le lien reçu par courriel, il n'a ni
+ * session ni ancien mot de passe, et sans cela il ne peut rien faire.
+ *
+ * Le jeton est vérifié PAR SUPABASE, jamais par nous, et il ne quitte pas le
+ * serveur : la page le transmet à /api/, elle ne parle pas à Supabase. Cela
+ * évite de publier l'URL et la clé anon dans les 228 pages.
+ */
+export async function utilisateurDuJeton(jeton) {
+  const r = await fetch(`${URL_BASE()}/auth/v1/user`, {
+    headers: { apikey: ANON(), authorization: `Bearer ${jeton}` },
+  });
+  if (!r.ok) return null;
+  const u = await r.json();
+  if (!u?.id) return null;
+  return { id: u.id, email: String(u.email ?? '').toLowerCase() };
+}
+
 /** Demande à Supabase d'envoyer le courriel de réinitialisation. */
 export async function envoyerLienReinitialisation(email, origine) {
   const r = await fetch(`${URL_BASE()}/auth/v1/recover`, {

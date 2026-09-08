@@ -298,6 +298,75 @@
     return footer;
   }
 
+  // ---- VOYANT DE SESSION ----
+  // Le cookie de session est HttpOnly : ce script ne peut ni le lire ni
+  // l'effacer. Sans le temoin pose a cote de lui, une session laissee ouverte
+  // sur un poste de salle informatique est totalement invisible : le bandeau
+  // n'affiche rien, et l'eleve suivant en conclut que personne n'est connecte.
+  //
+  // C'EST UN VOYANT, PAS UNE BARRIERE. Le temoin ne contient ni jeton ni
+  // identite, seulement le role. Un eleve peut l'effacer : il n'y gagne rien,
+  // le portier decide toujours sur le cookie scelle, que lui ne voit pas.
+  //
+  // Cout reseau au chargement : ZERO. Lire document.cookie est local. La
+  // seule requete part quand quelqu'un clique sur le bouton.
+  function lireTemoin() {
+    try {
+      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)(?:;|$)/);
+      return m ? m[1] : null;
+    } catch (e) { return null; }
+  }
+
+  function renderVoyantSession() {
+    const role = lireTemoin();
+    if (!role) return null;
+
+    const prof = role === 'prof';
+    const d = document.createElement('div');
+    d.className = 'no-print';
+    d.setAttribute('role', 'status');
+    d.style.cssText =
+      'padding:.6rem 1rem;font:500 .9rem/1.45 Roboto,system-ui,sans-serif;' +
+      'display:flex;gap:.75rem;align-items:center;justify-content:center;' +
+      'flex-wrap:wrap;text-align:center;' +
+      (prof ? 'background:#fef2f2;color:#7f1d1d;border-bottom:2px solid #dc2626'
+            : 'background:#eff6ff;color:#1e3a5f;border-bottom:2px solid #3b82f6');
+
+    const texte = prof
+      ? 'Une session <strong>professeur</strong> est ouverte sur cet ordinateur. '
+        + 'Les corrigés et l’espace enseignant sont accessibles depuis ce navigateur.'
+      : 'Une session <strong>élève</strong> est ouverte sur cet ordinateur.';
+
+    d.innerHTML = '<span>' + texte + '</span>';
+
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.textContent = 'Fermer la session';
+    b.style.cssText =
+      'border:0;border-radius:6px;padding:.4rem .9rem;cursor:pointer;' +
+      'font:500 .88rem Raleway,system-ui,sans-serif;color:#fff;' +
+      (prof ? 'background:#dc2626' : 'background:#3b82f6');
+
+    b.addEventListener('click', function () {
+      b.disabled = true;
+      b.textContent = 'Fermeture…';
+      // keepalive : la requete aboutit meme si la page est quittee dans la
+      // foulee, ce qui arrive quand on ferme l'onglet juste apres.
+      fetch('/api/auth/deconnexion', {
+        method: 'POST', credentials: 'same-origin', keepalive: true
+      })
+      .catch(function () { /* hors ligne : on efface quand meme le temoin */ })
+      .then(function () {
+        // Le temoin n'est pas HttpOnly : on peut l'effacer ici, ce qui evite
+        // qu'un reseau coupe laisse un bandeau menteur a l'ecran.
+        document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
+        location.reload();
+      });
+    });
+    d.appendChild(b);
+    return d;
+  }
+
   // ---- PRINT HEADER ----
   // Cosignature conforme a la charte graphique de l'AEFE : logo de l'etablissement
   // a gauche, logo AEFE avec sa declinaison de statut a droite, sur une meme ligne.
@@ -514,6 +583,11 @@
       if (ident && entete) entete.insertAdjacentElement('afterend', ident);
       mainPourImpression.appendChild(renderPrintPied());
     }
+
+    // Voyant de session, tout en haut : c'est la premiere chose que voit
+    // l'eleve suivant qui s'installe devant le poste.
+    const voyant = renderVoyantSession();
+    if (voyant) parent.insertBefore(voyant, app);
 
     // Header
     parent.insertBefore(renderHeader(), app);

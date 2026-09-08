@@ -29,9 +29,42 @@ create table if not exists profils (
   actif          boolean not null default true,
   -- vrai tant que la personne n'a pas remplacé son mot de passe provisoire
   mdp_provisoire boolean not null default true,
+  -- quand le mot de passe ACTUEL a été posé. Lu uniquement quand
+  -- mdp_provisoire est vrai, pour périmer une bandelette oubliée dans une
+  -- trousse. Voir la note sur la péremption, plus bas.
+  mdp_pose_le    timestamptz not null default now(),
   cree_le        timestamptz not null default now(),
   derniere_connexion timestamptz
 );
+
+-- Colonne ajoutée après coup : la clause reste ici pour que le fichier
+-- s'applique aussi bien sur une base neuve que sur une base déjà créée.
+alter table profils add column if not exists
+  mdp_pose_le timestamptz not null default now();
+
+-- ------------------------------------------------------- LA PÉREMPTION
+-- Un mot de passe provisoire est FAIBLE PAR CONSTRUCTION : il est dicté à
+-- voix haute devant la classe, ou envoyé par courriel. Sans péremption, la
+-- bandelette retrouvée trois semaines plus tard ouvre encore le compte d'un
+-- mineur, et pire, permet d'en changer le mot de passe et d'en verrouiller
+-- le propriétaire légitime.
+--
+-- OÙ LA PÉREMPTION EST VÉRIFIÉE, ET POURQUOI PAS AILLEURS.
+-- Elle est vérifiée À LA CONNEXION (api/auth/connexion.js), et nulle part
+-- ailleurs. Elle n'est PAS vérifiée dans les politiques RLS ni dans les
+-- fonctions qui ouvrent l'accès aux données.
+--
+-- La raison est un piège dans lequel il est facile de tomber : tant que
+-- mdp_provisoire vaut vrai, l'élève est de toute façon renvoyé vers la page
+-- de changement, donc une clause de péremption placée dans l'accès aux
+-- données ne servirait à rien pendant toute la vie du provisoire. Elle ne
+-- deviendrait active QU'APRÈS que l'élève ait choisi son mot de passe,
+-- c'est-à-dire exactement quand elle ne doit plus rien faire, et elle le
+-- verrouillerait alors définitivement devant un classeur vide, sans message
+-- d'erreur, puisque le RLS ne refuse pas : il renvoie zéro ligne.
+--
+-- La péremption doit donc bloquer L'USAGE DU PROVISOIRE, pas la lecture des
+-- données. Une fois mdp_provisoire à faux, elle ne s'applique plus du tout.
 
 -- Le domaine de l'adresse doit correspondre au rôle. Garde-fou en base :
 -- l'export EDUKA contient au moins une élève dont l'adresse est en @egd.mg,

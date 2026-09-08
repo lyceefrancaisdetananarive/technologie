@@ -46,9 +46,11 @@
   <p class="sous">Celui qu'on vous a donné ne doit servir qu'une fois.</p>
 
   <form id="f" novalidate>
-    <label for="ancien">Mot de passe actuel</label>
-    <input id="ancien" type="password" required autocomplete="current-password">
-    <p class="aide">Celui reçu par courriel, ou dicté par votre professeur.</p>
+    <div id="bloc-ancien">
+      <label for="ancien">Mot de passe actuel</label>
+      <input id="ancien" type="password" autocomplete="current-password">
+      <p class="aide">Celui reçu par courriel, ou dicté par votre professeur.</p>
+    </div>
 
     <label for="nouveau">Nouveau mot de passe</label>
     <input id="nouveau" type="password" required autocomplete="new-password"
@@ -73,8 +75,38 @@
 <script>
 (function () {
   var f = document.getElementById('f'), b = document.getElementById('b'),
-      m = document.getElementById('m');
+      m = document.getElementById('m'), blocAncien = document.getElementById('bloc-ancien');
   function dire(t, c) { m.textContent = t; m.className = 'msg ' + c; }
+
+  // --- Première connexion : l'élève arrive depuis le lien reçu par courriel.
+  // Supabase place le jeton dans le FRAGMENT de l'adresse (après le #). Le
+  // fragment ne part jamais vers un serveur, mais il reste affiché dans la
+  // barre d'adresse et dans l'historique : sur un poste de salle informatique,
+  // on l'efface immédiatement, avant même de s'en servir.
+  var jeton = '', erreurLien = '';
+  (function lireFragment() {
+    var h = location.hash.replace(/^#/, '');
+    if (!h) return;
+    var p = new URLSearchParams(h);
+    if (p.get('type') === 'recovery') jeton = p.get('access_token') || '';
+    if (p.get('error')) {
+      erreurLien = p.get('error_description') || 'Ce lien n’est plus valable.';
+    }
+    history.replaceState(null, '', location.pathname + location.search);
+  })();
+
+  if (jeton) {
+    // Pas d'ancien mot de passe à demander : il n'en a pas, c'est la raison
+    // même de sa venue. Lui présenter un champ qu'il ne peut pas remplir est
+    // le meilleur moyen de le bloquer au premier écran.
+    blocAncien.hidden = true;
+    document.querySelector('.sous').textContent =
+      'Choisissez le mot de passe que vous garderez toute l’année.';
+  } else if (erreurLien) {
+    dire('Ce lien n’est plus valable. Il ne sert qu’une fois, et il expire ' +
+         'vite. Demandez-en un nouveau depuis « Première connexion », ou ' +
+         'demandez à votre professeur.', 'err');
+  }
 
   f.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -84,18 +116,23 @@
 
     if (n !== c) { return dire('Les deux mots de passe ne sont pas identiques.', 'err'); }
     if (n.length < 12) { return dire('Il faut au moins 12 caractères.', 'err'); }
+    if (!jeton && !a) { return dire('Indiquez d’abord votre mot de passe actuel.', 'err'); }
 
     b.disabled = true; b.textContent = 'Enregistrement…'; m.className = 'msg';
     fetch('/api/auth/changer-mot-de-passe', {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ ancien: a, nouveau: n })
+      body: JSON.stringify(jeton ? { jeton: jeton, nouveau: n }
+                                 : { ancien: a, nouveau: n })
     })
     .then(function (r) { return r.json().then(function (d) { return { r: r, d: d }; }); })
     .then(function (x) {
       if (!x.r.ok) { dire(x.d.message || 'Changement impossible.', 'err');
                      b.disabled = false; b.textContent = 'Enregistrer'; return; }
+      jeton = '';   // il ne resservira pas
       dire('C’est enregistré. Redirection…', 'ok');
-      setTimeout(function () { location.href = '/classeur/'; }, 1200);
+      setTimeout(function () {
+        location.href = x.d.role === 'prof' ? '/enseignant/' : '/classeur/';
+      }, 1200);
     })
     .catch(function () {
       dire('Le réseau ne répond pas. Attention : votre mot de passe a ' +
