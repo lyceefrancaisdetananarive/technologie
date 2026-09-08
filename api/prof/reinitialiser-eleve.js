@@ -8,6 +8,12 @@ import {
 // classe. « bafi-rolun-47 » se transmet sans erreur ; « xK7#pQ2z » non.
 // Le prix de cette lisibilité est qu'il est plus faible : d'où l'obligation
 // de le changer immédiatement, et le fait qu'il ne serve qu'une fois.
+// Verrou de la ressaisie. Mêmes valeurs que la page de connexion, et la même
+// table `tentatives` : un professeur qui se trompe huit fois de suite sur son
+// propre mot de passe attend un quart d'heure, ici comme ailleurs.
+const MAX_RESSAISIES = 8;
+const FENETRE_MINUTES = 15;
+
 const SYLLABES = ['ba','be','bi','bo','da','de','di','do','fa','fe','fi','fo',
   'ka','ke','ki','ko','la','le','li','lo','ma','me','mi','mo','na','ne','ni',
   'no','ra','re','ri','ro','sa','se','si','so','ta','te','ti','to','va','vu'];
@@ -52,21 +58,39 @@ export default async function handler(req, res) {
         'Choisissez d’abord votre propre mot de passe définitif.');
     }
 
-    // BARRIÈRE, et non simple confirmation. Le cookie de session suffit à
-    // prouver qu'on est DEVANT le poste du professeur ; il ne prouve pas
-    // qu'on EST le professeur. Sur un poste de salle informatique où une
-    // session est restée ouverte, l'élève suivant fabriquerait le mot de
-    // passe d'un camarade, et le journal accuserait le professeur, puisque
-    // le contrôle d'appartenance au groupe passerait : l'appelant EST bien
-    // le professeur de cet élève. Le mot de passe, lui, il ne l'a pas.
-    if (!(await verifierMotDePasse(prof.email, confirmation))) {
-      return refus(res, 401,
-        'Mot de passe incorrect. Cette action demande de retaper le vôtre.');
+    // L'identifiant doit être un uuid. Sans ce contrôle, une valeur
+    // quelconque fait échouer le cast côté PostgREST et remonte en 500,
+    // ce qui masque un refus derrière une panne.
+    if (!/^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+        .test(eleveId)) {
+      return refus(res, 400, 'Élève non précisé.');
     }
 
-    // Et surtout : cet élève est-il DANS UN DE SES GROUPES ? Sans ce
-    // contrôle, n'importe lequel des quatre professeurs réinitialiserait
-    // n'importe lequel des élèves de l'établissement.
+    // Verrou sur la ressaisie, avec la même table et la même fenêtre que la
+    // page de connexion. Sans lui, cette barrière avait une porte de
+    // service : depuis une session laissée ouverte, on pouvait essayer le
+    // mot de passe du professeur autant de fois qu'on voulait, sans limite
+    // et sans laisser la moindre trace.
+    const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
+    const echecs = await lire('tentatives',
+      `profil_id=eq.${prof.id}&quand=gte.${depuis}&select=id`);
+    if (echecs.length >= MAX_RESSAISIES) {
+      return refus(res, 429,
+        `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes.`);
+    }
+
+    // L'ORDRE DE CES DEUX CONTRÔLES EST UNE DÉCISION DE SÉCURITÉ.
+    //
+    // L'appartenance au groupe se vérifie AVANT le mot de passe. Dans
+    // l'ordre inverse, la réponse trahissait la supposition : un mot de passe
+    // faux donnait « Mot de passe incorrect », un mot de passe JUSTE donnait
+    // « Cet élève n'est dans aucun de vos groupes » sur un identifiant
+    // inventé. Un bit par requête, sans qu'aucune réinitialisation n'ait
+    // lieu, donc sans que le professeur voie jamais rien. Depuis un poste
+    // laissé ouvert, cela revenait à deviner son mot de passe à l'aveugle.
+    //
+    // Vérifier l'appartenance d'abord ne divulgue rien : la page liste déjà
+    // les élèves du groupe à qui a la session sous les yeux.
     const lien = await lire('appartenances',
       `profil_id=eq.${eleveId}&select=groupe_id,groupes!inner(prof_id)` +
       `&groupes.prof_id=eq.${prof.id}`);
@@ -80,6 +104,20 @@ export default async function handler(req, res) {
       `id=eq.${eleveId}&select=id,role,prenom,nom,actif`))[0];
     if (!eleve || eleve.role !== 'eleve' || !eleve.actif) {
       return refus(res, 404, 'Élève introuvable ou compte désactivé.');
+    }
+
+    // BARRIÈRE, et non simple confirmation. Le cookie de session suffit à
+    // prouver qu'on est DEVANT le poste du professeur ; il ne prouve pas
+    // qu'on EST le professeur. Sur un poste de salle informatique où une
+    // session est restée ouverte, l'élève suivant fabriquerait le mot de
+    // passe d'un camarade, et le journal accuserait le professeur, puisque
+    // le contrôle d'appartenance au groupe passerait : l'appelant EST bien
+    // le professeur de cet élève. Le mot de passe, lui, il ne l'a pas.
+    if (!(await verifierMotDePasse(prof.email, confirmation))) {
+      await ecrire('tentatives', '', { profil_id: prof.id }, 'POST')
+        .catch(() => {});
+      return refus(res, 401,
+        'Mot de passe incorrect. Cette action demande de retaper le vôtre.');
     }
 
     // L'ORDRE DE CES TROIS ÉCRITURES EST UNE DÉCISION DE SÉCURITÉ.

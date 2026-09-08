@@ -63,24 +63,40 @@ export default async function handler(req, res) {
     );
     const profil = profils[0];
 
-    // 2. Verrou de compte.
-    const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
-    const echecs = profil
-      ? await lire('tentatives',
-          `profil_id=eq.${profil.id}&quand=gte.${depuis}&select=id`)
-      : [];
-    if (echecs.length >= MAX_TENTATIVES) {
-      return refus(res, 429,
-        `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes, ou ` +
-        `demandez à votre professeur de réinitialiser votre accès.`);
-    }
-
-    // 3. Le mot de passe.
+    // 2. Le mot de passe, AVANT le verrou. L'ordre compte.
+    //
+    // Le verrou est un compteur d'échecs par COMPTE, et n'importe qui peut le
+    // nourrir : il suffit de connaître l'adresse, or elles sont mécaniques
+    // (prenom.nom@egd.mg) et les élèves connaissent celles de leurs
+    // professeurs. Refuser AVANT de vérifier le mot de passe transformait
+    // donc le verrou en arme : dix requêtes à 8h55 sur l'adresse du
+    // professeur, et il ne pouvait plus entrer de la journée, puisque même
+    // le bon mot de passe recevait un 429 et que le compteur ne s'effaçait
+    // qu'après un succès devenu impossible. Vingt-huit adresses, et c'est la
+    // classe entière qui reste dehors.
+    //
+    // On vérifie donc d'abord. UN MOT DE PASSE JUSTE PASSE TOUJOURS, verrou
+    // ou non, et remet le compteur à zéro. Le verrou ne s'applique qu'aux
+    // échecs, c'est-à-dire à celui qui devine, jamais au titulaire.
     const id = await verifierMotDePasse(email, motDePasse);
+    const bon = Boolean(id && profil && profil.id === id);
 
-    if (!id || !profil || profil.id !== id || !profil.actif) {
-      if (profil) {
+    if (!bon || !profil.actif) {
+      // On ne compte que les vrais échecs de mot de passe. Un mot de passe
+      // JUSTE sur un compte désactivé n'est pas une tentative de devinette :
+      // le compter polluerait le verrou sans rien protéger.
+      if (profil && !bon) {
         await ecrire('tentatives', '', { profil_id: profil.id }, 'POST').catch(() => {});
+      }
+      if (profil && !bon) {
+        const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
+        const echecs = await lire('tentatives',
+          `profil_id=eq.${profil.id}&quand=gte.${depuis}&select=id`).catch(() => []);
+        if (echecs.length >= MAX_TENTATIVES) {
+          return refus(res, 429,
+            `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes, ou ` +
+            `demandez à votre professeur de réinitialiser votre accès.`);
+        }
       }
       return refus(res, 401, ECHEC);
     }
@@ -92,7 +108,12 @@ export default async function handler(req, res) {
     if (profil.mdp_provisoire) {
       const pose = Date.parse(profil.mdp_pose_le ?? '');
       const limite = Date.now() - PROVISOIRE_HEURES * 3600_000;
-      if (!Number.isFinite(pose) || pose < limite) {
+      // Une date ABSENTE ne périme rien. Voir le contrat de la colonne dans
+      // db/01-schema.sql : NULL veut dire « aucun mot de passe provisoire n'a
+      // été remis à quelqu'un par ce code », donc il n'y a rien à périmer.
+      // Traiter NULL comme « expiré » refusait tous les comptes importés,
+      // c'est-à-dire toute une rentrée.
+      if (Number.isFinite(pose) && pose < limite) {
         return refus(res, 403,
           "Ce mot de passe provisoire a expiré : il ne sert que pendant " +
           `${PROVISOIRE_HEURES} heures. Demandez-en un nouveau à votre ` +
@@ -112,7 +133,8 @@ export default async function handler(req, res) {
     await ecrire('profils', `id=eq.${profil.id}`,
       { derniere_connexion: new Date().toISOString() }).catch(() => {});
 
-    res.setHeader('Set-Cookie', poserCookie(jeton, profil.role));
+    res.setHeader('Set-Cookie',
+      poserCookie(jeton, profil.role, DUREE[profil.role] ?? 1800));
     res.status(200).json({
       ok: true,
       role: profil.role,

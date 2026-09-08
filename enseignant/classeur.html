@@ -205,8 +205,16 @@ async function voirGroupe() {
 $('groupe').addEventListener('change', voirGroupe);
 
 $('sortir').addEventListener('click', async () => {
-  await fetch('/api/auth/deconnexion', { method: 'POST' });
-  location.href = '/';
+  try {
+    const r = await fetch('/api/auth/deconnexion', { method: 'POST' });
+    if (!r.ok) throw new Error('refus');
+    location.href = '/';
+  } catch (e) {
+    // Ne pas partir vers l'accueil comme si c'était fait : la session serait
+    // toujours vivante et le professeur croirait être sorti.
+    alert('La session n’a PAS été fermée : le réseau ou le service n’a pas ' +
+          'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
+  }
 });
 
 // Ressaisie du mot de passe, et non une simple confirmation. Un « OK » se

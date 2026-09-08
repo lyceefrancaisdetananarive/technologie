@@ -55,8 +55,24 @@ async function cle(secret) {
  * charge = { sub, role, prov }  — rien de plus : ce cookie voyage à chaque
  * requête, il n'a pas à contenir le nom ni l'adresse de l'élève.
  */
+// PLAFOND ABSOLU DE SESSION.
+//
+// La session du professeur se réarme à chaque correction enregistrée, pour
+// qu'une série de corrections ne soit pas interrompue. Sans plafond, ce
+// réarmement n'a aucune fin : celui qui s'assoit devant une session laissée
+// ouverte peut enregistrer une correction toutes les vingt-neuf minutes et la
+// maintenir vivante toute la journée. `dep` porte l'heure de la connexion
+// INITIALE, il est recopié tel quel à chaque réarmement, et il n'est jamais
+// repoussé. Passé ce délai, il faut retaper son mot de passe, point.
+const PLAFOND_SECONDES = 4 * 3600;
+
 export async function sceller(charge, secret, duree = 3600) {
-  const corps = { ...charge, exp: Math.floor(Date.now() / 1000) + duree };
+  const maintenant = Math.floor(Date.now() / 1000);
+  const corps = {
+    ...charge,
+    dep: charge.dep ?? maintenant,
+    exp: maintenant + duree,
+  };
   const texte = enc(new TextEncoder().encode(JSON.stringify(corps)));
   const sig = await crypto.subtle.sign('HMAC', await cle(secret),
     new TextEncoder().encode(texte));
@@ -81,7 +97,10 @@ export async function ouvrir(jeton, secret) {
     if (!valide) return null;
 
     const corps = JSON.parse(new TextDecoder().decode(dec(texte)));
-    if (!corps.exp || corps.exp < Math.floor(Date.now() / 1000)) return null;
+    const maintenant = Math.floor(Date.now() / 1000);
+    if (!corps.exp || corps.exp < maintenant) return null;
+    // Plafond absolu : une session réarmée indéfiniment finit quand même.
+    if (!corps.dep || maintenant - corps.dep > PLAFOND_SECONDES) return null;
     if (corps.role !== 'eleve' && corps.role !== 'prof') return null;
     return corps;
   } catch {
@@ -112,14 +131,23 @@ export function lireCookie(entete) {
  *              poste partagé, c'est la seule garantie qui ne dépende pas
  *              d'un élève qui pense à cliquer sur « Se déconnecter ».
  */
-export function poserCookie(jeton, role) {
+export function poserCookie(jeton, role, duree = 3600) {
   const cookies = [
     `${NOM_COOKIE}=${jeton}; Path=/; HttpOnly; Secure; SameSite=Strict`,
   ];
   // Le témoin accompagne la session et meurt avec elle. Pas de HttpOnly,
   // puisque tout son intérêt est d'être lisible par js/components.js.
+  //
+  // Il porte SA PROPRE ÉCHÉANCE dans sa valeur, « prof.1789456123 ». Sans
+  // elle, le témoin survivait au sceau : la session expirait au bout de
+  // trente minutes mais le bandeau rouge restait affiché, à réclamer la
+  // fermeture d'une session déjà morte. Un avertissement qui se trompe finit
+  // par ne plus être lu. Pas de Max-Age pour autant : le témoin doit mourir
+  // avec le navigateur, comme le sceau.
   if (role === 'eleve' || role === 'prof') {
-    cookies.push(`${NOM_TEMOIN}=${role}; Path=/; Secure; SameSite=Strict`);
+    const jusqua = Math.floor(Date.now() / 1000) + duree;
+    cookies.push(
+      `${NOM_TEMOIN}=${role}.${jusqua}; Path=/; Secure; SameSite=Strict`);
   }
   return cookies;
 }

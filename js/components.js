@@ -312,8 +312,13 @@
   // seule requete part quand quelqu'un clique sur le bouton.
   function lireTemoin() {
     try {
-      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)(?:;|$)/);
-      return m ? m[1] : null;
+      // Format « role.echeance », l'echeance en secondes Unix. Elle evite que
+      // le bandeau survive a la session : un avertissement qui se trompe finit
+      // par ne plus etre lu. Lecture purement locale, zero octet de reseau.
+      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:;|$)/);
+      if (!m) return null;
+      if (Number(m[2]) * 1000 < Date.now()) return null;
+      return m[1];
     } catch (e) { return null; }
   }
 
@@ -347,6 +352,29 @@
       'font:500 .88rem Raleway,system-ui,sans-serif;color:#fff;' +
       (prof ? 'background:#dc2626' : 'background:#3b82f6');
 
+    // N'EFFACER LE TEMOIN QUE SUR UN 200 CONFIRME.
+    //
+    // Le cookie de session est HttpOnly : cette page ne peut pas l'effacer.
+    // Seul /api/auth/deconnexion le peut. Effacer le temoin sans avoir la
+    // preuve que l'appel a abouti ferait donc disparaitre le bandeau en
+    // laissant la session VIVANTE : le geste cense proteger supprimerait la
+    // seule chose qui avertit l'occupant suivant.
+    //
+    // Deux pieges a eviter ici : fetch() ne rejette PAS sur un statut 4xx ou
+    // 5xx, et un .catch() suivi d'un .then() rend une promesse resolue, donc
+    // le .then s'execute aussi apres un echec reseau.
+    function echec() {
+      b.disabled = false;
+      b.textContent = 'Fermer la session';
+      const avis = d.querySelector('.lft-avis') || document.createElement('span');
+      avis.className = 'lft-avis';
+      avis.style.cssText = 'flex-basis:100%;font-weight:600';
+      avis.textContent =
+        'La session n’a PAS été fermée. Fermez complètement le navigateur : ' +
+        'la session meurt avec lui.';
+      if (!avis.parentNode) d.appendChild(avis);
+    }
+
     b.addEventListener('click', function () {
       b.disabled = true;
       b.textContent = 'Fermeture…';
@@ -355,13 +383,12 @@
       fetch('/api/auth/deconnexion', {
         method: 'POST', credentials: 'same-origin', keepalive: true
       })
-      .catch(function () { /* hors ligne : on efface quand meme le temoin */ })
-      .then(function () {
-        // Le temoin n'est pas HttpOnly : on peut l'effacer ici, ce qui evite
-        // qu'un reseau coupe laisse un bandeau menteur a l'ecran.
+      .then(function (r) {
+        if (!r || !r.ok) return echec();
         document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
         location.reload();
-      });
+      })
+      .catch(echec);
     });
     d.appendChild(b);
     return d;

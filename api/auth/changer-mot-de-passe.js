@@ -93,7 +93,8 @@ export default async function handler(req, res) {
       { sub: profil.id, role: profil.role, prov: false },
       process.env.LFT_COOKIE_SECRET,
       profil.role === 'prof' ? 1800 : 3600);
-    res.setHeader('Set-Cookie', poserCookie(jetonSession, profil.role));
+    res.setHeader('Set-Cookie',
+      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 3600));
     res.status(200).json({ ok: true, role: profil.role });
 
   } catch (e) {

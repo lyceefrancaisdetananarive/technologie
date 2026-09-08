@@ -102,6 +102,25 @@
     blocAncien.hidden = true;
     document.querySelector('.sous').textContent =
       'Choisissez le mot de passe que vous garderez toute l’année.';
+
+    // L'ONGLET ABANDONNÉ. Nettoyer la barre d'adresse ne suffit pas : le
+    // jeton vit maintenant dans cette variable, et le formulaire reste armé.
+    // Sur un poste de salle informatique, l'élève appelé au tableau laisse
+    // l'onglet ouvert ; la classe suivante s'installe, tape un mot de passe,
+    // et prend le compte DÉFINITIVEMENT, puisque le mot de passe a changé.
+    // Contrairement à une session oubliée, cela ne meurt pas avec le
+    // navigateur.
+    //
+    // Dix minutes : plus que le temps de choisir un mot de passe, moins que
+    // le temps d'un changement de classe.
+    setTimeout(function () {
+      if (!jeton) return;            // déjà utilisé, rien à désarmer
+      jeton = '';
+      f.hidden = true;
+      dire('Ce lien a expiré, par précaution : cette page était ouverte ' +
+           'depuis trop longtemps. Demandez-en un nouveau depuis ' +
+           '« Première connexion ».', 'err');
+    }, 10 * 60 * 1000);
   } else if (erreurLien) {
     dire('Ce lien n’est plus valable. Il ne sert qu’une fois, et il expire ' +
          'vite. Demandez-en un nouveau depuis « Première connexion », ou ' +

@@ -1,5 +1,5 @@
 import { appelant } from '../_lib/autorisation.js';
-import { lire, configuree, refus } from '../_lib/supabase.js';
+import { lire, ecrire, configuree, refus } from '../_lib/supabase.js';
 
 export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
@@ -19,6 +19,21 @@ export default async function handler(req, res) {
     // silencieux.
     const repli = await lire('journal_repli',
       `eleve_id=eq.${moi.id}&vu_par_eleve=eq.false&select=quand&order=quand.desc&limit=1`);
+
+    // ACCUSÉ DE LECTURE. Sans lui, vu_par_eleve n'était jamais mis à vrai
+    // par personne : ni ici, ni ailleurs dans le code, et le navigateur ne
+    // le peut pas non plus, journal_repli n'ayant qu'une politique de
+    // lecture. Le bandeau « votre professeur a réinitialisé votre accès »
+    // s'allumait donc en septembre et restait allumé jusqu'en juin, avec la
+    // même date. Un signal permanent cesse d'être un signal : en février,
+    // l'élève ne le voit plus, et la deuxième réinitialisation passe
+    // inaperçue. On le marque vu au moment où on le remet à la page, pour
+    // qu'il signale un ÉVÉNEMENT et non un état.
+    if (repli.length) {
+      await ecrire('journal_repli',
+        `eleve_id=eq.${moi.id}&vu_par_eleve=eq.false`,
+        { vu_par_eleve: true }).catch(() => {});
+    }
 
     res.status(200).json({ ok: true, rendus, repli: repli[0] ?? null });
   } catch (e) {

@@ -29,18 +29,44 @@ create table if not exists profils (
   actif          boolean not null default true,
   -- vrai tant que la personne n'a pas remplacé son mot de passe provisoire
   mdp_provisoire boolean not null default true,
-  -- quand le mot de passe ACTUEL a été posé. Lu uniquement quand
-  -- mdp_provisoire est vrai, pour périmer une bandelette oubliée dans une
-  -- trousse. Voir la note sur la péremption, plus bas.
-  mdp_pose_le    timestamptz not null default now(),
+  -- Quand un mot de passe PROVISOIRE a été remis à une personne, par la voix
+  -- ou par écrit. NULL, et sans valeur par défaut, VOLONTAIREMENT : voir le
+  -- contrat ci-dessous, c'est le point le plus facile à casser du schéma.
+  mdp_pose_le    timestamptz,
   cree_le        timestamptz not null default now(),
   derniere_connexion timestamptz
 );
 
--- Colonne ajoutée après coup : la clause reste ici pour que le fichier
+-- Colonne ajoutée après coup : les clauses restent ici pour que le fichier
 -- s'applique aussi bien sur une base neuve que sur une base déjà créée.
-alter table profils add column if not exists
-  mdp_pose_le timestamptz not null default now();
+alter table profils add column if not exists mdp_pose_le timestamptz;
+alter table profils alter column mdp_pose_le drop not null;
+alter table profils alter column mdp_pose_le drop default;
+
+-- ---------------------------------------------------- CONTRAT mdp_pose_le
+-- CETTE COLONNE N'A NI DÉFAUT NI CONTRAINTE NOT NULL, ET C'EST DÉLIBÉRÉ.
+--
+-- Avec « not null default now() », l'horloge de péremption partait de la
+-- CRÉATION DE LA LIGNE et non de la remise du mot de passe. Un import de
+-- comptes préparé le dimanche soir devenait donc entièrement inutilisable le
+-- mardi : chaque compte portait mdp_provisoire = true et une date vieille de
+-- plus de 24 h, et la connexion les refusait tous, quel que soit le mot de
+-- passe. Une rentrée perdue pour une valeur par défaut.
+--
+-- SENS DE NULL : « aucun mot de passe provisoire n'a été remis à quiconque
+-- par ce code ». C'est le cas d'un compte importé dont le mot de passe est
+-- aléatoire et connu de personne : son titulaire passera par « Première
+-- connexion », qui n'utilise pas cette colonne. Il n'y a donc rien à périmer,
+-- et NULL vaut « pas de péremption ».
+--
+-- OBLIGATION POUR TOUT SCRIPT DE CRÉATION DE COMPTES, À NE PAS OUBLIER :
+-- si un jour un import distribue un mot de passe CONNU (bandelettes
+-- imprimées, liste remise en main propre), il DOIT écrire mdp_pose_le à
+-- l'instant de la distribution. Sans cela ce mot de passe ne périmera
+-- jamais, et c'est exactement le trou que la péremption doit fermer.
+-- Les deux seuls chemins qui remettent aujourd'hui un mot de passe à un
+-- humain l'écrivent : api/prof/reinitialiser-eleve.js et
+-- api/auth/changer-mot-de-passe.js.
 
 -- ------------------------------------------------------- LA PÉREMPTION
 -- Un mot de passe provisoire est FAIBLE PAR CONSTRUCTION : il est dicté à

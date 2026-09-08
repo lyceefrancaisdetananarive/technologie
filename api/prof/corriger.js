@@ -1,5 +1,5 @@
 import { appelant, enseigneA } from '../_lib/autorisation.js';
-import { sceller, poserCookie } from '../_lib/session.js';
+import { sceller, poserCookie, ouvrir, lireCookie } from '../_lib/session.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 
 // La session du professeur ne dure que 30 minutes, pour qu'elle ne déborde
@@ -48,10 +48,20 @@ export default async function handler(req, res) {
     });
 
     // Correction enregistrée : on réarme la session pour 30 minutes.
+    //
+    // `dep` est RECOPIÉ, jamais recalculé : c'est l'heure de la connexion
+    // initiale, et elle porte le plafond absolu de session (voir
+    // api/_lib/session.js). Sans ce report, sceller() poserait un nouveau
+    // départ à chaque correction et le plafond ne mordrait jamais : une
+    // session laissée ouverte se prolongerait indéfiniment, à raison d'une
+    // correction toutes les vingt-neuf minutes.
+    const session = await ouvrir(
+      lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
+    if (!session) return refus(res, 401, 'Session expirée.');
     const jeton = await sceller(
-      { sub: moi.id, role: moi.role, prov: false },
+      { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
       process.env.LFT_COOKIE_SECRET, DUREE_PROF);
-    res.setHeader('Set-Cookie', poserCookie(jeton, moi.role));
+    res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
     res.status(200).json({ ok: true });
   } catch (e) {
     console.error('corriger :', e.message);
