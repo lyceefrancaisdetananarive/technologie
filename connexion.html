@@ -83,9 +83,27 @@
   // On revient d'où le portier nous a renvoyés, s'il s'agit bien d'une
   // adresse interne. Sans ce contrôle, « ?suite=https://ailleurs » ferait
   // de cette page un tremplin vers un site d'hameçonnage.
-  function destination() {
+  //
+  // Vérifier « commence par une barre, pas deux » NE SUFFIT PAS, et c'est
+  // vérifié par exécution : « ?suite=/%5Cevil.mg » se décode en « /\evil.mg »,
+  // qui commence bien par une seule barre oblique, et que le navigateur
+  // résout en « https://evil.mg/ » — le parseur d'URL convertit la
+  // contre-oblique en barre pour les schémas web. Un élève de 3ème recevant
+  // ce lien atterrissait sur une fausse page de connexion, à un moment où on
+  // lui demande justement son mot de passe.
+  //
+  // La seule garde solide est de RÉSOUDRE l'adresse et de comparer l'origine
+  // obtenue à la nôtre. Tout ce qui n'y aboutit pas retourne au classeur.
+  function destination(defaut) {
     var s = new URLSearchParams(location.search).get('suite');
-    return (s && s.charAt(0) === '/' && s.charAt(1) !== '/') ? s : '/classeur/';
+    if (!s || s.charAt(0) !== '/') return defaut;
+    try {
+      var u = new URL(s, location.origin);
+      if (u.origin !== location.origin) return defaut;
+      return u.pathname + u.search;
+    } catch (e) {
+      return defaut;
+    }
   }
 
   function dire(texte, type) { m.textContent = texte; m.className = 'msg ' + type; }
@@ -106,9 +124,13 @@
     .then(function (x) {
       if (!x.r.ok) { dire(x.d.message || 'Connexion impossible.', 'err');
                      b.disabled = false; b.textContent = 'Se connecter'; return; }
+      // Le professeur aussi revient d'où il venait. Les seules pages qui le
+      // renvoient ici sont les 32 corrigés : l'expédier systématiquement vers
+      // /enseignant/ lui faisait refaire le chemin à la main à chaque fois,
+      // alors que le portier avait pris soin de garder sa destination.
       location.href = x.d.motDePasseProvisoire
         ? '/changer-mot-de-passe.html'
-        : (x.d.role === 'prof' ? '/enseignant/' : destination());
+        : destination(x.d.role === 'prof' ? '/enseignant/' : '/classeur/');
     })
     .catch(function () {
       dire('Le réseau ne répond pas. Vérifiez la connexion et réessayez.', 'err');
