@@ -49,6 +49,11 @@
   .mdp{ font:1.25rem/1.4 ui-monospace,monospace; letter-spacing:.05em;
         background:#fff; padding:.5rem .8rem; border-radius:6px; display:inline-block;
         border:1px dashed var(--orange); margin:.5rem 0 }
+  .lien-sup{ background:none; border:0; padding:0; color:var(--gris);
+             font:inherit; font-size:.85rem; text-decoration:underline;
+             cursor:pointer }
+  .lien-sup:hover{ color:var(--orange) }
+  .lien-sup[disabled]{ opacity:.5; cursor:progress }
   .vide{ color:var(--gris); font-style:italic }
   .ligne{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
   .ligne > *{ flex:1; min-width:8rem }
@@ -174,6 +179,10 @@ async function voirGroupe() {
         </div>
         <button class="corriger" data-rendu="${r.id}">Enregistrer</button>
       </div>
+      ${r.corrige_le ? `<p class="meta"><button class="lien-sup retirer"
+          data-rendu="${r.id}">Retirer la correction</button></p>` : ''}
+      ${!r.fichier ? `<p class="meta"><button class="lien-sup vider"
+          data-rendu="${r.id}">Supprimer ce dépôt resté vide</button></p>` : ''}
     </article>`).join('');
 
   document.querySelectorAll('.voir').forEach((a) =>
@@ -181,6 +190,41 @@ async function voirGroupe() {
       e.preventDefault();
       const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
       window.open(d.url, '_blank', 'noopener');
+    }));
+
+  // Un clic par mégarde sur « Enregistrer » posait corrige_le pour toujours :
+  // l'élève ne pouvait plus rien redéposer et le professeur n'avait aucun
+  // recours. La correction se retire maintenant.
+  document.querySelectorAll('.retirer').forEach((b) =>
+    b.addEventListener('click', async () => {
+      if (!confirm('Retirer la correction ? L’appréciation et la note ' +
+                   'seront effacées, et l’élève pourra redéposer.')) return;
+      b.disabled = true; b.textContent = '…';
+      try {
+        await api('/api/prof/corriger', {
+          method: 'POST',
+          body: JSON.stringify({ rendu: b.dataset.rendu, annuler: true }),
+        });
+        await voirGroupe();
+      } catch (e) {
+        alert(e.message); b.disabled = false; b.textContent = 'Retirer la correction';
+      }
+    }));
+
+  // Les dépôts restés vides après un envoi interrompu : le professeur fait le
+  // ménage. Il ne peut supprimer QUE ceux-là, jamais un travail déposé.
+  document.querySelectorAll('.vider').forEach((b) =>
+    b.addEventListener('click', async () => {
+      b.disabled = true; b.textContent = '…';
+      try {
+        await api('/api/classeur/supprimer-depot', {
+          method: 'POST', body: JSON.stringify({ rendu: b.dataset.rendu }),
+        });
+        await voirGroupe();
+      } catch (e) {
+        alert(e.message); b.disabled = false;
+        b.textContent = 'Supprimer ce dépôt resté vide';
+      }
     }));
 
   document.querySelectorAll('.corriger').forEach((b) =>

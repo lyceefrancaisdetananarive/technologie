@@ -14,6 +14,27 @@ import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supaba
 // faire : enseigneA() a déjà tranché.
 const DUREE_PROF = 1800;
 
+/**
+ * Écriture enregistrée : on réarme la session du professeur pour 30 minutes.
+ *
+ * `dep` est RECOPIÉ, jamais recalculé : c'est l'heure de la connexion
+ * initiale, et elle porte le plafond absolu de session (voir
+ * api/_lib/session.js). Sans ce report, sceller() poserait un nouveau départ
+ * à chaque correction et le plafond ne mordrait jamais : une session laissée
+ * ouverte se prolongerait indéfiniment, à raison d'une correction toutes les
+ * vingt-neuf minutes.
+ */
+async function reArmer(req, res, moi) {
+  const session = await ouvrir(
+    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
+  if (!session) return false;
+  const jeton = await sceller(
+    { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
+    process.env.LFT_COOKIE_SECRET, DUREE_PROF);
+  res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
+  return true;
+}
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
@@ -23,7 +44,7 @@ export default async function handler(req, res) {
   if (!moi) return refus(res, 401, 'Session expirée.');
   if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
 
-  const { rendu, appreciation, note } = req.body ?? {};
+  const { rendu, appreciation, note, annuler } = req.body ?? {};
   if (!rendu) return refus(res, 400, 'Rendu non précisé.');
 
   try {
@@ -31,6 +52,19 @@ export default async function handler(req, res) {
     if (!r) return refus(res, 404, 'Rendu introuvable.');
     if (!(await enseigneA(moi.id, r.profil_id))) {
       return refus(res, 403, "Cet élève n'est pas dans vos groupes.");
+    }
+
+    // RETIRER UNE CORRECTION. Sans cela, corrige_le se posait pour toujours :
+    // un clic par mégarde sur « Enregistrer » marquait le travail corrigé, et
+    // rien nulle part ne savait le défaire. L'élève ne pouvait plus rien
+    // redéposer, confirmer-depot.js répondant « Ce travail a déjà été
+    // corrigé », et le professeur n'avait aucun recours.
+    if (annuler) {
+      await ecrire('rendus', `id=eq.${rendu}`, {
+        appreciation: null, note: null, corrige_le: null,
+      });
+      if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
+      return res.status(200).json({ ok: true, annule: true });
     }
 
     // La note reste facultative : les notes officielles vivent dans PRONOTE.
@@ -41,27 +75,25 @@ export default async function handler(req, res) {
       return refus(res, 400, 'La note doit être comprise entre 0 et 20.');
     }
 
+    // UNE CORRECTION VIDE N'EN EST PAS UNE, et on refuse d'en écrire une.
+    // C'est ce qui rendait le clic par mégarde dangereux : les deux champs
+    // vides écrasaient l'appréciation existante par null tout en posant
+    // corrige_le. Désormais un clic sur un formulaire vide ne fait rien du
+    // tout, et le dit.
+    const texte = appreciation ? String(appreciation).slice(0, 4000) : null;
+    if (!texte && valeurNote == null) {
+      return refus(res, 400,
+        'Écrivez une appréciation, ou mettez une note. Pour retirer une ' +
+        'correction déjà enregistrée, utilisez « Retirer la correction ».');
+    }
+
     await ecrire('rendus', `id=eq.${rendu}`, {
-      appreciation: appreciation ? String(appreciation).slice(0, 4000) : null,
+      appreciation: texte,
       note: valeurNote,
       corrige_le: new Date().toISOString(),
     });
 
-    // Correction enregistrée : on réarme la session pour 30 minutes.
-    //
-    // `dep` est RECOPIÉ, jamais recalculé : c'est l'heure de la connexion
-    // initiale, et elle porte le plafond absolu de session (voir
-    // api/_lib/session.js). Sans ce report, sceller() poserait un nouveau
-    // départ à chaque correction et le plafond ne mordrait jamais : une
-    // session laissée ouverte se prolongerait indéfiniment, à raison d'une
-    // correction toutes les vingt-neuf minutes.
-    const session = await ouvrir(
-      lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-    if (!session) return refus(res, 401, 'Session expirée.');
-    const jeton = await sceller(
-      { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
-      process.env.LFT_COOKIE_SECRET, DUREE_PROF);
-    res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
+    if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
     res.status(200).json({ ok: true });
   } catch (e) {
     console.error('corriger :', e.message);
