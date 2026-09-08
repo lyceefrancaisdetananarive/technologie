@@ -166,3 +166,67 @@ export async function supprimerFichier(chemin) {
   });
   return r.ok;
 }
+
+/**
+ * Crée un compte d'authentification avec un mot de passe ALÉATOIRE que
+ * personne ne lit, pas même l'appelant. Son titulaire passera forcément par
+ * « Première connexion » pour choisir le sien.
+ *
+ * C'est délibéré : un mot de passe que quelqu'un a vu est un mot de passe à
+ * périmer, à dicter et à journaliser. Ici il n'y a rien à transmettre, donc
+ * rien à perdre en route, et mdp_pose_le peut rester NULL comme le veut le
+ * contrat du schéma.
+ */
+export async function creerUtilisateur(email) {
+  const alea = crypto.getRandomValues(new Uint8Array(32));
+  const motDePasse = btoa(String.fromCharCode(...alea)).slice(0, 40);
+  const r = await fetch(`${URL_BASE()}/auth/v1/admin/users`, {
+    method: 'POST',
+    headers: {
+      apikey: SERVICE(),
+      authorization: `Bearer ${SERVICE()}`,
+      'content-type': 'application/json',
+    },
+    body: JSON.stringify({ email, password: motDePasse, email_confirm: true }),
+  });
+  if (r.status === 422) return null;          // l'adresse existe déjà
+  if (!r.ok) throw new Error(`création compte : ${r.status}`);
+  const u = await r.json();
+  return u?.id ?? null;
+}
+
+/** Cherche un compte d'authentification par son adresse. */
+export async function utilisateurParEmail(email) {
+  const r = await fetch(
+    `${URL_BASE()}/auth/v1/admin/users?filter=${encodeURIComponent(email)}`,
+    { headers: { apikey: SERVICE(), authorization: `Bearer ${SERVICE()}` } });
+  if (!r.ok) return null;
+  const d = await r.json();
+  const u = (d?.users ?? []).find(
+    (x) => String(x.email ?? '').toLowerCase() === email.toLowerCase());
+  return u?.id ?? null;
+}
+
+/**
+ * La liste des adresses autorisées à porter le rôle PROFESSEUR.
+ *
+ * Elle vit dans la variable d'environnement PROFS_TECHNO, que seul
+ * l'administrateur du projet Vercel peut modifier, et JAMAIS dans le dépôt,
+ * qui est public : publier les adresses professionnelles de collègues sans
+ * leur accord serait une faute.
+ *
+ * C'est la barrière contre l'escalade de privilège. Sans elle, un professeur
+ * dont la session reste ouverte sur un poste de salle informatique permettrait
+ * à qui s'assoit devant de se fabriquer un compte professeur permanent, qui
+ * survivrait à la fermeture du navigateur et ouvrirait les 32 corrigés.
+ * Ajouter un collègue devient alors un geste d'administration, fait une fois,
+ * et non un bouton dans une page.
+ *
+ * Séparateurs acceptés : virgule, point-virgule, espace, retour à la ligne.
+ */
+export function profsAutorises() {
+  return String(process.env.PROFS_TECHNO ?? '')
+    .split(/[\s,;]+/)
+    .map((x) => x.trim().toLowerCase())
+    .filter((x) => x.includes('@'));
+}

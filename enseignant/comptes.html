@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Groupes et comptes · Espace enseignant · LFT</title>
+<style>
+  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280 }
+  *{ box-sizing:border-box }
+  body{ margin:0; background:#f4f7f9; color:var(--encre);
+        font:16px/1.6 Roboto,system-ui,sans-serif }
+  header{ background:#fff; border-bottom:3px solid var(--orange); padding:1rem 1.25rem;
+          display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+          position:sticky; top:0; z-index:10 }
+  header h1{ font:600 1.15rem Raleway,system-ui,sans-serif; color:var(--orange);
+             margin:0; flex:1 }
+  a.retour{ font-size:.88rem; color:var(--cyan); text-decoration:none }
+  .sortir{ padding:.45rem .9rem; border:1px solid var(--gris); border-radius:6px;
+           background:#fff; color:var(--gris); font-size:.85rem; cursor:pointer;
+           font-family:inherit }
+  main{ max-width:56rem; margin:0 auto; padding:1.5rem 1.25rem 4rem }
+  section{ background:#fff; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;
+           box-shadow:0 1px 3px rgba(0,0,0,.06) }
+  h2{ font:600 1.1rem Raleway,system-ui,sans-serif; color:var(--orange); margin:0 0 .4rem }
+  .intro{ font-size:.9rem; color:var(--gris); margin:0 0 1.2rem }
+  select,input{ width:100%; padding:.6rem .7rem; border:1px solid #d1d5db;
+    border-radius:8px; font:inherit; font-size:.95rem; background:#fff }
+  label{ display:block; font-weight:500; margin:.8rem 0 .3rem; font-size:.9rem }
+  button{ padding:.55rem 1.1rem; border:0; border-radius:7px; background:var(--cyan);
+          color:#fff; font:500 .92rem Raleway,system-ui,sans-serif; cursor:pointer }
+  button:hover{ background:#007ba6 }
+  button.secondaire{ background:#fff; color:var(--orange); border:1px solid var(--orange) }
+  button[disabled]{ opacity:.55; cursor:progress }
+  .ligne{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
+  .ligne > div{ flex:1; min-width:9rem }
+  .ligne button{ flex:0 0 auto }
+  .groupe{ border:1px solid #e5e7eb; border-radius:10px; padding:1rem; margin-bottom:.85rem }
+  .groupe h3{ font:600 .98rem Raleway,system-ui,sans-serif; margin:0 0 .1rem }
+  .meta{ font-size:.82rem; color:var(--gris); margin:0 }
+  .eleve{ display:flex; align-items:center; gap:.6rem; padding:.35rem 0;
+          border-top:1px solid #f3f4f6; font-size:.92rem }
+  .eleve span.qui{ flex:1 }
+  .eleve .att{ font-size:.78rem; color:var(--orange) }
+  .lien-sup{ background:none; border:0; padding:0; color:var(--gris);
+             font:inherit; font-size:.83rem; text-decoration:underline; cursor:pointer }
+  .lien-sup:hover{ color:#dc2626 }
+  .msg{ margin-top:1rem; padding:.75rem 1rem; border-radius:8px; font-size:.9rem; display:none }
+  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
+  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
+  .msg.attention{ display:block; background:#fffbeb; border-left:3px solid var(--orange) }
+  .note{ background:#f9fafb; border-left:3px solid var(--cyan); padding:.75rem 1rem;
+         border-radius:0 8px 8px 0; font-size:.87rem; margin:0 0 1.2rem }
+  .vide{ color:var(--gris); font-style:italic; font-size:.9rem }
+</style>
+</head>
+<body>
+<header>
+  <h1>Groupes et comptes</h1>
+  <a class="retour" href="/enseignant/classeur.html">← Classeur</a>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <section>
+    <h2>Mes groupes</h2>
+    <p class="intro">Un groupe correspond à un groupe de Technologie réel, pas
+      à une classe entière. Vous ne voyez que les vôtres, et vos collègues ne
+      voient pas les vôtres.</p>
+    <div id="liste"><p class="vide">Chargement…</p></div>
+
+    <div class="ligne" style="margin-top:1.2rem">
+      <div>
+        <label for="code">Code</label>
+        <input id="code" maxlength="40" placeholder="ex. 4M2-TECHNO">
+      </div>
+      <div>
+        <label for="libelle">Libellé</label>
+        <input id="libelle" maxlength="120" placeholder="ex. 4ème M2, groupe A">
+      </div>
+      <div style="flex:0 0 8rem">
+        <label for="niveau">Niveau</label>
+        <select id="niveau">
+          <option value="5eme">5ème</option>
+          <option value="4eme">4ème</option>
+          <option value="3eme">3ème</option>
+        </select>
+      </div>
+      <button id="creer">Créer le groupe</button>
+    </div>
+    <p class="msg" id="mg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h2>Inscrire une personne</h2>
+    <p class="note">
+      <strong>Le rôle ne se choisit pas ici, il se déduit de l'adresse.</strong>
+      Une adresse figurant dans la liste des professeurs de l'établissement
+      devient professeur ; toute autre devient élève. Cette liste se modifie
+      dans les réglages du serveur, jamais depuis cette page : sans cette
+      règle, une session oubliée sur un poste de salle informatique
+      permettrait de se fabriquer un compte professeur.
+    </p>
+    <p class="intro">Aucun mot de passe n'est créé ni transmis. La personne
+      passe par « Première connexion » sur la page d'accueil du site pour
+      choisir le sien.</p>
+
+    <div class="ligne">
+      <div style="flex:2">
+        <label for="email">Adresse de l'établissement</label>
+        <input id="email" type="email" autocapitalize="none" spellcheck="false"
+               autocomplete="off" placeholder="prenom.nom@eleve.egd.mg">
+      </div>
+      <div>
+        <label for="nom">Nom</label>
+        <input id="nom" maxlength="80" autocomplete="off">
+      </div>
+      <div>
+        <label for="prenom">Prénom</label>
+        <input id="prenom" maxlength="80" autocomplete="off">
+      </div>
+    </div>
+    <div class="ligne" style="margin-top:.4rem">
+      <div>
+        <label for="groupe">Groupe (pour un élève)</label>
+        <select id="groupe"></select>
+      </div>
+      <button id="inscrire">Inscrire</button>
+    </div>
+
+    <div class="ligne" id="bloc-confirme" hidden style="margin-top:.4rem">
+      <div>
+        <label for="confirme">Votre mot de passe, pour confirmer</label>
+        <input id="confirme" type="password" autocomplete="current-password">
+      </div>
+      <button class="secondaire" id="confirmer">Confirmer</button>
+      <button class="secondaire" id="annuler">Annuler</button>
+    </div>
+    <p class="msg" id="mi" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<script type="module">
+import { api, echapper } from '/js/classeur-commun.js';
+
+const $ = (id) => document.getElementById(id);
+const dire = (el, texte, type) => { el.textContent = texte; el.className = 'msg ' + type; };
+
+let groupes = [];
+
+async function charger() {
+  const d = await api('/api/prof/groupes');
+  groupes = d.groupes ?? [];
+
+  $('groupe').innerHTML = groupes.length
+    ? groupes.map((g) => `<option value="${g.id}">${echapper(g.code)}</option>`).join('')
+    : '<option value="">aucun groupe</option>';
+
+  if (!groupes.length) {
+    $('liste').innerHTML = '<p class="vide">Aucun groupe. Créez-en un ci-dessous.</p>';
+    return;
+  }
+
+  $('liste').innerHTML = groupes.map((g) => `
+    <article class="groupe">
+      <h3>${echapper(g.code)}</h3>
+      <p class="meta">${echapper(g.libelle)} · ${echapper(g.niveau)} ·
+        ${g.eleves.length} élève${g.eleves.length > 1 ? 's' : ''}</p>
+      ${g.eleves.map((e) => `
+        <div class="eleve">
+          <span class="qui">${echapper(e.nom || '')} ${echapper(e.prenom || '')}
+            <span class="meta">${echapper(e.email)}</span>
+            ${!e.actif ? '<span class="att">· compte désactivé</span>' : ''}
+            ${e.mdp_provisoire ? '<span class="att">· n’a pas encore choisi son mot de passe</span>' : ''}
+          </span>
+          <button class="lien-sup retirer" data-eleve="${e.id}" data-groupe="${g.id}"
+                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">retirer du groupe</button>
+          ${e.actif ? `<button class="lien-sup desactiver" data-eleve="${e.id}"
+                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">désactiver</button>` : ''}
+        </div>`).join('')
+        || '<p class="vide" style="margin:.4rem 0 0">Aucun élève inscrit.</p>'}
+      ${!g.eleves.length ? `<p style="margin:.6rem 0 0"><button class="lien-sup suppr-groupe"
+          data-id="${g.id}" data-code="${echapper(g.code)}">supprimer ce groupe vide</button></p>` : ''}
+    </article>`).join('');
+
+  brancher();
+}
+
+function brancher() {
+  document.querySelectorAll('.retirer').forEach((b) =>
+    b.addEventListener('click', async () => {
+      if (!confirm(`Retirer ${b.dataset.nom} de ce groupe ?\n\n`
+        + `Son compte et ses travaux sont conservés. Il ne s'agit pas d'une suppression.`)) return;
+      b.disabled = true;
+      try {
+        const d = await api('/api/prof/desinscrire', { method: 'POST',
+          body: JSON.stringify({ eleve: b.dataset.eleve, groupe: b.dataset.groupe }) });
+        dire($('mi'), d.message, 'ok'); await charger();
+      } catch (e) { dire($('mi'), e.message, 'err'); b.disabled = false; }
+    }));
+
+  document.querySelectorAll('.desactiver').forEach((b) =>
+    b.addEventListener('click', async () => {
+      if (!confirm(`Désactiver le compte de ${b.dataset.nom} ?\n\n`
+        + `Il ne pourra plus se connecter, dans AUCUN de ses groupes, y compris `
+        + `ceux de vos collègues. Ses travaux sont conservés et la réinscription `
+        + `le réactive.`)) return;
+      b.disabled = true;
+      try {
+        const d = await api('/api/prof/desinscrire', { method: 'POST',
+          body: JSON.stringify({ eleve: b.dataset.eleve, desactiver: true }) });
+        dire($('mi'), d.message, 'attention'); await charger();
+      } catch (e) { dire($('mi'), e.message, 'err'); b.disabled = false; }
+    }));
+
+  document.querySelectorAll('.suppr-groupe').forEach((b) =>
+    b.addEventListener('click', async () => {
+      if (!confirm(`Supprimer le groupe ${b.dataset.code} ?`)) return;
+      b.disabled = true;
+      try {
+        await api('/api/prof/groupes', { method: 'DELETE',
+          body: JSON.stringify({ id: b.dataset.id }) });
+        dire($('mg'), 'Groupe supprimé.', 'ok'); await charger();
+      } catch (e) { dire($('mg'), e.message, 'err'); b.disabled = false; }
+    }));
+}
+
+$('creer').addEventListener('click', async () => {
+  $('creer').disabled = true;
+  try {
+    await api('/api/prof/groupes', { method: 'POST', body: JSON.stringify({
+      code: $('code').value, libelle: $('libelle').value, niveau: $('niveau').value }) });
+    $('code').value = ''; $('libelle').value = '';
+    dire($('mg'), 'Groupe créé.', 'ok'); await charger();
+  } catch (e) { dire($('mg'), e.message, 'err'); }
+  finally { $('creer').disabled = false; }
+});
+
+function fermerConfirmation() {
+  $('bloc-confirme').hidden = true; $('confirme').value = '';
+  $('inscrire').disabled = false;
+}
+
+async function envoyerInscription(confirmation) {
+  const corps = {
+    email: $('email').value, nom: $('nom').value, prenom: $('prenom').value,
+    groupe: $('groupe').value,
+  };
+  if (confirmation) corps.confirmation = confirmation;
+  const d = await api('/api/prof/inscrire', {
+    method: 'POST', body: JSON.stringify(corps) });
+  dire($('mi'), d.message, d.role === 'prof' ? 'attention' : 'ok');
+  $('email').value = ''; $('nom').value = ''; $('prenom').value = '';
+  fermerConfirmation();
+  await charger();
+}
+
+$('inscrire').addEventListener('click', async () => {
+  $('inscrire').disabled = true;
+  try {
+    await envoyerInscription(null);
+  } catch (e) {
+    // Le serveur réclame le mot de passe : c'est une adresse de professeur.
+    if (/retaper votre mot de passe/i.test(e.message)) {
+      dire($('mi'), 'Cette adresse figure dans la liste des professeurs. '
+        + 'Créer un compte professeur ouvre les 32 corrigés et le classeur de '
+        + 'tous les groupes : retapez votre mot de passe pour confirmer.', 'attention');
+      $('bloc-confirme').hidden = false;
+      $('confirme').focus();
+      return;
+    }
+    dire($('mi'), e.message, 'err');
+    $('inscrire').disabled = false;
+  }
+});
+
+$('annuler').addEventListener('click', fermerConfirmation);
+$('confirme').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); $('confirmer').click(); }
+});
+
+$('confirmer').addEventListener('click', async () => {
+  if (!$('confirme').value) { $('confirme').focus(); return; }
+  $('confirmer').disabled = true;
+  try { await envoyerInscription($('confirme').value); }
+  catch (e) { dire($('mi'), e.message, 'err'); $('confirme').value = ''; $('confirme').focus(); }
+  finally { $('confirmer').disabled = false; }
+});
+
+$('sortir').addEventListener('click', async () => {
+  try {
+    const r = await fetch('/api/auth/deconnexion', { method: 'POST' });
+    if (!r.ok) throw new Error('refus');
+    location.href = '/';
+  } catch (e) {
+    alert('La session n’a PAS été fermée : le réseau ou le service n’a pas '
+      + 'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
+  }
+});
+
+charger().catch((e) => { $('liste').innerHTML =
+  `<p class="msg err" style="display:block">${echapper(e.message)}</p>`; });
+</script>
+</body>
+</html>
