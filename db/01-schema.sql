@@ -367,3 +367,29 @@ create policy "journal: l'élève voit ce qui le concerne" on journal_repli
 
 -- tentatives : aucune politique. Table de service, lue et écrite uniquement
 -- par /api/ avec la clé de service. Le navigateur n'a rien à y voir.
+
+-- ============================================================ PRIVILÈGES
+-- INDISPENSABLE, ET FACILE À OUBLIER.
+--
+-- Le projet a été créé avec « Automatically expose new tables » DÉCOCHÉ, ce
+-- qui est le bon réglage : aucune table nouvelle n'est exposée au navigateur
+-- par accident. Mais ce réglage retire aussi les privilèges par défaut au
+-- rôle `service_role`, celui qu'utilisent les fonctions /api/. Sans les
+-- clauses ci-dessous, chaque lecture répond « 403 permission denied for
+-- table profils », alors même que la clé est valide : l'authentification
+-- échoue sans que rien n'indique pourquoi côté application.
+--
+-- On n'accorde RIEN à `anon` ni à `authenticated` : le navigateur ne parle
+-- jamais directement à Supabase dans cette architecture, tout passe par les
+-- fonctions serveur. Les politiques RLS restent en place comme seconde
+-- barrière, pour le jour où cela changerait.
+--
+-- `alter default privileges` couvre les tables créées PLUS TARD, sans quoi
+-- la prochaine table ajoutée reproduirait exactement la même panne.
+grant usage on schema public to service_role;
+grant select, insert, update, delete on all tables in schema public to service_role;
+grant usage, select on all sequences in schema public to service_role;
+alter default privileges in schema public
+  grant select, insert, update, delete on tables to service_role;
+alter default privileges in schema public
+  grant usage, select on sequences to service_role;
