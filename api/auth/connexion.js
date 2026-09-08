@@ -1,4 +1,5 @@
 import { sceller, poserCookie } from '../_lib/session.js';
+import { roleTenable } from '../_lib/autorisation.js';
 import {
   verifierMotDePasse, lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -59,7 +60,7 @@ export default async function handler(req, res) {
     const profils = await lire(
       'profils',
       `email=eq.${encodeURIComponent(email)}` +
-      `&select=id,role,actif,mdp_provisoire,mdp_pose_le,prenom`
+      `&select=id,email,role,actif,mdp_provisoire,mdp_pose_le,prenom`
     );
     const profil = profils[0];
 
@@ -86,12 +87,14 @@ export default async function handler(req, res) {
       // JUSTE sur un compte désactivé n'est pas une tentative de devinette :
       // le compter polluerait le verrou sans rien protéger.
       if (profil && !bon) {
-        await ecrire('tentatives', '', { profil_id: profil.id }, 'POST').catch(() => {});
+        await ecrire('tentatives', '',
+          { profil_id: profil.id, origine: 'connexion' }, 'POST').catch(() => {});
       }
       if (profil && !bon) {
         const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
         const echecs = await lire('tentatives',
-          `profil_id=eq.${profil.id}&quand=gte.${depuis}&select=id`).catch(() => []);
+          `profil_id=eq.${profil.id}&origine=eq.connexion` +
+          `&quand=gte.${depuis}&select=id`).catch(() => []);
         if (echecs.length >= MAX_TENTATIVES) {
           return refus(res, 429,
             `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes, ou ` +
@@ -99,6 +102,15 @@ export default async function handler(req, res) {
         }
       }
       return refus(res, 401, ECHEC);
+    }
+
+    // Le rôle est-il encore tenable ? profils.role dit ce qui a été décidé
+    // un jour ; PROFS_TECHNO dit ce qui est vrai aujourd'hui. Sans cela,
+    // retirer une adresse de la liste ne révoquait rien du tout.
+    if (!roleTenable(profil)) {
+      return refus(res, 403,
+        "Votre compte n'est plus autorisé. Adressez-vous à l'administrateur "
+        + 'du site.');
     }
 
     // 4. Le mot de passe est bon. Mais s'il est encore PROVISOIRE, a-t-il
@@ -129,7 +141,8 @@ export default async function handler(req, res) {
       DUREE[profil.role] ?? 1800
     );
 
-    await ecrire('tentatives', `profil_id=eq.${profil.id}`, {}, 'DELETE').catch(() => {});
+    await ecrire('tentatives',
+      `profil_id=eq.${profil.id}&origine=eq.connexion`, {}, 'DELETE').catch(() => {});
     await ecrire('profils', `id=eq.${profil.id}`,
       { derniere_connexion: new Date().toISOString() }).catch(() => {});
 

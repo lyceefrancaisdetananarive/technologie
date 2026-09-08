@@ -59,10 +59,17 @@ export default async function handler(req, res) {
       `id=eq.${eleve}&select=id,role,prenom,nom`))[0];
     if (!cible) return refus(res, 404, 'Personne introuvable.');
     if (cible.role !== 'eleve') {
-      // Un professeur ne se retire pas depuis cette page : son rôle vient de
-      // PROFS_TECHNO, et c'est là qu'il faut le retirer.
+      // Un professeur ne se retire pas depuis cette page. Le message précédent
+      // prescrivait de modifier PROFS_TECHNO « et c'est tout » : c'était FAUX
+      // au moment où il a été écrit, la liste n'étant alors consultée qu'à
+      // l'admission. Elle est désormais vérifiée à chaque appel, donc le
+      // retrait révoque bien l'accès — mais il laisse les groupes du partant
+      // sans professeur, et cela, aucune page ne le répare.
       return refus(res, 403,
-        'Un professeur se retire en modifiant la liste PROFS_TECHNO, pas ici.');
+        'Un professeur ne se retire pas ici. Retirez son adresse de la liste '
+        + 'PROFS_TECHNO, ce qui lui ferme l’accès dès sa requête suivante, '
+        + 'puis transférez ses groupes à un collègue : sans cela ils restent '
+        + 'à son nom et leurs élèves deviennent invisibles à tous.');
     }
 
     if (desactiver) {

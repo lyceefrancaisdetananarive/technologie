@@ -354,9 +354,28 @@ create policy "rendus: lecture par l'eleve ou son prof" on storage.objects
 create table if not exists tentatives (
   id        bigserial primary key,
   profil_id uuid not null references profils(id) on delete cascade,
+  -- DEUX COMPTEURS, PAS UN, ET C'EST ESSENTIEL.
+  --
+  -- 'connexion' : quelqu'un s'est trompe de mot de passe sur /connexion.html.
+  --               N'IMPORTE QUI peut en produire, depuis n'importe ou, sans
+  --               session : il suffit de connaitre l'adresse, et elles sont
+  --               mecaniques (prenom.nom@egd.mg).
+  -- 'ressaisie' : un professeur DEJA CONNECTE s'est trompe en retapant son
+  --               propre mot de passe pour confirmer une action lourde.
+  --
+  -- Les melanger rendait le repli professeur verrouillable a distance par un
+  -- inconnu : dix requetes sur l'adresse d'un professeur depuis Internet, et
+  -- il ne pouvait plus redonner un acces a un eleve de la journee, alors que
+  -- lui-meme n'avait rien tape de faux.
+  origine   text not null default 'connexion'
+              check (origine in ('connexion', 'ressaisie')),
   quand     timestamptz not null default now()
 );
-create index if not exists tentatives_idx on tentatives (profil_id, quand desc);
+alter table tentatives add column if not exists origine text;
+alter table tentatives alter column origine set default 'connexion';
+update tentatives set origine = 'connexion' where origine is null;
+alter table tentatives alter column origine set not null;
+create index if not exists tentatives_idx on tentatives (profil_id, origine, quand desc);
 
 -- Journal du repli professeur. Ce pouvoir — reprendre la main sur le compte
 -- d'un mineur — doit laisser une trace consultable. L'élève voit la mention

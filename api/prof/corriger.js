@@ -1,4 +1,4 @@
-import { appelant, enseigneA } from '../_lib/autorisation.js';
+import { appelant, possedeGroupe } from '../_lib/autorisation.js';
 import { sceller, poserCookie, ouvrir, lireCookie } from '../_lib/session.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 
@@ -35,6 +35,15 @@ async function reArmer(req, res, moi) {
   return true;
 }
 
+// L'AUTORISATION PORTE SUR LE GROUPE DU RENDU, PAS SUR L'APPARTENANCE
+// COURANTE DE L'ÉLÈVE. Le groupe est la relation qui a produit ce travail,
+// et il ne bouge plus. Passer par l'appartenance rendait le rendu
+// inaccessible dès que l'élève changeait de groupe : le classeur affichait
+// encore le dépôt et son lien, mais toute action dessus était refusée en
+// 403. Le professeur garde ce qu'il a reçu, et ne gagne rien sur ce qui a
+// été déposé chez un collègue.
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
@@ -45,13 +54,13 @@ export default async function handler(req, res) {
   if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
 
   const { rendu, appreciation, note, annuler } = req.body ?? {};
-  if (!rendu) return refus(res, 400, 'Rendu non précisé.');
+  if (!UUID.test(String(rendu ?? ''))) return refus(res, 400, 'Rendu non précisé.');
 
   try {
-    const r = (await lire('rendus', `id=eq.${rendu}&select=id,profil_id`))[0];
+    const r = (await lire('rendus', `id=eq.${rendu}&select=id,profil_id,groupe_id`))[0];
     if (!r) return refus(res, 404, 'Rendu introuvable.');
-    if (!(await enseigneA(moi.id, r.profil_id))) {
-      return refus(res, 403, "Cet élève n'est pas dans vos groupes.");
+    if (!(await possedeGroupe(moi.id, r.groupe_id))) {
+      return refus(res, 403, "Ce travail n'a pas été déposé dans l'un de vos groupes.");
     }
 
     // RETIRER UNE CORRECTION. Sans cela, corrige_le se posait pour toujours :

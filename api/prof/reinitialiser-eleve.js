@@ -1,4 +1,6 @@
 import { ouvrir, lireCookie } from '../_lib/session.js';
+import { ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES }
+  from '../_lib/autorisation.js';
 import {
   definirMotDePasse, verifierMotDePasse, lire, ecrire,
   configuree, origineLegitime, refus,
@@ -8,12 +10,6 @@ import {
 // classe. « bafi-rolun-47 » se transmet sans erreur ; « xK7#pQ2z » non.
 // Le prix de cette lisibilité est qu'il est plus faible : d'où l'obligation
 // de le changer immédiatement, et le fait qu'il ne serve qu'une fois.
-// Verrou de la ressaisie. Mêmes valeurs que la page de connexion, et la même
-// table `tentatives` : un professeur qui se trompe huit fois de suite sur son
-// propre mot de passe attend un quart d'heure, ici comme ailleurs.
-const MAX_RESSAISIES = 8;
-const FENETRE_MINUTES = 15;
-
 const SYLLABES = ['ba','be','bi','bo','da','de','di','do','fa','fe','fi','fo',
   'ka','ke','ki','ko','la','le','li','lo','ma','me','mi','mo','na','ne','ni',
   'no','ra','re','ri','ro','sa','se','si','so','ta','te','ti','to','va','vu'];
@@ -71,10 +67,7 @@ export default async function handler(req, res) {
     // service : depuis une session laissée ouverte, on pouvait essayer le
     // mot de passe du professeur autant de fois qu'on voulait, sans limite
     // et sans laisser la moindre trace.
-    const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
-    const echecs = await lire('tentatives',
-      `profil_id=eq.${prof.id}&quand=gte.${depuis}&select=id`);
-    if (echecs.length >= MAX_RESSAISIES) {
+    if (!(await ressaisieAutorisee(prof.id))) {
       return refus(res, 429,
         `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes.`);
     }
@@ -114,8 +107,7 @@ export default async function handler(req, res) {
     // le contrôle d'appartenance au groupe passerait : l'appelant EST bien
     // le professeur de cet élève. Le mot de passe, lui, il ne l'a pas.
     if (!(await verifierMotDePasse(prof.email, confirmation))) {
-      await ecrire('tentatives', '', { profil_id: prof.id }, 'POST')
-        .catch(() => {});
+      await noterEchecRessaisie(prof.id);
       return refus(res, 401,
         'Mot de passe incorrect. Cette action demande de retaper le vôtre.');
     }

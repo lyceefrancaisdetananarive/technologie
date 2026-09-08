@@ -1,5 +1,8 @@
 import { ouvrir, lireCookie } from '../_lib/session.js';
-import { possedeGroupe } from '../_lib/autorisation.js';
+import {
+  possedeGroupe, enseigneA, ressaisieAutorisee, noterEchecRessaisie,
+  FENETRE_MINUTES,
+} from '../_lib/autorisation.js';
 import {
   lire, ecrire, creerUtilisateur, utilisateurParEmail, verifierMotDePasse,
   profsAutorises, configuree, origineLegitime, refus,
@@ -76,9 +79,17 @@ export default async function handler(req, res) {
         return refus(res, 400,
           'Ajouter un professeur demande de retaper votre mot de passe.');
       }
+      // Le compteur était alimenté sans jamais être lu : la barrière laissait
+      // deviner le mot de passe du professeur à l'infini depuis une session
+      // laissée ouverte. Le verrou est maintenant partagé par les trois
+      // ressaisies du dépôt, et il ne lit que les échecs de ressaisie, jamais
+      // ceux de la page de connexion, qu'un inconnu peut provoquer.
+      if (!(await ressaisieAutorisee(moi.id))) {
+        return refus(res, 429,
+          `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes.`);
+      }
       if (!(await verifierMotDePasse(moi.email, confirmation))) {
-        await ecrire('tentatives', '', { profil_id: moi.id }, 'POST')
-          .catch(() => {});
+        await noterEchecRessaisie(moi.id);
         return refus(res, 401, 'Mot de passe incorrect.');
       }
     } else {
@@ -103,24 +114,54 @@ export default async function handler(req, res) {
     if (!idAuth) idAuth = await utilisateurParEmail(email);   // course
     if (!idAuth) return refus(res, 500, 'Le compte n’a pas pu être créé.');
 
-    await ecrire('profils', '', {
-      id: idAuth, email, role, nom: nom || null, prenom: prenom || null,
-      actif: true, mdp_provisoire: true, mdp_pose_le: null,
-    }, 'POST').catch(async (e) => {
-      // Déjà présent : on réactive et on met à jour l'identité, sans
-      // toucher au mot de passe ni au drapeau provisoire de quelqu'un qui
-      // a déjà choisi le sien.
-      if (!String(e.message).includes('409')) throw e;
-      await ecrire('profils', `id=eq.${idAuth}`, {
-        role, actif: true,
-        ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
-      });
-    });
+    // On garde la raison d'un refus dans une variable plutôt que de la
+    // renvoyer depuis le catch : un `return` dans un callback quitte le
+    // callback, pas le handler, et la requête recevrait DEUX réponses.
+    let refusApres = null;
+
+    try {
+      await ecrire('profils', '', {
+        id: idAuth, email, role, nom: nom || null, prenom: prenom || null,
+        actif: true, mdp_provisoire: true, mdp_pose_le: null,
+      }, 'POST');
+    } catch (e) {
+      // Doublon reconnu par le SQLSTATE de PostgREST, jamais en cherchant
+      // « 409 » dans une chaîne : le corps d'une autre erreur pouvait
+      // contenir ce nombre, et l'inscription rapportait alors un succès là
+      // où rien n'avait été écrit.
+      if (e.code !== '23505' && e.statut !== 409) throw e;
+
+      // LA PERSONNE EXISTE DÉJÀ, ET ELLE N'EST PEUT-ÊTRE PAS À MOI.
+      //
+      // Réécrire ici role, actif, nom et prenom permettait de réactiver,
+      // renommer, et surtout RÉTROGRADER quelqu'un hors de son périmètre :
+      // réinscrire l'adresse d'un collègue retiré de PROFS_TECHNO le faisait
+      // passer de professeur à élève, orphelinant tous ses groupes.
+      //
+      // On ne touche donc aux champs globaux que si on encadre déjà cette
+      // personne. Sinon on se contente de l'inscription au groupe, qui est le
+      // geste légitime et fréquent du changement de groupe en cours d'année.
+      const existant = (await lire('profils',
+        `id=eq.${idAuth}&select=role`))[0];
+
+      if (existant?.role === 'prof' && role === 'eleve') {
+        refusApres = 'Cette adresse porte un compte professeur. Pour la '
+          + 'rétrograder, transférez d’abord ses groupes à un collègue : la '
+          + 'réinscription ne doit pas le faire en silence.';
+      } else if (await enseigneA(moi.id, idAuth)) {
+        await ecrire('profils', `id=eq.${idAuth}`, {
+          actif: true,
+          ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
+        });
+      }
+    }
+
+    if (refusApres) return refus(res, 409, refusApres);
 
     if (role === 'eleve') {
       await ecrire('appartenances', '',
         { profil_id: idAuth, groupe_id: groupe }, 'POST').catch((e) => {
-          if (!String(e.message).includes('409')) throw e;   // déjà inscrit
+          if (e.code !== '23505' && e.statut !== 409) throw e;   // déjà inscrit
         });
     }
 

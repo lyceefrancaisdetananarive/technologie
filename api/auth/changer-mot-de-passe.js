@@ -1,4 +1,6 @@
 import { ouvrir, lireCookie, sceller, poserCookie } from '../_lib/session.js';
+import { ressaisieAutorisee, noterEchecRessaisie, MAX_RESSAISIES, FENETRE_MINUTES }
+  from '../_lib/autorisation.js';
 import {
   definirMotDePasse, verifierMotDePasse, utilisateurDuJeton, lire, ecrire,
   configuree, origineLegitime, refus,
@@ -74,7 +76,16 @@ export default async function handler(req, res) {
       if (!profil || !profil.actif) {
         return refus(res, 401, 'Compte introuvable ou désactivé.');
       }
+      // VERROU. C'était la seule ressaisie du dépôt sans compteur ni trace :
+      // depuis une session laissée ouverte, on devinait l'ancien mot de passe
+      // à l'infini, un bit par requête, et le succès posait un mot de passe
+      // DÉFINITIF, qui survit à la fermeture du navigateur.
+      if (!(await ressaisieAutorisee(profil.id))) {
+        return refus(res, 429,
+          `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes.`);
+      }
       if (!(await verifierMotDePasse(profil.email, ancien))) {
+        await noterEchecRessaisie(profil.id);
         return refus(res, 401, "L'ancien mot de passe est incorrect.");
       }
     }

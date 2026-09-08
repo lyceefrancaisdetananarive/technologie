@@ -1,4 +1,4 @@
-import { appelant, enseigneA } from '../_lib/autorisation.js';
+import { appelant, possedeGroupe } from '../_lib/autorisation.js';
 import {
   lire, ecrire, supprimerFichier, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -45,7 +45,7 @@ export default async function handler(req, res) {
 
   try {
     const r = (await lire('rendus',
-      `id=eq.${rendu}&select=id,profil_id,fichier,corrige_le`))[0];
+      `id=eq.${rendu}&select=id,profil_id,groupe_id,fichier,corrige_le`))[0];
     if (!r) return refus(res, 404, 'Dépôt introuvable.');
 
     if (moi.role === 'eleve') {
@@ -56,8 +56,9 @@ export default async function handler(req, res) {
           "Parlez-en à votre professeur.");
       }
     } else {
-      if (!(await enseigneA(moi.id, r.profil_id))) {
-        return refus(res, 403, "Cet élève n'est pas dans vos groupes.");
+      if (!(await possedeGroupe(moi.id, r.groupe_id))) {
+        return refus(res, 403,
+          "Ce dépôt n'a pas été fait dans l'un de vos groupes.");
       }
       if (r.fichier) {
         return refus(res, 409,

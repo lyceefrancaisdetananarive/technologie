@@ -1,6 +1,8 @@
 import { appelant, possedeGroupe } from '../_lib/autorisation.js';
 import { lire, configuree, refus } from '../_lib/supabase.js';
 
+const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+
 export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
   const moi = await appelant(req);
@@ -8,7 +10,7 @@ export default async function handler(req, res) {
   if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
 
   const groupe = String(req.query?.groupe ?? '');
-  if (!groupe) return refus(res, 400, 'Groupe non précisé.');
+  if (!UUID.test(groupe)) return refus(res, 400, 'Groupe non précisé.');
 
   try {
     if (!(await possedeGroupe(moi.id, groupe))) {

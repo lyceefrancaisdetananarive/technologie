@@ -13,7 +13,13 @@ const SERVICE = () => process.env.SUPABASE_SERVICE_ROLE_KEY;
 const ANON = () => process.env.SUPABASE_ANON_KEY;
 
 export function configuree() {
-  return Boolean(URL_BASE() && SERVICE() && ANON() && process.env.LFT_COOKIE_SECRET);
+  // PROFS_TECHNO est exigée au même titre que les clés. Sans elle,
+  // profsAutorises() renverrait une liste vide, et le contrôle continu du
+  // rôle rétrograderait TOUS les professeurs d'un coup, un lundi matin, sur
+  // un simple oubli au redéploiement. Une panne franche en 503 se répare en
+  // une minute ; une rétrogradation silencieuse ne se voit pas.
+  return Boolean(URL_BASE() && SERVICE() && ANON()
+    && process.env.LFT_COOKIE_SECRET && profsAutorises().length);
 }
 
 /** Vérifie une paire adresse / mot de passe. Renvoie l'id, ou null. */
@@ -49,7 +55,21 @@ export async function ecrire(table, requete, corps, methode = 'PATCH') {
     },
     body: JSON.stringify(corps),
   });
-  if (!r.ok) throw new Error(`écriture ${table} : ${r.status} ${await r.text()}`);
+  if (!r.ok) {
+    // ERREUR STRUCTURÉE, et non une chaîne à fouiller.
+    //
+    // La version précédente concaténait le statut ET le corps dans le
+    // message, et les appelants testaient `includes('409')`. Un corps
+    // contenant « 409 » pour une autre raison passait alors pour un doublon,
+    // et l'inscription rapportait un succès là où rien n'avait été écrit.
+    // On expose donc le statut et le SQLSTATE de PostgREST séparément.
+    let corps = {};
+    try { corps = JSON.parse(await r.text()); } catch { /* corps non JSON */ }
+    const e = new Error(`écriture ${table} : ${r.status} ${corps.message ?? ''}`);
+    e.statut = r.status;
+    e.code = corps.code ?? null;         // 23505 = doublon, 23503 = clé absente
+    throw e;
+  }
   return r.json();
 }
 

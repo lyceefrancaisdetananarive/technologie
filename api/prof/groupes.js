@@ -76,7 +76,7 @@ export default async function handler(req, res) {
       const [g] = await ecrire('groupes', '',
         { code, libelle, niveau, prof_id: moi.id }, 'POST')
         .catch((e) => {
-          if (String(e.message).includes('409')) {
+          if (e.code === '23505' || e.statut === 409) {
             throw new Error('CODE_PRIS');
           }
           throw e;
