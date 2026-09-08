@@ -3,3 +3,8 @@
 .env*
 ._*
 .DS_Store
+
+# Le site n'a aucune raison de servir le schéma de la base ni les outils :
+# ce sont des fichiers de travail, pas des ressources pédagogiques.
+db/
+outils/*.py
