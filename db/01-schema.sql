@@ -212,23 +212,36 @@ alter table appartenances enable row level security;
 alter table rendus        enable row level security;
 
 -- On repart de zéro : rejouer ce fichier ne doit pas empiler les politiques.
-drop policy if exists "profil: le sien ou celui de ses élèves" on profils;
+drop policy if exists "profil: le sien ou celui de ses eleves" on profils;
 drop policy if exists "groupe: le sien"                        on groupes;
-drop policy if exists "appartenance: la sienne ou celle de ses élèves" on appartenances;
+drop policy if exists "appartenance: la sienne ou celle de ses eleves" on appartenances;
 drop policy if exists "rendu: lecture"                         on rendus;
-drop policy if exists "rendu: l'élève dépose"                  on rendus;
-drop policy if exists "rendu: l'élève corrige tant que non relevé" on rendus;
+drop policy if exists "rendu: l'eleve depose"                  on rendus;
+drop policy if exists "rendu: l'eleve corrige tant que non releve" on rendus;
 -- politiques du premier jet, supprimées
 drop policy if exists "profil: chacun le sien"          on profils;
-drop policy if exists "profil: le prof voit ses élèves" on profils;
-drop policy if exists "groupe: élève membre"            on groupes;
-drop policy if exists "groupe: prof propriétaire"       on groupes;
+drop policy if exists "profil: le prof voit ses eleves" on profils;
+drop policy if exists "groupe: eleve membre"            on groupes;
+drop policy if exists "groupe: prof proprietaire"       on groupes;
 drop policy if exists "appartenance: la sienne"         on appartenances;
-drop policy if exists "rendu: l'élève le sien"          on rendus;
+drop policy if exists "rendu: l'eleve le sien"          on rendus;
 drop policy if exists "rendu: le prof du groupe"        on rendus;
 
+-- ------------------------------------------- POURQUOI SANS ACCENTS
+-- Les noms de politiques ci-dessous sont volontairement écrits SANS ACCENT.
+--
+-- Ce fichier est parfois collé dans l'éditeur SQL du tableau de bord depuis
+-- un navigateur, et ce chemin abîme l'UTF-8 : « élève » y est arrivé sous la
+-- forme « √©l√®ve », caractère par caractère. Le comportement des politiques
+-- n'en souffrait pas, mais leur nom devenait illisible dans pg_policies, et
+-- ALTER POLICY ... RENAME est refusé sur storage.objects, qui appartient à
+-- Supabase : la faute était donc irréparable là où elle comptait le plus.
+--
+-- Les commentaires, eux, gardent leurs accents : ils ne franchissent jamais
+-- cette frontière, Postgres ne les stocke pas.
+
 -- --- profils ---------------------------------------------------------
-create policy "profil: le sien ou celui de ses élèves" on profils
+create policy "profil: le sien ou celui de ses eleves" on profils
   for select using (id = auth.uid() or enseigne_a(id));
 
 -- AUCUNE politique d'insertion, de mise à jour ni de suppression sur profils.
@@ -243,7 +256,7 @@ create policy "groupe: le sien" on groupes
   for select using (prof_id = auth.uid() or membre_de(id));
 
 -- --- appartenances ---------------------------------------------------
-create policy "appartenance: la sienne ou celle de ses élèves" on appartenances
+create policy "appartenance: la sienne ou celle de ses eleves" on appartenances
   for select using (profil_id = auth.uid() or enseigne_a(profil_id));
 
 -- --- rendus ----------------------------------------------------------
@@ -254,7 +267,7 @@ create policy "rendu: lecture" on rendus
 -- l'élève insérer une ligne avec note = 20 et appreciation = « excellent ».
 -- On vérifie donc AUSSI qu'il dépose dans un groupe dont il est membre, et
 -- que les champs réservés au professeur restent vides.
-create policy "rendu: l'élève dépose" on rendus
+create policy "rendu: l'eleve depose" on rendus
   for insert with check (
     profil_id = auth.uid()
     and membre_de(groupe_id)
@@ -266,7 +279,7 @@ create policy "rendu: l'élève dépose" on rendus
 -- L'élève peut corriger son dépôt tant que le professeur ne l'a pas relevé.
 -- Après correction, la ligne se fige : sinon un élève pourrait réécrire son
 -- travail après avoir lu l'appréciation.
-create policy "rendu: l'élève corrige tant que non relevé" on rendus
+create policy "rendu: l'eleve corrige tant que non releve" on rendus
   for update
   using  (profil_id = auth.uid() and corrige_le is null)
   with check (
@@ -308,17 +321,17 @@ insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_typ
     allowed_mime_types = array[         -- est le filet si le client est trafiqué
       'image/jpeg','image/png','image/webp','application/pdf'];
 
-drop policy if exists "rendus: l'élève dépose sous son dossier" on storage.objects;
-drop policy if exists "rendus: lecture par l'élève ou son prof" on storage.objects;
+drop policy if exists "rendus: l'eleve depose sous son dossier" on storage.objects;
+drop policy if exists "rendus: lecture par l'eleve ou son prof" on storage.objects;
 
-create policy "rendus: l'élève dépose sous son dossier" on storage.objects
+create policy "rendus: l'eleve depose sous son dossier" on storage.objects
   for insert to authenticated
   with check (
     bucket_id = 'rendus'
     and (storage.foldername(name))[1] = auth.uid()::text
   );
 
-create policy "rendus: lecture par l'élève ou son prof" on storage.objects
+create policy "rendus: lecture par l'eleve ou son prof" on storage.objects
   for select to authenticated
   using (
     bucket_id = 'rendus'
@@ -361,8 +374,8 @@ create table if not exists journal_repli (
 alter table tentatives    enable row level security;
 alter table journal_repli enable row level security;
 
-drop policy if exists "journal: l'élève voit ce qui le concerne" on journal_repli;
-create policy "journal: l'élève voit ce qui le concerne" on journal_repli
+drop policy if exists "journal: l'eleve voit ce qui le concerne" on journal_repli;
+create policy "journal: l'eleve voit ce qui le concerne" on journal_repli
   for select using (eleve_id = auth.uid() or prof_id = auth.uid());
 
 -- tentatives : aucune politique. Table de service, lue et écrite uniquement
