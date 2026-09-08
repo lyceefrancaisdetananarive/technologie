@@ -1,0 +1,227 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Classeur des élèves · Espace enseignant · LFT</title>
+<style>
+  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280 }
+  *{ box-sizing:border-box }
+  body{ margin:0; background:#f4f7f9; color:var(--encre);
+        font:16px/1.6 Roboto,system-ui,sans-serif }
+  header{ background:#fff; border-bottom:3px solid var(--orange); padding:1rem 1.25rem;
+          display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+          position:sticky; top:0; z-index:10 }
+  header h1{ font:600 1.15rem Raleway,system-ui,sans-serif; color:var(--orange);
+             margin:0; flex:1 }
+  .qui{ font-size:.9rem; color:var(--gris) }
+  .sortir{ padding:.45rem .9rem; border:1px solid var(--gris); border-radius:6px;
+           background:#fff; color:var(--gris); font-size:.85rem; cursor:pointer;
+           font-family:inherit }
+  main{ max-width:56rem; margin:0 auto; padding:1.5rem 1.25rem 4rem }
+  section{ background:#fff; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;
+           box-shadow:0 1px 3px rgba(0,0,0,.06) }
+  h2{ font:600 1.1rem Raleway,system-ui,sans-serif; color:var(--orange); margin:0 0 1rem }
+  select,input,textarea{ width:100%; padding:.6rem .7rem; border:1px solid #d1d5db;
+    border-radius:8px; font:inherit; font-size:.95rem; background:#fff }
+  textarea{ min-height:4rem; resize:vertical }
+  label{ display:block; font-weight:500; margin:.8rem 0 .3rem; font-size:.9rem }
+  button{ padding:.55rem 1.1rem; border:0; border-radius:7px; background:var(--cyan);
+          color:#fff; font:500 .92rem Raleway,system-ui,sans-serif; cursor:pointer }
+  button:hover{ background:#007ba6 }
+  button.secondaire{ background:#fff; color:var(--orange); border:1px solid var(--orange) }
+  button.secondaire:hover{ background:var(--orange); color:#fff }
+  button[disabled]{ opacity:.55; cursor:progress }
+  .rendu{ border:1px solid #e5e7eb; border-radius:10px; padding:1rem; margin-bottom:.85rem }
+  .rendu.fait{ border-left:4px solid #16a34a }
+  .rendu.attente{ border-left:4px solid #f59e0b }
+  .rendu h3{ font:600 .98rem Raleway,system-ui,sans-serif; margin:0 0 .2rem }
+  .meta{ font-size:.82rem; color:var(--gris); margin:0 }
+  .mot{ margin:.6rem 0; padding:.6rem .75rem; background:#f9fafb; border-radius:6px;
+        font-size:.9rem; font-style:italic }
+  .manquants{ font-size:.9rem; color:var(--gris) }
+  .manquants b{ color:var(--encre) }
+  .msg{ margin-top:1rem; padding:.75rem 1rem; border-radius:8px; font-size:.9rem; display:none }
+  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
+  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
+  .msg.attention{ display:block; background:#fffbeb; border-left:3px solid var(--orange) }
+  .mdp{ font:1.25rem/1.4 ui-monospace,monospace; letter-spacing:.05em;
+        background:#fff; padding:.5rem .8rem; border-radius:6px; display:inline-block;
+        border:1px dashed var(--orange); margin:.5rem 0 }
+  .vide{ color:var(--gris); font-style:italic }
+  .ligne{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
+  .ligne > *{ flex:1; min-width:8rem }
+  .ligne button{ flex:0 0 auto }
+</style>
+</head>
+<body>
+<header>
+  <h1>Classeur des élèves</h1>
+  <span class="qui" id="qui"></span>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <section>
+    <label for="groupe">Groupe</label>
+    <select id="groupe"></select>
+    <p class="manquants" id="manquants"></p>
+  </section>
+
+  <section>
+    <h2>Travaux déposés</h2>
+    <div id="liste"><p class="vide">Chargement…</p></div>
+  </section>
+
+  <section>
+    <h2>Redonner un accès à un élève</h2>
+    <p class="meta">Pour l'élève qui ne peut plus ouvrir sa boîte de courriel.
+       Vous lui dictez un mot de passe provisoire, qu'il doit changer aussitôt.</p>
+    <div class="ligne">
+      <div>
+        <label for="eleve">Élève</label>
+        <select id="eleve"></select>
+      </div>
+      <div>
+        <label for="motif">Motif (pour le journal)</label>
+        <input id="motif" type="text" maxlength="200"
+               placeholder="ex. n'accède plus à sa boîte">
+      </div>
+      <button class="secondaire" id="reinit">Réinitialiser</button>
+    </div>
+    <p class="msg" id="mr" role="status" aria-live="polite"></p>
+  </section>
+</main>
+
+<script type="module">
+import { SEQUENCES } from '/js/sequences.js';
+import { api, dateCourte, echapper } from '/js/classeur-commun.js';
+
+const $ = (id) => document.getElementById(id);
+const TITRES = Object.fromEntries(
+  Object.values(SEQUENCES).flat().map((s) => [s.id, s.titre]));
+
+async function charger() {
+  const g = await api('/api/classeur/groupes');
+  if (g.role !== 'prof') { location.href = '/classeur/'; return; }
+  $('qui').textContent = g.prenom ? `${g.prenom}` : '';
+  $('groupe').innerHTML = g.groupes
+    .map((x) => `<option value="${x.id}">${echapper(x.code)} — ${echapper(x.libelle)}</option>`)
+    .join('');
+  if (g.groupes.length) await voirGroupe();
+  else $('liste').innerHTML = '<p class="vide">Aucun groupe ne vous est rattaché.</p>';
+}
+
+async function voirGroupe() {
+  const d = await api('/api/prof/rendus?groupe=' + $('groupe').value);
+
+  // Qui n'a rien rendu ? C'est souvent l'information la plus utile.
+  const auteurs = new Set(d.rendus.filter((r) => r.fichier)
+    .map((r) => `${r.profils?.prenom} ${r.profils?.nom}`));
+  const absents = d.eleves
+    .map((e) => `${e.prenom} ${e.nom}`)
+    .filter((n) => !auteurs.has(n));
+  $('manquants').innerHTML = absents.length
+    ? `<b>${absents.length} élève(s) n'ont rien déposé :</b> ${echapper(absents.join(', '))}`
+    : `<b>Tous les élèves du groupe ont déposé au moins un travail.</b>`;
+
+  $('eleve').innerHTML = d.eleves
+    .map((e) => `<option value="${e.id}">${echapper(e.nom)} ${echapper(e.prenom)}</option>`)
+    .join('');
+
+  if (!d.rendus.length) {
+    $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
+    return;
+  }
+
+  $('liste').innerHTML = d.rendus.map((r) => `
+    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}">
+      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}</h3>
+      <p class="meta">${echapper(TITRES[r.sequence] || r.sequence)} ·
+        déposé le ${dateCourte(r.depose_le)}
+        ${r.binome ? ' · avec ' + echapper(r.binome) : ''}
+        ${!r.fichier ? ' · <b>envoi incomplet</b>' : ''}</p>
+      ${r.commentaire ? `<p class="mot">« ${echapper(r.commentaire)} »</p>` : ''}
+      ${r.fichier ? `<p class="meta"><a href="#" class="voir"
+          data-rendu="${r.id}">Ouvrir le document</a></p>` : ''}
+      <div class="ligne">
+        <div>
+          <label for="a-${r.id}">Correction</label>
+          <textarea id="a-${r.id}">${echapper(r.appreciation || '')}</textarea>
+        </div>
+        <div style="flex:0 0 6rem">
+          <label for="n-${r.id}">Note /20</label>
+          <input id="n-${r.id}" type="number" min="0" max="20" step="0.5"
+                 value="${r.note ?? ''}">
+        </div>
+        <button class="corriger" data-rendu="${r.id}">Enregistrer</button>
+      </div>
+    </article>`).join('');
+
+  document.querySelectorAll('.voir').forEach((a) =>
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
+      window.open(d.url, '_blank', 'noopener');
+    }));
+
+  document.querySelectorAll('.corriger').forEach((b) =>
+    b.addEventListener('click', async () => {
+      const id = b.dataset.rendu;
+      b.disabled = true; b.textContent = '…';
+      try {
+        await api('/api/prof/corriger', {
+          method: 'POST',
+          body: JSON.stringify({
+            rendu: id,
+            appreciation: $('a-' + id).value,
+            note: $('n-' + id).value,
+          }),
+        });
+        b.textContent = 'Enregistré';
+        setTimeout(voirGroupe, 800);
+      } catch (e) {
+        b.textContent = 'Échec'; b.disabled = false;
+        alert(e.message);
+      }
+    }));
+}
+
+$('groupe').addEventListener('change', voirGroupe);
+
+$('sortir').addEventListener('click', async () => {
+  await fetch('/api/auth/deconnexion', { method: 'POST' });
+  location.href = '/';
+});
+
+$('reinit').addEventListener('click', async () => {
+  const nom = $('eleve').selectedOptions[0]?.textContent || 'cet élève';
+  if (!confirm(`Réinitialiser l'accès de ${nom} ?\n\n` +
+    `Un mot de passe provisoire s'affichera à l'écran. ` +
+    `L'opération est journalisée et signalée à l'élève.`)) return;
+
+  $('reinit').disabled = true;
+  try {
+    const d = await api('/api/prof/reinitialiser-eleve', {
+      method: 'POST',
+      body: JSON.stringify({ eleve: $('eleve').value, motif: $('motif').value }),
+    });
+    $('mr').className = 'msg attention';
+    $('mr').innerHTML =
+      `Accès de <b>${echapper(d.eleve)}</b> réinitialisé.<br>` +
+      `<span class="mdp">${echapper(d.motDePasse)}</span><br>` +
+      `<small>${echapper(d.avertissement)}</small>`;
+    $('motif').value = '';
+  } catch (e) {
+    $('mr').className = 'msg err'; $('mr').textContent = e.message;
+  } finally {
+    $('reinit').disabled = false;
+  }
+});
+
+charger().catch((e) => { $('liste').innerHTML =
+  `<p class="msg err" style="display:block">${echapper(e.message)}</p>`; });
+</script>
+</body>
+</html>

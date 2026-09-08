@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Choisir un mot de passe · Technologie · LFT</title>
+<style>
+  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280; }
+  *{ box-sizing:border-box }
+  body{ margin:0; min-height:100vh; display:flex; align-items:center;
+        justify-content:center; padding:1.5rem; background:#f4f7f9;
+        color:var(--encre); font:16px/1.6 Roboto,system-ui,sans-serif }
+  main{ width:100%; max-width:26rem; background:#fff; border-radius:12px;
+        padding:2rem; box-shadow:0 1px 3px rgba(0,0,0,.08) }
+  h1{ font:600 1.5rem/1.3 Raleway,system-ui,sans-serif; color:var(--cyan);
+      margin:0 0 .25rem }
+  .sous{ color:var(--gris); font-size:.9rem; margin:0 0 1.75rem }
+  label{ display:block; font-weight:500; margin:1rem 0 .35rem }
+  input{ width:100%; padding:.7rem .8rem; border:1px solid #d1d5db;
+         border-radius:8px; font-size:1rem; font-family:inherit }
+  input:focus{ outline:2px solid var(--cyan); outline-offset:1px;
+               border-color:var(--cyan) }
+  button{ width:100%; margin-top:1.5rem; padding:.8rem; border:0;
+          border-radius:8px; background:var(--cyan); color:#fff;
+          font:500 1rem Raleway,system-ui,sans-serif; cursor:pointer }
+  button:hover{ background:#007ba6 }
+  button[disabled]{ opacity:.6; cursor:progress }
+  .oubli{ display:block; margin-top:1.25rem; text-align:center;
+          color:var(--cyan); font-size:.9rem }
+  .msg{ margin-top:1.25rem; padding:.8rem 1rem; border-radius:8px;
+        font-size:.9rem; display:none }
+  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
+  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
+  .avert{ margin-top:1.75rem; padding-top:1.25rem; border-top:1px solid #e5e7eb;
+          font-size:.82rem; color:var(--gris) }
+  .avert strong{ color:var(--orange) }
+  .retour{ display:block; margin-top:1rem; text-align:center;
+           font-size:.85rem; color:var(--gris) }
+</style>
+<style>.aide{font-size:.85rem;color:var(--gris);margin:.4rem 0 0}</style>
+</head>
+<body>
+<main>
+  <h1>Choisissez votre mot de passe</h1>
+  <p class="sous">Celui qu'on vous a donné ne doit servir qu'une fois.</p>
+
+  <form id="f" novalidate>
+    <label for="ancien">Mot de passe actuel</label>
+    <input id="ancien" type="password" required autocomplete="current-password">
+    <p class="aide">Celui reçu par courriel, ou dicté par votre professeur.</p>
+
+    <label for="nouveau">Nouveau mot de passe</label>
+    <input id="nouveau" type="password" required autocomplete="new-password"
+           minlength="12">
+    <p class="aide">Au moins 12 caractères. Trois mots collés font l'affaire
+       et se retiennent&nbsp;: <em>girafe-tournevis-orage</em>.</p>
+
+    <label for="confirme">Répétez-le</label>
+    <input id="confirme" type="password" required autocomplete="new-password">
+
+    <button type="submit" id="b">Enregistrer</button>
+  </form>
+
+  <p class="msg" id="m" role="status" aria-live="polite"></p>
+
+  <p class="avert">
+    <strong>Ne le notez pas sur votre cahier.</strong> Si vous l'oubliez,
+    votre professeur peut vous en redonner un en début de séance.
+  </p>
+</main>
+
+<script>
+(function () {
+  var f = document.getElementById('f'), b = document.getElementById('b'),
+      m = document.getElementById('m');
+  function dire(t, c) { m.textContent = t; m.className = 'msg ' + c; }
+
+  f.addEventListener('submit', function (e) {
+    e.preventDefault();
+    var a = document.getElementById('ancien').value,
+        n = document.getElementById('nouveau').value,
+        c = document.getElementById('confirme').value;
+
+    if (n !== c) { return dire('Les deux mots de passe ne sont pas identiques.', 'err'); }
+    if (n.length < 12) { return dire('Il faut au moins 12 caractères.', 'err'); }
+
+    b.disabled = true; b.textContent = 'Enregistrement…'; m.className = 'msg';
+    fetch('/api/auth/changer-mot-de-passe', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ ancien: a, nouveau: n })
+    })
+    .then(function (r) { return r.json().then(function (d) { return { r: r, d: d }; }); })
+    .then(function (x) {
+      if (!x.r.ok) { dire(x.d.message || 'Changement impossible.', 'err');
+                     b.disabled = false; b.textContent = 'Enregistrer'; return; }
+      dire('C’est enregistré. Redirection…', 'ok');
+      setTimeout(function () { location.href = '/classeur/'; }, 1200);
+    })
+    .catch(function () {
+      dire('Le réseau ne répond pas. Attention : votre mot de passe a ' +
+           'peut-être tout de même été changé. Essayez de vous connecter ' +
+           'avec le nouveau avant de redemander une réinitialisation.', 'err');
+      b.disabled = false; b.textContent = 'Enregistrer';
+    });
+  });
+})();
+</script>
+</body>
+</html>

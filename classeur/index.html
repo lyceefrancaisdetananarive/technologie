@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Mon classeur · Technologie · LFT</title>
+<style>
+  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280 }
+  *{ box-sizing:border-box }
+  body{ margin:0; background:#f4f7f9; color:var(--encre);
+        font:16px/1.6 Roboto,system-ui,sans-serif }
+  header{ background:#fff; border-bottom:3px solid var(--cyan); padding:1rem 1.25rem;
+          display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
+          position:sticky; top:0; z-index:10 }
+  header h1{ font:600 1.15rem Raleway,system-ui,sans-serif; color:var(--cyan); margin:0; flex:1 }
+  .qui{ font-size:.9rem; color:var(--gris) }
+  .sortir{ padding:.45rem .9rem; border:1px solid var(--orange); border-radius:6px;
+           background:#fff; color:var(--orange); font-size:.85rem; cursor:pointer;
+           font-family:inherit }
+  .sortir:hover{ background:var(--orange); color:#fff }
+  main{ max-width:52rem; margin:0 auto; padding:1.5rem 1.25rem 4rem }
+  section{ background:#fff; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;
+           box-shadow:0 1px 3px rgba(0,0,0,.06) }
+  h2{ font:600 1.1rem Raleway,system-ui,sans-serif; color:var(--cyan); margin:0 0 1rem }
+  label{ display:block; font-weight:500; margin:.9rem 0 .3rem; font-size:.92rem }
+  select,input,textarea{ width:100%; padding:.6rem .7rem; border:1px solid #d1d5db;
+    border-radius:8px; font:inherit; font-size:.95rem; background:#fff }
+  textarea{ min-height:4.5rem; resize:vertical }
+  select:focus,input:focus,textarea:focus{ outline:2px solid var(--cyan); outline-offset:1px }
+  button.principal{ margin-top:1.25rem; padding:.75rem 1.5rem; border:0; border-radius:8px;
+    background:var(--cyan); color:#fff; font:500 1rem Raleway,system-ui,sans-serif;
+    cursor:pointer }
+  button.principal:hover{ background:#007ba6 }
+  button.principal[disabled]{ opacity:.55; cursor:progress }
+  .aide{ font-size:.83rem; color:var(--gris); margin:.3rem 0 0 }
+  .msg{ margin-top:1rem; padding:.75rem 1rem; border-radius:8px; font-size:.9rem; display:none }
+  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
+  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
+  .msg.info{ display:block; background:#eff6ff; border-left:3px solid var(--cyan) }
+  .rendu{ border:1px solid #e5e7eb; border-radius:10px; padding:1rem; margin-bottom:.85rem }
+  .rendu h3{ font:600 .98rem Raleway,system-ui,sans-serif; margin:0 0 .2rem }
+  .meta{ font-size:.82rem; color:var(--gris) }
+  .etiquette{ display:inline-block; font-size:.72rem; padding:.15rem .55rem;
+              border-radius:99px; margin-left:.4rem; vertical-align:middle }
+  .attente{ background:#fef3c7; color:#92400e }
+  .corrige{ background:#dcfce7; color:#166534 }
+  .incomplet{ background:#fee2e2; color:#991b1b }
+  .correction{ margin-top:.75rem; padding:.75rem; background:#f9fafb;
+               border-left:3px solid var(--orange); border-radius:0 6px 6px 0 }
+  .correction strong{ color:var(--orange) }
+  .vide{ color:var(--gris); font-style:italic }
+  .barre{ height:5px; background:#e5e7eb; border-radius:99px; margin-top:.75rem;
+          overflow:hidden; display:none }
+  .barre div{ height:100%; background:var(--cyan); width:0; transition:width .25s }
+</style>
+</head>
+<body>
+<header>
+  <h1>Mon classeur de Technologie</h1>
+  <span class="qui" id="qui"></span>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <p class="msg" id="repli"></p>
+
+  <section>
+    <h2>Déposer un travail</h2>
+    <form id="f">
+      <label for="groupe">Mon groupe</label>
+      <select id="groupe" required></select>
+
+      <label for="sequence">Séquence</label>
+      <select id="sequence" required></select>
+
+      <label for="document">Type de document</label>
+      <select id="document" required></select>
+
+      <label for="fichier">Photo ou PDF de mon travail</label>
+      <input id="fichier" type="file" required
+             accept="image/jpeg,image/png,image/webp,application/pdf">
+      <p class="aide">Une photo bien cadrée suffit. Elle est réduite
+         automatiquement avant l'envoi, pour que cela passe même quand la
+         connexion est lente.</p>
+
+      <label for="binome">Travail fait avec (facultatif)</label>
+      <input id="binome" type="text" maxlength="120"
+             placeholder="Prénom et nom de votre binôme">
+      <p class="aide">Si vous avez travaillé à deux, écrivez-le : sinon tout
+         le travail sera attribué à vous seul.</p>
+
+      <label for="commentaire">Un mot pour votre professeur (facultatif)</label>
+      <textarea id="commentaire" maxlength="2000"
+                placeholder="Ce que vous n'avez pas réussi, une question…"></textarea>
+
+      <div class="barre" id="barre"><div id="progres"></div></div>
+      <button class="principal" id="b" type="submit">Déposer</button>
+    </form>
+    <p class="msg" id="m" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h2>Mes travaux déposés</h2>
+    <div id="liste"><p class="vide">Chargement…</p></div>
+  </section>
+</main>
+
+<script type="module">
+import { SEQUENCES, DOCUMENTS } from '/js/sequences.js';
+import { reduireImage, envoyerAvecReprise, api, dateCourte, echapper }
+  from '/js/classeur-commun.js';
+
+const $ = (id) => document.getElementById(id);
+let groupes = [];
+
+function dire(t, c) { $('m').textContent = t; $('m').className = 'msg ' + c; }
+
+function niveauDe(codeGroupe) {
+  const g = groupes.find((x) => x.id === codeGroupe);
+  return g ? g.niveau : '3eme';
+}
+
+function remplirSequences() {
+  const liste = SEQUENCES[niveauDe($('groupe').value)] || [];
+  $('sequence').innerHTML = liste
+    .map((s) => `<option value="${echapper(s.id)}">${echapper(s.titre)}</option>`).join('');
+}
+
+async function charger() {
+  const g = await api('/api/classeur/groupes');
+  groupes = g.groupes;
+  $('qui').textContent = g.prenom ? `Bonjour ${g.prenom}` : '';
+  $('groupe').innerHTML = groupes
+    .map((x) => `<option value="${x.id}">${echapper(x.code)}</option>`).join('');
+  $('document').innerHTML = DOCUMENTS
+    .map((d) => `<option value="${d.id}">${echapper(d.titre)}</option>`).join('');
+  remplirSequences();
+  await listerRendus();
+}
+
+async function listerRendus() {
+  const d = await api('/api/classeur/mes-rendus');
+
+  if (d.repli) {
+    $('repli').className = 'msg info';
+    $('repli').textContent =
+      `Votre professeur a réinitialisé votre accès le ${dateCourte(d.repli.quand)}. ` +
+      `Si vous ne l'avez pas demandé, dites-le-lui.`;
+  }
+
+  if (!d.rendus.length) {
+    $('liste').innerHTML = '<p class="vide">Vous n\'avez encore rien déposé.</p>';
+    return;
+  }
+  $('liste').innerHTML = d.rendus.map((r) => {
+    const etat = !r.fichier
+      ? '<span class="etiquette incomplet">envoi incomplet</span>'
+      : r.corrige_le
+        ? '<span class="etiquette corrige">corrigé</span>'
+        : '<span class="etiquette attente">en attente de correction</span>';
+    const titre = Object.values(SEQUENCES).flat().find((s) => s.id === r.sequence);
+    return `<article class="rendu">
+      <h3>${echapper(titre ? titre.titre : r.sequence)}${etat}</h3>
+      <p class="meta">${echapper(r.groupes?.code || '')} · déposé le ${dateCourte(r.depose_le)}
+        ${r.binome ? ' · avec ' + echapper(r.binome) : ''}</p>
+      ${r.fichier ? `<p class="meta"><a href="#" data-rendu="${r.id}"
+          class="voir">Voir mon document</a></p>` : ''}
+      ${r.appreciation ? `<div class="correction"><strong>Correction :</strong>
+          ${echapper(r.appreciation)}${r.note != null ?
+          ` <em>(${r.note}/20)</em>` : ''}</div>` : ''}
+    </article>`;
+  }).join('');
+
+  document.querySelectorAll('.voir').forEach((a) => {
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
+      window.open(d.url, '_blank', 'noopener');
+    });
+  });
+}
+
+$('groupe').addEventListener('change', remplirSequences);
+
+$('sortir').addEventListener('click', async () => {
+  await fetch('/api/auth/deconnexion', { method: 'POST' });
+  location.href = '/';
+});
+
+$('f').addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const f = $('fichier').files[0];
+  if (!f) return dire('Choisissez un fichier.', 'err');
+
+  $('b').disabled = true; $('b').textContent = 'Envoi…';
+  $('barre').style.display = 'block'; $('progres').style.width = '10%';
+  dire('', '');
+
+  try {
+    const reduit = await reduireImage(f);
+    $('progres').style.width = '30%';
+
+    const prep = await api('/api/classeur/preparer-depot', {
+      method: 'POST',
+      body: JSON.stringify({
+        groupe: $('groupe').value,
+        sequence: $('sequence').value,
+        document: $('document').value,
+        type: reduit.type,
+        commentaire: $('commentaire').value,
+        binome: $('binome').value,
+      }),
+    });
+    $('progres').style.width = '50%';
+
+    const envoi = await envoyerAvecReprise(prep.url, {
+      method: 'PUT',
+      headers: { 'content-type': reduit.type },
+      body: reduit,
+    });
+    if (!envoi.ok) throw new Error("Le fichier n'est pas arrivé.");
+    $('progres').style.width = '85%';
+
+    await api('/api/classeur/confirmer-depot', {
+      method: 'POST',
+      body: JSON.stringify({ rendu: prep.rendu, chemin: prep.chemin }),
+    });
+    $('progres').style.width = '100%';
+
+    dire('Votre travail est déposé. Votre professeur le verra.', 'ok');
+    $('f').reset(); remplirSequences();
+    await listerRendus();
+  } catch (err) {
+    dire((err.message || 'Envoi impossible.') +
+      " Votre travail n'est PAS perdu : ne fermez pas la page, réessayez.", 'err');
+  } finally {
+    $('b').disabled = false; $('b').textContent = 'Déposer';
+    setTimeout(() => { $('barre').style.display = 'none';
+                       $('progres').style.width = '0'; }, 1500);
+  }
+});
+
+charger().catch((e) => dire(e.message, 'err'));
+</script>
+</body>
+</html>

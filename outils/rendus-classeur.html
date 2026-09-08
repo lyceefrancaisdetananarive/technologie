@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Rendre les travaux avec le classeur | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="outils"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Outils","url":"index.html"},{"label":"Rendre les travaux"}]'
+    data-print-title="Rendre les travaux avec le classeur numérique"
+    data-print-subtitle="Mise en place · Technologie · Lycée Français de Tananarive">
+    <main class="site-main">
+
+      <div class="page-header">
+        <span class="page-level-badge"><span class="ico">&#x1F4E4;</span> Outils</span>
+        <h1>Rendre les travaux avec le classeur</h1>
+        <p class="page-description">Comment les élèves déposent leur travail sur le site, et ce
+        qu'il faut avoir réglé avant d'ouvrir le dispositif à une classe.</p>
+      </div>
+
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
+        <a href="../enseignant/classeur.html" class="btn btn-outline"><span class="ico">&#x1F4D2;</span> Ouvrir le classeur</a>
+        <a href="qrcodes.html" class="btn btn-outline"><span class="ico">&#x1F4F1;</span> Planche de QR codes</a>
+      </div>
+
+      <div class="info-box info-box-orange">
+        <div class="info-box-title"><span class="ico">&#x26A0;</span> État du dispositif</div>
+        Le classeur est <strong>construit mais pas encore ouvert aux élèves</strong>. Les quatre
+        conditions listées plus bas doivent être remplies avant qu'une seule donnée réelle d'élève
+        y soit saisie. Tant qu'elles ne le sont pas, le classeur ne sert qu'à des comptes de test
+        entre professeurs.
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x1F3AF;</span> Ce que le classeur fait, et ce qu'il ne fait pas</h2>
+        <p>Le classeur ne remplace pas PRONOTE. Il en prend <strong>une seule fonction</strong> :
+        la remise des travaux. Tout le reste continue de se faire là où il se fait déjà.</p>
+        <table>
+          <thead><tr><th style="width:44%">Reste dans PRONOTE</th><th>Passe dans le classeur</th></tr></thead>
+          <tbody>
+            <tr>
+              <td>Le <strong>cahier de texte</strong> et le travail à faire. C'est une obligation
+              réglementaire, et les familles le consultent là.</td>
+              <td>Le <strong>dépôt</strong> du travail par l'élève : photo de la feuille ou PDF.</td>
+            </tr>
+            <tr>
+              <td>Le <strong>report des compétences</strong> et les notes qui alimentent les
+              bulletins.</td>
+              <td>L'<strong>appréciation</strong> et la note de travail, qui restent internes au
+              service et servent à préparer le report.</td>
+            </tr>
+            <tr>
+              <td>Les <strong>bulletins</strong>, les absences, la vie scolaire.</td>
+              <td>La <strong>trace de l'année</strong> : l'élève retrouve ses rendus et les
+              corrections d'une séquence à l'autre.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p>Ce que le classeur ajoute par rapport au dépôt PRONOTE : le travail est rangé par
+        séquence du site, donc les QR codes et le classeur parlent le même langage ; le
+        <strong>binôme</strong> est une donnée du dépôt, ce qui correspond à la réalité des séances
+        où les postes ne suffisent pas ; et le professeur peut lui-même redonner un mot de passe à
+        un élève bloqué, sans passer par un service tiers.</p>
+        <p class="text-sm text-muted">Décision du service de Technologie, 8 septembre 2026. Elle
+        revient sur la recommandation de la note de cadrage du 6 septembre, qui préconisait de ne
+        rien reconstruire ; la contrepartie est détaillée ci-dessous.</p>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x2699;</span> Mise en place, séance par séance</h2>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
+          <div class="activity-step-content">
+            <h4>Créer ses groupes</h4>
+            <p>Dans l'espace enseignant, onglet <strong>Classeur</strong>. Un groupe correspond à
+            un groupe de Technologie réel, pas à une classe entière. Chaque groupe appartient à un
+            seul professeur : vous ne voyez que vos élèves, et vos collègues ne voient pas les
+            vôtres.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">2</div>
+          <div class="activity-step-content">
+            <h4>Inscrire les élèves</h4>
+            <p>À partir de la liste des adresses <code>@eleve.egd.mg</code> fournie par le service
+            informatique. Aucune saisie manuelle de noms : l'adresse suffit à créer le compte, et
+            c'est volontaire. Ni date de naissance, ni classe, ni aucune donnée de santé n'entre
+            dans le classeur.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">3</div>
+          <div class="activity-step-content">
+            <h4>La première connexion de l'élève</h4>
+            <p>L'élève va sur <strong>technologie-lft.vercel.app/classeur/</strong>, clique sur
+            <em>Première connexion</em>, et reçoit un mot de passe provisoire sur son adresse du
+            lycée. Le site lui impose d'en choisir un autre avant d'accéder à quoi que ce soit.
+            <strong>Prévoyez la première séance en salle informatique</strong> : c'est le seul
+            moment où tout le groupe doit passer cette étape en même temps.</p>
+          </div>
+        </div>
+        <div class="activity-step">
+          <div class="activity-step-number" style="background: var(--color-4eme);">4</div>
+          <div class="activity-step-content">
+            <h4>Récupérer et corriger</h4>
+            <p>Les dépôts arrivent dans l'onglet Classeur, groupe par groupe et séquence par
+            séquence. Le classeur affiche aussi <strong>qui n'a pas rendu</strong>, ce qui est
+            souvent l'information la plus utile. La note est facultative : une appréciation seule
+            est un usage valide.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x2705;</span> Quatre conditions avant d'ouvrir à une classe</h2>
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Aucune n'est remplie à ce jour</div>
+          Les deux premières ne dépendent pas du service de Technologie. Elles ne sont pas des
+          formalités : en hébergeant les travaux d'élèves mineurs hors de PRONOTE, l'établissement
+          devient responsable d'un traitement de données qu'il n'avait pas.
+        </div>
+        <table>
+          <thead><tr><th style="width:34%">Condition</th><th>Pourquoi</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>L'autorisation écrite de la direction</strong></td>
+              <td>La direction est responsable de traitement, pas un professeur. Il faut aussi que
+              l'usage soit inscrit au registre des traitements et que les familles en soient
+              informées.</td>
+            </tr>
+            <tr>
+              <td><strong>La position du délégué à la protection des données de l'AEFE</strong></td>
+              <td>Le classeur s'appuie sur deux prestataires hors de Madagascar. La région
+              d'hébergement doit être choisie dans l'Union européenne <strong>à la création du
+              projet</strong> : elle ne peut plus être changée ensuite.</td>
+            </tr>
+            <tr>
+              <td><strong>Un relais de courrier électronique de l'établissement</strong></td>
+              <td>L'envoi de mots de passe intégré au service d'authentification est limité à
+              quelques messages par heure. Il ne tiendra pas une classe entière le jour de la
+              première connexion.</td>
+            </tr>
+            <tr>
+              <td><strong>Le plafond de connexions par adresse IP</strong></td>
+              <td>Le lycée sort sur une <strong>seule adresse IP publique</strong>. Le plafond par
+              défaut bloquerait la moitié d'un groupe se connectant en même temps. À relever avant
+              la première séance, et à revérifier après toute restauration du service.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x1F504;</span> Quand ça ne passe pas</h2>
+        <table>
+          <thead><tr><th style="width:30%">Situation</th><th>Ce qu'on fait</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong>Un élève a perdu son mot de passe</strong></td>
+              <td>Le professeur lui en régénère un depuis son espace, sans attendre personne. Le
+              classeur garde une trace de l'opération et prévient l'élève à sa connexion suivante.
+              Attention : ce mot de passe est dit à voix haute en classe, donc il est provisoire au
+              sens strict.</td>
+            </tr>
+            <tr>
+              <td><strong>La connexion ne passe pas pendant la séance</strong></td>
+              <td>L'élève rend sa feuille en main propre. Le dépôt en ligne transmet le travail, il
+              ne le remplace pas. Le professeur peut enregistrer le rendu plus tard.</td>
+            </tr>
+            <tr>
+              <td><strong>Le fichier est trop lourd</strong></td>
+              <td>Les photos sont réduites automatiquement par le navigateur avant l'envoi, et la
+              limite est de 5 Mo par dépôt. Pour un modèle 3D ou une vidéo de prototype, passer par
+              une clé USB en classe.</td>
+            </tr>
+            <tr>
+              <td><strong>Le classeur est indisponible</strong></td>
+              <td>Le reste du site continue de fonctionner : les fiches, les quiz et les corrigés
+              ne dépendent pas du classeur. Une panne du classeur n'empêche pas la séance.</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="content-card">
+        <h2><span class="ico">&#x26A0;</span> Le mode dégradé n'est pas un repli, c'est le mode normal</h2>
+        <div class="info-box info-box-blue">
+          Coupures de courant et connexion intermittente sont la règle, pas l'exception. Toute
+          activité doit rester <strong>imprimable sans perte</strong>, et le rendu doit rester
+          possible sur papier. La trace écrite existe en A4 avant d'exister en ligne.
+          Un élève qui rend sa feuille en main propre a rendu son travail.
+        </div>
+      </div>
+
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+</body>
+</html>
