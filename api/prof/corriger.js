@@ -1,5 +1,18 @@
 import { appelant, enseigneA } from '../_lib/autorisation.js';
+import { sceller, poserCookie } from '../_lib/session.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
+
+// La session du professeur ne dure que 30 minutes, pour qu'elle ne déborde
+// pas sur la classe suivante. Corriger une série de rendus prend plus
+// longtemps : chaque correction ENREGISTRÉE réarme donc le compte à rebours.
+//
+// Le réarmement est attaché à une écriture, jamais à une lecture. Une
+// prolongation déclenchée par la simple consultation d'une page serait
+// entretenue par l'élève même qui exploite une session laissée ouverte : la
+// session ne mourrait jamais tant que quelqu'un regarde. Ici, seul celui qui
+// corrige prolonge, et corriger n'est pas quelque chose qu'un élève peut
+// faire : enseigneA() a déjà tranché.
+const DUREE_PROF = 1800;
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
@@ -33,6 +46,12 @@ export default async function handler(req, res) {
       note: valeurNote,
       corrige_le: new Date().toISOString(),
     });
+
+    // Correction enregistrée : on réarme la session pour 30 minutes.
+    const jeton = await sceller(
+      { sub: moi.id, role: moi.role, prov: false },
+      process.env.LFT_COOKIE_SECRET, DUREE_PROF);
+    res.setHeader('Set-Cookie', poserCookie(jeton, moi.role));
     res.status(200).json({ ok: true });
   } catch (e) {
     console.error('corriger :', e.message);

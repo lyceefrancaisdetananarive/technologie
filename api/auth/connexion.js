@@ -28,6 +28,21 @@ const FENETRE_MINUTES = 15;
 // cette précaution on l'enfermerait dehors le lendemain de sa connexion.
 const PROVISOIRE_HEURES = 24;
 
+// Durée de la session, en secondes, selon le rôle.
+//
+// Une heure pour un professeur, c'est la classe suivante : connecté à 8h05
+// pour projeter un corrigé, il l'est encore à 9h05, quand vingt-huit autres
+// élèves se sont installés devant le même poste. Trente minutes ferment la
+// séance sans la déborder. L'élève garde une heure : sa session n'ouvre que
+// son propre classeur, et l'expirer en pleine activité coûterait un dépôt.
+//
+// La session du professeur se réarme à chaque correction enregistrée (voir
+// api/prof/corriger.js) : corriger vingt-cinq rendus ne déconnecte donc pas.
+// Le réarmement est volontairement lié à une ÉCRITURE et non à une lecture :
+// une prolongation déclenchée par la simple consultation serait entretenue
+// par l'élève même qui exploite la session restée ouverte.
+const DUREE = { prof: 1800, eleve: 3600 };
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
   if (!configuree()) return refus(res, 503, "Le service n'est pas encore configuré.");
@@ -90,7 +105,7 @@ export default async function handler(req, res) {
     const jeton = await sceller(
       { sub: profil.id, role: profil.role, prov: profil.mdp_provisoire },
       process.env.LFT_COOKIE_SECRET,
-      3600
+      DUREE[profil.role] ?? 1800
     );
 
     await ecrire('tentatives', `profil_id=eq.${profil.id}`, {}, 'DELETE').catch(() => {});

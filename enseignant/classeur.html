@@ -90,6 +90,20 @@
       </div>
       <button class="secondaire" id="reinit">Réinitialiser</button>
     </div>
+
+    <!-- Ressaisie du mot de passe du professeur. Un champ de type password,
+         et surtout PAS un prompt() : celui-ci affiche en clair ce qu'on tape,
+         sur un écran qui est très souvent projeté au tableau, puisque c'est
+         souvent la raison même pour laquelle le professeur s'est connecté.
+         Le mot de passe se lirait alors depuis le fond de la salle. -->
+    <div class="ligne" id="bloc-confirme" hidden>
+      <div>
+        <label for="confirme">Votre mot de passe, pour confirmer</label>
+        <input id="confirme" type="password" autocomplete="current-password">
+      </div>
+      <button class="secondaire" id="confirmer">Confirmer</button>
+      <button class="secondaire" id="annuler">Annuler</button>
+    </div>
     <p class="msg" id="mr" role="status" aria-live="polite"></p>
   </section>
 </main>
@@ -195,22 +209,45 @@ $('sortir').addEventListener('click', async () => {
   location.href = '/';
 });
 
-$('reinit').addEventListener('click', async () => {
+// Ressaisie du mot de passe, et non une simple confirmation. Un « OK » se
+// clique : si une session professeur reste ouverte sur un poste de salle
+// informatique, l'élève suivant s'en servirait pour fabriquer le mot de
+// passe d'un camarade, et le journal accuserait le professeur, puisque le
+// contrôle d'appartenance au groupe passerait. Le mot de passe, lui, il ne
+// l'a pas.
+function fermerConfirmation() {
+  $('bloc-confirme').hidden = true;
+  $('confirme').value = '';
+  $('reinit').disabled = false;
+}
+
+$('reinit').addEventListener('click', () => {
+  if (!$('eleve').value) {
+    $('mr').className = 'msg err';
+    $('mr').textContent = 'Choisissez d’abord un élève.';
+    return;
+  }
   const nom = $('eleve').selectedOptions[0]?.textContent || 'cet élève';
-
-  // Ressaisie du mot de passe, et non une simple confirmation. Un « OK » se
-  // clique : si une session professeur reste ouverte sur un poste de salle
-  // informatique, l'élève suivant s'en servirait pour fabriquer le mot de
-  // passe d'un camarade, et le journal accuserait le professeur. Le mot de
-  // passe, lui, il ne l'a pas.
-  const motDePasse = prompt(
-    `Réinitialiser l'accès de ${nom}.\n\n` +
-    `Un mot de passe provisoire s'affichera à l'écran et devra être dit à ` +
-    `voix haute. L'opération est journalisée et signalée à l'élève.\n\n` +
-    `Retapez VOTRE mot de passe pour confirmer :`);
-  if (!motDePasse) return;
-
+  $('mr').className = 'msg attention';
+  $('mr').textContent =
+    `Réinitialiser l’accès de ${nom}. Un mot de passe provisoire s’affichera ` +
+    `à l’écran et devra être dit à voix haute. Il ne servira que 24 heures. ` +
+    `L’opération est journalisée et signalée à l’élève.`;
+  $('bloc-confirme').hidden = false;
   $('reinit').disabled = true;
+  $('confirme').focus();
+});
+
+$('annuler').addEventListener('click', fermerConfirmation);
+$('confirme').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); $('confirmer').click(); }
+});
+
+$('confirmer').addEventListener('click', async () => {
+  const motDePasse = $('confirme').value;
+  if (!motDePasse) { $('confirme').focus(); return; }
+
+  $('confirmer').disabled = true;
   try {
     const d = await api('/api/prof/reinitialiser-eleve', {
       method: 'POST',
@@ -224,10 +261,13 @@ $('reinit').addEventListener('click', async () => {
       `<span class="mdp">${echapper(d.motDePasse)}</span><br>` +
       `<small>${echapper(d.avertissement)}</small>`;
     $('motif').value = '';
+    fermerConfirmation();
   } catch (e) {
     $('mr').className = 'msg err'; $('mr').textContent = e.message;
+    $('confirme').value = '';
+    $('confirme').focus();
   } finally {
-    $('reinit').disabled = false;
+    $('confirmer').disabled = false;
   }
 });
 

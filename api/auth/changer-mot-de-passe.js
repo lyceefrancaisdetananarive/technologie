@@ -91,7 +91,8 @@ export default async function handler(req, res) {
     // l'élève en boucle vers cette même page. Le rôle est celui lu EN BASE.
     const jetonSession = await sceller(
       { sub: profil.id, role: profil.role, prov: false },
-      process.env.LFT_COOKIE_SECRET, 3600);
+      process.env.LFT_COOKIE_SECRET,
+      profil.role === 'prof' ? 1800 : 3600);
     res.setHeader('Set-Cookie', poserCookie(jetonSession, profil.role));
     res.status(200).json({ ok: true, role: profil.role });
 
