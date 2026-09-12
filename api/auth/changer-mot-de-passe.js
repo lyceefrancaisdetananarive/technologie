@@ -2,7 +2,7 @@ import { ouvrir, lireCookie, sceller, poserCookie } from '../_lib/session.js';
 import { ressaisieAutorisee, noterEchecRessaisie, MAX_RESSAISIES, FENETRE_MINUTES }
   from '../_lib/autorisation.js';
 import {
-  definirMotDePasse, verifierMotDePasse, utilisateurDuJeton, lire, ecrire,
+  definirMotDePasse, verifierMotDePasse, utilisateurDuJetonHache, lire, ecrire,
   configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
 
@@ -20,11 +20,12 @@ const LONGUEUR_MIN = 12;
 //     camarade qui trouve un poste laissé ouvert volerait le compte.
 //
 //  B. PREMIÈRE CONNEXION : l'élève arrive depuis le lien reçu par courriel.
-//     Il n'a NI session NI ancien mot de passe — c'est tout l'objet de la
-//     démarche. Il présente le jeton de récupération émis par Supabase, que
-//     Supabase seul valide. Sans cette entrée, le parcours « Première
-//     connexion » ne peut pas aboutir : c'est le chemin qu'emprunte une
-//     classe entière le premier jour.
+//     Il n'a NI session NI ancien mot de passe, c'est tout l'objet de la
+//     démarche. Il présente le HACHAGE du jeton de récupération, lu dans
+//     l'adresse de la page, que Supabase seul valide, et qui n'est consommé
+//     qu'ici, au moment d'enregistrer. Sans cette entrée, le parcours
+//     « Première connexion » ne peut pas aboutir : c'est le chemin
+//     qu'emprunte une classe entière le premier jour.
 // =====================================================================
 
 export default async function handler(req, res) {
@@ -46,14 +47,20 @@ export default async function handler(req, res) {
     let profil = null;
 
     if (jeton) {
-      // ---- Entrée B : jeton de récupération reçu par courriel ----------
+      // ---- Entrée B : hachage du jeton reçu par courriel -----------------
       // C'est Supabase qui dit à qui appartient ce jeton et s'il est encore
-      // valable. Sa durée de vie est réglée dans le tableau de bord Supabase
-      // (à ramener à 1 h) : c'est elle, et non nous, qui périme le lien.
-      const porteur = await utilisateurDuJeton(jeton);
+      // valable : une heure, réglée dans son tableau de bord, et un seul
+      // usage. C'est elle, et non nous, qui périme le lien.
+      //
+      // ORDRE DES ÉCRITURES. Cet appel CONSOMME le jeton. Si la liaison coupe
+      // entre lui et la pose du mot de passe, le lien est grillé et le mot de
+      // passe inchangé : l'élève redemande un lien, rien n'a été accordé.
+      // L'ordre inverse n'existe pas, on ne sait pas pour qui poser un mot de
+      // passe avant d'avoir vérifié le jeton.
+      const porteur = await utilisateurDuJetonHache(jeton);
       if (!porteur) {
         return refus(res, 401,
-          "Ce lien n'est plus valable. Il expire après un temps court, et il " +
+          "Ce lien n'est plus valable. Il expire au bout d'une heure, et il " +
           "ne sert qu'une fois. Demandez-en un nouveau depuis « Première " +
           "connexion », ou demandez à votre professeur.");
       }

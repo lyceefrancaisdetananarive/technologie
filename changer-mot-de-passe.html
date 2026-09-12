@@ -79,20 +79,29 @@
   function dire(t, c) { m.textContent = t; m.className = 'msg ' + c; }
 
   // --- Première connexion : l'élève arrive depuis le lien reçu par courriel.
-  // Supabase place le jeton dans le FRAGMENT de l'adresse (après le #). Le
-  // fragment ne part jamais vers un serveur, mais il reste affiché dans la
-  // barre d'adresse et dans l'historique : sur un poste de salle informatique,
-  // on l'efface immédiatement, avant même de s'en servir.
+  // Le courriel mène ICI, directement, avec le HACHAGE du jeton dans
+  // l'adresse (?jeton=…&type=recovery). Ce hachage ne vaut rien tant qu'il
+  // n'a pas été présenté à Supabase, et c'est le serveur qui le fera, au
+  // moment où l'élève enregistre. Ouvrir la page ne consomme donc rien : un
+  // second clic, un aperçu de messagerie, un antivirus qui suit les liens,
+  // aucun ne grille plus le lien.
+  //
+  // Il reste affiché dans la barre d'adresse et dans l'historique : sur un
+  // poste de salle informatique, on l'efface immédiatement, avant même de
+  // s'en servir. Le fragment est encore lu, pour afficher proprement l'erreur
+  // qu'un ancien lien, passé par Supabase, pourrait rapporter.
   var jeton = '', erreurLien = '';
-  (function lireFragment() {
+  (function lireAdresse() {
+    var q = new URLSearchParams(location.search);
+    if (q.get('type') === 'recovery') jeton = q.get('jeton') || '';
     var h = location.hash.replace(/^#/, '');
-    if (!h) return;
-    var p = new URLSearchParams(h);
-    if (p.get('type') === 'recovery') jeton = p.get('access_token') || '';
-    if (p.get('error')) {
-      erreurLien = p.get('error_description') || 'Ce lien n’est plus valable.';
+    if (h) {
+      var p = new URLSearchParams(h);
+      if (p.get('error')) {
+        erreurLien = p.get('error_description') || 'Ce lien n’est plus valable.';
+      }
     }
-    history.replaceState(null, '', location.pathname + location.search);
+    if (jeton || h) history.replaceState(null, '', location.pathname);
   })();
 
   if (jeton) {
@@ -123,8 +132,8 @@
     }, 10 * 60 * 1000);
   } else if (erreurLien) {
     dire('Ce lien n’est plus valable. Il ne sert qu’une fois, et il expire ' +
-         'vite. Demandez-en un nouveau depuis « Première connexion », ou ' +
-         'demandez à votre professeur.', 'err');
+         'au bout d’une heure. Demandez-en un nouveau depuis « Première ' +
+         'connexion », ou demandez à votre professeur.', 'err');
   }
 
   f.addEventListener('submit', function (e) {

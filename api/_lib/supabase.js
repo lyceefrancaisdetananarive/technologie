@@ -90,29 +90,69 @@ export async function definirMotDePasse(idUtilisateur, motDePasse) {
 
 /**
  * À qui appartient ce jeton de récupération ? Sert au parcours « première
- * connexion » : l'élève arrive depuis le lien reçu par courriel, il n'a ni
- * session ni ancien mot de passe, et sans cela il ne peut rien faire.
+ * connexion » : la personne arrive depuis le lien reçu par courriel, elle n'a
+ * ni session ni ancien mot de passe, et sans cela elle ne peut rien faire.
+ *
+ * LE COURRIEL PORTE UN JETON HACHÉ, PAS UN JETON DE SESSION.
+ *
+ * La version précédente laissait Supabase rediriger le navigateur avec un
+ * access_token dans le fragment. Ce jeton était consommé AU CLIC, avant que
+ * la personne ait rien fait : un antivirus qui ouvre les liens, un aperçu
+ * de messagerie, ou tout simplement un second clic sept secondes après le
+ * premier, et le lien était « invalide ou expiré ». C'est exactement ce qui
+ * est arrivé au premier essai réel, le 12 septembre 2026.
+ *
+ * Ici le courriel mène directement sur notre page, avec le hachage du jeton
+ * dans l'adresse. Rien n'est consommé tant que la personne n'a pas choisi
+ * son mot de passe et cliqué sur « Enregistrer » : c'est à ce moment seulement
+ * que le serveur présente le hachage à Supabase, qui le vérifie et le
+ * périme. Un lien ouvert deux fois, ou ouvert par une machine, reste bon.
  *
  * Le jeton est vérifié PAR SUPABASE, jamais par nous, et il ne quitte pas le
- * serveur : la page le transmet à /api/, elle ne parle pas à Supabase. Cela
- * évite de publier l'URL et la clé anon dans les 228 pages.
+ * serveur : la page le transmet à /api/, elle ne parle pas à Supabase.
  */
-export async function utilisateurDuJeton(jeton) {
-  const r = await fetch(`${URL_BASE()}/auth/v1/user`, {
-    headers: { apikey: ANON(), authorization: `Bearer ${jeton}` },
-  });
-  if (!r.ok) return null;
-  const u = await r.json();
-  if (!u?.id) return null;
-  return { id: u.id, email: String(u.email ?? '').toLowerCase() };
-}
-
-/** Demande à Supabase d'envoyer le courriel de réinitialisation. */
-export async function envoyerLienReinitialisation(email, origine) {
-  const r = await fetch(`${URL_BASE()}/auth/v1/recover`, {
+export async function utilisateurDuJetonHache(jetonHache) {
+  const r = await fetch(`${URL_BASE()}/auth/v1/verify`, {
     method: 'POST',
     headers: { apikey: ANON(), 'content-type': 'application/json' },
-    body: JSON.stringify({ email, redirect_to: `${origine}/changer-mot-de-passe.html` }),
+    body: JSON.stringify({ type: 'recovery', token_hash: jetonHache }),
+  });
+  if (!r.ok) return null;
+  const d = await r.json();
+  if (!d?.user?.id) return null;
+
+  // La vérification a ouvert une session Supabase que personne n'utilisera :
+  // le mot de passe est posé par l'API d'administration, et la session du
+  // site est notre propre cookie. On la referme tout de suite plutôt que de
+  // laisser un jeton de rafraîchissement vivant pour rien. Sans conséquence
+  // si cela échoue : la session mourrait seule, et elle ne quitte pas ce
+  // processus.
+  if (d.access_token) {
+    await fetch(`${URL_BASE()}/auth/v1/logout?scope=local`, {
+      method: 'POST',
+      headers: { apikey: ANON(), authorization: `Bearer ${d.access_token}` },
+    }).catch(() => {});
+  }
+  return { id: d.user.id, email: String(d.user.email ?? '').toLowerCase() };
+}
+
+/**
+ * Demande à Supabase d'envoyer le courriel de réinitialisation.
+ *
+ * `redirect_to` VA DANS L'URL, PAS DANS LE CORPS. Supabase ne le lit que
+ * dans la chaîne de requête ou dans un en-tête ; placé dans le JSON, il est
+ * ignoré sans un mot, et le lien retombe sur le Site URL, c'est-à-dire la
+ * page d'accueil, où le jeton n'est lu par personne. C'était l'erreur du
+ * premier envoi. Le gabarit du courriel n'en dépend plus, mais la valeur
+ * reste exposée aux gabarits sous {{ .RedirectTo }} : autant qu'elle soit
+ * juste.
+ */
+export async function envoyerLienReinitialisation(email, origine) {
+  const cible = encodeURIComponent(`${origine}/changer-mot-de-passe.html`);
+  const r = await fetch(`${URL_BASE()}/auth/v1/recover?redirect_to=${cible}`, {
+    method: 'POST',
+    headers: { apikey: ANON(), 'content-type': 'application/json' },
+    body: JSON.stringify({ email }),
   });
   return r.ok;
 }
