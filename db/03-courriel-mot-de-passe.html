@@ -1,0 +1,34 @@
+<!--
+  GABARIT DU COURRIEL "CHOISIR VOTRE MOT DE PASSE".
+
+  Ce fichier est une COPIE DE REFERENCE. L'original vit dans le tableau de
+  bord Supabase : Authentication > Emails > Templates > Reset password,
+  objet "Site de Technologie : choisir votre mot de passe". Si le gabarit
+  y est remis a zero, le recoller depuis ici, tel quel.
+
+  Le lien mene DIRECTEMENT sur changer-mot-de-passe.html avec le hachage du
+  jeton ; il n'est presente a Supabase qu'au moment ou la personne enregistre
+  son mot de passe (api/auth/changer-mot-de-passe.js). Ne pas revenir a
+  {{ .ConfirmationURL }} : ce lien-la passait par Supabase et etait consomme
+  au premier clic, avant que la personne ait rien fait.
+
+  Accents en entites HTML, fichier integralement ASCII : coller du texte
+  accentue dans un editeur Supabase depuis le navigateur abime l'UTF-8.
+  Le logo est servi par le site lui-meme, en HTTPS.
+-->
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f7f9;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">
+<tr><td align="center">
+<table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#ffffff;border-radius:12px;padding:32px 28px;">
+<tr><td align="center" style="padding-bottom:12px;"><img src="https://techlft.egd.mg/img/logo-lft.png" width="88" height="88" alt="Lyc&eacute;e Fran&ccedil;ais de Tananarive" style="display:block;border:0;width:88px;height:88px;"></td></tr>
+<tr><td align="center" style="font-size:20px;font-weight:bold;color:#0096c8;padding-bottom:2px;">Site de Technologie</td></tr>
+<tr><td align="center" style="font-size:13px;color:#6b7280;padding-bottom:24px;">Lyc&eacute;e Fran&ccedil;ais de Tananarive</td></tr>
+<tr><td style="font-size:16px;line-height:1.6;color:#323232;">Bonjour,</td></tr>
+<tr><td style="font-size:16px;line-height:1.6;color:#323232;padding-top:12px;">Vous avez demand&eacute; &agrave; choisir votre mot de passe pour le site de Technologie. Cliquez sur le bouton, puis saisissez le mot de passe que vous garderez toute l'ann&eacute;e : au moins 12 caract&egrave;res, trois mots coll&eacute;s font l'affaire.</td></tr>
+<tr><td align="center" style="padding:28px 0 24px;"><a href="{{ .SiteURL }}/changer-mot-de-passe.html?jeton={{ .TokenHash }}&amp;type=recovery" style="display:inline-block;background:#0096c8;color:#ffffff;text-decoration:none;font-size:16px;font-weight:bold;padding:14px 28px;border-radius:8px;">Choisir mon mot de passe</a></td></tr>
+<tr><td style="font-size:14px;line-height:1.6;color:#6b7280;">Ce lien est personnel : il ne sert qu'une fois et il expire au bout d'une heure. S'il ne fonctionne plus, retournez sur la page de connexion et cliquez de nouveau sur &laquo;&nbsp;Premi&egrave;re connexion&nbsp;&raquo;.</td></tr>
+<tr><td style="font-size:14px;line-height:1.6;color:#6b7280;padding-top:12px;">Si vous n'&ecirc;tes pas &agrave; l'origine de cette demande, ignorez ce message : rien ne sera modifi&eacute;.</td></tr>
+<tr><td style="font-size:12px;line-height:1.6;color:#9ca3af;padding-top:24px;">Si le bouton ne r&eacute;agit pas, copiez cette adresse dans votre navigateur :<br>{{ .SiteURL }}/changer-mot-de-passe.html?jeton={{ .TokenHash }}&amp;type=recovery</td></tr>
+<tr><td style="font-size:12px;line-height:1.6;color:#9ca3af;padding-top:16px;border-top:1px solid #e5e7eb;">Message automatique du site de Technologie du LFT. Merci de ne pas y r&eacute;pondre.</td></tr>
+</table>
+</td></tr>
+</table>
