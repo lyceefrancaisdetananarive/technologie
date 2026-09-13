@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Plan de l'année · Espace enseignant · LFT</title>
+<link rel="stylesheet" href="/css/connecte.css">
+<style>
+/* ---- page du plan : ce qui n'existe que sur cette page ---- */
+main { max-width: 64rem; }
+.entete-groupe { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: center; }
+.entete-groupe select { width: auto; min-width: 14rem; max-width: 100%; }
+.resume { display: grid; grid-template-columns: 1fr auto; gap: .5rem 1.5rem; align-items: center; margin-top: 1rem; }
+.resume .barre { display: block; margin: 0; height: 10px; }
+.resume .barre div { background: var(--fait); }
+.chiffres { font: 700 1.05rem var(--display); white-space: nowrap; }
+.actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
+.actions button { padding: .55rem .9rem; font-size: .9rem; }
+.pastille { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 999px; vertical-align: middle; }
+.pastille.fait { background: var(--fait-pale); color: var(--fait); }
+.pastille.encours { background: var(--encours-pale); color: var(--encours); }
+.pastille.avenir { background: var(--grille); color: var(--encre-2); }
+.pastille.niveau { background: var(--bleu-pale); color: var(--bleu); }
+.pastille.masquee { background: var(--erreur-pale); color: var(--erreur); }
+
+/* la liste des séquences */
+.plan { list-style: none; margin: 0; padding: 0; }
+.seq { border: 1px solid var(--trait); border-radius: 12px; margin-bottom: .6rem; background: var(--papier-2); }
+.seq.masquee { background: var(--papier); border-style: dashed; }
+.seq.masquee .seq-titre b { color: var(--encre-2); }
+.seq-tete { display: grid; grid-template-columns: auto 1fr auto; gap: .6rem .9rem; align-items: center; padding: .7rem .9rem; }
+.ordre { display: flex; flex-direction: column; gap: 6px; }
+.ordre button { width: 44px; height: 36px; padding: 0; font-size: .85rem; line-height: 1; border-color: var(--trait); background: var(--papier-2); color: var(--encre-2); }
+.ordre button:hover { background: var(--bleu-pale); color: var(--bleu); }
+.ordre button[disabled] { opacity: .3; cursor: default; }
+.seq-titre { min-width: 0; }
+.seq-titre h3 { font: 700 1rem var(--display); margin: 0; }
+.seq-titre .meta { display: flex; flex-wrap: wrap; gap: .35rem .6rem; align-items: center; margin-top: .2rem; }
+.seq-droite { display: flex; align-items: center; gap: .6rem; flex-wrap: wrap; justify-content: flex-end; }
+.seq-droite label { display: inline-flex; align-items: center; gap: .35rem; margin: 0; font-size: .84rem; font-weight: 600; cursor: pointer; }
+.seq-droite input[type="checkbox"] { width: 20px; height: 20px; margin: 0; accent-color: var(--bleu); }
+.seq-droite .deplier { padding: .45rem .8rem; font-size: .85rem; background: var(--papier-2); color: var(--bleu); }
+.seances { border-top: 1px dashed var(--trait); padding: .6rem .9rem .8rem; display: grid; gap: .35rem; }
+.seances[hidden] { display: none; }
+.seance { display: grid; grid-template-columns: auto 1fr auto; gap: .6rem; align-items: center; min-height: 44px; padding: .25rem .4rem; border-radius: 8px; }
+.seance:hover { background: var(--papier); }
+.seance input[type="checkbox"] { width: 24px; height: 24px; margin: 0; accent-color: var(--fait); }
+.seance input[aria-busy="true"] { opacity: .5; }
+.seance .quand { font-size: .78rem; color: var(--encre-3); white-space: nowrap; }
+.seance.faite b { color: var(--fait); }
+.seance b { font-weight: 600; }
+.seances .tout { justify-self: start; margin-top: .3rem; padding: .45rem .8rem; font-size: .85rem; background: var(--papier-2); color: var(--bleu); }
+.retirer-seq { background: none; border: 0; color: var(--erreur); font-size: .8rem; text-decoration: underline; padding: .6rem .4rem; min-height: 44px; cursor: pointer; }
+.retirer-seq:hover { background: var(--erreur-pale); }
+.ajout { display: flex; flex-wrap: wrap; gap: .6rem; align-items: flex-end; margin-top: 1rem; padding-top: 1rem; border-top: 1px solid var(--trait); }
+.ajout > div { flex: 1; min-width: 14rem; }
+.ajout label { margin-top: 0; }
+.ajout button { flex: 0 0 auto; }
+.a-enregistrer { position: sticky; bottom: 0; background: var(--papier-2); border-top: 1px solid var(--trait); margin: 1rem -1.5rem -1.5rem; padding: .8rem 1.5rem; display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; border-radius: 0 0 var(--r-lg) var(--r-lg); }
+.a-enregistrer[hidden] { display: none; }
+.a-enregistrer span { flex: 1; font-size: .9rem; color: var(--encours); font-weight: 700; }
+
+/* la grille des élèves */
+.grille-enveloppe { overflow-x: auto; -webkit-overflow-scrolling: touch; margin: 0 -1.5rem; padding: 0 1.5rem; }
+table.grille { border-collapse: collapse; width: 100%; min-width: 34rem; font-size: .9rem; }
+.grille caption { text-align: left; font-size: .84rem; color: var(--encre-3); padding: .4rem 0; }
+.grille th, .grille td { padding: .4rem .5rem; border-bottom: 1px solid var(--grille); text-align: left; vertical-align: middle; }
+.grille th { font: 700 .78rem var(--texte); letter-spacing: .03em; text-transform: uppercase; color: var(--encre-3); }
+.grille th.seance-tete { text-align: center; max-width: 9rem; white-space: normal; }
+.grille td.centre { text-align: center; }
+.grille select { width: auto; min-width: 7.5rem; padding: .4rem .5rem; font-size: .86rem; border-color: var(--trait); }
+.grille select.absent { border-color: var(--erreur); background: var(--erreur-pale); }
+.grille select.a_reprendre { border-color: var(--encours); background: var(--encours-pale); }
+.grille select.rattrape { border-color: var(--fait); background: var(--fait-pale); }
+.grille th.nom { font: 700 .92rem var(--texte); text-transform: none; letter-spacing: 0; color: var(--encre); white-space: nowrap; }
+.badge { display: inline-flex; align-items: center; gap: .3rem; font-size: .8rem; font-weight: 800; color: var(--encre); }
+.badge svg { width: 18px; height: 18px; color: var(--or); }
+.badge.non { color: var(--encre-3); font-weight: 500; }
+.legende { font-size: .84rem; color: var(--encre-3); margin: .8rem 0 0; }
+.legende b { color: var(--encre-2); }
+
+/* petits écrans : le titre prend toute la largeur, les commandes passent dessous */
+@media (max-width: 640px) {
+  .entete-groupe > div { width: 100%; }
+  .entete-groupe select { width: 100%; }
+  .seq-tete { grid-template-columns: auto 1fr; }
+  .seq-droite { grid-column: 1 / -1; justify-content: flex-start; }
+  .a-enregistrer { margin: 1rem -1rem -1.5rem; padding: .8rem 1rem; }
+  .grille-enveloppe { margin: 0 -1rem; padding: 0 1rem; }
+}
+
+/* impression A5 : le plan, sans nom (décision 11) */
+.impression { display: none; }
+@media print {
+  @page { size: A5; margin: 10mm; }
+  body { font-size: 10pt; background: #fff; }
+  header, main > section, .actions, .a-enregistrer { display: none !important; }
+  main { max-width: none; padding: 0; margin: 0; }
+  .impression { display: block; }
+  .impression h1 { font: 700 15pt var(--display); margin: 0 0 2mm; }
+  .impression .sous { font-size: 9pt; color: #333; margin: 0 0 4mm; }
+  .impression .ligne-nom { border-bottom: 1px solid #000; height: 7mm; margin: 0 0 4mm; font-size: 9pt; }
+  .impression table { width: 100%; border-collapse: collapse; }
+  .impression th, .impression td { border: 1px solid #000; padding: 1.2mm 1.6mm; font-size: 8.5pt; vertical-align: top; }
+  .impression th { background: #eee; text-align: left; }
+  .impression { -webkit-print-color-adjust: exact; print-color-adjust: exact; max-width: 128mm; }
+  .impression .case { display: inline-block; width: 3.6mm; height: 3.6mm; border: 1px solid #000; margin-right: 1mm; vertical-align: middle; text-align: center; font-size: 8pt; line-height: 3.4mm; }
+  /* La coche est un glyphe, pas un fond : les navigateurs n'impriment pas les fonds par défaut. */
+  .impression .case.coche::before { content: "\2716"; }
+  .impression tr.masquee td { color: #777; text-decoration: line-through; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
+  <h1>Plan de l'année</h1>
+  <span class="qui" id="qui"></span>
+  <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
+  <a class="lien-tete" href="/enseignant/classeur.html">Classeur</a>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <section>
+    <div class="entete-groupe">
+      <div>
+        <label for="groupe">Groupe</label>
+        <select id="groupe"></select>
+      </div>
+      <p class="meta" id="effectif" style="margin:0"></p>
+    </div>
+    <div class="resume" id="resume" hidden>
+      <div class="barre" aria-hidden="true"><div id="barre"></div></div>
+      <div class="chiffres" id="chiffres"></div>
+      <p class="meta" id="courante" style="grid-column:1/-1;margin:0"></p>
+    </div>
+    <div class="actions">
+      <button class="secondaire" id="imprimer" type="button">Imprimer le plan (A5, sans nom)</button>
+      <button class="discret" id="retablir" type="button" hidden>Rétablir le plan proposé</button>
+      <button class="discret" id="supprimer-essai" type="button" hidden>Supprimer ce groupe d'essai</button>
+    </div>
+    <p class="aide">Si l'aperçu d'impression n'est pas en A5, choisissez le format A5 dans la boîte d'impression.</p>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="bloc-plan">
+    <h2>Séquences de l'année</h2>
+    <p class="intro">Réordonnez avec les flèches, décochez « traitée cette année » pour une séquence
+    que vous ne ferez pas, dépliez pour cocher les séances <b>faites en classe</b> avec tout le groupe.
+    La coche vaut pour tous les élèves ; les absences et reprises se notent en bas de page.</p>
+    <ol class="plan" id="plan"></ol>
+    <div class="ajout">
+      <div>
+        <label for="ajout-seq">Ajouter une séquence d'un autre niveau</label>
+        <select id="ajout-seq"></select>
+      </div>
+      <button class="secondaire" id="ajouter" type="button">Ajouter au plan</button>
+    </div>
+    <div class="a-enregistrer" id="a-enregistrer" hidden>
+      <span>Le plan a changé et n'est pas enregistré.</span>
+      <button id="enregistrer" type="button">Enregistrer le plan</button>
+      <button class="discret" id="annuler-ordre" type="button">Annuler</button>
+    </div>
+  </section>
+
+  <section id="bloc-eleves">
+    <h2>Élève par élève</h2>
+    <p class="intro">Pour la séquence choisie, notez ce qui déroge à la coche du groupe :
+    <b>absent</b>, <b>à reprendre</b>, puis <b>rattrapé</b> quand c'est fait. Le badge de fin de
+    séquence se pose tout seul quand toutes les séances sont cochées et que l'élève n'a plus
+    rien d'ouvert. L'élève verra son propre badge, et lui seul, à l'ouverture de l'espace élève.</p>
+    <label for="seq-eleves">Séquence</label>
+    <select id="seq-eleves"></select>
+    <div class="grille-enveloppe">
+      <table class="grille" id="grille"></table>
+    </div>
+    <p class="legende" id="legende"></p>
+  </section>
+
+  <div class="impression" id="impression" aria-hidden="true"></div>
+</main>
+
+<script src="/js/catalogue.js"></script>
+<script type="module">
+import { api, dateCourte, echapper } from '/js/classeur-commun.js';
+import {
+  catalogueCharge, sequence, toutesLesSequences, titresSeances, seancesFaites,
+  etatSequence, badgeAcquis, resumeGroupe, NIVEAU_COURT, ETATS,
+} from '/js/progression-regles.js';
+
+const $ = (id) => document.getElementById(id);
+const PICTO_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>';
+const LIBELLE_ETAT = { fait: 'Fait', encours: 'En cours', avenir: 'À venir' };
+
+let etat = null;          // la réponse de GET /api/prof/plan?groupe=
+let planLocal = [];       // l'ordre en cours d'édition
+let ordreModifie = false;
+let chargement = 0;       // numéro du dernier chargement demandé
+const deplies = new Set();
+const enVol = new Map();  // coches parties et pas encore confirmées : "seq|n" -> fait
+
+function dire(texte, classe = 'info') {
+  $('msg').className = texte ? `msg ${classe}` : 'msg';
+  $('msg').textContent = texte || '';
+}
+
+/**
+ * Les listes sont reconstruites par innerHTML : le contrôle qui avait le
+ * focus disparaît avec elles. On note qui l'avait, on le retrouve dans le
+ * nouveau DOM par ses attributs data-*, et on le lui rend.
+ */
+function avecFocus(rendu) {
+  const actif = document.activeElement;
+  const cle = actif && actif.dataset ? { ...actif.dataset, classe: actif.className.split(' ')[0] } : null;
+  rendu();
+  if (!cle || !cle.classe) return;
+  const sel = `.${cle.classe}` + Object.entries(cle)
+    .filter(([k]) => k !== 'classe' && k !== 'fait')
+    .map(([k, v]) => `[data-${k.replace(/[A-Z]/g, (m) => '-' + m.toLowerCase())}="${v}"]`).join('');
+  const cible = document.querySelector(sel);
+  if (cible && !cible.disabled) cible.focus();
+}
+
+// ---- Choix du groupe ------------------------------------------------------
+async function chargerGroupes() {
+  const g = await api('/api/classeur/groupes');
+  if (g.role !== 'prof') { location.href = '/classeur/'; return; }
+  $('qui').textContent = g.prenom || '';
+  if (!g.groupes.length) {
+    $('groupe').innerHTML = '<option value="">Aucun groupe</option>';
+    $('bloc-plan').hidden = true; $('bloc-eleves').hidden = true;
+    dire('Aucun groupe ne vous est rattaché. Créez-en un dans « Groupes et comptes », '
+      + 'ou un groupe d’essai depuis l’espace enseignant.', 'attention');
+    return;
+  }
+  $('groupe').innerHTML = g.groupes
+    .map((x) => `<option value="${x.id}">${echapper(x.code)} · ${echapper(x.libelle)}</option>`)
+    .join('');
+  const voulu = new URLSearchParams(location.search).get('groupe');
+  if (voulu && g.groupes.some((x) => x.id === voulu)) $('groupe').value = voulu;
+  await chargerPlan();
+}
+
+/**
+ * Charge le groupe choisi. Deux demandes peuvent se croiser sur une liaison
+ * lente : seule la dernière a le droit d'écrire l'état. En cas d'échec, le
+ * sélecteur revient sur le groupe affiché, pour que les coches suivantes
+ * partent bien vers le groupe que l'on voit.
+ */
+async function chargerPlan({ garderMessage = false } = {}) {
+  const id = $('groupe').value;
+  if (!id) return;
+  const num = ++chargement;
+  if (!garderMessage) dire('');
+  try {
+    const d = await api('/api/prof/plan?groupe=' + id);
+    if (num !== chargement) return;
+    etat = d;
+    etat.plan = etat.plan.filter((p) => sequence(p.sequence));
+    planLocal = etat.plan.map((p) => ({ ...p }));
+    ordreModifie = false;
+    enVol.clear();
+    history.replaceState(null, '', `?groupe=${id}`);
+    $('retablir').hidden = !etat.personnalise;
+    $('supprimer-essai').hidden = !/^ESSAI-[A-Z2-9]{5}$/.test(etat.groupe.code);
+    rendreTout();
+  } catch (e) {
+    if (num !== chargement) return;
+    dire(e.message, 'err');
+    if (etat) $('groupe').value = etat.groupe.id;
+  }
+}
+
+function rendreTout() {
+  rendreResume();
+  avecFocus(rendrePlan);
+  rendreAjout();
+  rendreChoixSequence();
+  avecFocus(rendreGrille);
+  rendreImpression();
+}
+
+// ---- Résumé ---------------------------------------------------------------
+function rendreResume() {
+  const r = resumeGroupe(planLocal, etat.avancement);
+  const n = etat.eleves.length;
+  $('effectif').textContent = `${NIVEAU_COURT[etat.groupe.niveau]} · ${n} élève${n > 1 ? 's' : ''}`
+    + (etat.personnalise ? ' · ordre personnalisé' : ' · ordre du catalogue');
+  $('resume').hidden = false;
+  $('barre').style.width = r.total ? `${Math.round(100 * r.faites / r.total)}%` : '0';
+  $('chiffres').textContent = `${r.faites} / ${r.total} séances faites`;
+  $('courante').textContent = r.terminee
+    ? 'Toutes les séquences prévues sont faites.'
+    : r.courante ? `Séquence en cours : ${r.courante.titre}` : 'Aucune séquence prévue.';
+}
+
+// ---- Le plan ---------------------------------------------------------------
+function cocheeOuEnVol(seqId, n) {
+  const cle = `${seqId}|${n}`;
+  if (enVol.has(cle)) return enVol.get(cle);
+  return etat.avancement.some((x) => x.sequence === seqId && x.seance === n);
+}
+
+function rendrePlan() {
+  const gNiveau = etat.groupe.niveau;
+  $('plan').innerHTML = planLocal.map((p, i) => {
+    const s = sequence(p.sequence);
+    if (!s) return '';
+    const e = etatSequence(s, etat.avancement);
+    const faites = new Set(seancesFaites(etat.avancement, s.id));
+    const titres = titresSeances(s);
+    const ouverte = deplies.has(s.id);
+    const autreNiveau = s.niveau !== gNiveau;
+    const titre = echapper(s.titre);
+    const idTitre = `seq-${s.id.replace(/\W/g, '-')}`;
+    return `
+    <li class="seq ${p.visible ? '' : 'masquee'}" data-seq="${s.id}">
+      <div class="seq-tete">
+        <div class="ordre">
+          <button type="button" class="monter" data-i="${i}" ${i === 0 ? 'disabled' : ''} aria-label="Monter : ${titre}">&#9650;</button>
+          <button type="button" class="descendre" data-i="${i}" ${i === planLocal.length - 1 ? 'disabled' : ''} aria-label="Descendre : ${titre}">&#9660;</button>
+        </div>
+        <div class="seq-titre">
+          <h3 id="${idTitre}">${i + 1}. ${titre}</h3>
+          <div class="meta">
+            ${autreNiveau ? `<span class="pastille niveau">${NIVEAU_COURT[s.niveau]}</span>` : ''}
+            <span>${s.seances} séance${s.seances > 1 ? 's' : ''} · période ${s.periode} au catalogue</span>
+            ${p.visible ? `<span class="pastille ${e}">${LIBELLE_ETAT[e]}</span>`
+                        : '<span class="pastille masquee">Non traitée cette année</span>'}
+            ${faites.size ? `<span>${faites.size}/${s.seances} cochée${faites.size > 1 ? 's' : ''}</span>` : ''}
+          </div>
+        </div>
+        <div class="seq-droite">
+          <label><input type="checkbox" class="visible" data-i="${i}" ${p.visible ? 'checked' : ''} aria-label="Traitée cette année : ${titre}"> Traitée cette année</label>
+          ${autreNiveau ? `<button type="button" class="retirer-seq" data-i="${i}" aria-label="Retirer du plan : ${titre}">Retirer du plan</button>` : ''}
+          <button type="button" class="deplier" data-seq="${s.id}" aria-expanded="${ouverte}" aria-controls="${idTitre}-seances" aria-label="${ouverte ? 'Replier' : 'Séances'} : ${titre}">${ouverte ? 'Replier' : 'Séances'}</button>
+        </div>
+      </div>
+      <div class="seances" id="${idTitre}-seances" ${ouverte ? '' : 'hidden'}>
+        ${titres.map((tt, k) => {
+          const n = k + 1;
+          const a = etat.avancement.find((x) => x.sequence === s.id && x.seance === n);
+          const cochee = cocheeOuEnVol(s.id, n);
+          const attente = enVol.has(`${s.id}|${n}`);
+          return `<label class="seance ${cochee ? 'faite' : ''}">
+            <input type="checkbox" class="coche" data-seq="${s.id}" data-n="${n}" ${cochee ? 'checked' : ''} ${attente ? 'aria-busy="true"' : ''}>
+            <b>${n}. ${echapper(tt)}</b>
+            <span class="quand">${attente ? 'enregistrement…' : a ? 'fait le ' + dateCourte(a.fait_le) : ''}</span>
+          </label>`;
+        }).join('')}
+        <button type="button" class="tout" data-seq="${s.id}" data-fait="${faites.size >= s.seances ? 'false' : 'true'}" aria-label="${faites.size >= s.seances ? 'Tout décocher' : 'Cocher toute la séquence'} : ${titre}">
+          ${faites.size >= s.seances ? 'Tout décocher' : 'Cocher toute la séquence'}
+        </button>
+      </div>
+    </li>`;
+  }).join('');
+  $('a-enregistrer').hidden = !ordreModifie;
+}
+
+function rendreAjout() {
+  const dedans = new Set(planLocal.map((p) => p.sequence));
+  const libres = toutesLesSequences().filter((s) => !dedans.has(s.id));
+  $('ajout-seq').innerHTML = libres.length
+    ? libres.map((s) => `<option value="${s.id}">${NIVEAU_COURT[s.niveau]} · ${echapper(s.titre)}</option>`).join('')
+    : '<option value="">Toutes les séquences sont déjà dans le plan</option>';
+  $('ajouter').disabled = !libres.length;
+}
+
+function marquerModifie() {
+  ordreModifie = true;
+  avecFocus(rendrePlan); rendreAjout(); rendreResume(); rendreImpression();
+}
+
+$('plan').addEventListener('click', async (ev) => {
+  const b = ev.target.closest('button');
+  if (!b) return;
+  const i = Number(b.dataset.i);
+  if (b.classList.contains('monter') && i > 0) {
+    [planLocal[i - 1], planLocal[i]] = [planLocal[i], planLocal[i - 1]];
+    marquerModifie();
+    const fleches = $('plan').querySelectorAll('.monter');
+    (fleches[i - 1].disabled ? $('plan').querySelectorAll('.descendre')[i - 1] : fleches[i - 1])?.focus();
+  } else if (b.classList.contains('descendre') && i < planLocal.length - 1) {
+    [planLocal[i + 1], planLocal[i]] = [planLocal[i], planLocal[i + 1]];
+    marquerModifie();
+    const fleches = $('plan').querySelectorAll('.descendre');
+    (fleches[i + 1].disabled ? $('plan').querySelectorAll('.monter')[i + 1] : fleches[i + 1])?.focus();
+  } else if (b.classList.contains('retirer-seq')) {
+    planLocal.splice(i, 1);
+    marquerModifie();
+    $('ajout-seq').focus();
+  } else if (b.classList.contains('deplier')) {
+    const id = b.dataset.seq;
+    if (deplies.has(id)) deplies.delete(id); else deplies.add(id);
+    avecFocus(rendrePlan);
+  } else if (b.classList.contains('tout')) {
+    const s = sequence(b.dataset.seq);
+    await cocher(s.id, Array.from({ length: s.seances }, (_, k) => k + 1), b.dataset.fait === 'true');
+  }
+});
+
+$('plan').addEventListener('change', async (ev) => {
+  const c = ev.target;
+  if (c.classList.contains('visible')) {
+    planLocal[Number(c.dataset.i)].visible = c.checked;
+    marquerModifie();
+  } else if (c.classList.contains('coche')) {
+    // Une case dont la coche est déjà en route ne se retouche pas avant la
+    // réponse : elle reste focalisable (une case désactivée perdrait le focus
+    // clavier), mais son état est celui qui a été demandé.
+    const cle = `${c.dataset.seq}|${c.dataset.n}`;
+    if (enVol.has(cle)) { c.checked = enVol.get(cle); return; }
+    await cocher(c.dataset.seq, [Number(c.dataset.n)], c.checked);
+  }
+});
+
+/**
+ * Une coche part tout de suite en base : c'est l'auteur et l'heure qui
+ * comptent, pas un bouton « enregistrer » qu'on oublie en fin de séance.
+ * La case prend son nouvel état AVANT la réponse (elle reste grisée tant
+ * que le serveur n'a pas confirmé) et ne revient en arrière qu'en cas
+ * d'échec : deux coches rapprochées sur une liaison lente ne se
+ * contredisent plus à l'écran.
+ */
+async function cocher(seq, seances, fait) {
+  seances.forEach((n) => enVol.set(`${seq}|${n}`, fait));
+  avecFocus(rendrePlan);
+  try {
+    await api('/api/prof/avancement', {
+      method: 'POST',
+      body: JSON.stringify({ groupe: etat.groupe.id, sequence: seq, seances, fait }),
+    });
+    etat.avancement = etat.avancement.filter(
+      (a) => !(a.sequence === seq && seances.includes(a.seance)));
+    if (fait) {
+      const quand = new Date().toISOString();
+      seances.forEach((n) => etat.avancement.push({ sequence: seq, seance: n, fait_le: quand }));
+    }
+    seances.forEach((n) => enVol.delete(`${seq}|${n}`));
+    dire('');
+    rendreTout();
+  } catch (e) {
+    seances.forEach((n) => enVol.delete(`${seq}|${n}`));
+    dire(e.message, 'err');
+    await chargerPlan({ garderMessage: true });
+  }
+}
+
+$('enregistrer').addEventListener('click', async () => {
+  const envoye = planLocal.map((p) => ({ sequence: p.sequence, visible: p.visible }));
+  const empreinte = JSON.stringify(envoye);
+  $('enregistrer').disabled = true;
+  try {
+    const d = await api('/api/prof/plan', {
+      method: 'PUT',
+      body: JSON.stringify({ groupe: etat.groupe.id, plan: envoye }),
+    });
+    etat.plan = d.plan; etat.personnalise = true;
+    // Le professeur a pu continuer à réordonner pendant l'envoi : on ne
+    // remplace son travail que s'il n'a rien touché entre-temps.
+    const actuel = JSON.stringify(planLocal.map((p) => ({ sequence: p.sequence, visible: p.visible })));
+    if (actuel === empreinte) {
+      planLocal = d.plan.map((p) => ({ ...p }));
+      ordreModifie = false;
+      dire('Plan enregistré.', 'ok');
+    } else {
+      dire('Plan enregistré, mais vous l’avez modifié depuis : enregistrez à nouveau.', 'attention');
+    }
+    $('retablir').hidden = false;
+    rendreTout();
+  } catch (e) {
+    dire(e.message, 'err');
+  } finally {
+    $('enregistrer').disabled = false;
+  }
+});
+
+$('annuler-ordre').addEventListener('click', () => {
+  planLocal = etat.plan.map((p) => ({ ...p }));
+  ordreModifie = false;
+  rendreTout();
+});
+
+$('ajouter').addEventListener('click', () => {
+  const id = $('ajout-seq').value;
+  if (!id || planLocal.some((p) => p.sequence === id)) return;
+  planLocal.push({ sequence: id, position: planLocal.length + 1, visible: true });
+  marquerModifie();
+});
+
+async function actionLongue(bouton, message, appel) {
+  bouton.disabled = true;
+  dire(message, 'info');
+  try {
+    await appel();
+  } catch (e) {
+    dire(e.message, 'err');
+  } finally {
+    bouton.disabled = false;
+  }
+}
+
+$('retablir').addEventListener('click', () => {
+  if (!confirm('Revenir à l’ordre du catalogue pour ce groupe ? Les séances cochées sont conservées.')) return;
+  actionLongue($('retablir'), 'Retour au plan du catalogue…', async () => {
+    await api('/api/prof/plan', {
+      method: 'DELETE', body: JSON.stringify({ groupe: etat.groupe.id }),
+    });
+    await chargerPlan();
+    dire('Plan du catalogue rétabli.', 'ok');
+  });
+});
+
+$('supprimer-essai').addEventListener('click', () => {
+  if (!confirm('Supprimer ce groupe d’essai et ses élèves fictifs ? Leurs coches, exceptions et dépôts partent avec eux.')) return;
+  actionLongue($('supprimer-essai'), 'Suppression du groupe d’essai…', async () => {
+    await api('/api/prof/essai', {
+      method: 'DELETE', body: JSON.stringify({ groupe: etat.groupe.id }),
+    });
+    ordreModifie = false;
+    location.href = '/enseignant/index.html';
+  });
+});
+
+// ---- Élève par élève --------------------------------------------------------
+function rendreChoixSequence() {
+  const courant = $('seq-eleves').value;
+  const visibles = planLocal.filter((p) => p.visible).map((p) => sequence(p.sequence)).filter(Boolean);
+  $('seq-eleves').innerHTML = visibles
+    .map((s) => `<option value="${s.id}">${echapper(s.titre)}</option>`).join('');
+  if (courant && visibles.some((s) => s.id === courant)) {
+    $('seq-eleves').value = courant;
+  } else {
+    const r = resumeGroupe(planLocal, etat.avancement);
+    if (r.courante) $('seq-eleves').value = r.courante.id;
+  }
+}
+
+function rendreGrille() {
+  const s = sequence($('seq-eleves').value);
+  if (!s || !etat.eleves.length) {
+    $('grille').innerHTML = '';
+    $('legende').textContent = etat.eleves.length ? '' : 'Aucun élève dans ce groupe.';
+    return;
+  }
+  const titres = titresSeances(s);
+  const faites = new Set(seancesFaites(etat.avancement, s.id));
+  const options = (valeur) => ['', ...Object.keys(ETATS)]
+    .map((k) => `<option value="${k}" ${k === valeur ? 'selected' : ''}>${k ? ETATS[k] : 'Comme le groupe'}</option>`)
+    .join('');
+  $('grille').innerHTML = `
+    <caption>Exceptions par élève, séquence « ${echapper(s.titre)} »</caption>
+    <thead><tr>
+      <th scope="col">Élève</th>
+      ${titres.map((tt, k) => `<th scope="col" class="seance-tete">${k + 1}. ${echapper(tt)}${faites.has(k + 1) ? '' : '<br><span class="pastille avenir">pas encore faite</span>'}</th>`).join('')}
+      <th scope="col" class="centre">Badge</th>
+    </tr></thead>
+    <tbody>
+    ${etat.eleves.map((e) => {
+      const badge = badgeAcquis(s, etat.avancement, etat.exceptions, e.id);
+      const nom = `${echapper(e.prenom || '')} ${echapper(e.nom || '')}`.trim();
+      return `<tr>
+        <th scope="row" class="nom">${nom}</th>
+        ${titres.map((_, k) => {
+          const n = k + 1;
+          const x = etat.exceptions.find((y) => y.sequence === s.id && y.seance === n && y.profil_id === e.id);
+          return `<td class="centre"><select class="exception ${x?.etat || ''}" data-eleve="${e.id}" data-n="${n}" aria-label="${nom}, séance ${n}">${options(x?.etat || '')}</select></td>`;
+        }).join('')}
+        <td class="centre">${badge
+          ? `<span class="badge">${PICTO_BADGE} Acquis</span>`
+          : `<span class="badge non">${faites.size >= s.seances ? 'En suspens' : 'En attente'}</span>`}</td>
+      </tr>`;
+    }).join('')}
+    </tbody>`;
+  const acquis = etat.eleves.filter((e) => badgeAcquis(s, etat.avancement, etat.exceptions, e.id)).length;
+  $('legende').innerHTML = `<b>${acquis}</b> badge${acquis > 1 ? 's' : ''} sur ${etat.eleves.length} pour cette séquence. `
+    + '« En suspens » : toutes les séances sont faites, mais l’élève a encore une absence ou une reprise à régler.';
+}
+
+$('seq-eleves').addEventListener('change', () => avecFocus(rendreGrille));
+
+$('grille').addEventListener('change', async (ev) => {
+  const sel = ev.target;
+  if (!sel.classList.contains('exception')) return;
+  const seq = $('seq-eleves').value;
+  const n = Number(sel.dataset.n);
+  const eleve = sel.dataset.eleve;
+  const nouvel = sel.value || null;
+  sel.disabled = true;
+  try {
+    await api('/api/prof/avancement', {
+      method: 'PATCH',
+      body: JSON.stringify({ groupe: etat.groupe.id, sequence: seq, seance: n, eleve, etat: nouvel }),
+    });
+    etat.exceptions = etat.exceptions.filter(
+      (x) => !(x.sequence === seq && x.seance === n && x.profil_id === eleve));
+    if (nouvel) etat.exceptions.push({ sequence: seq, seance: n, profil_id: eleve, etat: nouvel });
+    dire('');
+    sel.disabled = false;
+    avecFocus(rendreGrille);
+  } catch (e) {
+    dire(e.message, 'err');
+    await chargerPlan({ garderMessage: true });
+  }
+});
+
+// ---- Impression A5, sans nom -------------------------------------------------
+function rendreImpression() {
+  const lignes = planLocal.map((p, i) => {
+    const s = sequence(p.sequence);
+    if (!s) return '';
+    const faites = new Set(seancesFaites(etat.avancement, s.id));
+    const cases = titresSeances(s).map((tt, k) =>
+      `<span class="case ${faites.has(k + 1) ? 'coche' : ''}" title="${echapper(tt)}"></span>`).join('');
+    return `<tr class="${p.visible ? '' : 'masquee'}">
+      <td>${i + 1}</td>
+      <td>${echapper(s.titre)}${s.niveau !== etat.groupe.niveau ? ` (${NIVEAU_COURT[s.niveau]})` : ''}</td>
+      <td>${cases}</td>
+    </tr>`;
+  }).join('');
+  $('impression').innerHTML = `
+    <h1>Technologie · plan de l'année ${echapper(etat.groupe.annee || '')}</h1>
+    <p class="sous">Groupe ${echapper(etat.groupe.code)} · ${echapper(etat.groupe.libelle)} · ${NIVEAU_COURT[etat.groupe.niveau]}</p>
+    <p class="ligne-nom">Nom, prénom :</p>
+    <table>
+      <thead><tr><th>N°</th><th>Séquence</th><th>Séances faites</th></tr></thead>
+      <tbody>${lignes}</tbody>
+    </table>
+    <p class="sous" style="margin-top:4mm">Une case par séance ; les cases marquées sont faites avec le groupe.
+    Une séquence barrée n'est pas traitée cette année.</p>`;
+}
+
+$('imprimer').addEventListener('click', () => window.print());
+
+// ---- Divers ---------------------------------------------------------------------
+$('groupe').addEventListener('change', () => {
+  if (ordreModifie && !confirm('Le plan de ce groupe n’est pas enregistré. Changer de groupe sans l’enregistrer ?')) {
+    $('groupe').value = etat.groupe.id;
+    return;
+  }
+  chargerPlan();
+});
+
+$('sortir').addEventListener('click', async () => {
+  try {
+    const r = await fetch('/api/auth/deconnexion', { method: 'POST' });
+    if (!r.ok) throw new Error('refus');
+    ordreModifie = false;
+    location.href = '/';
+  } catch (e) {
+    alert('La session n’a PAS été fermée : le réseau ou le service n’a pas ' +
+          'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
+  }
+});
+
+window.addEventListener('beforeunload', (ev) => {
+  if (ordreModifie) { ev.preventDefault(); ev.returnValue = ''; }
+});
+
+if (!catalogueCharge()) {
+  dire('Le catalogue des séquences n’a pas pu être chargé. Rechargez la page.', 'err');
+} else {
+  chargerGroupes().catch((e) => dire(e.message, 'err'));
+}
+</script>
+</body>
+</html>

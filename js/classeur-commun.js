@@ -90,13 +90,30 @@ export async function envoyerAvecReprise(url, options, essais = 3) {
   throw derniere;
 }
 
-/** Appel JSON vers nos propres fonctions. */
+/**
+ * Appel JSON vers nos propres fonctions.
+ *
+ * Une coupure réseau ne remonte pas « Failed to fetch » à un professeur en
+ * classe : le message dit ce qui s'est passé et ce qui n'a PAS été fait.
+ * Une session expirée renvoie à la connexion avec la page en cours en
+ * « suite », pour y revenir aussitôt, comme le fait le portier.
+ */
 export async function api(chemin, options = {}) {
-  const r = await fetch(chemin, {
-    headers: { 'content-type': 'application/json' }, ...options,
-  });
+  let r;
+  try {
+    r = await fetch(chemin, {
+      headers: { 'content-type': 'application/json' }, ...options,
+    });
+  } catch {
+    throw new Error('Pas de réseau pour le moment. Rien n’a été enregistré : '
+      + 'réessayez dans quelques secondes.');
+  }
   const d = await r.json().catch(() => ({}));
-  if (r.status === 401) { location.href = '/connexion.html'; throw new Error('session'); }
+  if (r.status === 401) {
+    location.href = '/connexion.html?suite='
+      + encodeURIComponent(location.pathname + location.search);
+    throw new Error('Session expirée : reconnectez-vous.');
+  }
   if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
   return d;
 }
@@ -108,8 +125,13 @@ export function dateCourte(iso) {
     ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
 }
 
+/**
+ * Échappe pour l'HTML, dans un texte COMME dans un attribut : innerHTML d'un
+ * nœud texte ne protège que &, < et >, ce qui laissait un nom d'élève
+ * contenant un guillemet sortir d'un aria-label ou d'une valeur d'option.
+ */
 export function echapper(t) {
-  const d = document.createElement('div');
-  d.textContent = t == null ? '' : String(t);
-  return d.innerHTML;
+  return (t == null ? '' : String(t))
+    .replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }

@@ -62,6 +62,7 @@
   </section>
 </main>
 
+<script src="/js/catalogue.js"></script>
 <script type="module">
 import { SEQUENCES } from '/js/sequences.js';
 import { api, dateCourte, echapper } from '/js/classeur-commun.js';
@@ -70,19 +71,34 @@ const $ = (id) => document.getElementById(id);
 const TITRES = Object.fromEntries(
   Object.values(SEQUENCES).flat().map((s) => [s.id, s.titre]));
 
+// Les compétences que le catalogue rattache à chaque séquence : la
+// correction ne positionne un élève que sur l'une d'elles (décision 4).
+const COMPETENCES = Object.fromEntries(
+  Object.values(window.CATALOGUE.niveaux).flatMap((n) => n.sequences)
+    .map((s) => [s.id, s.competences ?? []]));
+const MAITRISES = {
+  insuffisante: 'Maîtrise insuffisante', fragile: 'Maîtrise fragile',
+  satisfaisante: 'Maîtrise satisfaisante', tres_bonne: 'Très bonne maîtrise',
+};
+const options = (liste, valeur, vide) => `<option value="">${vide}</option>` + Object.entries(liste)
+  .map(([k, v]) => `<option value="${echapper(k)}" ${k === valeur ? 'selected' : ''}>${echapper(v)}</option>`).join('');
+
 async function charger() {
   const g = await api('/api/classeur/groupes');
   if (g.role !== 'prof') { location.href = '/classeur/'; return; }
   $('qui').textContent = g.prenom ? `${g.prenom}` : '';
   $('groupe').innerHTML = g.groupes
-    .map((x) => `<option value="${x.id}">${echapper(x.code)} — ${echapper(x.libelle)}</option>`)
+    .map((x) => `<option value="${x.id}">${echapper(x.code)} · ${echapper(x.libelle)}</option>`)
     .join('');
   if (g.groupes.length) await voirGroupe();
   else $('liste').innerHTML = '<p class="vide">Aucun groupe ne vous est rattaché.</p>';
 }
 
+let rendus = [];   // les dépôts du groupe affiché, tels que reçus puis corrigés
+
 async function voirGroupe() {
   const d = await api('/api/prof/rendus?groupe=' + $('groupe').value);
+  rendus = d.rendus;
 
   // Qui n'a rien rendu ? C'est souvent l'information la plus utile.
   // Comparaison sur l'IDENTIFIANT, jamais sur le nom. Deux homonymes dans un
@@ -94,7 +110,7 @@ async function voirGroupe() {
     .filter((e) => !auteurs.has(e.id))
     .map((e) => `${e.prenom} ${e.nom}`);
   $('manquants').innerHTML = absents.length
-    ? `<b>${absents.length} élève(s) n'ont rien déposé :</b> ${echapper(absents.join(', '))}`
+    ? `<b>${absents.length > 1 ? `${absents.length} élèves n'ont rien déposé` : `1 élève n'a rien déposé`} :</b> ${echapper(absents.join(', '))}`
     : `<b>Tous les élèves du groupe ont déposé au moins un travail.</b>`;
 
   $('eleve').innerHTML = d.eleves
@@ -105,100 +121,173 @@ async function voirGroupe() {
     $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
     return;
   }
+  $('liste').innerHTML = d.rendus.map(articleRendu).join('');
+}
 
-  $('liste').innerHTML = d.rendus.map((r) => `
-    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}">
-      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}</h3>
+/** Un dépôt. Rendu à part pour pouvoir remplacer UN article après sa correction. */
+function articleRendu(r) {
+  const competences = COMPETENCES[r.sequence] ?? [];
+  const etat = !r.fichier
+    ? '<span class="etiquette incomplet">envoi incomplet</span>'
+    : r.corrige_le
+      ? '<span class="etiquette corrige">corrigé</span>'
+      : '<span class="etiquette attente">en attente de correction</span>';
+  return `
+    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}" data-rendu="${r.id}">
+      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}${etat}</h3>
       <p class="meta">${echapper(TITRES[r.sequence] || r.sequence)} ·
         déposé le ${dateCourte(r.depose_le)}
         ${r.binome ? ' · avec ' + echapper(r.binome) : ''}
-        ${!r.fichier ? ' · <b>envoi incomplet</b>' : ''}</p>
+        ${r.corrige_le ? ' · corrigé le ' + dateCourte(r.corrige_le) : ''}</p>
       ${r.commentaire ? `<p class="mot">« ${echapper(r.commentaire)} »</p>` : ''}
       ${r.fichier ? `<p class="meta"><a href="#" class="voir"
           data-rendu="${r.id}">Ouvrir le document</a></p>` : ''}
       <div class="ligne">
+        <div style="flex:2 1 16rem">
+          <label for="a-${r.id}">Appréciation</label>
+          <textarea id="a-${r.id}" data-initial="${echapper(r.appreciation || '')}">${echapper(r.appreciation || '')}</textarea>
+        </div>
+        ${competences.length ? `
         <div>
-          <label for="a-${r.id}">Correction</label>
-          <textarea id="a-${r.id}">${echapper(r.appreciation || '')}</textarea>
+          <label for="c-${r.id}">Compétence de la séquence (facultative)</label>
+          <select id="c-${r.id}" class="competence" data-rendu="${r.id}">${options(
+            Object.fromEntries(competences.map((c) => [c, c])), r.competence, 'Aucune')}</select>
         </div>
-        <div style="flex:0 0 6rem">
-          <label for="n-${r.id}">Note /20</label>
-          <input id="n-${r.id}" type="number" min="0" max="20" step="0.5"
-                 value="${r.note ?? ''}">
-        </div>
+        <div>
+          <label for="m-${r.id}">Niveau de maîtrise (avec la compétence)</label>
+          <select id="m-${r.id}" class="maitrise" ${r.competence ? '' : 'disabled'}>${options(MAITRISES, r.maitrise, 'Choisir…')}</select>
+        </div>` : ''}
         <button class="corriger" data-rendu="${r.id}">Enregistrer</button>
       </div>
+      ${r.competence ? `<p class="meta">Situé : ${echapper(r.competence)}, ${echapper(MAITRISES[r.maitrise] || r.maitrise)}</p>` : ''}
       ${r.corrige_le ? `<p class="meta"><button class="lien-sup retirer"
           data-rendu="${r.id}">Retirer la correction</button></p>` : ''}
       ${!r.fichier ? `<p class="meta"><button class="lien-sup vider"
           data-rendu="${r.id}">Supprimer ce dépôt resté vide</button></p>` : ''}
-    </article>`).join('');
+    </article>`;
+}
 
-  document.querySelectorAll('.voir').forEach((a) =>
-    a.addEventListener('click', async (e) => {
-      e.preventDefault();
-      const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
-      window.open(d.url, '_blank', 'noopener');
-    }));
+/** Remplace l'article d'un dépôt après une écriture, sans toucher aux autres. */
+function rafraichirArticle(r) {
+  const ancien = $('liste').querySelector(`article[data-rendu="${r.id}"]`);
+  if (!ancien) return;
+  ancien.insertAdjacentHTML('afterend', articleRendu(r));
+  ancien.remove();
+}
+
+/** Une appréciation est-elle en cours de saisie quelque part ? */
+function saisieEnCours() {
+  return [...$('liste').querySelectorAll('textarea')]
+    .some((z) => z.value !== (z.dataset.initial ?? ''));
+}
+
+// Toutes les commandes de la liste passent par UN gestionnaire : les articles
+// sont remplacés un à un après correction, les écouteurs posés sur chacun
+// se perdraient.
+$('liste').addEventListener('change', (ev) => {
+  const c = ev.target;
+  if (!c.classList.contains('competence')) return;
+  const m = $('m-' + c.dataset.rendu);
+  m.disabled = !c.value;
+  if (!c.value) m.value = '';
+});
+
+$('liste').addEventListener('click', async (ev) => {
+  const cible = ev.target.closest('a.voir, button');
+  if (!cible) return;
+  const id = cible.dataset.rendu;
+  const r = rendus.find((x) => x.id === id);
+  if (!r) return;
+
+  if (cible.classList.contains('voir')) {
+    ev.preventDefault();
+    // La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
+    // Safari et les bloqueurs de fenêtres la refusent sans un mot.
+    const fenetre = window.open('', '_blank', 'noopener');
+    try {
+      const d = await api('/api/classeur/fichier?rendu=' + id);
+      if (fenetre) fenetre.location = d.url; else location.href = d.url;
+    } catch (e) {
+      if (fenetre) fenetre.close();
+      alert(e.message);
+    }
+    return;
+  }
 
   // Un clic par mégarde sur « Enregistrer » posait corrige_le pour toujours :
   // l'élève ne pouvait plus rien redéposer et le professeur n'avait aucun
   // recours. La correction se retire maintenant.
-  document.querySelectorAll('.retirer').forEach((b) =>
-    b.addEventListener('click', async () => {
-      if (!confirm('Retirer la correction ? L’appréciation et la note ' +
-                   'seront effacées, et l’élève pourra redéposer.')) return;
-      b.disabled = true; b.textContent = '…';
-      try {
-        await api('/api/prof/corriger', {
-          method: 'POST',
-          body: JSON.stringify({ rendu: b.dataset.rendu, annuler: true }),
-        });
-        await voirGroupe();
-      } catch (e) {
-        alert(e.message); b.disabled = false; b.textContent = 'Retirer la correction';
-      }
-    }));
+  if (cible.classList.contains('retirer')) {
+    if (!confirm('Retirer la correction ? L’appréciation et le positionnement ' +
+                 'seront effacés, et l’élève pourra redéposer.')) return;
+    cible.disabled = true; cible.textContent = '…';
+    try {
+      await api('/api/prof/corriger', {
+        method: 'POST', body: JSON.stringify({ rendu: id, annuler: true }),
+      });
+      Object.assign(r, { appreciation: null, competence: null, maitrise: null, corrige_le: null });
+      rafraichirArticle(r);
+    } catch (e) {
+      alert(e.message); cible.disabled = false; cible.textContent = 'Retirer la correction';
+    }
+    return;
+  }
 
   // Les dépôts restés vides après un envoi interrompu : le professeur fait le
   // ménage. Il ne peut supprimer QUE ceux-là, jamais un travail déposé.
-  document.querySelectorAll('.vider').forEach((b) =>
-    b.addEventListener('click', async () => {
-      b.disabled = true; b.textContent = '…';
-      try {
-        await api('/api/classeur/supprimer-depot', {
-          method: 'POST', body: JSON.stringify({ rendu: b.dataset.rendu }),
-        });
-        await voirGroupe();
-      } catch (e) {
-        alert(e.message); b.disabled = false;
-        b.textContent = 'Supprimer ce dépôt resté vide';
-      }
-    }));
+  if (cible.classList.contains('vider')) {
+    cible.disabled = true; cible.textContent = '…';
+    try {
+      await api('/api/classeur/supprimer-depot', {
+        method: 'POST', body: JSON.stringify({ rendu: id }),
+      });
+      rendus = rendus.filter((x) => x.id !== id);
+      $('liste').querySelector(`article[data-rendu="${id}"]`)?.remove();
+      if (!rendus.length) $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
+    } catch (e) {
+      alert(e.message); cible.disabled = false;
+      cible.textContent = 'Supprimer ce dépôt resté vide';
+    }
+    return;
+  }
 
-  document.querySelectorAll('.corriger').forEach((b) =>
-    b.addEventListener('click', async () => {
-      const id = b.dataset.rendu;
-      b.disabled = true; b.textContent = '…';
-      try {
-        await api('/api/prof/corriger', {
-          method: 'POST',
-          body: JSON.stringify({
-            rendu: id,
-            appreciation: $('a-' + id).value,
-            note: $('n-' + id).value,
-          }),
-        });
-        b.textContent = 'Enregistré';
-        setTimeout(voirGroupe, 800);
-      } catch (e) {
-        b.textContent = 'Échec'; b.disabled = false;
-        alert(e.message);
-      }
-    }));
-}
+  if (cible.classList.contains('corriger')) {
+    cible.disabled = true; cible.textContent = '…';
+    const competence = $('c-' + id)?.value || '';
+    const maitrise = $('m-' + id)?.value || '';
+    if (competence && !maitrise) {
+      alert('Choisissez le niveau de maîtrise pour cette compétence, ou remettez « Aucune ».');
+      cible.disabled = false; cible.textContent = 'Enregistrer';
+      return;
+    }
+    try {
+      await api('/api/prof/corriger', {
+        method: 'POST',
+        body: JSON.stringify({
+          rendu: id, appreciation: $('a-' + id).value, competence, maitrise,
+        }),
+      });
+      Object.assign(r, {
+        appreciation: $('a-' + id).value || null,
+        competence: competence || null, maitrise: maitrise || null,
+        corrige_le: new Date().toISOString(),
+      });
+      rafraichirArticle(r);
+      $('mr').className = 'msg ok';
+      $('mr').textContent = 'Correction enregistrée.';
+    } catch (e) {
+      cible.textContent = 'Échec'; cible.disabled = false;
+      alert(e.message);
+    }
+  }
+});
 
-$('groupe').addEventListener('change', voirGroupe);
+$('groupe').addEventListener('change', async () => {
+  if (saisieEnCours() && !confirm('Une appréciation est en cours de saisie et n’est pas enregistrée. Changer de groupe ?')) {
+    return;
+  }
+  try { await voirGroupe(); } catch (e) { alert(e.message); }
+});
 
 $('sortir').addEventListener('click', async () => {
   try {

@@ -1,48 +1,20 @@
-import { appelant, possedeGroupe } from '../_lib/autorisation.js';
-import { sceller, poserCookie, ouvrir, lireCookie } from '../_lib/session.js';
+import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
+import { UUID, sequenceDuCatalogue } from '../_lib/progression.js';
 
-// La session du professeur ne dure que 30 minutes, pour qu'elle ne déborde
-// pas sur la classe suivante. Corriger une série de rendus prend plus
-// longtemps : chaque correction ENREGISTRÉE réarme donc le compte à rebours.
+// =====================================================================
+// CORRIGER UN TRAVAIL DÉPOSÉ : une appréciation, et facultativement UNE
+// compétence de la séquence avec un niveau de maîtrise du LSU.
 //
-// Le réarmement est attaché à une écriture, jamais à une lecture. Une
-// prolongation déclenchée par la simple consultation d'une page serait
-// entretenue par l'élève même qui exploite une session laissée ouverte : la
-// session ne mourrait jamais tant que quelqu'un regarde. Ici, seul celui qui
-// corrige prolonge, et corriger n'est pas quelque chose qu'un élève peut
-// faire : enseigneA() a déjà tranché.
-const DUREE_PROF = 1800;
+// PLUS DE NOTE SUR 20 (décision D15, question 4). Les notes vivent dans
+// PRONOTE ; le classeur est un outil de travail, pas un second livret. La
+// colonne rendus.note reste en base pour d'anciennes lignes, plus rien ne
+// l'écrit. La compétence doit être l'une de celles que le catalogue
+// rattache à la séquence du dépôt : on ne positionne pas un élève sur une
+// compétence que la séquence ne travaille pas.
+// =====================================================================
 
-/**
- * Écriture enregistrée : on réarme la session du professeur pour 30 minutes.
- *
- * `dep` est RECOPIÉ, jamais recalculé : c'est l'heure de la connexion
- * initiale, et elle porte le plafond absolu de session (voir
- * api/_lib/session.js). Sans ce report, sceller() poserait un nouveau départ
- * à chaque correction et le plafond ne mordrait jamais : une session laissée
- * ouverte se prolongerait indéfiniment, à raison d'une correction toutes les
- * vingt-neuf minutes.
- */
-async function reArmer(req, res, moi) {
-  const session = await ouvrir(
-    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-  if (!session) return false;
-  const jeton = await sceller(
-    { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
-    process.env.LFT_COOKIE_SECRET, DUREE_PROF);
-  res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
-  return true;
-}
-
-// L'AUTORISATION PORTE SUR LE GROUPE DU RENDU, PAS SUR L'APPARTENANCE
-// COURANTE DE L'ÉLÈVE. Le groupe est la relation qui a produit ce travail,
-// et il ne bouge plus. Passer par l'appartenance rendait le rendu
-// inaccessible dès que l'élève changeait de groupe : le classeur affichait
-// encore le dépôt et son lien, mais toute action dessus était refusée en
-// 403. Le professeur garde ce qu'il a reçu, et ne gagne rien sur ce qui a
-// été déposé chez un collègue.
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+const MAITRISES = ['insuffisante', 'fragile', 'satisfaisante', 'tres_bonne'];
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
@@ -53,11 +25,11 @@ export default async function handler(req, res) {
   if (!moi) return refus(res, 401, 'Session expirée.');
   if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
 
-  const { rendu, appreciation, note, annuler } = req.body ?? {};
-  if (!UUID.test(String(rendu ?? ''))) return refus(res, 400, 'Rendu non précisé.');
-
   try {
-    const r = (await lire('rendus', `id=eq.${rendu}&select=id,profil_id,groupe_id`))[0];
+    const { rendu, appreciation, competence, maitrise, annuler } = req.body ?? {};
+    if (!UUID.test(String(rendu ?? ''))) return refus(res, 400, 'Rendu non précisé.');
+
+    const r = (await lire('rendus', `id=eq.${rendu}&select=id,profil_id,groupe_id,sequence`))[0];
     if (!r) return refus(res, 404, 'Rendu introuvable.');
     if (!(await possedeGroupe(moi.id, r.groupe_id))) {
       return refus(res, 403, "Ce travail n'a pas été déposé dans l'un de vos groupes.");
@@ -70,35 +42,39 @@ export default async function handler(req, res) {
     // corrigé », et le professeur n'avait aucun recours.
     if (annuler) {
       await ecrire('rendus', `id=eq.${rendu}`, {
-        appreciation: null, note: null, corrige_le: null,
+        appreciation: null, note: null, competence: null, maitrise: null, corrige_le: null,
       });
       if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
       return res.status(200).json({ ok: true, annule: true });
     }
 
-    // La note reste facultative : les notes officielles vivent dans PRONOTE.
-    // Les dupliquer ici créerait un second registre à conserver, à justifier
-    // et à tenir à jour.
-    const valeurNote = (note === '' || note == null) ? null : Number(note);
-    if (valeurNote != null && (Number.isNaN(valeurNote) || valeurNote < 0 || valeurNote > 20)) {
-      return refus(res, 400, 'La note doit être comprise entre 0 et 20.');
-    }
-
-    // UNE CORRECTION VIDE N'EN EST PAS UNE, et on refuse d'en écrire une.
-    // C'est ce qui rendait le clic par mégarde dangereux : les deux champs
-    // vides écrasaient l'appréciation existante par null tout en posant
-    // corrige_le. Désormais un clic sur un formulaire vide ne fait rien du
-    // tout, et le dit.
     const texte = appreciation ? String(appreciation).slice(0, 4000) : null;
-    if (!texte && valeurNote == null) {
+    const comp = competence ? String(competence).slice(0, 200) : null;
+    const niv = maitrise ? String(maitrise) : null;
+
+    if (comp) {
+      const s = sequenceDuCatalogue(r.sequence);
+      if (!s || !(s.competences ?? []).includes(comp)) {
+        return refus(res, 400, 'Cette compétence n’est pas rattachée à la séquence du dépôt.');
+      }
+    }
+    if (niv && !MAITRISES.includes(niv)) {
+      return refus(res, 400, 'Niveau de maîtrise inconnu.');
+    }
+    if ((comp && !niv) || (niv && !comp)) {
+      return refus(res, 400, 'Indiquez la compétence ET le niveau de maîtrise, ou aucun des deux.');
+    }
+    if (!texte && !comp) {
       return refus(res, 400,
-        'Écrivez une appréciation, ou mettez une note. Pour retirer une ' +
+        'Écrivez une appréciation, ou situez une compétence. Pour retirer une ' +
         'correction déjà enregistrée, utilisez « Retirer la correction ».');
     }
 
     await ecrire('rendus', `id=eq.${rendu}`, {
       appreciation: texte,
-      note: valeurNote,
+      competence: comp,
+      maitrise: niv,
+      note: null,
       corrige_le: new Date().toISOString(),
     });
 

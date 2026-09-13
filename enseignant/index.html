@@ -3,28 +3,42 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Espace Enseignant · Technologie LFT</title>
+  <title>Espace enseignant · Technologie LFT</title>
   <link rel="icon" type="image/png" href="../img/logo-lft.png">
   <link rel="stylesheet" href="../css/style.css">
-
 <style>
-.prog-grille{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:var(--space-md);margin:.5rem 0}
-.prog-niv{display:flex;flex-direction:column;gap:.4rem}
-.prog-sel{font:inherit;font-size:.92rem;padding:.45rem .6rem;border:1.4px solid var(--gray-400);background:#fff}
-.prog-sel:focus{outline:2px solid var(--aefe-blue)}
+.prog-sel{font:inherit;font-size:.92rem;padding:.5rem .6rem;border:1.5px solid #8B98A5;border-radius:var(--radius-md);background:#fff;min-height:44px}
 </style>
 </head>
 <body>
   <div id="app" data-page="enseignant"
-    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace Enseignant"}]'>
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant"}]'>
 
     <main class="site-main">
       <div class="page-header">
         <span class="page-level-badge" style="background: var(--primary-light); color: var(--primary-dark);"><span class="ico">&#x1F4DA;</span> Enseignant</span>
-        <h1>Espace Enseignant</h1>
+        <h1>Espace enseignant</h1>
         <p class="page-description">
           Fiches professeur, corrigés, évaluations, guide Pronote et ressources institutionnelles.
         </p>
+      </div>
+
+      <div class="content-card" id="tableau-groupes" style="border-left:5px solid var(--fait);">
+        <h2><span class="ico">&#x1F3AF;</span> Où en sont mes groupes</h2>
+        <p>Pour chaque groupe, l'ordre des séquences de l'année, les séances cochées
+        <strong>faites en classe</strong>, et les absences ou reprises élève par élève. La progression
+        est enregistrée en base, avec l'auteur et l'heure : elle est la même sur tous vos postes,
+        et c'est elle que verront les élèves à l'ouverture de leur espace.</p>
+        <div id="groupes-liste" aria-live="polite"><p class="text-muted">Chargement…</p></div>
+        <div style="display:flex; gap: var(--space-md); flex-wrap: wrap; align-items:center; margin-top:var(--space-md);">
+          <a href="comptes.html" class="btn btn-outline"><span class="ico">&#x1F465;</span> Groupes et comptes</a>
+          <label for="essai-niveau" class="text-sm" style="margin:0">Groupe d'essai (élèves fictifs) en</label>
+          <select id="essai-niveau" class="prog-sel" aria-label="Niveau du groupe d'essai">
+            <option value="5eme">5e</option><option value="4eme">4e</option><option value="3eme">3e</option>
+          </select>
+          <button type="button" id="creer-essai" class="btn btn-outline"><span class="ico">&#x1F9F0;</span> Créer le groupe d'essai</button>
+          <span id="essai-etat" class="text-sm text-muted" role="status" aria-live="polite"></span>
+        </div>
       </div>
 
       <!-- 5ème Fiches Prof -->
@@ -61,8 +75,6 @@
           <a href="mes-informations.html" class="btn btn-print"><span class="ico">&#x270F;</span> Renseigner mes informations</a>
         </div>
       </div>
-
-      <div class="content-card"><h2><span class="ico">&#x1F513;</span> Déblocage progressif des séquences</h2><p>Réglez, pour chaque niveau, la séquence où en est votre classe. Sur les pages de niveau, les séquences précédentes seront marquées <em>Fait</em>, la séquence en cours sera mise en valeur, et les suivantes apparaîtront <em>À venir</em>, leurs liens masqués. Cela évite que les élèves ne partent en avant sur une séquence pas encore traitée.</p><div class="prog-grille"><div class="prog-niv"><label for="prog_5eme"><span class="page-level-badge level-5eme"><span class="ico">&#x1F535;</span> 5ᵉ</span></label><select id="prog_5eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div><div class="prog-niv"><label for="prog_4eme"><span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ᵉ</span></label><select id="prog_4eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div><div class="prog-niv"><label for="prog_3eme"><span class="page-level-badge level-3eme"><span class="ico">&#x1F7E0;</span> 3ᵉ</span></label><select id="prog_3eme" class="prog-sel"><option value="0">Déblocage non activé (tout est visible)</option><option value="1">Nous en sommes à la séquence 1</option><option value="2">Nous en sommes à la séquence 2</option><option value="3">Nous en sommes à la séquence 3</option><option value="4">Nous en sommes à la séquence 4</option><option value="5">Nous en sommes à la séquence 5</option><option value="6">Nous en sommes à la séquence 6</option><option value="7">Nous en sommes à la séquence 7</option><option value="8">Nous en sommes à la séquence 8</option><option value="9">Nous en sommes à la séquence 9</option></select></div></div><div class="page-actions no-print" style="margin-top:1rem"><button class="btn btn-print" type="button" id="prog_ok"><span class="ico">&#x1F4BE;</span> Enregistrer</button><button class="btn btn-outline" type="button" id="prog_export"><span class="ico">&#x1F501;</span> Exporter pour tout le site</button><span class="mi-etat" id="prog_etat"></span></div><div style="background:#fef3c7;border:1.5px solid #f59e0b;border-radius:var(--radius-sm);padding:.7rem .9rem;margin-top:.9rem;font-size:.9rem"><strong>À savoir.</strong> Ce réglage vaut pour <strong>ce navigateur</strong>. Il est parfait pour l'écran que vous projetez en classe et pour un poste partagé. Il ne suit pas l'élève sur son propre téléphone : un site public sans serveur n'a pas de mémoire par personne, et une adresse de séquence reste de toute façon atteignable si on la connaît. Pour un déblocage qui s'applique partout et à tous, cliquez sur <em>Exporter pour tout le site</em> et transmettez le texte obtenu : il sera intégré au site pour l'ensemble des élèves.</div><textarea id="prog_echange" rows="4" style="display:none;width:100%;margin-top:.6rem;font-family:ui-monospace,Menlo,monospace;font-size:.8rem;padding:.5rem;border:1.4px solid var(--gray-400);"></textarea></div>
 
       <div class="content-card">
         <h2 style="display:flex;align-items:center;gap:var(--space-sm);"><span class="page-level-badge level-5eme" style="font-size:0.75rem;"><span class="ico">&#x1F535;</span> 5ème</span> Fiches professeur : 5ème</h2>
@@ -209,44 +221,64 @@
   </div>
   <script src="../js/components.js"></script>
 
-<script src="../js/progression.js"></script>
-<script>
-(function () {
-  var niveaux = ['5eme','4eme','3eme'];
-  function remplir() {
-    var d = Progression.lire();
-    niveaux.forEach(function (n) {
-      var e = document.getElementById('prog_' + n);
-      var v = d[n] || {};
-      e.value = (v.actif ? v.jusqu : 0);
+<script src="../js/catalogue.js"></script>
+<script type="module">
+import { catalogueCharge, resumeGroupe, NIVEAU_COURT } from '../js/progression-regles.js';
+
+const liste = document.getElementById('groupes-liste');
+const creer = document.getElementById('creer-essai');
+const etatEssai = document.getElementById('essai-etat');
+const echapper = (t) => { const d = document.createElement('div'); d.textContent = t ?? ''; return d.innerHTML; };
+
+async function charger() {
+  if (!catalogueCharge()) {
+    liste.innerHTML = '<p class="text-muted">Le catalogue des séquences n’a pas pu être chargé. Rechargez la page.</p>';
+    return;
+  }
+  let d;
+  try {
+    const r = await fetch('/api/prof/plan');
+    if (r.status === 401) { liste.innerHTML = '<p class="text-muted">Session expirée : <a href="/connexion.html?suite=/enseignant/index.html">se reconnecter</a>.</p>'; return; }
+    d = await r.json();
+    if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
+  } catch (e) {
+    liste.innerHTML = `<p class="text-muted">Progression indisponible pour le moment : ${echapper(e.message)} Les fiches restent accessibles.</p>`;
+    return;
+  }
+  if (!d.groupes.length) {
+    liste.innerHTML = '<p class="text-muted">Aucun groupe ne vous est rattaché. Créez vos groupes dans « Groupes et comptes », ou un groupe d’essai pour découvrir le plan de l’année.</p>';
+    return;
+  }
+  liste.innerHTML = '<div class="groupes-grille">' + d.groupes.map((g) => {
+    const r = resumeGroupe(g.plan, g.avancement);
+    const pct = r.total ? Math.round(100 * r.faites / r.total) : 0;
+    return `<a class="groupe-carte" href="plan.html?groupe=${g.id}">
+      <span class="page-level-badge level-${g.niveau}">${NIVEAU_COURT[g.niveau]}</span>
+      <b>${echapper(g.code)}</b>
+      <span class="groupe-libelle">${echapper(g.libelle)} · ${g.effectif} élève${g.effectif > 1 ? 's' : ''}</span>
+      <span class="groupe-barre" aria-hidden="true"><span style="width:${pct}%"></span></span>
+      <span class="groupe-chiffres">${r.faites} / ${r.total} séances faites</span>
+      <span class="groupe-courante">${r.terminee ? 'Année terminée' : r.courante ? 'En cours : ' + echapper(r.courante.titre) : 'Rien de prévu'}</span>
+    </a>`;
+  }).join('') + '</div>';
+}
+
+creer.addEventListener('click', async () => {
+  creer.disabled = true; etatEssai.textContent = 'Création…';
+  try {
+    const r = await fetch('/api/prof/essai', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ niveau: document.getElementById('essai-niveau').value }),
     });
+    const d = await r.json();
+    if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
+    location.href = `plan.html?groupe=${d.groupe.id}`;
+  } catch (e) {
+    etatEssai.textContent = e.message; creer.disabled = false;
   }
-  function collecte() {
-    var d = {};
-    niveaux.forEach(function (n) {
-      var v = parseInt(document.getElementById('prog_' + n).value, 10);
-      d[n] = { actif: v > 0, jusqu: v };
-    });
-    return d;
-  }
-  function dire(m, ok) {
-    var e = document.getElementById('prog_etat');
-    e.textContent = m; e.style.color = ok ? 'var(--success)' : 'var(--error)';
-    setTimeout(function () { e.textContent = ''; }, 4000);
-  }
-  remplir();
-  document.getElementById('prog_ok').addEventListener('click', function () {
-    dire(Progression.ecrire(collecte()) ? 'Enregistré' : "Ce navigateur refuse d'enregistrer",
-         Progression.ecrire(collecte()));
-  });
-  document.getElementById('prog_export').addEventListener('click', function () {
-    var z = document.getElementById('prog_echange');
-    z.style.display = 'block';
-    z.value = JSON.stringify(collecte(), null, 1);
-    z.focus(); z.select();
-    dire('Copiez ce texte et transmettez-le pour publication', true);
-  });
-})();
+});
+
+charger();
 </script>
 </body>
 </html>

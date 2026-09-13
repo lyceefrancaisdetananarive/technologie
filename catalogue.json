@@ -589,7 +589,32 @@
       "Valider par simulations et tests",
       "Concevoir, écrire, tester un programme"
      ],
-     "activites": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Équipe, sujet et cahier des charges"
+      },
+      {
+       "n": 2,
+       "titre": "Croquis cotés"
+      },
+      {
+       "n": 3,
+       "titre": "Modélisation 3D sur Tinkercad"
+      },
+      {
+       "n": 4,
+       "titre": "Fabrication du prototype"
+      },
+      {
+       "n": 5,
+       "titre": "Tests et améliorations"
+      },
+      {
+       "n": 6,
+       "titre": "Présentation du projet et bilan"
+      }
+     ],
      "documents": {
       "activite": {
        "fichier": "5eme/p5/seq9-activite.html",
@@ -685,7 +710,20 @@
       "Analyser les interactions objet/environnement",
       "Identifier les évolutions technologiques et impacts"
      ],
-     "activites": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Observer le tourniquet et analyser ses fonctions"
+      },
+      {
+       "n": 2,
+       "titre": "Dessin technique du tourniquet"
+      },
+      {
+       "n": 3,
+       "titre": "Notion d'algorithme : le fonctionnement du tourniquet"
+      }
+     ],
      "documents": {
       "activite": {
        "fichier": "4eme/p1/seq1-activite.html",
@@ -972,7 +1010,10 @@
      "seances": 3,
      "theme_page": null,
      "seances_page": null,
-     "competences": [],
+     "competences": [
+      "Programmer un objet connecté",
+      "Utiliser capteurs et actionneurs"
+     ],
      "activites": [
       {
        "n": 1,
@@ -1089,7 +1130,10 @@
      "seances": 3,
      "theme_page": null,
      "seances_page": null,
-     "competences": [],
+     "competences": [
+      "Analyser les interactions objet/environnement",
+      "Lire et produire un document technique"
+     ],
      "activites": [
       {
        "n": 1,
@@ -1158,7 +1202,11 @@
      "seances": 6,
      "theme_page": null,
      "seances_page": null,
-     "competences": [],
+     "competences": [
+      "Rédiger un cahier des charges",
+      "Modéliser un objet en 3D",
+      "Utiliser des outils de fabrication numérique"
+     ],
      "activites": [
       {
        "n": 1,
@@ -1648,7 +1696,10 @@
      "seances": 4,
      "theme_page": null,
      "seances_page": null,
-     "competences": [],
+     "competences": [
+      "Identifier fonctions de service et techniques",
+      "Modéliser un comportement"
+     ],
      "activites": [
       {
        "n": 1,
@@ -1721,7 +1772,11 @@
      "seances": 4,
      "theme_page": null,
      "seances_page": null,
-     "competences": [],
+     "competences": [
+      "Décomposer en sous-systèmes fonctionnels",
+      "Mettre en œuvre un programme (capteurs/actionneurs)",
+      "Réaliser, valider et présenter un prototype"
+     ],
      "activites": [
       {
        "n": 1,
@@ -1813,7 +1868,20 @@
      "competences": [
       "Réaliser, valider et présenter un prototype"
      ],
-     "activites": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Préparer la soutenance orale"
+      },
+      {
+       "n": 2,
+       "titre": "Répétition et capsule vidéo"
+      },
+      {
+       "n": 3,
+       "titre": "Soutenances et bilan de l'année"
+      }
+     ],
      "documents": {
       "activite": {
        "fichier": "3eme/p5/seq9-activite.html",

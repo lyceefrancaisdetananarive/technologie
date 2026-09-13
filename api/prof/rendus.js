@@ -1,7 +1,6 @@
 import { appelant, possedeGroupe } from '../_lib/autorisation.js';
 import { lire, configuree, refus } from '../_lib/supabase.js';
-
-const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+import { UUID } from '../_lib/progression.js';
 
 export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
@@ -19,7 +18,7 @@ export default async function handler(req, res) {
     const rendus = await lire('rendus',
       `groupe_id=eq.${groupe}` +
       `&select=id,sequence,document,fichier,commentaire,binome,` +
-      `appreciation,note,depose_le,corrige_le,profil_id,profils(id,prenom,nom)` +
+      `appreciation,competence,maitrise,depose_le,corrige_le,profil_id,profils(id,prenom,nom)` +
       `&order=depose_le.desc`);
 
     // Effectif du groupe : sans lui, on ne voit pas qui n'a rien rendu.

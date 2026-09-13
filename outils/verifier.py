@@ -242,7 +242,7 @@ def verifier_parasites():
         avert(f'{n} fichier(s) parasite(s) macOS (._* ou .DS_Store) dans la source : exclus du déploiement, à nettoyer avec `find . -name "._*" -delete`')
 
 
-def verifier_hygiene():
+def verifier_hygiene(cat):
     if not os.path.exists('.vercelignore') or '.env' not in lire('.vercelignore'):
         erreur('.vercelignore absent ou n\'exclut pas .env* : le jeton local serait publié')
     # Depuis la phase 2, les polices sont servies par le site : un appel vers
@@ -278,9 +278,26 @@ def verifier_hygiene():
     lic = lire('fonts/LICENCES.txt') if os.path.exists('fonts/LICENCES.txt') else ''
     if 'SIL OPEN FONT LICENSE Version 1.1' not in lic:
         erreur('fonts/LICENCES.txt ne contient pas le texte de la licence OFL')
-    n = sum(1 for p in pages_deployees() if '<style' in lire(p))
-    if n > 30:
-        avert(f'{n} pages portent leur propre bloc <style> (attendu : une trentaine, pages d\'impression et outils)')
+    avec_style = [p for p in pages_deployees() if '<style' in lire(p)]
+    if len(avec_style) > 30:
+        avert(f'{len(avec_style)} pages portent leur propre bloc <style> (attendu : une trentaine, pages d\'impression et outils) : {avec_style}')
+    # Une sonde de test est un point d'entrée sans session, avec une clé en
+    # clair dans un dépôt public : elle ne doit jamais partir en production.
+    sondes = [f for f in glob.glob('api/**/sonde*.js', recursive=True)]
+    if sondes:
+        erreur(f'sonde de test présente dans api/ : {sondes} (à supprimer avant tout déploiement)')
+    # Les libellés visibles n'emploient pas le tiret cadratin (règle d'écriture
+    # du projet) ; les pages écrites avant la phase 2 sont reprises au fil de l'eau.
+    for p in ('enseignant/plan.html', 'enseignant/index.html', 'enseignant/classeur.html',
+              'enseignant/comptes.html', 'classeur/index.html', 'index.html'):
+        if os.path.exists(p) and '\u2014' in lire(p):
+            erreur(f'{p} contient un tiret cadratin')
+    # Chaque séquence du catalogue porte au moins une compétence : la
+    # correction par compétence (décision D15, question 4) en dépend.
+    for niv, n in cat['niveaux'].items():
+        for s in n['sequences']:
+            if not s.get('competences'):
+                avert(f'{s["dossier"]}/{s["cle"]} sans compétence au catalogue : le positionnement sera muet pour cette séquence')
     # Chaque page de séquence charge le catalogue pour son en-tête
     sans = [p for p in glob.glob('[345]eme/p*/seq*-*.html') if 'js/catalogue.js' not in lire(p)]
     if sans:
@@ -296,7 +313,7 @@ def main():
     nr = verifier_recherche()
     verifier_generes()
     verifier_parasites()
-    verifier_hygiene()
+    verifier_hygiene(cat)
     print(f'{nl} liens internes, {nc} codes de cahier, {nd} documents au catalogue, {nr} entrées de recherche.')
     for a in AVERTS:
         print('  avertissement :', a)

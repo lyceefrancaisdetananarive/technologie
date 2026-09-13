@@ -6,7 +6,7 @@
 // troisième fichier. Un seul endroit à relire, un seul à corriger.
 // =====================================================================
 
-import { ouvrir, lireCookie } from './session.js';
+import { ouvrir, lireCookie, sceller, poserCookie } from './session.js';
 import { lire, ecrire, profsAutorises } from './supabase.js';
 
 /**
@@ -116,4 +116,29 @@ export async function membreDe(eleveId, groupeId) {
   const a = await lire('appartenances',
     `profil_id=eq.${eleveId}&groupe_id=eq.${groupeId}&select=profil_id`);
   return a.length > 0;
+}
+
+/**
+ * Écriture enregistrée : on réarme la session du professeur pour 30 minutes.
+ * Partagé par la correction, le plan de l'année et l'avancement, pour que le
+ * professeur qui travaille ne soit pas déconnecté au milieu d'une séance.
+ *
+ * `dep` est RECOPIÉ, jamais recalculé : c'est l'heure de la connexion
+ * initiale, et elle porte le plafond absolu de session (voir session.js).
+ * Sans ce report, sceller() poserait un nouveau départ à chaque écriture et
+ * le plafond ne mordrait jamais : une session laissée ouverte se
+ * prolongerait indéfiniment, à raison d'une coche toutes les vingt-neuf
+ * minutes.
+ */
+export const DUREE_PROF = 1800;
+
+export async function reArmer(req, res, moi) {
+  const session = await ouvrir(
+    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
+  if (!session) return false;
+  const jeton = await sceller(
+    { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
+    process.env.LFT_COOKIE_SECRET, DUREE_PROF);
+  res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
+  return true;
 }

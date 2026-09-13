@@ -43,15 +43,23 @@ export async function lire(table, requete) {
   return r.json();
 }
 
-/** Écriture en base avec la clé de service. */
-export async function ecrire(table, requete, corps, methode = 'PATCH') {
+/**
+ * Écriture en base avec la clé de service.
+ *
+ * `prefer` complète l'en-tête Prefer de PostgREST. Le cas utile est
+ * 'resolution=merge-duplicates' : un POST devient alors un « insérer ou
+ * remplacer » sur la clé primaire, en UN appel, ce qui évite la paire
+ * lecture puis écriture qui, sur une liaison qui coupe, laissait un état à
+ * moitié fait.
+ */
+export async function ecrire(table, requete, corps, methode = 'PATCH', prefer = '') {
   const r = await fetch(`${URL_BASE()}/rest/v1/${table}?${requete}`, {
     method: methode,
     headers: {
       apikey: SERVICE(),
       authorization: `Bearer ${SERVICE()}`,
       'content-type': 'application/json',
-      prefer: 'return=representation',
+      prefer: prefer ? `return=representation,${prefer}` : 'return=representation',
     },
     body: JSON.stringify(corps),
   });
@@ -253,6 +261,20 @@ export async function creerUtilisateur(email) {
   if (!r.ok) throw new Error(`création compte : ${r.status}`);
   const u = await r.json();
   return u?.id ?? null;
+}
+
+/**
+ * Supprime un compte d'authentification. Le profil suit en cascade
+ * (profils.id référence auth.users), et avec lui appartenances, dépôts et
+ * exceptions. RÉSERVÉ AUX COMPTES FICTIFS des groupes d'essai : le travail
+ * d'un élève réel ne s'efface pas par une fonction, voir desinscrire.js.
+ */
+export async function supprimerUtilisateur(idUtilisateur) {
+  const r = await fetch(`${URL_BASE()}/auth/v1/admin/users/${idUtilisateur}`, {
+    method: 'DELETE',
+    headers: { apikey: SERVICE(), authorization: `Bearer ${SERVICE()}` },
+  });
+  return r.ok || r.status === 404;
 }
 
 /** Cherche un compte d'authentification par son adresse. */

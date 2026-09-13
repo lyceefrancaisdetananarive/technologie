@@ -66,6 +66,10 @@ import { reduireImage, envoyerAvecReprise, api, dateCourte, echapper }
 
 const $ = (id) => document.getElementById(id);
 let groupes = [];
+const MAITRISES = {
+  insuffisante: 'maîtrise insuffisante', fragile: 'maîtrise fragile',
+  satisfaisante: 'maîtrise satisfaisante', tres_bonne: 'très bonne maîtrise',
+};
 
 function dire(t, c) { $('m').textContent = t; $('m').className = 'msg ' + c; }
 
@@ -119,9 +123,9 @@ async function listerRendus() {
         ${r.binome ? ' · avec ' + echapper(r.binome) : ''}</p>
       ${r.fichier ? `<p class="meta"><a href="#" data-rendu="${r.id}"
           class="voir">Voir mon document</a></p>` : ''}
-      ${r.appreciation ? `<div class="correction"><strong>Correction :</strong>
-          ${echapper(r.appreciation)}${r.note != null ?
-          ` <em>(${r.note}/20)</em>` : ''}</div>` : ''}
+      ${r.appreciation || r.competence ? `<div class="correction"><strong>Correction :</strong>
+          ${echapper(r.appreciation || '')}${r.competence ?
+          `<br><em>${echapper(r.competence)} : ${echapper(MAITRISES[r.maitrise] || r.maitrise || '')}</em>` : ''}</div>` : ''}
       ${!r.corrige_le ? `<p class="meta"><button class="lien-sup"
           data-rendu="${r.id}" data-vide="${r.fichier ? '' : '1'}">${
           r.fichier ? 'Supprimer ce dépôt' : 'Supprimer cet envoi incomplet'
@@ -132,8 +136,16 @@ async function listerRendus() {
   document.querySelectorAll('.voir').forEach((a) => {
     a.addEventListener('click', async (e) => {
       e.preventDefault();
-      const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
-      window.open(d.url, '_blank', 'noopener');
+      // La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
+      // Safari (les téléphones des élèves) et les bloqueurs la refusent.
+      const fenetre = window.open('', '_blank', 'noopener');
+      try {
+        const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
+        if (fenetre) fenetre.location = d.url; else location.href = d.url;
+      } catch (err) {
+        if (fenetre) fenetre.close();
+        dire(err.message, 'err');
+      }
     });
   });
 

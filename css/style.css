@@ -388,15 +388,27 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .seq-link-quiz, .seq-link-eval, .seq-link-revision { background: var(--papier); color: var(--encre-2); border: 1px solid var(--trait); }
 .seq-link-prof, .seq-link-ebep { background: var(--papier-2); color: var(--encre-2); border: 1px dashed #8B98A5; }
 
-/* Déblocage progressif (réglage professeur par navigateur, en attendant la phase 3) */
+/* Où en sont mes groupes (espace enseignant, données de la table plans) */
+.groupes-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: var(--space-md); margin: .5rem 0 0; }
+.groupe-carte { display: flex; flex-direction: column; gap: .3rem; padding: .9rem 1rem; border: 1px solid var(--trait); border-radius: var(--radius-lg); background: var(--papier-2); color: inherit; text-decoration: none; transition: border-color .12s, box-shadow .12s; }
+.groupe-carte:hover, .groupe-carte:focus-visible { border-color: var(--bleu); box-shadow: var(--ombre); text-decoration: none; }
+.groupe-carte .page-level-badge { align-self: flex-start; font-size: .72rem; }
+.groupe-carte b { font: 800 1.15rem var(--font-display); color: var(--bleu); }
+.groupe-libelle { font-size: .88rem; color: var(--encre-2); }
+.groupe-barre { display: block; height: 8px; border-radius: 999px; background: var(--grille); overflow: hidden; margin-top: .3rem; }
+.groupe-barre span { display: block; height: 100%; background: var(--fait); }
+.groupe-chiffres { font-size: .84rem; font-weight: 700; }
+.groupe-courante { font-size: .82rem; color: var(--encre-3); }
+
+/* États des séquences (fait, en cours, à venir), pour la carte de l'année de
+   l'élève (phase 4). L'état est un affichage : les liens restent ouverts, les
+   pages sont publiques (principe retenu dans le cadrage, référence Moodle). */
 .seq-etat { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-bottom: .35rem; }
 .seq-etat-faite { background: var(--fait-pale); color: var(--fait); }
 .seq-etat-encours { background: var(--encours-pale); color: var(--encours); }
 .seq-etat-avenir { background: var(--avenir-pale); color: var(--encre-3); }
 .seq-card.seq-faite { opacity: .9; }
-.seq-card.seq-avenir { opacity: .72; background: var(--papier); }
-.seq-card.seq-avenir .seq-card-links { display: none; }
-.seq-card.seq-avenir::after { content: "Séquence pas encore ouverte"; display: block; font-size: .84rem; color: var(--encre-3); font-style: italic; margin-top: .4rem; }
+.seq-card.seq-avenir { background: var(--papier); border-style: dashed; }
 .seq-card.seq-encours { border-color: #F0C48A; box-shadow: 0 0 0 4px var(--encours-pale); }
 
 /* Onglets de période */

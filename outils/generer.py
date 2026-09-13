@@ -7,10 +7,13 @@ Dérive du catalogue tout ce qui, jusqu'ici, était recopié à la main.
     python3 outils/generer.py --verifier # ne réécrit rien, échoue si un bloc
                                          # n'est pas à jour (pour le vérificateur)
 
-Un seul fichier source, catalogue.json, et six cibles :
+Un seul fichier source, catalogue.json, et dix cibles :
 
   js/catalogue.js            le catalogue pour le navigateur (recherche, classeur,
                              carte de l'année)
+  api/_lib/catalogue.js      la même chose en module ES pour les fonctions /api/
+                             (plan, avancement, essai, correction) : à redéployer
+                             après toute régénération
   go.html                    la table des 165 codes imprimés dans les cahiers
   js/components.js           l'index de recherche du bandeau
   js/sequences.js            ce que le classeur accepte en dépôt
@@ -112,6 +115,7 @@ def gen_catalogue_js(cat):
                 'titre': s['titre'], 'resume': s.get('resume', ''),
                 'theme': s['theme'], 'seances': s['seances'],
                 'activites': s['activites'],
+                'competences': s.get('competences', []),
                 'documents': {k: {kk: vv for kk, vv in d.items() if kk in ('fichier', 'code', 'reserve')}
                               for k, d in s['documents'].items()},
             } for s in n['sequences']],
@@ -119,17 +123,29 @@ def gen_catalogue_js(cat):
             'bilans': n['bilans'],
         }
     corps = json.dumps(leger, ensure_ascii=False, indent=1)
-    return {'js/catalogue.js': (
+    entete = (
         '// FICHIER GÉNÉRÉ par outils/generer.py depuis catalogue.json. Ne pas éditer ici.\n'
         f'// Généré le {datetime.date.today().isoformat()}.\n'
-        '//\n'
-        '// Le plan de l\'année, tel que le navigateur en a besoin : recherche du\n'
-        '// bandeau, liste du classeur, carte de l\'année. Se charge en <script>\n'
-        '// classique (window.CATALOGUE) ou en CommonJS (require) pour les outils.\n'
-        f'const CATALOGUE = {corps};\n'
-        'if (typeof window !== "undefined") window.CATALOGUE = CATALOGUE;\n'
-        'if (typeof module !== "undefined") module.exports = CATALOGUE;\n'
-    )}
+        '//\n')
+    return {
+        'js/catalogue.js': (
+            entete
+            + '// Le plan de l\'année, tel que le navigateur en a besoin : recherche du\n'
+            '// bandeau, liste du classeur, carte de l\'année. Se charge en <script>\n'
+            '// classique (window.CATALOGUE) ou en CommonJS (require) pour les outils.\n'
+            f'const CATALOGUE = {corps};\n'
+            'if (typeof window !== "undefined") window.CATALOGUE = CATALOGUE;\n'
+            'if (typeof module !== "undefined") module.exports = CATALOGUE;\n'),
+        # La même chose en module ES pour les fonctions /api/ : Vercel ne suit
+        # que les imports statiques quand il empaquette une fonction, un
+        # require() calculé vers js/catalogue.js n'embarquerait pas le fichier.
+        'api/_lib/catalogue.js': (
+            entete
+            + '// Copie du plan de l\'année pour les fonctions /api/ (plan par groupe,\n'
+            '// avancement) : mêmes données que js/catalogue.js, en module ES.\n'
+            f'const CATALOGUE = {corps};\n'
+            'export default CATALOGUE;\n'),
+    }
 
 
 def codes(cat):

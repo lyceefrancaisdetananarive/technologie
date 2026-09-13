@@ -48,7 +48,7 @@ begin
   -- ce qui est très difficile à diagnostiquer en séance.
   for t in
     select unnest(array['profils','groupes','appartenances','rendus',
-                        'journal_repli']) as nom
+                        'journal_repli','plans','avancement','exceptions']) as nom
   loop
     select count(*) into n from pg_policies
      where schemaname = 'public' and tablename = t.nom;
@@ -60,6 +60,18 @@ begin
     end if;
     compte_politiques := compte_politiques + n;
   end loop;
+
+  -- 2 bis. --------------------------------------------------------------
+  -- Les colonnes de la phase 3 existent (db/05) : sans elles, /api/prof/rendus
+  -- repond 400 « colonne inconnue » et le classeur du professeur affiche
+  -- « Lecture impossible » sans autre explication.
+  select count(*) into n from information_schema.columns
+   where table_schema = 'public' and table_name = 'rendus'
+     and column_name in ('competence', 'maitrise');
+  if n <> 2 then
+    raise exception
+      'rendus n''a pas ses colonnes competence et maitrise : rejouer db/05-correction-competence.sql.';
+  end if;
 
   -- 3. ------------------------------------------------------------------
   -- `tentatives` ne doit avoir AUCUNE politique : table de service, lue et

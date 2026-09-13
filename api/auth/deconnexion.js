@@ -21,10 +21,11 @@ export default async function handler(req, res) {
   // cookies, que la ligne ci-dessus supprime déjà. « storage » vidait tout le
   // stockage local du navigateur pour ce site, sans distinction de clé : les
   // réponses du diagnostic de 3ème en cours de saisie (diag3e-2026), le profil
-  // du professeur (techno-lft-profil), la progression débloquée
-  // (techno-lft-progression) et ses vidéos (techno-lft-videos). Aucune de ces
-  // quatre clés ne porte de session : les détruire ne fermait rien et
-  // supprimait le travail d'un binôme au milieu d'une séance.
+  // du professeur (techno-lft-profil) et ses vidéos (techno-lft-videos). La
+  // progression, elle, n'est plus dans le navigateur depuis la phase 3 :
+  // elle vit en base (tables plans, avancement, exceptions). Aucune de ces
+  // clés ne porte de session : les détruire ne fermait rien et supprimait le
+  // travail d'un binôme au milieu d'une séance.
   //
   // « cache » est retiré pour une autre raison : il refacturait le CSS, le
   // JavaScript et les images à la classe suivante, sur la liaison de

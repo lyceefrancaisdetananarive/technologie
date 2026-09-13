@@ -1,9 +1,8 @@
 // FICHIER GÉNÉRÉ par outils/generer.py depuis catalogue.json. Ne pas éditer ici.
 // Généré le 2026-09-13.
 //
-// Le plan de l'année, tel que le navigateur en a besoin : recherche du
-// bandeau, liste du classeur, carte de l'année. Se charge en <script>
-// classique (window.CATALOGUE) ou en CommonJS (require) pour les outils.
+// Copie du plan de l'année pour les fonctions /api/ (plan par groupe,
+// avancement) : mêmes données que js/catalogue.js, en module ES.
 const CATALOGUE = {
  "annee": "2026-2027",
  "periodes": [
@@ -1937,5 +1936,4 @@ const CATALOGUE = {
   }
  }
 };
-if (typeof window !== "undefined") window.CATALOGUE = CATALOGUE;
-if (typeof module !== "undefined") module.exports = CATALOGUE;
+export default CATALOGUE;

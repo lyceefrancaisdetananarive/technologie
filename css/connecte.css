@@ -77,7 +77,8 @@ select, input, textarea {
   font: inherit; font-size: .98rem; background: var(--papier-2); color: var(--encre);
 }
 textarea { min-height: 4.5rem; resize: vertical; }
-select:focus, input:focus, textarea:focus { outline: 0; border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); }
+select:focus, input:focus, textarea:focus { border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); }
+select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
 input[type="file"] { padding: .5rem; background: var(--papier); }
 .aide { font-size: .84rem; color: var(--encre-3); margin: .35rem 0 0; }
 button, .bouton {
@@ -95,18 +96,22 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
 .ligne { display: flex; gap: .6rem; align-items: flex-end; flex-wrap: wrap; }
 .ligne > *, .ligne > div { flex: 1; min-width: 9rem; }
 .ligne button { flex: 0 0 auto; }
-.lien-sup { background: none; border: 0; padding: 0; color: var(--encre-3); font: inherit; font-size: .85rem; text-decoration: underline; cursor: pointer; }
+.lien-sup { background: none; border: 0; padding: .6rem 0; min-height: 44px; color: var(--encre-3); font: inherit; font-size: .85rem; text-decoration: underline; cursor: pointer; }
 .lien-sup:hover { color: var(--erreur); background: none; }
 .lien-sup[disabled] { opacity: .5; cursor: progress; }
 .oubli { display: block; margin-top: 1.1rem; text-align: center; color: var(--bleu); font-size: .92rem; font-weight: 700; }
 .retour { display: block; margin-top: 1rem; text-align: center; font-size: .86rem; color: var(--encre-3); }
 
 /* ---- messages ---- */
-.msg { margin-top: 1rem; padding: .75rem 1rem; border-radius: 0 var(--r) var(--r) 0; font-size: .92rem; display: none; border-left: 4px solid var(--trait); }
-.msg.err { display: block; background: var(--erreur-pale); border-left-color: var(--erreur); }
-.msg.ok { display: block; background: var(--fait-pale); border-left-color: var(--fait); }
-.msg.info { display: block; background: var(--bleu-pale); border-left-color: var(--bleu); }
-.msg.attention { display: block; background: var(--encours-pale); border-left-color: var(--encours); }
+/* La zone de message reste rendue même vide : une région role=status qui
+   entre dans la page en même temps que son texte n'est pas annoncée par
+   tous les lecteurs d'écran. */
+.msg { margin: 0; padding: 0; border-radius: 0 var(--r) var(--r) 0; font-size: .92rem; display: block; min-height: 0; }
+.msg.err, .msg.ok, .msg.info, .msg.attention { margin-top: 1rem; padding: .75rem 1rem; border-left: 4px solid var(--trait); }
+.msg.err { background: var(--erreur-pale); border-left-color: var(--erreur); }
+.msg.ok { background: var(--fait-pale); border-left-color: var(--fait); }
+.msg.info { background: var(--bleu-pale); border-left-color: var(--bleu); }
+.msg.attention { background: var(--encours-pale); border-left-color: var(--encours); }
 .avert { margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid var(--trait); font-size: .84rem; color: var(--encre-3); }
 .avert strong { color: var(--encours); }
 .note { background: var(--papier); border-left: 4px solid var(--bleu); padding: .75rem 1rem; border-radius: 0 var(--r) var(--r) 0; font-size: .88rem; margin: .8rem 0; }
@@ -136,5 +141,11 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
 .barre { height: 6px; background: var(--grille); border-radius: 999px; margin-top: .75rem; overflow: hidden; display: none; }
 .barre div { height: 100%; background: var(--bleu); width: 0; transition: width .25s; }
 
+/* Petits écrans, après les règles générales pour l'emporter à spécificité égale :
+   l'en-tête replié prend un tiers de l'écran d'un téléphone, il défile avec la page. */
+@media (max-width: 640px) {
+  header { position: static; padding: .6rem 1rem; }
+  section { padding: 1.1rem 1rem; }
+}
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }

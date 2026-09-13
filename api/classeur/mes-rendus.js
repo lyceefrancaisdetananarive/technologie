@@ -11,7 +11,7 @@ export default async function handler(req, res) {
     const rendus = await lire('rendus',
       `profil_id=eq.${moi.id}` +
       `&select=id,sequence,document,fichier,commentaire,binome,` +
-      `appreciation,note,depose_le,corrige_le,groupes(code)` +
+      `appreciation,competence,maitrise,depose_le,corrige_le,groupes(code)` +
       `&order=depose_le.desc`);
 
     // « On a réinitialisé mon accès » : l'élève doit le savoir. Le repli
