@@ -12,120 +12,88 @@
   <div id="app" data-page="home">
     <main class="site-main">
 
-      <!-- Hero -->
-      <section class="hero">
-        <img src="img/logo-lft.png" alt="Lycée Français de Tananarive" class="hero-logo">
-        <h1><span>Technologie</span> : Cycle 4</h1>
-        <p class="hero-subtitle">
-          Ressources pédagogiques pour l'enseignement de la Technologie au collège.<br>
-          Lycée Français de Tananarive · Réseau AEFE.
-        </p>
-        <div class="hero-badges">
-          <span class="hero-badge"><span class="ico">&#x1F4D6;</span> Programme BO 2024</span>
-          <span class="hero-badge"><span class="ico">&#x1F1F2;&#x1F1EC;</span> Ambatobe, Antananarivo</span>
-          <span class="hero-badge"><span class="ico">&#x1F393;</span> 5ème · 4ème · 3ème</span>
+      <!-- Accueil : le code du cahier d'abord, puis les trois entrées, puis les niveaux -->
+      <div class="accueil-hero">
+        <div class="hero-texte">
+          <div class="surtitre">Cycle 4 · 5e, 4e, 3e</div>
+          <h1>Comprendre, concevoir, fabriquer.</h1>
+          <p class="lead">Les cours, les activités et les quiz de Technologie, à ouvrir en classe ou à la maison. Chaque page du cahier a son code.</p>
+          <div class="reprise no-print" id="accueil-reprise" hidden></div>
         </div>
-      </section>
+        <div class="code-cahier">
+          <h3>Tu as un code dans ton cahier ?</h3>
+          <p>Tape-le tel quel, ou scanne le QR code collé à côté.</p>
+          <form class="code-form" action="go.html" method="get">
+            <label for="code-cahier" class="hidden">Code de la page</label>
+            <input id="code-cahier" name="c" maxlength="4" placeholder="51A" autocomplete="off" spellcheck="false" autocapitalize="characters" pattern="[0-9A-Za-z]{2,4}" required>
+            <button class="btn" type="submit">Ouvrir <span class="ico">&#x2192;</span></button>
+          </form>
+          <p class="exemple">Exemple : <span class="code">51A</span> ouvre l'activité de la séquence 1 de 5e.</p>
+        </div>
+      </div>
 
-      <!-- Choix du profil -->
-      <div class="profil-choix">
-        <a href="index.html#niveaux" class="profil-carte">
-          <span class="profil-ico">&#x1F393;</span>
-          <strong>Je suis élève</strong>
-          <span>Mes fiches d'activité, quiz et révisions, niveau par niveau.</span>
+      <div class="entrees">
+        <a class="entree" href="connexion.html?suite=%2Fclasseur%2F">
+          <span class="ico-entree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg></span>
+          <span><b>Je suis élève</b><span>Mon classeur : déposer un travail, retrouver mes retours.</span></span>
         </a>
-        <a href="parents.html" class="profil-carte">
-          <span class="profil-ico">&#x1F468;&#x200D;&#x1F469;&#x200D;&#x1F467;</span>
-          <strong>Je suis parent</strong>
-          <span>Comprendre la Technologie, le parcours, le brevet et PIX.</span>
+        <a class="entree" href="enseignant/index.html">
+          <span class="ico-entree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg></span>
+          <span><b>Je suis professeur</b><span>Mes groupes, les dépôts, les corrigés. Accès réservé.</span></span>
         </a>
-        <a href="enseignant/index.html" class="profil-carte">
-          <span class="profil-ico">&#x1F511;</span>
-          <strong>Je suis professeur</strong>
-          <span>Fiches professeur, corrigés et outils. Accès réservé.</span>
+        <a class="entree" href="parents.html">
+          <span class="ico-entree"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/></svg></span>
+          <span><b>Je suis parent</b><span>Comprendre la Technologie, le parcours, le brevet et PIX.</span></span>
         </a>
       </div>
 
-      <!-- Level Cards -->
-      <h2 class="section-title" id="niveaux">Choisir un niveau</h2>
-      <div class="level-grid">
-
-        <!-- 5ème -->
-        <a href="5eme/index.html" class="level-card" data-level="5eme">
-          <div class="level-card-header">
-            <div class="level-icon">5e</div>
-            <h2>Cinquième <small>Nouveau programme, BO 2024</small></h2>
-          </div>
-          <p>Découverte des objets techniques, évolution technologique, cycle de vie, introduction à la programmation et à la conception 3D.</p>
-          <div class="level-card-stats">
-            <span class="level-card-stat"><strong>3</strong>&nbsp;thèmes</span>
-            <span class="level-card-stat"><strong>9</strong>&nbsp;séquences</span>
-            <span class="level-card-stat"><strong>1h30</strong>/sem.</span>
-          </div>
-        </a>
-
-        <!-- 4ème -->
-        <a href="4eme/index.html" class="level-card" data-level="4eme">
-          <div class="level-card-header">
-            <div class="level-icon">4e</div>
-            <h2>Quatrième <small>Nouveau programme, BO 2024</small></h2>
-          </div>
-          <p>Analyse fonctionnelle, algorithme, programmation Micro:bit et Arduino, cahier des charges, modélisation 3D et fabrication FabLab.</p>
-          <div class="level-card-stats">
-            <span class="level-card-stat"><strong>3</strong>&nbsp;thèmes</span>
-            <span class="level-card-stat"><strong>9</strong>&nbsp;séquences</span>
-            <span class="level-card-stat"><strong>1h30</strong>/sem.</span>
-          </div>
-        </a>
-
-        <!-- 3ème -->
-        <a href="3eme/index.html" class="level-card" data-level="3eme">
-          <div class="level-card-header">
-            <div class="level-icon">3e</div>
-            <h2>Troisième <small>Nouveau programme, BO 2024</small></h2>
-          </div>
-          <p>Étude critique d'innovations, systèmes automatisés complexes, projet de création technique, préparation DNB.</p>
-          <div class="level-card-stats">
-            <span class="level-card-stat"><strong>3</strong>&nbsp;thèmes</span>
-            <span class="level-card-stat"><strong>9</strong>&nbsp;séquences</span>
-            <span class="level-card-stat"><strong>1h30</strong>/sem.</span>
-          </div>
-        </a>
-
+      <h2 class="section-title" id="niveaux">Cette année, niveau par niveau</h2>
+      <div class="niveaux">
+        <div class="niveau n5">
+          <div class="num">5<sup>e</sup></div>
+          <div class="theme">Objets techniques, mouvement, première programmation.</div>
+          <div class="ligne"><span>Séquences</span><b>9</b></div>
+          <div class="ligne"><span>Rythme</span><b>1 h 30 par semaine</b></div>
+          <a href="5eme/index.html">Voir la progression</a>
+        </div>
+        <div class="niveau n4">
+          <div class="num">4<sup>e</sup></div>
+          <div class="theme">Énergie, chaîne d'information, projet et FabLab.</div>
+          <div class="ligne"><span>Séquences</span><b>9</b></div>
+          <div class="ligne"><span>Rythme</span><b>1 h 30 par semaine</b></div>
+          <a href="4eme/index.html">Voir la progression</a>
+        </div>
+        <div class="niveau n3">
+          <div class="num">3<sup>e</sup></div>
+          <div class="theme">Objets connectés, fabrication, méthodologie du brevet.</div>
+          <div class="ligne"><span>Séquences</span><b>9</b></div>
+          <div class="ligne"><span>Rythme</span><b>1 h 30 par semaine, brevet en juin</b></div>
+          <a href="3eme/index.html">Voir la progression</a>
+        </div>
       </div>
 
-      <!-- Quick Links -->
-      <h2 class="section-title">Accès rapide</h2>
+      <h2 class="section-title mt-2">Accès rapide</h2>
       <div class="level-grid">
-
-        <div class="glass" style="padding: var(--space-lg);">
-          <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: var(--space-md);"><span class="ico">&#x1F4DA;</span> Espace Enseignant</h3>
-          <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: var(--space-md);">Fiches professeur, corrigés, évaluations, guide Pronote et ressources institutionnelles.</p>
-          <a href="enseignant/index.html" class="btn btn-outline">Accéder</a>
+        <div class="content-card mb-0">
+          <h3 class="mt-0"><span class="ico">&#x1F4D8;</span> Cours</h3>
+          <p>Ce qu'il faut retenir de chaque séquence, par niveau et par période. À relire avant un quiz ou une évaluation.</p>
+          <a href="structuration/index.html" class="btn btn-outline">Ouvrir les cours</a>
         </div>
-
-        <div class="glass" style="padding: var(--space-lg);">
-          <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: var(--space-md);"><span class="ico">&#x1F9F0;</span> Outils pédagogiques</h3>
-          <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: var(--space-md);">Quiz interactifs, planche de QR codes, impression par lot d'une séquence ou d'une classe, rendu des travaux dans le classeur numérique et dossier des situations déclenchantes en vidéo.</p>
-          <a href="outils/index.html" class="btn btn-outline">Accéder</a>
+        <div class="content-card mb-0">
+          <h3 class="mt-0"><span class="ico">&#x1F9F0;</span> Outils</h3>
+          <p>Quiz interactifs, fiches de révision, planche de QR codes, impression par lot.</p>
+          <a href="outils/index.html" class="btn btn-outline">Ouvrir les outils</a>
         </div>
-
-        <div class="glass" style="padding: var(--space-lg);">
-          <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: var(--space-md);"><span class="ico">&#x1F9ED;</span> L'année en cinq périodes</h3>
-          <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: var(--space-md);">La progression suit le calendrier austral réel : cinq périodes et non trois trimestres. Chaque séquence est dimensionnée sur le nombre de séances garanties, celui d'une classe placée le lundi.</p>
+        <div class="content-card mb-0">
+          <h3 class="mt-0"><span class="ico">&#x1F9ED;</span> L'année en cinq périodes</h3>
+          <p>La progression suit le calendrier réel du lycée : cinq périodes, et aucune séquence ne traverse des vacances.</p>
           <a href="5eme/index.html" class="btn btn-outline">Voir une progression</a>
         </div>
-        <div class="glass" style="padding: var(--space-lg);">
-          <h3 style="font-size: 1.05rem; font-weight: 600; margin-bottom: var(--space-md);"><span class="ico">&#x1F4CB;</span> Évaluations diagnostiques de rentrée</h3>
-          <p style="font-size: 0.9rem; color: var(--gray-600); margin-bottom: var(--space-md);">Une par niveau, non notée, à faire passer lors de la première séance. Feuille élève à photocopier et livret professeur avec grille de classe.</p>
-          <a href="enseignant/index.html" class="btn btn-outline">Accéder</a>
-        </div>
-
       </div>
 
       <!-- Présentation -->
       <div class="content-card mt-2">
-        <h2>Présentation</h2>
+        <h2>Présentation du site et de l'enseignement</h2>
         <h3>Le cadre institutionnel</h3>
         <p>
           Le <strong>Lycée Français de Tananarive (LFT)</strong> est un établissement en gestion directe du réseau

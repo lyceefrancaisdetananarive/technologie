@@ -6,14 +6,6 @@
   <title>Séq. 9 : Évaluation | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
-    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
-    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
-    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
-                 font-size: 1.5rem; letter-spacing: .06em; }
-    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
-    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
-  </style>
 </head>
 <body>
   <div id="app" data-page="4eme"
@@ -24,7 +16,7 @@
     <main class="site-main">
 
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Évaluation</span>
+        <span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ème · Période 5 · Évaluation</span>
         <h1>Séquence 9 : Du besoin au prototype : concevoir et fabriquer un objet technique programmé</h1>
         <p class="page-description">Évaluation de fin de séquence, barème et grille de compétences.</p>
       </div>
@@ -35,19 +27,7 @@
 
 
 
-      <div class="content-card no-print">
-        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
-        <div class="lien-encart">
-          <img src="../../img/qr/49E.svg" alt="QR code 49E">
-          <div>
-            <div class="lien-code">49E</div>
-            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
-            d'accès direct du site.</p>
-            <div class="lien-url">https://technologie-lft.vercel.app/go.html?c=49E</div>
-          </div>
-        </div>
-<div class="info-box info-box-green" style="margin-top:var(--space-md)"><div class="info-box-title"><span class="ico">&#x1F4E4;</span> Rendre mon travail</div><ol style="margin:0 0 0 1.1rem"><li>Ouvre le <strong>classeur numérique</strong> de Technologie&nbsp;: <span class="lien-url">technologie-lft.vercel.app/classeur/</span></li><li>Connecte-toi avec ton adresse <strong>@eleve.egd.mg</strong>. La première fois, clique sur <strong>« Première connexion »</strong> pour recevoir ton mot de passe.</li><li>Choisis ton <strong>groupe</strong>, puis la séquence correspondant à cette activité.</li><li>Dépose une <strong>photo nette de ta feuille</strong> ou un PDF. Si tu as travaillé à deux, écris le nom de ton binôme&nbsp;: sinon tout le travail te sera attribué à toi seul.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></div>
-      </div>
+      
 
       <div class="info-box info-box-orange" style="margin-bottom: var(--space-lg);"><div class="info-box-title">Page en attente de mise à jour</div>La séquence a été <strong>recomposée</strong> : deux séquences auparavant distinctes ont été réunies en une seule. Le déroulement, le minutage et l'évaluation qui font foi sont ceux de la. Cette page décrit encore l'organisation antérieure et sera reprise.</div>
 <div class="content-card"><h2><span class="ico">&#x1F4CA;</span> Évaluation</h2><p>Durée : <strong>40 minutes</strong>. Barème total : <strong>20 points</strong>.</p></div>
@@ -92,8 +72,30 @@
 <h3>Exercice 5</h3><div class="info-box info-box-green"><p>Fiche de tests de niveau satisfaisant, exemple de l&#x27;alerte de citerne pleine.<br>Le capteur détecte : OK. Valeurs lues sur le moniteur série entre 4 et 180 cm, cohérentes avec la distance réelle.<br>L&#x27;actionneur réagit : KO d&#x27;abord. Problème rencontré : le buzzer restait muet. Solution appliquée : câble USB débranché, fil du buzzer réenfoncé à fond dans la plaque d&#x27;essai, câblage revérifié, puis rebranchement. Nouveau résultat : OK.<br>Le programme complet fonctionne : OK, après correction du seuil, écrit 100 au lieu de 10.<br>L&#x27;objet est solide et stable : KO. Problème rencontré : le boîtier bascule quand on oriente le capteur vers le bas. Solution appliquée : deux pieds collés à la colle chaude sous la face arrière.<br>Un KO renseigné vaut mieux qu&#x27;un OK non vérifié : la colonne des problèmes et des solutions est ce qui montre que l&#x27;équipe a compris ce qu&#x27;elle faisait.</p><p>Fiche de validation de niveau satisfaisant : les six lignes du cahier des charges de la séance 2, reprises dans l&#x27;ordre.<br>Ligne 1, fonction principale « prévenir par un signal sonore audible à moins de 10 m » : respectée. Mesure : le son est entendu à 12 m dans la cour.<br>Ligne 2, contrainte 1 « déclenchement quand la distance devient inférieure à 10 cm » : respectée. Mesure : le buzzer se déclenche entre 9,5 et 10,5 cm, à la règle, sur cinq essais.<br>Ligne 3, contrainte 2 « fonctionner sur batterie externe pendant au moins 4 heures » : non respectée. La durée n&#x27;a pas pu être mesurée pendant la séance.<br>Ligne 4, matériaux « boîtier en PLA, épaisseur de paroi 1,2 mm » : respectée. Mesure au pied à coulisse : paroi de 1,2 mm.<br>Ligne 5, dimensions maximales « 100 mm sur 60 mm sur 40 mm » : respectée. Mesure au pied à coulisse : 99,4 sur 60,2 sur 39,8 mm.<br>Ligne 6, quota « 40 g de PLA au maximum » : respectée. Masse pesée du boîtier et de son couvercle : 38 g.<br>Bilan : cinq lignes sur six sont respectées.</p><p>Ce qui fait le niveau très bon : l&#x27;amélioration proposée est concrète et chiffrée.<br>Pour la ligne non respectée : « Réécrire la contrainte en 15 minutes sans rebranchement, durée mesurable au chronomètre en classe ; mesurer la durée réelle hors classe ; faire sonner le buzzer par salves d&#x27;une seconde toutes les cinq secondes au lieu d&#x27;un son continu, pour diminuer la consommation. »<br>Pour une ligne respectée mais fragile : « Le déclenchement varie de 1 cm d&#x27;un essai à l&#x27;autre. Nous ferions la moyenne de cinq mesures successives dans le programme avant de comparer au seuil. »</p><p>Leçon à faire dire à la classe : un critère que l&#x27;on ne peut pas vérifier était mal écrit en séance 2. C&#x27;est ce retour au cahier des charges qui donne son utilité à la séance 2.</p></div><p style="font-size:.9rem;color:var(--gray-600)">Compétence évaluée : Fonctionnement et comportement : Valider un prototype critère par critère, au regard du cahier des charges, et proposer des améliorations.</p>
 <h3>Exercice 6</h3><div class="info-box info-box-green"><p>Répartition et minutage attendus pour une équipe de quatre, sur 5 minutes.<br>Introduction, 45 secondes, chef de projet. Cahier des charges, 60 secondes, dessinateur-modélisateur. Réalisation, 75 secondes, programmeur. Démonstration, 90 secondes, fabricant-testeur. Bilan, 50 secondes, chef de projet, qui prend sa deuxième partie. Total à la première répétition : 5 minutes et 20 secondes. L&#x27;équipe coupe 20 secondes dans la partie réalisation, en supprimant le détail des réglages du logiciel de découpage en couches, qui n&#x27;intéresse pas l&#x27;auditoire.</p><p>Partie de niveau satisfaisant, exemple pour le dessinateur : « La fonction principale de notre objet est de prévenir par un son quand l&#x27;eau approche du bord. Nous avons fixé deux contraintes chiffrées. Première contrainte : le son se déclenche quand la distance entre le capteur et l&#x27;eau devient inférieure à 10 centimètres. Deuxième contrainte : l&#x27;objet fonctionne sur batterie externe, sans le courant du secteur, pendant au moins quatre heures. Le boîtier ne dépasse pas 100 sur 60 sur 40 millimètres. » L&#x27;élève emploie quatre mots techniques justes et tient son temps.</p><p>Partie de niveau très bon, exemple pour le chef de projet, au bilan : « Notre principale difficulté a été le couvercle, qui ne rentrait pas : nous avions prévu 0,1 millimètre de jeu au lieu de 0,2 à 0,3. Nous avons limé, et nous avons corrigé la cote dans le fichier. Une ligne du cahier des charges n&#x27;est pas respectée : nous n&#x27;avons pas pu mesurer les quatre heures d&#x27;autonomie pendant la séance, et nous avons compris que cette contrainte était mal écrite. Notre amélioration serait de la réécrire en quinze minutes sans rebranchement, et de faire sonner le buzzer par salves d&#x27;une seconde toutes les cinq secondes, ce qui consomme moins. » L&#x27;élève nomme une cause, une solution et une amélioration chiffrée.</p><p>Questions probables et réponses attendues, à préparer avant le passage.<br>Pourquoi 10 centimètres et pas 5 ? À 5 centimètres, l&#x27;alerte arriverait trop tard pour aller fermer l&#x27;arrivée d&#x27;eau ; il faut environ deux minutes pour traverser la cour.<br>Que se passe-t-il en cas de coupure de courant ? L&#x27;objet continue de fonctionner, parce qu&#x27;il est alimenté par une batterie externe de téléphone et non par le secteur.<br>Pourquoi un buzzer et pas un écran ? Le laboratoire ne possède aucun afficheur, et un son prévient quelqu&#x27;un qui ne regarde pas la citerne.<br>Comment savez-vous que votre objet fonctionne vraiment ? Nous avons repris chaque ligne du cahier des charges et écrit à côté la valeur mesurée. Cinq lignes sur six sont respectées.</p><p>Ce qui distingue les niveaux à l&#x27;oral. Fragile : l&#x27;élève parle, mais il récite le support et l&#x27;auditoire ne comprend pas ce que fait l&#x27;objet. Satisfaisant : il présente sa partie dans le temps, avec un vocabulaire technique juste, et il répond à une question. Très bon : il s&#x27;appuie sur le support sans le lire, il mène lui-même la démonstration du prototype, et il argumente le bilan.</p></div><p style="font-size:.9rem;color:var(--gray-600)">Compétence évaluée : Usages et interactions : Présenter oralement la démarche et les résultats du projet, à l&#x27;aide d&#x27;un support.</p>
 </div>
+    
+      <div class="pied-fiche">
+      <div class="rendre no-print">
+        <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
+        <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
+      </div>
+      <details class="depliant no-print"><summary>Comment déposer mon travail ?</summary><ol style="margin:0 0 0 1.1rem"><li>Ouvre le <strong>classeur numérique</strong> de Technologie&nbsp;: <span class="lien-url">techlft.egd.mg/classeur/</span></li><li>Connecte-toi avec ton adresse <strong>@eleve.egd.mg</strong>. La première fois, clique sur <strong>« Première connexion »</strong> pour recevoir ton mot de passe.</li><li>Choisis ton <strong>groupe</strong>, puis la séquence correspondant à cette activité.</li><li>Dépose une <strong>photo nette de ta feuille</strong> ou un PDF. Si tu as travaillé à deux, écris le nom de ton binôme&nbsp;: sinon tout le travail te sera attribué à toi seul.</li></ol><p style="margin:.6rem 0 0"><strong>Si la connexion ne passe pas :</strong> rends ta feuille en main propre au professeur à la séance suivante. Le dépôt en ligne ne remplace pas le travail, il sert seulement à le transmettre.</p></details>
+<div class="content-card no-print">
+        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/49E.svg" alt="QR code 49E">
+          <div>
+            <div class="lien-code">49E</div>
+            <p>Scanne le QR code, ou tape ce code sur la page d'accès du site.</p>
+            <div class="lien-url">https://techlft.egd.mg/go.html?c=49E</div>
+          </div>
+        </div>
+
+      </div>
+      </div>
     </main>
   </div>
+
+  <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
 </body>

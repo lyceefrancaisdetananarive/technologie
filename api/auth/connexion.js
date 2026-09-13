@@ -42,7 +42,11 @@ const PROVISOIRE_HEURES = 24;
 // Le réarmement est volontairement lié à une ÉCRITURE et non à une lecture :
 // une prolongation déclenchée par la simple consultation serait entretenue
 // par l'élève même qui exploite la session restée ouverte.
-const DUREE = { prof: 1800, eleve: 3600 };
+// Élève : deux heures. Chaque élève ouvre sa session à chaque séance
+// (décision D15, question 12), et une séance dure 1 h 30 : une heure
+// expirait au milieu du dépôt. Le cookie reste sans Max-Age, donc il meurt
+// avec le navigateur, et le plafond absolu de quatre heures s'applique.
+const DUREE = { prof: 1800, eleve: 7200 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');

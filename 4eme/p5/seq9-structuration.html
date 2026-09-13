@@ -6,14 +6,6 @@
   <title>Séq. 9 : Structuration | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
-    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
-    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
-    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
-                 font-size: 1.5rem; letter-spacing: .06em; }
-    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
-    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
-  </style>
 </head>
 <body>
   <div id="app" data-page="4eme"
@@ -24,31 +16,18 @@
     <main class="site-main">
 
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Structuration</span>
+        <span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ème · Période 5 · Structuration</span>
         <h1>Séquence 9 : Du besoin au prototype : concevoir et fabriquer un objet technique programmé</h1>
         <p class="page-description">Notions essentielles, synthèse et vocabulaire de la séquence.</p>
       </div>
 
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
-        <a href="seq9-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a><a href="seq9-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
       </div>
 
 
 
-      <div class="content-card no-print">
-        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
-        <div class="lien-encart">
-          <img src="../../img/qr/49S.svg" alt="QR code 49S">
-          <div>
-            <div class="lien-code">49S</div>
-            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
-            d'accès direct du site.</p>
-            <div class="lien-url">https://technologie-lft.vercel.app/go.html?c=49S</div>
-          </div>
-        </div>
-
-      </div>
+      
 
       <div class="info-box info-box-orange" style="margin-bottom: var(--space-lg);"><div class="info-box-title">Page en attente de mise à jour</div>La séquence a été <strong>recomposée</strong> : deux séquences auparavant distinctes ont été réunies en une seule. Le déroulement, le minutage et l'évaluation qui font foi sont ceux de la. Cette page décrit encore l'organisation antérieure et sera reprise.</div>
 <div class="content-card"><h2>1 : Du besoin au cahier des charges fonctionnel</h2><p>Un projet technique part toujours d&#x27;un besoin réel : quelque chose manque, ou quelqu&#x27;un doit être prévenu à temps. Le cahier des charges fonctionnel, abrégé CdCF, est le document qui écrit ce besoin de manière vérifiable. Il contient trois éléments. La fonction principale dit le service rendu : ce que l&#x27;objet doit faire. Les fonctions de contrainte disent les limites à respecter : dimensions, matériaux, conditions d&#x27;usage, quota de matière. Les critères d&#x27;appréciation disent comment on mesurera que le besoin est satisfait.</p><p>Règle centrale, à retenir avant toutes les autres : le cahier des charges dit ce que l&#x27;objet doit faire, il ne dit pas comment le fabriquer. « Prévenir par un son quand l&#x27;eau approche du bord » est un besoin. « Coller un capteur ultrason sur une planche » est une solution : cela n&#x27;a pas sa place dans le cahier des charges.</p><ul class="liste-etiquetee"><li><strong>Deuxième règle :</strong> chaque contrainte porte une valeur que l&#x27;on peut mesurer, avec son unité. Une contrainte sans valeur ne peut pas être vérifiée à la fin, donc elle ne sert à rien.</li><li><strong>Troisième règle, apprise à nos dépens :</strong> la valeur doit aussi pouvoir être mesurée dans le temps dont on dispose. Une autonomie de quatre heures est une valeur chiffrée, mais elle ne se vérifie pas pendant une séance de 90 minutes. C&#x27;est en séance 5, quand on reprend le cahier des charges pour valider le prototype, que l&#x27;on découvre si les critères étaient bien écrits.</li></ul></div>
@@ -82,8 +61,25 @@
 <tr><td><strong>Contrôle qualité</strong></td><td>Vérification des pièces fabriquées : dimensions mesurées au pied à coulisse, emboîtement, position des ouvertures, état des bords.</td></tr>
 <tr><td><strong>Validation</strong></td><td>Retour au cahier des charges après fabrication : chaque ligne est reprise et déclarée respectée ou non respectée, avec la mesure obtenue et, si besoin, une amélioration.</td></tr>
 </tbody></table></div>
+    
+      <div class="pied-fiche">
+<div class="content-card no-print">
+        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/49S.svg" alt="QR code 49S">
+          <div>
+            <div class="lien-code">49S</div>
+            <p>Scanne le QR code, ou tape ce code sur la page d'accès du site.</p>
+            <div class="lien-url">https://techlft.egd.mg/go.html?c=49S</div>
+          </div>
+        </div>
+
+      </div>
+      </div>
     </main>
   </div>
+
+  <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
 </body>

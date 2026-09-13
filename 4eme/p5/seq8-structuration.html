@@ -6,14 +6,6 @@
   <title>Séq. 8 : Structuration | 4ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
-  <style>
-    .lien-encart { display: grid; grid-template-columns: 104px 1fr; gap: 14px; align-items: center; }
-    .lien-encart img { width: 104px; height: auto; border: 1px solid var(--gray-300); border-radius: 6px; background: #fff; }
-    .lien-code { font-family: ui-monospace, Menlo, Consolas, monospace; font-weight: 700;
-                 font-size: 1.5rem; letter-spacing: .06em; }
-    .lien-url { font-size: .88rem; word-break: break-all; color: var(--gray-600); }
-    @media (max-width: 520px) { .lien-encart { grid-template-columns: 1fr; justify-items: start; } }
-  </style>
 </head>
 <body>
   <div id="app" data-page="4eme"
@@ -24,30 +16,17 @@
     <main class="site-main">
 
       <div class="page-header">
-        <span class="page-level-badge level-4eme">&#x1F7E2; 4ème · Période 5 · Structuration</span>
+        <span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ème · Période 5 · Structuration</span>
         <h1>Séquence 8 : Chaîne d&#x27;énergie et chaîne d&#x27;information</h1>
         <p class="page-description">Notions essentielles, synthèse et vocabulaire de la séquence.</p>
       </div>
 
       <div class="page-actions no-print">
         <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
-        <a href="seq8-activite.html" class="btn btn-outline">&#x1F4DD; Activité</a><a href="seq8-revision.html" class="btn btn-outline">&#x1F4D6; Révision</a>
       </div>
 
 
-      <div class="content-card no-print">
-        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
-        <div class="lien-encart">
-          <img src="../../img/qr/48S.svg" alt="QR code 48S">
-          <div>
-            <div class="lien-code">48S</div>
-            <p style="margin:.2rem 0 .4rem">Scanne le QR code, ou saisis ce code sur la page
-            d'accès direct du site.</p>
-            <div class="lien-url">https://technologie-lft.vercel.app/go.html?c=48S</div>
-          </div>
-        </div>
-
-      </div>
+      
 
 <div class="content-card"><h2>1. La chaîne d&#x27;énergie : de l&#x27;entrée jusqu&#x27;à l&#x27;action</h2><p>Tout objet technique qui produit une action a besoin d&#x27;énergie. Cette énergie entre dans l&#x27;objet, traverse plusieurs composants, change de forme, et ressort sous forme d&#x27;action utile. L&#x27;ensemble de ces composants forme la chaîne d&#x27;énergie.</p><p>Elle comporte quatre maillons, toujours dans le même ordre.</p><ul class="liste-etiquetee"><li><strong>Alimenter :</strong> fournir l&#x27;énergie au départ. Panneau photovoltaïque, batterie, prise et cordon secteur, groupe électrogène.</li><li><strong>Distribuer :</strong> laisser passer l&#x27;énergie ou la couper, et choisir vers où elle va. Interrupteur général, partie puissance de la carte électronique.</li><li><strong>Convertir :</strong> changer la forme de l&#x27;énergie. Le moteur change l&#x27;énergie électrique en mouvement. Le bloc de LED change l&#x27;énergie électrique en lumière. Le composant qui convertit s&#x27;appelle un actionneur.</li><li><strong>Transmettre :</strong> déplacer l&#x27;énergie jusqu&#x27;à l&#x27;endroit utile, sans changer sa forme. Le pignon et la crémaillère transmettent le mouvement du moteur au vantail. La turbine et le tuyau transmettent l&#x27;énergie à l&#x27;eau. Les pales du ventilateur transmettent le mouvement à l&#x27;air. Le réflecteur du lampadaire envoie la lumière vers la rue.</li></ul><p>Tous les objets techniques ont une chaîne d&#x27;énergie, y compris les objets les plus simples. Dans le pousse-pousse, la source d&#x27;énergie est la force musculaire de la personne qui tire ; les brancards et les roues transmettent cette énergie jusqu&#x27;au sol. Dans le foyer amélioré, la source d&#x27;énergie est le charbon ou le bois ; le foyer convertit l&#x27;énergie du combustible en chaleur, et les parois la transmettent vers la marmite.</p></div>
 <div class="content-card"><h2>2. La chaîne d&#x27;information : prendre un renseignement, décider, donner l&#x27;ordre</h2><p>Certains objets se mettent en marche sans que personne ne les touche. Ces objets possèdent, en plus de la chaîne d&#x27;énergie, une chaîne d&#x27;information.</p><p>Elle comporte trois maillons, toujours dans le même ordre.</p><ul class="liste-etiquetee"><li><strong>Acquérir :</strong> prendre un renseignement sur l&#x27;objet ou sur son environnement. Le composant qui fait ce travail s&#x27;appelle un capteur. Le capteur de luminosité prend le renseignement « il fait nuit ». Le détecteur de mouvement prend le renseignement « quelqu&#x27;un passe ». L&#x27;interrupteur à flotteur prend le renseignement « la citerne est pleine ». Le capteur d&#x27;humidité prend le renseignement « le sol est sec ». Le récepteur de télécommande prend le renseignement « l&#x27;usager a appuyé sur un bouton ».</li><li><strong>Traiter :</strong> comparer le renseignement à une valeur, et décider. Ce travail est fait par l&#x27;unité de traitement, c&#x27;est-à-dire le microcontrôleur de la carte électronique. C&#x27;est le programme, écrit à l&#x27;avance, qui fixe la décision.</li><li><strong>Communiquer :</strong> envoyer la décision. La carte envoie l&#x27;ordre au maillon distribuer de la chaîne d&#x27;énergie. Elle peut aussi prévenir l&#x27;usager, avec un voyant, un buzzer ou un feu clignotant.</li></ul><p>Un objet qui possède une chaîne d&#x27;information est un objet automatisé. Un objet qui n&#x27;en possède pas est un objet commandé directement par l&#x27;utilisateur.</p></div>
@@ -70,8 +49,25 @@
 <tr><td><strong>Objet automatisé</strong></td><td>Objet technique qui décide seul de son fonctionnement, grâce à sa chaîne d&#x27;information. Une carte électronique y remplace la décision de l&#x27;utilisateur. Exemples : lampadaire solaire à détecteur, portail automatique, pompe de rizière à capteur d&#x27;humidité.</td></tr>
 <tr><td><strong>Schéma à blocs</strong></td><td>Représentation d&#x27;un objet technique en deux étages : la chaîne d&#x27;énergie en bas, au trait plein, la chaîne d&#x27;information en haut, au trait en pointillés. Un bloc par maillon, le composant écrit sous le bloc, et quatre flèches : l&#x27;énergie qui entre, l&#x27;action qui sort, l&#x27;ordre qui descend, le renseignement qui monte.</td></tr>
 </tbody></table></div>
+    
+      <div class="pied-fiche">
+<div class="content-card no-print">
+        <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
+        <div class="lien-encart">
+          <img src="../../img/qr/48S.svg" alt="QR code 48S">
+          <div>
+            <div class="lien-code">48S</div>
+            <p>Scanne le QR code, ou tape ce code sur la page d'accès du site.</p>
+            <div class="lien-url">https://techlft.egd.mg/go.html?c=48S</div>
+          </div>
+        </div>
+
+      </div>
+      </div>
     </main>
   </div>
+
+  <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
 </body>

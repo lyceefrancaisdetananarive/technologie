@@ -1,0 +1,140 @@
+/* =====================================================================
+   Technologie LFT · pages connectées : connexion, mot de passe, classeur
+   de l'élève, classeur et comptes du professeur.
+
+   Ces pages gardent leur propre enveloppe (elles doivent charger et
+   fonctionner même quand le reste du site peine), mais elles parlent la
+   même langue visuelle que style.css : mêmes couleurs, mêmes polices,
+   mêmes formes. Les noms de classes sont ceux que ces pages utilisent
+   depuis leur première version.
+   ===================================================================== */
+
+@import url('../fonts/faces.css');
+
+:root {
+  --encre: #1F2A37; --encre-2: #4B5867; --encre-3: #5F6B7A; --gris: #5F6B7A;
+  --papier: #F3F5F7; --papier-2: #FFFFFF; --grille: #E3E8EE; --trait: #D5DCE4;
+  --bleu: #004E8C; --bleu-2: #0A63AD; --bleu-pale: #E4EFF9;
+  --cyan: var(--bleu); --orange: #B45309;
+  --fait: #166534; --fait-pale: #DCF3E3; --encours: #9A3F05; --encours-pale: #FDEBD3;
+  --erreur: #B91C1C; --erreur-pale: #FEE2E2; --or: #D4A017;
+  --display: 'Bricolage Grotesque', 'Nunito Sans', system-ui, sans-serif;
+  --texte: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
+  --r: 10px; --r-lg: 16px;
+  --ombre: 0 1px 2px rgba(31, 42, 55, .06), 0 4px 14px rgba(31, 42, 55, .06);
+}
+* { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  margin: 0; min-height: 100vh; color: var(--encre);
+  font: 16px/1.55 var(--texte); -webkit-font-smoothing: antialiased;
+  background-color: var(--papier);
+  background-image: linear-gradient(var(--grille) 1px, transparent 1px), linear-gradient(90deg, var(--grille) 1px, transparent 1px);
+  background-size: 32px 32px; background-position: -1px -1px;
+}
+@media (max-width: 640px) { body { font-size: 17px; } }
+:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; box-shadow: 0 0 0 5px #fff; }
+a { color: var(--bleu); }
+h1, h2, h3 { font-family: var(--display); letter-spacing: -.01em; line-height: 1.2; }
+
+/* ---- en-tête des pages connectées ---- */
+header {
+  background: var(--papier-2); border-bottom: 1px solid var(--trait);
+  padding: .7rem 1.25rem; display: flex; align-items: center; gap: 1rem; flex-wrap: wrap;
+  position: sticky; top: 0; z-index: 10;
+}
+.marque { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; flex: none; text-align: left; }
+.marque img { width: 36px; height: 36px; border-radius: 50%; }
+.marque b { font: 800 1.05rem var(--display); color: var(--bleu); display: block; line-height: 1.1; }
+.marque small { display: block; font-size: .7rem; color: var(--encre-3); letter-spacing: .04em; }
+.marque-page { text-align: center; margin: 0 0 1rem; }
+[hidden] { display: none !important; }
+header h1 { font: 700 1.1rem var(--display); color: var(--encre); margin: 0; flex: 1; min-width: 12rem; }
+header .qui { font-size: .88rem; color: var(--encre-3); }
+header a.retour, header .lien-tete { font-size: .88rem; color: var(--bleu); text-decoration: none; font-weight: 700; }
+.sortir {
+  padding: .45rem .9rem; border: 1.5px solid var(--trait); border-radius: var(--r);
+  background: var(--papier-2); color: var(--encre-2); font: 700 .86rem var(--texte); cursor: pointer;
+}
+.sortir:hover { border-color: var(--erreur); color: var(--erreur); }
+
+/* ---- corps ---- */
+main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+main.etroit, body.etroit main { width: 100%; max-width: 27rem; margin: 6vh auto 0; }
+section {
+  background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--r-lg);
+  padding: 1.5rem; margin-bottom: 1.25rem;
+}
+h2 { font: 700 1.15rem var(--display); margin: 0 0 1rem; }
+.intro { font-size: .92rem; color: var(--encre-2); margin: 0 0 1.2rem; }
+.sous { color: var(--encre-3); font-size: .9rem; margin: 0 0 1.5rem; }
+
+/* ---- formulaires ---- */
+label { display: block; font-weight: 700; margin: .9rem 0 .3rem; font-size: .92rem; }
+select, input, textarea {
+  width: 100%; padding: .65rem .8rem; border: 1.5px solid #8B98A5; border-radius: var(--r);
+  font: inherit; font-size: .98rem; background: var(--papier-2); color: var(--encre);
+}
+textarea { min-height: 4.5rem; resize: vertical; }
+select:focus, input:focus, textarea:focus { outline: 0; border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); }
+input[type="file"] { padding: .5rem; background: var(--papier); }
+.aide { font-size: .84rem; color: var(--encre-3); margin: .35rem 0 0; }
+button, .bouton {
+  display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
+  padding: .7rem 1.2rem; border: 1.5px solid var(--bleu); border-radius: var(--r);
+  background: var(--bleu); color: #fff; font: 700 .95rem var(--texte); cursor: pointer;
+  text-decoration: none; transition: background .12s;
+}
+button:hover, .bouton:hover { background: var(--bleu-2); }
+button[disabled] { opacity: .55; cursor: progress; }
+button.principal { width: 100%; margin-top: 1.25rem; padding: .8rem 1.5rem; font-size: 1rem; }
+button.secondaire, .bouton.secondaire { background: var(--papier-2); color: var(--bleu); }
+button.secondaire:hover { background: var(--bleu-pale); }
+button.discret { background: transparent; color: var(--encre-2); border-color: var(--trait); }
+.ligne { display: flex; gap: .6rem; align-items: flex-end; flex-wrap: wrap; }
+.ligne > *, .ligne > div { flex: 1; min-width: 9rem; }
+.ligne button { flex: 0 0 auto; }
+.lien-sup { background: none; border: 0; padding: 0; color: var(--encre-3); font: inherit; font-size: .85rem; text-decoration: underline; cursor: pointer; }
+.lien-sup:hover { color: var(--erreur); background: none; }
+.lien-sup[disabled] { opacity: .5; cursor: progress; }
+.oubli { display: block; margin-top: 1.1rem; text-align: center; color: var(--bleu); font-size: .92rem; font-weight: 700; }
+.retour { display: block; margin-top: 1rem; text-align: center; font-size: .86rem; color: var(--encre-3); }
+
+/* ---- messages ---- */
+.msg { margin-top: 1rem; padding: .75rem 1rem; border-radius: 0 var(--r) var(--r) 0; font-size: .92rem; display: none; border-left: 4px solid var(--trait); }
+.msg.err { display: block; background: var(--erreur-pale); border-left-color: var(--erreur); }
+.msg.ok { display: block; background: var(--fait-pale); border-left-color: var(--fait); }
+.msg.info { display: block; background: var(--bleu-pale); border-left-color: var(--bleu); }
+.msg.attention { display: block; background: var(--encours-pale); border-left-color: var(--encours); }
+.avert { margin-top: 1.5rem; padding-top: 1.1rem; border-top: 1px solid var(--trait); font-size: .84rem; color: var(--encre-3); }
+.avert strong { color: var(--encours); }
+.note { background: var(--papier); border-left: 4px solid var(--bleu); padding: .75rem 1rem; border-radius: 0 var(--r) var(--r) 0; font-size: .88rem; margin: .8rem 0; }
+.vide { color: var(--encre-3); font-style: italic; }
+
+/* ---- dépôts, groupes, élèves ---- */
+.rendu { border: 1px solid var(--trait); border-radius: 12px; padding: 1rem; margin-bottom: .85rem; background: var(--papier-2); }
+.rendu h3 { font: 700 1rem var(--display); margin: 0 0 .2rem; }
+.rendu.attente { border-left: 5px solid var(--encours); }
+.rendu.fait { border-left: 5px solid var(--fait); }
+.meta { font-size: .84rem; color: var(--encre-3); }
+.etiquette { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .03em; padding: .15rem .6rem; border-radius: 999px; margin-left: .4rem; vertical-align: middle; }
+.etiquette.attente { background: var(--encours-pale); color: var(--encours); }
+.etiquette.corrige { background: var(--fait-pale); color: var(--fait); }
+.etiquette.incomplet { background: var(--erreur-pale); color: var(--erreur); }
+.correction { margin-top: .75rem; padding: .75rem; background: var(--papier); border-left: 4px solid var(--fait); border-radius: 0 var(--r) var(--r) 0; }
+.correction strong { color: var(--fait); }
+.mot { margin: .6rem 0; padding: .6rem .75rem; background: var(--papier); border-radius: var(--r); font-size: .9rem; font-style: italic; }
+.manquants { font-size: .9rem; color: var(--encre-3); }
+.manquants b { color: var(--encre); }
+.mdp { font: 700 1.25rem/1.4 var(--mono); letter-spacing: .06em; background: var(--papier-2); border: 1px dashed var(--trait); padding: .5rem .8rem; border-radius: var(--r); display: inline-block; }
+.groupe { border: 1px solid var(--trait); border-radius: 12px; padding: 1rem; margin-bottom: .85rem; }
+.groupe h3 { font: 700 1rem var(--display); margin: 0 0 .1rem; }
+.eleve { display: flex; align-items: center; gap: .6rem; padding: .4rem 0; border-top: 1px solid var(--grille); font-size: .92rem; }
+.eleve span.qui { flex: 1; }
+.eleve .att { font-size: .78rem; color: var(--encours); font-weight: 700; }
+.barre { height: 6px; background: var(--grille); border-radius: 999px; margin-top: .75rem; overflow: hidden; display: none; }
+.barre div { height: 100%; background: var(--bleu); width: 0; transition: width .25s; }
+
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
+@media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }

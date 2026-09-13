@@ -110,9 +110,9 @@ export default async function handler(req, res) {
     const jetonSession = await sceller(
       { sub: profil.id, role: profil.role, prov: false },
       process.env.LFT_COOKIE_SECRET,
-      profil.role === 'prof' ? 1800 : 3600);
+      profil.role === 'prof' ? 1800 : 7200);
     res.setHeader('Set-Cookie',
-      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 3600));
+      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 7200));
     res.status(200).json({ ok: true, role: profil.role });
 
   } catch (e) {

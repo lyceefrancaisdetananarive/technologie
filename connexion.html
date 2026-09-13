@@ -5,45 +5,22 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Connexion · Technologie · Lycée Français de Tananarive</title>
-<!-- Page volontairement autonome : aucun CSS ni JS extérieur. Si le reste
-     du site ne charge pas sur une liaison qui coupe, on doit tout de même
-     pouvoir se connecter. -->
+<!-- Page presque autonome : une seule feuille, servie par le site, et un secours
+     inline si elle ne charge pas. Aucun script extérieur. -->
 <style>
-  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280; }
-  *{ box-sizing:border-box }
-  body{ margin:0; min-height:100vh; display:flex; align-items:center;
-        justify-content:center; padding:1.5rem; background:#f4f7f9;
-        color:var(--encre); font:16px/1.6 Roboto,system-ui,sans-serif }
-  main{ width:100%; max-width:26rem; background:#fff; border-radius:12px;
-        padding:2rem; box-shadow:0 1px 3px rgba(0,0,0,.08) }
-  h1{ font:600 1.5rem/1.3 Raleway,system-ui,sans-serif; color:var(--cyan);
-      margin:0 0 .25rem }
-  .sous{ color:var(--gris); font-size:.9rem; margin:0 0 1.75rem }
-  label{ display:block; font-weight:500; margin:1rem 0 .35rem }
-  input{ width:100%; padding:.7rem .8rem; border:1px solid #d1d5db;
-         border-radius:8px; font-size:1rem; font-family:inherit }
-  input:focus{ outline:2px solid var(--cyan); outline-offset:1px;
-               border-color:var(--cyan) }
-  button{ width:100%; margin-top:1.5rem; padding:.8rem; border:0;
-          border-radius:8px; background:var(--cyan); color:#fff;
-          font:500 1rem Raleway,system-ui,sans-serif; cursor:pointer }
-  button:hover{ background:#007ba6 }
-  button[disabled]{ opacity:.6; cursor:progress }
-  .oubli{ display:block; margin-top:1.25rem; text-align:center;
-          color:var(--cyan); font-size:.9rem }
-  .msg{ margin-top:1.25rem; padding:.8rem 1rem; border-radius:8px;
-        font-size:.9rem; display:none }
-  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
-  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
-  .avert{ margin-top:1.75rem; padding-top:1.25rem; border-top:1px solid #e5e7eb;
-          font-size:.82rem; color:var(--gris) }
-  .avert strong{ color:var(--orange) }
-  .retour{ display:block; margin-top:1rem; text-align:center;
-           font-size:.85rem; color:var(--gris) }
+  /* Secours si la feuille commune ne charge pas : la page reste lisible et le formulaire utilisable. */
+  body{margin:0;font:16px/1.5 system-ui,sans-serif;color:#1F2A37;background:#F3F5F7}
+  main{max-width:27rem;margin:6vh auto 0;padding:1.5rem}
+  section{background:#fff;border:1px solid #D5DCE4;border-radius:16px;padding:1.5rem}
+  input,button{width:100%;box-sizing:border-box;font:inherit;padding:.65rem .8rem;border-radius:10px;border:1.5px solid #D5DCE4}
+  button{background:#004E8C;color:#fff;border-color:#004E8C;margin-top:1rem;cursor:pointer}
 </style>
+<link rel="stylesheet" href="/css/connecte.css">
 </head>
-<body>
+<body class="etroit">
 <main>
+  <p class="marque-page"><a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a></p>
+  <section>
   <h1>Espace Technologie</h1>
   <p class="sous">Lycée Français de Tananarive</p>
 
@@ -72,6 +49,7 @@
     travaille pas sous votre nom.
   </p>
 
+  </section>
   <a class="retour" href="/">← Retour au site de Technologie (sans compte)</a>
 </main>
 

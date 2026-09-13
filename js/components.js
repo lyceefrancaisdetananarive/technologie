@@ -207,6 +207,77 @@
 // catalogue:fin recherche
   ];
 
+  // ---- PICTOGRAMMES ----
+  // Les pages portent des emojis dans des <span class="ico">. Ils s'affichent
+  // différemment selon Windows, Android ou l'imprimante. À l'écran, ceux qui
+  // ont un équivalent sont remplacés par un tracé SVG en couleur courante ;
+  // les autres restent tels quels. Le HTML des 234 pages n'est pas touché.
+  const TRAIT = 'fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"';
+  const PICTOS = {
+    '⬜': '<rect x="4" y="4" width="16" height="16" rx="3"/>',                                   // case à cocher
+    '✅': '<rect x="3" y="3" width="18" height="18" rx="3"/><path d="M8 12.5l2.7 2.7L16.5 9"/>', // coché
+    '\u{1F5A8}': '<path d="M6 9V3h12v6M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="7"/>',
+    '\u{1F4DD}': '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',      // activité
+    '✏': '<path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"/>',
+    '\u{1F517}': '<path d="M10 13a5 5 0 0 0 7 0l3-3a5 5 0 0 0-7-7l-1.5 1.5"/><path d="M14 11a5 5 0 0 0-7 0l-3 3a5 5 0 0 0 7 7l1.5-1.5"/>',
+    '❓': '<circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 1.7"/><path d="M12 17h.01"/>', // quiz
+    '\u{1F4D8}': '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>', // cours
+    '\u{1F4D7}': '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/><path d="M9 7h7M9 11h7"/>', // prof
+    '\u{1F4D2}': '<path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/>',
+    '\u{1F4D6}': '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>', // révision
+    '\u{1F4DA}': '<path d="M12 2 2 7l10 5 10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/>',
+    '\u{1F4A1}': '<path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7c.6.5 1 1.3 1 2.3h6c0-1 .4-1.8 1-2.3A7 7 0 0 0 12 2z"/>',
+    '\u{1F4CC}': '<path d="M21 10c0 7-9 12-9 12S3 17 3 10a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/>',
+    '\u{1F3AC}': '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="M2 9h20M7 4v5M12 4v5M17 4v5"/>',
+    '\u{1F4E4}': '<path d="M12 16V4M6 10l6-6 6 6"/><path d="M4 20h16"/>',
+    '♿': '<circle cx="12" cy="4.5" r="2"/><path d="M8.5 9.5l3.5.5v5l3.5 4"/><path d="M15.5 10.5H12"/><path d="M6.5 13a5.5 5.5 0 0 0 8 6.5"/>',
+    '\u{1F4CA}': '<path d="M4 20V10M10 20V4M16 20v-7M22 20H2"/>',
+    '\u{1F4CB}': '<rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V2h6v2M9 11h6M9 15h4"/>',
+    '\u{1F3AF}': '<circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="5"/><circle cx="12" cy="12" r="1.5"/>',
+    '\u{1F4C5}': '<rect x="3" y="5" width="18" height="16" rx="2"/><path d="M3 10h18M8 3v4M16 3v4"/>',
+    '→': '<path d="M5 12h14M13 6l6 6-6 6"/>',
+    '⬇': '<path d="M12 5v14M6 13l6 6 6-6"/>',
+    '\u{1F4CE}': '<path d="M21 11.5 12.5 20a5.5 5.5 0 0 1-7.8-7.8l8.5-8.5a3.5 3.5 0 0 1 5 5L9.7 17.2a1.5 1.5 0 0 1-2.1-2.1L15.5 7"/>',
+    '⭐': '<path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4 6.1 20.5l1.2-6.5L2.5 9.4l6.6-.9z"/>',
+    '\u{1F9ED}': '<circle cx="12" cy="12" r="9"/><path d="M15.5 8.5l-2 5-5 2 2-5z"/>',
+    '\u{1F511}': '<circle cx="8" cy="15" r="4"/><path d="M10.9 12.1 20 3M15 8l3 3M12 11l3 3"/>',
+    '\u{1F4F1}': '<rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18h.01"/>',
+    '⚡': '<path d="M13 2 4 14h7l-1 8 9-12h-7z"/>',
+    '⚠': '<path d="M12 3 2 20h20z"/><path d="M12 9v5M12 17h.01"/>',
+    '\u{1F393}': '<path d="M2 9l10-5 10 5-10 5z"/><path d="M6 11.5V16c0 1.5 3 3 6 3s6-1.5 6-3v-4.5"/>',
+    '\u{1F9F0}': '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M8 7V4h8v3M2 13h20"/>',
+    '\u{1F50D}': '<circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/>',
+    '\u{1F501}': '<path d="M17 2l4 4-4 4"/><path d="M3 11V9a4 4 0 0 1 4-4h14"/><path d="M7 22l-4-4 4-4"/><path d="M21 13v2a4 4 0 0 1-4 4H3"/>',
+    '⚙': '<circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .3 1.8l.1.1a2 2 0 1 1-2.8 2.8l-.1-.1a1.7 1.7 0 0 0-1.8-.3 1.7 1.7 0 0 0-1 1.5V21a2 2 0 1 1-4 0v-.1a1.7 1.7 0 0 0-1.1-1.5 1.7 1.7 0 0 0-1.8.3l-.1.1a2 2 0 1 1-2.8-2.8l.1-.1a1.7 1.7 0 0 0 .3-1.8 1.7 1.7 0 0 0-1.5-1H3a2 2 0 1 1 0-4h.1a1.7 1.7 0 0 0 1.5-1.1 1.7 1.7 0 0 0-.3-1.8l-.1-.1a2 2 0 1 1 2.8-2.8l.1.1a1.7 1.7 0 0 0 1.8.3H9a1.7 1.7 0 0 0 1-1.5V3a2 2 0 1 1 4 0v.1a1.7 1.7 0 0 0 1 1.5 1.7 1.7 0 0 0 1.8-.3l.1-.1a2 2 0 1 1 2.8 2.8l-.1.1a1.7 1.7 0 0 0-.3 1.8V9a1.7 1.7 0 0 0 1.5 1H21a2 2 0 1 1 0 4h-.1a1.7 1.7 0 0 0-1.5 1z"/>',
+    '\u{1F3E0}': '<path d="M3 11 12 3l9 8"/><path d="M5 10v10h5v-6h4v6h5V10"/>',
+    '\u{1F4CF}': '<path d="M3 17 17 3l4 4L7 21z"/><path d="M14 6l1.5 1.5M11 9l1.5 1.5M8 12l1.5 1.5"/>',
+    '\u{1F5A5}': '<rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/>',
+    '\u{1F4BE}': '<path d="M19 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11l5 5v11a2 2 0 0 1-2 2z"/><path d="M17 21v-8H7v8M7 3v5h8"/>',
+    '\u{1F512}': '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 8 0v4"/>',
+    '\u{1F513}': '<rect x="4" y="11" width="16" height="10" rx="2"/><path d="M8 11V7a4 4 0 0 1 7.5-2"/>',
+    '\u{1F4FD}': '<circle cx="8" cy="8" r="4"/><circle cx="16" cy="8" r="4"/><path d="M4 12h16v7H4zM12 19v3"/>',
+    '\u{1F465}': '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87M16 3.13a4 4 0 0 1 0 7.75"/>',
+    '\u{1F5D1}': '<path d="M3 6h18M8 6V4h8v2M6 6l1 14h10l1-14"/>',
+    '\u{1F441}': '<path d="M1 12s4-7 11-7 11 7 11 7-4 7-11 7S1 12 1 12z"/><circle cx="12" cy="12" r="3"/>',
+    '\u{1F4C4}': '<path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6M8 13h8M8 17h6"/>',
+    '\u{1F9EA}': '<path d="M9 3h6M10 3v6l-5 9a2 2 0 0 0 1.7 3h10.6a2 2 0 0 0 1.7-3l-5-9V3"/>',
+    '\u{1F535}': 'point', '\u{1F7E2}': 'point', '\u{1F7E0}': 'point',
+  };
+  function svgPicto(cle) {
+    const p = PICTOS[cle];
+    if (!p) return null;
+    if (p === 'point') return '<svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="6" fill="currentColor"/></svg>';
+    return `<svg viewBox="0 0 24 24" ${TRAIT} aria-hidden="true">${p}</svg>`;
+  }
+  function remplacerPictos(racine) {
+    (racine || document).querySelectorAll('span.ico').forEach(function (sp) {
+      if (sp.querySelector('svg')) return;
+      const t = sp.textContent.trim().replace(/️/g, '');
+      const svg = svgPicto(t);
+      if (svg) { sp.innerHTML = svg; sp.classList.add('ico-svg'); }
+    });
+  }
+
   // ---- HEADER ----
   function renderHeader() {
     const header = document.createElement('header');
@@ -214,18 +285,21 @@
     header.innerHTML = `
       <div class="header-inner">
         <a href="${ROOT}/index.html" class="header-brand">
-          <img src="${ROOT}/img/logo-lft.png" alt="Logo LFT" class="header-logo">
+          <img src="${ROOT}/img/logo-lft.png" alt="" class="header-logo">
           <div class="header-title">
-            <span class="header-title-main">Technologie LFT</span>
-            <span class="header-title-sub">Lyc\u00e9e Fran\u00e7ais de Tananarive</span>
+            <span class="header-title-main">Technologie</span>
+            <span class="header-title-sub">Lycée Français de Tananarive</span>
           </div>
         </a>
         <div class="header-search">
-          <span class="header-search-icon">\u{1F50D}</span>
-          <input type="text" placeholder="Rechercher une s\u00e9quence, un quiz..." id="search-input" autocomplete="off">
+          <span class="header-search-icon">${svgPicto('\u{1F50D}')}</span>
+          <input type="search" placeholder="Rechercher une séquence, un quiz…" id="search-input" autocomplete="off" aria-label="Rechercher dans le site">
           <div class="search-results" id="search-results"></div>
         </div>
-        <button class="menu-toggle" id="menu-toggle" aria-label="Menu">\u2630</button>
+        <div class="header-session" id="header-session"></div>
+        <button class="menu-toggle" id="menu-toggle" aria-label="Menu" aria-expanded="false">
+          <svg viewBox="0 0 24 24" ${TRAIT}><path d="M4 7h16M4 12h16M4 17h16"/></svg>
+        </button>
       </div>
     `;
     return header;
@@ -236,16 +310,19 @@
     const nav = document.createElement('nav');
     nav.className = 'site-nav';
     nav.id = 'site-nav';
+    nav.setAttribute('aria-label', 'Navigation principale');
+    const item = (href, page, label, level) =>
+      `<a href="${ROOT}/${href}" class="nav-item ${activePage === page ? 'active' : ''}"${level ? ` data-level="${level}"` : ''}${activePage === page ? ' aria-current="page"' : ''}>${level ? '<span class="pastille-niveau" aria-hidden="true"></span>' : ''}${label}</a>`;
     nav.innerHTML = `
       <div class="nav-inner">
-        <a href="${ROOT}/index.html" class="nav-item ${activePage === 'home' ? 'active' : ''}">\u{1F3E0} Accueil</a>
+        ${item('index.html', 'home', 'Accueil')}
         <div class="nav-separator"></div>
-        <a href="${ROOT}/5eme/index.html" class="nav-item ${activePage === '5eme' ? 'active' : ''}" data-level="5eme">\u{1F535} 5\u00e8me</a>
-        <a href="${ROOT}/4eme/index.html" class="nav-item ${activePage === '4eme' ? 'active' : ''}" data-level="4eme">\u{1F7E2} 4\u00e8me</a>
-        <a href="${ROOT}/3eme/index.html" class="nav-item ${activePage === '3eme' ? 'active' : ''}" data-level="3eme">\u{1F7E0} 3\u00e8me</a>
+        ${item('5eme/index.html', '5eme', '5e', '5eme')}
+        ${item('4eme/index.html', '4eme', '4e', '4eme')}
+        ${item('3eme/index.html', '3eme', '3e', '3eme')}
         <div class="nav-separator"></div>
-        <a href="${ROOT}/structuration/index.html" class="nav-item ${activePage === 'structuration' ? 'active' : ''}">\u{1F4D8} Cours</a>
-        <a href="${ROOT}/outils/index.html" class="nav-item ${activePage === 'outils' ? 'active' : ''}">\u{1F9F0} Outils</a>
+        ${item('structuration/index.html', 'structuration', 'Cours')}
+        ${item('outils/index.html', 'outils', 'Outils')}
       </div>
     `;
     return nav;
@@ -254,35 +331,13 @@
   // ---- BREADCRUMB ----
   function renderBreadcrumb(items) {
     if (!items || items.length === 0) return null;
-
-    // Auto-add URLs for trimester breadcrumb items (T1/T2/T3 or Trimestre 1/2/3)
-    items = items.map((item, i) => {
-      if (!item.url && item.label && i > 0 && i < items.length - 1) {
-        const match = item.label.match(/^T([1-3])\s|^Trimestre\s([1-3])/);
-        if (match) {
-          const prevItem = items[i - 1];
-          if (prevItem && prevItem.url) {
-            const trimNum = match[1] || match[2];
-            let tabId = 't' + trimNum;
-            if (prevItem.label.includes('4')) tabId += '-4';
-            else if (prevItem.label.includes('3')) tabId += '-3';
-            return { label: item.label, url: prevItem.url + '#' + tabId };
-          }
-        }
-      }
-      return item;
-    });
-
     const bc = document.createElement('div');
     bc.className = 'breadcrumb';
+    bc.setAttribute('aria-label', 'Fil d’Ariane');
     const parts = items.map((item, i) => {
-      if (i === items.length - 1) {
-        return `<span class="breadcrumb-current">${item.label}</span>`;
-      }
-      if (item.url) {
-        return `<a href="${item.url}">${item.label}</a><span class="breadcrumb-sep">\u203A</span>`;
-      }
-      return `<span>${item.label}</span><span class="breadcrumb-sep">\u203A</span>`;
+      if (i === items.length - 1) return `<span class="breadcrumb-current">${item.label}</span>`;
+      if (item.url) return `<a href="${item.url}">${item.label}</a><span class="breadcrumb-sep">›</span>`;
+      return `<span>${item.label}</span><span class="breadcrumb-sep">›</span>`;
     });
     bc.innerHTML = parts.join('');
     return bc;
@@ -296,41 +351,36 @@
     footer.innerHTML = `
       <div class="footer-inner">
         <div class="footer-left">
-          <img src="${ROOT}/img/logo-lft.png" alt="LFT" class="footer-logo">
+          <img src="${ROOT}/img/logo-lft.png" alt="" class="footer-logo">
           <div class="footer-text">
-            <strong>Technologie · Lyc\u00e9e Fran\u00e7ais de Tananarive</strong><br>
-            Ambatobe, Antananarivo, Madagascar
-            <div class="footer-aefe">
-              R\u00e9seau AEFE : Enseignement fran\u00e7ais \u00e0 l'\u00e9tranger
+            <strong>Technologie · Lycée Français de Tananarive</strong><br>
+            Ambatobe, Antananarivo, Madagascar · réseau AEFE
+            <div class="footer-liens">
+              <a href="${ROOT}/structuration/index.html">Cours</a>
+              <a href="${ROOT}/outils/index.html">Outils</a>
+              <a href="${ROOT}/parents.html">Parents</a>
+              <a href="${ROOT}/enseignant/index.html">Espace enseignant</a>
             </div>
           </div>
         </div>
         <div class="footer-right">
-          \u00a9 ${year} Technologie LFT<br>
-          <span class="text-xs">Site p\u00e9dagogique : Cycle 4</span>
+          techlft.egd.mg · ${year}<br>
+          <span class="text-xs">Site pédagogique du cycle 4, public par défaut : aucun compte n’est nécessaire pour lire un cours.</span>
         </div>
       </div>
     `;
     return footer;
   }
 
-  // ---- VOYANT DE SESSION ----
+  // ---- SESSION ----
   // Le cookie de session est HttpOnly : ce script ne peut ni le lire ni
-  // l'effacer. Sans le temoin pose a cote de lui, une session laissee ouverte
-  // sur un poste de salle informatique est totalement invisible : le bandeau
-  // n'affiche rien, et l'eleve suivant en conclut que personne n'est connecte.
-  //
-  // C'EST UN VOYANT, PAS UNE BARRIERE. Le temoin ne contient ni jeton ni
-  // identite, seulement le role. Un eleve peut l'effacer : il n'y gagne rien,
-  // le portier decide toujours sur le cookie scelle, que lui ne voit pas.
-  //
-  // Cout reseau au chargement : ZERO. Lire document.cookie est local. La
-  // seule requete part quand quelqu'un clique sur le bouton.
+  // l'effacer. Un temoin non-HttpOnly pose a cote de lui dit seulement le
+  // role et l'echeance. C'EST UN VOYANT, PAS UNE BARRIERE : l'eleve peut
+  // l'effacer, il n'y gagne rien, le portier decide sur le cookie scelle.
+  // Cout reseau au chargement : zero. La seule requete part au clic sur
+  // « fermer ».
   function lireTemoin() {
     try {
-      // Format « role.echeance », l'echeance en secondes Unix. Elle evite que
-      // le bandeau survive a la session : un avertissement qui se trompe finit
-      // par ne plus etre lu. Lecture purement locale, zero octet de reseau.
       const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:;|$)/);
       if (!m) return null;
       if (Number(m[2]) * 1000 < Date.now()) return null;
@@ -338,76 +388,109 @@
     } catch (e) { return null; }
   }
 
-  function renderVoyantSession() {
+  function renderSession(activePage) {
+    const zone = document.getElementById('header-session');
+    if (!zone) return;
     const role = lireTemoin();
-    if (!role) return null;
-
-    const prof = role === 'prof';
-    const d = document.createElement('div');
-    d.className = 'no-print';
-    d.setAttribute('role', 'status');
-    d.style.cssText =
-      'padding:.6rem 1rem;font:500 .9rem/1.45 Roboto,system-ui,sans-serif;' +
-      'display:flex;gap:.75rem;align-items:center;justify-content:center;' +
-      'flex-wrap:wrap;text-align:center;' +
-      (prof ? 'background:#fef2f2;color:#7f1d1d;border-bottom:2px solid #dc2626'
-            : 'background:#eff6ff;color:#1e3a5f;border-bottom:2px solid #3b82f6');
-
-    const texte = prof
-      ? 'Une session <strong>professeur</strong> est ouverte sur cet ordinateur. '
-        + 'Les corrigés et l’espace enseignant sont accessibles depuis ce navigateur.'
-      : 'Une session <strong>élève</strong> est ouverte sur cet ordinateur.';
-
-    d.innerHTML = '<span>' + texte + '</span>';
-
-    const b = document.createElement('button');
-    b.type = 'button';
-    b.textContent = 'Fermer la session';
-    b.style.cssText =
-      'border:0;border-radius:6px;padding:.4rem .9rem;cursor:pointer;' +
-      'font:500 .88rem Raleway,system-ui,sans-serif;color:#fff;' +
-      (prof ? 'background:#dc2626' : 'background:#3b82f6');
-
-    // N'EFFACER LE TEMOIN QUE SUR UN 200 CONFIRME.
-    //
-    // Le cookie de session est HttpOnly : cette page ne peut pas l'effacer.
-    // Seul /api/auth/deconnexion le peut. Effacer le temoin sans avoir la
-    // preuve que l'appel a abouti ferait donc disparaitre le bandeau en
-    // laissant la session VIVANTE : le geste cense proteger supprimerait la
-    // seule chose qui avertit l'occupant suivant.
-    //
-    // Deux pieges a eviter ici : fetch() ne rejette PAS sur un statut 4xx ou
-    // 5xx, et un .catch() suivi d'un .then() rend une promesse resolue, donc
-    // le .then s'execute aussi apres un echec reseau.
-    function echec() {
-      b.disabled = false;
-      b.textContent = 'Fermer la session';
-      const avis = d.querySelector('.lft-avis') || document.createElement('span');
-      avis.className = 'lft-avis';
-      avis.style.cssText = 'flex-basis:100%;font-weight:600';
-      avis.textContent =
-        'La session n’a PAS été fermée. Fermez complètement le navigateur : ' +
-        'la session meurt avec lui.';
-      if (!avis.parentNode) d.appendChild(avis);
+    if (!role) {
+      if (activePage === 'connexion') return;
+      // Chaque eleve ouvre sa session a chaque seance (decision D15) : le
+      // bouton est dans l'en-tete de toutes les pages, et ramene ici apres.
+      const suite = encodeURIComponent(location.pathname + location.search);
+      zone.innerHTML = `<a class="btn btn-sm" href="${ROOT}/connexion.html?suite=${suite}">${svgPicto('\u{1F511}')}<span class="txt">Se connecter</span></a>`;
+      return;
     }
-
+    const prof = role === 'prof';
+    const pile = document.createElement('span');
+    pile.className = 'session-pile' + (prof ? ' prof' : '');
+    pile.setAttribute('role', 'status');
+    pile.innerHTML = `<span class="ini">${prof ? 'P' : 'E'}</span><span class="txt">Session ${prof ? 'professeur' : 'élève'} ouverte</span>`;
+    const b = document.createElement('button');
+    b.type = 'button'; b.className = 'fermer'; b.textContent = 'Fermer ma session';
+    b.title = 'Fermer la session sur cet ordinateur';
+    // N'EFFACER LE TEMOIN QUE SUR UN 200 CONFIRME : sinon le voyant
+    // disparaitrait en laissant la session vivante, et l'occupant suivant
+    // du poste ne serait plus averti. fetch() ne rejette pas sur un 4xx.
+    function echec() {
+      b.disabled = false; b.textContent = 'Fermer ma session';
+      let avis = document.getElementById('session-avis');
+      if (!avis) {
+        avis = document.createElement('div'); avis.id = 'session-avis'; avis.className = 'session-avis no-print';
+        avis.style.cssText = 'text-align:center;padding:.4rem 1rem;background:#FEE2E2;border-bottom:1px solid #F5B7BF';
+        document.querySelector('.site-header').insertAdjacentElement('afterend', avis);
+      }
+      avis.textContent = 'La session n’a PAS été fermée. Fermez complètement le navigateur : la session meurt avec lui.';
+    }
     b.addEventListener('click', function () {
-      b.disabled = true;
-      b.textContent = 'Fermeture…';
-      // keepalive : la requete aboutit meme si la page est quittee dans la
-      // foulee, ce qui arrive quand on ferme l'onglet juste apres.
-      fetch('/api/auth/deconnexion', {
-        method: 'POST', credentials: 'same-origin', keepalive: true
-      })
-      .then(function (r) {
-        if (!r || !r.ok) return echec();
-        document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
-        location.reload();
-      })
-      .catch(echec);
+      b.disabled = true; b.textContent = 'Fermeture…';
+      fetch('/api/auth/deconnexion', { method: 'POST', credentials: 'same-origin', keepalive: true })
+        .then(function (r) {
+          if (!r || !r.ok) return echec();
+          document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
+          location.reload();
+        })
+        .catch(echec);
     });
-    d.appendChild(b);
-    return d;
+    pile.appendChild(b);
+    zone.innerHTML = '';
+    zone.appendChild(pile);
+    document.documentElement.dataset.session = role;
+
+    // Sur l'accueil, un raccourci vers l'espace de la personne connectee
+    const reprise = document.getElementById('accueil-reprise');
+    if (reprise) {
+      reprise.hidden = false;
+      reprise.innerHTML = prof
+        ? `<div><b>Session professeur ouverte</b><span>Vos groupes, les dépôts à corriger, les fiches professeur.</span></div><a class="btn" href="${ROOT}/enseignant/index.html">Mon espace</a>`
+        : `<div><b>Session élève ouverte</b><span>Ton classeur : déposer un travail, retrouver les retours de ton professeur.</span></div><a class="btn" href="${ROOT}/classeur/index.html">Mon classeur</a>`;
+    }
+  }
+
+  // ---- EN-TETE DE SEQUENCE ----
+  // Sur une page de sequence, le catalogue (js/catalogue.js) dit tout ce que
+  // la page hesitait a dire elle-meme : theme, nombre de seances, place dans
+  // l'annee, et les documents freres. Un seul endroit a corriger.
+  function trouverSequence() {
+    const m = location.pathname.match(/\/([345]eme)\/p(\d)\/(seq\d+)-(activite|structuration|quiz|eval|revision|ebep|prof)\.html$/);
+    if (!m || !window.CATALOGUE) return null;
+    const niv = window.CATALOGUE.niveaux[m[1]];
+    if (!niv) return null;
+    const seq = niv.sequences.find(s => s.cle === m[3] && s.periode === Number(m[2]));
+    if (!seq) return null;
+    const doc = m[4] === 'structuration' ? 'cours' : m[4];
+    return { niveau: m[1], niv, seq, doc, total: niv.sequences.length };
+  }
+
+  function renderFicheTete(ctx) {
+    const { niveau, niv, seq, doc, total } = ctx;
+    const theme = window.CATALOGUE.themes[String(seq.theme)] || (seq.theme === 0 ? 'Transversal' : '');
+    const libelles = { activite: ['Activité', 'ce que tu fais en classe'], cours: ['Cours', 'structuration des connaissances'],
+      quiz: ['Quiz', 'pour vérifier'], eval: ['Évaluation', 'en classe'], revision: ['Révision', 'avant l’évaluation'],
+      ebep: ['Version adaptée', 'même activité, autrement'], prof: ['Fiche professeur', 'réservée'] };
+    const prof = lireTemoin() === 'prof';
+    const onglets = ['activite', 'cours', 'quiz', 'eval', 'revision', 'ebep', 'prof'].filter(k => seq.documents[k]).filter(k => {
+      if (k === 'prof') return prof || doc === 'prof';
+      if (k === 'ebep') return prof || doc === 'ebep';
+      return true;
+    }).map(k => {
+      const f = seq.documents[k].fichier;
+      const href = ROOT + '/' + f;
+      const cur = k === doc ? ' aria-current="page"' : '';
+      return `<a href="${href}" class="${k === 'prof' ? 'reserve' : ''}"${cur}>${libelles[k][0]}<small>${libelles[k][1]}</small></a>`;
+    }).join('');
+    const tete = document.createElement('div');
+    tete.className = 'fiche-tete-bloc';
+    tete.innerHTML = `
+      <div class="fiche-tete">
+        <div class="meta">
+          <span class="chip level-${niveau}">${niv.libelle} · Période ${seq.periode}</span>
+          <span class="chip">Séquence ${seq.n} sur ${total}</span>
+          <span class="chip">${seq.seances} séances</span>
+          ${theme ? `<span class="chip">${seq.theme ? 'Thème ' + seq.theme + ' · ' : ''}${theme}</span>` : ''}
+        </div>
+      </div>
+      <nav class="docs" aria-label="Documents de la séquence">${onglets}</nav>`;
+    return tete;
   }
 
   // ---- PRINT HEADER ----
@@ -440,10 +523,10 @@
   // Ajoute a l'impression sur les documents destines a l'eleve, jamais sur les
   // fiches professeur. Inspire des trames de l'academie de Bordeaux.
   function renderPrintIdentite(title) {
-    // La fiche EBEP decrit les besoins nommes de l'eleve (« trouble du langage
-    // ecrit », « trouble de l'attention ») : elle s'adresse au professeur et ne
-    // se remet pas a l'eleve. Pas de bloc identite dessus.
-    const pourEleve = !/professeur|fiche prof|corrig|ebep|adaptation/i.test(title || '');
+    // La version adaptee est remise a l'eleve comme les autres fiches (elle
+    // ne porte plus d'etiquette, decision D15) : elle recoit le bloc identite.
+    // Les fiches professeur et les corriges, non.
+    const pourEleve = !/professeur|fiche prof|corrig/i.test(title || '');
     if (!pourEleve) return null;
     const d = document.createElement('div');
     d.className = 'print-identite';
@@ -479,11 +562,7 @@
     const results = document.getElementById('search-results');
     if (!input || !results) return;
 
-    const levelColors = {
-      '5eme': { bg: 'var(--color-5eme-light)', color: 'var(--color-5eme-dark)', label: '5\u00e8me' },
-      '4eme': { bg: 'var(--color-4eme-light)', color: 'var(--color-4eme-dark)', label: '4\u00e8me' },
-      '3eme': { bg: 'var(--color-3eme-light)', color: 'var(--color-3eme-dark)', label: '3\u00e8me' },
-    };
+    const labels = { '5eme': '5e', '4eme': '4e', '3eme': '3e' };
 
     input.addEventListener('input', function () {
       const query = this.value.toLowerCase().trim();
@@ -498,12 +577,11 @@
       }).slice(0, 8);
 
       if (matches.length === 0) {
-        results.innerHTML = '<div class="search-result-item" style="color:var(--gray-400);cursor:default">Aucun r\u00e9sultat</div>';
+        results.innerHTML = '<div class="search-result-item text-muted">Aucun r\u00e9sultat</div>';
       } else {
         results.innerHTML = matches.map(item => {
-          const badge = item.level && levelColors[item.level]
-            ? `<span class="search-result-badge" style="background:${levelColors[item.level].bg};color:${levelColors[item.level].color}">${levelColors[item.level].label}</span>`
- : '';
+          const badge = item.level && labels[item.level]
+            ? `<span class="search-result-badge level-${item.level}">${labels[item.level]}</span>` : '';
           return `<a href="${item.url}" class="search-result-item">${badge}<span>${item.title}</span></a>`;
         }).join('');
       }
@@ -532,23 +610,21 @@
     const nav = document.getElementById('site-nav');
     if (!toggle || !nav) return;
 
+    const ouvert = `<svg viewBox="0 0 24 24" ${TRAIT}><path d="M6 6l12 12M18 6 6 18"/></svg>`;
+    const ferme = `<svg viewBox="0 0 24 24" ${TRAIT}><path d="M4 7h16M4 12h16M4 17h16"/></svg>`;
     toggle.addEventListener('click', function () {
-      nav.classList.toggle('open');
-      this.textContent = nav.classList.contains('open') ? '\u2715' : '\u2630';
+      const o = nav.classList.toggle('open');
+      this.innerHTML = o ? ouvert : ferme;
+      this.setAttribute('aria-expanded', o ? 'true' : 'false');
     });
-
-    // Close menu on nav item click (mobile)
     nav.querySelectorAll('.nav-item').forEach(item => {
-      item.addEventListener('click', () => {
-        nav.classList.remove('open');
-        toggle.textContent = '\u2630';
-      });
+      item.addEventListener('click', () => { nav.classList.remove('open'); toggle.innerHTML = ferme; toggle.setAttribute('aria-expanded', 'false'); });
     });
   }
 
   // ---- TAB SYSTEM ----
   function initTabs() {
-    document.querySelectorAll('.trimester-tabs').forEach(tabContainer => {
+    document.querySelectorAll('.trimester-tabs, .period-tabs').forEach(tabContainer => {
       const buttons = tabContainer.querySelectorAll('.tab-btn');
       buttons.forEach(btn => {
         btn.addEventListener('click', function () {
@@ -611,14 +687,14 @@
     const breadcrumbData = app.dataset.breadcrumb ? JSON.parse(app.dataset.breadcrumb) : null;
     const printTitle = app.dataset.printTitle || '';
     const printSubtitle = app.dataset.printSubtitle || '';
-
-    // Insert elements before #app
     const parent = app.parentNode;
 
-    // Print header (visible only when printing)
-    parent.insertBefore(renderPrintHeader(printTitle, printSubtitle), app);
+    // Accent du niveau sur toute la page
+    const niv = (location.pathname.match(/\/([345]eme)\//) || [])[1];
+    if (niv) document.body.classList.add('niveau-' + niv);
 
-    // Bloc identite eleve et pied de fiche, a l'impression uniquement
+    // Impression : en-tete cosigne, bloc identite, pied de fiche
+    parent.insertBefore(renderPrintHeader(printTitle, printSubtitle), app);
     const mainPourImpression = app.querySelector('.site-main');
     if (mainPourImpression) {
       const ident = renderPrintIdentite(printTitle);
@@ -627,28 +703,44 @@
       mainPourImpression.appendChild(renderPrintPied());
     }
 
-    // Voyant de session, tout en haut : c'est la premiere chose que voit
-    // l'eleve suivant qui s'installe devant le poste.
-    const voyant = renderVoyantSession();
-    if (voyant) parent.insertBefore(voyant, app);
-
-    // Header
     parent.insertBefore(renderHeader(), app);
-
-    // Nav
     parent.insertBefore(renderNav(activePage), app);
+    renderSession(activePage);
 
-    // Breadcrumb
     if (breadcrumbData) {
       const mainEl = app.querySelector('.site-main') || app;
       const bc = renderBreadcrumb(breadcrumbData);
       if (bc) mainEl.insertBefore(bc, mainEl.firstChild);
     }
 
-    // Footer (after #app)
+    // En-tete de sequence, apres le titre de la page, depuis le catalogue
+    function poserFicheTete() {
+      const ctx = trouverSequence();
+      if (!ctx) return;
+      const entete = app.querySelector('.page-header');
+      if (!entete || app.querySelector('.fiche-tete-bloc')) return;
+      entete.insertAdjacentElement('afterend', renderFicheTete(ctx));
+      entete.classList.add('avec-fiche-tete');
+    }
+    if (window.CATALOGUE) poserFicheTete();
+    else if (/\/[345]eme\/p\d\/seq\d+-/.test(location.pathname)) {
+      const sc = document.createElement('script');
+      sc.src = ROOT + '/js/catalogue.js';
+      sc.onload = poserFicheTete;
+      document.head.appendChild(sc);
+    }
+
     parent.insertBefore(renderFooter(), app.nextSibling);
 
-    // Initialize interactions
+    // Un tableau large defile dans son propre cadre plutot que d'elargir la
+    // page : sur un telephone, le bandeau de depot restait hors de l'ecran.
+    document.querySelectorAll('.site-main table').forEach(function (t) {
+      if (t.closest('.table-scroll')) return;
+      const w = document.createElement('div'); w.className = 'table-scroll';
+      t.parentNode.insertBefore(w, t); w.appendChild(t);
+    });
+
+    remplacerPictos(document);
     initSearch();
     initMobileMenu();
     initTabs();

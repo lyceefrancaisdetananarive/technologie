@@ -134,13 +134,16 @@ def extraire_sequence(niveau, dossier, cle, go):
     numero = int(m.group(1)) if m else int(re.sub(r'\D', '', cle))
     titre = m.group(2).strip() if m else titre
 
+    # Ce que la fiche affiche elle-même, dans son tableau Durée / Thème s'il
+    # existe encore (la phase 2 l'a remplacé par les compétences ; les
+    # valeurs viennent alors du catalogue et il n'y a rien à comparer).
     seances_page = None
-    m = re.search(r'(\d+)\s*séances?', page)
+    m = re.search(r'<strong>Durée</strong></td>\s*<td[^>]*>\s*(\d+)\s*séances', page)
     if m:
         seances_page = int(m.group(1))
 
     theme = None
-    m = re.search(r'Th[èe]me\s*(\d)', page)
+    m = re.search(r'<strong>Thème</strong></td>\s*<td[^>]*>\s*Th[èe]me\s*(\d)', page)
     if m:
         theme = int(m.group(1))
 
@@ -313,6 +316,8 @@ def comparer(cat):
                 ecarts += 1
                 continue
             for champ in ('titre', 'seances_page', 'theme_page'):
+                if s.get(champ) is None and champ != 'titre':
+                    continue
                 if a.get(champ) != s.get(champ):
                     print(f'  ~ {niveau} {s["cle"]} {champ} : catalogue « {a.get(champ)} », page « {s.get(champ)} »')
                     ecarts += 1

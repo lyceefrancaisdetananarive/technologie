@@ -29,7 +29,7 @@ export const config = {
   matcher: [
     '/enseignant/:path*',
     '/classeur/:path*',
-    '/((?!_next/|img/|css/|js/).*)',
+    '/((?!_next/|img/|css/|js/|fonts/).*)',
   ],
 };
 

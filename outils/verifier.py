@@ -162,10 +162,20 @@ def verifier_catalogue(cat):
                     codes_vus[code] = doc['fichier']
                 if cle == 'prof' and not doc.get('reserve'):
                     erreur(f'{ou} : la fiche professeur doit porter reserve: true')
-            if s.get('seances_page') not in (None, s['seances']):
-                avert(f'{ou} : la fiche affiche {s["seances_page"]} séances, le catalogue en prévoit {s["seances"]}')
-            if s.get('theme_page') not in (None, s.get('theme')):
-                avert(f'{ou} : la fiche affiche le thème {s["theme_page"]}, le catalogue dit {s.get("theme")}')
+            # Après la phase 2, la fiche ne dit plus elle-même son nombre de
+            # séances ni son thème : ils viennent du catalogue. On ne compare
+            # qu'avec ce qu'une fiche affiche ENCORE (tableau Durée / Thème).
+            for cle_doc in ('activite', 'prof'):
+                doc = s['documents'].get(cle_doc)
+                if not doc or not os.path.exists(doc['fichier']):
+                    continue
+                t = lire(doc['fichier'])
+                md = re.search(r'<strong>Durée</strong></td>\s*<td[^>]*>\s*(\d+)\s*séances', t)
+                if md and int(md.group(1)) != s['seances']:
+                    avert(f'{ou} ({cle_doc}) : la fiche affiche {md.group(1)} séances, le catalogue en prévoit {s["seances"]}')
+                mt = re.search(r'<strong>Thème</strong></td>\s*<td[^>]*>\s*Th[èe]me\s*(\d)', t)
+                if mt and int(mt.group(1)) != s.get('theme'):
+                    avert(f'{ou} ({cle_doc}) : la fiche affiche le thème {mt.group(1)}, le catalogue dit {s.get("theme")}')
             if not s.get('activites'):
                 avert(f'{ou} : aucune activité repérée dans la fiche (titres « Activité N » absents), à saisir dans le catalogue avant la phase 3')
         for d in niv['diagnostiques']:
@@ -235,11 +245,46 @@ def verifier_parasites():
 def verifier_hygiene():
     if not os.path.exists('.vercelignore') or '.env' not in lire('.vercelignore'):
         erreur('.vercelignore absent ou n\'exclut pas .env* : le jeton local serait publié')
-    style = lire('css/style.css')
-    if 'fonts.googleapis' in style or 'fonts.gstatic' in style:
-        avert('css/style.css charge une police depuis Google (phase 2 : police servie par le site)')
+    # Depuis la phase 2, les polices sont servies par le site : un appel vers
+    # Google transmettrait l'adresse IP de chaque élève et bloquerait le rendu.
+    for p in list(pages_deployees()) + ['css/style.css', 'css/connecte.css']:
+        t = lire(p)
+        if 'fonts.googleapis' in t or 'fonts.gstatic' in t:
+            erreur(f'{p} charge une police depuis Google')
+    for f in ('fonts/faces.css', 'fonts/bricolage-grotesque-normal-latin.woff2', 'fonts/nunito-sans-normal-latin.woff2', 'fonts/jetbrains-mono-normal-latin.woff2'):
+        if not os.path.exists(f):
+            erreur(f'police manquante : {f}')
+    # Aucun script ni feuille ni police chargés depuis un autre serveur. Les
+    # iframes de vidéo (PodEduc, apps.education.fr) sont le seul contenu externe.
+    tiers = re.compile(r'<(?:script|link)[^>]+(?:src|href)="https?://|@import\s+url\(["\']?https?://', re.I)
+    for p in pages_deployees():
+        if tiers.search(lire(p)):
+            erreur(f'{p} charge un script, une feuille ou une police depuis un serveur tiers')
+    for p in ('css/style.css', 'css/connecte.css', 'fonts/faces.css'):
+        if re.search(r'@import\s+url\(["\']?https?://|url\(["\']?https?://', lire(p)):
+            erreur(f'{p} charge une ressource depuis un serveur tiers')
+    # Chaque page de séquence porte l'enveloppe commune
+    for p in glob.glob('[345]eme/p*/seq*-*.html'):
+        t = lire(p)
+        if 'css/style.css' not in t or 'js/components.js' not in t:
+            erreur(f'{p} ne charge pas css/style.css ou js/components.js')
+    # L'adresse du site est techlft.egd.mg (décision D15) ; go.html et la
+    # planche des codes gardent la cible imprimée dans les cahiers.
+    for p in pages_deployees():
+        if p in ('go.html',):
+            continue
+        if 'technologie-lft.vercel.app' in lire(p):
+            erreur(f'{p} affiche encore technologie-lft.vercel.app')
+    lic = lire('fonts/LICENCES.txt') if os.path.exists('fonts/LICENCES.txt') else ''
+    if 'SIL OPEN FONT LICENSE Version 1.1' not in lic:
+        erreur('fonts/LICENCES.txt ne contient pas le texte de la licence OFL')
     n = sum(1 for p in pages_deployees() if '<style' in lire(p))
-    avert(f'{n} pages portent encore leur propre bloc <style> (phase 2 : gabarit commun)')
+    if n > 30:
+        avert(f'{n} pages portent leur propre bloc <style> (attendu : une trentaine, pages d\'impression et outils)')
+    # Chaque page de séquence charge le catalogue pour son en-tête
+    sans = [p for p in glob.glob('[345]eme/p*/seq*-*.html') if 'js/catalogue.js' not in lire(p)]
+    if sans:
+        avert(f'{len(sans)} page(s) de séquence sans js/catalogue.js (lancer outils/migrer.py) : {sans[:3]}')
 
 
 def main():

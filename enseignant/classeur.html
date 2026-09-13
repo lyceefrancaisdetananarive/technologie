@@ -5,66 +5,14 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
 <title>Classeur des élèves · Espace enseignant · LFT</title>
-<style>
-  :root{ --cyan:#0096c8; --orange:#d67c1c; --encre:#323232; --gris:#6b7280 }
-  *{ box-sizing:border-box }
-  body{ margin:0; background:#f4f7f9; color:var(--encre);
-        font:16px/1.6 Roboto,system-ui,sans-serif }
-  header{ background:#fff; border-bottom:3px solid var(--orange); padding:1rem 1.25rem;
-          display:flex; align-items:center; gap:1rem; flex-wrap:wrap;
-          position:sticky; top:0; z-index:10 }
-  header h1{ font:600 1.15rem Raleway,system-ui,sans-serif; color:var(--orange);
-             margin:0; flex:1 }
-  .qui{ font-size:.9rem; color:var(--gris) }
-  .sortir{ padding:.45rem .9rem; border:1px solid var(--gris); border-radius:6px;
-           background:#fff; color:var(--gris); font-size:.85rem; cursor:pointer;
-           font-family:inherit }
-  main{ max-width:56rem; margin:0 auto; padding:1.5rem 1.25rem 4rem }
-  section{ background:#fff; border-radius:12px; padding:1.5rem; margin-bottom:1.5rem;
-           box-shadow:0 1px 3px rgba(0,0,0,.06) }
-  h2{ font:600 1.1rem Raleway,system-ui,sans-serif; color:var(--orange); margin:0 0 1rem }
-  select,input,textarea{ width:100%; padding:.6rem .7rem; border:1px solid #d1d5db;
-    border-radius:8px; font:inherit; font-size:.95rem; background:#fff }
-  textarea{ min-height:4rem; resize:vertical }
-  label{ display:block; font-weight:500; margin:.8rem 0 .3rem; font-size:.9rem }
-  button{ padding:.55rem 1.1rem; border:0; border-radius:7px; background:var(--cyan);
-          color:#fff; font:500 .92rem Raleway,system-ui,sans-serif; cursor:pointer }
-  button:hover{ background:#007ba6 }
-  button.secondaire{ background:#fff; color:var(--orange); border:1px solid var(--orange) }
-  button.secondaire:hover{ background:var(--orange); color:#fff }
-  button[disabled]{ opacity:.55; cursor:progress }
-  .rendu{ border:1px solid #e5e7eb; border-radius:10px; padding:1rem; margin-bottom:.85rem }
-  .rendu.fait{ border-left:4px solid #16a34a }
-  .rendu.attente{ border-left:4px solid #f59e0b }
-  .rendu h3{ font:600 .98rem Raleway,system-ui,sans-serif; margin:0 0 .2rem }
-  .meta{ font-size:.82rem; color:var(--gris); margin:0 }
-  .mot{ margin:.6rem 0; padding:.6rem .75rem; background:#f9fafb; border-radius:6px;
-        font-size:.9rem; font-style:italic }
-  .manquants{ font-size:.9rem; color:var(--gris) }
-  .manquants b{ color:var(--encre) }
-  .msg{ margin-top:1rem; padding:.75rem 1rem; border-radius:8px; font-size:.9rem; display:none }
-  .msg.err{ display:block; background:#fef2f2; border-left:3px solid #dc2626 }
-  .msg.ok{ display:block; background:#f0fdf4; border-left:3px solid #16a34a }
-  .msg.attention{ display:block; background:#fffbeb; border-left:3px solid var(--orange) }
-  .mdp{ font:1.25rem/1.4 ui-monospace,monospace; letter-spacing:.05em;
-        background:#fff; padding:.5rem .8rem; border-radius:6px; display:inline-block;
-        border:1px dashed var(--orange); margin:.5rem 0 }
-  .lien-sup{ background:none; border:0; padding:0; color:var(--gris);
-             font:inherit; font-size:.85rem; text-decoration:underline;
-             cursor:pointer }
-  .lien-sup:hover{ color:var(--orange) }
-  .lien-sup[disabled]{ opacity:.5; cursor:progress }
-  .vide{ color:var(--gris); font-style:italic }
-  .ligne{ display:flex; gap:.6rem; align-items:flex-end; flex-wrap:wrap }
-  .ligne > *{ flex:1; min-width:8rem }
-  .ligne button{ flex:0 0 auto }
-</style>
+<link rel="stylesheet" href="/css/connecte.css">
 </head>
 <body>
 <header>
+  <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
   <h1>Classeur des élèves</h1>
   <span class="qui" id="qui"></span>
-  <a href="/enseignant/comptes.html" style="font-size:.88rem;color:var(--cyan);text-decoration:none">Groupes et comptes</a>
+  <a class="lien-tete" href="/enseignant/comptes.html">Groupes et comptes</a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
 
