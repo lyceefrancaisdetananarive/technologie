@@ -147,5 +147,49 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
   header { position: static; padding: .6rem 1rem; }
   section { padding: 1.1rem 1rem; }
 }
+/* ---- la carte de l'année de l'élève (classeur/index.html) ----
+   Un chemin vertical, une étape par séquence, dans l'ordre du plan du groupe.
+   L'état est un affichage : les liens restent ouverts, les pages sont
+   publiques. Pas de mascotte, pas de série, pas de classement. */
+.annee-barre { display: block; height: 10px; margin: .5rem 0 .4rem; }
+.annee-barre div { background: var(--fait); }
+.parcours { list-style: none; margin: 1rem 0 0; padding: 0; position: relative; }
+.parcours::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--grille); }
+.etape { display: grid; grid-template-columns: 36px 1fr; gap: .8rem; align-items: start; padding: .55rem 0; position: relative; }
+.etape-num { width: 36px; height: 36px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; font: 800 .95rem var(--display); background: var(--papier-2); border: 2px solid var(--trait); color: var(--encre-3); position: relative; z-index: 1; }
+.etape.fait .etape-num { background: var(--fait); border-color: var(--fait); color: #fff; }
+.etape.encours .etape-num { background: var(--encours); border-color: var(--encours); color: #fff; box-shadow: 0 0 0 4px var(--encours-pale); }
+.etape.masquee .etape-num { border-style: dashed; }
+.etape-corps { min-width: 0; padding: .45rem .8rem .6rem; border: 1px solid var(--trait); border-radius: 12px; background: var(--papier-2); }
+.etape.encours .etape-corps { border-color: #F0C48A; }
+.etape.masquee .etape-corps { background: var(--papier); border-style: dashed; }
+.etape h3 { font: 700 .98rem var(--display); margin: 0 0 .3rem; display: flex; flex-wrap: wrap; gap: .3rem .5rem; align-items: center; }
+.etape.masquee h3 { color: var(--encre-2); }
+.pastille { display: inline-block; font-size: .76rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: .1rem .5rem; border-radius: 999px; }
+.pastille.fait { background: var(--fait-pale); color: var(--fait); }
+.pastille.encours { background: var(--encours-pale); color: var(--encours); }
+.pastille.avenir { background: var(--grille); color: var(--encre-2); }
+.pastille.masquee { background: var(--grille); color: var(--encre-2); }
+.badge-annee { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 800; color: var(--encre); }
+.badge-annee svg { width: 18px; height: 18px; color: var(--or); }
+/* Chaque point porte un glyphe en plus de sa couleur : coche (faite),
+   coche cerclée (rattrapée), point d'exclamation (à rattraper), flèche
+   (à reprendre), vide (pas encore faite). */
+.points { display: flex; flex-wrap: wrap; gap: 6px; margin: .2rem 0 .4rem; padding: 0; list-style: none; }
+.point { width: 20px; height: 20px; border-radius: 50%; border: 2px solid var(--encre-3); background: var(--papier); display: inline-flex; align-items: center; justify-content: center; font: 800 12px/1 var(--texte); color: var(--encre); vertical-align: middle; }
+.point.fait { background: var(--fait); border-color: var(--fait); color: #fff; }
+.point.fait::before { content: "\2713"; }
+.point.rattrape { background: var(--fait-pale); border-color: var(--fait); color: var(--fait); }
+.point.rattrape::before { content: "\2713"; }
+.point.a-rattraper { background: var(--erreur-pale); border-color: var(--erreur); color: var(--erreur); }
+.point.a-rattraper::before { content: "!"; }
+.point.a-reprendre { background: var(--encours-pale); border-color: var(--encours); color: var(--encours); }
+.point.a-reprendre::before { content: "\21BB"; }
+.etape-liens { display: flex; flex-wrap: wrap; gap: .3rem .9rem; font-size: .86rem; }
+.etape-liens a { font-weight: 700; }
+.legende-parcours { font-size: .84rem; color: var(--encre-2); margin: .8rem 0 0; line-height: 2; }
+.legende-parcours .point { width: 18px; height: 18px; font-size: 11px; margin: 0 .1rem 0 .2rem; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }

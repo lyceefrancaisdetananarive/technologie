@@ -38,8 +38,8 @@ export default async function handler(req, res) {
     };
 
     // La ligne est créée AVANT le fichier, avec « fichier » à null : c'est
-    // le marqueur « dépôt en cours ». Si le téléversement échoue — et sur
-    // cette liaison, il échouera parfois — la ligne reste visible comme
+    // le marqueur « dépôt en cours ». Si le téléversement échoue (et sur
+    // cette liaison, il échouera parfois), la ligne reste visible comme
     // incomplète plutôt que de disparaître en silence.
     //
     // MAIS ON NE RECOMMENCE PAS UNE LIGNE À CHAQUE ESSAI. Le message affiché

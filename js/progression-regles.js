@@ -69,7 +69,8 @@ export function badgeAcquis(s, avancement, exceptions, eleveId) {
   const faites = new Set(seancesFaites(avancement, s.id));
   for (let i = 1; i <= s.seances; i++) if (!faites.has(i)) return false;
   return !exceptions.some((x) =>
-    x.sequence === s.id && x.profil_id === eleveId && x.etat !== 'rattrape');
+    x.sequence === s.id && x.profil_id === eleveId
+    && x.seance >= 1 && x.seance <= s.seances && x.etat !== 'rattrape');
 }
 
 /**
@@ -77,9 +78,10 @@ export function badgeAcquis(s, avancement, exceptions, eleveId) {
  * sur les séances des séquences visibles, et la séquence en cours (la
  * première visible qui n'est pas terminée).
  */
-export function resumeGroupe(plan, avancement) {
+export function resumeGroupe(plan, avancement, exceptionsEleve = []) {
   let total = 0;
   let faites = 0;
+  let ouvertes = 0;    // les séances que CET élève doit encore rattraper ou reprendre
   let courante = null;
   for (const p of plan) {
     if (!p.visible) continue;
@@ -88,7 +90,9 @@ export function resumeGroupe(plan, avancement) {
     total += s.seances;
     const f = Math.min(s.seances, seancesFaites(avancement, s.id).length);
     faites += f;
+    ouvertes += exceptionsEleve.filter((x) => x.sequence === s.id
+      && x.seance >= 1 && x.seance <= s.seances && x.etat !== 'rattrape').length;
     if (!courante && f < s.seances) courante = s;
   }
-  return { total, faites, courante, terminee: total > 0 && faites >= total };
+  return { total, faites, ouvertes, courante, terminee: total > 0 && faites >= total };
 }

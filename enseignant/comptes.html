@@ -58,6 +58,10 @@
     <p class="intro">Aucun mot de passe n'est créé ni transmis. La personne
       passe par « Première connexion » sur la page d'accueil du site pour
       choisir le sien.</p>
+    <p class="msg attention" id="verrou-inscrire" hidden>Tant que la direction et le
+      délégué à la protection des données n'ont pas rendu leur position, n'inscrivez
+      que des comptes d'essai (adresses <code>essai-…@eleve.egd.mg</code>) : toute
+      autre adresse d'élève est refusée par le serveur.</p>
 
     <div class="ligne">
       <div style="flex:2">
@@ -92,10 +96,48 @@
     </div>
     <p class="msg" id="mi" role="status" aria-live="polite"></p>
   </section>
+
+  <section id="bloc-import" aria-busy="false">
+    <h2>Importer une liste d'élèves</h2>
+    <p class="note">
+      <strong>Trois colonnes, pas une de plus : nom, prénom, adresse.</strong>
+      Un fichier par groupe, exporté depuis EDUKA avec ces trois colonnes
+      seulement, jamais l'export complet. Toute ligne qui porte une colonne
+      de plus (date de naissance, classe, régime…) est écartée avant l'envoi
+      et, de toute façon, refusée par le serveur : ces informations n'ont
+      rien à faire ici.
+    </p>
+    <p class="msg attention" id="verrou-import" hidden></p>
+    <div id="formulaire-import">
+      <p class="intro">Format CSV ou texte, séparé par point-virgule, virgule ou
+        tabulation, avec ou sans ligne d'en-tête (nom, prénom, adresse, dans
+        cet ordre ou l'inverse si l'en-tête le dit). Dans Excel : Fichier,
+        Enregistrer sous, « CSV UTF-8 ». Les comptes naissent sans mot de
+        passe : chaque élève passe par « Première connexion » sur la page
+        d'accueil, ce qui suppose que le relais d'envoi des courriels soit en
+        service.</p>
+      <div class="ligne">
+        <div style="flex:2">
+          <label for="fichier-liste">Fichier de la liste</label>
+          <input id="fichier-liste" type="file" accept=".csv,.txt,text/csv,text/plain">
+        </div>
+        <div>
+          <label for="groupe-import">Groupe</label>
+          <select id="groupe-import"></select>
+        </div>
+        <button id="importer" disabled>Importer</button>
+      </div>
+      <p class="aide" id="apercu-import" role="status" aria-live="polite"></p>
+      <div class="barre" id="barre-import" aria-hidden="true"><div id="progres-import"></div></div>
+      <p class="msg" id="mimp" role="status" aria-live="polite"></p>
+      <div id="resultats-import"></div>
+    </div>
+  </section>
 </main>
 
 <script type="module">
 import { api, echapper } from '/js/classeur-commun.js';
+import { lireFichier } from '/js/listes.js';
 
 const $ = (id) => document.getElementById(id);
 const dire = (el, texte, type) => { el.textContent = texte; el.className = 'msg ' + type; };
@@ -105,10 +147,22 @@ let groupes = [];
 async function charger() {
   const d = await api('/api/prof/groupes');
   groupes = d.groupes ?? [];
+  // Le verrou des comptes d'élèves réels s'annonce AVANT tout choix de fichier.
+  const ferme = d.comptesEleves !== 'ouvert';
+  $('verrou-import').hidden = !ferme;
+  $('verrou-import').textContent = ferme
+    ? 'L’import des listes ouvrira après la position du délégué à la protection '
+      + 'des données (décision D15). D’ici là, seuls les groupes d’essai à élèves '
+      + 'fictifs sont possibles ; l’inscription à la main d’une adresse d’élève '
+      + 'réelle est refusée de la même façon.'
+    : '';
+  $('formulaire-import').hidden = ferme;
+  $('verrou-inscrire').hidden = !ferme;
 
   $('groupe').innerHTML = groupes.length
     ? groupes.map((g) => `<option value="${g.id}">${echapper(g.code)}</option>`).join('')
     : '<option value="">aucun groupe</option>';
+  $('groupe-import').innerHTML = $('groupe').innerHTML;
 
   if (!groupes.length) {
     $('liste').innerHTML = '<p class="vide">Aucun groupe. Créez-en un ci-dessous.</p>';
@@ -239,6 +293,114 @@ $('confirmer').addEventListener('click', async () => {
   try { await envoyerInscription($('confirme').value); }
   catch (e) { dire($('mi'), e.message, 'err'); $('confirme').value = ''; $('confirme').focus(); }
   finally { $('confirmer').disabled = false; }
+});
+
+// ---- Import d'une liste à trois colonnes -----------------------------------
+// Le fichier est lu dans le navigateur avec le MÊME lecteur que le serveur
+// (js/listes.js) : ce qui serait refusé n'est pas envoyé, le professeur voit
+// pourquoi, et le serveur relit chaque ligne de toute façon. Paquets de douze
+// lignes brutes, numérotées comme dans le fichier.
+const MAX_LIGNES_FICHIER = 200;
+const MAX_OCTETS = 64 * 1024;
+let lecture = null;     // { ordre, aEnvoyer, refusees, premiere }
+
+/** Décode en UTF-8 strict, puis en Windows-1252 si le fichier vient d'un vieil Excel. */
+async function lireTexte(f) {
+  const octets = await f.arrayBuffer();
+  try {
+    return new TextDecoder('utf-8', { fatal: true }).decode(octets);
+  } catch {
+    return new TextDecoder('windows-1252').decode(octets);
+  }
+}
+
+$('fichier-liste').addEventListener('change', async () => {
+  const f = $('fichier-liste').files[0];
+  lecture = null;
+  $('resultats-import').innerHTML = '';
+  dire($('mimp'), '', '');
+  $('importer').disabled = true;
+  if (!f) { $('apercu-import').textContent = ''; return; }
+  if (f.size > MAX_OCTETS) {
+    $('apercu-import').textContent = 'Ce fichier est trop gros pour une liste de groupe : un fichier par groupe, trois colonnes.';
+    return;
+  }
+  const l = lireFichier(await lireTexte(f));
+  if (l.aEnvoyer.length + l.refusees.length > MAX_LIGNES_FICHIER) {
+    $('apercu-import').textContent = `Plus de ${MAX_LIGNES_FICHIER} lignes : ce n'est pas une liste de groupe.`;
+    return;
+  }
+  lecture = l;
+  const n = l.aEnvoyer.length;
+  const nr = l.refusees.length;
+  $('apercu-import').innerHTML = `${n} ligne${n > 1 ? 's' : ''} à inscrire`
+    + (nr ? `, ${nr} ligne${nr > 1 ? 's' : ''} écartée${nr > 1 ? 's' : ''} avant l'envoi` : '')
+    + (l.premiere ? `. Première ligne lue : nom « ${echapper(l.premiere.nom)} », prénom « ${echapper(l.premiere.prenom)} », adresse ${echapper(l.premiere.email)}.` : '.')
+    + (nr && !n ? ' Ce fichier a plus de trois colonnes : c’est sans doute l’export complet. Refaites l’export avec nom, prénom et adresse seulement.' : '');
+  if (nr) {
+    $('resultats-import').innerHTML = '<ul class="manquants">' + l.refusees.slice(0, 20).map((r) =>
+      `<li>ligne ${r.numero} : ${echapper(r.message)}</li>`).join('')
+      + (nr > 20 ? `<li>… et ${nr - 20} autres</li>` : '') + '</ul>';
+  }
+  $('importer').disabled = !n || !$('groupe-import').value;
+});
+
+$('importer').addEventListener('click', async () => {
+  const groupe = $('groupe-import').value;
+  const g = groupes.find((x) => x.id === groupe);
+  if (!g || !lecture || !lecture.aEnvoyer.length) return;
+  const n = lecture.aEnvoyer.length;
+  if (!confirm(`Inscrire ${n} élève${n > 1 ? 's' : ''} dans le groupe ${g.code} ?\n\n`
+    + (lecture.premiere ? `Première ligne : nom ${lecture.premiere.nom}, prénom ${lecture.premiere.prenom}, ${lecture.premiere.email}.\n\n` : '')
+    + 'Un compte est créé pour chaque adresse nouvelle. Les élèves déjà connus sont simplement rattachés au groupe.')) return;
+  $('importer').disabled = true;
+  $('bloc-import').setAttribute('aria-busy', 'true');
+  $('barre-import').style.display = 'block';
+  $('progres-import').style.width = '0';
+  const resultats = [];
+  let arret = null;
+  try {
+    for (let i = 0; i < n; i += 12) {
+      const paquet = lecture.aEnvoyer.slice(i, i + 12);
+      dire($('mimp'), `Envoi des lignes ${paquet[0].numero} à ${paquet[paquet.length - 1].numero}…`, 'info');
+      try {
+        const d = await api('/api/prof/importer', {
+          method: 'POST',
+          body: JSON.stringify({ groupe, ordre: lecture.ordre, lignes: paquet.map((x) => x.texte) }),
+        });
+        d.resultats.forEach((r) => resultats.push({ ...r, numero: paquet[r.i].numero }));
+      } catch (e) {
+        arret = { numero: paquet[0].numero, message: e.message };
+        break;
+      }
+      $('progres-import').style.width = `${Math.round(100 * Math.min(i + 12, n) / n)}%`;
+    }
+    const nouveaux = resultats.filter((r) => r.etat === 'nouveau').length;
+    const rattaches = resultats.filter((r) => r.etat === 'rattache').length;
+    const refusees = resultats.filter((r) => r.etat === 'refusee' || r.etat === 'echec');
+    const bilan = `${nouveaux} nouveau${nouveaux > 1 ? 'x' : ''} compte${nouveaux > 1 ? 's' : ''}, `
+      + `${rattaches} élève${rattaches > 1 ? 's' : ''} déjà connu${rattaches > 1 ? 's' : ''} rattaché${rattaches > 1 ? 's' : ''} à ${g.code}`
+      + (refusees.length ? `, ${refusees.length} ligne${refusees.length > 1 ? 's' : ''} refusée${refusees.length > 1 ? 's' : ''}` : '') + '.';
+    if (arret) {
+      dire($('mimp'), `Envoi interrompu à la ligne ${arret.numero} (${arret.message}) Les lignes précédentes ont été traitées : ${bilan} `
+        + 'Relancez l’import avec le même fichier : les élèves déjà inscrits seront simplement rattachés.', 'err');
+    } else {
+      dire($('mimp'), bilan, refusees.length ? 'attention' : 'ok');
+    }
+    $('resultats-import').innerHTML = refusees.length
+      ? '<ul class="manquants">' + refusees.map((r) =>
+          `<li>ligne ${r.numero}${r.email ? ` (${echapper(r.email)})` : ''} : ${echapper(r.message || 'refusée')}</li>`).join('') + '</ul>'
+      : '';
+    await charger();
+  } finally {
+    $('importer').disabled = false;
+    $('bloc-import').setAttribute('aria-busy', 'false');
+    $('barre-import').style.display = 'none';
+  }
+});
+
+$('groupe-import').addEventListener('change', () => {
+  $('importer').disabled = !lecture || !lecture.aEnvoyer.length || !$('groupe-import').value;
 });
 
 $('sortir').addEventListener('click', async () => {

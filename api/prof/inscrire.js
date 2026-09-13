@@ -1,12 +1,11 @@
-import { ouvrir, lireCookie } from '../_lib/session.js';
 import {
-  possedeGroupe, enseigneA, ressaisieAutorisee, noterEchecRessaisie,
-  FENETRE_MINUTES,
+  appelant, possedeGroupe, ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES,
+  comptesElevesOuverts, FICTIF, MESSAGE_VERROU,
 } from '../_lib/autorisation.js';
 import {
-  lire, ecrire, creerUtilisateur, utilisateurParEmail, verifierMotDePasse,
-  profsAutorises, configuree, origineLegitime, refus,
+  verifierMotDePasse, profsAutorises, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
+import { creerOuRattacher } from '../_lib/inscription.js';
 
 // =====================================================================
 // INSCRIRE UNE PERSONNE : un élève dans l'un de MES groupes, ou un collègue
@@ -39,9 +38,12 @@ export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
   if (!origineLegitime(req)) return refus(res, 403, 'Origine non autorisée.');
 
-  const session = await ouvrir(
-    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-  if (!session) return refus(res, 401, 'Session expirée.');
+  // appelant() relit le profil en base et revérifie le rôle professeur
+  // contre PROFS_TECHNO à chaque appel : un collègue retiré de la liste ne
+  // peut plus inscrire personne, même avec un cookie encore valable.
+  const moi = await appelant(req);
+  if (!moi) return refus(res, 401, 'Session expirée.');
+  if (moi.role !== 'prof') return refus(res, 403, 'Action réservée aux professeurs.');
 
   const email = String(req.body?.email ?? '').trim().toLowerCase();
   const nom = String(req.body?.nom ?? '').trim().slice(0, 80);
@@ -52,17 +54,14 @@ export default async function handler(req, res) {
   if (!ADRESSE.test(email)) return refus(res, 400, 'Adresse invalide.');
 
   try {
-    const moi = (await lire('profils',
-      `id=eq.${session.sub}&select=id,email,role,actif,mdp_provisoire`))[0];
-    if (!moi || moi.role !== 'prof' || !moi.actif) {
-      return refus(res, 403, 'Action réservée aux professeurs.');
-    }
-    if (moi.mdp_provisoire) {
-      return refus(res, 403,
-        'Choisissez d’abord votre propre mot de passe définitif.');
-    }
-
     const role = profsAutorises().includes(email) ? 'prof' : 'eleve';
+
+    // LE VERROU DES COMPTES D'ÉLÈVES RÉELS (api/_lib/autorisation.js) vaut
+    // aussi pour l'inscription à la main : seuls les comptes fictifs d'essai
+    // passent tant que le délégué n'a pas rendu sa position.
+    if (role === 'eleve' && !FICTIF.test(email) && !comptesElevesOuverts()) {
+      return refus(res, 403, MESSAGE_VERROU);
+    }
 
     // Le domaine reste vérifié ici en plus de la contrainte en base, pour
     // rendre un refus lisible plutôt qu'une erreur 500 venue de Postgres.
@@ -100,70 +99,10 @@ export default async function handler(req, res) {
       }
     }
 
-    // ---- L'ORDRE DES ÉCRITURES, ENCORE UNE FOIS -----------------------
-    // Pas de transaction : trois appels HTTP sur une liaison qui coupe.
-    // Chaque préfixe doit être un état sûr.
-    //   compte seul        -> la personne ne peut pas se connecter, la
-    //                         connexion lit profils en premier et ne trouve
-    //                         rien. Relancer l'inscription répare.
-    //   compte + profil    -> elle se connecte et voit un classeur vide.
-    //   les trois          -> état final.
-    // Aucun de ces états n'accorde quoi que ce soit indûment.
-    let idAuth = await utilisateurParEmail(email);
-    if (!idAuth) idAuth = await creerUtilisateur(email);
-    if (!idAuth) idAuth = await utilisateurParEmail(email);   // course
-    if (!idAuth) return refus(res, 500, 'Le compte n’a pas pu être créé.');
-
-    // On garde la raison d'un refus dans une variable plutôt que de la
-    // renvoyer depuis le catch : un `return` dans un callback quitte le
-    // callback, pas le handler, et la requête recevrait DEUX réponses.
-    let refusApres = null;
-
-    try {
-      await ecrire('profils', '', {
-        id: idAuth, email, role, nom: nom || null, prenom: prenom || null,
-        actif: true, mdp_provisoire: true, mdp_pose_le: null,
-      }, 'POST');
-    } catch (e) {
-      // Doublon reconnu par le SQLSTATE de PostgREST, jamais en cherchant
-      // « 409 » dans une chaîne : le corps d'une autre erreur pouvait
-      // contenir ce nombre, et l'inscription rapportait alors un succès là
-      // où rien n'avait été écrit.
-      if (e.code !== '23505' && e.statut !== 409) throw e;
-
-      // LA PERSONNE EXISTE DÉJÀ, ET ELLE N'EST PEUT-ÊTRE PAS À MOI.
-      //
-      // Réécrire ici role, actif, nom et prenom permettait de réactiver,
-      // renommer, et surtout RÉTROGRADER quelqu'un hors de son périmètre :
-      // réinscrire l'adresse d'un collègue retiré de PROFS_TECHNO le faisait
-      // passer de professeur à élève, orphelinant tous ses groupes.
-      //
-      // On ne touche donc aux champs globaux que si on encadre déjà cette
-      // personne. Sinon on se contente de l'inscription au groupe, qui est le
-      // geste légitime et fréquent du changement de groupe en cours d'année.
-      const existant = (await lire('profils',
-        `id=eq.${idAuth}&select=role`))[0];
-
-      if (existant?.role === 'prof' && role === 'eleve') {
-        refusApres = 'Cette adresse porte un compte professeur. Pour la '
-          + 'rétrograder, transférez d’abord ses groupes à un collègue : la '
-          + 'réinscription ne doit pas le faire en silence.';
-      } else if (await enseigneA(moi.id, idAuth)) {
-        await ecrire('profils', `id=eq.${idAuth}`, {
-          actif: true,
-          ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
-        });
-      }
-    }
-
-    if (refusApres) return refus(res, 409, refusApres);
-
-    if (role === 'eleve') {
-      await ecrire('appartenances', '',
-        { profil_id: idAuth, groupe_id: groupe }, 'POST').catch((e) => {
-          if (e.code !== '23505' && e.statut !== 409) throw e;   // déjà inscrit
-        });
-    }
+    // Compte, profil, inscription : le même geste que l'import d'une liste,
+    // écrit une seule fois dans api/_lib/inscription.js.
+    const r = await creerOuRattacher({ moi, email, nom, prenom, role, groupe });
+    if (!r.ok) return refus(res, r.statut, r.message);
 
     res.status(200).json({
       ok: true, email, role,

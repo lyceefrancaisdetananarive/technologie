@@ -22,7 +22,7 @@ import { lire, ecrire, profsAutorises } from './supabase.js';
  * que /enseignant, /classeur et les fiches -prof. Sans le contrôle ici, qui
  * ramasse une bandelette peut se connecter, se faire renvoyer vers la page
  * de changement, et pendant ce temps appeler /api/classeur/mes-rendus pour
- * LIRE le classeur de sa victime — sans rien modifier, donc sans qu'elle
+ * LIRE le classeur de sa victime, sans rien modifier, donc sans qu'elle
  * s'en aperçoive jamais. Le mot de passe provisoire n'ouvre donc rien tant
  * qu'il n'a pas été échangé.
  */
@@ -86,16 +86,42 @@ export async function noterEchecRessaisie(profId) {
 
 export { MAX_RESSAISIES, FENETRE_MINUTES };
 
-/** Les groupes de cette personne — ceux qu'elle enseigne, ou ceux où elle est inscrite. */
+/**
+ * Les groupes de cette personne : ceux qu'elle enseigne, ou ceux où elle est
+ * inscrite. Année la plus récente d'abord, puis code : un élève qui garde ses
+ * groupes d'une année sur l'autre (conservation sur le cycle, décision D15)
+ * retrouve le groupe de l'année en tête.
+ */
 export async function sesGroupes(profil) {
   if (profil.role === 'prof') {
     return lire('groupes',
-      `prof_id=eq.${profil.id}&select=id,code,libelle,niveau&order=code`);
+      `prof_id=eq.${profil.id}&select=id,code,libelle,niveau,annee&order=annee.desc,code`);
   }
   const liens = await lire('appartenances',
-    `profil_id=eq.${profil.id}&select=groupes(id,code,libelle,niveau)`);
-  return liens.map((l) => l.groupes).filter(Boolean);
+    `profil_id=eq.${profil.id}&select=groupes(id,code,libelle,niveau,annee)`);
+  return liens.map((l) => l.groupes).filter(Boolean)
+    .sort((a, b) => String(b.annee).localeCompare(String(a.annee)) || String(a.code).localeCompare(String(b.code)));
 }
+
+/**
+ * LE VERROU DES COMPTES D'ÉLÈVES RÉELS (décisions D14 et D15, question 7).
+ *
+ * Aucune donnée réelle d'élève n'entre dans le site avant l'accord de la
+ * direction et la position du délégué à la protection des données. Tant que
+ * la variable COMPTES_ELEVES ne vaut pas « ouvert » dans les réglages du
+ * projet Vercel, l'import des listes et l'inscription à la main d'une adresse
+ * d'élève sont refusés ; seuls les comptes fictifs d'essai (essai-xxxxx-n)
+ * passent. C'est un geste d'administration, fait une fois, daté dans
+ * DECISIONS.md, pas un bouton dans une page.
+ */
+export function comptesElevesOuverts() {
+  return String(process.env.COMPTES_ELEVES ?? '').trim().toLowerCase() === 'ouvert';
+}
+
+export const FICTIF = /^essai-[a-z0-9]{5}-[1-9]@eleve\.egd\.mg$/;
+export const MESSAGE_VERROU = 'Les comptes d’élèves ne sont pas encore ouverts : '
+  + 'ils attendent la position du délégué à la protection des données. Seuls '
+  + 'les groupes d’essai sont possibles. Rien n’a été enregistré.';
 
 /** Cet élève est-il dans un groupe de ce professeur ? */
 export async function enseigneA(profId, eleveId) {

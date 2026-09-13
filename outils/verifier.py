@@ -83,7 +83,8 @@ def verifier_liens():
     for page in pages_deployees():
         contenu = lire(page)
         for ref in motif.findall(contenu):
-            if ref.startswith(ignores):
+            # Un gabarit JavaScript (`href="/${x}"`) n'est pas un lien à vérifier.
+            if ref.startswith(ignores) or '${' in ref:
                 continue
             n += 1
             if not cible_existe(page, ref):
@@ -291,6 +292,20 @@ def verifier_hygiene(cat):
     for p in ('enseignant/plan.html', 'enseignant/index.html', 'enseignant/classeur.html',
               'enseignant/comptes.html', 'classeur/index.html', 'index.html'):
         if os.path.exists(p) and '\u2014' in lire(p):
+            erreur(f'{p} contient un tiret cadratin')
+    # Les cartes des index de niveau portent l'identifiant de leur séquence,
+    # et components.js n'écrit que des classes d'état que style.css connaît.
+    ids = {f"{s['dossier']}/{s['cle']}" for n in cat['niveaux'].values() for s in n['sequences']}
+    for p in ('5eme/index.html', '4eme/index.html', '3eme/index.html'):
+        for m in re.finditer(r'class="seq-card"[^>]*data-id="([^"]+)"', lire(p)):
+            if m.group(1) not in ids:
+                erreur(f'{p} : carte data-id="{m.group(1)}" absente du catalogue')
+    css = lire('css/style.css')
+    for etat in ('fait', 'encours', 'avenir', 'masquee'):
+        if f'.seq-etat-{etat}' not in css or f'.seq-card.seq-{etat}' not in css:
+            erreur(f'css/style.css ne connaît pas l\'état de séquence « {etat} » que components.js produit')
+    for p in glob.glob('js/*.js') + glob.glob('css/*.css') + glob.glob('api/**/*.js', recursive=True):
+        if '\u2014' in lire(p):
             erreur(f'{p} contient un tiret cadratin')
     # Chaque séquence du catalogue porte au moins une compétence : la
     # correction par compétence (décision D15, question 4) en dépend.

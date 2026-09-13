@@ -52,7 +52,7 @@ async function cle(secret) {
 
 /**
  * Scelle une session. `duree` en secondes.
- * charge = { sub, role, prov }  — rien de plus : ce cookie voyage à chaque
+ * charge = { sub, role, prov }, rien de plus : ce cookie voyage à chaque
  * requête, il n'a pas à contenir le nom ni l'adresse de l'élève.
  */
 // PLAFOND ABSOLU DE SESSION.

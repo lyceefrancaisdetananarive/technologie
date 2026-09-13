@@ -1,5 +1,4 @@
-import { ouvrir, lireCookie } from '../_lib/session.js';
-import { possedeGroupe } from '../_lib/autorisation.js';
+import { appelant, possedeGroupe, comptesElevesOuverts } from '../_lib/autorisation.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -28,20 +27,13 @@ export default async function handler(req, res) {
     return refus(res, 403, 'Origine non autorisée.');
   }
 
-  const session = await ouvrir(
-    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-  if (!session) return refus(res, 401, 'Session expirée.');
+  // appelant() relit le profil en base et revérifie le rôle professeur
+  // contre PROFS_TECHNO à chaque appel.
+  const moi = await appelant(req);
+  if (!moi) return refus(res, 401, 'Session expirée.');
+  if (moi.role !== 'prof') return refus(res, 403, 'Action réservée aux professeurs.');
 
   try {
-    const moi = (await lire('profils',
-      `id=eq.${session.sub}&select=id,role,actif,mdp_provisoire`))[0];
-    if (!moi || moi.role !== 'prof' || !moi.actif) {
-      return refus(res, 403, 'Action réservée aux professeurs.');
-    }
-    if (moi.mdp_provisoire) {
-      return refus(res, 403,
-        'Choisissez d’abord votre propre mot de passe définitif.');
-    }
 
     // ---- Lister mes groupes et qui s'y trouve -------------------------
     if (req.method === 'GET') {
@@ -54,6 +46,9 @@ export default async function handler(req, res) {
         : [];
       return res.status(200).json({
         ok: true,
+        // L'état du verrou des comptes d'élèves réels, pour que la page
+        // l'annonce avant tout choix de fichier ; le serveur reste la barrière.
+        comptesEleves: comptesElevesOuverts() ? 'ouvert' : 'ferme',
         groupes: groupes.map((g) => ({
           ...g,
           eleves: membres

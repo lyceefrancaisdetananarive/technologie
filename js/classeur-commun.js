@@ -13,7 +13,7 @@
  * PIÈGE CONNU : sur certaines vieilles machines et certains pilotes
  * graphiques, canvas rend une image entièrement noire sans lever d'erreur.
  * On vérifie donc le résultat avant de le retenir, et on renvoie l'original
- * si le doute subsiste — mieux vaut un envoi lent qu'une page noire.
+ * si le doute subsiste : mieux vaut un envoi lent qu'une page noire.
  */
 export function reduireImage(fichier, cotéMax = 1600, qualite = 0.8) {
   return new Promise((resoudre) => {

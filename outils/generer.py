@@ -250,7 +250,7 @@ def carte_sequence(niv, s):
             liens.append(f'                <a href="{doc["fichier"].split("/", 1)[1]}" class="seq-link seq-link-{CLASSE_DOC[cle_doc]}"><span class="ico">{PICTO_DOC[cle_doc]}</span> {LIBELLE_COURT[cle_doc]}</a>')
     resume = f' · {e(s["resume"])}' if s.get('resume') else ''
     return f'''            <!-- Séquence {s['n']} -->
-            <div class="seq-card" data-seq="{s['n']}">
+            <div class="seq-card" data-seq="{s['n']}" data-id="{s['dossier']}/{s['cle']}">
               <div class="seq-card-number" style="background: {COULEUR[niv]};">{s['n']}</div>
               <h3>{e(s['titre'])}</h3>
               <p class="seq-card-meta">{s['seances']} séances{resume}</p>

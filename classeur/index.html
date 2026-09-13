@@ -18,6 +18,21 @@
 <main>
   <p class="msg" id="repli"></p>
 
+  <section id="mon-annee">
+    <h2>Mon année</h2>
+    <p class="intro" id="annee-resume">Chargement…</p>
+    <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
+    <p class="meta" id="annee-prochaine"></p>
+    <ol class="parcours" id="parcours"></ol>
+    <p class="legende-parcours" id="annee-legende" hidden>
+      <span class="point fait" aria-hidden="true"></span> séance faite en classe ·
+      <span class="point a-rattraper" aria-hidden="true"></span> à rattraper (tu étais absent) ·
+      <span class="point a-reprendre" aria-hidden="true"></span> à reprendre (à refaire) ·
+      <span class="point rattrape" aria-hidden="true"></span> rattrapée (c'est réglé) ·
+      <span class="point" aria-hidden="true"></span> pas encore faite
+    </p>
+  </section>
+
   <section>
     <h2>Déposer un travail</h2>
     <form id="f">
@@ -39,13 +54,13 @@
 
       <label for="binome">Travail fait avec (facultatif)</label>
       <input id="binome" type="text" maxlength="120"
-             placeholder="Prénom et nom de votre binôme">
-      <p class="aide">Si vous avez travaillé à deux, écrivez-le : sinon tout
-         le travail sera attribué à vous seul.</p>
+             placeholder="Prénom et nom de ton binôme">
+      <p class="aide">Si tu as travaillé à deux, écris-le : sinon tout
+         le travail te sera attribué à toi seul.</p>
 
-      <label for="commentaire">Un mot pour votre professeur (facultatif)</label>
+      <label for="commentaire">Un mot pour ton professeur (facultatif)</label>
       <textarea id="commentaire" maxlength="2000"
-                placeholder="Ce que vous n'avez pas réussi, une question…"></textarea>
+                placeholder="Ce que tu n'as pas réussi, une question… Parle du travail, pas de ta santé ni de ta vie privée."></textarea>
 
       <div class="barre" id="barre"><div id="progres"></div></div>
       <button class="principal" id="b" type="submit">Déposer</button>
@@ -53,19 +68,26 @@
     <p class="msg" id="m" role="status" aria-live="polite"></p>
   </section>
 
-  <section>
+  <section id="mes-travaux">
     <h2>Mes travaux déposés</h2>
     <div id="liste"><p class="vide">Chargement…</p></div>
   </section>
 </main>
 
+<script src="/js/catalogue.js"></script>
 <script type="module">
 import { SEQUENCES, DOCUMENTS } from '/js/sequences.js';
 import { reduireImage, envoyerAvecReprise, api, dateCourte, echapper }
   from '/js/classeur-commun.js';
+import {
+  catalogueCharge, sequence, titresSeances, seancesFaites, etatSequence, resumeGroupe,
+} from '/js/progression-regles.js';
 
 const $ = (id) => document.getElementById(id);
 let groupes = [];
+let progression = [];   // la carte de l'année, par groupe (api/classeur/progression)
+const PICTO_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>';
+const LIBELLE_ETAT = { fait: 'Fait', encours: 'En cours', avenir: 'À venir' };
 const MAITRISES = {
   insuffisante: 'maîtrise insuffisante', fragile: 'maîtrise fragile',
   satisfaisante: 'maîtrise satisfaisante', tres_bonne: 'très bonne maîtrise',
@@ -78,10 +100,126 @@ function niveauDe(codeGroupe) {
   return g ? g.niveau : '3eme';
 }
 
+/**
+ * Les séquences proposées au dépôt suivent LE PLAN DU GROUPE (décision 3) :
+ * dans l'ordre choisi par le professeur, sans celles qu'il a écartées, avec
+ * celles qu'il a ajoutées d'un autre niveau. Le catalogue du niveau ne sert
+ * que de repli, quand la progression n'a pas pu être lue.
+ */
+const NIVEAU_COURT = { '5eme': '5e', '4eme': '4e', '3eme': '3e' };
+
+/** Le libellé d'une séquence : son rang dans le plan, son titre, son niveau s'il diffère. */
+function libelleSequence(id, gid) {
+  const prog = progression.find((g) => g.id === gid);
+  const s = sequence(id);
+  if (!s) {
+    const rep = Object.values(SEQUENCES).flat().find((x) => x.id === id);
+    return rep ? rep.titre : id;
+  }
+  const rang = prog ? prog.plan.filter((p) => p.visible).findIndex((p) => p.sequence === id) + 1 : 0;
+  const niveau = prog && s.niveau !== prog.niveau ? ` (${NIVEAU_COURT[s.niveau]})` : '';
+  return `${rang ? rang + ' · ' : ''}${s.titre}${niveau}`;
+}
+
 function remplirSequences() {
-  const liste = SEQUENCES[niveauDe($('groupe').value)] || [];
-  $('sequence').innerHTML = liste
-    .map((s) => `<option value="${echapper(s.id)}">${echapper(s.titre)}</option>`).join('');
+  const gid = $('groupe').value;
+  const prog = progression.find((g) => g.id === gid);
+  const catalogue = SEQUENCES[niveauDe(gid)] || [];
+  // L'évaluation diagnostique de rentrée n'est pas une séquence du plan :
+  // elle reste proposée en tête, tant que le catalogue du niveau la connaît.
+  const diagnostiques = catalogue.filter((s) => /\/diagnostique$/.test(s.id));
+  let liste = prog && catalogueCharge()
+    ? prog.plan.filter((p) => p.visible).map((p) => sequence(p.sequence)).filter(Boolean)
+    : [];
+  if (!liste.length) liste = catalogue.filter((s) => !/\/diagnostique$/.test(s.id));
+  const courant = $('sequence').value;
+  $('sequence').innerHTML = [...diagnostiques, ...liste]
+    .map((s) => `<option value="${echapper(s.id)}">${echapper(libelleSequence(s.id, gid))}</option>`).join('');
+  // Par défaut, la séquence en cours : c'est presque toujours celle du dépôt.
+  const r = prog ? resumeGroupe(prog.plan, prog.avancement) : null;
+  if (courant && [...diagnostiques, ...liste].some((s) => s.id === courant)) $('sequence').value = courant;
+  else if (r?.courante) $('sequence').value = r.courante.id;
+}
+
+// ---- Ma carte de l'année ---------------------------------------------------
+function etatSeance(prog, seqId, n) {
+  const x = prog.exceptions.find((e) => e.sequence === seqId && e.seance === n);
+  if (x?.etat === 'absent') return 'a-rattraper';
+  if (x?.etat === 'a_reprendre') return 'a-reprendre';
+  if (x?.etat === 'rattrape') return 'rattrape';
+  return prog.avancement.some((a) => a.sequence === seqId && a.seance === n) ? 'fait' : '';
+}
+
+function lienDoc(s, cle, libelle) {
+  const d = s.documents?.[cle];
+  return d?.fichier ? `<a href="/${d.fichier}">${libelle}</a>` : '';
+}
+
+let mesRendus = [];   // ce que j'ai déposé, pour le montrer sur la carte
+
+function etatDepot(seqId) {
+  const miens = mesRendus.filter((r) => r.sequence === seqId && r.fichier);
+  if (!miens.length) return null;
+  return miens.some((r) => r.corrige_le) ? 'corrige' : 'depose';
+}
+
+const ETAT_SEANCE = { fait: 'faite', 'a-rattraper': 'à rattraper', 'a-reprendre': 'à reprendre', rattrape: 'rattrapée' };
+
+function rendreAnnee() {
+  const gid = $('groupe').value;
+  const prog = progression.find((g) => g.id === gid) ?? progression[0];
+  if (!groupes.length) {
+    $('annee-resume').textContent = 'Tu n’es inscrit dans aucun groupe pour le moment : demande à ton professeur.';
+    $('parcours').innerHTML = '';
+    return;
+  }
+  if (!prog || !catalogueCharge()) {
+    $('annee-resume').textContent = 'Ta carte de l’année n’est pas disponible pour le moment. Le dépôt reste possible.';
+    $('parcours').innerHTML = '';
+    return;
+  }
+  const r = resumeGroupe(prog.plan, prog.avancement, prog.exceptions);
+  const badges = new Set(prog.badges ?? []);
+  // Le résumé se lit par rapport à soi : les séances que j'ai encore à
+  // rattraper ou à reprendre ne comptent pas comme faites pour moi.
+  const miennes = Math.max(0, r.faites - r.ouvertes);
+  $('annee-resume').textContent = r.total
+    ? `${miennes} séance${miennes > 1 ? 's' : ''} faite${miennes > 1 ? 's' : ''} sur ${r.total}`
+      + (r.ouvertes ? `, ${r.ouvertes} à rattraper ou à reprendre` : '')
+      + (badges.size ? ` · ${badges.size} badge${badges.size > 1 ? 's' : ''}` : '')
+    : 'Aucune séquence prévue pour le moment.';
+  $('annee-barre').hidden = !r.total;
+  $('annee-progres').style.width = r.total ? `${Math.round(100 * miennes / r.total)}%` : '0';
+  $('annee-prochaine').textContent = r.terminee
+    ? 'Toutes les séquences de l’année sont faites.'
+    : r.courante
+      ? `Séquence en cours : ${r.courante.titre}.`
+        + (r.ouvertes ? ' Pour ce qui est à rattraper ou à reprendre, demande à ton professeur.' : '')
+      : '';
+  $('annee-legende').hidden = false;
+  $('parcours').innerHTML = prog.plan.map((p, i) => {
+    const s = sequence(p.sequence);
+    if (!s) return '';
+    const etat = p.visible ? etatSequence(s, prog.avancement) : 'masquee';
+    const titres = titresSeances(s);
+    const depot = etatDepot(s.id);
+    return `<li class="etape ${etat}">
+      <span class="etape-num" aria-hidden="true">${i + 1}</span>
+      <div class="etape-corps">
+        <h3>${echapper(s.titre)}${s.niveau !== prog.niveau ? ` <span class="pastille avenir">${NIVEAU_COURT[s.niveau]}</span>` : ''}
+          ${p.visible ? `<span class="pastille ${etat}">${LIBELLE_ETAT[etat]}</span>` : '<span class="pastille masquee">Pas cette année</span>'}
+          ${depot ? `<a class="pastille ${depot === 'corrige' ? 'fait' : 'encours'}" href="#mes-travaux">${depot === 'corrige' ? 'Travail corrigé' : 'Travail déposé'}</a>` : ''}
+          ${badges.has(s.id) ? `<span class="badge-annee">${PICTO_BADGE} Badge</span>` : ''}
+        </h3>
+        ${p.visible ? `<ul class="points" aria-label="Séances">
+          ${titres.map((tt, k) => { const e = etatSeance(prog, s.id, k + 1); return `<li class="point ${e}"><span class="visually-hidden">${k + 1}. ${echapper(tt)} : ${ETAT_SEANCE[e] || 'pas encore faite'}. </span></li>`; }).join('')}
+        </ul>` : ''}
+        <div class="etape-liens">
+          ${lienDoc(s, 'activite', 'Activité')}${lienDoc(s, 'cours', 'Cours')}${lienDoc(s, 'quiz', 'Quiz')}
+        </div>
+      </div>
+    </li>`;
+  }).join('');
 }
 
 async function charger() {
@@ -89,25 +227,38 @@ async function charger() {
   groupes = g.groupes;
   $('qui').textContent = g.prenom ? `Bonjour ${g.prenom}` : '';
   $('groupe').innerHTML = groupes
-    .map((x) => `<option value="${x.id}">${echapper(x.code)}</option>`).join('');
+    .map((x) => `<option value="${x.id}">${echapper(x.code)}${x.annee ? ' · ' + echapper(x.annee) : ''}</option>`).join('');
+  // sesGroupes() met le groupe de l'année en cours en tête : c'est lui qui s'affiche.
+  if (!groupes.length) {
+    $('f').hidden = true;
+    dire('Tu n’es inscrit dans aucun groupe pour le moment : demande à ton professeur.', 'info');
+  }
   $('document').innerHTML = DOCUMENTS
     .map((d) => `<option value="${d.id}">${echapper(d.titre)}</option>`).join('');
+  // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose quand même.
+  try {
+    progression = (await api('/api/classeur/progression')).groupes;
+  } catch (e) {
+    progression = [];
+  }
   remplirSequences();
   await listerRendus();
+  rendreAnnee();
 }
 
 async function listerRendus() {
   const d = await api('/api/classeur/mes-rendus');
+  mesRendus = d.rendus;
 
   if (d.repli) {
     $('repli').className = 'msg info';
     $('repli').textContent =
-      `Votre professeur a réinitialisé votre accès le ${dateCourte(d.repli.quand)}. ` +
-      `Si vous ne l'avez pas demandé, dites-le-lui.`;
+      `Ton professeur a réinitialisé ton accès le ${dateCourte(d.repli.quand)}. ` +
+      `Si tu ne l'as pas demandé, dis-le-lui.`;
   }
 
   if (!d.rendus.length) {
-    $('liste').innerHTML = '<p class="vide">Vous n\'avez encore rien déposé.</p>';
+    $('liste').innerHTML = '<p class="vide">Tu n\'as encore rien déposé.</p>';
     return;
   }
   $('liste').innerHTML = d.rendus.map((r) => {
@@ -116,9 +267,8 @@ async function listerRendus() {
       : r.corrige_le
         ? '<span class="etiquette corrige">corrigé</span>'
         : '<span class="etiquette attente">en attente de correction</span>';
-    const titre = Object.values(SEQUENCES).flat().find((s) => s.id === r.sequence);
     return `<article class="rendu">
-      <h3>${echapper(titre ? titre.titre : r.sequence)}${etat}</h3>
+      <h3>${echapper(libelleSequence(r.sequence, $('groupe').value))}${etat}</h3>
       <p class="meta">${echapper(r.groupes?.code || '')} · déposé le ${dateCourte(r.depose_le)}
         ${r.binome ? ' · avec ' + echapper(r.binome) : ''}</p>
       ${r.fichier ? `<p class="meta"><a href="#" data-rendu="${r.id}"
@@ -156,8 +306,8 @@ async function listerRendus() {
     b.addEventListener('click', async () => {
       const vide = b.dataset.vide === '1';
       if (!vide && !confirm(
-        'Supprimer ce dépôt ? Votre document sera effacé, et votre ' +
-        'professeur ne le verra plus. Vous pourrez en redéposer un autre.')) return;
+        'Supprimer ce dépôt ? Ton document sera effacé, et ton ' +
+        'professeur ne le verra plus. Tu pourras en redéposer un autre.')) return;
       b.disabled = true; b.textContent = 'Suppression…';
       try {
         await api('/api/classeur/supprimer-depot', {
@@ -172,7 +322,7 @@ async function listerRendus() {
   });
 }
 
-$('groupe').addEventListener('change', remplirSequences);
+$('groupe').addEventListener('change', () => { rendreAnnee(); remplirSequences(); });
 
 $('sortir').addEventListener('click', async () => {
   try {
@@ -227,12 +377,15 @@ $('f').addEventListener('submit', async (e) => {
     });
     $('progres').style.width = '100%';
 
-    dire('Votre travail est déposé. Votre professeur le verra.', 'ok');
-    $('f').reset(); remplirSequences();
+    dire('Ton travail est déposé. Ton professeur le verra.', 'ok');
+    // On ne vide que ce qui a été envoyé : le groupe et la séquence restent,
+    // l'élève dépose souvent deux documents d'affilée pour la même séquence.
+    $('fichier').value = ''; $('binome').value = ''; $('commentaire').value = '';
     await listerRendus();
+    rendreAnnee();
   } catch (err) {
     dire((err.message || 'Envoi impossible.') +
-      " Votre travail n'est PAS perdu : ne fermez pas la page, réessayez.", 'err');
+      " Ton travail n'est PAS perdu : ne ferme pas la page, réessaie.", 'err');
   } finally {
     $('b').disabled = false; $('b').textContent = 'Déposer';
     setTimeout(() => { $('barre').style.display = 'none';

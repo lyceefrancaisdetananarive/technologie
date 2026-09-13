@@ -745,6 +745,55 @@
     initMobileMenu();
     initTabs();
     initCardLinks();
+    marquerProgressionEleve();
+  }
+
+  // ---- LA CARTE DE L'ANNEE SUR LES PAGES DE NIVEAU ----
+  // Un eleve dont la session est ouverte voit, sur l'index de son niveau,
+  // l'etat de chaque sequence pour SON groupe : fait, en cours, a venir,
+  // pas cette annee, et son badge. C'est un affichage : les liens restent
+  // ouverts, la page reste publique, rien n'est ecrit dans le navigateur.
+  // Aucune requete sans temoin de session eleve : les visiteurs anonymes et
+  // les professeurs ne paient rien.
+  function marquerProgressionEleve() {
+    if (lireTemoin() !== 'eleve') return;
+    const cartes = document.querySelectorAll('.seq-card[data-id]');
+    if (!cartes.length) return;
+    fetch('/api/classeur/progression', { credentials: 'same-origin' })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.groupes || !d.groupes.length) return;
+        const libelle = { fait: 'Fait', encours: 'En cours', avenir: '\u00c0 venir', masquee: 'Pas cette ann\u00e9e' };
+        cartes.forEach(function (c) {
+          const id = c.getAttribute('data-id');
+          // Le premier groupe dont le plan porte cette sequence decide.
+          let g = null, p = null;
+          for (const gr of d.groupes) {
+            p = gr.plan.find(function (x) { return x.sequence === id; });
+            if (p) { g = gr; break; }
+          }
+          if (!g) return;
+          let etat = 'masquee';
+          if (p.visible) {
+            const faites = g.avancement.filter(function (a) { return a.sequence === id; }).length;
+            const total = p.seances || 0;
+            etat = total && faites >= total ? 'fait' : faites > 0 ? 'encours' : 'avenir';
+          }
+          c.classList.add('seq-' + etat);
+          const s = document.createElement('span');
+          s.className = 'seq-etat seq-etat-' + etat;
+          s.textContent = libelle[etat];
+          const h = c.querySelector('h3');
+          if (h) h.parentNode.insertBefore(s, h);
+          if ((g.badges || []).indexOf(id) >= 0) {
+            const b = document.createElement('span');
+            b.className = 'seq-badge';
+            b.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg> Badge';
+            if (h) h.appendChild(b);
+          }
+        });
+      })
+      .catch(function () { /* la carte est un plus, jamais une barriere */ });
   }
 
   // Run on DOM ready

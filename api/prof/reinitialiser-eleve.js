@@ -1,5 +1,4 @@
-import { ouvrir, lireCookie } from '../_lib/session.js';
-import { ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES }
+import { appelant, ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES }
   from '../_lib/autorisation.js';
 import {
   definirMotDePasse, verifierMotDePasse, lire, ecrire,
@@ -27,9 +26,13 @@ export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
   if (!origineLegitime(req)) return refus(res, 403, 'Origine non autorisée.');
 
-  const session = await ouvrir(
-    lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-  if (!session) return refus(res, 401, 'Session expirée.');
+  // appelant() relit le profil en base, refuse un mot de passe encore
+  // provisoire et revérifie le rôle professeur contre PROFS_TECHNO : pour
+  // une action aussi lourde que prendre la main sur le compte d'un mineur,
+  // un cookie encore valable après une révocation ne suffit pas.
+  const prof = await appelant(req);
+  if (!prof) return refus(res, 401, 'Session expirée.');
+  if (prof.role !== 'prof') return refus(res, 403, 'Action réservée aux professeurs.');
 
   const eleveId = String(req.body?.eleve ?? '');
   const motif = String(req.body?.motif ?? '').slice(0, 200);
@@ -38,21 +41,6 @@ export default async function handler(req, res) {
   if (!confirmation) return refus(res, 400, 'Confirmation manquante.');
 
   try {
-    // Le rôle est RELU EN BASE, jamais pris au mot du cookie. Un cookie
-    // reste valable une heure après une révocation : pour une action aussi
-    // lourde que prendre la main sur le compte d'un mineur, on revérifie.
-    const prof = (await lire('profils',
-      `id=eq.${session.sub}&select=id,email,role,actif,mdp_provisoire`))[0];
-    if (!prof || prof.role !== 'prof' || !prof.actif) {
-      return refus(res, 403, 'Action réservée aux professeurs.');
-    }
-    // Ce point d'entrée lit la session directement et ne passe donc pas par
-    // appelant(), qui porte ailleurs ce même refus. Un compte dont le mot de
-    // passe est encore provisoire n'agit sur rien, professeur compris.
-    if (prof.mdp_provisoire) {
-      return refus(res, 403,
-        'Choisissez d’abord votre propre mot de passe définitif.');
-    }
 
     // L'identifiant doit être un uuid. Sans ce contrôle, une valeur
     // quelconque fait échouer le cast côté PostgREST et remonte en 500,
@@ -117,7 +105,7 @@ export default async function handler(req, res) {
     // Il n'y a pas de transaction : trois appels HTTP, sur une liaison qui
     // coupe. Chaque préfixe de la séquence doit donc être un état sûr.
     //
-    // L'ordre naturel — poser le mot de passe, puis marquer le compte — est
+    // L'ordre naturel (poser le mot de passe, puis marquer le compte) est
     // le mauvais. Une coupure entre les deux, sur un élève dont le mot de
     // passe n'était PAS provisoire (le cas ordinaire : il a oublié celui
     // qu'il avait choisi), installerait comme mot de passe DÉFINITIF celui

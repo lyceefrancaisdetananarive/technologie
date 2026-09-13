@@ -96,5 +96,8 @@ export function badgeAcquis(sequence, seancesFaites, exceptionsEleve) {
   if (!s) return false;
   const faites = new Set(seancesFaites);
   for (let i = 1; i <= s.seances; i++) if (!faites.has(i)) return false;
-  return !exceptionsEleve.some((x) => x.sequence === sequence && x.etat !== 'rattrape');
+  // Une exception posée sur un numéro de séance qui n'existe plus dans la
+  // séquence (catalogue réduit depuis) ne retient pas le badge.
+  return !exceptionsEleve.some((x) => x.sequence === sequence
+    && x.seance >= 1 && x.seance <= s.seances && x.etat !== 'rattrape');
 }

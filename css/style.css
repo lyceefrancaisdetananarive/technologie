@@ -403,12 +403,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* États des séquences (fait, en cours, à venir), pour la carte de l'année de
    l'élève (phase 4). L'état est un affichage : les liens restent ouverts, les
    pages sont publiques (principe retenu dans le cadrage, référence Moodle). */
-.seq-etat { display: inline-block; font-size: .68rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-bottom: .35rem; }
-.seq-etat-faite { background: var(--fait-pale); color: var(--fait); }
+.seq-etat { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-bottom: .35rem; }
+.seq-etat-fait { background: var(--fait-pale); color: var(--fait); }
 .seq-etat-encours { background: var(--encours-pale); color: var(--encours); }
 .seq-etat-avenir { background: var(--avenir-pale); color: var(--encre-3); }
-.seq-card.seq-faite { opacity: .9; }
+.seq-card.seq-fait { border-color: #BBE3C6; }
 .seq-card.seq-avenir { background: var(--papier); border-style: dashed; }
+.seq-card.seq-masquee { background: var(--papier); border-style: dashed; }
+.seq-etat-masquee { background: var(--grille); color: var(--encre-2); }
+.seq-badge { display: inline-flex; align-items: center; gap: .25rem; margin-left: .5rem; font-size: .78rem; font-weight: 800; color: var(--encre); vertical-align: middle; }
+.seq-badge svg { width: 18px; height: 18px; color: var(--or); }
 .seq-card.seq-encours { border-color: #F0C48A; box-shadow: 0 0 0 4px var(--encours-pale); }
 
 /* Onglets de période */
