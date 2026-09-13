@@ -1,0 +1,1921 @@
+{
+ "version": 1,
+ "annee": "2026-2027",
+ "periodes": [
+  {
+   "n": 1,
+   "debut": "2026-09-02",
+   "fin": "2026-10-17",
+   "seances_garanties": 6,
+   "libelle": "2 septembre au 17 octobre"
+  },
+  {
+   "n": 2,
+   "debut": "2026-11-02",
+   "fin": "2026-12-19",
+   "seances_garanties": 7,
+   "libelle": "2 novembre au 19 décembre"
+  },
+  {
+   "n": 3,
+   "debut": "2027-01-04",
+   "fin": "2027-02-13",
+   "seances_garanties": 6,
+   "libelle": "4 janvier au 13 février"
+  },
+  {
+   "n": 4,
+   "debut": "2027-03-01",
+   "fin": "2027-04-10",
+   "seances_garanties": 4,
+   "libelle": "1er mars au 10 avril"
+  },
+  {
+   "n": 5,
+   "debut": "2027-04-26",
+   "fin": "2027-07-03",
+   "seances_garanties": 9,
+   "libelle": "26 avril au 3 juillet"
+  }
+ ],
+ "themes": {
+  "1": "Les objets et les systèmes techniques, leurs usages et leurs interactions",
+  "2": "Fonctionnement et comportement des objets et systèmes techniques",
+  "3": "Conception et réalisation des objets et systèmes techniques"
+ },
+ "documents": [
+  {
+   "cle": "activite",
+   "suffixe": "activite",
+   "lettre": "A",
+   "libelle": "Activité"
+  },
+  {
+   "cle": "cours",
+   "suffixe": "structuration",
+   "lettre": "S",
+   "libelle": "Cours"
+  },
+  {
+   "cle": "quiz",
+   "suffixe": "quiz",
+   "lettre": "Q",
+   "libelle": "Quiz"
+  },
+  {
+   "cle": "eval",
+   "suffixe": "eval",
+   "lettre": "E",
+   "libelle": "Évaluation"
+  },
+  {
+   "cle": "revision",
+   "suffixe": "revision",
+   "lettre": "R",
+   "libelle": "Révision"
+  },
+  {
+   "cle": "ebep",
+   "suffixe": "ebep",
+   "lettre": "B",
+   "libelle": "Version adaptée"
+  },
+  {
+   "cle": "prof",
+   "suffixe": "prof",
+   "lettre": null,
+   "libelle": "Fiche professeur"
+  }
+ ],
+ "niveaux": {
+  "5eme": {
+   "libelle": "5e",
+   "long": "Cinquième",
+   "ordre": 1,
+   "index": "5eme/index.html",
+   "sequences": [
+    {
+     "n": 1,
+     "periode": 1,
+     "cle": "seq1",
+     "dossier": "5eme/p1",
+     "titre": "Découverte des objets techniques",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Décrire les liens entre usages et évolutions technologiques",
+      "Caractériser et choisir un objet technique"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Objet naturel ou objet technique ?"
+      },
+      {
+       "n": 2,
+       "titre": "Le besoin"
+      },
+      {
+       "n": 3,
+       "titre": "Fonction d'usage et fonction d'estime"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p1/seq1-activite.html",
+       "code": "51A"
+      },
+      "cours": {
+       "fichier": "5eme/p1/seq1-structuration.html",
+       "code": "51S"
+      },
+      "quiz": {
+       "fichier": "5eme/p1/seq1-quiz.html",
+       "code": "51Q"
+      },
+      "eval": {
+       "fichier": "5eme/p1/seq1-eval.html",
+       "code": "51E"
+      },
+      "revision": {
+       "fichier": "5eme/p1/seq1-revision.html",
+       "code": "51R"
+      },
+      "ebep": {
+       "fichier": "5eme/p1/seq1-ebep.html",
+       "code": "51B"
+      },
+      "prof": {
+       "fichier": "5eme/p1/seq1-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Qu'est-ce qu'un objet technique ? Besoins et fonctions."
+    },
+    {
+     "n": 2,
+     "periode": 1,
+     "cle": "seq2",
+     "dossier": "5eme/p1",
+     "titre": "L'évolution des objets techniques",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Décrire les liens entre usages et évolutions technologiques",
+      "Décrire les interactions objet/environnement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "La frise chronologique du téléphone"
+      },
+      {
+       "n": 2,
+       "titre": "L'évolution du vélo"
+      },
+      {
+       "n": 3,
+       "titre": "Réaliser une frise chronologique numérique"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p1/seq2-activite.html",
+       "code": "52A"
+      },
+      "cours": {
+       "fichier": "5eme/p1/seq2-structuration.html",
+       "code": "52S"
+      },
+      "quiz": {
+       "fichier": "5eme/p1/seq2-quiz.html",
+       "code": "52Q"
+      },
+      "eval": {
+       "fichier": "5eme/p1/seq2-eval.html",
+       "code": "52E"
+      },
+      "revision": {
+       "fichier": "5eme/p1/seq2-revision.html",
+       "code": "52R"
+      },
+      "ebep": {
+       "fichier": "5eme/p1/seq2-ebep.html",
+       "code": "52B"
+      },
+      "prof": {
+       "fichier": "5eme/p1/seq2-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Frise chronologique, innovations, outils numériques."
+    },
+    {
+     "n": 3,
+     "periode": 2,
+     "cle": "seq3",
+     "dossier": "5eme/p2",
+     "titre": "Cycle de vie et impact environnemental",
+     "theme": 1,
+     "seances": 4,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Décrire les interactions objet/environnement",
+      "Caractériser et choisir un objet technique"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Le cycle de vie d'un objet"
+      },
+      {
+       "n": 2,
+       "titre": "L'impact environnemental d'un t-shirt"
+      },
+      {
+       "n": 3,
+       "titre": "Développement durable et éco-conception"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p2/seq3-activite.html",
+       "code": "53A"
+      },
+      "cours": {
+       "fichier": "5eme/p2/seq3-structuration.html",
+       "code": "53S"
+      },
+      "quiz": {
+       "fichier": "5eme/p2/seq3-quiz.html",
+       "code": "53Q"
+      },
+      "eval": {
+       "fichier": "5eme/p2/seq3-eval.html",
+       "code": "53E"
+      },
+      "revision": {
+       "fichier": "5eme/p2/seq3-revision.html",
+       "code": "53R"
+      },
+      "ebep": {
+       "fichier": "5eme/p2/seq3-ebep.html",
+       "code": "53B"
+      },
+      "prof": {
+       "fichier": "5eme/p2/seq3-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Cycle de vie, IA et évolutions, développement durable."
+    },
+    {
+     "n": 4,
+     "periode": 2,
+     "cle": "seq4",
+     "dossier": "5eme/p2",
+     "titre": "Structure interne des objets techniques",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Décrire l'organisation interne et les échanges",
+      "Identifier un dysfonctionnement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Décomposer un objet technique"
+      },
+      {
+       "n": 2,
+       "titre": "Matériaux et propriétés"
+      },
+      {
+       "n": 3,
+       "titre": "Sources et chaînes d'énergie"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p2/seq4-activite.html",
+       "code": "54A"
+      },
+      "cours": {
+       "fichier": "5eme/p2/seq4-structuration.html",
+       "code": "54S"
+      },
+      "quiz": {
+       "fichier": "5eme/p2/seq4-quiz.html",
+       "code": "54Q"
+      },
+      "eval": {
+       "fichier": "5eme/p2/seq4-eval.html",
+       "code": "54E"
+      },
+      "revision": {
+       "fichier": "5eme/p2/seq4-revision.html",
+       "code": "54R"
+      },
+      "ebep": {
+       "fichier": "5eme/p2/seq4-ebep.html",
+       "code": "54B"
+      },
+      "prof": {
+       "fichier": "5eme/p2/seq4-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Composants, matériaux, sources d'énergie."
+    },
+    {
+     "n": 5,
+     "periode": 3,
+     "cle": "seq5",
+     "dossier": "5eme/p3",
+     "titre": "Transmission et transformation de mouvement",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Décrire l'organisation interne et les échanges",
+      "Identifier un dysfonctionnement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Les engrenages"
+      },
+      {
+       "n": 2,
+       "titre": "Transmission ou transformation ?"
+      },
+      {
+       "n": 3,
+       "titre": "Chaîne d'information"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p3/seq5-activite.html",
+       "code": "55A"
+      },
+      "cours": {
+       "fichier": "5eme/p3/seq5-structuration.html",
+       "code": "55S"
+      },
+      "quiz": {
+       "fichier": "5eme/p3/seq5-quiz.html",
+       "code": "55Q"
+      },
+      "eval": {
+       "fichier": "5eme/p3/seq5-eval.html",
+       "code": "55E"
+      },
+      "revision": {
+       "fichier": "5eme/p3/seq5-revision.html",
+       "code": "55R"
+      },
+      "ebep": {
+       "fichier": "5eme/p3/seq5-ebep.html",
+       "code": "55B"
+      },
+      "prof": {
+       "fichier": "5eme/p3/seq5-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Engrenages, chaîne d'information, capteurs."
+    },
+    {
+     "n": 6,
+     "periode": 3,
+     "cle": "seq6",
+     "dossier": "5eme/p3",
+     "titre": "Initiation à la programmation",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 4,
+     "competences": [
+      "Comprendre et modifier un programme",
+      "Identifier un dysfonctionnement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Découvrir la programmation par blocs"
+      },
+      {
+       "n": 2,
+       "titre": "Programmer un feu tricolore avec mBlock"
+      },
+      {
+       "n": 3,
+       "titre": "Programmer le micro:bit"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p3/seq6-activite.html",
+       "code": "56A"
+      },
+      "cours": {
+       "fichier": "5eme/p3/seq6-structuration.html",
+       "code": "56S"
+      },
+      "quiz": {
+       "fichier": "5eme/p3/seq6-quiz.html",
+       "code": "56Q"
+      },
+      "eval": {
+       "fichier": "5eme/p3/seq6-eval.html",
+       "code": "56E"
+      },
+      "revision": {
+       "fichier": "5eme/p3/seq6-revision.html",
+       "code": "56R"
+      },
+      "ebep": {
+       "fichier": "5eme/p3/seq6-ebep.html",
+       "code": "56B"
+      },
+      "prof": {
+       "fichier": "5eme/p3/seq6-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "mBlock, micro:bit, capteurs/actionneurs."
+    },
+    {
+     "n": 7,
+     "periode": 4,
+     "cle": "seq7",
+     "dossier": "5eme/p4",
+     "titre": "Modélisation 3D et conception",
+     "theme": 3,
+     "seances": 4,
+     "theme_page": 3,
+     "seances_page": 3,
+     "competences": [
+      "Imaginer, concevoir, réaliser",
+      "Valider par simulations et tests"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Le cahier des charges"
+      },
+      {
+       "n": 2,
+       "titre": "Découverte de Tinkercad"
+      },
+      {
+       "n": 3,
+       "titre": "Concevoir le support de smartphone"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p4/seq7-activite.html",
+       "code": "57A"
+      },
+      "cours": {
+       "fichier": "5eme/p4/seq7-structuration.html",
+       "code": "57S"
+      },
+      "quiz": {
+       "fichier": "5eme/p4/seq7-quiz.html",
+       "code": "57Q"
+      },
+      "eval": {
+       "fichier": "5eme/p4/seq7-eval.html",
+       "code": "57E"
+      },
+      "revision": {
+       "fichier": "5eme/p4/seq7-revision.html",
+       "code": "57R"
+      },
+      "ebep": {
+       "fichier": "5eme/p4/seq7-ebep.html",
+       "code": "57B"
+      },
+      "prof": {
+       "fichier": "5eme/p4/seq7-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Tinkercad, cahier des charges, prototype."
+    },
+    {
+     "n": 8,
+     "periode": 5,
+     "cle": "seq8",
+     "dossier": "5eme/p5",
+     "titre": "IA, objets connectés et réparabilité",
+     "theme": 3,
+     "seances": 3,
+     "theme_page": 3,
+     "seances_page": 3,
+     "competences": [
+      "Imaginer, concevoir, réaliser",
+      "Concevoir, écrire, tester un programme"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Qu'est-ce que l'intelligence artificielle ?"
+      },
+      {
+       "n": 2,
+       "titre": "Les objets connectés (IoT)"
+      },
+      {
+       "n": 3,
+       "titre": "Réparabilité et durabilité"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p5/seq8-activite.html",
+       "code": "58A"
+      },
+      "cours": {
+       "fichier": "5eme/p5/seq8-structuration.html",
+       "code": "58S"
+      },
+      "quiz": {
+       "fichier": "5eme/p5/seq8-quiz.html",
+       "code": "58Q"
+      },
+      "eval": {
+       "fichier": "5eme/p5/seq8-eval.html",
+       "code": "58E"
+      },
+      "revision": {
+       "fichier": "5eme/p5/seq8-revision.html",
+       "code": "58R"
+      },
+      "ebep": {
+       "fichier": "5eme/p5/seq8-ebep.html",
+       "code": "58B"
+      },
+      "prof": {
+       "fichier": "5eme/p5/seq8-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "IA, objets connectés, indice de réparabilité."
+    },
+    {
+     "n": 9,
+     "periode": 5,
+     "cle": "seq9",
+     "dossier": "5eme/p5",
+     "titre": "Projet de groupe : concevoir un objet technique",
+     "theme": 3,
+     "seances": 6,
+     "theme_page": 3,
+     "seances_page": 4,
+     "competences": [
+      "Imaginer, concevoir, réaliser",
+      "Valider par simulations et tests",
+      "Concevoir, écrire, tester un programme"
+     ],
+     "activites": [],
+     "documents": {
+      "activite": {
+       "fichier": "5eme/p5/seq9-activite.html",
+       "code": "59A"
+      },
+      "cours": {
+       "fichier": "5eme/p5/seq9-structuration.html",
+       "code": "59S"
+      },
+      "quiz": {
+       "fichier": "5eme/p5/seq9-quiz.html",
+       "code": "59Q"
+      },
+      "eval": {
+       "fichier": "5eme/p5/seq9-eval.html",
+       "code": "59E"
+      },
+      "revision": {
+       "fichier": "5eme/p5/seq9-revision.html",
+       "code": "59R"
+      },
+      "ebep": {
+       "fichier": "5eme/p5/seq9-ebep.html",
+       "code": "59B"
+      },
+      "prof": {
+       "fichier": "5eme/p5/seq9-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Démarche de projet, prototype, FabLab, imprimante 3D, bilan de l'année."
+    }
+   ],
+   "diagnostiques": [
+    {
+     "periode": 1,
+     "titre": "Ce que tu sais déjà",
+     "eleve": {
+      "fichier": "5eme/p1/diagnostique-eleve.html",
+      "code": "5D"
+     },
+     "prof": {
+      "fichier": "5eme/p1/diagnostique-prof.html",
+      "reserve": true
+     }
+    }
+   ],
+   "bilans": [
+    {
+     "trimestre": 1,
+     "type": "revision",
+     "fichier": "5eme/p2/revision-t1.html",
+     "titre": "Fiche de révision : Trimestre 1"
+    },
+    {
+     "trimestre": 2,
+     "type": "eval",
+     "fichier": "5eme/p4/eval-t2.html",
+     "titre": "Évaluation bilan : Trimestre 2"
+    },
+    {
+     "trimestre": 2,
+     "type": "revision",
+     "fichier": "5eme/p4/revision-t2.html",
+     "titre": "Fiche de révision : Trimestre 2"
+    },
+    {
+     "trimestre": 3,
+     "type": "revision",
+     "fichier": "5eme/p5/revision-t3.html",
+     "titre": "Fiche de révision : Trimestre 3"
+    }
+   ],
+   "annexes": []
+  },
+  "4eme": {
+   "libelle": "4e",
+   "long": "Quatrième",
+   "ordre": 2,
+   "index": "4eme/index.html",
+   "sequences": [
+    {
+     "n": 1,
+     "periode": 1,
+     "cle": "seq1",
+     "dossier": "4eme/p1",
+     "titre": "Analyse fonctionnelle d'un système automatisé",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Analyser les interactions objet/environnement",
+      "Identifier les évolutions technologiques et impacts"
+     ],
+     "activites": [],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p1/seq1-activite.html",
+       "code": "41A"
+      },
+      "cours": {
+       "fichier": "4eme/p1/seq1-structuration.html",
+       "code": "41S"
+      },
+      "quiz": {
+       "fichier": "4eme/p1/seq1-quiz.html",
+       "code": "41Q"
+      },
+      "eval": {
+       "fichier": "4eme/p1/seq1-eval.html",
+       "code": "41E"
+      },
+      "revision": {
+       "fichier": "4eme/p1/seq1-revision.html",
+       "code": "41R"
+      },
+      "ebep": {
+       "fichier": "4eme/p1/seq1-ebep.html",
+       "code": "41B"
+      },
+      "prof": {
+       "fichier": "4eme/p1/seq1-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Tourniquet pleine hauteur ZKTeco, Observation, analyse fonctionnelle, fiche technique."
+    },
+    {
+     "n": 2,
+     "periode": 1,
+     "cle": "seq2",
+     "dossier": "4eme/p1",
+     "titre": "Algorithme et logique de programmation",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Écrire un algorithme simple",
+      "Traduire un algorithme en organigramme"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Algorithme du quotidien (15 min)"
+      },
+      {
+       "n": 2,
+       "titre": "L'organigramme du tourniquet (30 min)"
+      },
+      {
+       "n": 3,
+       "titre": "Algorithme d'un feu tricolore (20 min)"
+      },
+      {
+       "n": 4,
+       "titre": "Pseudo-code (20 min)"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p1/seq2-activite.html",
+       "code": "42A"
+      },
+      "cours": {
+       "fichier": "4eme/p1/seq2-structuration.html",
+       "code": "42S"
+      },
+      "quiz": {
+       "fichier": "4eme/p1/seq2-quiz.html",
+       "code": "42Q"
+      },
+      "eval": {
+       "fichier": "4eme/p1/seq2-eval.html",
+       "code": "42E"
+      },
+      "revision": {
+       "fichier": "4eme/p1/seq2-revision.html",
+       "code": "42R"
+      },
+      "ebep": {
+       "fichier": "4eme/p1/seq2-ebep.html",
+       "code": "42B"
+      },
+      "prof": {
+       "fichier": "4eme/p1/seq2-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Organigrammes, conditions, boucles, Algorithme du tourniquet."
+    },
+    {
+     "n": 3,
+     "periode": 2,
+     "cle": "seq3",
+     "dossier": "4eme/p2",
+     "titre": "Programmation d'objets connectés (Micro:bit)",
+     "theme": 2,
+     "seances": 4,
+     "theme_page": 2,
+     "seances_page": 4,
+     "competences": [
+      "Programmer un objet connecté",
+      "Utiliser capteurs et actionneurs"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Découverte : afficher sur les LEDs (20 min)"
+      },
+      {
+       "n": 2,
+       "titre": "Les capteurs de la Micro:bit (30 min)"
+      },
+      {
+       "n": 3,
+       "titre": "Projet : Jeu de Ludo Micro:bit (40 min)"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p2/seq3-activite.html",
+       "code": "43A"
+      },
+      "cours": {
+       "fichier": "4eme/p2/seq3-structuration.html",
+       "code": "43S"
+      },
+      "quiz": {
+       "fichier": "4eme/p2/seq3-quiz.html",
+       "code": "43Q"
+      },
+      "eval": {
+       "fichier": "4eme/p2/seq3-eval.html",
+       "code": "43E"
+      },
+      "revision": {
+       "fichier": "4eme/p2/seq3-revision.html",
+       "code": "43R"
+      },
+      "ebep": {
+       "fichier": "4eme/p2/seq3-ebep.html",
+       "code": "43B"
+      },
+      "prof": {
+       "fichier": "4eme/p2/seq3-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Carte Micro:bit, capteurs, actionneurs, Jeu de ludo."
+    },
+    {
+     "n": 4,
+     "periode": 2,
+     "cle": "seq4",
+     "dossier": "4eme/p2",
+     "titre": "Cahier des charges et documentation technique",
+     "theme": 3,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Rédiger un cahier des charges",
+      "Lire et produire un document technique"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Rédiger le cahier des charges du feu tricolore (30 min)"
+      },
+      {
+       "n": 2,
+       "titre": "Le dessin de définition (30 min)"
+      },
+      {
+       "n": 3,
+       "titre": "La nomenclature (20 min)"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p2/seq4-activite.html",
+       "code": "44A"
+      },
+      "cours": {
+       "fichier": "4eme/p2/seq4-structuration.html",
+       "code": "44S"
+      },
+      "quiz": {
+       "fichier": "4eme/p2/seq4-quiz.html",
+       "code": "44Q"
+      },
+      "eval": {
+       "fichier": "4eme/p2/seq4-eval.html",
+       "code": "44E"
+      },
+      "revision": {
+       "fichier": "4eme/p2/seq4-revision.html",
+       "code": "44R"
+      },
+      "ebep": {
+       "fichier": "4eme/p2/seq4-ebep.html",
+       "code": "44B"
+      },
+      "prof": {
+       "fichier": "4eme/p2/seq4-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Cahier des charges feu tricolore, dessin de définition, nomenclature."
+    },
+    {
+     "n": 5,
+     "periode": 3,
+     "cle": "seq5",
+     "dossier": "4eme/p3",
+     "titre": "Programmation et automatisation (mBlock / Scratch)",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Programmer un système automatisé",
+      "Concevoir une interface de commande"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Programmer le feu tricolore avec mBlock (40 min)"
+      },
+      {
+       "n": 2,
+       "titre": "Créer une interface graphique avec Scratch (40 min)"
+      },
+      {
+       "n": 3,
+       "titre": "Mode piéton et variables (30 min)"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p3/seq5-activite.html",
+       "code": "45A"
+      },
+      "cours": {
+       "fichier": "4eme/p3/seq5-structuration.html",
+       "code": "45S"
+      },
+      "quiz": {
+       "fichier": "4eme/p3/seq5-quiz.html",
+       "code": "45Q"
+      },
+      "eval": {
+       "fichier": "4eme/p3/seq5-eval.html",
+       "code": "45E"
+      },
+      "revision": {
+       "fichier": "4eme/p3/seq5-revision.html",
+       "code": "45R"
+      },
+      "ebep": {
+       "fichier": "4eme/p3/seq5-ebep.html",
+       "code": "45B"
+      },
+      "prof": {
+       "fichier": "4eme/p3/seq5-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Contrôle feu tricolore, interfaces graphiques, programmation par blocs."
+    },
+    {
+     "n": 6,
+     "periode": 3,
+     "cle": "seq6",
+     "dossier": "4eme/p3",
+     "titre": "Programmation Arduino",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": null,
+     "seances_page": null,
+     "competences": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Découvrir l'Arduino et faire clignoter une LED"
+      },
+      {
+       "n": 2,
+       "titre": "Lire un capteur et réagir"
+      },
+      {
+       "n": 3,
+       "titre": "Programmer le prototype de l'équipe"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p3/seq6-activite.html",
+       "code": "46A"
+      },
+      "cours": {
+       "fichier": "4eme/p3/seq6-structuration.html",
+       "code": "46S"
+      },
+      "quiz": {
+       "fichier": "4eme/p3/seq6-quiz.html",
+       "code": "46Q"
+      },
+      "eval": {
+       "fichier": "4eme/p3/seq6-eval.html",
+       "code": "46E"
+      },
+      "revision": {
+       "fichier": "4eme/p3/seq6-revision.html",
+       "code": "46R"
+      },
+      "ebep": {
+       "fichier": "4eme/p3/seq6-ebep.html",
+       "code": "46B"
+      },
+      "prof": {
+       "fichier": "4eme/p3/seq6-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Arduino : faire clignoter une LED, lire un capteur, programmer le prototype de l'équipe."
+    },
+    {
+     "n": 7,
+     "periode": 4,
+     "cle": "seq7",
+     "dossier": "4eme/p4",
+     "titre": "Modélisation 3D et fabrication numérique",
+     "theme": 3,
+     "seances": 4,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Modéliser un objet en 3D",
+      "Utiliser des outils de fabrication numérique"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Découverte de la modélisation 3D (40 min)"
+      },
+      {
+       "n": 2,
+       "titre": "Les outils de fabrication numérique (30 min)"
+      },
+      {
+       "n": 3,
+       "titre": "Du modèle à la fabrication (40 min)"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p4/seq7-activite.html",
+       "code": "47A"
+      },
+      "cours": {
+       "fichier": "4eme/p4/seq7-structuration.html",
+       "code": "47S"
+      },
+      "quiz": {
+       "fichier": "4eme/p4/seq7-quiz.html",
+       "code": "47Q"
+      },
+      "eval": {
+       "fichier": "4eme/p4/seq7-eval.html",
+       "code": "47E"
+      },
+      "revision": {
+       "fichier": "4eme/p4/seq7-revision.html",
+       "code": "47R"
+      },
+      "ebep": {
+       "fichier": "4eme/p4/seq7-ebep.html",
+       "code": "47B"
+      },
+      "prof": {
+       "fichier": "4eme/p4/seq7-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Cahier des charges, modélisation 3D, prototypage FabLab."
+    },
+    {
+     "n": 8,
+     "periode": 5,
+     "cle": "seq8",
+     "dossier": "4eme/p5",
+     "titre": "Chaîne d'énergie et chaîne d'information",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": null,
+     "seances_page": null,
+     "competences": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Le ventilateur de table : suivre l'énergie du doigt"
+      },
+      {
+       "n": 2,
+       "titre": "Le lampadaire solaire de rue : ranger les composants en deux familles"
+      },
+      {
+       "n": 3,
+       "titre": "Donner un nom à chaque étape : les sept maillons du lampadaire solaire"
+      },
+      {
+       "n": 4,
+       "titre": "Atelier : tracer le schéma à blocs du portail automatique ou de la citerne d'école"
+      },
+      {
+       "n": 5,
+       "titre": "Entraînement par deux : la pompe d'arrosage de rizière"
+      },
+      {
+       "n": 6,
+       "titre": "Évaluation individuelle : le ventilateur de plafond à télécommande"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p5/seq8-activite.html",
+       "code": "48A"
+      },
+      "cours": {
+       "fichier": "4eme/p5/seq8-structuration.html",
+       "code": "48S"
+      },
+      "quiz": {
+       "fichier": "4eme/p5/seq8-quiz.html",
+       "code": "48Q"
+      },
+      "eval": {
+       "fichier": "4eme/p5/seq8-eval.html",
+       "code": "48E"
+      },
+      "revision": {
+       "fichier": "4eme/p5/seq8-revision.html",
+       "code": "48R"
+      },
+      "ebep": {
+       "fichier": "4eme/p5/seq8-ebep.html",
+       "code": "48B"
+      },
+      "prof": {
+       "fichier": "4eme/p5/seq8-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Comment un objet technique reçoit son énergie et comment il prend ses décisions, du ventilateur de table au lampadaire solaire de rue"
+    },
+    {
+     "n": 9,
+     "periode": 5,
+     "cle": "seq9",
+     "dossier": "4eme/p5",
+     "titre": "Du besoin au prototype : concevoir et fabriquer un objet technique programmé",
+     "theme": 3,
+     "seances": 6,
+     "theme_page": null,
+     "seances_page": null,
+     "competences": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Séance 1 : Choisir un projet réalisable : le besoin, l'équipe, le matériel"
+      },
+      {
+       "n": 2,
+       "titre": "Séance 2 : Le cahier des charges, le croquis coté et la nomenclature"
+      },
+      {
+       "n": 3,
+       "titre": "Séance 3 : Planifier le projet avec un diagramme de Gantt, puis démarrer la conception"
+      },
+      {
+       "n": 4,
+       "titre": "Séance 4 : Terminer la conception et préparer les fichiers de fabrication"
+      },
+      {
+       "n": 5,
+       "titre": "Séance 5 : Fabriquer, assembler, tester et valider le prototype"
+      },
+      {
+       "n": 6,
+       "titre": "Séance 6 : Préparer, répéter et soutenir l'exposé du projet"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "4eme/p5/seq9-activite.html",
+       "code": "49A"
+      },
+      "cours": {
+       "fichier": "4eme/p5/seq9-structuration.html",
+       "code": "49S"
+      },
+      "quiz": {
+       "fichier": "4eme/p5/seq9-quiz.html",
+       "code": "49Q"
+      },
+      "eval": {
+       "fichier": "4eme/p5/seq9-eval.html",
+       "code": "49E"
+      },
+      "revision": {
+       "fichier": "4eme/p5/seq9-revision.html",
+       "code": "49R"
+      },
+      "ebep": {
+       "fichier": "4eme/p5/seq9-ebep.html",
+       "code": "49B"
+      },
+      "prof": {
+       "fichier": "4eme/p5/seq9-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Projet d'équipe complet, du cahier des charges à la soutenance"
+    }
+   ],
+   "diagnostiques": [
+    {
+     "periode": 1,
+     "titre": "Ce que tu sais déjà",
+     "eleve": {
+      "fichier": "4eme/p1/diagnostique-eleve.html",
+      "code": "4D"
+     },
+     "prof": {
+      "fichier": "4eme/p1/diagnostique-prof.html",
+      "reserve": true
+     }
+    }
+   ],
+   "bilans": [
+    {
+     "trimestre": 1,
+     "type": "eval",
+     "fichier": "4eme/p2/eval-t1.html",
+     "titre": "Évaluation de fin de trimestre 1"
+    },
+    {
+     "trimestre": 1,
+     "type": "revision",
+     "fichier": "4eme/p2/revision-t1.html",
+     "titre": "Révision : Trimestre 1"
+    },
+    {
+     "trimestre": 2,
+     "type": "eval",
+     "fichier": "4eme/p4/eval-t2.html",
+     "titre": "Évaluation de fin de trimestre 2"
+    },
+    {
+     "trimestre": 2,
+     "type": "revision",
+     "fichier": "4eme/p4/revision-t2.html",
+     "titre": "Révision : Trimestre 2"
+    },
+    {
+     "trimestre": 3,
+     "type": "eval",
+     "fichier": "4eme/p5/eval-t3.html",
+     "titre": "Évaluation de fin de trimestre 3"
+    },
+    {
+     "trimestre": 3,
+     "type": "revision",
+     "fichier": "4eme/p5/revision-t3.html",
+     "titre": "Révision : Trimestre 3"
+    }
+   ],
+   "annexes": []
+  },
+  "3eme": {
+   "libelle": "3e",
+   "long": "Troisième",
+   "ordre": 3,
+   "index": "3eme/index.html",
+   "sequences": [
+    {
+     "n": 1,
+     "periode": 1,
+     "cle": "seq1",
+     "dossier": "3eme/p1",
+     "titre": "Étude critique d'un objet connecté",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Évaluer l'impact des innovations",
+      "Identifier fonctions de service et techniques"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Analyse fonctionnelle d'un objet connecté"
+      },
+      {
+       "n": 2,
+       "titre": "Architecture et flux de données"
+      },
+      {
+       "n": 3,
+       "titre": "Évaluation critique multicritères"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p1/seq1-activite.html",
+       "code": "31A"
+      },
+      "cours": {
+       "fichier": "3eme/p1/seq1-structuration.html",
+       "code": "31S"
+      },
+      "quiz": {
+       "fichier": "3eme/p1/seq1-quiz.html",
+       "code": "31Q"
+      },
+      "eval": {
+       "fichier": "3eme/p1/seq1-eval.html",
+       "code": "31E"
+      },
+      "revision": {
+       "fichier": "3eme/p1/seq1-revision.html",
+       "code": "31R"
+      },
+      "ebep": {
+       "fichier": "3eme/p1/seq1-ebep.html",
+       "code": "31B"
+      },
+      "prof": {
+       "fichier": "3eme/p1/seq1-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Analyse fonctionnelle, architecture IoT, évaluation multicritères."
+    },
+    {
+     "n": 2,
+     "periode": 1,
+     "cle": "seq2",
+     "dossier": "3eme/p1",
+     "titre": "IA embarquée : études de cas",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Comprendre le rôle des systèmes programmés / IA",
+      "Évaluer l'impact des innovations"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "IA embarquée vs IA cloud"
+      },
+      {
+       "n": 2,
+       "titre": "Étude de cas : la voiture autonome"
+      },
+      {
+       "n": 3,
+       "titre": "Étude de cas : le robot aspirateur"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p1/seq2-activite.html",
+       "code": "32A"
+      },
+      "cours": {
+       "fichier": "3eme/p1/seq2-structuration.html",
+       "code": "32S"
+      },
+      "quiz": {
+       "fichier": "3eme/p1/seq2-quiz.html",
+       "code": "32Q"
+      },
+      "eval": {
+       "fichier": "3eme/p1/seq2-eval.html",
+       "code": "32E"
+      },
+      "revision": {
+       "fichier": "3eme/p1/seq2-revision.html",
+       "code": "32R"
+      },
+      "ebep": {
+       "fichier": "3eme/p1/seq2-ebep.html",
+       "code": "32B"
+      },
+      "prof": {
+       "fichier": "3eme/p1/seq2-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Voiture autonome, robot aspirateur, modèle PDA, SLAM."
+    },
+    {
+     "n": 3,
+     "periode": 2,
+     "cle": "seq3",
+     "dossier": "3eme/p2",
+     "titre": "Éthique et impacts des technologies",
+     "theme": 1,
+     "seances": 3,
+     "theme_page": 1,
+     "seances_page": 4,
+     "competences": [
+      "Évaluer l'impact des innovations",
+      "Comprendre le rôle des systèmes programmés / IA"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Cartographie des impacts du numérique"
+      },
+      {
+       "n": 2,
+       "titre": "Débat argumenté : faut-il limiter l'IA ?"
+      },
+      {
+       "n": 3,
+       "titre": "Agir pour un numérique responsable"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p2/seq3-activite.html",
+       "code": "33A"
+      },
+      "cours": {
+       "fichier": "3eme/p2/seq3-structuration.html",
+       "code": "33S"
+      },
+      "quiz": {
+       "fichier": "3eme/p2/seq3-quiz.html",
+       "code": "33Q"
+      },
+      "eval": {
+       "fichier": "3eme/p2/seq3-eval.html",
+       "code": "33E"
+      },
+      "revision": {
+       "fichier": "3eme/p2/seq3-revision.html",
+       "code": "33R"
+      },
+      "ebep": {
+       "fichier": "3eme/p2/seq3-ebep.html",
+       "code": "33B"
+      },
+      "prof": {
+       "fichier": "3eme/p2/seq3-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Débat argumenté, cartographie des impacts, éco-gestes numériques."
+    },
+    {
+     "n": 4,
+     "periode": 2,
+     "cle": "seq4",
+     "dossier": "3eme/p2",
+     "titre": "Systèmes automatisés complexes",
+     "theme": 2,
+     "seances": 4,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Décomposer en sous-systèmes fonctionnels",
+      "Modéliser un comportement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Décomposition fonctionnelle"
+      },
+      {
+       "n": 2,
+       "titre": "Modélisation par organigramme"
+      },
+      {
+       "n": 3,
+       "titre": "Étude de cas : la barrière automatique"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p2/seq4-activite.html",
+       "code": "34A"
+      },
+      "cours": {
+       "fichier": "3eme/p2/seq4-structuration.html",
+       "code": "34S"
+      },
+      "quiz": {
+       "fichier": "3eme/p2/seq4-quiz.html",
+       "code": "34Q"
+      },
+      "eval": {
+       "fichier": "3eme/p2/seq4-eval.html",
+       "code": "34E"
+      },
+      "revision": {
+       "fichier": "3eme/p2/seq4-revision.html",
+       "code": "34R"
+      },
+      "ebep": {
+       "fichier": "3eme/p2/seq4-ebep.html",
+       "code": "34B"
+      },
+      "prof": {
+       "fichier": "3eme/p2/seq4-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Décomposition fonctionnelle, organigrammes, serre intelligente."
+    },
+    {
+     "n": 5,
+     "periode": 3,
+     "cle": "seq5",
+     "dossier": "3eme/p3",
+     "titre": "Programmation avancée (Arduino / mBlock)",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 4,
+     "competences": [
+      "Mettre en œuvre un programme (capteurs/actionneurs)",
+      "Modéliser un comportement"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Variables et opérateurs logiques"
+      },
+      {
+       "n": 2,
+       "titre": "Défis de programmation avancée"
+      },
+      {
+       "n": 3,
+       "titre": "Du pseudo-code au programme mBlock"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p3/seq5-activite.html",
+       "code": "35A"
+      },
+      "cours": {
+       "fichier": "3eme/p3/seq5-structuration.html",
+       "code": "35S"
+      },
+      "quiz": {
+       "fichier": "3eme/p3/seq5-quiz.html",
+       "code": "35Q"
+      },
+      "eval": {
+       "fichier": "3eme/p3/seq5-eval.html",
+       "code": "35E"
+      },
+      "revision": {
+       "fichier": "3eme/p3/seq5-revision.html",
+       "code": "35R"
+      },
+      "ebep": {
+       "fichier": "3eme/p3/seq5-ebep.html",
+       "code": "35B"
+      },
+      "prof": {
+       "fichier": "3eme/p3/seq5-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Variables, opérateurs logiques, conditions imbriquées, défis."
+    },
+    {
+     "n": 6,
+     "periode": 3,
+     "cle": "seq6",
+     "dossier": "3eme/p3",
+     "titre": "Tests et mise au point de prototypes",
+     "theme": 2,
+     "seances": 3,
+     "theme_page": 2,
+     "seances_page": 3,
+     "competences": [
+      "Modéliser un comportement",
+      "Mettre en œuvre un programme (capteurs/actionneurs)"
+     ],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Protocole de test"
+      },
+      {
+       "n": 2,
+       "titre": "Débogage méthodique"
+      },
+      {
+       "n": 3,
+       "titre": "Validation et documentation"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p3/seq6-activite.html",
+       "code": "36A"
+      },
+      "cours": {
+       "fichier": "3eme/p3/seq6-structuration.html",
+       "code": "36S"
+      },
+      "quiz": {
+       "fichier": "3eme/p3/seq6-quiz.html",
+       "code": "36Q"
+      },
+      "eval": {
+       "fichier": "3eme/p3/seq6-eval.html",
+       "code": "36E"
+      },
+      "revision": {
+       "fichier": "3eme/p3/seq6-revision.html",
+       "code": "36R"
+      },
+      "ebep": {
+       "fichier": "3eme/p3/seq6-ebep.html",
+       "code": "36B"
+      },
+      "prof": {
+       "fichier": "3eme/p3/seq6-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Protocole de test, 4 types d'erreurs, débogage méthodique."
+    },
+    {
+     "n": 7,
+     "periode": 4,
+     "cle": "seq7",
+     "dossier": "3eme/p4",
+     "titre": "Méthodologie du brevet",
+     "theme": 0,
+     "seances": 4,
+     "theme_page": null,
+     "seances_page": null,
+     "competences": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Découverte : une seule question, six copies à noter"
+      },
+      {
+       "n": 2,
+       "titre": "Appliquer les 4 gestes : le kit solaire TSARA-30"
+      },
+      {
+       "n": 3,
+       "titre": "Prélever dans un tableau de caractéristiques : quelle pompe pour la rizière ?"
+      },
+      {
+       "n": 4,
+       "titre": "Lire un schéma et suivre un organigramme : le portail automatique de l'école"
+      },
+      {
+       "n": 5,
+       "titre": "Choisir une lampe pour la salle d'étude, et découvrir la réponse longue"
+      },
+      {
+       "n": 6,
+       "titre": "Gérer 30 minutes, préparer 15 minutes"
+      },
+      {
+       "n": 7,
+       "titre": "Entraînement autonome à la maison : le lampadaire solaire HAZAVANA-40"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p4/seq7-activite.html",
+       "code": "37A"
+      },
+      "cours": {
+       "fichier": "3eme/p4/seq7-structuration.html",
+       "code": "37S"
+      },
+      "quiz": {
+       "fichier": "3eme/p4/seq7-quiz.html",
+       "code": "37Q"
+      },
+      "eval": {
+       "fichier": "3eme/p4/seq7-eval.html",
+       "code": "37E"
+      },
+      "revision": {
+       "fichier": "3eme/p4/seq7-revision.html",
+       "code": "37R"
+      },
+      "ebep": {
+       "fichier": "3eme/p4/seq7-ebep.html",
+       "code": "37B"
+      },
+      "prof": {
+       "fichier": "3eme/p4/seq7-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Lire un document technique, justifier une réponse, gérer son temps, entraînement à la méthode, session 2027"
+    },
+    {
+     "n": 8,
+     "periode": 5,
+     "cle": "seq8",
+     "dossier": "3eme/p5",
+     "titre": "Projet Smart Object : de la conception au prototype",
+     "theme": 3,
+     "seances": 4,
+     "theme_page": null,
+     "seances_page": null,
+     "competences": [],
+     "activites": [
+      {
+       "n": 1,
+       "titre": "Séance 1 : Constituer le groupe, choisir le sujet, répartir les tâches"
+      },
+      {
+       "n": 2,
+       "titre": "Toutes les séances : Le journal de bord du groupe et la ligne individuelle"
+      },
+      {
+       "n": 3,
+       "titre": "Séance 1 : Rédiger le cahier des charges du Smart Object"
+      },
+      {
+       "n": 4,
+       "titre": "Séance 1 : Mesurer les composants et calculer les dimensions intérieures du boîtier"
+      },
+      {
+       "n": 5,
+       "titre": "Séance 2 : Tableau des composants et schéma de câblage"
+      },
+      {
+       "n": 6,
+       "titre": "Séance 2 : Algorithme en pseudo-code, puis organigramme"
+      },
+      {
+       "n": 7,
+       "titre": "Séance 2 : Croquis coté du boîtier en deux vues, puis saisie de la façade sous FreeCAD"
+      },
+      {
+       "n": 8,
+       "titre": "Séance 3 : Câbler le montage sur plaque d'essai"
+      },
+      {
+       "n": 9,
+       "titre": "Séance 3 : Programmer le Smart Object bloc par bloc"
+      },
+      {
+       "n": 10,
+       "titre": "Séance 4 : Assembler le prototype dans son boîtier"
+      },
+      {
+       "n": 11,
+       "titre": "Séance 4 : Fiche d'essai, débogage, et remise du dossier projet évalué"
+      }
+     ],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p5/seq8-activite.html",
+       "code": "38A"
+      },
+      "cours": {
+       "fichier": "3eme/p5/seq8-structuration.html",
+       "code": "38S"
+      },
+      "quiz": {
+       "fichier": "3eme/p5/seq8-quiz.html",
+       "code": "38Q"
+      },
+      "eval": {
+       "fichier": "3eme/p5/seq8-eval.html",
+       "code": "38E"
+      },
+      "revision": {
+       "fichier": "3eme/p5/seq8-revision.html",
+       "code": "38R"
+      },
+      "ebep": {
+       "fichier": "3eme/p5/seq8-ebep.html",
+       "code": "38B"
+      },
+      "prof": {
+       "fichier": "3eme/p5/seq8-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Du cahier des charges au prototype testé : conception, câblage, programmation et validation en équipe."
+    },
+    {
+     "n": 9,
+     "periode": 5,
+     "cle": "seq9",
+     "dossier": "3eme/p5",
+     "titre": "Soutenance et présentation du projet",
+     "theme": 3,
+     "seances": 3,
+     "theme_page": 3,
+     "seances_page": 3,
+     "competences": [
+      "Réaliser, valider et présenter un prototype"
+     ],
+     "activites": [],
+     "documents": {
+      "activite": {
+       "fichier": "3eme/p5/seq9-activite.html",
+       "code": "39A"
+      },
+      "cours": {
+       "fichier": "3eme/p5/seq9-structuration.html",
+       "code": "39S"
+      },
+      "quiz": {
+       "fichier": "3eme/p5/seq9-quiz.html",
+       "code": "39Q"
+      },
+      "eval": {
+       "fichier": "3eme/p5/seq9-eval.html",
+       "code": "39E"
+      },
+      "revision": {
+       "fichier": "3eme/p5/seq9-revision.html",
+       "code": "39R"
+      },
+      "ebep": {
+       "fichier": "3eme/p5/seq9-ebep.html",
+       "code": "39B"
+      },
+      "prof": {
+       "fichier": "3eme/p5/seq9-prof.html",
+       "reserve": true
+      }
+     },
+     "resume": "Soutenance orale, capsule vidéo, bilan et DNB."
+    }
+   ],
+   "diagnostiques": [
+    {
+     "periode": 1,
+     "titre": "Ce que tu sais déjà",
+     "eleve": {
+      "fichier": "3eme/p1/diagnostique-eleve.html",
+      "code": "3D"
+     },
+     "prof": {
+      "fichier": "3eme/p1/diagnostique-prof.html",
+      "reserve": true
+     }
+    }
+   ],
+   "bilans": [
+    {
+     "trimestre": 1,
+     "type": "eval",
+     "fichier": "3eme/p2/eval-t1.html",
+     "titre": "Évaluation : Trimestre 1"
+    },
+    {
+     "trimestre": 1,
+     "type": "revision",
+     "fichier": "3eme/p2/revision-t1.html",
+     "titre": "Fiche de révision : Trimestre 1"
+    },
+    {
+     "trimestre": 2,
+     "type": "eval",
+     "fichier": "3eme/p4/eval-t2.html",
+     "titre": "Évaluation : Trimestre 2"
+    },
+    {
+     "trimestre": 2,
+     "type": "revision",
+     "fichier": "3eme/p4/revision-t2.html",
+     "titre": "Fiche de révision : Trimestre 2"
+    },
+    {
+     "trimestre": 3,
+     "type": "revision",
+     "fichier": "3eme/p5/revision-t3.html",
+     "titre": "Fiche de révision : Trimestre 3 & DNB"
+    }
+   ],
+   "annexes": [
+    {
+     "fichier": "3eme/p1/diagnostique-feuille-b.html",
+     "titre": "Feuille B · Toi, le projet et les outils de travail",
+     "reserve": false
+    },
+    {
+     "fichier": "3eme/p1/diagnostique-numerique.html",
+     "titre": "Ce que vous savez déjà",
+     "reserve": false
+    },
+    {
+     "fichier": "3eme/p1/releve-comptes.html",
+     "titre": "Relevé des comptes numériques · groupe ............ · jeudi ....................",
+     "reserve": true
+    },
+    {
+     "fichier": "3eme/p1/seance1-preparation.html",
+     "titre": "Fiche de préparation · première séance",
+     "reserve": true
+    }
+   ]
+  }
+ },
+ "codes_orphelins": {}
+}

@@ -57,7 +57,13 @@ function dansDossier(chemin, dossier) {
 // 2026. Aucune page -ebep ne porte plus de réponse : les 27 codes restent
 // ouverts. Si une nouvelle page -ebep reçoit un corrigé, déplacer le corrigé,
 // ne pas fermer la page.
-const PAGES_PROF = [];
+const PAGES_PROF = [
+  // Documents de travail du professeur qui ne portent pas le suffixe -prof :
+  // la fiche de préparation de la première séance et le relevé des comptes
+  // numériques d'un groupe. Ils ne sont liés que depuis l'espace enseignant.
+  '/3eme/p1/seance1-preparation.html',
+  '/3eme/p1/releve-comptes.html',
+];
 
 // Le chemin d'une requête n'est PAS décodé par l'URL : `url.pathname` de
 // « /5eme/p1/seq1%2Dprof.html » vaut littéralement « …seq1%2Dprof.html », et
