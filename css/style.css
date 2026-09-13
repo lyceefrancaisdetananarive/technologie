@@ -391,14 +391,16 @@ button, input, select, textarea { font: inherit; color: inherit; }
 /* Où en sont mes groupes (espace enseignant, données de la table plans) */
 .groupes-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: var(--space-md); margin: .5rem 0 0; }
 .groupe-carte { display: flex; flex-direction: column; gap: .3rem; padding: .9rem 1rem; border: 1px solid var(--trait); border-radius: var(--radius-lg); background: var(--papier-2); color: inherit; text-decoration: none; transition: border-color .12s, box-shadow .12s; }
-.groupe-carte:hover, .groupe-carte:focus-visible { border-color: var(--bleu); box-shadow: var(--ombre); text-decoration: none; }
+.groupe-carte:focus-within { border-color: var(--bleu); box-shadow: var(--ombre); }
 .groupe-carte .page-level-badge { align-self: flex-start; font-size: .72rem; }
-.groupe-carte b { font: 800 1.15rem var(--font-display); color: var(--bleu); }
+.groupe-carte h3 { font: 800 1.15rem var(--font-display); color: var(--bleu); margin: 0; }
 .groupe-libelle { font-size: .88rem; color: var(--encre-2); }
 .groupe-barre { display: block; height: 8px; border-radius: 999px; background: var(--grille); overflow: hidden; margin-top: .3rem; }
 .groupe-barre span { display: block; height: 100%; background: var(--fait); }
 .groupe-chiffres { font-size: .84rem; font-weight: 700; }
 .groupe-courante { font-size: .82rem; color: var(--encre-3); }
+.groupe-liens { display: flex; gap: .8rem; font-size: .84rem; margin-top: .4rem; flex-wrap: wrap; }
+.groupe-liens a { font-weight: 700; color: var(--bleu); min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .15em; }
 
 /* États des séquences (fait, en cours, à venir), pour la carte de l'année de
    l'élève (phase 4). L'état est un affichage : les liens restent ouverts, les
@@ -553,6 +555,10 @@ details.note-prof .info-box { margin-top: .5rem; }
 .quiz-results-score.average { color: var(--encours); }
 .quiz-results-score.low { color: var(--error); }
 .quiz-results-message { font-size: 1.1rem; color: var(--encre-2); margin-bottom: var(--space-lg); }
+.quiz-meilleur { font-weight: 700; color: var(--fait); margin: 0 0 var(--space-md); min-height: 1.2em; }
+.quiz-avis { background: var(--bleu-pale); border-left: 4px solid var(--bleu); padding: .6rem .9rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: .92rem; margin: 0 0 var(--space-md); }
+.quiz-results:focus { outline: none; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .quiz-papier { display: none; }
 
 /* ------------------------------------------------------------ tableaux de progression */

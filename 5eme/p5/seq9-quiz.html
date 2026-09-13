@@ -117,7 +117,7 @@
         explanation: 'Un prototype est un modèle fonctionnel (il marche !), tandis qu\'une maquette représente principalement l\'apparence et les dimensions, sans forcément fonctionner.'
       }
     ];
-    new QuizEngine('quiz-container', questions);
+    const quiz = new QuizEngine('quiz-container', questions, { showFeedback: true });
   </script>
 </body>
 </html>

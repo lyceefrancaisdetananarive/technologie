@@ -119,6 +119,7 @@ table.grille { border-collapse: collapse; width: 100%; min-width: 34rem; font-si
   <span class="qui" id="qui"></span>
   <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
   <a class="lien-tete" href="/enseignant/classeur.html">Classeur</a>
+  <a class="lien-tete" id="lien-mesure" href="/enseignant/mesure.html">Suivi du groupe</a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
 
@@ -263,6 +264,7 @@ async function chargerPlan({ garderMessage = false } = {}) {
     ordreModifie = false;
     enVol.clear();
     history.replaceState(null, '', `?groupe=${id}`);
+    $('lien-mesure').href = `/enseignant/mesure.html?groupe=${id}`;
     $('retablir').hidden = !etat.personnalise;
     $('supprimer-essai').hidden = !/^ESSAI-[A-Z2-9]{5}$/.test(etat.groupe.code);
     rendreTout();

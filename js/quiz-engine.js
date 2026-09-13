@@ -26,8 +26,31 @@ class QuizEngine {
       });
     }
 
+    // Les boutons du quiz appellent « quiz.… » : le moteur pose lui-même la
+    // globale, une page qui oublie « const quiz = » n'est plus inerte.
+    window.quiz = this;
+    // Le quiz du catalogue s'identifie par la page : /5eme/p1/seq1-quiz.html
+    // -> 5eme/p1/seq1. Ailleurs (page de test, quiz hors catalogue), rien
+    // n'est jamais envoyé.
+    const m = location.pathname.match(/\/([345]eme\/p\d\/seq\d{1,2})-quiz\.html$/);
+    this.quizId = m ? m[1] : null;
+
     this.render();
     this.renderPapier();
+  }
+
+  /** Le rôle de la session ouverte (temoin non-HttpOnly), ou null. */
+  temoin() {
+    if (window.lireTemoin) return window.lireTemoin();
+    try {
+      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:;|$)/);
+      return m && Number(m[2]) * 1000 > Date.now() ? m[1] : null;
+    } catch (e) { return null; }
+  }
+
+  /** L'élève est connecté et sur un quiz du catalogue : son score sera gardé. */
+  scoreGarde() {
+    return Boolean(this.quizId) && this.temoin() === 'eleve';
   }
 
   /* Version papier : le quiz interactif n'affiche qu'une question a la fois.
@@ -66,7 +89,12 @@ class QuizEngine {
     const progress = ((this.currentIndex + 1) / total) * 100;
     const answeredCount = this.answered.filter(Boolean).length;
 
-    let html = `
+    let html = '';
+    if (this.currentIndex === 0 && this.scoreGarde()) {
+      html += `<p class="quiz-avis">Tu es connecté : ton meilleur score sera gardé dans ton classeur
+        et ton professeur pourra le voir. Tes réponses, elles, ne sont pas enregistrées.</p>`;
+    }
+    html += `
       <div class="quiz-header">
         <div class="quiz-progress">
           <div>Question ${this.currentIndex + 1} / ${total}</div>
@@ -74,13 +102,13 @@ class QuizEngine {
             <div class="quiz-progress-fill" style="width: ${progress}%"></div>
           </div>
         </div>
-        <div class="quiz-score">Score : ${this.score} / ${answeredCount}</div>
+        <div class="quiz-score">Score : ${this.score} / ${answeredCount}</div>
       </div>
     `;
 
     html += `<div class="quiz-question">`;
     html += `<div class="quiz-question-number">Question ${this.currentIndex + 1}</div>`;
-    html += `<h3>${q.question}</h3>`;
+    html += `<h3 tabindex="-1" id="quiz-question-titre">${q.question}</h3>`;
 
     if (q.type === 'qcm') {
       html += this.renderQCM(q);
@@ -216,7 +244,7 @@ class QuizEngine {
     if (this.showFeedback && feedback && q.explanation) {
       feedback.className = `quiz-feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
       feedback.innerHTML = `
-        <strong>${isCorrect ? '&#x2705; Correct !' : '&#x274C; Incorrect'}</strong><br>
+        <strong>${isCorrect ? '&#x2705; Correct\u00a0!' : '&#x274C; Incorrect'}</strong><br>
         ${q.explanation}
       `;
     }
@@ -247,48 +275,100 @@ class QuizEngine {
     const pct = Math.round((this.score / total) * 100);
     let category, message;
 
+    // Un message court, sans le vocabulaire du livret scolaire : le quiz est
+    // un entraînement, le positionnement par compétence appartient au
+    // professeur (décisions D14 et D15, questions 4 et 9).
     if (pct >= 80) {
       category = 'excellent';
-      message = 'Excellent travail ! Tu maîtrises bien les notions de cette séquence.';
+      message = 'Excellent travail ! Tu maîtrises bien les notions de cette séquence.';
     } else if (pct >= 60) {
       category = 'good';
-      message = 'Bien ! Quelques points sont encore à revoir.';
+      message = 'Bien ! Quelques points sont encore à revoir.';
     } else if (pct >= 40) {
       category = 'average';
-      message = 'Des efforts à fournir. Relis la synthèse et réessaie !';
+      message = 'Des efforts à fournir. Relis la synthèse de la fiche et réessaie !';
     } else {
       category = 'low';
       message = 'Il faut retravailler cette séquence. Relis bien le cours et la fiche de révision.';
     }
 
-    // Mastery level
-    let mastery;
-    if (pct >= 80) mastery = '<span class="mastery-tres-bonne">Très bonne maîtrise</span>';
-    else if (pct >= 60) mastery = '<span class="mastery-satisfaisant">Maîtrise satisfaisante</span>';
-    else if (pct >= 40) mastery = '<span class="mastery-fragile">Maîtrise fragile</span>';
-    else mastery = '<span class="mastery-insuffisant">Maîtrise insuffisante</span>';
-
     let html = `
-      <div class="quiz-results">
-        <div class="quiz-results-score ${category}">${this.score} / ${total}</div>
-        <div style="margin-bottom: var(--space-md);">${mastery}</div>
-        <div class="quiz-results-message">${message}</div>
+      <div class="quiz-results" tabindex="-1">
+        <h3 class="visually-hidden">Résultats du quiz</h3>
+        <div class="quiz-results-score ${category}"><span class="visually-hidden">Ton score : </span>${this.score} / ${total}</div>
+        <div class="quiz-results-message">${message}
+          <br><span class="text-sm">Tu peux recommencer autant de fois que tu veux : seul ton meilleur score compte.</span></div>
+        <p class="quiz-meilleur" id="quiz-meilleur" role="status" aria-live="polite"></p>
         <div style="display: flex; gap: var(--space-sm); justify-content: center; flex-wrap: wrap;">
-          <button class="btn btn-primary" onclick="quiz.restart()">&#x1F504; Recommencer</button>
-          <button class="btn btn-outline" onclick="quiz.showReview()">&#x1F4CB; Revoir les réponses</button>
+          <button class="btn btn-primary" onclick="quiz.restart()"><span class="ico">&#x1F501;</span> Recommencer</button>
+          <button class="btn btn-outline" onclick="quiz.showReview()"><span class="ico">&#x1F4CB;</span> Revoir les réponses</button>
         </div>
       </div>
     `;
 
     this.container.innerHTML = html;
+    if (window.remplacerPictos) window.remplacerPictos(this.container);
+    const bloc = this.container.querySelector('.quiz-results');
+    if (bloc) bloc.focus();
+    this.enregistrer(total);
+  }
+
+  /**
+   * MEILLEUR SCORE, SI L'ELEVE A OUVERT SA SESSION (decision D15, question 10).
+   * Rien n'est envoye sans le temoin de session eleve : le quiz public reste
+   * anonyme. On envoie le score et le nombre de questions, jamais les
+   * reponses. Un essai n'est envoye qu'une fois, meme si l'eleve revient aux
+   * resultats depuis le recapitulatif. Le quiz du catalogue s'identifie par
+   * la page : /5eme/p1/seq1-quiz.html -> 5eme/p1/seq1.
+   */
+  enregistrer(total) {
+    if (!document.getElementById('quiz-meilleur')) return;
+    if (this.envoye) {
+      const z = document.getElementById('quiz-meilleur');
+      if (z) z.textContent = this.meilleurTexte || '';
+      return;
+    }
+    if (!this.scoreGarde()) return;
+    this.envoye = true;
+    const self = this;
+    fetch('/api/classeur/score', {
+      method: 'POST', credentials: 'same-origin',
+      headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ quiz: this.quizId, score: this.score, total: total }),
+    })
+      .then(function (r) { return r.ok ? r.json() : null; })
+      .then(function (d) {
+        // La zone est relue au moment de la réponse : l'élève a pu changer
+        // d'écran pendant la requête.
+        const z = document.getElementById('quiz-meilleur');
+        if (!d || !d.ok) {
+          self.meilleurTexte = 'Ton score n\u2019a pas pu être enregistré cette fois. Le quiz, lui, est bien fait.';
+        } else {
+          const qui = d.prenom ? ' dans le classeur de ' + d.prenom : ' dans ton classeur';
+          self.meilleurTexte = (d.record
+            ? 'Meilleur score enregistré' + qui + '\u00a0: ' + d.meilleur + ' / ' + d.total + '.'
+            : 'Ton meilleur score' + qui + ' reste ' + d.meilleur + ' / ' + d.total + '.')
+            + (d.prenom ? ' Ce n\u2019est pas toi\u00a0? Ferme la session en haut de la page.' : '');
+        }
+        if (z) z.textContent = self.meilleurTexte;
+      })
+      .catch(function () {
+        const z = document.getElementById('quiz-meilleur');
+        self.meilleurTexte = 'Ton score n\u2019a pas pu être enregistré cette fois. Le quiz, lui, est bien fait.';
+        if (z) z.textContent = self.meilleurTexte;
+      });
   }
 
   restart() {
     this.currentIndex = 0;
     this.score = 0;
+    this.envoye = false;
+    this.meilleurTexte = null;
     this.answered = new Array(this.questions.length).fill(false);
     this.userAnswers = new Array(this.questions.length).fill(null);
     this.render();
+    const h = document.getElementById('quiz-question-titre');
+    if (h) h.focus();
   }
 
   showReview() {
@@ -324,12 +404,13 @@ class QuizEngine {
 
     html += `
       <div style="margin-top: var(--space-lg); display: flex; gap: var(--space-sm);">
-        <button class="btn btn-primary" onclick="quiz.restart()">&#x1F504; Recommencer</button>
+        <button class="btn btn-primary" onclick="quiz.restart()"><span class="ico">&#x1F501;</span> Recommencer</button>
         <button class="btn btn-ghost" onclick="quiz.showResults()">&#x2190; Retour aux résultats</button>
       </div>
     `;
 
     this.container.innerHTML = html;
+    if (window.remplacerPictos) window.remplacerPictos(this.container);
   }
 }
 

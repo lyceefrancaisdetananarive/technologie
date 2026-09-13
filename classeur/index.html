@@ -29,7 +29,8 @@
       <span class="point a-rattraper" aria-hidden="true"></span> à rattraper (tu étais absent) ·
       <span class="point a-reprendre" aria-hidden="true"></span> à reprendre (à refaire) ·
       <span class="point rattrape" aria-hidden="true"></span> rattrapée (c'est réglé) ·
-      <span class="point" aria-hidden="true"></span> pas encore faite
+      <span class="point" aria-hidden="true"></span> pas encore faite ·
+      <span class="pastille quiz" aria-hidden="true">Quiz</span> ton meilleur score au quiz, ce n'est pas une note
     </p>
   </section>
 
@@ -156,6 +157,7 @@ function lienDoc(s, cle, libelle) {
 }
 
 let mesRendus = [];   // ce que j'ai déposé, pour le montrer sur la carte
+let mesScores = [];   // mes meilleurs scores de quiz (décision 10), jamais les réponses
 
 function etatDepot(seqId) {
   const miens = mesRendus.filter((r) => r.sequence === seqId && r.fichier);
@@ -209,6 +211,7 @@ function rendreAnnee() {
         <h3>${echapper(s.titre)}${s.niveau !== prog.niveau ? ` <span class="pastille avenir">${NIVEAU_COURT[s.niveau]}</span>` : ''}
           ${p.visible ? `<span class="pastille ${etat}">${LIBELLE_ETAT[etat]}</span>` : '<span class="pastille masquee">Pas cette année</span>'}
           ${depot ? `<a class="pastille ${depot === 'corrige' ? 'fait' : 'encours'}" href="#mes-travaux">${depot === 'corrige' ? 'Travail corrigé' : 'Travail déposé'}</a>` : ''}
+          ${(() => { const q = mesScores.find((x) => x.quiz === s.id); return q ? `<span class="pastille quiz">Quiz : ${q.meilleur} sur ${q.total}<span class="visually-hidden">, ton meilleur score, ce n'est pas une note</span></span>` : ''; })()}
           ${badges.has(s.id) ? `<span class="badge-annee">${PICTO_BADGE} Badge</span>` : ''}
         </h3>
         ${p.visible ? `<ul class="points" aria-label="Séances">
@@ -235,14 +238,16 @@ async function charger() {
   }
   $('document').innerHTML = DOCUMENTS
     .map((d) => `<option value="${d.id}">${echapper(d.titre)}</option>`).join('');
-  // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose quand même.
-  try {
-    progression = (await api('/api/classeur/progression')).groupes;
-  } catch (e) {
-    progression = [];
-  }
+  // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose
+  // quand même. Les trois lectures partent ensemble : sur la liaison de
+  // Tananarive, trois allers-retours en série se voient.
+  const [p, s, r] = await Promise.allSettled([
+    api('/api/classeur/progression'), api('/api/classeur/score'), listerRendus(),
+  ]);
+  progression = p.status === 'fulfilled' ? p.value.groupes : [];
+  mesScores = s.status === 'fulfilled' ? s.value.scores : [];
+  if (r.status === 'rejected') dire(r.reason?.message || 'Lecture impossible.', 'err');
   remplirSequences();
-  await listerRendus();
   rendreAnnee();
 }
 

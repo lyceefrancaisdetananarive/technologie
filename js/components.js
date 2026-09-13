@@ -674,6 +674,11 @@
   }
 
   // ---- PRINT FUNCTION ----
+  // Le moteur de quiz reconstruit ses boutons apres le chargement : il
+  // rappelle le remplacement des pictos sur son propre conteneur.
+  window.remplacerPictos = remplacerPictos;
+  window.lireTemoin = lireTemoin;
+
   window.printPage = function () {
     window.print();
   };

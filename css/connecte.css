@@ -47,7 +47,7 @@ header {
 .marque { display: inline-flex; align-items: center; gap: 10px; text-decoration: none; flex: none; text-align: left; }
 .marque img { width: 36px; height: 36px; border-radius: 50%; }
 .marque b { font: 800 1.05rem var(--display); color: var(--bleu); display: block; line-height: 1.1; }
-.marque small { display: block; font-size: .7rem; color: var(--encre-3); letter-spacing: .04em; }
+.marque small { display: block; font-size: .7rem; color: var(--encre-3); letter-spacing: .04em; white-space: nowrap; }
 .marque-page { text-align: center; margin: 0 0 1rem; }
 [hidden] { display: none !important; }
 header h1 { font: 700 1.1rem var(--display); color: var(--encre); margin: 0; flex: 1; min-width: 12rem; }
@@ -170,6 +170,7 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
 .pastille.encours { background: var(--encours-pale); color: var(--encours); }
 .pastille.avenir { background: var(--grille); color: var(--encre-2); }
 .pastille.masquee { background: var(--grille); color: var(--encre-2); }
+.pastille.quiz { background: var(--bleu-pale); color: var(--bleu); text-transform: none; letter-spacing: 0; }
 .badge-annee { display: inline-flex; align-items: center; gap: .25rem; font-size: .78rem; font-weight: 800; color: var(--encre); }
 .badge-annee svg { width: 18px; height: 18px; color: var(--or); }
 /* Chaque point porte un glyphe en plus de sa couleur : coche (faite),

@@ -252,14 +252,15 @@ async function charger() {
   liste.innerHTML = '<div class="groupes-grille">' + d.groupes.map((g) => {
     const r = resumeGroupe(g.plan, g.avancement);
     const pct = r.total ? Math.round(100 * r.faites / r.total) : 0;
-    return `<a class="groupe-carte" href="plan.html?groupe=${g.id}">
+    return `<article class="groupe-carte">
       <span class="page-level-badge level-${g.niveau}">${NIVEAU_COURT[g.niveau]}</span>
-      <b>${echapper(g.code)}</b>
+      <h3>${echapper(g.code)}</h3>
       <span class="groupe-libelle">${echapper(g.libelle)} · ${g.effectif} élève${g.effectif > 1 ? 's' : ''}</span>
       <span class="groupe-barre" aria-hidden="true"><span style="width:${pct}%"></span></span>
       <span class="groupe-chiffres">${r.faites} / ${r.total} séances faites</span>
       <span class="groupe-courante">${r.terminee ? 'Année terminée' : r.courante ? 'En cours : ' + echapper(r.courante.titre) : 'Rien de prévu'}</span>
-    </a>`;
+      <span class="groupe-liens"><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a></span>
+    </article>`;
   }).join('') + '</div>';
 }
 
