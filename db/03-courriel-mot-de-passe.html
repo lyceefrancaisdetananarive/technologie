@@ -9,8 +9,12 @@
   Le lien mene DIRECTEMENT sur changer-mot-de-passe.html avec le hachage du
   jeton ; il n'est presente a Supabase qu'au moment ou la personne enregistre
   son mot de passe (api/auth/changer-mot-de-passe.js). Ne pas revenir a
-  {{ .ConfirmationURL }} : ce lien-la passait par Supabase et etait consomme
-  au premier clic, avant que la personne ait rien fait.
+  la variable ConfirmationURL : ce lien-la passait par Supabase et etait
+  consomme au premier clic, avant que la personne ait rien fait. Ne jamais
+  ecrire une variable entre doubles accolades dans ce commentaire : le moteur
+  de gabarit l'interpolerait, meme dans un commentaire HTML, et le lien
+  vivant partirait dans le courriel. Coller dans Supabase a partir de la
+  ligne <table, sans ce commentaire.
 
   Accents en entites HTML, fichier integralement ASCII : coller du texte
   accentue dans un editeur Supabase depuis le navigateur abime l'UTF-8.
