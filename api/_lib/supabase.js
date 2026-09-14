@@ -236,6 +236,29 @@ export async function supprimerFichier(chemin) {
 }
 
 /**
+ * Liste les fichiers d'un dossier du bucket « rendus » (le dossier d'un
+ * élève est son identifiant). Sert à la suppression définitive d'un compte :
+ * la base efface les lignes en cascade, pas les fichiers.
+ */
+export async function listerFichiers(prefixe) {
+  const chemins = [];
+  for (let decalage = 0; ; decalage += 1000) {
+    const r = await fetch(`${URL_BASE()}/storage/v1/object/list/rendus`, {
+      method: 'POST',
+      headers: {
+        apikey: SERVICE(), authorization: `Bearer ${SERVICE()}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ prefix: prefixe, limit: 1000, offset: decalage }),
+    });
+    if (!r.ok) throw new Error(`liste des fichiers : ${r.status}`);
+    const page = await r.json();
+    for (const o of page) if (o?.id) chemins.push(`${prefixe}/${o.name}`);
+    if (page.length < 1000) return chemins;
+  }
+}
+
+/**
  * Crée un compte d'authentification avec un mot de passe ALÉATOIRE que
  * personne ne lit, pas même l'appelant. Son titulaire passera forcément par
  * « Première connexion » pour choisir le sien.
@@ -265,9 +288,10 @@ export async function creerUtilisateur(email) {
 
 /**
  * Supprime un compte d'authentification. Le profil suit en cascade
- * (profils.id référence auth.users), et avec lui appartenances, dépôts et
- * exceptions. RÉSERVÉ AUX COMPTES FICTIFS des groupes d'essai : le travail
- * d'un élève réel ne s'efface pas par une fonction, voir desinscrire.js.
+ * (profils.id référence auth.users), et avec lui appartenances, dépôts,
+ * exceptions et scores. Deux appelants seulement : les comptes fictifs des
+ * groupes d'essai (essai.js) et la suppression définitive par le
+ * coordonnateur, depuis la corbeille et avec son mot de passe (eleve.js).
  */
 export async function supprimerUtilisateur(idUtilisateur) {
   const r = await fetch(`${URL_BASE()}/auth/v1/admin/users/${idUtilisateur}`, {

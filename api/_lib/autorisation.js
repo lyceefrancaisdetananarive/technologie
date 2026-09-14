@@ -125,6 +125,39 @@ export const MESSAGE_VERROU = 'Les comptes d’élèves ne sont pas encore ouver
   + 'ils attendent la position du délégué à la protection des données. Seuls '
   + 'les groupes d’essai sont possibles. Rien n’a été enregistré.';
 
+/**
+ * LE COORDONNATEUR (décision D16, 14 septembre 2026).
+ *
+ * Un professeur de la liste, désigné par son adresse dans la variable
+ * COORDONNATEUR_TECHNO du projet Vercel, jamais dans le dépôt. Il gère les
+ * comptes de TOUS les groupes : import des listes, inscription, retrait,
+ * mise à la corbeille, restauration ; et il est le seul à pouvoir supprimer
+ * définitivement un élève, geste qui emporte le classeur de l'élève.
+ *
+ * Gérer les comptes n'est pas lire les travaux : le coordonnateur ne voit
+ * pas les dépôts des groupes de ses collègues, enseigneA() et sesGroupes()
+ * ne changent pas. La variable absente ne désigne personne : la suppression
+ * définitive est alors impossible, et c'est le comportement sûr.
+ */
+export function estCoordonnateur(profil) {
+  if (!profil || profil.role !== 'prof' || !roleTenable(profil)) return false;
+  const adresses = String(process.env.COORDONNATEUR_TECHNO ?? '').toLowerCase()
+    .match(/[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,}/g) ?? [];
+  return adresses.includes(String(profil.email ?? '').toLowerCase());
+}
+
+/** Ce professeur peut-il gérer les comptes de ce groupe : le sien, ou coordonnateur. */
+export async function gereGroupe(moi, groupeId) {
+  if (estCoordonnateur(moi)) return true;
+  return possedeGroupe(moi.id, groupeId);
+}
+
+/** Ce professeur peut-il gérer le compte de cet élève : l'un de ses élèves, ou coordonnateur. */
+export async function gereEleve(moi, eleveId) {
+  if (estCoordonnateur(moi)) return true;
+  return enseigneA(moi.id, eleveId);
+}
+
 /** Cet élève est-il dans un groupe de ce professeur ? */
 export async function enseigneA(profId, eleveId) {
   const l = await lire('appartenances',

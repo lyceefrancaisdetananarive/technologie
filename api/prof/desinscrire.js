@@ -1,18 +1,18 @@
-import { appelant, possedeGroupe, enseigneA } from '../_lib/autorisation.js';
+import { appelant, gereGroupe, gereEleve } from '../_lib/autorisation.js';
 import { journaliser } from '../_lib/journal.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
 
 // =====================================================================
-// RETIRER UN ÉLÈVE D'UN GROUPE, OU DÉSACTIVER SON COMPTE.
+// RETIRER UN ÉLÈVE D'UN GROUPE, OU LE METTRE À LA CORBEILLE.
 //
-// CE QUE CE POINT D'ENTRÉE NE FAIT PAS, ET NE FERA PAS : supprimer un
-// compte d'élève. Le travail déposé est lié au profil ; effacer le profil
-// effacerait les rendus en cascade (db/01-schema.sql, on delete cascade).
-// Le travail d'un mineur ne disparaît pas d'un clic, même du professeur.
-// Une suppression définitive relève d'une demande écrite et d'un geste
-// d'administration, pas d'un bouton dans une page.
+// CE QUE CE POINT D'ENTRÉE NE FAIT PAS : supprimer un compte d'élève. Le
+// travail déposé est lié au profil ; effacer le profil effacerait les rendus
+// en cascade (db/01-schema.sql, on delete cascade). Le travail d'un mineur
+// ne disparaît pas d'un clic de professeur. La suppression définitive est
+// un geste à part, réservé au coordonnateur, avec ressaisie de son mot de
+// passe, et seulement depuis la corbeille : api/prof/eleve.js (décision D16).
 //
 // Deux gestes, de gravité très différente, et c'est volontaire :
 //
@@ -20,8 +20,11 @@ import {
 //    ou n'aurait pas dû y être. Ses dépôts restent, et le professeur du
 //    groupe où il est vraiment continue de les voir.
 //
-//  · DÉSACTIVER : le compte ne se connecte plus, mais tout est conservé.
-//    Sert au départ d'un élève en cours d'année. Réversible en réinscrivant.
+//  · METTRE À LA CORBEILLE (désactiver) : le compte ne se connecte plus,
+//    mais tout est conservé, et « restaurer » le rétablit tel quel. C'est
+//    ce que fait le bouton « supprimer » d'un professeur : jamais plus.
+//
+// Le coordonnateur peut faire les deux gestes sur n'importe quel groupe.
 // =====================================================================
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -66,24 +69,26 @@ export default async function handler(req, res) {
     }
 
     if (desactiver) {
-      // Désactiver touche TOUS les groupes, y compris ceux de collègues :
-      // on exige donc d'enseigner à cet élève, et on le dit dans la réponse.
-      if (!(await enseigneA(moi.id, eleve))) {
+      // La corbeille touche TOUS les groupes, y compris ceux de collègues :
+      // on exige donc d'enseigner à cet élève (ou d'être coordonnateur), et
+      // on le dit dans la réponse.
+      if (!(await gereEleve(moi, eleve))) {
         return refus(res, 403, 'Cet élève n’est dans aucun de vos groupes.');
       }
       await ecrire('profils', `id=eq.${eleve}`, { actif: false });
       await journaliser(moi.id, 'compte.desactive', eleve);
       return res.status(200).json({
         ok: true,
-        message: `Le compte de ${cible.prenom ?? ''} ${cible.nom ?? ''} est `
-          + `désactivé. Ses travaux sont conservés, et la réinscription le `
-          + `réactive. Attention : cela vaut pour TOUS ses groupes, y compris `
-          + `ceux de vos collègues.`,
+        message: `${cible.prenom ?? ''} ${cible.nom ?? ''} est dans la corbeille : `
+          + `le compte ne se connecte plus, ses travaux et ses groupes sont `
+          + `conservés, et « restaurer » le rétablit tel quel. Cela vaut pour `
+          + `TOUS ses groupes, y compris ceux de vos collègues. Seul le `
+          + `coordonnateur peut supprimer définitivement un compte.`,
       });
     }
 
     if (!UUID.test(groupe)) return refus(res, 400, 'Groupe non précisé.');
-    if (!(await possedeGroupe(moi.id, groupe))) {
+    if (!(await gereGroupe(moi, groupe))) {
       return refus(res, 403, 'Ce groupe n’est pas l’un des vôtres.');
     }
 

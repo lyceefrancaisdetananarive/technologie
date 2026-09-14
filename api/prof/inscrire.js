@@ -1,5 +1,5 @@
 import {
-  appelant, possedeGroupe, ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES,
+  appelant, gereGroupe, ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES,
   comptesElevesOuverts, FICTIF, MESSAGE_VERROU,
 } from '../_lib/autorisation.js';
 import {
@@ -92,9 +92,10 @@ export default async function handler(req, res) {
         return refus(res, 401, 'Mot de passe incorrect.');
       }
     } else {
-      // Un élève s'inscrit dans un groupe, et ce groupe doit être le mien.
+      // Un élève s'inscrit dans un groupe, et ce groupe doit être le mien
+      // (ou n'importe lequel pour le coordonnateur, décision D16).
       if (!UUID.test(groupe)) return refus(res, 400, 'Groupe non précisé.');
-      if (!(await possedeGroupe(moi.id, groupe))) {
+      if (!(await gereGroupe(moi, groupe))) {
         return refus(res, 403, 'Ce groupe n’est pas l’un des vôtres.');
       }
     }

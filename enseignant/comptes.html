@@ -17,10 +17,16 @@
 
 <main>
   <section>
-    <h2>Mes groupes</h2>
-    <p class="intro">Un groupe correspond à un groupe de Technologie réel, pas
+    <h2 id="titre-groupes">Mes groupes</h2>
+    <p class="intro" id="intro-groupes">Un groupe correspond à un groupe de Technologie réel, pas
       à une classe entière. Vous ne voyez que les vôtres, et vos collègues ne
       voient pas les vôtres.</p>
+    <p class="note">Sur chaque élève : <strong>modifier</strong> corrige le nom ou le
+      prénom ; <strong>retirer du groupe</strong> l'enlève de ce groupe seulement ;
+      <strong>mettre à la corbeille</strong> ferme son accès partout, en conservant
+      ses travaux, et la corbeille en bas de page permet de le restaurer. Rien
+      n'est supprimé pour de bon par un professeur : seul le coordonnateur peut
+      supprimer définitivement un compte, depuis la corbeille.</p>
     <div id="liste"><p class="vide">Chargement…</p></div>
 
     <div class="ligne" style="margin-top:1.2rem">
@@ -133,6 +139,19 @@
       <div id="resultats-import"></div>
     </div>
   </section>
+
+  <section id="bloc-corbeille">
+    <h2>Corbeille</h2>
+    <p class="intro">Les comptes mis à la corbeille ne se connectent plus ; leurs
+      groupes, dépôts, corrections et scores sont conservés tels quels.
+      <strong>Restaurer</strong> rétablit le compte à l'identique.</p>
+    <p class="note" id="note-suppression" hidden><strong>Supprimer définitivement</strong>
+      efface le compte, ses fichiers et tout son classeur ; rien n'est
+      récupérable. Ce geste est réservé au coordonnateur et demande son mot de
+      passe. Il est journalisé.</p>
+    <div id="corbeille"><p class="vide">Chargement…</p></div>
+    <p class="msg" id="mc" role="status" aria-live="polite"></p>
+  </section>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -149,6 +168,7 @@ const $ = (id) => document.getElementById(id);
 const dire = (el, texte, type) => { el.textContent = texte; el.className = 'msg ' + type; };
 
 let groupes = [];
+let coordonnateur = false;
 
 async function charger() {
   const d = await api('/api/prof/groupes');
@@ -165,37 +185,79 @@ async function charger() {
   $('formulaire-import').hidden = ferme;
   $('verrou-inscrire').hidden = !ferme;
 
-  $('groupe').innerHTML = groupes.length
-    ? groupes.map((g) => `<option value="${g.id}">${echapper(g.code)}</option>`).join('')
-    : '<option value="">aucun groupe</option>';
-  $('groupe-import').innerHTML = $('groupe').innerHTML;
+  // Le coordonnateur (décision D16) voit tous les groupes, avec leur
+  // professeur ; les listes de choix sont alors rangées par professeur.
+  coordonnateur = Boolean(d.coordonnateur);
+  $('titre-groupes').textContent = coordonnateur ? 'Tous les groupes' : 'Mes groupes';
+  $('intro-groupes').textContent = coordonnateur
+    ? 'Vous êtes coordonnateur : vous voyez les groupes de toute l’équipe et vous '
+      + 'pouvez y inscrire, importer, retirer, mettre à la corbeille et restaurer. '
+      + 'Vous ne voyez pas pour autant les dépôts des groupes de vos collègues.'
+    : 'Un groupe correspond à un groupe de Technologie réel, pas à une classe '
+      + 'entière. Vous ne voyez que les vôtres, et vos collègues ne voient pas les vôtres.';
+  $('note-suppression').hidden = !coordonnateur;
+
+  const option = (g) => `<option value="${g.id}">${echapper(g.code)}</option>`;
+  let choix;
+  if (!groupes.length) {
+    choix = '<option value="">aucun groupe</option>';
+  } else if (coordonnateur) {
+    const parProf = new Map();
+    for (const g of groupes) {
+      const cle = g.mien ? 'Mes groupes' : (g.professeur || 'Sans professeur');
+      if (!parProf.has(cle)) parProf.set(cle, []);
+      parProf.get(cle).push(g);
+    }
+    choix = [...parProf.entries()]
+      .sort(([a], [b]) => (a === 'Mes groupes' ? -1 : b === 'Mes groupes' ? 1 : a.localeCompare(b)))
+      .map(([prof, gs]) => `<optgroup label="${echapper(prof)}">${gs.map(option).join('')}</optgroup>`).join('');
+  } else {
+    choix = groupes.map(option).join('');
+  }
+  $('groupe').innerHTML = choix;
+  $('groupe-import').innerHTML = choix;
 
   if (!groupes.length) {
     $('liste').innerHTML = '<p class="vide">Aucun groupe. Créez-en un ci-dessous.</p>';
-    return;
-  }
-
-  $('liste').innerHTML = groupes.map((g) => `
+  } else {
+    $('liste').innerHTML = groupes.map((g) => `
     <article class="groupe">
-      <h3>${echapper(g.code)}</h3>
+      <h3>${echapper(g.code)}${coordonnateur && !g.mien ? ` <span class="meta">· ${echapper(g.professeur || 'sans professeur')}</span>` : ''}</h3>
       <p class="meta">${echapper(g.libelle)} · ${echapper(g.niveau)} ·
         ${g.eleves.length} élève${g.eleves.length > 1 ? 's' : ''}</p>
       ${g.eleves.map((e) => `
-        <div class="eleve">
+        <div class="eleve" data-eleve="${e.id}">
           <span class="qui">${echapper(e.nom || '')} ${echapper(e.prenom || '')}
             <span class="meta">${echapper(e.email)}</span>
-            ${!e.actif ? '<span class="att">· compte désactivé</span>' : ''}
-            ${e.mdp_provisoire ? '<span class="att">· n’a pas encore choisi son mot de passe</span>' : ''}
+            ${!e.actif ? '<span class="att">· à la corbeille</span>' : ''}
+            ${e.mdp_provisoire && e.actif ? '<span class="att">· n’a pas encore choisi son mot de passe</span>' : ''}
           </span>
+          <button class="lien-sup modifier" data-eleve="${e.id}"
+                  data-nom="${echapper(e.nom || '')}" data-prenom="${echapper(e.prenom || '')}">modifier</button>
           <button class="lien-sup retirer" data-eleve="${e.id}" data-groupe="${g.id}"
                   data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">retirer du groupe</button>
           ${e.actif ? `<button class="lien-sup desactiver" data-eleve="${e.id}"
-                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">désactiver</button>` : ''}
+                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">mettre à la corbeille</button>` : ''}
         </div>`).join('')
         || '<p class="vide" style="margin:.4rem 0 0">Aucun élève inscrit.</p>'}
-      ${!g.eleves.length ? `<p style="margin:.6rem 0 0"><button class="lien-sup suppr-groupe"
+      ${!g.eleves.length && g.mien ? `<p style="margin:.6rem 0 0"><button class="lien-sup suppr-groupe"
           data-id="${g.id}" data-code="${echapper(g.code)}">supprimer ce groupe vide</button></p>` : ''}
     </article>`).join('');
+  }
+
+  const corbeille = d.corbeille ?? [];
+  $('corbeille').innerHTML = corbeille.length
+    ? corbeille.map((e) => `
+        <div class="eleve" data-eleve="${e.id}">
+          <span class="qui">${echapper(e.nom || '')} ${echapper(e.prenom || '')}
+            <span class="meta">${echapper(e.email)}${e.groupes.length ? ' · ' + e.groupes.map(echapper).join(', ') : ' · plus dans aucun groupe'}</span>
+          </span>
+          <button class="lien-sup restaurer" data-eleve="${e.id}"
+                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">restaurer</button>
+          ${coordonnateur ? `<button class="lien-sup supprimer" data-eleve="${e.id}"
+                  data-nom="${echapper((e.prenom || '') + ' ' + (e.nom || ''))}">supprimer définitivement</button>` : ''}
+        </div>`).join('')
+    : '<p class="vide">La corbeille est vide.</p>';
 
   brancher();
 }
@@ -215,16 +277,83 @@ function brancher() {
 
   document.querySelectorAll('.desactiver').forEach((b) =>
     b.addEventListener('click', async () => {
-      if (!confirm(`Désactiver le compte de ${b.dataset.nom} ?\n\n`
+      if (!confirm(`Mettre ${b.dataset.nom} à la corbeille ?\n\n`
         + `Il ne pourra plus se connecter, dans AUCUN de ses groupes, y compris `
-        + `ceux de vos collègues. Ses travaux sont conservés et la réinscription `
-        + `le réactive.`)) return;
+        + `ceux de vos collègues. Ses travaux sont conservés, et « restaurer » `
+        + `dans la corbeille le rétablit tel quel.`)) return;
       b.disabled = true;
       try {
         const d = await api('/api/prof/desinscrire', { method: 'POST',
           body: JSON.stringify({ eleve: b.dataset.eleve, desactiver: true }) });
         dire($('mi'), d.message, 'attention'); await charger();
       } catch (e) { dire($('mi'), e.message, 'err'); b.disabled = false; }
+    }));
+
+  // Corriger le nom : la ligne devient deux champs et deux boutons.
+  document.querySelectorAll('.modifier').forEach((b) =>
+    b.addEventListener('click', () => {
+      const ligne = b.closest('.eleve');
+      if (ligne.querySelector('form')) return;
+      const f = document.createElement('form');
+      f.className = 'edition';
+      f.innerHTML = `<label>Nom <input name="nom" maxlength="80" required value="${echapper(b.dataset.nom)}"></label>
+        <label>Prénom <input name="prenom" maxlength="80" required value="${echapper(b.dataset.prenom)}"></label>
+        <button type="submit">Enregistrer</button>
+        <button type="button" class="secondaire annuler-edition">Annuler</button>`;
+      ligne.appendChild(f);
+      f.querySelector('input').focus();
+      f.querySelector('.annuler-edition').addEventListener('click', () => f.remove());
+      f.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        f.querySelector('[type=submit]').disabled = true;
+        try {
+          const d = await api('/api/prof/eleve', { method: 'PATCH',
+            body: JSON.stringify({ eleve: b.dataset.eleve,
+              nom: f.elements.nom.value, prenom: f.elements.prenom.value }) });
+          dire($('mi'), d.message, 'ok'); await charger();
+        } catch (e) { dire($('mi'), e.message, 'err'); f.querySelector('[type=submit]').disabled = false; }
+      });
+    }));
+
+  document.querySelectorAll('.restaurer').forEach((b) =>
+    b.addEventListener('click', async () => {
+      b.disabled = true;
+      try {
+        const d = await api('/api/prof/eleve', { method: 'POST',
+          body: JSON.stringify({ eleve: b.dataset.eleve, action: 'restaurer' }) });
+        dire($('mc'), d.message, 'ok'); await charger();
+      } catch (e) { dire($('mc'), e.message, 'err'); b.disabled = false; }
+    }));
+
+  // Suppression définitive : coordonnateur seulement, mot de passe demandé
+  // dans la ligne, jamais dans une boîte de dialogue du navigateur.
+  document.querySelectorAll('.supprimer').forEach((b) =>
+    b.addEventListener('click', () => {
+      const ligne = b.closest('.eleve');
+      if (ligne.querySelector('form')) return;
+      const f = document.createElement('form');
+      f.className = 'edition';
+      f.innerHTML = `<p class="att" style="flex-basis:100%">Supprimer définitivement le compte de
+          ${echapper(b.dataset.nom)}, ses fichiers et tout son classeur ? Rien ne sera récupérable.</p>
+        <label>Votre mot de passe <input name="confirmation" type="password" autocomplete="current-password" required></label>
+        <button type="submit" class="danger">Supprimer définitivement</button>
+        <button type="button" class="secondaire annuler-edition">Annuler</button>`;
+      ligne.appendChild(f);
+      f.querySelector('input').focus();
+      f.querySelector('.annuler-edition').addEventListener('click', () => f.remove());
+      f.addEventListener('submit', async (ev) => {
+        ev.preventDefault();
+        f.querySelector('[type=submit]').disabled = true;
+        try {
+          const d = await api('/api/prof/eleve', { method: 'DELETE',
+            body: JSON.stringify({ eleve: b.dataset.eleve, confirmation: f.elements.confirmation.value }) });
+          dire($('mc'), d.message, 'attention'); await charger();
+        } catch (e) {
+          dire($('mc'), e.message, 'err');
+          f.elements.confirmation.value = '';
+          f.querySelector('[type=submit]').disabled = false;
+        }
+      });
     }));
 
   document.querySelectorAll('.suppr-groupe').forEach((b) =>

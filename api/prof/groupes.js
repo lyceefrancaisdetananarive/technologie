@@ -1,4 +1,4 @@
-import { appelant, possedeGroupe, comptesElevesOuverts } from '../_lib/autorisation.js';
+import { appelant, possedeGroupe, comptesElevesOuverts, estCoordonnateur } from '../_lib/autorisation.js';
 import { journaliser } from '../_lib/journal.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
@@ -12,7 +12,11 @@ import {
 // tenir toute l'autorisation du classeur : « cet élève est-il dans un de MES
 // groupes » est la question que posent enseigneA() et possedeGroupe(), et
 // c'est elle qui empêche un professeur de voir ou de modifier les élèves
-// d'un collègue.
+// d'un collègue. Une exception, la gestion des comptes : le coordonnateur
+// (décision D16) liste tous les groupes avec leur professeur, pour importer
+// les listes de ses collègues et tenir la corbeille ; il ne voit pas pour
+// autant leurs dépôts. Créer, renommer, supprimer un groupe restent des
+// gestes du professeur qui le possède.
 //
 // La suppression n'est possible que sur un groupe VIDE. Un groupe qui porte
 // des inscriptions ou des dépôts ne s'efface pas : la clé étrangère est en
@@ -38,25 +42,57 @@ export default async function handler(req, res) {
 
     // ---- Lister mes groupes et qui s'y trouve -------------------------
     if (req.method === 'GET') {
+      const coordonnateur = estCoordonnateur(moi);
+      // Le professeur voit ses groupes ; le coordonnateur les voit tous, avec
+      // le nom du professeur de chacun.
       const groupes = await lire('groupes',
-        `prof_id=eq.${moi.id}&select=id,code,libelle,niveau,annee&order=code`);
+        (coordonnateur ? '' : `prof_id=eq.${moi.id}&`)
+        + 'select=id,code,libelle,niveau,annee,prof_id,profils(prenom,nom)&order=code');
       const membres = groupes.length
         ? await lire('appartenances',
             `groupe_id=in.(${groupes.map((g) => g.id).join(',')})`
             + `&select=groupe_id,profils(id,email,nom,prenom,actif,mdp_provisoire)`)
         : [];
+      // La corbeille : les comptes d'élèves désactivés que cette personne peut
+      // restaurer, c'est-à-dire ceux de ses groupes (tous pour le coordonnateur).
+      const codes = Object.fromEntries(groupes.map((g) => [g.id, g.code]));
+      const corbeille = [];
+      const vus = new Set();
+      for (const m of membres) {
+        if (!m.profils || m.profils.actif !== false || vus.has(m.profils.id)) continue;
+        vus.add(m.profils.id);
+        corbeille.push({
+          ...m.profils,
+          groupes: membres.filter((x) => x.profils?.id === m.profils.id)
+            .map((x) => codes[x.groupe_id]).filter(Boolean),
+        });
+      }
+      // Pour le coordonnateur, les comptes désactivés qui ne sont plus dans
+      // aucun groupe : eux aussi attendent une restauration ou une suppression.
+      if (coordonnateur) {
+        const orphelins = await lire('profils',
+          'role=eq.eleve&actif=eq.false&select=id,email,nom,prenom,actif,mdp_provisoire');
+        for (const p of orphelins) {
+          if (!vus.has(p.id)) { vus.add(p.id); corbeille.push({ ...p, groupes: [] }); }
+        }
+      }
+      corbeille.sort((a, b) => String(a.nom ?? '').localeCompare(String(b.nom ?? '')));
       return res.status(200).json({
         ok: true,
         // L'état du verrou des comptes d'élèves réels, pour que la page
         // l'annonce avant tout choix de fichier ; le serveur reste la barrière.
         comptesEleves: comptesElevesOuverts() ? 'ouvert' : 'ferme',
+        coordonnateur,
         groupes: groupes.map((g) => ({
-          ...g,
+          id: g.id, code: g.code, libelle: g.libelle, niveau: g.niveau, annee: g.annee,
+          mien: g.prof_id === moi.id,
+          professeur: g.profils ? `${g.profils.prenom ?? ''} ${g.profils.nom ?? ''}`.trim() : '',
           eleves: membres
             .filter((m) => m.groupe_id === g.id && m.profils)
             .map((m) => m.profils)
             .sort((a, b) => String(a.nom ?? '').localeCompare(String(b.nom ?? ''))),
         })),
+        corbeille,
       });
     }
 

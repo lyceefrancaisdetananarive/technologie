@@ -1,5 +1,5 @@
 import {
-  appelant, possedeGroupe, reArmer, comptesElevesOuverts, MESSAGE_VERROU,
+  appelant, gereGroupe, reArmer, comptesElevesOuverts, MESSAGE_VERROU,
 } from '../_lib/autorisation.js';
 import { configuree, origineLegitime, profsAutorises, refus } from '../_lib/supabase.js';
 import { creerOuRattacher } from '../_lib/inscription.js';
@@ -8,7 +8,8 @@ import { journaliser } from '../_lib/journal.js';
 import { UUID } from '../_lib/progression.js';
 
 // =====================================================================
-// IMPORTER UNE LISTE D'ÉLÈVES À TROIS COLONNES DANS UN DE MES GROUPES.
+// IMPORTER UNE LISTE D'ÉLÈVES À TROIS COLONNES DANS UN DE MES GROUPES,
+// OU DANS N'IMPORTE QUEL GROUPE POUR LE COORDONNATEUR.
 //
 // Décision D15, question 6 : un fichier par groupe (nom, prénom, adresse),
 // jamais l'export complet d'EDUKA. Le navigateur envoie les LIGNES BRUTES du
@@ -50,7 +51,9 @@ export default async function handler(req, res) {
     if (lignes.length > MAX_LIGNES) {
       return refus(res, 400, `Au plus ${MAX_LIGNES} lignes par envoi.`);
     }
-    if (!(await possedeGroupe(moi.id, groupe))) {
+    // Le groupe doit être le mien, sauf pour le coordonnateur, qui importe
+    // les listes de tous les groupes (décision D16).
+    if (!(await gereGroupe(moi, groupe))) {
       return refus(res, 403, 'Ce groupe n’est pas l’un des vôtres.');
     }
 

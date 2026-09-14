@@ -146,6 +146,14 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
 .eleve { display: flex; align-items: center; gap: .6rem; padding: .4rem 0; border-top: 1px solid var(--grille); font-size: .92rem; }
 .eleve span.qui { flex: 1; }
 .eleve .att { font-size: .78rem; color: var(--encours); font-weight: 700; }
+.eleve { flex-wrap: wrap; }
+.eleve .edition { flex-basis: 100%; display: flex; flex-wrap: wrap; gap: .5rem .8rem; align-items: flex-end; padding: .5rem 0 .3rem; }
+.eleve .edition label { display: flex; flex-direction: column; gap: .2rem; font-size: .82rem; color: var(--encre-3); }
+.eleve .edition input { min-width: 11rem; }
+.eleve .edition p.att { color: var(--erreur); margin: 0; }
+button.danger { background: var(--erreur); border-color: var(--erreur); color: #fff; }
+button.danger:hover { filter: brightness(.9); }
+#bloc-corbeille .eleve:first-child { border-top: 0; }
 .barre { height: 6px; background: var(--grille); border-radius: 999px; margin-top: .75rem; overflow: hidden; display: none; }
 .barre div { height: 100%; background: var(--bleu); width: 0; transition: width .25s; }
 
