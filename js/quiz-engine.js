@@ -35,6 +35,15 @@ class QuizEngine {
     const m = location.pathname.match(/\/([345]eme\/p\d\/seq\d{1,2})-quiz\.html$/);
     this.quizId = m ? m[1] : null;
 
+    // Les boutons radio parlent au moteur par délégation : un seul écouteur,
+    // qui survit aux reconstructions du conteneur.
+    this.container.addEventListener('change', (ev) => {
+      const r = ev.target;
+      if (!r.classList || !r.classList.contains('quiz-radio')) return;
+      const q = this.questions[this.currentIndex];
+      this.selectOption(q.type === 'qcm' ? Number(r.value) : r.value === 'true');
+    });
+
     this.render();
     this.renderPapier();
   }
@@ -117,7 +126,7 @@ class QuizEngine {
     }
 
     // Feedback area
-    html += `<div class="quiz-feedback" id="quiz-feedback"></div>`;
+    html += `<div class="quiz-feedback" id="quiz-feedback" role="status" aria-live="polite"></div>`;
     html += `</div>`;
 
     // Navigation
@@ -143,54 +152,44 @@ class QuizEngine {
     }
   }
 
-  renderQCM(q) {
+  /* Les options sont de vrais boutons radio dans un groupe de champs : la
+     sélection se fait au clavier (flèches, espace), le lecteur d'écran
+     annonce la question, l'option et son état. L'apparence reste celle des
+     cartes d'option (le bouton radio natif est masqué visuellement). */
+  renderOptions(q) {
     const letters = ['A', 'B', 'C', 'D', 'E'];
-    let html = `<div class="quiz-options">`;
-    q.options.forEach((opt, i) => {
-      const selected = this.userAnswers[this.currentIndex] === i;
+    const n = this.currentIndex;
+    const repondu = this.answered[n];
+    const items = q.type === 'qcm'
+      ? q.options.map((opt, i) => ({ valeur: String(i), lettre: letters[i], texte: opt, choisi: this.userAnswers[n] === i }))
+      : [{ valeur: 'true', lettre: 'V', texte: 'Vrai', choisi: this.userAnswers[n] === true },
+         { valeur: 'false', lettre: 'F', texte: 'Faux', choisi: this.userAnswers[n] === false }];
+    let html = `<fieldset class="quiz-options"><legend class="visually-hidden">Réponses possibles</legend>`;
+    items.forEach((it, i) => {
       html += `
-        <div class="quiz-option ${selected ? 'selected' : ''}" data-index="${i}" onclick="quiz.selectOption(${i})">
-          <div class="quiz-option-indicator">${letters[i]}</div>
-          <div>${opt}</div>
-        </div>
+        <label class="quiz-option ${it.choisi ? 'selected' : ''}" data-index="${i}">
+          <input type="radio" class="visually-hidden quiz-radio" name="quiz-q${n}" value="${it.valeur}" ${it.choisi ? 'checked' : ''} ${repondu ? 'disabled' : ''}>
+          <span class="quiz-option-indicator" aria-hidden="true">${it.lettre}</span>
+          <span class="quiz-option-texte">${it.texte}</span>
+          <span class="quiz-option-etat visually-hidden"></span>
+        </label>
       `;
     });
-    html += `</div>`;
+    html += `</fieldset>`;
     return html;
   }
 
-  renderVraiFaux(q) {
-    let html = `<div class="quiz-options">`;
-    ['Vrai', 'Faux'].forEach((opt, i) => {
-      const val = i === 0;
-      const selected = this.userAnswers[this.currentIndex] === val;
-      html += `
-        <div class="quiz-option ${selected ? 'selected' : ''}" data-value="${val}" onclick="quiz.selectOption(${val})">
-          <div class="quiz-option-indicator">${opt[0]}</div>
-          <div>${opt}</div>
-        </div>
-      `;
-    });
-    html += `</div>`;
-    return html;
-  }
+  renderQCM(q) { return this.renderOptions(q); }
+  renderVraiFaux(q) { return this.renderOptions(q); }
 
   selectOption(value) {
     if (this.answered[this.currentIndex]) return;
-
     this.userAnswers[this.currentIndex] = value;
-
-    // Update visual selection
     const options = this.container.querySelectorAll('.quiz-option');
     options.forEach(opt => opt.classList.remove('selected'));
-
     const q = this.questions[this.currentIndex];
-    if (q.type === 'qcm') {
-      options[value].classList.add('selected');
-    } else {
-      const target = value === true ? 0 : 1;
-      options[target].classList.add('selected');
-    }
+    const idx = q.type === 'qcm' ? value : (value === true ? 0 : 1);
+    if (options[idx]) options[idx].classList.add('selected');
   }
 
   validate() {
@@ -212,48 +211,46 @@ class QuizEngine {
 
     this.showAnswerState(answer, q);
 
-    // Disable validate button
+    // Le bouton Valider disparaît : le focus qu'il portait va sur le retour
+    // (annoncé par role=status), puis Tab mène à « Suivant ».
     const btn = document.getElementById('btn-validate');
-    if (btn) btn.style.display = 'none';
+    if (btn) btn.remove();
+    const feedback = document.getElementById('quiz-feedback');
+    if (feedback) { feedback.setAttribute('tabindex', '-1'); feedback.focus(); }
+    const radios = this.container.querySelectorAll('.quiz-radio');
+    radios.forEach((r) => { r.disabled = true; });
   }
 
   showAnswerState(answer, q) {
     const options = this.container.querySelectorAll('.quiz-option');
     const feedback = document.getElementById('quiz-feedback');
 
-    let isCorrect;
-    if (q.type === 'qcm') {
-      isCorrect = answer === q.correct;
-      options.forEach((opt, i) => {
-        opt.classList.remove('selected');
-        if (i === q.correct) opt.classList.add('correct');
-        if (i === answer && !isCorrect) opt.classList.add('incorrect');
-      });
-    } else {
-      isCorrect = answer === q.correct;
-      const correctIdx = q.correct === true ? 0 : 1;
-      const answerIdx = answer === true ? 0 : 1;
-      options.forEach((opt, i) => {
-        opt.classList.remove('selected');
-        if (i === correctIdx) opt.classList.add('correct');
-        if (i === answerIdx && !isCorrect) opt.classList.add('incorrect');
-      });
-    }
+    const isCorrect = answer === q.correct;
+    const correctIdx = q.type === 'qcm' ? q.correct : (q.correct === true ? 0 : 1);
+    const answerIdx = q.type === 'qcm' ? answer : (answer === true ? 0 : 1);
+    options.forEach((opt, i) => {
+      opt.classList.remove('selected');
+      const etat = opt.querySelector('.quiz-option-etat');
+      if (i === correctIdx) {
+        opt.classList.add('correct');
+        if (etat) etat.textContent = i === answerIdx ? ' (ta réponse, bonne réponse)' : ' (bonne réponse)';
+      }
+      if (i === answerIdx && !isCorrect) {
+        opt.classList.add('incorrect');
+        if (etat) etat.textContent = ' (ta réponse, incorrecte)';
+      }
+    });
 
     // Show feedback
     if (this.showFeedback && feedback && q.explanation) {
       feedback.className = `quiz-feedback show ${isCorrect ? 'correct' : 'incorrect'}`;
       feedback.innerHTML = `
-        <strong>${isCorrect ? '&#x2705; Correct\u00a0!' : '&#x274C; Incorrect'}</strong><br>
+        <strong>${isCorrect ? 'Correct\u00a0!' : 'Incorrect'}</strong><br>
         ${q.explanation}
       `;
     }
 
-    // Disable clicking
-    options.forEach(opt => {
-      opt.style.cursor = 'default';
-      opt.onclick = null;
-    });
+    options.forEach(opt => { opt.style.cursor = 'default'; });
   }
 
   next() {
@@ -394,7 +391,7 @@ class QuizEngine {
           background: ${isCorrect ? 'var(--success-light)' : 'var(--error-light)'}; border-left: 3px solid ${isCorrect ? 'var(--success)' : 'var(--error)'};">
           <strong>Q${i + 1}. ${q.question}</strong><br>
           <span style="color: ${isCorrect ? 'var(--success)' : 'var(--error)'}">
-            Ta réponse : ${userAnswer} ${isCorrect ? '&#x2705;' : '&#x274C;'}
+            Ta réponse\u00a0: ${userAnswer} ${isCorrect ? '(juste)' : '(fausse)'}
           </span>
           ${!isCorrect ? `<br><span style="color: var(--success)">Bonne réponse : ${correctAnswer}</span>` : ''}
           ${q.explanation ? `<br><span class="text-sm text-muted">${q.explanation}</span>` : ''}

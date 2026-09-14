@@ -1,4 +1,4 @@
-import { lire, envoyerLienReinitialisation, configuree, origineLegitime, refus }
+import { lire, ecrire, envoyerLienReinitialisation, configuree, origineLegitime, refus }
   from '../_lib/supabase.js';
 
 // Réponse TOUJOURS identique, que l'adresse existe ou non. Sinon cette page
@@ -19,10 +19,19 @@ export default async function handler(req, res) {
     const p = (await lire('profils',
       `email=eq.${encodeURIComponent(email)}&select=id,actif`))[0];
 
-    // On n'envoie que si la personne est sur la liste ET active.
+    // On n'envoie que si la personne est sur la liste ET active, et au plus
+    // une fois toutes les cinq minutes par compte : un lien en boucle est un
+    // abus du relais de courriel, et la réponse reste la même dans tous les
+    // cas pour ne rien dire de l'existence du compte.
     if (p && p.actif) {
-      const origine = `https://${req.headers.host}`;
-      await envoyerLienReinitialisation(email, origine);
+      const depuis = new Date(Date.now() - 5 * 60000).toISOString();
+      const recentes = await lire('tentatives',
+        `profil_id=eq.${p.id}&origine=eq.lien&quand=gte.${depuis}&select=id`).catch(() => []);
+      if (!recentes.length) {
+        await ecrire('tentatives', '', { profil_id: p.id, origine: 'lien' }, 'POST').catch(() => {});
+        const origine = `https://${req.headers.host}`;
+        await envoyerLienReinitialisation(email, origine);
+      }
     }
   } catch (e) {
     console.error('mot-de-passe-oublie :', e.message);

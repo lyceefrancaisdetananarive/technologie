@@ -1,4 +1,5 @@
 import { appelant, possedeGroupe, comptesElevesOuverts } from '../_lib/autorisation.js';
+import { journaliser } from '../_lib/journal.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -112,6 +113,7 @@ export default async function handler(req, res) {
           'Ce groupe porte des travaux déposés. Il ne peut pas être supprimé.');
       }
       await ecrire('groupes', `id=eq.${id}`, {}, 'DELETE');
+      await journaliser(moi.id, 'groupe.supprime', id);
       return res.status(200).json({ ok: true });
     }
 

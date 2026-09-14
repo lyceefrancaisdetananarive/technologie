@@ -26,7 +26,7 @@ import { UUID, planParDefaut, sequenceDuCatalogue } from '../_lib/progression.js
 // signalé « bloqué » à partir du seuil du verrou de connexion.
 // =====================================================================
 
-const SEUIL_BLOCAGE = 8;   // MAX_TENTATIVES de api/auth/connexion.js
+const SEUIL_BLOCAGE = 10;   // MAX_TENTATIVES de api/auth/connexion.js
 
 export default async function handler(req, res) {
   if (req.method !== 'GET') return refus(res, 405, 'Méthode non autorisée.');

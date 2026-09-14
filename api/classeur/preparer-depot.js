@@ -1,6 +1,14 @@
 import { appelant, membreDe } from '../_lib/autorisation.js';
 import { lire, ecrire, urlDepotSignee, configuree, origineLegitime, refus }
   from '../_lib/supabase.js';
+import { UUID, sequenceDuCatalogue, NIVEAUX } from '../_lib/progression.js';
+
+// Les documents que le classeur accepte (miroir de js/sequences.js) et le
+// nombre de fichiers qu'un élève peut avoir pour une même séquence et un même
+// document : au-delà, il supprime avant de redéposer. Sans plafond, un seul
+// compte pouvait épuiser le quota de stockage de tout le service.
+const DOCUMENTS = ['activite', 'eval', 'projet', 'autre'];
+const MAX_FICHIERS = 3;
 
 const EXTENSIONS = { 'image/jpeg': 'jpg', 'image/png': 'png',
                      'image/webp': 'webp', 'application/pdf': 'pdf' };
@@ -16,6 +24,12 @@ export default async function handler(req, res) {
 
   const { groupe, sequence, document, type, commentaire, binome } = req.body ?? {};
   if (!groupe || !sequence || !document) return refus(res, 400, 'Dépôt incomplet.');
+  if (!UUID.test(String(groupe))) return refus(res, 400, 'Groupe non précisé.');
+  // La séquence est celle du catalogue, ou l'évaluation diagnostique d'un niveau.
+  const seqValide = sequenceDuCatalogue(String(sequence))
+    || NIVEAUX.some((n) => String(sequence) === `${n}/p1/diagnostique`);
+  if (!seqValide) return refus(res, 400, 'Séquence inconnue.');
+  if (!DOCUMENTS.includes(String(document))) return refus(res, 400, 'Type de document inconnu.');
 
   const ext = EXTENSIONS[type];
   if (!ext) {
@@ -34,7 +48,7 @@ export default async function handler(req, res) {
     const doc = String(document).slice(0, 40);
     const champs = {
       commentaire: commentaire ? String(commentaire).slice(0, 2000) : null,
-      binome: binome ? String(binome).slice(0, 120) : null,
+      binome: binome ? String(binome).slice(0, 40) : null,   // un prénom, pas un nom complet
     };
 
     // La ligne est créée AVANT le fichier, avec « fichier » à null : c'est
@@ -48,6 +62,16 @@ export default async function handler(req, res) {
     // pouvait en semer cinq ou six pour un seul travail, et le professeur
     // les voyait tous. On reprend donc celui qui est resté en attente pour
     // la même séquence et le même document, s'il existe.
+    // Plafond par élève, séquence et document.
+    const deja = await lire('rendus',
+      `profil_id=eq.${moi.id}&groupe_id=eq.${groupe}` +
+      `&sequence=eq.${encodeURIComponent(String(sequence).slice(0, 120))}` +
+      `&document=eq.${encodeURIComponent(String(document))}&fichier=not.is.null&select=id`);
+    if (deja.length >= MAX_FICHIERS) {
+      return refus(res, 409,
+        `Tu as déjà ${MAX_FICHIERS} fichiers pour ce travail. Supprime l'un d'eux avant d'en déposer un autre.`);
+    }
+
     const enCours = await lire('rendus',
       `profil_id=eq.${moi.id}&groupe_id=eq.${groupe}` +
       `&sequence=eq.${encodeURIComponent(seq)}` +

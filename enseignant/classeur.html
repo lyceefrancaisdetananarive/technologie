@@ -39,8 +39,12 @@
       </div>
       <div>
         <label for="motif">Motif (pour le journal)</label>
-        <input id="motif" type="text" maxlength="200"
-               placeholder="ex. n'accède plus à sa boîte">
+        <select id="motif">
+          <option value="mot_de_passe_oublie">Mot de passe oublié</option>
+          <option value="boite_inaccessible">Boîte de courriel inaccessible</option>
+          <option value="compte_bloque">Compte bloqué après des essais</option>
+          <option value="autre">Autre, sans précision</option>
+        </select>
       </div>
       <button class="secondaire" id="reinit">Réinitialiser</button>
     </div>
@@ -61,6 +65,12 @@
     <p class="msg" id="mr" role="status" aria-live="polite"></p>
   </section>
 </main>
+<footer class="pied-legal">
+  <a href="/accessibilite.html">Accessibilité : non conforme</a>
+  <a href="/donnees-personnelles.html">Données personnelles</a>
+  <a href="/mentions-legales.html">Mentions légales</a>
+</footer>
+
 
 <script src="/js/catalogue.js"></script>
 <script type="module">
@@ -140,6 +150,7 @@ function articleRendu(r) {
         ${r.binome ? ' · avec ' + echapper(r.binome) : ''}
         ${r.corrige_le ? ' · corrigé le ' + dateCourte(r.corrige_le) : ''}</p>
       ${r.commentaire ? `<p class="mot">« ${echapper(r.commentaire)} »</p>` : ''}
+      ${r.commentaire || r.binome ? `<p class="meta"><button class="lien-sup effacer-mot" data-rendu="${r.id}">Effacer le mot de l'élève et le binôme</button></p>` : ''}
       ${r.fichier ? `<p class="meta"><a href="#" class="voir"
           data-rendu="${r.id}">Ouvrir le document</a></p>` : ''}
       <div class="ligne">
@@ -248,6 +259,17 @@ $('liste').addEventListener('click', async (ev) => {
       alert(e.message); cible.disabled = false;
       cible.textContent = 'Supprimer ce dépôt resté vide';
     }
+    return;
+  }
+
+  if (cible.classList.contains('effacer-mot')) {
+    if (!confirm('Effacer le mot de l’élève et le nom du binôme sur ce dépôt ? Le fichier et la correction sont conservés.')) return;
+    cible.disabled = true; cible.textContent = '…';
+    try {
+      await api('/api/prof/corriger', { method: 'POST', body: JSON.stringify({ rendu: id, effacerMot: true }) });
+      Object.assign(r, { commentaire: null, binome: null });
+      rafraichirArticle(r);
+    } catch (e) { alert(e.message); cible.disabled = false; cible.textContent = "Effacer le mot de l'élève et le binôme"; }
     return;
   }
 

@@ -79,11 +79,17 @@ table.usage { border-collapse: collapse; width: 100%; font-size: .86rem; }
       une cellule vide : rien pour cette séquence.
       Les colonnes « pas cette année » sont les séquences écartées du plan du groupe.
       « Accès jamais ouvert » : l'élève ne s'est encore jamais connecté ; « mot de passe à choisir » :
-      son accès a été réinitialisé ; « bloqué » : il a raté son mot de passe huit fois sans se reconnecter
+      son accès a été réinitialisé ; « bloqué » : il a raté son mot de passe dix fois sans se reconnecter
       depuis, proposez-lui de redonner un accès.
     </p>
   </section>
 </main>
+<footer class="pied-legal">
+  <a href="/accessibilite.html">Accessibilité : non conforme</a>
+  <a href="/donnees-personnelles.html">Données personnelles</a>
+  <a href="/mentions-legales.html">Mentions légales</a>
+</footer>
+
 
 <script src="/js/catalogue.js"></script>
 <script type="module">
@@ -91,7 +97,7 @@ import { api, echapper } from '/js/classeur-commun.js';
 import { catalogueCharge, sequence, NIVEAU_COURT } from '/js/progression-regles.js';
 
 const $ = (id) => document.getElementById(id);
-const SEUIL_BLOCAGE = 8;
+const SEUIL_BLOCAGE = 10;
 let etat = null;
 let chargement = 0;
 

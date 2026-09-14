@@ -73,10 +73,12 @@ const FENETRE_MINUTES = 15;
 
 export async function ressaisieAutorisee(profId) {
   const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
+  // Défaillance en position fermée : si le compteur est illisible, l'action
+  // lourde est refusée plutôt que laissée passer sans garde.
   const echecs = await lire('tentatives',
     `profil_id=eq.${profId}&origine=eq.ressaisie&quand=gte.${depuis}&select=id`)
-    .catch(() => []);
-  return echecs.length < MAX_RESSAISIES;
+    .catch((e) => { console.error('ressaisie : compteur illisible,', e.message); return null; });
+  return echecs !== null && echecs.length < MAX_RESSAISIES;
 }
 
 export async function noterEchecRessaisie(profId) {

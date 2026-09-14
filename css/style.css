@@ -21,7 +21,7 @@
   --encre: #1F2A37;
   --encre-2: #4B5867;
   --encre-3: #5F6B7A;   /* 4,9:1 sur le papier, lisible en texte courant */
-  --encre-4: #7B8794;   /* décoratif seulement */
+  --encre-4: #7B8794;   /* bordures de composants (3,66:1 sur blanc) */
   --papier: #F3F5F7;
   --papier-2: #FFFFFF;
   --grille: #E3E8EE;
@@ -534,16 +534,23 @@ details.note-prof .info-box { margin-top: .5rem; }
 .quiz-question h3 { font-size: 1.15rem; font-weight: 700; margin-bottom: var(--space-md); line-height: 1.4; }
 .quiz-question-number { font-size: .74rem; font-weight: 800; color: var(--encre-3); text-transform: uppercase; letter-spacing: .06em; margin-bottom: var(--space-sm); }
 .quiz-options { display: flex; flex-direction: column; gap: var(--space-sm); }
-.quiz-option { display: flex; align-items: center; gap: var(--space-md); padding: .8rem var(--space-md); background: var(--papier-2); border: 1.5px solid var(--trait); border-radius: var(--radius-sm); cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast); font-size: .96rem; }
+.quiz-options { border: 0; padding: 0; margin: 0; min-width: 0; }
+.quiz-option { display: flex; align-items: center; gap: var(--space-md); padding: .8rem var(--space-md); background: var(--papier-2); border: 1.5px solid var(--encre-4); border-radius: var(--radius-sm); cursor: pointer; transition: border-color var(--transition-fast), background var(--transition-fast); font-size: .96rem; position: relative; min-height: 44px; }
+/* Le bouton radio est masqué visuellement mais garde le focus : la carte le montre. */
+.quiz-option:focus-within { outline: 3px solid var(--bleu); outline-offset: 2px; }
+.quiz-option:has(input:disabled) { cursor: default; }
 .quiz-option:hover { border-color: var(--bleu); background: var(--bleu-pale); }
 .quiz-option.selected { border-color: var(--bleu); background: var(--bleu-pale); }
 .quiz-option.correct { border-color: var(--fait); background: var(--fait-pale); }
 .quiz-option.incorrect { border-color: var(--error); background: var(--error-light); }
-.quiz-option-indicator { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--trait); display: grid; place-items: center; font-size: .78rem; font-weight: 800; flex: none; }
+.quiz-option-indicator { width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--encre-4); display: grid; place-items: center; font-size: .78rem; font-weight: 800; flex: none; }
+.quiz-option.correct .quiz-option-texte::after { content: " \2713"; color: var(--fait); font-weight: 800; }
+.quiz-option.incorrect .quiz-option-texte::after { content: " \2717"; color: var(--error); font-weight: 800; }
 .quiz-option.selected .quiz-option-indicator { border-color: var(--bleu); background: var(--bleu); color: #fff; }
 .quiz-option.correct .quiz-option-indicator { border-color: var(--fait); background: var(--fait); color: #fff; }
 .quiz-option.incorrect .quiz-option-indicator { border-color: var(--error); background: var(--error); color: #fff; }
 .quiz-feedback { margin-top: var(--space-md); padding: var(--space-md); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .92rem; display: none; }
+.quiz-feedback:focus { outline: 3px solid var(--bleu); outline-offset: 2px; }
 .quiz-feedback.show { display: block; }
 .quiz-feedback.correct { background: var(--fait-pale); border-left: 4px solid var(--fait); color: #14532D; }
 .quiz-feedback.incorrect { background: var(--error-light); border-left: 4px solid var(--error); color: #7F1D1D; }
@@ -567,6 +574,11 @@ details.note-prof .info-box { margin-top: .5rem; }
 .progression-table td { padding: .65rem 1rem; border-bottom: 1px solid var(--grille); vertical-align: top; }
 .progression-table tr:last-child td { border-bottom: none; }
 
+/* Lien d'évitement : hors écran, visible à la prise de focus */
+.evitement { position: absolute; left: -999px; top: 8px; z-index: 1000; background: var(--bleu); color: #fff; padding: .6rem 1rem; border-radius: var(--radius-md); font-weight: 700; text-decoration: none; }
+.evitement:focus { left: 8px; outline: 3px solid #fff; outline-offset: 2px; }
+main:focus { outline: none; }
+
 /* ------------------------------------------------------------ pied de page */
 .site-footer { border-top: 1px solid var(--trait); background: var(--papier-2); padding: var(--space-xl) var(--space-lg); margin-top: var(--space-3xl); }
 .footer-inner { max-width: var(--max-width); margin: 0 auto; display: flex; align-items: center; justify-content: space-between; gap: var(--space-lg); flex-wrap: wrap; }
@@ -578,6 +590,8 @@ details.note-prof .info-box { margin-top: .5rem; }
 .footer-right a { color: var(--encre-2); }
 .footer-aefe { font-size: .76rem; color: var(--encre-3); margin-top: var(--space-xs); }
 .footer-liens { display: flex; gap: var(--space-md); flex-wrap: wrap; font-size: .84rem; }
+.footer-legal { margin-top: .35rem; }
+.footer-legal a { color: var(--encre-2); }
 
 /* ------------------------------------------------------------ utilitaires */
 .text-center { text-align: center; } .text-right { text-align: right; }

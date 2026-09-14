@@ -361,6 +361,11 @@
               <a href="${ROOT}/parents.html">Parents</a>
               <a href="${ROOT}/enseignant/index.html">Espace enseignant</a>
             </div>
+            <div class="footer-liens footer-legal">
+              <a href="${ROOT}/accessibilite.html">Accessibilité : non conforme</a>
+              <a href="${ROOT}/donnees-personnelles.html">Données personnelles</a>
+              <a href="${ROOT}/mentions-legales.html">Mentions légales</a>
+            </div>
           </div>
         </div>
         <div class="footer-right">
@@ -689,6 +694,16 @@
     if (!app) return;
 
     const activePage = app.dataset.page || '';
+    // Lien d'evitement (RGAA 12.7) : premier element focalisable de la page,
+    // visible seulement a la prise de focus, vers le contenu principal.
+    const main = app.querySelector('main');
+    if (main) {
+      if (!main.id) main.id = 'contenu';
+      main.setAttribute('tabindex', '-1');
+      const ev = document.createElement('a');
+      ev.className = 'evitement'; ev.href = '#' + main.id; ev.textContent = 'Aller au contenu';
+      document.body.insertBefore(ev, document.body.firstChild);
+    }
     const breadcrumbData = app.dataset.breadcrumb ? JSON.parse(app.dataset.breadcrumb) : null;
     const printTitle = app.dataset.printTitle || '';
     const printSubtitle = app.dataset.printSubtitle || '';

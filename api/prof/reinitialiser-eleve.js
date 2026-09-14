@@ -1,5 +1,6 @@
 import { appelant, ressaisieAutorisee, noterEchecRessaisie, FENETRE_MINUTES }
   from '../_lib/autorisation.js';
+import { journaliser } from '../_lib/journal.js';
 import {
   definirMotDePasse, verifierMotDePasse, lire, ecrire,
   configuree, origineLegitime, refus,
@@ -35,7 +36,10 @@ export default async function handler(req, res) {
   if (prof.role !== 'prof') return refus(res, 403, 'Action réservée aux professeurs.');
 
   const eleveId = String(req.body?.eleve ?? '');
-  const motif = String(req.body?.motif ?? '').slice(0, 200);
+  // Motif en liste fermée : un champ libre finissait par porter la raison
+  // d'une absence ou une information de santé (minimisation, RGPD art. 5).
+  const MOTIFS = ['mot_de_passe_oublie', 'boite_inaccessible', 'compte_bloque', 'autre'];
+  const motif = MOTIFS.includes(String(req.body?.motif ?? '')) ? String(req.body.motif) : 'autre';
   const confirmation = String(req.body?.confirmation ?? '');
   if (!eleveId) return refus(res, 400, 'Élève non précisé.');
   if (!confirmation) return refus(res, 400, 'Confirmation manquante.');
@@ -123,6 +127,7 @@ export default async function handler(req, res) {
       { mdp_provisoire: true, mdp_pose_le: new Date().toISOString() });
     await ecrire('journal_repli', '',
       { prof_id: prof.id, eleve_id: eleve.id, motif }, 'POST');
+    await journaliser(prof.id, 'mdp.reinitialise', eleve.id, motif);
     await definirMotDePasse(eleve.id, provisoire);
 
     res.status(200).json({

@@ -132,13 +132,14 @@ export default async function middleware(requete) {
   // on refuse, et on le dit clairement.
   if (requis === 'prof' && session.role !== 'prof') {
     return new Response(
-      '<!doctype html><meta charset="utf-8"><title>Accès refusé</title>' +
+      '<!doctype html><html lang="fr"><meta charset="utf-8">' +
+      '<meta name="viewport" content="width=device-width, initial-scale=1"><title>Accès refusé</title>' +
       '<style>body{font-family:system-ui;max-width:32rem;margin:4rem auto;' +
       'padding:0 1rem;color:#323232;line-height:1.6}h1{color:#0096c8}</style>' +
       '<h1>Cette page est réservée aux professeurs</h1>' +
       '<p>Vous êtes bien connecté, mais cette page contient un corrigé ou un ' +
       'document de suivi. Elle ne vous est pas destinée.</p>' +
-      '<p><a href="/">Revenir au site de Technologie</a></p>',
+      '<p><a href="/">Revenir au site de Technologie</a></p></html>',
       { status: 403, headers: { 'content-type': 'text/html; charset=utf-8' } }
     );
   }

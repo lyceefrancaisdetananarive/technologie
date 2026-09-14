@@ -4,6 +4,7 @@ import {
 import { configuree, origineLegitime, profsAutorises, refus } from '../_lib/supabase.js';
 import { creerOuRattacher } from '../_lib/inscription.js';
 import { lireLigne } from '../_lib/listes.js';
+import { journaliser } from '../_lib/journal.js';
 import { UUID } from '../_lib/progression.js';
 
 // =====================================================================
@@ -85,6 +86,10 @@ export default async function handler(req, res) {
       }
     }
 
+    await journaliser(moi.id, 'liste.importee', groupe,
+      `${resultats.filter((r) => r.etat === 'nouveau').length} nouveaux, `
+      + `${resultats.filter((r) => r.etat === 'rattache').length} rattachés, `
+      + `${resultats.filter((r) => r.etat === 'refusee' || r.etat === 'echec').length} refusés`);
     if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
     res.status(200).json({ ok: true, resultats });
   } catch (e) {

@@ -51,6 +51,12 @@
     votre professeur peut vous en redonner un en début de séance.
   </p>
 </main>
+<footer class="pied-legal">
+  <a href="/accessibilite.html">Accessibilité : non conforme</a>
+  <a href="/donnees-personnelles.html">Données personnelles</a>
+  <a href="/mentions-legales.html">Mentions légales</a>
+</footer>
+
 
 <script>
 (function () {
@@ -72,11 +78,17 @@
   // qu'un ancien lien, passé par Supabase, pourrait rapporter.
   var jeton = '', erreurLien = '';
   (function lireAdresse() {
+    // Le jeton haché est accepté dans le fragment (#jeton=…) comme dans la
+    // chaîne de requête (?jeton=…). Le fragment ne quitte jamais le
+    // navigateur : il n'apparaît ni dans les journaux du serveur ni dans
+    // l'en-tête Referer. Le gabarit du courriel Supabase peut basculer sur
+    // le fragment sans que cette page change.
     var q = new URLSearchParams(location.search);
     if (q.get('type') === 'recovery') jeton = q.get('jeton') || '';
     var h = location.hash.replace(/^#/, '');
     if (h) {
       var p = new URLSearchParams(h);
+      if (p.get('type') === 'recovery' && p.get('jeton')) jeton = p.get('jeton');
       if (p.get('error')) {
         erreurLien = p.get('error_description') || 'Ce lien n’est plus valable.';
       }

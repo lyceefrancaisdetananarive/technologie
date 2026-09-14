@@ -73,7 +73,7 @@ h2 { font: 700 1.15rem var(--display); margin: 0 0 1rem; }
 /* ---- formulaires ---- */
 label { display: block; font-weight: 700; margin: .9rem 0 .3rem; font-size: .92rem; }
 select, input, textarea {
-  width: 100%; padding: .65rem .8rem; border: 1.5px solid #8B98A5; border-radius: var(--r);
+  width: 100%; padding: .65rem .8rem; border: 1.5px solid #7B8794; border-radius: var(--r);
   font: inherit; font-size: .98rem; background: var(--papier-2); color: var(--encre);
 }
 textarea { min-height: 4.5rem; resize: vertical; }
@@ -200,5 +200,9 @@ button.discret { background: transparent; color: var(--encre-2); border-color: v
 .legende-parcours .point { width: 18px; height: 18px; font-size: 11px; margin: 0 .1rem 0 .2rem; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+/* Pied de page des pages connectées : les trois liens légaux, rien d'autre. */
+.pied-legal { max-width: 52rem; margin: 0 auto; padding: 1rem 1.25rem 2rem; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: .82rem; }
+.pied-legal a { color: var(--encre-2); min-height: 44px; display: inline-flex; align-items: center; }
+body.etroit .pied-legal { justify-content: center; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }

@@ -6,6 +6,7 @@
 
 import { enseigneA } from './autorisation.js';
 import { lire, ecrire, creerUtilisateur, utilisateurParEmail } from './supabase.js';
+import { journaliser } from './journal.js';
 
 /**
  * Crée le compte, le profil et, pour un élève, l'inscription au groupe.
@@ -70,6 +71,7 @@ export async function creerOuRattacher({ moi, email, nom, prenom, role, groupe }
         role: 'prof', actif: true,
         ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
       });
+      await journaliser(moi.id, 'compte.promu', idAuth);
       return { ok: true, id: idAuth, nouveau: false };
     }
     // Un élève que j'inscris dans MON groupe (l'appelant a vérifié
@@ -82,12 +84,14 @@ export async function creerOuRattacher({ moi, email, nom, prenom, role, groupe }
         actif: true,
         ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
       });
+      if (existant && existant.actif === false) await journaliser(moi.id, 'compte.reactive', idAuth);
     }
     if (role === 'eleve') {
       await ecrire('appartenances', '',
         { profil_id: idAuth, groupe_id: groupe }, 'POST').catch((e) => {
           if (e.code !== '23505' && e.statut !== 409) throw e;   // déjà inscrit
         });
+      await journaliser(moi.id, 'compte.rattache', idAuth, groupe);
     }
     return { ok: true, id: idAuth, nouveau: false };
   }
@@ -98,5 +102,6 @@ export async function creerOuRattacher({ moi, email, nom, prenom, role, groupe }
         if (e.code !== '23505' && e.statut !== 409) throw e;   // déjà inscrit
       });
   }
+  await journaliser(moi.id, 'compte.cree', idAuth, role === 'eleve' ? groupe : 'prof');
   return { ok: true, id: idAuth, nouveau: true };
 }

@@ -1,6 +1,7 @@
 import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 import { UUID, sequenceDuCatalogue } from '../_lib/progression.js';
+import { journaliser } from '../_lib/journal.js';
 
 // =====================================================================
 // CORRIGER UN TRAVAIL DÉPOSÉ : une appréciation, et facultativement UNE
@@ -26,7 +27,7 @@ export default async function handler(req, res) {
   if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
 
   try {
-    const { rendu, appreciation, competence, maitrise, annuler } = req.body ?? {};
+    const { rendu, appreciation, competence, maitrise, annuler, effacerMot } = req.body ?? {};
     if (!UUID.test(String(rendu ?? ''))) return refus(res, 400, 'Rendu non précisé.');
 
     const r = (await lire('rendus', `id=eq.${rendu}&select=id,profil_id,groupe_id,sequence`))[0];
@@ -40,6 +41,16 @@ export default async function handler(req, res) {
     // rien nulle part ne savait le défaire. L'élève ne pouvait plus rien
     // redéposer, confirmer-depot.js répondant « Ce travail a déjà été
     // corrigé », et le professeur n'avait aucun recours.
+    // EFFACER LE MOT DE L'ÉLÈVE ET LE BINÔME, sans toucher au fichier ni à
+    // la correction : un champ libre peut recevoir ce qui n'a rien à y faire
+    // (santé, vie privée, un camarade nommé). Journalisé.
+    if (effacerMot) {
+      await ecrire('rendus', `id=eq.${rendu}`, { commentaire: null, binome: null });
+      await journaliser(moi.id, 'mot.efface', r.profil_id, rendu);
+      if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
+      return res.status(200).json({ ok: true, efface: true });
+    }
+
     if (annuler) {
       await ecrire('rendus', `id=eq.${rendu}`, {
         appreciation: null, note: null, competence: null, maitrise: null, corrige_le: null,

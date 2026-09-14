@@ -4,6 +4,7 @@ import {
   supprimerFichier, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
 import { UUID, NIVEAUX } from '../_lib/progression.js';
+import { journaliser } from '../_lib/journal.js';
 
 // =====================================================================
 // UN GROUPE D'ESSAI, AVEC DES ÉLÈVES FICTIFS.
@@ -143,6 +144,7 @@ export default async function handler(req, res) {
     }
     // Le groupe emporte plans, avancement et exceptions en cascade.
     await ecrire('groupes', `id=eq.${groupe}`, {}, 'DELETE');
+    await journaliser(moi.id, 'essai.supprime', groupe, `${effaces} comptes fictifs`);
 
     if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
     res.status(200).json({ ok: true, effaces });

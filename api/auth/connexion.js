@@ -7,13 +7,29 @@ import {
 // Message unique pour tout échec. Ne jamais distinguer « adresse inconnue »
 // de « mot de passe faux » : la différence dirait à un élève curieux qui
 // possède un compte dans l'établissement.
-const ECHEC = "Adresse ou mot de passe incorrect.";
+// Le même message pour un mot de passe faux, une adresse inconnue et un
+// compte mis en pause : rien ne dit à qui essaie si l'adresse existe.
+const ECHEC = 'Adresse ou mot de passe incorrect. Après plusieurs essais, le '
+  + 'compte se met en pause un quart d’heure : passez alors par « Première '
+  + 'connexion » pour choisir un nouveau mot de passe.';
 
-// Verrou par COMPTE et non par adresse IP : le lycée sort par une seule IP
-// publique, un verrou par IP bloquerait une classe entière dès qu'un élève
-// se trompe cinq fois.
-const MAX_TENTATIVES = 8;
+// LE VERROU (CNIL, délibération n° 2022-100 ; ANSSI). À partir de
+// SEUIL_PAUSE échecs sur la fenêtre, chaque essai attend un délai qui
+// double (0,5 s, 1 s, 2 s, 4 s) AVANT que le mot de passe soit vérifié ; à
+// partir de MAX_TENTATIVES, le compte est en pause jusqu'à la fin de la
+// fenêtre, mot de passe juste compris, et Supabase n'est plus sollicité.
+//
+// La pause s'applique aussi au titulaire : c'est le prix d'une restriction
+// réelle. Le titulaire a toujours une issue immédiate qui ne passe pas par
+// ce verrou : le lien « Première connexion », ou la réinitialisation par son
+// professeur. Un compteur par compte, jamais par adresse IP : le lycée sort
+// sur une seule adresse, un compteur par IP fermerait la porte à tout le
+// monde à la première classe qui se trompe.
+const SEUIL_PAUSE = 5;
+const MAX_TENTATIVES = 10;
 const FENETRE_MINUTES = 15;
+const DELAI_MAX_MS = 4000;
+const attendre = (ms) => new Promise((r) => setTimeout(r, ms));
 
 // Durée de vie d'un mot de passe PROVISOIRE, c'est-à-dire de celui que le
 // professeur dicte à voix haute ou que l'élève reçoit par courriel. Passé ce
@@ -68,21 +84,32 @@ export default async function handler(req, res) {
     );
     const profil = profils[0];
 
-    // 2. Le mot de passe, AVANT le verrou. L'ordre compte.
-    //
-    // Le verrou est un compteur d'échecs par COMPTE, et n'importe qui peut le
-    // nourrir : il suffit de connaître l'adresse, or elles sont mécaniques
-    // (prenom.nom@egd.mg) et les élèves connaissent celles de leurs
-    // professeurs. Refuser AVANT de vérifier le mot de passe transformait
-    // donc le verrou en arme : dix requêtes à 8h55 sur l'adresse du
-    // professeur, et il ne pouvait plus entrer de la journée, puisque même
-    // le bon mot de passe recevait un 429 et que le compteur ne s'effaçait
-    // qu'après un succès devenu impossible. Vingt-huit adresses, et c'est la
-    // classe entière qui reste dehors.
-    //
-    // On vérifie donc d'abord. UN MOT DE PASSE JUSTE PASSE TOUJOURS, verrou
-    // ou non, et remet le compteur à zéro. Le verrou ne s'applique qu'aux
-    // échecs, c'est-à-dire à celui qui devine, jamais au titulaire.
+    // 2. Le verrou, AVANT la vérification. On lit les échecs récents du
+    //    compte ; une adresse inconnue reçoit le même délai de base, pour
+    //    que le temps de réponse ne dise pas si le compte existe.
+    let echecs = 0;
+    if (profil) {
+      const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
+      const lignes = await lire('tentatives',
+        `profil_id=eq.${profil.id}&origine=eq.connexion&quand=gte.${depuis}&select=id`)
+        .catch((e) => {
+          // Compteur illisible : on ne laisse pas passer sans ralentir, mais
+          // on ne ferme pas la porte à tout le monde sur une panne de table.
+          console.error('connexion : compteur illisible,', e.message);
+          return new Array(SEUIL_PAUSE).fill(null);
+        });
+      echecs = lignes.length;
+    }
+    if (echecs >= MAX_TENTATIVES) {
+      await attendre(DELAI_MAX_MS);
+      return refus(res, 401, ECHEC);
+    }
+    if (echecs >= SEUIL_PAUSE || !profil) {
+      const rang = profil ? echecs - SEUIL_PAUSE : 0;
+      await attendre(Math.min(DELAI_MAX_MS, 500 * 2 ** rang));
+    }
+
+    // 3. Le mot de passe.
     const id = await verifierMotDePasse(email, motDePasse);
     const bon = Boolean(id && profil && profil.id === id);
 
@@ -93,16 +120,8 @@ export default async function handler(req, res) {
       if (profil && !bon) {
         await ecrire('tentatives', '',
           { profil_id: profil.id, origine: 'connexion' }, 'POST').catch(() => {});
-      }
-      if (profil && !bon) {
-        const depuis = new Date(Date.now() - FENETRE_MINUTES * 60000).toISOString();
-        const echecs = await lire('tentatives',
-          `profil_id=eq.${profil.id}&origine=eq.connexion` +
-          `&quand=gte.${depuis}&select=id`).catch(() => []);
-        if (echecs.length >= MAX_TENTATIVES) {
-          return refus(res, 429,
-            `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes, ou ` +
-            `demandez à votre professeur de réinitialiser votre accès.`);
+        if (echecs + 1 >= MAX_TENTATIVES) {
+          console.error('connexion : compte mis en pause après', echecs + 1, 'échecs');
         }
       }
       return refus(res, 401, ECHEC);

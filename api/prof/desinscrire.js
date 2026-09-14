@@ -1,4 +1,5 @@
 import { appelant, possedeGroupe, enseigneA } from '../_lib/autorisation.js';
+import { journaliser } from '../_lib/journal.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -71,6 +72,7 @@ export default async function handler(req, res) {
         return refus(res, 403, 'Cet élève n’est dans aucun de vos groupes.');
       }
       await ecrire('profils', `id=eq.${eleve}`, { actif: false });
+      await journaliser(moi.id, 'compte.desactive', eleve);
       return res.status(200).json({
         ok: true,
         message: `Le compte de ${cible.prenom ?? ''} ${cible.nom ?? ''} est `
@@ -87,6 +89,7 @@ export default async function handler(req, res) {
 
     await ecrire('appartenances',
       `profil_id=eq.${eleve}&groupe_id=eq.${groupe}`, {}, 'DELETE');
+    await journaliser(moi.id, 'compte.retire', eleve, groupe);
 
     res.status(200).json({
       ok: true,

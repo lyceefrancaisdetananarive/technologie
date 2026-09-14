@@ -1,4 +1,5 @@
 import { appelant, possedeGroupe } from '../_lib/autorisation.js';
+import { journaliser } from '../_lib/journal.js';
 import {
   lire, ecrire, supprimerFichier, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -74,6 +75,7 @@ export default async function handler(req, res) {
     // stockage, invisible et impossible à retrouver.
     if (r.fichier) await supprimerFichier(r.fichier).catch(() => {});
     await ecrire('rendus', `id=eq.${rendu}`, {}, 'DELETE');
+    await journaliser(moi.id, 'depot.supprime', r.profil_id, rendu);
 
     res.status(200).json({ ok: true });
   } catch (e) {

@@ -1,6 +1,8 @@
 import { ouvrir, lireCookie, sceller, poserCookie } from '../_lib/session.js';
-import { ressaisieAutorisee, noterEchecRessaisie, MAX_RESSAISIES, FENETRE_MINUTES }
+import { ressaisieAutorisee, noterEchecRessaisie, roleTenable, MAX_RESSAISIES, FENETRE_MINUTES }
   from '../_lib/autorisation.js';
+import { refuserMotDePasse } from '../_lib/motdepasse.js';
+import { journaliser } from '../_lib/journal.js';
 import {
   definirMotDePasse, verifierMotDePasse, utilisateurDuJetonHache, lire, ecrire,
   configuree, origineLegitime, refus,
@@ -10,7 +12,7 @@ import {
 // Exiger une composition compliquée d'élèves de onze ans produit
 // « Password1! » écrit au crayon dans la trousse. Douze caractères libres
 // résistent mieux, et se retiennent : trois mots collés suffisent.
-const LONGUEUR_MIN = 12;
+const LONGUEUR_MIN = 12;   // la règle complète vit dans api/_lib/motdepasse.js
 
 // =====================================================================
 // DEUX ENTRÉES, PAS UNE.
@@ -65,7 +67,7 @@ export default async function handler(req, res) {
           "connexion », ou demandez à votre professeur.");
       }
       profil = (await lire('profils',
-        `id=eq.${porteur.id}&select=id,email,role,actif`))[0];
+        `id=eq.${porteur.id}&select=id,email,role,actif,prenom,nom`))[0];
 
     } else {
       // ---- Entrée A : session en cours + ancien mot de passe ------------
@@ -79,7 +81,7 @@ export default async function handler(req, res) {
       }
 
       profil = (await lire('profils',
-        `id=eq.${session.sub}&select=id,email,role,actif`))[0];
+        `id=eq.${session.sub}&select=id,email,role,actif,prenom,nom`))[0];
       if (!profil || !profil.actif) {
         return refus(res, 401, 'Compte introuvable ou désactivé.');
       }
@@ -100,10 +102,22 @@ export default async function handler(req, res) {
     if (!profil || !profil.actif) {
       return refus(res, 401, 'Compte introuvable ou désactivé.');
     }
+    // LE RÔLE PROFESSEUR EST REVÉRIFIÉ ICI AUSSI. Ce parcours scelle une
+    // session sans passer par appelant() : un collègue retiré de
+    // PROFS_TECHNO qui demanderait un lien de première connexion ne doit pas
+    // en ressortir avec un cookie professeur.
+    if (!roleTenable(profil)) {
+      return refus(res, 403, 'Ce compte n’est plus autorisé. Adressez-vous au coordonnateur.');
+    }
+    // La règle complète (mots courants, suites de clavier, identité) ne
+    // s'applique qu'ici, en connaissant le compte.
+    const motif = refuserMotDePasse(nouveau, profil);
+    if (motif) return refus(res, 400, motif);
 
     await definirMotDePasse(profil.id, nouveau);
     await ecrire('profils', `id=eq.${profil.id}`,
       { mdp_provisoire: false, mdp_pose_le: new Date().toISOString() });
+    await journaliser(profil.id, 'mdp.change', profil.id, jeton ? 'par lien' : 'par ancien mot de passe');
 
     // Cookie sans le drapeau « provisoire », sinon le portier renverrait
     // l'élève en boucle vers cette même page. Le rôle est celui lu EN BASE.

@@ -1,5 +1,6 @@
 import { appelant, possedeGroupe } from '../_lib/autorisation.js';
 import { lire, urlLectureSignee, configuree, refus } from '../_lib/supabase.js';
+import { journaliser } from '../_lib/journal.js';
 
 // Renvoie une URL de lecture valable cinq minutes. Le fichier n'est jamais
 // public : sans passer par ici, personne ne l'atteint, même en connaissant
@@ -29,7 +30,12 @@ export default async function handler(req, res) {
       (moi.role === 'prof' && await possedeGroupe(moi.id, r.groupe_id));
     if (!autorise) return refus(res, 403, 'Ce travail ne vous est pas destiné.');
 
-    res.status(200).json({ ok: true, url: await urlLectureSignee(r.fichier) });
+    // La consultation par un professeur d'un fichier d'élève est journalisée ;
+    // l'élève qui ouvre son propre travail, non. Un PDF est proposé en
+    // téléchargement plutôt qu'ouvert dans le navigateur.
+    if (moi.role === 'prof') await journaliser(moi.id, 'fichier.consulte', r.profil_id, rendu);
+    const url = await urlLectureSignee(r.fichier);
+    res.status(200).json({ ok: true, url: r.fichier.endsWith('.pdf') ? url + '&download=' : url });
   } catch (e) {
     console.error('fichier :', e.message);
     refus(res, 500, 'Lecture impossible.');
