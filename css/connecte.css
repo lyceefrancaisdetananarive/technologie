@@ -80,6 +80,14 @@ textarea { min-height: 4.5rem; resize: vertical; }
 select:focus, input:focus, textarea:focus { border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); }
 select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
 input[type="file"] { padding: .5rem; background: var(--papier); }
+/* L'œil des mots de passe (js/oeil.js) : le champ garde toute sa largeur, le bouton se pose dedans. */
+.champ-mdp { position: relative; }
+.champ-mdp input { padding-right: 3rem; }
+.oeil { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--encre-2); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.oeil svg { width: 22px; height: 22px; }
+.oeil:hover { background: var(--bleu-pale); color: var(--bleu); }
+.oeil:focus-visible { outline: 3px solid var(--bleu); outline-offset: 1px; }
+.oeil[aria-pressed="true"] { color: var(--bleu); }
 .aide { font-size: .84rem; color: var(--encre-3); margin: .35rem 0 0; }
 button, .bouton {
   display: inline-flex; align-items: center; justify-content: center; gap: .45rem;
