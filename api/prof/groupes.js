@@ -49,7 +49,7 @@ export default async function handler(req, res) {
         (coordonnateur ? '' : `prof_id=eq.${moi.id}&`)
         // « profils!prof_id » lève l'ambiguïté : groupes touche profils par la
         // clé prof_id ET par la table appartenances, PostgREST exige de choisir.
-        + 'select=id,code,libelle,niveau,annee,prof_id,profils!prof_id(prenom,nom)&order=code');
+        + 'select=id,code,libelle,niveau,annee,prof_id,profils!prof_id(prenom,nom,email)&order=code');
       const membres = groupes.length
         ? await lire('appartenances',
             `groupe_id=in.(${groupes.map((g) => g.id).join(',')})`
@@ -88,7 +88,11 @@ export default async function handler(req, res) {
         groupes: groupes.map((g) => ({
           id: g.id, code: g.code, libelle: g.libelle, niveau: g.niveau, annee: g.annee,
           mien: g.prof_id === moi.id,
-          professeur: g.profils ? `${g.profils.prenom ?? ''} ${g.profils.nom ?? ''}`.trim() : '',
+          // Un professeur inscrit par le lien de première connexion n'a pas
+          // toujours de nom en base : son adresse le désigne alors.
+          professeur: g.profils
+            ? (`${g.profils.prenom ?? ''} ${g.profils.nom ?? ''}`.trim() || String(g.profils.email ?? ''))
+            : '',
           eleves: membres
             .filter((m) => m.groupe_id === g.id && m.profils)
             .map((m) => m.profils)
