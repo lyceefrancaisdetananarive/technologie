@@ -82,8 +82,9 @@ select:focus-visible, input:focus-visible, textarea:focus-visible { outline: 3px
 input[type="file"] { padding: .5rem; background: var(--papier); }
 /* L'œil des mots de passe (js/oeil.js) : le champ garde toute sa largeur, le bouton se pose dedans. */
 .champ-mdp { position: relative; }
-.champ-mdp input { padding-right: 3rem; }
-.oeil { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--encre-2); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
+.champ-mdp input { display: block; padding-right: 3rem; }
+/* margin: 0 : la page de connexion donne une marge haute à tous ses boutons, l'œil n'en veut pas. */
+.oeil { position: absolute; right: 4px; top: 50%; transform: translateY(-50%); width: 40px; height: 40px; margin: 0; padding: 0; border: 0; border-radius: 8px; background: transparent; color: var(--encre-2); display: inline-flex; align-items: center; justify-content: center; cursor: pointer; }
 .oeil svg { width: 22px; height: 22px; }
 .oeil:hover { background: var(--bleu-pale); color: var(--bleu); }
 .oeil:focus-visible { outline: 3px solid var(--bleu); outline-offset: 1px; }
