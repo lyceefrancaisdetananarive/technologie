@@ -49,7 +49,7 @@
         <div class="info-box info-box-green"><div class="info-box-title"><span class="ico">&#x1F3AC;</span> Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/146719-challenge-robotique-dordogne-2026-defi-curling/?is_iframe=true" loading="lazy" allowfullscreen title="Challenge robotique Dordogne 2026 - Défi Curling"></iframe><p style="margin:.6rem 0 .2rem"><strong>Challenge robotique Dordogne 2026 - Défi Curling</strong>, 00:00:47 · PodEduc, dépôt individuel, hors chaîne</p><p class="vid-licence">Auteur : Ajouté par Emmanuel Mouton (mots-clés de la fiche : challenge, dordogne, impression3d, mbot, mbot2, robot24.fr, robotique, sti, technologie, vergt). Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/146719-challenge-robotique-dordogne-2026-defi-curling/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> URL vérifiée le 2 septembre 2026 : page active, titre, description, chapitres et durée (00:00:47) conformes, mise à jour le 22 mai 2026, 19 vues, type « Autre ». LICENCE VÉRIFIÉE : aucune mention sur la fiche, section « Téléchargements » vide, aucun fichier dans le code de la page, iframe seule, pas de copie hors ligne. Fiche RATTACHÉE À AUCUNE CHAÎNE : dépôt individuel, pérennité non garantie. Contenu non visionné ; la présence ou non de commentaire parlé n&#x27;est pas indiquée. Le rattachement à l&#x27;académie de Bordeaux, avancé dans le relevé initial, n&#x27;est écrit nulle part sur la fiche : seul le nom du déposant y figure.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#3eme-5">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-3eme-5">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
 
@@ -180,6 +180,21 @@
         <span class="competence-badge">Modéliser un comportement</span>
       </div>
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -202,6 +217,7 @@
   </div>
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

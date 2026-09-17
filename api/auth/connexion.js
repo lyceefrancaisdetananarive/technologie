@@ -1,5 +1,5 @@
 import { sceller, poserCookie } from '../_lib/session.js';
-import { roleTenable } from '../_lib/autorisation.js';
+import { roleTenable, niveauxDe } from '../_lib/autorisation.js';
 import {
   verifierMotDePasse, lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -158,8 +158,11 @@ export default async function handler(req, res) {
 
     // 5. Le rôle est relu EN BASE. Jamais dans user_metadata, que
     //    l'utilisateur peut réécrire lui-même avec updateUser().
+    //    Les niveaux d'un élève sont lus ici, une fois pour toute la
+    //    session : le portier n'appelle jamais la base (décision D16).
+    const niv = await niveauxDe(profil);
     const jeton = await sceller(
-      { sub: profil.id, role: profil.role, prov: profil.mdp_provisoire },
+      { sub: profil.id, role: profil.role, prov: profil.mdp_provisoire, niv },
       process.env.LFT_COOKIE_SECRET,
       DUREE[profil.role] ?? 1800
     );
@@ -170,11 +173,12 @@ export default async function handler(req, res) {
       { derniere_connexion: new Date().toISOString() }).catch(() => {});
 
     res.setHeader('Set-Cookie',
-      poserCookie(jeton, profil.role, DUREE[profil.role] ?? 1800));
+      poserCookie(jeton, profil.role, DUREE[profil.role] ?? 1800, niv));
     res.status(200).json({
       ok: true,
       role: profil.role,
       prenom: profil.prenom,
+      niveaux: niv ?? null,
       motDePasseProvisoire: profil.mdp_provisoire,
     });
   } catch (e) {

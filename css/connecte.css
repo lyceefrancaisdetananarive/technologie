@@ -215,3 +215,10 @@ button.danger:hover { filter: brightness(.9); }
 body.etroit .pied-legal { justify-content: center; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }
+
+/* Les deux entrées de la page de connexion (décision D16) : un choix d'aide, pas de rôle. */
+.entrees { display: flex; gap: .5rem; margin: 0 0 .5rem; }
+.entrees .entree { flex: 1; margin: 0; padding: .6rem .5rem; background: var(--papier-2); color: var(--encre-2); border: 1.5px solid var(--trait); font-weight: 700; font-size: .92rem; min-height: 44px; }
+.entrees .entree[aria-pressed="true"] { background: var(--bleu); color: #fff; border-color: var(--bleu); }
+.entrees .entree:hover { filter: brightness(.97); }
+.aide { margin: .35rem 0 0; font-size: .84rem; color: var(--encre-3); }

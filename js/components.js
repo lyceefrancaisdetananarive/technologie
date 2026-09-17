@@ -370,7 +370,7 @@
         </div>
         <div class="footer-right">
           techlft.egd.mg · ${year}<br>
-          <span class="text-xs">Site pédagogique du cycle 4, public par défaut : aucun compte n’est nécessaire pour lire un cours.</span>
+          <span class="text-xs">Site pédagogique du cycle 4. Accueil et progression en accès libre ; cours, activités et quiz avec un compte.</span>
         </div>
       </div>
     `;
@@ -384,13 +384,25 @@
   // l'effacer, il n'y gagne rien, le portier decide sur le cookie scelle.
   // Cout reseau au chargement : zero. La seule requete part au clic sur
   // « fermer ».
+  // Depuis la decision D16, le temoin d'un eleve porte aussi ses niveaux :
+  // « eleve.1789456123.5eme ». lireTemoin() rend toujours le seul role
+  // (quiz-engine.js s'en sert) ; lireNiveaux() rend le tableau des niveaux,
+  // vide pour un professeur ou un visiteur.
+  const TEMOIN = /(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)((?:\.[345]eme)*)(?:;|$)/;
   function lireTemoin() {
     try {
-      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:;|$)/);
+      const m = document.cookie.match(TEMOIN);
       if (!m) return null;
       if (Number(m[2]) * 1000 < Date.now()) return null;
       return m[1];
     } catch (e) { return null; }
+  }
+  function lireNiveaux() {
+    try {
+      const m = document.cookie.match(TEMOIN);
+      if (!m || m[1] !== 'eleve' || Number(m[2]) * 1000 < Date.now()) return [];
+      return m[3].split('.').filter(Boolean);
+    } catch (e) { return []; }
   }
 
   function renderSession(activePage) {
@@ -440,6 +452,7 @@
     zone.innerHTML = '';
     zone.appendChild(pile);
     document.documentElement.dataset.session = role;
+    if (!prof) document.documentElement.dataset.niveaux = lireNiveaux().join(' ');
 
     // Sur l'accueil, un raccourci vers l'espace de la personne connectee
     const reprise = document.getElementById('accueil-reprise');
@@ -683,6 +696,7 @@
   // rappelle le remplacement des pictos sur son propre conteneur.
   window.remplacerPictos = remplacerPictos;
   window.lireTemoin = lireTemoin;
+  window.lireNiveaux = lireNiveaux;
 
   window.printPage = function () {
     window.print();
@@ -765,14 +779,85 @@
     initMobileMenu();
     initTabs();
     initCardLinks();
+    griserAutresNiveaux();
     marquerProgressionEleve();
+  }
+
+  // ---- LES AUTRES NIVEAUX, GRISES POUR L'ELEVE (decision D16) ----
+  // Un eleve connecte ne voit que son niveau : le portier refuse les fiches
+  // des autres niveaux. Ici on le montre avant le clic : les cartes de
+  // sequence et les liens vers du contenu d'un autre niveau sont grises,
+  // non ouvrables, avec la mention « Pas cette annee ». Les index de niveau
+  // (la progression, publique) restent ouvrables, les onglets aussi.
+  // Aucune requete : tout vient du temoin. Le professeur ne voit rien de
+  // different.
+  function griserAutresNiveaux() {
+    if (lireTemoin() !== 'eleve') return;
+    const miens = lireNiveaux();
+    if (!miens.length) return;
+    const NIVEAUX = ['5eme', '4eme', '3eme'];
+    const LIBELLE = { '5eme': '5e', '4eme': '4e', '3eme': '3e' };
+    const contenu = /^\/([345]eme)\/(p\d|t\d)\//;
+    const bloquer = function (e) { e.preventDefault(); e.stopPropagation(); };
+    const neutraliser = function (a) {
+      a.classList.add('hors-niveau');
+      a.setAttribute('aria-disabled', 'true');
+      a.setAttribute('tabindex', '-1');
+      a.title = 'Pas cette ann\u00e9e';
+      a.addEventListener('click', bloquer);
+    };
+    // Cartes de sequence (index de niveau, page Cours) : le niveau est dans data-id.
+    document.querySelectorAll('.seq-card[data-id]').forEach(function (c) {
+      const niveau = (c.getAttribute('data-id') || '').split('/')[0];
+      if (!NIVEAUX.includes(niveau) || miens.includes(niveau)) return;
+      c.classList.add('hors-niveau', 'seq-masquee');
+      const s = document.createElement('span');
+      s.className = 'seq-etat seq-etat-masquee';
+      s.textContent = 'Pas cette ann\u00e9e';
+      const h = c.querySelector('h3');
+      if (h) h.parentNode.insertBefore(s, h);
+      c.querySelectorAll('a').forEach(neutraliser);
+    });
+    // Tout lien du contenu vers une fiche d'un autre niveau, quelle que
+    // soit sa classe (boutons, listes des outils, diagnostiques, bilans).
+    document.querySelectorAll('.site-main a[href], main a[href]').forEach(function (a) {
+      if (a.classList.contains('hors-niveau')) return;
+      let chemin;
+      try { chemin = new URL(a.getAttribute('href'), location.href).pathname; } catch (e) { return; }
+      const m = contenu.exec(chemin);
+      if (!m || miens.includes(m[1])) return;
+      neutraliser(a);
+    });
+    // Blocs de niveau de l'accueil : attenues, le lien vers la progression reste.
+    document.querySelectorAll('.niveau[data-level]').forEach(function (b) {
+      const niveau = b.getAttribute('data-level');
+      if (!NIVEAUX.includes(niveau) || miens.includes(niveau)) return;
+      b.classList.add('hors-niveau-bloc');
+      const t = b.querySelector('.theme');
+      if (t) t.insertAdjacentHTML('afterend', '<div class="ligne"><span>Pour toi</span><b>Pas cette ann\u00e9e</b></div>');
+    });
+    // Sur l'index d'un autre niveau : un bandeau court, pour ne pas laisser
+    // croire que la page est cassee.
+    const page = document.getElementById('app');
+    const niveauPage = page && page.dataset.page;
+    if (NIVEAUX.includes(niveauPage) && !miens.includes(niveauPage)) {
+      const principal = document.querySelector('.site-main') || document.querySelector('main');
+      if (principal) {
+        const b = document.createElement('p');
+        b.className = 'bandeau-niveau';
+        b.setAttribute('role', 'status');
+        b.textContent = 'Programme de ' + (LIBELLE[niveauPage] || niveauPage) + ' : pas cette ann\u00e9e pour toi. Tu es en ' +
+          miens.map(function (n) { return LIBELLE[n] || n; }).join(' et ') + '.';
+        principal.insertBefore(b, principal.firstChild);
+      }
+    }
   }
 
   // ---- LA CARTE DE L'ANNEE SUR LES PAGES DE NIVEAU ----
   // Un eleve dont la session est ouverte voit, sur l'index de son niveau,
   // l'etat de chaque sequence pour SON groupe : fait, en cours, a venir,
   // pas cette annee, et son badge. C'est un affichage : les liens restent
-  // ouverts, la page reste publique, rien n'est ecrit dans le navigateur.
+  // ouverts pour son niveau, rien n'est ecrit dans le navigateur.
   // Aucune requete sans temoin de session eleve : les visiteurs anonymes et
   // les professeurs ne paient rien.
   function marquerProgressionEleve() {

@@ -26,9 +26,11 @@
       <div class="content-card" id="tableau-groupes" style="border-left:5px solid var(--fait);">
         <h2><span class="ico">&#x1F3AF;</span> Où en sont mes groupes</h2>
         <p>Pour chaque groupe, l'ordre des séquences de l'année, les séances cochées
-        <strong>faites en classe</strong>, et les absences ou reprises élève par élève. La progression
-        est enregistrée en base, avec l'auteur et l'heure : elle est la même sur tous vos postes,
-        et c'est elle que voit chaque élève dans son classeur et sur la page de son niveau.</p>
+        <strong>faites en classe</strong>, les absences ou reprises élève par élève, et ce qui
+        <strong>attend une correction</strong> : les travaux déposés et les réponses rédigées au pied
+        des fiches d'activité. La progression est enregistrée en base, avec l'auteur et l'heure :
+        elle est la même sur tous vos postes, et c'est elle que voit chaque élève dans son classeur
+        et sur la page de son niveau.</p>
         <div id="groupes-liste" aria-live="polite"><p class="text-muted">Chargement…</p></div>
         <div style="display:flex; gap: var(--space-md); flex-wrap: wrap; align-items:center; margin-top:var(--space-md);">
           <a href="comptes.html" class="btn btn-outline"><span class="ico">&#x1F465;</span> Groupes et comptes</a>
@@ -230,6 +232,24 @@ const creer = document.getElementById('creer-essai');
 const etatEssai = document.getElementById('essai-etat');
 const echapper = (t) => { const d = document.createElement('div'); d.textContent = t ?? ''; return d.innerHTML; };
 
+/**
+ * Le compteur « à corriger » d'un groupe (décision D16, point e). L'API
+ * renvoie null pour une lecture qui a échoué : on le dit, plutôt que
+ * d'afficher un zéro rassurant et faux.
+ */
+function libelleCorriger(a) {
+  const d = a?.depots ?? null;
+  const r = a?.reponses ?? null;
+  if (d === null && r === null) return { texte: 'Rendus indisponibles', alerte: false };
+  const parts = [];
+  if (d) parts.push(`${d} dépôt${d > 1 ? 's' : ''}`);
+  if (r) parts.push(`${r} réponse${r > 1 ? 's' : ''}`);
+  let texte = parts.length ? parts.join(' et ') + ' à corriger' : 'Rien à corriger';
+  if (d === null) texte += ', dépôts indisponibles';
+  else if (r === null) texte += ', réponses indisponibles';
+  return { texte, alerte: parts.length > 0 };
+}
+
 async function charger() {
   if (!catalogueCharge()) {
     liste.innerHTML = '<p class="text-muted">Le catalogue des séquences n’a pas pu être chargé. Rechargez la page.</p>';
@@ -259,7 +279,10 @@ async function charger() {
       <span class="groupe-barre" aria-hidden="true"><span style="width:${pct}%"></span></span>
       <span class="groupe-chiffres">${r.faites} / ${r.total} séances faites</span>
       <span class="groupe-courante">${r.terminee ? 'Année terminée' : r.courante ? 'En cours : ' + echapper(r.courante.titre) : 'Rien de prévu'}</span>
-      <span class="groupe-liens"><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a></span>
+      ${(() => { const c = libelleCorriger(g.a_corriger); return c.alerte
+        ? `<a class="groupe-corriger alerte" href="classeur.html?groupe=${g.id}">${echapper(c.texte)}<span class="visually-hidden"> dans le groupe ${echapper(g.code)} : ouvrir le classeur</span></a>`
+        : `<span class="groupe-corriger">${echapper(c.texte)}</span>`; })()}
+      <span class="groupe-liens"><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a><a href="classeur.html?groupe=${g.id}">Classeur<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a></span>
     </article>`;
   }).join('') + '</div>';
 }

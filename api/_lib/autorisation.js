@@ -18,8 +18,8 @@ import { lire, ecrire, profsAutorises } from './supabase.js';
  *
  * Ce dernier cas est le moins évident et c'est le plus important. Le portier
  * (middleware.js) renvoie bien les PAGES vers la page de changement tant que
- * le mot de passe est provisoire, mais il ne juge pas /api/ : il ne protège
- * que /enseignant, /classeur et les fiches -prof. Sans le contrôle ici, qui
+ * le mot de passe est provisoire, mais il ne juge pas /api/ : les fonctions
+ * passent sans lui (décision D16, PREFIXES_PUBLICS). Sans le contrôle ici, qui
  * ramasse une bandelette peut se connecter, se faire renvoyer vers la page
  * de changement, et pendant ce temps appeler /api/classeur/mes-rendus pour
  * LIRE le classeur de sa victime, sans rien modifier, donc sans qu'elle
@@ -103,6 +103,28 @@ export async function sesGroupes(profil) {
     `profil_id=eq.${profil.id}&select=groupes(id,code,libelle,niveau,annee)`);
   return liens.map((l) => l.groupes).filter(Boolean)
     .sort((a, b) => String(b.annee).localeCompare(String(a.annee)) || String(a.code).localeCompare(String(b.code)));
+}
+
+/**
+ * Les niveaux d'un élève pour l'année en cours, dans l'ordre du cycle
+ * (décision D16 : un élève ne voit que les fiches de son niveau). Union des
+ * niveaux de ses groupes de l'année la plus récente : un élève inscrit par
+ * erreur dans deux niveaux garde l'accès aux deux plutôt que d'être bloqué
+ * le jour de la séance ; db/02 le signale. Tableau vide pour un élève sans
+ * groupe (compte importé avant l'inscription, ou retiré) ; undefined pour un
+ * professeur, que le portier ne filtre jamais.
+ */
+export const NIVEAUX_CYCLE = ['5eme', '4eme', '3eme'];
+
+export async function niveauxDe(profil) {
+  if (profil.role !== 'eleve') return undefined;
+  const groupes = await sesGroupes(profil);
+  if (!groupes.length) return [];
+  const annee = groupes[0].annee;   // sesGroupes trie l'année récente en tête
+  const niveaux = new Set(groupes
+    .filter((g) => String(g.annee) === String(annee))
+    .map((g) => g.niveau));
+  return NIVEAUX_CYCLE.filter((n) => niveaux.has(n));
 }
 
 /**
@@ -197,9 +219,10 @@ export async function reArmer(req, res, moi) {
   const session = await ouvrir(
     lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
   if (!session) return false;
+  // Le niveau est recopié tel quel : le réarmement ne relit pas la base.
   const jeton = await sceller(
-    { sub: moi.id, role: moi.role, prov: false, dep: session.dep },
+    { sub: moi.id, role: moi.role, prov: false, dep: session.dep, niv: session.niv },
     process.env.LFT_COOKIE_SECRET, DUREE_PROF);
-  res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF));
+  res.setHeader('Set-Cookie', poserCookie(jeton, moi.role, DUREE_PROF, session.niv));
   return true;
 }

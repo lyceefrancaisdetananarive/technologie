@@ -52,8 +52,14 @@ async function cle(secret) {
 
 /**
  * Scelle une session. `duree` en secondes.
- * charge = { sub, role, prov }, rien de plus : ce cookie voyage à chaque
- * requête, il n'a pas à contenir le nom ni l'adresse de l'élève.
+ * charge = { sub, role, prov, niv }, rien de plus : ce cookie voyage à
+ * chaque requête, il n'a pas à contenir le nom ni l'adresse de l'élève.
+ *
+ * `niv` (élève seulement, décision D16) : les niveaux de ses groupes de
+ * l'année en cours, par exemple ['5eme']. Le portier s'en sert pour refuser
+ * les fiches des autres niveaux sans appeler la base. Calculé une fois à la
+ * connexion par niveauxDe() (autorisation.js) ; un élève changé de groupe
+ * en cours de séance doit se reconnecter. Absent pour un professeur.
  */
 // PLAFOND ABSOLU DE SESSION.
 //
@@ -131,7 +137,7 @@ export function lireCookie(entete) {
  *              poste partagé, c'est la seule garantie qui ne dépende pas
  *              d'un élève qui pense à cliquer sur « Se déconnecter ».
  */
-export function poserCookie(jeton, role, duree = 3600) {
+export function poserCookie(jeton, role, duree = 3600, niveaux = []) {
   const cookies = [
     `${NOM_COOKIE}=${jeton}; Path=/; HttpOnly; Secure; SameSite=Strict`,
   ];
@@ -144,10 +150,17 @@ export function poserCookie(jeton, role, duree = 3600) {
   // fermeture d'une session déjà morte. Un avertissement qui se trompe finit
   // par ne plus être lu. Pas de Max-Age pour autant : le témoin doit mourir
   // avec le navigateur, comme le sceau.
+  //
+  // Pour un élève, le témoin porte aussi ses niveaux, « eleve.1789456123.5eme » :
+  // les pages grisent les séquences des autres niveaux sans un octet de
+  // réseau (décision D16). Toujours un voyant : le portier refuse de toute
+  // façon ces fiches sur le cookie scellé.
   if (role === 'eleve' || role === 'prof') {
     const jusqua = Math.floor(Date.now() / 1000) + duree;
+    const suffixe = role === 'eleve' && Array.isArray(niveaux) && niveaux.length
+      ? '.' + niveaux.join('.') : '';
     cookies.push(
-      `${NOM_TEMOIN}=${role}.${jusqua}; Path=/; Secure; SameSite=Strict`);
+      `${NOM_TEMOIN}=${role}.${jusqua}${suffixe}; Path=/; Secure; SameSite=Strict`);
   }
   return cookies;
 }

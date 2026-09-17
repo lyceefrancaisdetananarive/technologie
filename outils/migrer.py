@@ -31,7 +31,14 @@ Ce que le script fait à chaque page de séquence ([345]eme/p*/seq*-*.html) :
      élèves (décision D15, question 9) ;
   9. écrit techlft.egd.mg à la place de technologie-lft.vercel.app dans les
      textes visibles (les QR codes imprimés, eux, ne changent pas : go.html
-     répond aux deux adresses).
+     répond aux deux adresses) ;
+ 10. pose le bloc « Ma réponse » (décision D16, point f) en premier enfant du
+     pied de fiche des 27 -activite et des 27 -ebep, entre les marqueurs
+     <!-- reponse:debut --> et <!-- reponse:fin -->, et charge js/reponse.js
+     après components.js ; le bloc est caché, seul un élève connecté le voit ;
+ 11. corrige les ancres vers le dossier des vidéos dans les fiches d'activité :
+     outils/videos.html#<niveau>-<n> devient #p-<niveau>-<n>, les seuls
+     identifiants que la page porte.
 
 Sans dépendance : Python 3 et sa bibliothèque standard.
 """
@@ -347,8 +354,79 @@ def pictos_badges(page, s):
     return s
 
 
+# ---------------------------------------------------------------- 11. bloc « Ma réponse »
+# Le bloc vit ENTRE DEUX MARQUEURS, comme les blocs générés de generer.py :
+# c'est ce qui permet de le mettre à jour plus tard sans reconnaître sa forme.
+# Il est caché (hidden) : js/reponse.js ne l'ouvre que pour une session
+# élève. Le pictogramme &#x270F; est de ceux que components.js trace en SVG.
+BLOC_REPONSE = '''<!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->'''
+
+
+def bloc_reponse(page, s):
+    """Pose ou met à jour le bloc « Ma réponse » sur les fiches -activite et
+    -ebep (pas les -eval : une réponse libre pendant une évaluation en classe
+    n'a pas de statut). Une page dont les marqueurs sont absents, doublés ou
+    inversés est signalée et laissée intacte : mieux vaut ne rien écrire que
+    d'écrire au mauvais endroit."""
+    if not (page.endswith('-activite.html') or page.endswith('-ebep.html')):
+        return s
+    debut, fin = '<!-- reponse:debut -->', '<!-- reponse:fin -->'
+    nd, nf = s.count(debut), s.count(fin)
+    if nd == 1 and nf == 1 and s.index(debut) < s.index(fin):
+        a, b = s.index(debut), s.index(fin) + len(fin)
+        if s[a:b] != BLOC_REPONSE:
+            s = s[:a] + BLOC_REPONSE + s[b:]
+            note(page, 'bloc « Ma réponse » mis à jour')
+    elif nd or nf:
+        print(f'{page} : marqueurs reponse incohérents (début {nd}, fin {nf}), page laissée telle quelle', file=sys.stderr)
+        return s
+    else:
+        cle = '<div class="pied-fiche">'
+        if s.count(cle) != 1:
+            return s   # forme inattendue : on ne touche pas
+        k = s.index(cle) + len(cle)
+        s = s[:k] + '\n      ' + BLOC_REPONSE + s[k:]
+        note(page, 'bloc « Ma réponse » ajouté')
+    if 'js/reponse.js' not in s:
+        m = re.search(r'(\s*)<script src="((?:\.\./)+)js/components\.js"></script>', s)
+        if m:
+            s = s.replace(m.group(0), f'{m.group(0)}{m.group(1)}<script src="{m.group(2)}js/reponse.js"></script>', 1)
+            note(page, 'reponse.js chargé')
+    return s
+
+
+# ---------------------------------------------------------------- 12. ancres vidéos
+# Les fiches d'activité renvoyaient vers outils/videos.html#5eme-1, un
+# identifiant que la page n'a jamais porté : le lien ouvrait le haut du
+# dossier. Les identifiants réels sont p-<niveau>-<n> (un par séquence).
+ANCRE_VIDEO = re.compile(r'outils/videos\.html#([345]eme)-(\d{1,2})\b')
+
+
+def ancres_videos(page, s):
+    if not page.endswith('-activite.html'):
+        return s
+    s2, n = ANCRE_VIDEO.subn(r'outils/videos.html#p-\1-\2', s)
+    if n:
+        note(page, f'{n} ancre(s) vidéo corrigée(s) : #p-niveau-n')
+    return s2
+
+
 ETAPES = [retirer_styles, ajouter_catalogue, deplacer_pied, replier_notes_video, remplacer_meta, epurer_meta_prof,
-          epurer_actions, bloc_probleme, etiquette_ebep, pictos_badges, adresse]
+          epurer_actions, bloc_probleme, etiquette_ebep, pictos_badges, adresse, bloc_reponse, ancres_videos]
 
 
 def pages_de_sequence():

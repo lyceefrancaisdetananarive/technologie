@@ -1,5 +1,5 @@
 import { ouvrir, lireCookie, sceller, poserCookie } from '../_lib/session.js';
-import { ressaisieAutorisee, noterEchecRessaisie, roleTenable, MAX_RESSAISIES, FENETRE_MINUTES }
+import { ressaisieAutorisee, noterEchecRessaisie, roleTenable, niveauxDe, MAX_RESSAISIES, FENETRE_MINUTES }
   from '../_lib/autorisation.js';
 import { refuserMotDePasse } from '../_lib/motdepasse.js';
 import { journaliser } from '../_lib/journal.js';
@@ -120,13 +120,17 @@ export default async function handler(req, res) {
     await journaliser(profil.id, 'mdp.change', profil.id, jeton ? 'par lien' : 'par ancien mot de passe');
 
     // Cookie sans le drapeau « provisoire », sinon le portier renverrait
-    // l'élève en boucle vers cette même page. Le rôle est celui lu EN BASE.
+    // l'élève en boucle vers cette même page. Le rôle est celui lu EN BASE,
+    // et les niveaux aussi : c'est le chemin de tous les comptes importés,
+    // un cookie sans niveau renverrait l'élève à la connexion dès sa
+    // première fiche (décision D16).
+    const niv = await niveauxDe(profil);
     const jetonSession = await sceller(
-      { sub: profil.id, role: profil.role, prov: false },
+      { sub: profil.id, role: profil.role, prov: false, niv },
       process.env.LFT_COOKIE_SECRET,
       profil.role === 'prof' ? 1800 : 7200);
     res.setHeader('Set-Cookie',
-      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 7200));
+      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 7200, niv));
     res.status(200).json({ ok: true, role: profil.role });
 
   } catch (e) {

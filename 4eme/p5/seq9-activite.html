@@ -23,7 +23,7 @@
         <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://tube-sciences-technologies.apps.education.fr/videos/embed/w7ELfB47rhTbW8EboWZ9iM" loading="lazy" allowfullscreen title="Projet Technologique « Tri&#x27;colors » Collège LAMARTINE SOISSONS"></iframe><p style="margin:.6rem 0 .2rem"><strong>Projet Technologique « Tri&#x27;colors » Collège LAMARTINE SOISSONS</strong> · 00:01:17 · Tube Sciences &amp; Technologies (PeerTube apps.education.fr) : chaîne « Technologie LAMARTINE SOISSONS »</p><p class="vid-licence">Auteur : thinot : quatre élèves de troisième, collège Lamartine (Soissons). Licence : Attribution - Pas d&#x27;Utilisation Commerciale (CC BY-NC). Réutilisation : telechargement autorise. <a href="https://tube-sciences-technologies.apps.education.fr/videos/watch/f3e082cd-36d7-4132-b02f-32c91e872daf" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong><span class="ico">&#x2B07;</span> Téléchargeable.</strong> Sa licence autorise la copie : téléchargez-la depuis sa fiche et posez-la sur l'ordinateur de la salle. Elle sera lisible même sans connexion. Créditez l'auteur à la projection.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> REQUALIFIÉE : ce n&#x27;est PAS une situation déclenchante. Elle présente un résultat, pas un manque, et la fiche le dit explicitement (« cette vidéo présente le prototype »). Usage strictement POST-lancement : après la lecture des trois scènes d&#x27;Antananarivo, au moment de constituer les équipes. Montrée avant, elle oriente toutes les équipes vers le tri des déchets. Élèves de TROISIÈME, pas de quatrième : le niveau affiché est au-dessus de celui de la classe. Décor et parole franco-français, débit d&#x27;élèves parfois rapide. 9 vues : ressource confidentielle.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#4eme-9">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-4eme-9">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
       <div class="page-header">
@@ -127,6 +127,21 @@ Pour chaque ligne non respectée, on propose une <span class="ebep-fill" style="
 L&#x27;exposé comporte cinq parties : introduction, cahier des charges, réalisation, <span class="ebep-fill" style="display:inline-block;min-width:110px;min-height:0;padding:2px 10px;margin:0 3px">&nbsp;</span> et <span class="ebep-fill" style="display:inline-block;min-width:110px;min-height:0;padding:2px 10px;margin:0 3px">&nbsp;</span>. On s&#x27;appuie sur le support, on ne le <span class="ebep-fill" style="display:inline-block;min-width:110px;min-height:0;padding:2px 10px;margin:0 3px">&nbsp;</span> pas.</div></div>
     
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -151,6 +166,8 @@ L&#x27;exposé comporte cinq parties : introduction, cahier des charges, réalis
   <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
+
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

@@ -73,6 +73,13 @@
     <h2>Mes travaux déposés</h2>
     <div id="liste"><p class="vide">Chargement…</p></div>
   </section>
+
+  <section id="mes-reponses">
+    <h2>Mes réponses rédigées</h2>
+    <p class="aide">Ce que tu as écrit au pied d'une fiche d'activité, et la correction de ton
+       professeur. Pour modifier ou supprimer une réponse, ouvre la fiche.</p>
+    <div id="liste-reponses"><p class="vide">Chargement…</p></div>
+  </section>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -247,14 +254,57 @@ async function charger() {
   // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose
   // quand même. Les trois lectures partent ensemble : sur la liaison de
   // Tananarive, trois allers-retours en série se voient.
-  const [p, s, r] = await Promise.allSettled([
+  const [p, s, r, q] = await Promise.allSettled([
     api('/api/classeur/progression'), api('/api/classeur/score'), listerRendus(),
+    api('/api/classeur/reponse'),
   ]);
   progression = p.status === 'fulfilled' ? p.value.groupes : [];
   mesScores = s.status === 'fulfilled' ? s.value.scores : [];
   if (r.status === 'rejected') dire(r.reason?.message || 'Lecture impossible.', 'err');
+  listerReponses(q);
   remplirSequences();
   rendreAnnee();
+}
+
+/** Le titre d'une fiche à partir de son chemin (5eme/p1/seq1-ebep.html). */
+function titreFiche(page) {
+  const id = String(page).replace(/-(activite|ebep)\.html$/, '');
+  const s = Object.values(SEQUENCES).flat().find((x) => x.id === id);
+  const titre = s ? s.titre : id;
+  return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
+}
+
+/**
+ * Mes réponses rédigées, en lecture seule : la modification et la
+ * suppression se font dans la fiche, là où la réponse a été écrite. La
+ * lecture est un plus, jamais une barrière : si elle échoue, le reste du
+ * classeur s'affiche quand même.
+ */
+function listerReponses(q) {
+  if (q.status === 'rejected') {
+    $('liste-reponses').innerHTML =
+      `<p class="vide">${echapper(q.reason?.message || 'Tes réponses n’ont pas pu être lues pour le moment.')}</p>`;
+    return;
+  }
+  const liste = q.value.reponses || [];
+  if (!liste.length) {
+    $('liste-reponses').innerHTML = '<p class="vide">Tu n\'as encore rédigé aucune réponse.</p>';
+    return;
+  }
+  $('liste-reponses').innerHTML = liste.map((r) => {
+    const etat = r.corrige_le
+      ? '<span class="etiquette corrige">corrigée</span>'
+      : '<span class="etiquette attente">en attente de correction</span>';
+    return `<article class="rendu ${r.corrige_le ? 'fait' : 'attente'}">
+      <h3>${echapper(titreFiche(r.page))}${etat}</h3>
+      <p class="meta">${echapper(r.groupes?.code || '')} · rédigée le ${dateCourte(r.modifie_le || r.redige_le)}
+        ${r.corrige_le ? ' · corrigée le ' + dateCourte(r.corrige_le) : ''}
+        · <a href="/${echapper(r.page)}#ma-reponse">Ouvrir la fiche</a></p>
+      <p class="mot" style="white-space:pre-wrap">${echapper(r.texte)}</p>
+      ${r.correction ? `<div class="correction"><strong>Correction :</strong>
+          <span style="white-space:pre-wrap">${echapper(r.correction)}</span></div>` : ''}
+    </article>`;
+  }).join('');
 }
 
 async function listerRendus() {

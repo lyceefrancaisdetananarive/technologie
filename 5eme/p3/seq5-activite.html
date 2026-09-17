@@ -52,7 +52,7 @@
         <div class="info-box info-box-green"><div class="info-box-title"><span class="ico">&#x1F3AC;</span> Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/102921-chaine-de-velo/?is_iframe=true" loading="lazy" allowfullscreen title="Chaine de vélo"></iframe><p style="margin:.6rem 0 .2rem"><strong>Chaine de vélo</strong>, 00:01:33 · PodEduc (aucune chaîne identifiée sur la fiche)</p><p class="vid-licence">Auteur : Fabrice Dubois. Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/102921-chaine-de-velo/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> VÉRIFIÉ LE 02/09/2026 : page en ligne, titre « Chaine de vélo » et durée 00:01:33 conformes, auteur Fabrice Dubois confirmé, 10 vues, AUCUNE DESCRIPTION et AUCUNE LICENCE AFFICHÉE. CORRECTION : le relevé initial affirmait un dépôt « sur une chaîne portant le même nom que la vidéo », la page n&#x27;identifie aucune chaîne, l&#x27;affirmation est retirée. Provenance faible, contenu invérifiable autrement qu&#x27;en le regardant : rien ne garantit qu&#x27;il s&#x27;agisse d&#x27;un plan exploitable plutôt que d&#x27;un rush, ni que le cadrage soit lisible au vidéoprojecteur. À VISIONNER IMPÉRATIVEMENT AVANT, et à écarter sans regret si le plan est confus : un vrai vélo retourné devant la classe est supérieur, et ne dépend d&#x27;aucun réseau.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#5eme-5">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-5eme-5">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
 
@@ -260,6 +260,21 @@
         <span class="competence-badge">Identifier un dysfonctionnement</span>
       </div>
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -282,6 +297,7 @@
   </div>
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

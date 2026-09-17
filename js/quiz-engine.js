@@ -52,7 +52,9 @@ class QuizEngine {
   temoin() {
     if (window.lireTemoin) return window.lireTemoin();
     try {
-      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:;|$)/);
+      // Le temoin d'un eleve porte aussi ses niveaux (« eleve.1789456123.5eme »,
+      // decision D16) : on ne lit que le role.
+      const m = document.cookie.match(/(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)(?:\.[345]eme)*(?:;|$)/);
       return m && Number(m[2]) * 1000 > Date.now() ? m[1] : null;
     } catch (e) { return null; }
   }
@@ -129,7 +131,19 @@ class QuizEngine {
     html += `<div class="quiz-feedback" id="quiz-feedback" role="status" aria-live="polite"></div>`;
     html += `</div>`;
 
-    // Navigation
+    // Navigation. Deux culs-de-sac sont évités ici : « Voir les résultats »
+    // apparaît dès que tout est répondu, où que soit l'élève (après un retour
+    // sur une question sautée, il n'a pas à refaire le chemin jusqu'à la
+    // dernière) ; et sur la dernière question, une fois celle-ci validée, les
+    // questions restées sans réponse (option cochée puis « Suivant » sans
+    // « Valider ») sont nommées, avec un bouton vers la première d'entre elles.
+    const manquantes = [];
+    this.answered.forEach((ok, i) => { if (!ok) manquantes.push(i); });
+    const rappel = this.currentIndex === total - 1 && this.answered[this.currentIndex] && manquantes.length > 0;
+    if (rappel) {
+      const n = manquantes.length;
+      html += `<p class="quiz-avis quiz-manque" role="status">Il te reste ${n} question${n > 1 ? 's' : ''} sans réponse\u00a0: n°\u00a0${manquantes.map(i => i + 1).join(', ')}.</p>`;
+    }
     html += `<div class="quiz-actions">`;
     if (this.currentIndex > 0) {
       html += `<button class="btn btn-ghost" onclick="quiz.prev()">&larr; Précédent</button>`;
@@ -139,7 +153,11 @@ class QuizEngine {
     }
     if (this.currentIndex < total - 1) {
       html += `<button class="btn btn-primary" onclick="quiz.next()">Suivant &rarr;</button>`;
-    } else if (this.answered.every(Boolean)) {
+    }
+    if (rappel) {
+      html += `<button class="btn btn-primary" onclick="quiz.allerA(${manquantes[0]})">Aller à la question ${manquantes[0] + 1}</button>`;
+    }
+    if (manquantes.length === 0) {
       html += `<button class="btn btn-primary" onclick="quiz.showResults()">Voir les résultats</button>`;
     }
     html += `</div>`;
@@ -197,6 +215,9 @@ class QuizEngine {
     const answer = this.userAnswers[this.currentIndex];
 
     if (answer === null) return;
+    // Un second appel (double clic, Entrée répétée) ne compte pas la question
+    // deux fois et ne redessine rien.
+    if (this.answered[this.currentIndex]) return;
 
     this.answered[this.currentIndex] = true;
     let isCorrect = false;
@@ -209,16 +230,16 @@ class QuizEngine {
 
     if (isCorrect) this.score++;
 
-    this.showAnswerState(answer, q);
-
-    // Le bouton Valider disparaît : le focus qu'il portait va sur le retour
-    // (annoncé par role=status), puis Tab mène à « Suivant ».
-    const btn = document.getElementById('btn-validate');
-    if (btn) btn.remove();
+    // Tout est redessiné : l'en-tête (score) et les boutons reflètent l'état
+    // répondu, render() restaure le retour et désactive les options. Sans ce
+    // re-rendu, le score d'en-tête restait figé et « Voir les résultats »
+    // n'apparaissait jamais après la validation de la dernière question.
+    this.render();
+    // Le bouton Valider a disparu : le focus va sur le retour (annoncé par
+    // role=status), puis Tab mène à « Suivant », « Aller à la question n »
+    // ou « Voir les résultats ».
     const feedback = document.getElementById('quiz-feedback');
     if (feedback) { feedback.setAttribute('tabindex', '-1'); feedback.focus(); }
-    const radios = this.container.querySelectorAll('.quiz-radio');
-    radios.forEach((r) => { r.disabled = true; });
   }
 
   showAnswerState(answer, q) {
@@ -265,6 +286,15 @@ class QuizEngine {
       this.currentIndex--;
       this.render();
     }
+  }
+
+  /** Va à la question d'indice i (rappel des questions sans réponse). */
+  allerA(i) {
+    if (!Number.isInteger(i) || i < 0 || i >= this.questions.length) return;
+    this.currentIndex = i;
+    this.render();
+    const h = document.getElementById('quiz-question-titre');
+    if (h) h.focus();
   }
 
   showResults() {

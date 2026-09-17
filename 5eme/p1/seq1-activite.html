@@ -59,7 +59,7 @@
         <div class="info-box info-box-green"><div class="info-box-title"><span class="ico">&#x1F3AC;</span> Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/54854-porte_clefs_fonction_sifflet/?is_iframe=true" loading="lazy" allowfullscreen title="Porte_clefs_fonction_sifflet"></iframe><p style="margin:.6rem 0 .2rem"><strong>Porte_clefs_fonction_sifflet</strong>, 00:00:09 · PodEduc (chaîne « Second Degré »)</p><p class="vid-licence">Auteur : Gilles Durand. Licence : non précisée. Réutilisation : iframe. <a href="https://podeduc.apps.education.fr/video/54854-porte_clefs_fonction_sifflet/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence">Lecture depuis la plateforme d'origine. En cas de coupure, utilisez le repli sans écran ci-dessous.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> VÉRIFIÉ LE 02/09/2026 : page en ligne, titre exact « Porte_clefs_fonction_sifflet » (minuscule au c, contrairement au relevé initial), durée 00:00:09 conforme, auteur et chaîne conformes. AUCUNE LICENCE AFFICHÉE sur la page et aucun lien de téléchargement actif : intégration par iframe uniquement, réhébergement exclu. REQUALIFICATION : la fiche annonce elle-même une « illustration », c&#x27;est-à-dire la démonstration d&#x27;une solution déjà conçue, et non un problème ouvert. Elle ne déclenche que si le professeur coupe avant l&#x27;explication et fait formuler la question. Le relevé initial affirmait la vidéo « sans parole » : la page ne le dit nulle part et je n&#x27;ai pas visionné le fichier, À VISIONNER AVANT LA SÉANCE, ne pas présumer qu&#x27;elle est muette. Ne pose pas la question naturel / technique, premier temps de la séquence : le professeur doit l&#x27;installer autrement. Objet issu d&#x27;un projet de lycée (EDE CIT, seconde), pas de collège. Neuf secondes : prévoir deux ou trois passages.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#5eme-1">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-5eme-1">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
 
@@ -299,6 +299,21 @@
         <span class="competence-badge">Caractériser et choisir un objet technique</span>
       </div>
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -321,6 +336,7 @@
   </div>
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

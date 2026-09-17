@@ -1,9 +1,20 @@
 # Site de Technologie, Lycée Français de Tananarive
-# Les ressources réservées aux professeurs ne doivent pas être indexées.
+# Depuis le 18 septembre 2026 (décision D16), seuls l'accueil, la présentation
+# et la progression sont publics : le reste renvoie vers la connexion et n'a
+# rien à indexer.
 User-agent: *
 Disallow: /enseignant/
+Disallow: /classeur/
+Disallow: /structuration/
+Disallow: /outils/
+Disallow: /5eme/p
+Disallow: /4eme/p
+Disallow: /3eme/p
+Disallow: /5eme/t
+Disallow: /4eme/t
+Disallow: /3eme/t
 Disallow: /*-prof.html$
 Disallow: /*-ebep.html$
-Disallow: /classeur/
 Disallow: /connexion.html
 Disallow: /changer-mot-de-passe.html
+Disallow: /mot-de-passe-oublie.html

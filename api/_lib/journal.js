@@ -5,8 +5,9 @@
 // Qui a fait quoi, sur qui, quand : création ou rattachement d'un compte,
 // retrait, mise à la corbeille, restauration, correction du nom, suppression
 // définitive par le coordonnateur, changement de mot de passe, import
-// d'une liste, suppression d'un dépôt, consultation d'un fichier d'élève par
-// un professeur. Jamais d'adresse IP, jamais de contenu : des identifiants
+// d'une liste, suppression d'un dépôt ou d'une réponse rédigée, consultation
+// d'un fichier d'élève par un professeur. Jamais d'adresse IP, jamais de
+// contenu (le texte d'une réponse n'y entre pas) : des identifiants
 // et un mot. Lu par le seul administrateur, avec la clé de service ; aucune
 // page ne l'affiche. Une écriture qui échoue ne bloque jamais le geste
 // journalisé : le journal est un témoin, pas une barrière.
@@ -19,6 +20,7 @@ export const ACTIONS = [
   'compte.promu', 'mdp.change', 'mdp.reinitialise', 'liste.importee',
   'depot.supprime', 'fichier.consulte', 'mot.efface', 'groupe.supprime', 'essai.supprime',
   'compte.modifie', 'compte.restaure', 'compte.supprime',
+  'reponse.supprimee',
 ];
 
 export async function journaliser(acteur, action, cible = null, detail = null) {

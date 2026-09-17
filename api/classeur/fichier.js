@@ -33,7 +33,7 @@ export default async function handler(req, res) {
     // La consultation par un professeur d'un fichier d'élève est journalisée ;
     // l'élève qui ouvre son propre travail, non. Un PDF est proposé en
     // téléchargement plutôt qu'ouvert dans le navigateur.
-    if (moi.role === 'prof') await journaliser(moi.id, 'fichier.consulte', r.profil_id, rendu);
+    if (moi.role === 'prof') await journaliser(moi.id, 'fichier.consulte', r.profil_id, id);
     const url = await urlLectureSignee(r.fichier);
     res.status(200).json({ ok: true, url: r.fichier.endsWith('.pdf') ? url + '&download=' : url });
   } catch (e) {

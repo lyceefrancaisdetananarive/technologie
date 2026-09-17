@@ -24,11 +24,19 @@
   <h1>Espace Technologie</h1>
   <p class="sous">Lycée Français de Tananarive</p>
 
+  <!-- Deux entrées, une seule porte : le serveur décide seul du rôle, à
+       partir du compte. Le choix ne change que l'aide affichée. -->
+  <div class="entrees" role="group" aria-label="Qui êtes-vous ?">
+    <button type="button" class="entree" id="e-eleve" aria-pressed="true">Je suis élève</button>
+    <button type="button" class="entree" id="e-prof" aria-pressed="false">Je suis professeur</button>
+  </div>
+
   <form id="f" novalidate>
     <label for="email">Adresse de l'établissement</label>
     <input id="email" name="email" type="email" required autocomplete="username"
            autocapitalize="none" spellcheck="false"
            placeholder="prenom.nom@eleve.egd.mg">
+    <p class="aide" id="aide">Ton adresse en <b>@eleve.egd.mg</b> et le mot de passe que tu as choisi, ou celui que ton professeur t'a donné.</p>
 
     <label for="mdp">Mot de passe</label>
     <input id="mdp" name="mdp" type="password" required
@@ -50,7 +58,7 @@
   </p>
 
   </section>
-  <a class="retour" href="/">← Retour au site de Technologie (sans compte)</a>
+  <a class="retour" href="/">← Retour à l'accueil</a>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -84,13 +92,40 @@
     try {
       var u = new URL(s, location.origin);
       if (u.origin !== location.origin) return defaut;
+      // Ni cette page (boucle), ni une fonction (rien à afficher).
+      if (u.pathname === '/connexion.html' || u.pathname.indexOf('/api/') === 0) return defaut;
       return u.pathname + u.search;
     } catch (e) {
       return defaut;
     }
   }
 
+  // La page demandée survit au changement de mot de passe : un élève qui
+  // scanne un code à sa première connexion arrive sur la fiche, pas sur
+  // son classeur (décision D16).
+  function versChangement() {
+    var s = destination('');
+    return '/changer-mot-de-passe.html' + (s ? '?suite=' + encodeURIComponent(s) : '');
+  }
+
   function dire(texte, type) { m.textContent = texte; m.className = 'msg ' + type; }
+
+  // Les deux entrées. ?profil=prof (posé par le portier devant un corrigé,
+  // ou par le bouton de l'accueil) présélectionne le professeur.
+  var email = document.getElementById('email'), aide = document.getElementById('aide');
+  var entrees = { eleve: document.getElementById('e-eleve'), prof: document.getElementById('e-prof') };
+  function choisir(profil) {
+    var prof = profil === 'prof';
+    entrees.eleve.setAttribute('aria-pressed', String(!prof));
+    entrees.prof.setAttribute('aria-pressed', String(prof));
+    email.placeholder = prof ? 'prenom.nom@egd.mg' : 'prenom.nom@eleve.egd.mg';
+    aide.innerHTML = prof
+      ? 'Votre adresse en <b>@egd.mg</b> et votre mot de passe.'
+      : 'Ton adresse en <b>@eleve.egd.mg</b> et le mot de passe que tu as choisi, ou celui que ton professeur t\'a donné.';
+  }
+  entrees.eleve.addEventListener('click', function () { choisir('eleve'); });
+  entrees.prof.addEventListener('click', function () { choisir('prof'); });
+  choisir(new URLSearchParams(location.search).get('profil') === 'prof' ? 'prof' : 'eleve');
 
   f.addEventListener('submit', function (e) {
     e.preventDefault();
@@ -113,8 +148,8 @@
       // /enseignant/ lui faisait refaire le chemin à la main à chaque fois,
       // alors que le portier avait pris soin de garder sa destination.
       location.href = x.d.motDePasseProvisoire
-        ? '/changer-mot-de-passe.html'
-        : destination(x.d.role === 'prof' ? '/enseignant/' : '/classeur/');
+        ? versChangement()
+        : destination(x.d.role === 'prof' ? '/enseignant/index.html' : '/classeur/index.html');
     })
     .catch(function () {
       dire('Le réseau ne répond pas. Vérifiez la connexion et réessayez.', 'err');

@@ -15,8 +15,9 @@
 --      service lue dans l'environnement, jamais ecrite sur disque).
 --   3. Les comptes : supprimer les utilisateurs Auth de ces adresses dans le
 --      tableau de bord Supabase (Authentication > Users) ou par l'API
---      d'administration ; profils, appartenances, rendus, exceptions, scores
---      et journal_repli (eleve_id) suivent en cascade.
+--      d'administration ; profils, appartenances, rendus, reponses (les
+--      reponses redigees, db/12), exceptions, scores et journal_repli
+--      (eleve_id) suivent en cascade.
 --
 -- Les requetes ci-dessous preparent et verifient ; elles ne suppriment que
 -- les tables de service. Fichier integralement ASCII.
@@ -39,7 +40,10 @@ delete from tentatives where quand < now() - interval '1 year';
 delete from journal_repli where quand < now() - interval '1 year';
 delete from journal where quand < now() - interval '1 year';
 
--- E. Groupes vides de l'annee ecoulee (les groupes portent l'annee)
+-- E. Groupes vides de l'annee ecoulee (les groupes portent l'annee).
+--    Un groupe emporte en cascade ses rendus ET ses reponses redigees :
+--    on ne supprime que ceux qui n'en portent aucun.
 -- delete from groupes g where g.annee < '2026-2027'
 --   and not exists (select 1 from appartenances a where a.groupe_id = g.id)
---   and not exists (select 1 from rendus r where r.groupe_id = g.id);
+--   and not exists (select 1 from rendus r where r.groupe_id = g.id)
+--   and not exists (select 1 from reponses q where q.groupe_id = g.id);

@@ -19,8 +19,9 @@ import {
 // gestes du professeur qui le possède.
 //
 // La suppression n'est possible que sur un groupe VIDE. Un groupe qui porte
-// des inscriptions ou des dépôts ne s'efface pas : la clé étrangère est en
-// cascade, et l'effacer emporterait les travaux des élèves.
+// des inscriptions, des dépôts ou des réponses rédigées ne s'efface pas : la
+// clé étrangère est en cascade, et l'effacer emporterait les travaux des
+// élèves.
 // =====================================================================
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -153,6 +154,20 @@ export default async function handler(req, res) {
       if (depots.length) {
         return refus(res, 409,
           'Ce groupe porte des travaux déposés. Il ne peut pas être supprimé.');
+      }
+      // Même angle mort à couvrir pour les réponses rédigées (db/12) : un
+      // groupe vidé de ses élèves et sans dépôt peut en porter encore.
+      // Défaillance en position fermée : si la table est illisible, on ne
+      // supprime pas plutôt que d'emporter des textes sans les avoir vus.
+      const redigees = await lire('reponses', `groupe_id=eq.${id}&select=id&limit=1`)
+        .catch((e) => { console.error('groupes : reponses illisibles,', e.message); return null; });
+      if (redigees === null) {
+        return refus(res, 500,
+          'Impossible de vérifier les réponses rédigées de ce groupe : rien n’a été supprimé.');
+      }
+      if (redigees.length) {
+        return refus(res, 409,
+          'Ce groupe porte des réponses rédigées par des élèves. Il ne peut pas être supprimé.');
       }
       await ecrire('groupes', `id=eq.${id}`, {}, 'DELETE');
       await journaliser(moi.id, 'groupe.supprime', id);

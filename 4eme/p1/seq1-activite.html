@@ -50,7 +50,7 @@
         <div class="info-box info-box-green"><div class="info-box-title"><span class="ico">&#x1F3AC;</span> Vidéo académique retenue</div><iframe class="vid-cadre" src="https://podeduc.apps.education.fr/video/130698-dispositif-douverture-de-porte-pmrmp4/?is_iframe=true" loading="lazy" allowfullscreen title="Dispositif d&#x27;ouverture de porte PMR.mp4"></iframe><p style="margin:.6rem 0 .2rem"><strong>Dispositif d&#x27;ouverture de porte PMR.mp4</strong>, 00:00:30 · PodEduc, chaîne « Eduscol - STI »</p><p class="vid-licence">Auteur : Eduscol STI (maquette développée par l&#x27;académie de Bordeaux, Technologie collège). Licence : Attribution - Pas d&#x27;Utilisation Commerciale 4.0 International (CC BY-NC 4.0). Réutilisation : telechargement autorise. <a href="https://podeduc.apps.education.fr/eduscol-sti/video/130698-dispositif-douverture-de-porte-pmrmp4/" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong><span class="ico">&#x2B07;</span> Téléchargeable.</strong> Sa licence autorise la copie : téléchargez-la depuis sa fiche et posez-la sur l'ordinateur de la salle. Elle sera lisible même sans connexion. Créditez l'auteur à la projection.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> Trente secondes, c&#x27;est court : prévoir deux ou trois passages. Maquette de laboratoire et non scène de rue : décor neutre, plutôt un avantage ici. Fiche ajoutée le 11 février 2026 : peu de recul sur sa pérennité. Vidéo également proposée en séquence 8 : ne la dépenser qu&#x27;une fois dans l&#x27;année.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#4eme-1">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-4eme-1">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
 
@@ -220,6 +220,21 @@
         <span class="competence-badge">Identifier les évolutions technologiques et impacts</span>
       </div>
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -242,6 +257,7 @@
   </div>
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

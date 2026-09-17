@@ -76,8 +76,22 @@
   // poste de salle informatique, on l'efface immédiatement, avant même de
   // s'en servir. Le fragment est encore lu, pour afficher proprement l'erreur
   // qu'un ancien lien, passé par Supabase, pourrait rapporter.
-  var jeton = '', erreurLien = '';
+  var jeton = '', erreurLien = '', suite = '';
   (function lireAdresse() {
+    // La page demandée avant le changement (posée par le portier ou par la
+    // connexion), lue avant que l'adresse soit nettoyée. Même garde que
+    // connexion.html : on résout l'adresse et on compare l'origine, sinon
+    // « ?suite=/%5Cevil.mg » ferait de cette page un tremplin.
+    try {
+      var s = new URLSearchParams(location.search).get('suite');
+      if (s && s.charAt(0) === '/') {
+        var u = new URL(s, location.origin);
+        if (u.origin === location.origin && u.pathname !== '/connexion.html' &&
+            u.pathname !== '/changer-mot-de-passe.html' && u.pathname.indexOf('/api/') !== 0) {
+          suite = u.pathname + u.search;
+        }
+      }
+    } catch (e) { suite = ''; }
     // Le jeton haché est accepté dans le fragment (#jeton=…) comme dans la
     // chaîne de requête (?jeton=…). Le fragment ne quitte jamais le
     // navigateur : il n'apparaît ni dans les journaux du serveur ni dans
@@ -93,7 +107,7 @@
         erreurLien = p.get('error_description') || 'Ce lien n’est plus valable.';
       }
     }
-    if (jeton || h) history.replaceState(null, '', location.pathname);
+    if (jeton || h || suite) history.replaceState(null, '', location.pathname);
   })();
 
   if (jeton) {
@@ -151,7 +165,7 @@
       jeton = '';   // il ne resservira pas
       dire('C’est enregistré. Redirection…', 'ok');
       setTimeout(function () {
-        location.href = x.d.role === 'prof' ? '/enseignant/' : '/classeur/';
+        location.href = suite || (x.d.role === 'prof' ? '/enseignant/index.html' : '/classeur/index.html');
       }, 1200);
     })
     .catch(function () {

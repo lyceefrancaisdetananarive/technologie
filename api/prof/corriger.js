@@ -9,10 +9,12 @@ import { journaliser } from '../_lib/journal.js';
 //
 // PLUS DE NOTE SUR 20 (décision D15, question 4). Les notes vivent dans
 // PRONOTE ; le classeur est un outil de travail, pas un second livret. La
-// colonne rendus.note reste en base pour d'anciennes lignes, plus rien ne
-// l'écrit. La compétence doit être l'une de celles que le catalogue
-// rattache à la séquence du dépôt : on ne positionne pas un élève sur une
-// compétence que la séquence ne travaille pas.
+// colonne rendus.note n'existe plus depuis db/09 (audit du 14 septembre
+// 2026) : ne pas la nommer dans un PATCH, PostgREST refuse toute colonne
+// inconnue et la correction entière échouerait. La compétence doit être
+// l'une de celles que le catalogue rattache à la séquence du dépôt : on ne
+// positionne pas un élève sur une compétence que la séquence ne travaille
+// pas.
 // =====================================================================
 
 const MAITRISES = ['insuffisante', 'fragile', 'satisfaisante', 'tres_bonne'];
@@ -53,7 +55,7 @@ export default async function handler(req, res) {
 
     if (annuler) {
       await ecrire('rendus', `id=eq.${rendu}`, {
-        appreciation: null, note: null, competence: null, maitrise: null, corrige_le: null,
+        appreciation: null, competence: null, maitrise: null, corrige_le: null,
       });
       if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
       return res.status(200).json({ ok: true, annule: true });
@@ -85,7 +87,6 @@ export default async function handler(req, res) {
       appreciation: texte,
       competence: comp,
       maitrise: niv,
-      note: null,
       corrige_le: new Date().toISOString(),
     });
 

@@ -25,7 +25,7 @@
         <div class="info-box info-box-green"><div class="info-box-title"><span class="ico">&#x1F3AC;</span> Vidéo académique retenue</div><iframe class="vid-cadre" src="https://tube-sciences-technologies.apps.education.fr/videos/embed/c5ATiGzfMpmnugMGDAvZrn" loading="lazy" allowfullscreen title="Vidéo arrosage automatique"></iframe><p style="margin:.6rem 0 .2rem"><strong>Vidéo arrosage automatique</strong>, 00:00:42 · Tube Sciences &amp; Technologies (PeerTube apps.education.fr) : chaîne personnelle « Main charmasson_laurent channel »</p><p class="vid-licence">Auteur : charmasson_laurent. Licence : Attribution - Pas d&#x27;Utilisation Commerciale (CC BY-NC). Réutilisation : telechargement autorise. <a href="https://tube-sciences-technologies.apps.education.fr/videos/watch/59b8ffac-2fb4-4974-b822-5974648ae30b" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong><span class="ico">&#x2B07;</span> Téléchargeable.</strong> Sa licence autorise la copie : téléchargez-la depuis sa fiche et posez-la sur l'ordinateur de la salle. Elle sera lisible même sans connexion. Créditez l'auteur à la projection.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> Le montage est visible à l&#x27;écran (carte, fils) : une partie de la réponse est donnée. Cadrer la consigne d&#x27;observation sur le COMPORTEMENT, pas sur les composants. Chaîne personnelle d&#x27;enseignant, 148 vues : pérennité non garantie, profiter du téléchargement autorisé pour en garder une copie. Vidéo également proposée en séquence 9.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#4eme-6">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-4eme-6">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
       <div class="page-header">
@@ -159,7 +159,7 @@
 
       <div class="content-card">
         <h2><span class="ico">&#x1F4DD;</span> Activité 3 : Programmer le prototype de l'équipe (S27)</h2>
-        <div class="info-box info-box-yellow">
+        <div class="info-box info-box-orange">
           <strong>Objectif :</strong> Appliquer les connaissances pour programmer le système électronique de votre objet connecté (projet Séquence 9).
         </div>
 
@@ -185,6 +185,21 @@
       </div>
     
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -207,6 +222,7 @@
   </div>
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

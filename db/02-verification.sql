@@ -48,7 +48,8 @@ begin
   -- ce qui est très difficile à diagnostiquer en séance.
   for t in
     select unnest(array['profils','groupes','appartenances','rendus',
-                        'journal_repli','plans','avancement','exceptions','scores']) as nom
+                        'journal_repli','plans','avancement','exceptions','scores',
+                        'reponses']) as nom
   loop
     select count(*) into n from pg_policies
      where schemaname = 'public' and tablename = t.nom;

@@ -18,7 +18,8 @@ import {
 //   GET  ?groupe=ID   tout ce qu'il faut à la page du plan : l'ordre, les
 //                     séances cochées, les exceptions par élève, l'effectif.
 //   GET               le résumé de TOUS mes groupes pour le tableau de bord :
-//                     l'ordre et les coches, sans exception ni nom d'élève.
+//                     l'ordre et les coches, sans exception ni nom d'élève,
+//                     et ce qui attend une correction (dépôts, réponses).
 //   PUT  {groupe, plan: [{sequence, visible}]}   remplace l'ordre.
 //   DELETE {groupe}   efface l'ordre personnalisé : retour au catalogue.
 //
@@ -54,11 +55,22 @@ export default async function handler(req, res) {
         `prof_id=eq.${moi.id}&select=id,code,libelle,niveau&order=code`);
       if (!groupes.length) return res.status(200).json({ ok: true, groupes: [] });
       const ids = groupes.map((g) => g.id).join(',');
-      const [plans, coches, membres] = await Promise.all([
+      // Les deux compteurs « à corriger » (D16, point e) : les dépôts qui
+      // portent un fichier et pas de corrige_le, les réponses rédigées sans
+      // corrige_le. Sans filtre de plan ni d'appartenance : c'est ce que la
+      // page de correction montre. Chaque lecture est protégée à part : une
+      // panne (table reponses pas encore créée, liaison) donne null, jamais
+      // un tableau de bord qui tombe.
+      const [plans, coches, membres, depots, redigees] = await Promise.all([
         lire('plans', `groupe_id=in.(${ids})&select=groupe_id,${COLONNES_PLAN}&order=position`),
         lire('avancement', `groupe_id=in.(${ids})&select=groupe_id,sequence,seance`),
         lire('appartenances', `groupe_id=in.(${ids})&select=groupe_id`),
+        lire('rendus', `groupe_id=in.(${ids})&fichier=not.is.null&corrige_le=is.null&select=groupe_id`)
+          .catch(() => null),
+        lire('reponses', `groupe_id=in.(${ids})&corrige_le=is.null&select=groupe_id`)
+          .catch(() => null),
       ]);
+      const compter = (lignes, gid) => (lignes ? lignes.filter((l) => l.groupe_id === gid).length : null);
       return res.status(200).json({
         ok: true,
         groupes: groupes.map((g) => {
@@ -71,6 +83,8 @@ export default async function handler(req, res) {
             plan: perso.length ? perso : planParDefaut(g.niveau),
             avancement: coches.filter((c) => c.groupe_id === g.id)
               .map(({ groupe_id, ...c }) => c),
+            // null = « indisponible », que la page distingue de zéro.
+            a_corriger: { depots: compter(depots, g.id), reponses: compter(redigees, g.id) },
           };
         }),
       });

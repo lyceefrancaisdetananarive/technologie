@@ -21,11 +21,12 @@ import { journaliser } from '../_lib/journal.js';
 // LA SUPPRESSION NE S'APPLIQUE QU'AUX GROUPES D'ESSAI, reconnus à leur code
 // exact (ESSAI- suivi des cinq caractères tirés ici, pas n'importe quel code
 // qui commencerait par ESSAI-), et qu'aux comptes dont l'adresse suit le
-// motif fictif. Si un élève réel a été inscrit dans le groupe, ou y a
-// déposé un travail, la fonction REFUSE tout : le groupe emporterait ses
-// dépôts en cascade (rendus.groupe_id, on delete cascade). Le professeur le
-// retire d'abord dans « Groupes et comptes », comme le fait desinscrire.js.
-// Le travail d'un mineur ne disparaît pas par une fonction.
+// motif fictif. Si un élève réel a été inscrit dans le groupe, y a déposé
+// un travail ou y a rédigé une réponse, la fonction REFUSE tout : le groupe
+// emporterait ses dépôts et ses réponses en cascade (rendus.groupe_id et
+// reponses.groupe_id, on delete cascade). Le professeur le retire d'abord
+// dans « Groupes et comptes », comme le fait desinscrire.js. Le travail d'un
+// mineur ne disparaît pas par une fonction.
 // =====================================================================
 
 const PREFIXE = 'ESSAI-';
@@ -106,20 +107,24 @@ export default async function handler(req, res) {
     }
 
     // RIEN N'EST EFFACÉ TANT QU'UNE PERSONNE RÉELLE EST CONCERNÉE. On regarde
-    // les membres ET les dépôts : un élève retiré du groupe plus tôt peut y
-    // avoir laissé un travail, que la suppression du groupe emporterait.
-    const [membres, depots] = await Promise.all([
+    // les membres, les dépôts ET les réponses rédigées : un élève retiré du
+    // groupe plus tôt peut y avoir laissé un travail ou un texte, que la
+    // suppression du groupe emporterait. Si la table reponses est illisible,
+    // lire() lève et rien n'est supprimé : défaillance en position fermée.
+    const [membres, depots, redigees] = await Promise.all([
       lire('appartenances', `groupe_id=eq.${groupe}&select=profil_id,profils(id,email)`),
       lire('rendus', `groupe_id=eq.${groupe}&select=id,fichier,profil_id,profils(email)`),
+      lire('reponses', `groupe_id=eq.${groupe}&select=id,profil_id,profils(email)`),
     ]);
     const fictif = (email) => FICTIF.test(String(email ?? '').toLowerCase());
     const reels = membres.filter((m) => !fictif(m.profils?.email)).length
-      + depots.filter((d) => !fictif(d.profils?.email)).length;
+      + depots.filter((d) => !fictif(d.profils?.email)).length
+      + redigees.filter((q) => !fictif(q.profils?.email)).length;
     if (reels) {
       return refus(res, 409,
-        'Ce groupe d’essai compte un élève réel, ou un travail déposé par un '
-        + 'élève réel. Retirez-le d’abord dans « Groupes et comptes » : rien '
-        + 'n’a été supprimé.');
+        'Ce groupe d’essai compte un élève réel, ou un travail déposé ou une '
+        + 'réponse rédigée par un élève réel. Retirez-le d’abord dans « Groupes '
+        + 'et comptes » : rien n’a été supprimé.');
     }
 
     // Les fichiers déposés par les comptes fictifs partent d'abord : la
@@ -142,7 +147,8 @@ export default async function handler(req, res) {
         `${effaces} compte(s) fictif(s) supprimé(s), ${echecs} en échec. `
         + 'Le groupe est conservé : relancez la suppression dans un instant.');
     }
-    // Le groupe emporte plans, avancement et exceptions en cascade.
+    // Le groupe emporte plans, avancement, exceptions et les réponses
+    // rédigées restantes (toutes fictives, vérifié plus haut) en cascade.
     await ecrire('groupes', `id=eq.${groupe}`, {}, 'DELETE');
     await journaliser(moi.id, 'essai.supprime', groupe, `${effaces} comptes fictifs`);
 

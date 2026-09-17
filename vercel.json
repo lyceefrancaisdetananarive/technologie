@@ -29,6 +29,15 @@
       ]
     },
     {
+      "source": "/(3eme|4eme|5eme|structuration|outils|classeur|enseignant)/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "private, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
       "source": "/(.*)",
       "headers": [
         {

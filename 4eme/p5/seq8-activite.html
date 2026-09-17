@@ -23,7 +23,7 @@
         <div class="info-box info-box-green"><div class="info-box-title">&#x1F3AC; Vidéo académique retenue</div><iframe class="vid-cadre" src="https://tube-sciences-technologies.apps.education.fr/videos/embed/riTTnGNHdtPcRzCwtD3bAC" loading="lazy" allowfullscreen title="Eclairage Automatique"></iframe><p style="margin:.6rem 0 .2rem"><strong>Eclairage Automatique</strong> · 00:00:40 · Tube Sciences &amp; Technologies (PeerTube apps.education.fr) : chaîne « Club Arduino »</p><p class="vid-licence">Auteur : Claude Chabod. Licence : Attribution - Pas d&#x27;Utilisation Commerciale (CC BY-NC). Réutilisation : telechargement autorise. <a href="https://tube-sciences-technologies.apps.education.fr/videos/watch/ccf41619-81de-4920-8eb7-aef8f5788f40" target="_blank" rel="noopener">Voir la fiche d'origine</a></p><p class="vid-licence"><strong><span class="ico">&#x2B07;</span> Téléchargeable.</strong> Sa licence autorise la copie : téléchargez-la depuis sa fiche et posez-la sur l'ordinateur de la salle. Elle sera lisible même sans connexion. Créditez l'auteur à la projection.</p></div>
         <details class="note-prof no-print"><summary>Notes pour le professeur : réserves sur cette vidéo</summary><p class="vid-licence"><strong>Réserve :</strong> Le dispositif est un montage Arduino sur table, pas un lampadaire de rue : le décor est un établi, pas Ambatobe. À présenter explicitement comme « une maquette de ce qui se passe dans le lampadaire », sans quoi le lien avec la situation déclenchante écrite ne se fera pas. Le mot « démonstration » de la description signale un registre plus explicatif que narratif : couper le son si un commentaire nomme les composants.</p><p class="no-print" style="font-size:.9rem;color:var(--gray-600)">
           Prompt de génération, variantes et repli sans écran :
-          <a href="../../outils/videos.html#4eme-8">dossier des situations déclenchantes</a>.</p></details>
+          <a href="../../outils/videos.html#p-4eme-8">dossier des situations déclenchantes</a>.</p></details>
       </div>
 
       <div class="page-header">
@@ -134,6 +134,21 @@ Attention : un schéma à blocs sans flèche entre les deux étages est un sché
 Sur tous mes schémas : la chaîne d&#x27;énergie est tracée au trait <span class="ebep-fill" style="display:inline-block;min-width:110px;min-height:0;padding:2px 10px;margin:0 3px">&nbsp;</span>, la chaîne d&#x27;information au trait en <span class="ebep-fill" style="display:inline-block;min-width:110px;min-height:0;padding:2px 10px;margin:0 3px">&nbsp;</span>. Jamais de distinction par la couleur.</div></div>
     
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
       <div class="rendre no-print">
         <div><b>Rendre mon travail</b><span>Une photo nette de ta feuille, ou un PDF, dans le classeur numérique.</span></div>
         <a class="btn" href="../../classeur/index.html"><span class="ico">&#x1F4E4;</span> Déposer</a>
@@ -158,6 +173,8 @@ Sur tous mes schémas : la chaîne d&#x27;énergie est tracée au trait <span cl
   <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
+
+  <script src="../../js/reponse.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

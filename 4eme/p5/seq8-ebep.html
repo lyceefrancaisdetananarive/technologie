@@ -40,6 +40,21 @@
 <div class="content-card ebep-content"><h2><span class="ico">&#x1F4CA;</span> Évaluation adaptée</h2><p>Version A du sujet d&#x27;évaluation, sur le même objet et sur les mêmes trois compétences que la version ordinaire : le ventilateur de plafond à télécommande. Rien n&#x27;est retiré du contenu évalué. Ce sont la charge d&#x27;écriture, la charge de lecture et la charge de tracé qui sont réduites.</p><p>Mise en forme. Police sans empattement de corps 14, interligne large, un exercice par page, figure 7 agrandie sur une page entière avec la liste des sept composants donnée à part en liste verticale numérotée. Consignes relues à voix haute par le professeur au début de chaque exercice, pour toute la classe. Barème et grille des quatre niveaux imprimés au dos du sujet.</p><p>Exercice 1, adapté. Le tableau à deux colonnes est imprimé, et les sept noms de composants sont fournis sur une bande d&#x27;étiquettes à découper et à coller, avec un exemplaire supplémentaire de l&#x27;étiquette « boîtier de commande électronique ». L&#x27;élève ne recopie pas : il place. Les trois marquages restent demandés, et les trois verbes sont rappelés en haut de page avec un exemple dessiné : un cercle autour d&#x27;un mot, un trait sous un mot, un rectangle autour d&#x27;un mot.</p><p>Exercice 2, adapté. Figure 8 imprimée : bande du haut au trait en pointillés avec trois blocs vides, bande du bas au trait plein avec quatre blocs vides, blocs numérotés dans le sens de lecture, lignes d&#x27;écriture sous chaque bloc, flèche d&#x27;entrée et flèche de sortie déjà tracées mais non légendées. Les deux flèches entre les étages ne sont pas imprimées : l&#x27;élève doit les tracer et les légender lui-même, car c&#x27;est le cœur de la compétence. Une bande d&#x27;étiquettes contenant les sept noms de maillons est fournie, à coller dans les blocs ; les noms des composants sont écrits à la main, ou collés eux aussi si l&#x27;élève a un trouble du geste graphique.</p><p>Exercice 3, adapté. La question reste la même. Une amorce de rédaction est imprimée : « L&#x27;objet qui possède une chaîne d&#x27;information est ... Il possède un capteur qui s&#x27;appelle ... C&#x27;est ... qui décide d&#x27;allumer la lampe. Dans les deux autres objets, c&#x27;est ... qui décide. » Une réponse en trois phrases courtes est acceptée.</p><p>Aménagement de temps, au choix du professeur selon le besoin de l&#x27;élève : soit les 35 minutes ordinaires avec les trois exercices adaptés, soit 45 minutes sur les exercices 1 et 2 seulement, l&#x27;exercice 3 étant supprimé et la compétence « distinguer énergie et information » positionnée à l&#x27;oral, en tête à tête, pendant ou après la phase 4. Une pause debout de deux minutes est accordée entre deux exercices.</p><p>Aides autorisées, comme pour toute la classe : lexique bilingue, fiche méthode en cinq étapes, marque-page des deux questions repères.</p><p>Niveau accessible, et pourquoi. Cette version permet d&#x27;atteindre le niveau « très bonne » sur les trois compétences, à une condition de correction qui doit être appliquée sans exception : sur la version A, les éléments déjà imprimés, bandes d&#x27;étage, blocs, numérotation, flèches d&#x27;entrée et de sortie, étiquettes de composants, ne sont jamais comptés comme une réussite de l&#x27;élève. Le premier point du barème de l&#x27;exercice 2 est accordé d&#x27;office, et le positionnement se fonde uniquement sur ce que l&#x27;étayage ne donne pas : l&#x27;exactitude du classement des composants, l&#x27;ordre des sept maillons, l&#x27;association d&#x27;un composant réel à chaque bloc, les deux flèches entre les étages et les quatre légendes. Ce sont précisément les critères des descripteurs de la grille, qui restent donc identiques pour les deux versions. Le positionnement obtenu est reporté sans mention particulière ; l&#x27;aménagement est noté dans le cahier de suivi de la classe.</p></div>
     
       <div class="pied-fiche">
+      <!-- reponse:debut -->
+      <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
+        <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
+        <p class="ma-reponse-etat" id="ma-reponse-etat"></p>
+        <label for="ma-reponse-texte">Rédige ta réponse ici. Ton professeur la lit et te répond dans ton classeur. Parle du travail, pas de ta santé ni de ta vie privée.</label>
+        <textarea id="ma-reponse-texte" maxlength="4000" rows="6"></textarea>
+        <p class="ma-reponse-compteur" id="ma-reponse-compteur"></p>
+        <div class="ma-reponse-actions">
+          <button type="button" class="btn btn-primary" id="ma-reponse-envoyer">Envoyer ma réponse</button>
+          <button type="button" class="btn btn-ghost" id="ma-reponse-supprimer" hidden>Supprimer ma réponse</button>
+          <span class="ma-reponse-msg" id="ma-reponse-msg" role="status" aria-live="polite"></span>
+        </div>
+        <div class="correction" id="ma-reponse-correction" hidden></div>
+      </section>
+      <!-- reponse:fin -->
 <div class="content-card no-print">
         <h2><span class="ico">&#x1F517;</span> Lien direct vers cette page</h2>
         <div class="lien-encart">
@@ -59,5 +74,7 @@
   <script src="../../js/catalogue.js"></script>
 
   <script src="../../js/components.js"></script>
+
+  <script src="../../js/reponse.js"></script>
 </body>
 </html>

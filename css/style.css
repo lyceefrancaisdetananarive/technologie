@@ -401,10 +401,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .groupe-courante { font-size: .82rem; color: var(--encre-3); }
 .groupe-liens { display: flex; gap: .8rem; font-size: .84rem; margin-top: .4rem; flex-wrap: wrap; }
 .groupe-liens a { font-weight: 700; color: var(--bleu); min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .15em; }
+/* Compteur « à corriger » des cartes du tableau de bord (décision D16, e). */
+.groupe-corriger { font-size: .84rem; font-weight: 700; color: var(--encre-3); }
+a.groupe-corriger.alerte { color: var(--encours); min-height: 44px; display: inline-flex; align-items: center; text-decoration: underline; text-underline-offset: .15em; }
+a.groupe-corriger.alerte::before { content: ""; width: .6em; height: .6em; border-radius: 50%; background: var(--encours); margin-right: .4em; flex: none; }
 
 /* États des séquences (fait, en cours, à venir), pour la carte de l'année de
-   l'élève (phase 4). L'état est un affichage : les liens restent ouverts, les
-   pages sont publiques (principe retenu dans le cadrage, référence Moodle). */
+   l'élève (phase 4). L'état est un affichage ; depuis la décision D16, les
+   fiches demandent une session et le portier refuse celles des autres niveaux. */
 .seq-etat { display: inline-block; font-size: .72rem; font-weight: 800; letter-spacing: .05em; text-transform: uppercase; padding: 2px 8px; border-radius: 999px; margin-bottom: .35rem; }
 .seq-etat-fait { background: var(--fait-pale); color: var(--fait); }
 .seq-etat-encours { background: var(--encours-pale); color: var(--encours); }
@@ -416,6 +420,15 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .seq-badge { display: inline-flex; align-items: center; gap: .25rem; margin-left: .5rem; font-size: .78rem; font-weight: 800; color: var(--encre); vertical-align: middle; }
 .seq-badge svg { width: 18px; height: 18px; color: var(--or); }
 .seq-card.seq-encours { border-color: #F0C48A; box-shadow: 0 0 0 4px var(--encours-pale); }
+
+/* Les autres niveaux, pour l'élève connecté (décision D16) : grisés, non
+   ouvrables. Le clavier est traité par tabindex=-1 et aria-disabled dans
+   components.js ; ici seulement l'apparence. */
+.hors-niveau { opacity: .55; filter: grayscale(1); cursor: not-allowed !important; }
+a.hors-niveau { pointer-events: none; text-decoration: none; }
+.seq-card.hors-niveau:hover { transform: none; border-color: var(--trait); }
+.niveau.hors-niveau-bloc { opacity: .6; filter: grayscale(.6); }
+.bandeau-niveau { margin: 0 0 var(--space-lg); padding: .7rem 1rem; border-radius: var(--radius-md); background: var(--grille); color: var(--encre-2); font-size: .92rem; font-weight: 700; }
 
 /* Onglets de période */
 .tab-system { margin-bottom: var(--space-lg); }
@@ -491,6 +504,25 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .pied-fiche .content-card { margin: 0; padding: var(--space-md) var(--space-lg); background: transparent; border: 0; }
 .pied-fiche h2 { font-size: 1rem; margin-bottom: .4rem; }
 .pied-fiche p { font-size: .92rem; }
+
+/* Le bloc « Ma réponse » au pied des fiches d'activité (décision D16, f).
+   .pied-fiche .content-card retire fond et bordure : ce sélecteur est au
+   moins aussi spécifique. Caché par défaut ([hidden]) ; js/reponse.js
+   l'ouvre pour un élève, en aperçu grisé pour un professeur. */
+.pied-fiche .ma-reponse { background: var(--papier-2); border: 1px solid var(--trait); border-left: 5px solid var(--bleu); border-radius: var(--radius-lg); padding: var(--space-md) var(--space-lg); }
+.ma-reponse label { display: block; font-size: .92rem; color: var(--encre-2); margin: .3rem 0 .5rem; }
+.ma-reponse textarea { width: 100%; min-height: 8rem; font: inherit; padding: .6rem .75rem; border: 1.5px solid var(--encre-4); border-radius: var(--radius-sm); background: var(--papier-2); resize: vertical; }
+.ma-reponse textarea:disabled { background: var(--papier); color: var(--encre-2); }
+.ma-reponse-etat { font-size: .88rem; color: var(--encre-3); margin-bottom: .3rem; }
+.ma-reponse-compteur { font-size: .8rem; color: var(--encre-3); text-align: right; margin: .25rem 0 0; }
+.ma-reponse-actions { display: flex; gap: .8rem; align-items: center; flex-wrap: wrap; margin-top: .6rem; }
+.ma-reponse-msg { font-size: .9rem; }
+.ma-reponse-msg.ok { color: var(--fait); font-weight: 700; }
+.ma-reponse-msg.err { color: var(--error); font-weight: 700; }
+.ma-reponse .correction { margin-top: .75rem; padding: .75rem 1rem; border-left: 4px solid var(--fait); background: var(--fait-pale); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; white-space: pre-wrap; font-size: .95rem; }
+.ma-reponse .correction strong { color: var(--fait); }
+.pied-fiche .ma-reponse.apercu { border-left-color: var(--encre-4); background: var(--papier); opacity: .85; }
+.ma-reponse.apercu textarea { min-height: 4rem; }
 .rendre { position: sticky; bottom: 0; z-index: 20; background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--radius-lg); padding: .8rem 1rem; display: flex; align-items: center; gap: 14px; box-shadow: 0 -6px 20px rgba(31, 42, 55, .08); margin-top: var(--space-lg); }
 .rendre b { font-family: var(--font-display); font-size: 1rem; display: block; }
 .rendre span { font-size: .86rem; color: var(--encre-2); }
@@ -564,6 +596,8 @@ details.note-prof .info-box { margin-top: .5rem; }
 .quiz-results-message { font-size: 1.1rem; color: var(--encre-2); margin-bottom: var(--space-lg); }
 .quiz-meilleur { font-weight: 700; color: var(--fait); margin: 0 0 var(--space-md); min-height: 1.2em; }
 .quiz-avis { background: var(--bleu-pale); border-left: 4px solid var(--bleu); padding: .6rem .9rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; font-size: .92rem; margin: 0 0 var(--space-md); }
+/* Rappel des questions sans réponse, à la fin du quiz. */
+.quiz-avis.quiz-manque { background: var(--encours-pale); border-left-color: var(--encours); color: #713F12; }
 .quiz-results:focus { outline: none; }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .quiz-papier { display: none; }

@@ -27,7 +27,7 @@ import sys
 import urllib.parse
 import urllib.request
 
-TABLES = ['profils', 'groupes', 'appartenances', 'rendus', 'plans', 'avancement',
+TABLES = ['profils', 'groupes', 'appartenances', 'rendus', 'reponses', 'plans', 'avancement',
           'exceptions', 'scores', 'journal_repli', 'journal', 'tentatives']
 BUCKET = 'rendus'
 

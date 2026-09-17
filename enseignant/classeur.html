@@ -12,6 +12,7 @@
   <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
   <h1>Classeur des élèves</h1>
   <span class="qui" id="qui"></span>
+  <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
   <a class="lien-tete" href="/enseignant/comptes.html">Groupes et comptes</a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
@@ -25,7 +26,16 @@
 
   <section>
     <h2>Travaux déposés</h2>
+    <p class="meta" id="compte-depots"></p>
     <div id="liste"><p class="vide">Chargement…</p></div>
+  </section>
+
+  <section>
+    <h2>Réponses rédigées</h2>
+    <p class="meta">Ce que les élèves ont écrit au pied d'une fiche d'activité (une réponse par fiche).
+       Votre correction fige la réponse ; « Retirer la correction » la rouvre à l'élève.</p>
+    <p class="meta" id="compte-reponses"></p>
+    <div id="liste-reponses"><p class="vide">Chargement…</p></div>
   </section>
 
   <section>
@@ -100,15 +110,47 @@ async function charger() {
   $('groupe').innerHTML = g.groupes
     .map((x) => `<option value="${x.id}">${echapper(x.code)} · ${echapper(x.libelle)}</option>`)
     .join('');
+  // Le tableau de bord envoie ici avec ?groupe= (compteur « à corriger ») :
+  // on atterrit sur ce groupe, s'il est l'un des miens (comme mesure.html).
+  const voulu = new URLSearchParams(location.search).get('groupe');
+  if (voulu && g.groupes.some((x) => x.id === voulu)) $('groupe').value = voulu;
   if (g.groupes.length) await voirGroupe();
-  else $('liste').innerHTML = '<p class="vide">Aucun groupe ne vous est rattaché.</p>';
+  else {
+    $('liste').innerHTML = '<p class="vide">Aucun groupe ne vous est rattaché.</p>';
+    $('liste-reponses').innerHTML = '';
+  }
 }
 
 let rendus = [];   // les dépôts du groupe affiché, tels que reçus puis corrigés
+let reponses = []; // les réponses rédigées du groupe affiché
+
+/** Les dépôts « à corriger » d'abord, puis les incomplets, puis les corrigés ;
+    à l'intérieur, l'ordre reçu (dépôt le plus récent en premier). */
+function rangDepot(r) {
+  if (r.fichier && !r.corrige_le) return 0;
+  if (!r.fichier) return 1;
+  return 2;
+}
 
 async function voirGroupe() {
-  const d = await api('/api/prof/rendus?groupe=' + $('groupe').value);
-  rendus = d.rendus;
+  const id = $('groupe').value;
+  // Les deux lectures partent ensemble et chacune tient seule : si la table
+  // des réponses n'est pas encore en place, les dépôts s'affichent quand même.
+  const [rd, rq] = await Promise.allSettled([
+    api('/api/prof/rendus?groupe=' + id),
+    api('/api/prof/reponses?groupe=' + id),
+  ]);
+  history.replaceState(null, '', `?groupe=${id}`);
+  voirReponses(rq);
+  if (rd.status === 'rejected') throw rd.reason;
+  const d = rd.value;
+  rendus = d.rendus.map((r, i) => ({ r, i }))
+    .sort((a, b) => rangDepot(a.r) - rangDepot(b.r) || a.i - b.i)
+    .map((x) => x.r);
+  const aCorriger = rendus.filter((r) => rangDepot(r) === 0).length;
+  $('compte-depots').textContent = aCorriger
+    ? `${aCorriger} dépôt${aCorriger > 1 ? 's' : ''} à corriger dans ce groupe, affiché${aCorriger > 1 ? 's' : ''} en premier.`
+    : '';
 
   // Qui n'a rien rendu ? C'est souvent l'information la plus utile.
   // Comparaison sur l'IDENTIFIANT, jamais sur le nom. Deux homonymes dans un
@@ -127,11 +169,68 @@ async function voirGroupe() {
     .map((e) => `<option value="${e.id}">${echapper(e.nom)} ${echapper(e.prenom)}</option>`)
     .join('');
 
-  if (!d.rendus.length) {
+  if (!rendus.length) {
     $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
     return;
   }
-  $('liste').innerHTML = d.rendus.map(articleRendu).join('');
+  $('liste').innerHTML = rendus.map(articleRendu).join('');
+}
+
+/** La liste des réponses rédigées, à partir du résultat (tenu ou rejeté) de l'API. */
+function voirReponses(rq) {
+  if (rq.status === 'rejected') {
+    reponses = [];
+    $('compte-reponses').textContent = '';
+    $('liste-reponses').innerHTML =
+      `<p class="msg err" style="display:block">Réponses rédigées indisponibles : ${echapper(rq.reason?.message || 'lecture impossible.')}</p>`;
+    return;
+  }
+  reponses = rq.value.reponses;
+  const n = rq.value.a_corriger;
+  $('compte-reponses').textContent = n
+    ? `${n} réponse${n > 1 ? 's' : ''} à corriger dans ce groupe, affichée${n > 1 ? 's' : ''} en premier.`
+    : '';
+  $('liste-reponses').innerHTML = reponses.length
+    ? reponses.map(articleReponse).join('')
+    : '<p class="vide">Aucune réponse rédigée pour ce groupe.</p>';
+}
+
+/** Le titre d'une fiche à partir de son chemin : 5eme/p1/seq1-ebep.html. */
+function titreFiche(page) {
+  const sequence = String(page).replace(/-(activite|ebep)\.html$/, '');
+  const titre = TITRES[sequence] || sequence;
+  return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
+}
+
+/** Une réponse rédigée. Rendue à part pour remplacer UN article après correction. */
+function articleReponse(r) {
+  const etat = r.corrige_le
+    ? '<span class="etiquette corrige">corrigée</span>'
+    : '<span class="etiquette attente">à corriger</span>';
+  return `
+    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}" data-reponse="${r.id}">
+      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}${etat}</h3>
+      <p class="meta"><a href="/${echapper(r.page)}">${echapper(titreFiche(r.page))}</a> ·
+        rédigée le ${dateCourte(r.modifie_le || r.redige_le)}
+        ${r.corrige_le ? ' · corrigée le ' + dateCourte(r.corrige_le) : ''}</p>
+      <p class="mot" style="white-space:pre-wrap;font-style:normal">${echapper(r.texte)}</p>
+      <div class="ligne">
+        <div style="flex:2 1 16rem">
+          <label for="c-r-${r.id}">Correction</label>
+          <textarea id="c-r-${r.id}" data-initial="${echapper(r.correction || '')}">${echapper(r.correction || '')}</textarea>
+        </div>
+        <button class="corriger-reponse" data-reponse="${r.id}">Enregistrer</button>
+      </div>
+      ${r.corrige_le ? `<p class="meta"><button class="lien-sup retirer-reponse"
+          data-reponse="${r.id}">Retirer la correction</button></p>` : ''}
+    </article>`;
+}
+
+function rafraichirReponse(r) {
+  const ancien = $('liste-reponses').querySelector(`article[data-reponse="${r.id}"]`);
+  if (!ancien) return;
+  ancien.insertAdjacentHTML('afterend', articleReponse(r));
+  ancien.remove();
 }
 
 /** Un dépôt. Rendu à part pour pouvoir remplacer UN article après sa correction. */
@@ -188,7 +287,7 @@ function rafraichirArticle(r) {
 
 /** Une appréciation est-elle en cours de saisie quelque part ? */
 function saisieEnCours() {
-  return [...$('liste').querySelectorAll('textarea')]
+  return [...$('liste').querySelectorAll('textarea'), ...$('liste-reponses').querySelectorAll('textarea')]
     .some((z) => z.value !== (z.dataset.initial ?? ''));
 }
 
@@ -304,8 +403,60 @@ $('liste').addEventListener('click', async (ev) => {
   }
 });
 
+// Les réponses rédigées ont LEUR gestionnaire, avec leurs propres classes de
+// boutons : les deux listes ne partagent ni identifiants ni gestes, et le
+// professeur n'efface jamais une réponse (voir api/prof/reponses.js).
+$('liste-reponses').addEventListener('click', async (ev) => {
+  const cible = ev.target.closest('button');
+  if (!cible) return;
+  const id = cible.dataset.reponse;
+  const r = reponses.find((x) => x.id === id);
+  if (!r) return;
+
+  if (cible.classList.contains('retirer-reponse')) {
+    if (!confirm('Retirer la correction ? Elle sera effacée, et l’élève pourra de nouveau modifier sa réponse.')) return;
+    cible.disabled = true; cible.textContent = '…';
+    try {
+      await api('/api/prof/reponses', {
+        method: 'PATCH', body: JSON.stringify({ reponse: id, annuler: true }),
+      });
+      Object.assign(r, { correction: null, corrige_le: null });
+      rafraichirReponse(r);
+      $('compte-reponses').textContent = '';
+    } catch (e) {
+      alert(e.message); cible.disabled = false; cible.textContent = 'Retirer la correction';
+    }
+    return;
+  }
+
+  if (cible.classList.contains('corriger-reponse')) {
+    const correction = $('c-r-' + id).value;
+    if (!correction.trim()) {
+      alert('Écrivez une correction. Pour retirer une correction déjà enregistrée, utilisez « Retirer la correction ».');
+      return;
+    }
+    cible.disabled = true; cible.textContent = '…';
+    try {
+      const d = await api('/api/prof/reponses', {
+        method: 'PATCH', body: JSON.stringify({ reponse: id, correction }),
+      });
+      Object.assign(r, {
+        correction: d.reponse?.correction ?? correction,
+        corrige_le: d.reponse?.corrige_le ?? new Date().toISOString(),
+      });
+      rafraichirReponse(r);
+      $('compte-reponses').textContent = '';
+      $('mr').className = 'msg ok';
+      $('mr').textContent = 'Correction enregistrée.';
+    } catch (e) {
+      cible.textContent = 'Échec'; cible.disabled = false;
+      alert(e.message);
+    }
+  }
+});
+
 $('groupe').addEventListener('change', async () => {
-  if (saisieEnCours() && !confirm('Une appréciation est en cours de saisie et n’est pas enregistrée. Changer de groupe ?')) {
+  if (saisieEnCours() && !confirm('Une appréciation ou une correction est en cours de saisie et n’est pas enregistrée. Changer de groupe ?')) {
     return;
   }
   try { await voirGroupe(); } catch (e) { alert(e.message); }
