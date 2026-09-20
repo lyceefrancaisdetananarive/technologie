@@ -208,7 +208,9 @@ function rendreAnnee() {
   $('annee-prochaine').textContent = r.terminee
     ? 'Toutes les séquences de l’année sont faites.'
     : r.courante
-      ? `Séquence en cours : ${r.courante.titre}.`
+      // « En cours » seulement si une séance y est déjà cochée : sinon la
+      // pastille de la même séquence dit « À venir » juste en dessous.
+      ? `${etatSequence(r.courante, prog.avancement) === 'encours' ? 'Séquence en cours' : 'Prochaine séquence'} : ${r.courante.titre}.`
         + (r.ouvertes ? ' Pour ce qui est à rattraper ou à reprendre, demande à ton professeur.' : '')
       : '';
   $('annee-legende').hidden = false;
@@ -454,7 +456,22 @@ $('f').addEventListener('submit', async (e) => {
   }
 });
 
-charger().catch((e) => dire(e.message, 'err'));
+charger().catch((e) => {
+  // La première lecture a échoué (réseau coupé, fonction en panne) : le
+  // dire là où l'élève regarde, en haut de page et dans les blocs restés
+  // sur « Chargement… », avec le geste attendu. #m, sous le bouton Déposer,
+  // est hors de l'écran sur un poste de salle ou un téléphone.
+  const t = (e.message || 'Le classeur n’a pas pu être lu.') + ' Actualise la page pour réessayer.';
+  $('repli').className = 'msg err';
+  $('repli').innerHTML = `${echapper(t)} <button type="button" class="lien-sup" id="reessayer">Réessayer</button>`;
+  $('reessayer').addEventListener('click', () => location.reload());
+  if ($('annee-resume').textContent.trim() === 'Chargement…') $('annee-resume').textContent = t;
+  for (const id of ['liste', 'liste-reponses']) {
+    if ($(id).textContent.trim() === 'Chargement…') $(id).innerHTML = `<p class="vide">${echapper(t)}</p>`;
+  }
+  if (!groupes.length) $('f').hidden = true;
+  dire(t, 'err');
+});
 </script>
 </body>
 </html>

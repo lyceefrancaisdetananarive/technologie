@@ -422,14 +422,19 @@
     pile.className = 'session-pile' + (prof ? ' prof' : '');
     pile.setAttribute('role', 'status');
     pile.innerHTML = `<span class="ini">${prof ? 'P' : 'E'}</span><span class="txt">Session ${prof ? 'professeur' : 'élève'} ouverte</span>`;
+    // Sur un petit ecran, le libelle court : « Fermer ma session » (135 px)
+    // poussait le bouton de menu hors de l'ecran a 360 px. Le nom complet
+    // reste pour les lecteurs d'ecran.
+    const libelle = matchMedia('(max-width: 768px)').matches ? 'Fermer' : 'Fermer ma session';
     const b = document.createElement('button');
-    b.type = 'button'; b.className = 'fermer'; b.textContent = 'Fermer ma session';
+    b.type = 'button'; b.className = 'fermer'; b.textContent = libelle;
+    b.setAttribute('aria-label', 'Fermer ma session');
     b.title = 'Fermer la session sur cet ordinateur';
     // N'EFFACER LE TEMOIN QUE SUR UN 200 CONFIRME : sinon le voyant
     // disparaitrait en laissant la session vivante, et l'occupant suivant
     // du poste ne serait plus averti. fetch() ne rejette pas sur un 4xx.
     function echec() {
-      b.disabled = false; b.textContent = 'Fermer ma session';
+      b.disabled = false; b.textContent = libelle;
       let avis = document.getElementById('session-avis');
       if (!avis) {
         avis = document.createElement('div'); avis.id = 'session-avis'; avis.className = 'session-avis no-print';

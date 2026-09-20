@@ -202,7 +202,9 @@ export async function membreDe(eleveId, groupeId) {
 }
 
 /**
- * Écriture enregistrée : on réarme la session du professeur pour 30 minutes.
+ * Écriture enregistrée : on réarme la session du professeur pour DUREE_PROF
+ * (quatre-vingt-dix minutes, une séance ; même valeur à la connexion, voir
+ * api/auth/connexion.js).
  * Partagé par la correction, le plan de l'année et l'avancement, pour que le
  * professeur qui travaille ne soit pas déconnecté au milieu d'une séance.
  *
@@ -210,10 +212,10 @@ export async function membreDe(eleveId, groupeId) {
  * initiale, et elle porte le plafond absolu de session (voir session.js).
  * Sans ce report, sceller() poserait un nouveau départ à chaque écriture et
  * le plafond ne mordrait jamais : une session laissée ouverte se
- * prolongerait indéfiniment, à raison d'une coche toutes les vingt-neuf
- * minutes.
+ * prolongerait indéfiniment, à raison d'une coche toutes les quatre-vingt-
+ * neuf minutes.
  */
-export const DUREE_PROF = 1800;
+export const DUREE_PROF = 5400;
 
 export async function reArmer(req, res, moi) {
   const session = await ouvrir(

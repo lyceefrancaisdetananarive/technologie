@@ -75,14 +75,22 @@
     compteur.textContent = reste < 0 ? '0 caractère restant' : reste + ' caractère' + (reste > 1 ? 's' : '') + ' restant' + (reste > 1 ? 's' : '');
   }
 
-  /** Le lien de reconnexion, construit en DOM : jamais d'innerHTML ici. */
+  /**
+   * Le lien de reconnexion, construit en DOM : jamais d'innerHTML ici.
+   * Il s'ouvre dans un NOUVEL onglet : dans le même onglet, la page de
+   * connexion remplaçait la fiche et le texte non envoyé disparaissait,
+   * alors que le message promettait le contraire. Le cookie posé dans
+   * l'autre onglet vaut ici aussi : un second clic sur Envoyer aboutit.
+   */
   function lienConnexion(avant) {
     msg.textContent = avant + ' ';
     const a = document.createElement('a');
     a.href = '/connexion.html?suite=' + encodeURIComponent(location.pathname);
-    a.textContent = 'Reconnecte-toi';
+    a.target = '_blank';
+    a.rel = 'noopener';
+    a.textContent = 'Reconnecte-toi dans un nouvel onglet';
     msg.appendChild(a);
-    msg.appendChild(document.createTextNode(' : ton texte reste dans le champ.'));
+    msg.appendChild(document.createTextNode(', puis reviens ici et clique à nouveau sur Envoyer : ton texte est toujours dans le champ.'));
     msg.className = 'ma-reponse-msg err';
   }
 

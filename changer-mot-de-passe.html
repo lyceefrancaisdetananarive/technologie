@@ -28,7 +28,7 @@
     <div id="bloc-ancien">
       <label for="ancien">Mot de passe actuel</label>
       <input id="ancien" type="password" autocomplete="current-password">
-      <p class="aide">Celui reçu par courriel, ou dicté par votre professeur.</p>
+      <p class="aide">Celui que votre professeur vous a dicté, ou celui que vous aviez choisi.</p>
     </div>
 
     <label for="nouveau">Nouveau mot de passe</label>
@@ -138,8 +138,39 @@
     }, 10 * 60 * 1000);
   } else if (erreurLien) {
     dire('Ce lien n’est plus valable. Il ne sert qu’une fois, et il expire ' +
-         'au bout d’une heure. Demandez-en un nouveau depuis « Première ' +
+         'au bout de 24 heures. Demandez-en un nouveau depuis « Première ' +
          'connexion », ou demandez à votre professeur.', 'err');
+  } else if (!sessionOuverte()) {
+    // Ni jeton, ni session : page rouverte depuis l'historique d'un poste
+    // partagé, ou rechargée après le lien du courriel (le fragment est
+    // effacé à la première lecture). Le formulaire ne peut pas aboutir, on
+    // dit le geste attendu plutôt que de laisser l'API répondre « Session
+    // expirée » à quelqu'un qui n'en a jamais eu. Le témoin n'est qu'un
+    // voyant ; ici il ne sert qu'à choisir le bon message, l'API décide.
+    f.hidden = true;
+    var retour = '/changer-mot-de-passe.html' + (suite ? '?suite=' + encodeURIComponent(suite) : '');
+    m.textContent = 'Pour choisir votre mot de passe, ';
+    var a1 = document.createElement('a');
+    a1.href = '/connexion.html?suite=' + encodeURIComponent(retour);
+    a1.textContent = 'connectez-vous d’abord';
+    m.appendChild(a1);
+    m.appendChild(document.createTextNode(' avec le mot de passe provisoire donné par votre ' +
+      'professeur, ou avec votre mot de passe actuel : vous reviendrez ici automatiquement. ' +
+      'Vous n’avez aucun mot de passe ? Passez par '));
+    var a2 = document.createElement('a');
+    a2.href = '/mot-de-passe-oublie.html';
+    a2.textContent = 'Première connexion';
+    m.appendChild(a2);
+    m.appendChild(document.createTextNode('.'));
+    m.className = 'msg info';
+  }
+
+  /** Le témoin de session (même lecture que js/components.js), échéance comprise. */
+  function sessionOuverte() {
+    try {
+      var t = document.cookie.match(/(?:^|;\s*)lft_ouvert=(?:prof|eleve)\.(\d+)/);
+      return Boolean(t && Number(t[1]) * 1000 > Date.now());
+    } catch (e) { return true; }   // dans le doute, on laisse le formulaire
   }
 
   f.addEventListener('submit', function (e) {

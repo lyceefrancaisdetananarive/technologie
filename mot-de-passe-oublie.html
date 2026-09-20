@@ -57,10 +57,18 @@
       m = document.getElementById('m');
   f.addEventListener('submit', function (e) {
     e.preventDefault();
+    // Espaces retirées, y compris à l'intérieur (espace glissée après le
+    // point sur un téléphone), et minuscules : la même adresse, bien tapée.
+    var email = document.getElementById('email');
+    email.value = email.value.replace(/\s+/g, '').toLowerCase();
+    if (!email.value) {
+      m.textContent = 'Indiquez votre adresse de l’établissement.'; m.className = 'msg err';
+      email.focus(); return;
+    }
     b.disabled = true; b.textContent = 'Envoi…';
     fetch('/api/auth/mot-de-passe-oublie', {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ email: document.getElementById('email').value })
+      body: JSON.stringify({ email: email.value })
     })
     .then(function (r) { return r.json(); })
     .then(function (d) {

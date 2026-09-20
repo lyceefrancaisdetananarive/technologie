@@ -1,5 +1,5 @@
 import { sceller, poserCookie } from '../_lib/session.js';
-import { roleTenable, niveauxDe } from '../_lib/autorisation.js';
+import { roleTenable, niveauxDe, DUREE_PROF } from '../_lib/autorisation.js';
 import {
   verifierMotDePasse, lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -47,29 +47,34 @@ const PROVISOIRE_HEURES = 24;
 
 // Durée de la session, en secondes, selon le rôle.
 //
-// Une heure pour un professeur, c'est la classe suivante : connecté à 8h05
-// pour projeter un corrigé, il l'est encore à 9h05, quand vingt-huit autres
-// élèves se sont installés devant le même poste. Trente minutes ferment la
-// séance sans la déborder. L'élève garde une heure : sa session n'ouvre que
-// son propre classeur, et l'expirer en pleine activité coûterait un dépôt.
+// Professeur : quatre-vingt-dix minutes, la durée d'une séance (constante
+// unique DUREE_PROF, dans api/_lib/autorisation.js, partagée avec le
+// réarmement et le changement de mot de passe). Trente minutes, la valeur
+// initiale, expiraient au milieu de la première heure de cours : connecté à
+// 7 h 55, le professeur était renvoyé sans un mot à la page de connexion, sur
+// l'écran projeté, au moment de cocher la séance, puisqu'aucune lecture ne
+// réarme la session. Le plafond absolu de quatre heures (session.js) tient.
 //
-// La session du professeur se réarme à chaque correction enregistrée (voir
-// api/prof/corriger.js) : corriger vingt-cinq rendus ne déconnecte donc pas.
-// Le réarmement est volontairement lié à une ÉCRITURE et non à une lecture :
-// une prolongation déclenchée par la simple consultation serait entretenue
-// par l'élève même qui exploite la session restée ouverte.
+// La session du professeur se réarme à chaque écriture enregistrée (voir
+// api/_lib/autorisation.js, reArmer) : corriger vingt-cinq rendus ne
+// déconnecte donc pas. Le réarmement est volontairement lié à une ÉCRITURE
+// et non à une lecture : une prolongation déclenchée par la simple
+// consultation serait entretenue par l'élève même qui exploite la session
+// restée ouverte.
 // Élève : deux heures. Chaque élève ouvre sa session à chaque séance
 // (décision D15, question 12), et une séance dure 1 h 30 : une heure
 // expirait au milieu du dépôt. Le cookie reste sans Max-Age, donc il meurt
 // avec le navigateur, et le plafond absolu de quatre heures s'applique.
-const DUREE = { prof: 1800, eleve: 7200 };
+const DUREE = { prof: DUREE_PROF, eleve: 7200 };
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') return refus(res, 405, 'Méthode non autorisée.');
   if (!configuree()) return refus(res, 503, "Le service n'est pas encore configuré.");
   if (!origineLegitime(req)) return refus(res, 403, 'Origine non autorisée.');
 
-  const email = String(req.body?.email ?? '').trim().toLowerCase();
+  // Les espaces INTÉRIEURES aussi : « lea. rakoto@… » (espace glissée après
+  // le point sur un téléphone) est la même adresse mal tapée, pas une autre.
+  const email = String(req.body?.email ?? '').replace(/\s+/g, '').toLowerCase();
   const motDePasse = String(req.body?.motDePasse ?? '');
   if (!email || !motDePasse) return refus(res, 400, ECHEC);
 

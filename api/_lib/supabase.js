@@ -154,6 +154,12 @@ export async function utilisateurDuJetonHache(jetonHache) {
  * premier envoi. Le gabarit du courriel n'en dépend plus, mais la valeur
  * reste exposée aux gabarits sous {{ .RedirectTo }} : autant qu'elle soit
  * juste.
+ *
+ * Renvoie le STATUT HTTP de Supabase (200 quand la demande est acceptée),
+ * pas un simple booléen : un 429 (limite de /auth/v1/recover par adresse
+ * IP, 30 demandes par 5 minutes, toutes les demandes partant de Vercel ;
+ * ou relais SMTP saturé) et un 5xx doivent se lire dans les journaux, sinon
+ * une classe entière attend un courriel qui n'est jamais parti.
  */
 export async function envoyerLienReinitialisation(email, origine) {
   const cible = encodeURIComponent(`${origine}/changer-mot-de-passe.html`);
@@ -162,7 +168,7 @@ export async function envoyerLienReinitialisation(email, origine) {
     headers: { apikey: ANON(), 'content-type': 'application/json' },
     body: JSON.stringify({ email }),
   });
-  return r.ok;
+  return r.status;
 }
 
 /**

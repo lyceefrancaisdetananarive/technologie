@@ -74,6 +74,37 @@
     </div>
     <p class="msg" id="mr" role="status" aria-live="polite"></p>
   </section>
+
+  <section id="bloc-groupe-mdp">
+    <h2>Mots de passe provisoires pour tout le groupe</h2>
+    <p class="meta">Pour une première séance : un mot de passe provisoire par élève qui
+       n'a <b>pas encore choisi le sien</b>, en une seule fois, à imprimer et à
+       découper. Les élèves qui ont déjà un mot de passe ne sont pas touchés.
+       Ces mots de passe expirent au bout de 24 heures : à générer le matin même.</p>
+    <div class="ligne">
+      <button class="secondaire" id="groupe-mdp">Générer la liste du groupe</button>
+    </div>
+    <div class="ligne" id="bloc-confirme-groupe" hidden>
+      <div>
+        <label for="confirme-groupe">Votre mot de passe, pour confirmer</label>
+        <input id="confirme-groupe" type="password" autocomplete="current-password">
+      </div>
+      <button class="secondaire" id="confirmer-groupe">Confirmer</button>
+      <button class="secondaire" id="annuler-groupe">Annuler</button>
+    </div>
+    <p class="msg" id="mg" role="status" aria-live="polite"></p>
+    <div id="liste-mdp" class="liste-mdp" hidden>
+      <div class="ligne-mdp">
+        <button class="secondaire no-print" id="imprimer-mdp">Imprimer la liste</button>
+        <span class="meta" id="mdp-info"></span>
+      </div>
+      <table class="tableau-mdp">
+        <thead><tr><th>Élève</th><th>Adresse</th><th>Mot de passe provisoire</th></tr></thead>
+        <tbody id="mdp-lignes"></tbody>
+      </table>
+      <p class="meta" id="mdp-avert"></p>
+    </div>
+  </section>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -394,8 +425,7 @@ $('liste').addEventListener('click', async (ev) => {
         corrige_le: new Date().toISOString(),
       });
       rafraichirArticle(r);
-      $('mr').className = 'msg ok';
-      $('mr').textContent = 'Correction enregistrée.';
+      direCorrection();
     } catch (e) {
       cible.textContent = 'Échec'; cible.disabled = false;
       alert(e.message);
@@ -446,8 +476,7 @@ $('liste-reponses').addEventListener('click', async (ev) => {
       });
       rafraichirReponse(r);
       $('compte-reponses').textContent = '';
-      $('mr').className = 'msg ok';
-      $('mr').textContent = 'Correction enregistrée.';
+      direCorrection();
     } catch (e) {
       cible.textContent = 'Échec'; cible.disabled = false;
       alert(e.message);
@@ -485,6 +514,17 @@ function fermerConfirmation() {
   $('bloc-confirme').hidden = true;
   $('confirme').value = '';
   $('reinit').disabled = false;
+}
+
+/**
+ * « Correction enregistrée. » partage la zone #mr avec le mot de passe
+ * provisoire : on n'écrase jamais un mot de passe encore affiché, que le
+ * professeur n'a peut-être pas encore dicté.
+ */
+function direCorrection() {
+  if ($('mr').querySelector('.mdp')) return;
+  $('mr').className = 'msg ok';
+  $('mr').textContent = 'Correction enregistrée.';
 }
 
 $('reinit').addEventListener('click', () => {
@@ -536,6 +576,68 @@ $('confirmer').addEventListener('click', async () => {
     $('confirmer').disabled = false;
   }
 });
+
+// ---- Liste de mots de passe provisoires pour tout le groupe ----
+// Même barrière que la réinitialisation à l'unité : le mot de passe du
+// professeur est retapé dans un champ de type password, jamais un prompt().
+function fermerConfirmationGroupe() {
+  $('bloc-confirme-groupe').hidden = true;
+  $('confirme-groupe').value = '';
+  $('groupe-mdp').disabled = false;
+}
+
+$('groupe-mdp').addEventListener('click', () => {
+  const g = $('groupe').selectedOptions[0]?.textContent || 'ce groupe';
+  $('mg').className = 'msg attention';
+  $('mg').textContent =
+    `Générer un mot de passe provisoire pour chaque élève de ${g} qui n’a pas ` +
+    `encore choisi le sien. La liste s’affichera à l’écran : ne la projetez pas. ` +
+    `Chaque élève est journalisé.`;
+  $('bloc-confirme-groupe').hidden = false;
+  $('groupe-mdp').disabled = true;
+  $('confirme-groupe').focus();
+});
+$('annuler-groupe').addEventListener('click', fermerConfirmationGroupe);
+$('confirme-groupe').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') { e.preventDefault(); $('confirmer-groupe').click(); }
+});
+$('confirmer-groupe').addEventListener('click', async () => {
+  const motDePasse = $('confirme-groupe').value;
+  if (!motDePasse) { $('confirme-groupe').focus(); return; }
+  $('confirmer-groupe').disabled = true;
+  try {
+    const d = await api('/api/prof/reinitialiser-groupe', {
+      method: 'POST',
+      body: JSON.stringify({ groupe: $('groupe').value, motif: 'boite_inaccessible', confirmation: motDePasse }),
+    });
+    $('mdp-lignes').innerHTML = d.eleves.map((e) =>
+      `<tr><td>${echapper(e.nom)} ${echapper(e.prenom)}</td><td>${echapper(e.email)}</td>` +
+      `<td class="mdp">${echapper(e.motDePasse)}</td></tr>`).join('');
+    $('mdp-info').textContent = `${d.groupe} · ${d.eleves.length} mot(s) de passe généré(s)` +
+      (d.dejaChoisi ? ` · ${d.dejaChoisi} élève(s) ont déjà le leur, non touchés` : '') +
+      ` · ${dateCourte(d.poseLe)}`;
+    $('mdp-avert').textContent = d.avertissement;
+    $('liste-mdp').hidden = !d.eleves.length;
+    $('mg').className = 'msg ' + (d.eleves.length ? 'ok' : 'attention');
+    $('mg').textContent = d.eleves.length
+      ? 'Liste générée. Imprimez-la maintenant : elle ne sera plus affichée après avoir quitté la page.'
+      : 'Aucun élève de ce groupe n’attend un mot de passe : tous ont déjà choisi le leur.';
+    fermerConfirmationGroupe();
+  } catch (e) {
+    $('mg').className = 'msg err'; $('mg').textContent = e.message;
+    $('confirme-groupe').value = '';
+    $('confirme-groupe').focus();
+  } finally {
+    $('confirmer-groupe').disabled = false;
+  }
+});
+$('imprimer-mdp').addEventListener('click', () => {
+  document.body.classList.add('imprimer-mdp');
+  window.print();
+  document.body.classList.remove('imprimer-mdp');
+});
+// Quitter le groupe efface la liste : elle ne doit pas rester sous les yeux du suivant.
+$('groupe').addEventListener('change', () => { $('liste-mdp').hidden = true; $('mdp-lignes').innerHTML = ''; $('mg').textContent = ''; });
 
 charger().catch((e) => { $('liste').innerHTML =
   `<p class="msg err" style="display:block">${echapper(e.message)}</p>`; });

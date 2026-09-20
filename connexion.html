@@ -129,14 +129,33 @@
 
   f.addEventListener('submit', function (e) {
     e.preventDefault();
+    // Le formulaire est en novalidate : on dit ici ce que le navigateur ne
+    // dit plus. Un champ vide envoyé au serveur recevait le message d'échec
+    // conçu pour un mot de passe faux, avec la pause d'un quart d'heure,
+    // alors que l'élève n'a simplement pas encore de mot de passe. Les
+    // espaces sont retirées, y compris à l'intérieur (« lea. rakoto@… »,
+    // espace glissée après le point sur un téléphone).
+    var prof = entrees.prof.getAttribute('aria-pressed') === 'true';
+    var adresse = email.value.replace(/\s+/g, '').toLowerCase();
+    var mdp = document.getElementById('mdp');
+    email.value = adresse;
+    if (!adresse) {
+      dire(prof ? 'Indiquez votre adresse de l’établissement.' : 'Écris ton adresse de l’établissement.', 'err');
+      email.focus(); return;
+    }
+    if (!mdp.value) {
+      dire(prof ? 'Indiquez votre mot de passe.'
+                : 'Écris ton mot de passe. Tu n’en as pas encore ? Clique sur « Première connexion », sous le bouton.', 'err');
+      mdp.focus(); return;
+    }
     b.disabled = true; b.textContent = 'Connexion…'; m.className = 'msg';
 
     fetch('/api/auth/connexion', {
       method: 'POST',
       headers: { 'content-type': 'application/json' },
       body: JSON.stringify({
-        email: document.getElementById('email').value,
-        motDePasse: document.getElementById('mdp').value
+        email: adresse,
+        motDePasse: mdp.value
       })
     })
     .then(function (r) { return r.json().then(function (d) { return { r: r, d: d }; }); })

@@ -129,6 +129,13 @@ export default async function handler(req, res) {
       { prof_id: prof.id, eleve_id: eleve.id, motif }, 'POST');
     await journaliser(prof.id, 'mdp.reinitialise', eleve.id, motif);
     await definirMotDePasse(eleve.id, provisoire);
+    // Le nouveau mot de passe repart de zéro. Le verrou de connexion refuse
+    // tout, mot de passe juste compris, dès dix échecs dans le quart d'heure
+    // (api/auth/connexion.js) et ne s'efface qu'à une connexion réussie :
+    // sans cette ligne, un compte mis en pause refusait le provisoire qu'on
+    // venait de dicter, sans rien dire, pendant quinze minutes.
+    await ecrire('tentatives',
+      `profil_id=eq.${eleve.id}&origine=eq.connexion`, {}, 'DELETE').catch(() => {});
 
     res.status(200).json({
       ok: true,
@@ -138,6 +145,7 @@ export default async function handler(req, res) {
         "Ce mot de passe s'affiche à l'écran et sera dit à voix haute : " +
         "la classe peut l'entendre. Faites-le changer immédiatement par " +
         "l'élève. Il cesse de fonctionner au bout de 24 heures. " +
+        "Si l'élève avait épuisé ses essais, le compteur est remis à zéro. " +
         "L'opération est journalisée et signalée à l'élève.",
     });
   } catch (e) {

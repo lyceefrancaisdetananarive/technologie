@@ -66,7 +66,7 @@ async function cle(secret) {
 // La session du professeur se réarme à chaque correction enregistrée, pour
 // qu'une série de corrections ne soit pas interrompue. Sans plafond, ce
 // réarmement n'a aucune fin : celui qui s'assoit devant une session laissée
-// ouverte peut enregistrer une correction toutes les vingt-neuf minutes et la
+// ouverte peut enregistrer une correction avant chaque échéance et la
 // maintenir vivante toute la journée. `dep` porte l'heure de la connexion
 // INITIALE, il est recopié tel quel à chaque réarmement, et il n'est jamais
 // repoussé. Passé ce délai, il faut retaper son mot de passe, point.

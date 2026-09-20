@@ -1,5 +1,5 @@
 import { ouvrir, lireCookie, sceller, poserCookie } from '../_lib/session.js';
-import { ressaisieAutorisee, noterEchecRessaisie, roleTenable, niveauxDe, MAX_RESSAISIES, FENETRE_MINUTES }
+import { ressaisieAutorisee, noterEchecRessaisie, roleTenable, niveauxDe, MAX_RESSAISIES, FENETRE_MINUTES, DUREE_PROF }
   from '../_lib/autorisation.js';
 import { refuserMotDePasse } from '../_lib/motdepasse.js';
 import { journaliser } from '../_lib/journal.js';
@@ -51,7 +51,7 @@ export default async function handler(req, res) {
     if (jeton) {
       // ---- Entrée B : hachage du jeton reçu par courriel -----------------
       // C'est Supabase qui dit à qui appartient ce jeton et s'il est encore
-      // valable : une heure, réglée dans son tableau de bord, et un seul
+      // valable : 24 heures, réglées dans son tableau de bord (Email OTP expiration, 86400 s depuis le 20 septembre 2026), et un seul
       // usage. C'est elle, et non nous, qui périme le lien.
       //
       // ORDRE DES ÉCRITURES. Cet appel CONSOMME le jeton. Si la liaison coupe
@@ -62,7 +62,7 @@ export default async function handler(req, res) {
       const porteur = await utilisateurDuJetonHache(jeton);
       if (!porteur) {
         return refus(res, 401,
-          "Ce lien n'est plus valable. Il expire au bout d'une heure, et il " +
+          "Ce lien n'est plus valable. Il expire au bout de 24 heures, et il " +
           "ne sert qu'une fois. Demandez-en un nouveau depuis « Première " +
           "connexion », ou demandez à votre professeur.");
       }
@@ -73,7 +73,15 @@ export default async function handler(req, res) {
       // ---- Entrée A : session en cours + ancien mot de passe ------------
       const session = await ouvrir(
         lireCookie(req.headers.cookie), process.env.LFT_COOKIE_SECRET);
-      if (!session) return refus(res, 401, 'Session expirée. Reconnectez-vous.');
+      // Sans session, le plus souvent la personne n'en a JAMAIS eu (page
+      // rouverte depuis l'historique d'un poste partagé, ou rechargée après
+      // le lien du courriel) : « Session expirée » ne lui dit pas quoi faire.
+      if (!session) {
+        return refus(res, 401,
+          'Aucune session ouverte, ou session expirée. Connectez-vous d’abord ' +
+          '(page Connexion) avec votre mot de passe actuel ou le mot de passe ' +
+          'provisoire donné par votre professeur : vous serez ramené ici.');
+      }
 
       if (nouveau === ancien) {
         return refus(res, 400,
@@ -117,6 +125,11 @@ export default async function handler(req, res) {
     await definirMotDePasse(profil.id, nouveau);
     await ecrire('profils', `id=eq.${profil.id}`,
       { mdp_provisoire: false, mdp_pose_le: new Date().toISOString() });
+    // Un mot de passe neuf repart de zéro : le verrou de connexion (dix
+    // échecs sur quinze minutes) ne doit pas refuser, à la prochaine
+    // connexion, le mot de passe que la personne vient de choisir.
+    await ecrire('tentatives',
+      `profil_id=eq.${profil.id}&origine=eq.connexion`, {}, 'DELETE').catch(() => {});
     await journaliser(profil.id, 'mdp.change', profil.id, jeton ? 'par lien' : 'par ancien mot de passe');
 
     // Cookie sans le drapeau « provisoire », sinon le portier renverrait
@@ -128,9 +141,9 @@ export default async function handler(req, res) {
     const jetonSession = await sceller(
       { sub: profil.id, role: profil.role, prov: false, niv },
       process.env.LFT_COOKIE_SECRET,
-      profil.role === 'prof' ? 1800 : 7200);
+      profil.role === 'prof' ? DUREE_PROF : 7200);
     res.setHeader('Set-Cookie',
-      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? 1800 : 7200, niv));
+      poserCookie(jetonSession, profil.role, profil.role === 'prof' ? DUREE_PROF : 7200, niv));
     res.status(200).json({ ok: true, role: profil.role });
 
   } catch (e) {
