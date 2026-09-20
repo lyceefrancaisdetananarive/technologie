@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Préparation du lundi 21 septembre | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .fiche h2 { margin-top: var(--space-xl); }
+    .fiche h3 { color: var(--bleu); margin-top: var(--space-lg); }
+    .fiche h4 { margin-top: var(--space-md); }
+    .fiche li.coche { list-style: none; margin-left: -1.4rem; padding-left: 1.9rem; position: relative; }
+    .fiche li.coche::before { content: ""; position: absolute; left: 0; top: .25rem; width: 1.05rem; height: 1.05rem; border: 2px solid var(--encre-4); border-radius: 4px; background: #fff; }
+    .fiche li { margin-bottom: .35rem; }
+    .fiche li > ul, .fiche li > ol { margin-top: .35rem; }
+    .fiche table td:first-child { font-weight: 600; width: 32%; }
+    .fiche code { font-size: .9em; }
+    @media print { .fiche li.coche::before { border-color: #000; } .fiche h2 { break-after: avoid; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="enseignant"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant","url":"index.html"},{"label":"Lundi 21 septembre"}]'
+    data-print-title="Préparation du lundi 21 septembre 2026"
+    data-print-subtitle="Trois premières séances sur le site · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge"><span class="ico">&#x1F511;</span> Enseignant</span>
+        <h1>Lundi 21 septembre 2026 : les trois premières séances sur le site</h1>
+        <p class="page-description">Fiche de préparation de M. Rafaliarison : 4M7P2 à 8 h, 5M1 SVT à 9 h 40, 4M7P1 à 11 h, salle AH13. Ouverture des comptes, évaluation diagnostique en ligne déposée dans le classeur, entrée dans la séquence 1, puis les séances suivantes. Rédigée d’après le site lui-même, le 20 septembre 2026.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
+        <a class="btn btn-outline" href="premiere-seance.html"><span class="ico">&#x1F4CB;</span> Le mode d’emploi général</a>
+        <a class="btn btn-outline" href="presentation.html"><span class="ico">&#x1F4CA;</span> La présentation pour l’équipe</a>
+      </div>
+      <div class="content-card fiche">
+<p>Salle AH13, 14 postes, vidéoprojecteur. Trois créneaux de 1 h 30. Première séance de l'année sur le site pour les trois groupes : ouverture des comptes, évaluation diagnostique en ligne, entrée dans la séquence 1. Rédigée d'après le site lui-même et le mode d'emploi « La première séance sur le site » (vérifié en production le 20 septembre avec un groupe d'essai).</p>
+<p>Une ligne à lire d'abord : les heures sont celles de la grille, lues à cinq minutes près ; sur le papier, le créneau de 9 h 40 court jusqu'à 11 h 10 alors que le suivant commence à 11 h 00, la sonnerie tranchera (voir la transition en section 5).</p>
+<h2>1. Les trois groupes</h2>
+<ul>
+<li>8 h 00 à 9 h 30 : 4M7P2, 4e, 11 élèves, un par poste. Séquence 1 « Analyse fonctionnelle d'un système automatisé », activité 1 « Observer le tourniquet et analyser ses fonctions ». Codes : 4D (évaluation papier), 41A (activité), 41S (cours), 41Q (quiz), 41E (évaluation).</li>
+<li>9 h 40 à 11 h 10 : 5M1 SVT, 5e, 15 élèves pour 14 postes (un élève sur son téléphone, ou un binôme sur un poste). Séquence 1 « Découverte des objets techniques », activité 1 « Objet naturel ou objet technique ? ». Codes : 5D, 51A, 51S, 51Q, 51E.</li>
+<li>11 h 00 à 12 h 30 : 4M7P1, 4e, 13 élèves, un par poste. Comme 4M7P2 : codes 4D, 41A, 41S, 41Q, 41E.</li>
+</ul>
+<h2>2. Ce qu'il faut savoir avant d'entrer en salle</h2>
+<ol>
+<li>Rien à activer. Le plan de chaque groupe contient d'office les neuf séquences du niveau ; dans « Mon classeur », l'élève lit « Prochaine séquence : … » et la pastille « À venir » tant que vous n'avez rien coché. La coche note ce qui a été fait en classe, après coup.</li>
+<li>Le courriel de première connexion, c'est l'élève qui le déclenche lui-même : page de connexion, lien « Première connexion, ou mot de passe oublié ? », son adresse, bouton « Recevoir un message ». Le site n'envoie rien tout seul, et vous ne pouvez envoyer aucun courriel depuis le site. Le message vient de « Technologie LFT », objet « Site de Technologie : choisir votre mot de passe », bouton « Choisir mon mot de passe » ; le lien vaut 24 heures et ne sert qu'une fois.</li>
+<li>Le secours, c'est la bandelette : un mot de passe provisoire par élève qui n'a pas encore choisi le sien, généré le matin même (validité 24 heures), imprimé, remis en main propre, jamais projeté. Avec la bandelette, l'élève passe par « Se connecter » et le site l'envoie choisir son mot de passe.</li>
+<li>L'évaluation diagnostique en ligne est une page publique : pas de compte, rien n'est envoyé à un serveur, les réponses restent dans le navigateur du poste. L'élève télécharge un PDF de ses réponses et le dépose dans « Mon classeur » ; c'est là que vous le retrouverez.</li>
+<li>Sur la fiche d'activité, chaque champ est enregistré dans le classeur dès que l'élève le quitte (« ok » ou « enregistré » en vert à côté). « J'ai terminé » ne sert qu'une fois la fiche entière finie : votre correction fige toute la fiche.</li>
+<li>Les sessions : celle d'un élève dure 2 heures et meurt avec le navigateur ; la vôtre dure 90 minutes sans écriture. En fin d'heure : « Fermer ma session » en haut de page, puis fermer complètement le navigateur.</li>
+<li>Dix mots de passe faux mettent le compte en pause un quart d'heure ; un mot de passe provisoire que vous redonnez remet le compteur à zéro.</li>
+</ol>
+<h2>3. Dimanche soir (5 min) et lundi 7 h 30 (10 min)</h2>
+<p>Dimanche soir :</p>
+<ul>
+<li class="coche"><code>https://techlft.egd.mg</code> › « Je suis professeur » › connexion : le site répond.</li>
+<li class="coche">Tableau de bord : les trois groupes du lundi sont là avec leur effectif (11, 15, 13). Un élève manque ou est dans le mauvais groupe : « Groupes et comptes ».</li>
+<li class="coche">Ouvrir, avec votre session, les deux évaluations diagnostiques en ligne (accueil › bloc « 4e » › « Voir la progression » › « Version en ligne (à faire chez soi, réponses en PDF) », puis la même chose depuis le bloc « 5e ») et les deux fiches d'activité (codes 41A et 51A) ; lire en entier l'« Étape 1 : Observation » de la fiche de 4e et l'« Activité 1 : Objet naturel ou objet technique ? » de la fiche de 5e.</li>
+<li class="coche">Facultatif, si vous voulez projeter le geste du dépôt (votre session de professeur ne peut pas déposer : « Déposer » répond « Réservé aux élèves. ») ; sinon, les quatre lignes écrites au tableau suffisent. Tableau de bord › niveau 4e dans la liste « Groupe d'essai (élèves fictifs) en » › « Créer le groupe d'essai » (celui du 20 septembre a été supprimé). « Classeur » › ce groupe › « Générer la liste du groupe » › « Votre mot de passe, pour confirmer » › « Confirmer » › noter le mot de passe provisoire de l'élève « Fictif 1 ». Dans une fenêtre de navigation privée : « Je suis élève » › son adresse et ce mot de passe › « Se connecter » › « Choisissez votre mot de passe » › un mot de passe de 12 caractères que vous notez sur votre fiche. Toujours dans cette fenêtre, ouvrir l'évaluation diagnostique en ligne de 4e, remplir « Qui es-tu ? » (nom : FICTIF, prénom : Eleve, classe : 4M7), répondre à deux questions, « Télécharger mon PDF » › « OK », puis « Nouvelle copie » › « OK ». Le PDF est dans les téléchargements du poste professeur : c'est votre exemple de lundi. Fermer la fenêtre privée.</li>
+<li class="coche">Relire la page réservée « La première séance sur le site » (Espace enseignant, bouton « Imprimer / PDF » si vous la voulez sur le bureau).</li>
+<li class="coche">Pour la 5e, si vous voulez l'accroche physique : six objets dans un sac (galet, mangue, petite lampe solaire, morceau de bambou, panier tressé, bol en céramique). Sinon, les objets de la salle suffisent.</li>
+</ul>
+<p>Lundi 7 h 30 (moins de 24 heures avant chaque groupe) :</p>
+<ul>
+<li class="coche">Bandelettes : Espace enseignant › « Classeur » › groupe 4M7P2 › bloc « Mots de passe provisoires pour tout le groupe » › « Générer la liste du groupe » › « Votre mot de passe, pour confirmer » › « Confirmer » › « Imprimer la liste ». Recommencer pour 5M1 SVT puis 4M7P1 : changer de groupe efface la liste affichée, imprimer avant. La ligne « N mot(s) de passe généré(s) · K élève(s) ont déjà le leur, non touchés » vous dit combien d'élèves ont déjà un mot de passe (cas C ci-dessous).</li>
+<li class="coche">Découper, une enveloppe par groupe, le code du groupe dessus. Ne jamais projeter la liste ni l'écran du classeur pendant l'opération.</li>
+<li class="coche">Secours papier de l'évaluation diagnostique : Espace enseignant › carte « Évaluations diagnostiques de rentrée » › « 4ème : élève » et « 5ème : élève » › imprimer. Compter 4 exemplaires de la feuille 4e (les deux groupes de 4e se partagent la réserve) et 3 de la feuille 5e : c'est pour un poste en panne ou un téléchargement qui échoue. Ne pas imprimer la dernière page (feuille B papier : ce n'est pas l'évaluation, les élèves la feront en ligne à la séance 2). Si le site ne répond pas à 7 h 30, photocopier un jeu complet (24 feuilles 4e, 15 feuilles 5e) : la séance devient une passation papier, comptes remis à la semaine suivante.</li>
+<li class="coche">Les 14 postes : navigateur fermé, puis rouvert sur <code>https://techlft.egd.mg</code> ; aucun poste n'affiche « Session élève ouverte ». Poste du professeur branché au vidéoprojecteur. Votre session dure 90 minutes à partir de la connexion et rien de ce que vous faites en séance ne la prolonge (seules une coche ou une correction comptent ; les bandelettes et « Redonner un accès » ne comptent pas) : ouverte à 7 h 30, elle meurt à 9 h 00, avant la fiche à projeter. Règle : au début de chaque groupe, pendant que les élèves s'installent (7 h 58, 9 h 38, 10 h 58), « Fermer ma session » sur le poste professeur, puis « Je suis professeur » › connexion ; la session couvre alors le créneau entier.</li>
+<li class="coche">Au tableau, avant l'arrivée du premier groupe :
+<ul>
+<li><code>techlft.egd.mg</code> puis « Je suis élève » ;</li>
+<li>« Première connexion, ou mot de passe oublié ? » ;</li>
+<li><code>techlft.egd.mg/4eme/p1/diagnostique-en-ligne.html</code> (remplacer <code>4eme</code> par <code>5eme</code> à 9 h 40) ;</li>
+<li>« Ce travail n'est pas noté. » ;</li>
+<li>« Mon classeur » › « Déposer un travail » › « Séquence » : « Évaluation diagnostique · Ce que tu sais déjà » › « Type de document » : « Évaluation » ;</li>
+<li>le code de l'activité : 41A (51A à 9 h 40).</li>
+</ul></li>
+</ul>
+<h2>4. Déroulé d'une séance (squelette commun, 90 min)</h2>
+<div class="table-scroll"><table><thead><tr><th>Minutes</th><th>Temps</th><th>Ce qui est projeté</th></tr></thead><tbody>
+<tr><td>0 à 10</td><td>Découvrir la plateforme</td><td>Accueil du site, page de connexion, diapositive 4 de la présentation</td></tr>
+<tr><td>10 à 30</td><td>Ouvrir son compte</td><td>Rien (la liste des mots de passe ne se projette jamais)</td></tr>
+<tr><td>30 à 70</td><td>Évaluation diagnostique en ligne, PDF, dépôt</td><td>La page de l'évaluation du niveau, et le geste du dépôt depuis le compte de démonstration</td></tr>
+<tr><td>70 à 85</td><td>Séquence 1, premières réponses dans la fiche</td><td>La fiche d'activité du niveau</td></tr>
+<tr><td>85 à 90</td><td>Fermer</td><td>Rien</td></tr>
+</tbody></table></div>
+<h3>0 à 10 min : découvrir la plateforme</h3>
+<p><strong>Vous.</strong> Poste professeur projeté. Ouvrir <code>https://techlft.egd.mg</code> : montrer l'accueil (« Tu as un code dans ton cahier ? », « Je suis élève », le bloc du niveau et « Voir la progression »), puis la page de connexion (« Espace Technologie », « Je suis élève », « Adresse de l'établissement », « Mot de passe », « Se connecter », lien « Première connexion, ou mot de passe oublié ? »). Pour montrer ce que verra l'élève, projeter la diapositive 4 de la présentation (Espace enseignant › « Présentation à l'équipe », bouton « Suivante » trois fois) : c'est le classeur d'un élève fictif ; ne pas lire le texte de la diapositive, il s'adresse aux collègues.</p>
+<p>Dire : « Ce site, c'est votre classeur de Technologie. Vous y trouvez les fiches, les cours, les quiz, et vous y rendez votre travail. Vous avez un compte personnel : il vous suit jusqu'en 3e. Aujourd'hui, quatre choses : on ouvre le compte, on choisit son mot de passe, on fait une évaluation qui n'est pas notée, on commence la séquence 1. »</p>
+<p>Dire aussi : « Votre compte, c'est votre adresse en @eleve.egd.mg. Le mot de passe, c'est vous qui le choisissez dans un instant, et personne d'autre ne le connaît : ni moi, ni le site. »</p>
+<p>Placement : un élève par poste en 4e ; en 5e, un élève sur son téléphone (le site est fait pour) ou un binôme sur un poste ; téléphones rangés dès que ce n'est plus l'outil.</p>
+<p><strong>Les élèves.</strong> Écoutent, s'installent, n'ont encore rien tapé.</p>
+<p><strong>Si ça bloque.</strong> Un poste ne démarre pas ou n'a pas internet : tableau final, « Le poste n'a pas internet ».</p>
+<h3>10 à 30 min : ouvrir son compte, poste par poste</h3>
+<p>Trois cas. Le cas A est celui du site ; le cas B est le plus rapide en salle : si la boîte d'un élève n'est pas ouverte au bout de trois minutes, passez-le au cas B sans attendre.</p>
+<p><strong>Cas A : l'élève ouvre sa boîte du lycée (mail.google.com).</strong></p>
+<ol>
+<li>Page de connexion › « Je suis élève » › lien « Première connexion, ou mot de passe oublié ? ».</li>
+<li>Page « Première connexion » : champ « Votre adresse de l'établissement », bouton « Recevoir un message » (il devient « Envoi… » puis « Message envoyé »). Le message d'écran est toujours le même, que l'adresse existe ou non, et aussi quand le service de courriel a refusé l'envoi : « Message envoyé » ne prouve pas qu'un message est parti. Un seul clic par élève : un second clic dans les cinq minutes n'envoie rien. Le site n'envoie pas plus de 150 courriels par heure, largement assez pour trois groupes ; si plusieurs courriels manquent en même temps, c'est le service qui refuse (voir « Si ça bloque »).</li>
+<li>Dans un nouvel onglet, sa boîte sur mail.google.com : message de « Technologie LFT », objet « Site de Technologie : choisir votre mot de passe » (regarder aussi les indésirables) › bouton « Choisir mon mot de passe ».</li>
+<li>Page « Choisissez votre mot de passe » : « Nouveau mot de passe » et « Répétez-le », 12 caractères au moins, sans son nom ni son adresse. Dire : « trois mots qui n'ont rien à voir entre eux, reliés par des tirets, comme girafe-tournevis-orage ». Puis « Enregistrer » › « C'est enregistré. Redirection… » › « Mon classeur de Technologie ».</li>
+<li>Il se déconnecte de sa boîte dans l'onglet Gmail : le poste est partagé.</li>
+</ol>
+<p><strong>Cas B : la bandelette.</strong></p>
+<ol>
+<li>Vous lui remettez sa bandelette (adresse et mot de passe provisoire du type <code>bafi-rolun-47</code>), en main propre, sans la lire à voix haute.</li>
+<li>Page de connexion › « Je suis élève » › « Adresse de l'établissement », « Mot de passe » = celui de la bandelette › « Se connecter ».</li>
+<li>Le site l'envoie directement sur « Choisissez votre mot de passe » : « Mot de passe actuel » = la bandelette, puis « Nouveau mot de passe », « Répétez-le » › « Enregistrer » › « Mon classeur ». La bandelette ne sert plus : il la jette.</li>
+</ol>
+<p><strong>Cas C : l'élève a déjà un mot de passe</strong> (évaluation faite chez lui, compte déjà ouvert) : « Je suis élève » › adresse et mot de passe › « Se connecter » › « Mon classeur ». Mot de passe oublié : « Redonner un accès à un élève » (tableau final).</p>
+<p><strong>Vous.</strong> Circulez avec l'enveloppe. Dire : « Quand vous lisez « Bonjour » suivi de votre prénom, c'est gagné. Si c'est un autre prénom, cliquez sur « Fermer ma session » en haut, puis recommencez. » Vers 25 min, faire le compte : qui est entré, qui ne l'est pas. Un élève toujours sans compte à 30 min : « Redonner un accès à un élève » (tableau final, ligne « Compte en pause après dix erreurs » : même geste) ; il enchaîne le cas B avec le mot de passe dicté à voix basse.</p>
+<p><strong>Les élèves.</strong> Entrés dans « Mon classeur », ils regardent « Mon année » (« Prochaine séquence : … », neuf séquences, « À venir » partout) et attendent la consigne. Ils ne cliquent pas encore sur « Activité ».</p>
+<p><strong>Si ça bloque.</strong> « Adresse ou mot de passe incorrect », courriel absent, compte en pause, « Pas encore de groupe » : tableau final.</p>
+<h3>30 à 70 min : l'évaluation diagnostique en ligne, puis le dépôt</h3>
+<p><strong>30 à 34 min, lancement.</strong> Vous projetez la page de l'évaluation du niveau et montrez « Ce travail n'est pas noté » au tableau. Les élèves ouvrent, dans un nouvel onglet, <code>techlft.egd.mg/4eme/p1/diagnostique-en-ligne.html</code> (ou <code>5eme</code>), ou bien sans rien taper : accueil › bloc du niveau › « Voir la progression » › bouton « Version en ligne (à faire chez soi, réponses en PDF) ». Pas de compte pour cette page : elle s'ouvre pour tout le monde. Si vous avez préparé le compte de démonstration (section 3), c'est le moment de projeter, une fois, le geste du dépôt (le détail est au temps « 64 à 70 min » ci-dessous) ; sinon, montrer les quatre lignes du tableau. Puis lire le mot du professeur.</p>
+<p>Dire, deux fois : « Ce travail n'est pas noté, il ne compte pas dans la moyenne, il ne sera pas rendu avec une note. » Puis : « Si un bandeau orange dit « Des réponses déjà enregistrées sur cet appareil ont été rechargées », ce n'est pas votre copie : cliquez sur « Nouvelle copie », puis « OK ». » Puis : « Remplissez la carte « Qui es-tu ? » : nom, prénom, et votre classe dans la liste. » Lire à voix haute, une fois, le « Mot du professeur » affiché à l'écran, sauf sa dernière phrase (celle du bouton « Envoyer par courriel » : la page a été écrite pour le travail à la maison). Dire à la place, en montrant l'écran : « Le dernier paragraphe du mot, la ligne « 2. Clique sur « Envoyer par courriel » » sous les boutons et le message « Envoie-le maintenant à ton professeur » ne valent pas en salle : aujourd'hui, le PDF ne part pas par courriel, il se dépose dans « Mon classeur », comme je vous l'ai montré. Personne ne clique sur « Envoyer par courriel ». » Quand le mot annonce « environ trente-cinq minutes », ajouter : « Pour nous, c'est l'heure écrite au tableau qui compte. » Annoncer l'heure de fin et l'écrire au tableau (voir chaque groupe, section 5).</p>
+<p>Consignes de passation (livret professeur) : ne jamais valider ni invalider une réponse ; à un élève bloqué, dire seulement « passe à la suite, tu reviendras si tu as le temps » ou « écris ce que tu penses, même si tu n'es pas sûr » ; « Je ne sais pas » est une vraie réponse (case dans les QCM, à écrire dans les champs texte). Pas de téléphone pour chercher, pas de calculatrice, pas de voisin.</p>
+<p><strong>34 à 64 min, réponses.</strong> Trente minutes : une à deux de moins que la somme des repères des parties, donc annoncer chaque changement de partie avec sa durée (4e : 7, 7, 10, 8 min ; 5e : 9, 9, 13 min) et accepter les copies incomplètes. Le compteur « N réponses sur 13 » en bas de page vous dit d'un coup d'œil où en est chacun. Le message discret « Réponses enregistrées dans ce navigateur. » apparaît à chaque saisie : normal. Vous notez au crayon, sur votre liste, l'élève qui ne démarre pas ou qui redemande trois fois la consigne.</p>
+<p><strong>64 à 70 min, PDF et dépôt.</strong> Le geste se montre au lancement (30 à 34 min), pas à 64 min, pour laisser les six minutes entières aux élèves. Avec le compte de démonstration : fenêtre de navigation privée, « Je suis élève », l'élève fictif et le mot de passe noté dimanche, « Mon classeur » › « Déposer un travail », le PDF de l'exemple, « Déposer », message « Ton travail est déposé. Ton professeur le verra. » ; puis « Fermer ma session » et fermer la fenêtre privée. À 64 min, dire seulement : « Comme au tableau, dans l'ordre : »</p>
+<ol>
+<li>« Télécharger mon PDF ». S'il reste des questions vides : boîte « Il reste N questions sans réponse. Télécharger quand même ? » › « OK ». Message « PDF téléchargé : Diagnostique-4e_NOM-Prenom_4M7.pdf. Envoie-le maintenant à ton professeur. » (5e : <code>Diagnostique-5e_NOM-Prenom_5M1.pdf</code>). Le fichier est dans le dossier des téléchargements du navigateur.</li>
+<li>Retour à l'onglet « Mon classeur » › « Déposer un travail » : « Mon groupe » (déjà rempli), « Séquence » = « Évaluation diagnostique · Ce que tu sais déjà » (première option de la liste, à choisir : la liste se place d'elle-même sur la séquence 1), « Type de document » = « Évaluation », « Photo ou PDF de mon travail » = le PDF qui porte son nom, « Déposer ».</li>
+<li>Message « Ton travail est déposé. Ton professeur le verra. » ; la carte apparaît dans « Mes travaux déposés » avec l'étiquette « en attente de correction ».</li>
+<li>Ensuite seulement, retour sur la page de l'évaluation › « Nouvelle copie » › « OK » : ses réponses disparaissent du poste (elles sont dans le PDF déposé).</li>
+</ol>
+<p>Ne pas utiliser « Envoyer par courriel » en salle : il ouvre un logiciel de messagerie du poste, s'il y en a un, et n'attache pas le PDF. La feuille B (« Ouvrir la feuille B », 3 à 4 min) n'est pas au programme de lundi : un élève qui a tout fini avant 64 min peut la faire et la déposer de la même façon, type « Autre document » ; les autres la feront à la séance 2.</p>
+<p><strong>Si ça bloque.</strong> PDF introuvable, téléchargement bloqué, onglet fermé, poste sans internet, deuxième élève sur le même poste : tableau final. Un élève toujours sans compte à 64 min : « Redonner un accès à un élève », dépôt en fin d'heure ; sinon passation papier, feuille ramassée.</p>
+<h3>70 à 85 min : entrer dans la séquence 1</h3>
+<p><strong>Vous.</strong> Dire : « Dans « Mon classeur », la première séquence, lien « Activité ». Ou le code du cahier, 41A (51A), dans « Tu as un code dans ton cahier ? » sur l'accueil. » Projeter la fiche depuis votre session (vous ne voyez pas les champs, les élèves si). Décrire la barre en haut de leur fiche : « Tu réponds directement dans cette fiche : chaque champ est enregistré dans ton classeur dès que tu le quittes. », le compteur « N champs remplis sur T », et dire : « Le bouton « J'ai terminé » ne sert que quand toute la fiche est finie, dans deux ou trois séances. Aujourd'hui, personne ne clique dessus. Vos réponses s'enregistrent toutes seules : vous les retrouverez lundi prochain, au même endroit. »</p>
+<p>Puis le contenu du niveau (section 5) : situation déclenchante lue ensemble, premières réponses dans les champs.</p>
+<p><strong>Les élèves.</strong> Lisent la situation déclenchante, répondent dans les champs de l'« Étape 1 : Observation » (4e) ou du tableau « Observer et classer » (5e). Un « ok » ou « enregistré » vert à côté du champ : c'est enregistré.</p>
+<p><strong>Si ça bloque.</strong> « Pas cette année », « Session expirée », « erreur : vérifie la connexion » : tableau final.</p>
+<h3>85 à 90 min : fermer</h3>
+<p><strong>Vous.</strong> Dire : « Trois gestes : « Fermer ma session » en haut de la page (sur un téléphone, le bouton dit seulement « Fermer »), fermer complètement le navigateur, et pour ceux qui ont ouvert Gmail, s'en déconnecter avant. » Vérifier poste par poste : l'accueil du site, sans « Session élève ouverte ». Ramasser les éventuelles copies papier.</p>
+<p><strong>Les élèves.</strong> Ferment, rangent, gardent en tête : le mot de passe ne s'écrit pas sur le cahier.</p>
+<h2>5. Ce qui change d'un groupe à l'autre</h2>
+<h3>4M7P2, 8 h 00 à 9 h 30 (4e, 11 élèves)</h3>
+<ul>
+<li>Effectif et postes : 11 élèves pour 14 postes, un élève par poste ; le premier groupe de la matinée trouve des postes vierges.</li>
+<li>Évaluation diagnostique 4e : « Ce que tu sais déjà », badge « 4ème · Rentrée 2026 », 4 parties, 13 questions, 35 minutes indicatives : « Partie 1 : À quoi sert un objet ? » (7 min), « Partie 2 : De quoi l'objet est-il fait, et comment cela bouge ? » (7 min), « Partie 3 : Lire un document, suivre la vie d'un produit, distinguer énergie et information » (10 min), « Partie 4 : Suivre une suite d'instructions » (8 min). Classe à choisir : « 4M7 ». Heure de fin à écrire au tableau : 9 h 04. Lire une fois le mot du professeur et les consignes des quatre parties ; ne pas expliquer « organigramme », « algorithme », « chaîne d'information » (si un élève demande : « c'est un dessin qui explique un fonctionnement étape par étape »).</li>
+<li>Séquence 1 « Analyse fonctionnelle d'un système automatisé », fiche 41A, en 15 minutes :
+<ul>
+<li>Situation déclenchante : encadré « Le tourniquet pleine hauteur ZKTeco » (« Dans les stades, les entreprises et les bâtiments sécurisés, on utilise des tourniquets pleine hauteur pour contrôler l'accès. ») et problématique « Comment comprendre et analyser le fonctionnement d'un système automatisé à partir d'un exemple réel ? ». À l'oral (fiche professeur) : « Où avez-vous déjà vu ce type de système ? À quoi sert-il ? »</li>
+<li>Vidéo : la « vidéo ZKTeco » citée par la fiche n'est pas sur le site ; la vidéo académique intégrée (« Dispositif d'ouverture de porte PMR », 30 s) montre une porte, pas un tourniquet, et le site conseille de ne la dépenser qu'une fois dans l'année (elle revient en séquence 8). Lundi : pas de vidéo, le texte et l'oral suffisent pour a), b), c).</li>
+<li>Faisable en 15 min : « Étape 1 : Observation », a) « Quelle est la fonction principale de ce système ? » (attendu : contrôler l'accès à un lieu sécurisé en laissant passer une personne à la fois), b) « Dans quels lieux est-il utilisé ? Pourquoi ? » (stades, entreprises, usines, bâtiments sécurisés ; gérer le flux de personnes et renforcer la sécurité), c) « Quels avantages apporte-t-il en matière de sécurité ? » (limite les entrées non autorisées ; empêche le passage de plusieurs personnes à la fois ; peut être relié à une alarme ou à la vidéosurveillance). Trois zones de texte, enregistrées au fil de l'eau.</li>
+<li>Reporté à la séance 2 : d) « Complète la fiche technique du tourniquet » (Matériau, Sections, Résistance, Modes, Options), qui demande la vidéo ou vos données, et l'« Étape 2 : Analyse fonctionnelle » (bête à cornes, diagramme pieuvre).</li>
+<li>Matériel : aucun ; la fiche projetée et le tableau.</li>
+</ul>
+</li>
+<li>Transition 9 h 30 à 9 h 40 : sur les 14 postes, vérifier l'accueil sans « Session élève ouverte » ; sur un poste où la session est restée ouverte, « Fermer ma session » puis fermer le navigateur (sinon le prochain élève travaille sous ce nom : il lirait « Bonjour » suivi d'un autre prénom, et ses réponses de fiche iraient dans le mauvais classeur). Tableau : remplacer <code>4eme</code> par <code>5eme</code>, 41A par 51A. Enveloppe 5M1 SVT en main. Votre session : « Fermer ma session » puis reconnexion à 9 h 38, comme prévu en section 3, sans attendre que le tableau de bord affiche « Session expirée » ; rien n'est perdu.</li>
+</ul>
+<h3>5M1 SVT, 9 h 40 à 11 h 10 (5e, 15 élèves)</h3>
+<ul>
+<li>Effectif et postes : 15 élèves pour 14 postes. Le quinzième travaille sur son téléphone du début à la fin (compte, évaluation, PDF téléchargé puis déposé depuis le téléphone, fiche) ; sur son écran, le bouton « Fermer ma session » s'appelle simplement « Fermer ». Sans téléphone : un binôme sur un poste ; chacun ouvre son compte à son tour (« Fermer ma session » entre les deux) ; pour l'évaluation, un seul des deux à l'écran, l'autre sur la feuille papier ; pour la fiche, l'un remplit la sienne, l'autre remplira la sienne à la séance 2.</li>
+<li>Évaluation diagnostique 5e : « Ce que tu sais déjà », badge « 5ème · Rentrée 2026 », 3 parties, 13 questions, 35 minutes indicatives : « Partie 1 : Les objets autour de moi » (9 min), « Partie 2 : Matériaux et énergie » (9 min), « Partie 3 : Lire un schéma, comprendre un fonctionnement » (13 min). Classe : « 5M1 ». Heure de fin : 10 h 44. Lire à voix haute, en plus du mot du professeur, les consignes des questions 1, 2, 5, 7 et 9 (livret professeur). Ne jamais traduire ni expliquer « bougie filtrante, interrupteur, pile, ampoule, matériau, source d'énergie, utilisateur, outil, pièce, panne ».</li>
+<li>Séquence 1 « Découverte des objets techniques », fiche 51A, en 15 minutes :
+<ul>
+<li>Accroche à l'oral (fiche professeur) : « Quels objets voyez-vous dans cette salle ? », en orientant vers naturel ou fabriqué. Variante physique en deux minutes (repli sans écran du site) : les six objets alignés sur le bureau sans un mot, deux élèves font deux tas sans connaître le critère, puis au tableau : « Lesquels l'Homme a-t-il fabriqués ? ». Sans matériel : désigner six choses de la salle, dont une plante et une pierre. La vidéo académique (« Porte_clefs_fonction_sifflet », 9 s) ne pose pas la question naturel ou technique : s'en passer lundi.</li>
+<li>Situation déclenchante lue ensemble : « Comment les objets qui nous entourent répondent-ils à nos besoins ? Quelle est la différence entre un objet naturel et un objet technique ? »</li>
+<li>Faisable en 15 min : « Activité 1 : Objet naturel ou objet technique ? », étape « Observer et classer ». Tableau de 8 objets (un caillou, un smartphone, une fleur, un vélo, un morceau de bois, une lampe de bureau, un fruit, un crayon), colonnes « Objet naturel », « Objet technique », « Justification ». Consigne de la fiche : « Complète le tableau ci-dessous en classant les objets proposés en deux catégories : objet naturel (présent dans la nature sans intervention humaine) ou objet technique (fabriqué par l'Homme). » À dire : « Dans la colonne qui convient, tapez un X ; dans « Justification », quelques mots. » Les cases sont des champs de texte, il n'y a rien à cocher.
+<ul>
+<li>Attendu, naturel : caillou, fleur, morceau de bois, fruit (existe dans la nature sans intervention humaine ; pousse naturellement ; branche d'arbre ; produit par un arbre).</li>
+<li>Attendu, technique : smartphone, vélo, lampe, crayon (fabriqué par l'Homme pour communiquer, se déplacer, éclairer, écrire).</li>
+<li>Le morceau de bois fera discuter (bois brut ou bois travaillé) : accepter l'un ou l'autre si la justification tient, c'est le but de l'activité.</li>
+</ul>
+</li>
+<li>Reporté à la séance 2 : l'étape « Définir » (« Un objet technique, c'est … »), après la correction collective ; attendu : « Un objet technique est un objet fabriqué (conçu et réalisé) par l'Homme pour répondre à un besoin. »</li>
+<li>Matériel : les six objets si vous choisissez le repli physique ; sinon rien.</li>
+</ul>
+</li>
+<li>Transition vers 11 h 00 : trancher dimanche soir sur l'emploi du temps papier. Si le créneau va jusqu'à 11 h 10 : mêmes vérifications que ci-dessus. Si la sonnerie retentit à 11 h 00, la séance de 5e dure 80 minutes et non 90 : garder les temps 0 à 70 tels quels (heure de fin de l'évaluation au tableau : 10 h 44), ramener l'entrée dans la séquence 1 à cinq minutes (70 à 75 : lecture de la situation déclenchante et de la consigne du tableau « Observer et classer », sans réponse écrite ; le tableau se remplit à la séance 2) et fermer de 75 à 80. Il n'y a alors aucun battement avant les 4e : vérifier les postes pendant que les élèves de 5e ferment leur session, poste par poste (accueil sans « Session élève ouverte ») avant que l'élève ne se lève ; le tableau se change pendant que les 4e s'installent, avec la consigne « ne touchez à rien avant mon signal ». Deux points propres aux 4e qui arrivent : sur chaque poste, la copie diagnostique de l'élève de 8 h est encore dans le navigateur s'il n'a pas cliqué « Nouvelle copie » (le bandeau orange s'affichera : « Nouvelle copie » avant tout), et les PDF de 8 h sont dans le dossier des téléchargements (chacun choisit le fichier qui porte son nom). Tableau : remettre <code>4eme</code> et 41A.</li>
+</ul>
+<h3>4M7P1, 11 h 00 à 12 h 30 (4e, 13 élèves)</h3>
+<ul>
+<li>Effectif et postes : 13 élèves, 14 postes, un élève par poste.</li>
+<li>Contenu : identique à 4M7P2 (évaluation diagnostique 4e, classe « 4M7 », heure de fin 12 h 04 ; fiche 41A, Étape 1 a) b) c)). Ce que vous avez vu à 8 h vous sert : si le temps 2 a débordé, donner les bandelettes d'emblée aux élèves dont vous savez que la boîte est inaccessible ; si l'évaluation a manqué de temps, arrêter à 62 min pour laisser 8 min au dépôt.</li>
+<li>Fin de matinée : votre session a sans doute expiré de nouveau ; vérifier avant de passer à la section 7. Les bandelettes non distribuées des trois enveloppes : à détruire avant de quitter la salle.</li>
+</ul>
+<h2>6. Si ça bloque</h2>
+<div class="table-scroll"><table><thead><tr><th>Situation</th><th>Geste</th></tr></thead><tbody>
+<tr><td>« Adresse ou mot de passe incorrect »</td><td>Vérifier l'adresse (le site enlève les espaces et les majuscules tout seul) ; sinon bandelette (cas B) ou « Redonner un accès à un élève ».</td></tr>
+<tr><td>Le courriel n'arrive pas en deux minutes</td><td>Regarder une fois les indésirables, sans recliquer sur « Recevoir un message » ; puis bandelette (cas B) sans attendre davantage. Dès que deux ou trois courriels manquent en même temps dans le groupe, c'est le service qui refuse (l'écran dit quand même « Message envoyé ») : bandelette pour tout le groupe, et regarder le soir les journaux de Supabase. Un courriel arrivé plus tard garde son lien 24 heures : l'élève pourra aussi finir chez lui.</td></tr>
+<tr><td>Compte en pause après dix erreurs</td><td>« Classeur » › « Redonner un accès à un élève » › l'élève, un motif, « Réinitialiser », votre mot de passe, « Confirmer » › mot de passe provisoire dicté à voix basse ; le compteur est remis à zéro ; l'élève le change aussitôt.</td></tr>
+<tr><td>L'élève a déjà un mot de passe mais l'a oublié</td><td>Même geste : « Redonner un accès à un élève ».</td></tr>
+<tr><td>« Pas encore de groupe »</td><td>L'élève n'est dans aucun de vos groupes : « Groupes et comptes » › inscrire, puis il se reconnecte (le niveau est lu à la connexion).</td></tr>
+<tr><td>« Pas cette année » sur une fiche</td><td>Fiche d'un autre niveau : revenir à « Mon classeur ». Si le groupe est du mauvais niveau, son niveau ne se modifie pas : dans « Groupes et comptes », « Créer le groupe » au bon niveau, y inscrire l'élève (« Inscrire une personne », son adresse, le nouveau groupe), le « retirer du groupe » de l'ancien, puis reconnexion (le niveau est lu à la connexion).</td></tr>
+<tr><td>Le poste n'a pas internet</td><td>Binôme sur un autre poste, ou téléphone de l'élève. Évaluation sur papier pour cet élève, feuille ramassée.</td></tr>
+<tr><td>« Session expirée » en cours de réponse</td><td>Le texte reste dans le champ : « Reconnecte-toi dans un nouvel onglet », puis revenir sur la fiche, cliquer dans le champ et en sortir : il repart. Dans le classeur, « Session expirée : reconnectez-vous. » ramène à la page de connexion.</td></tr>
+<tr><td>Votre propre session se ferme</td><td>90 minutes sans écriture ; une correction ou une coche la prolonge (pas les bandelettes ni « Redonner un accès »), mais jamais au-delà de 4 heures après la connexion initiale : connectée à 7 h 30 et prolongée, elle tomberait à 11 h 30 quoi qu'il arrive, pendant le groupe de 11 h 00. D'où la règle de la section 3 : reconnexion au début de chaque groupe. Reconnexion, rien n'est perdu.</td></tr>
+<tr><td>Un élève voit le prénom d'un autre</td><td>Session du poste laissée ouverte : « Fermer ma session » puis se connecter.</td></tr>
+<tr><td>Bandeau orange « Des réponses déjà enregistrées sur cet appareil ont été rechargées »</td><td>Copie d'un autre élève (groupe précédent, binôme) : « Nouvelle copie » › « OK », puis remplir « Qui es-tu ? ». Sinon il complète la copie de l'autre sous son propre nom.</td></tr>
+<tr><td>L'élève a fermé l'onglet ou rechargé la page de l'évaluation</td><td>Rouvrir la même adresse sur le même poste : les réponses reviennent (elles sont dans le navigateur du poste), avec le bandeau orange ; cette fois, ne pas cliquer « Nouvelle copie ». Sur un autre poste ou en navigation privée, c'est perdu : reprendre, ou passer au papier s'il reste moins de 15 minutes.</td></tr>
+<tr><td>« Enregistrement automatique indisponible : ne ferme pas cette page avant d'avoir téléchargé ton PDF. »</td><td>Navigation privée ou stockage refusé : l'élève continue sans fermer l'onglet, et télécharge son PDF avant tout autre geste.</td></tr>
+<tr><td>« Avant de continuer, indique ton nom, ton prénom, ta classe dans la carte « Qui es-tu ? ». »</td><td>La carte du haut est incomplète : le site y ramène et place le curseur ; compléter, puis cliquer de nouveau sur « Télécharger mon PDF ».</td></tr>
+<tr><td>« Il reste N questions sans réponse. Télécharger quand même ? »</td><td>« OK » quand l'heure de fin est passée ; « Annuler » s'il reste du temps. Une question vide vaut « (sans réponse) » dans le PDF : c'est une information aussi.</td></tr>
+<tr><td>Le PDF est introuvable au moment du dépôt</td><td>Dossier des téléchargements du navigateur, fichier <code>Diagnostique-4e_NOM-Prenom_4M7.pdf</code> (5e : <code>Diagnostique-5e_NOM-Prenom_5M1.pdf</code>) ; chercher son nom, pas la date : les PDF du groupe précédent sont dans le même dossier. En dernier recours, « Télécharger mon PDF » une seconde fois.</td></tr>
+<tr><td>« Le téléchargement ne marche pas sur ce navigateur. » ou « La fabrication du PDF a échoué. »</td><td>Lien « Si le téléchargement ne marche pas, imprime cette page en PDF. » : impression du navigateur, destination PDF, enregistrer, puis déposer ce fichier. Si le poste ne sait pas imprimer en PDF : feuille papier, l'élève recopie ses réponses (il reste peu de questions ouvertes), ou il redépose de chez lui si les réponses sont restées sur le poste.</td></tr>
+<tr><td>« Format non accepté. Déposez une photo (JPEG, PNG) ou un PDF. »</td><td>L'élève a choisi un fichier qui n'est ni une image ni un PDF (document Word, fichier texte, archive) : reprendre le PDF. Une capture d'écran passe, mais elle ne remplace pas le PDF.</td></tr>
+<tr><td>« Tu as déjà 3 fichiers pour ce travail. Supprime l'un d'eux avant d'en déposer un autre. »</td><td>Il a déposé trois fois : « Mes travaux déposés » › « Supprimer ce dépôt » sur les doublons.</td></tr>
+<tr><td>Dépôt interrompu, carte « envoi incomplet »</td><td>« Ton travail n'est PAS perdu : ne ferme pas la page, réessaie. » : cliquer de nouveau « Déposer » ; à défaut, « Supprimer cet envoi incomplet » puis redéposer.</td></tr>
+<tr><td>Dépôt fait dans la mauvaise séquence (séquence 1 au lieu de l'évaluation diagnostique)</td><td>Rien de grave : vous le voyez dans « Travaux déposés » sous la séquence 1 ; lui faire supprimer et redéposer s'il reste du temps, sinon corriger tel quel.</td></tr>
+<tr><td>Deux élèves sur un même poste pour l'évaluation diagnostique</td><td>Impossible en même temps (une seule copie par navigateur) : téléphone pour l'un, ou papier.</td></tr>
+</tbody></table></div>
+<h2>7. Après chaque séance (10 min, ou le soir pour les trois)</h2>
+<ul>
+<li class="coche">La coche de la séance 1 : ne pas cocher lundi soir (l'activité 1 n'est pas finie, 15 minutes dessus) ; cocher à la séance 2, quand elle est réellement terminée. Rappel : la coche est ce que l'élève lit dans son classeur (« Séquence en cours », pastille de séance « faite ») et ce qui, à la fin, déclenche son badge.
+<ul>
+<li>Le moment venu : Plan de l'année du groupe › séquence 1 › « Séances » › case « 1. Observer le tourniquet et analyser ses fonctions » (4e) ou « 1. Objet naturel ou objet technique ? » (5e), puis « Élève par élève » › « Absent » pour les absents.</li>
+<li>Si vous préférez que la séance apparaisse faite dès lundi : cochez lundi soir, avec les absents notés.</li>
+</ul>
+</li>
+<li class="coche">Les dépôts diagnostiques. « Classeur » › groupe › « Travaux déposés » : une carte par élève, « Évaluation diagnostique · Ce que tu sais déjà », « en attente de correction ». Pour chacune : « Ouvrir le document » (le PDF), puis « Appréciation » = un mot (« Bien reçu, merci. »), « Enregistrer ». La carte d'un dépôt diagnostique n'affiche ni « Compétence de la séquence (facultative) » ni « Niveau de maîtrise » (l'évaluation diagnostique n'est pas une séquence du catalogue) : il n'y a rien d'autre à remplir. Pas de note : ce n'est pas noté. Le dépouillement (25 à 30 minutes par groupe, une lettre par item, jamais de total) se fait à part, avec le livret professeur (« 4ème : professeur », « 5ème : professeur ») et les copies papier ramassées.</li>
+<li class="coche">Les fiches d'activité. « Classeur » › « Réponses rédigées » : les cartes sont « en cours » (personne n'a cliqué « J'ai terminé ») ; les lire, ne rien corriger : la correction figerait la fiche.</li>
+<li class="coche">Les comptes. « Suivi du groupe » › sous les noms : « accès jamais ouvert » (jamais connecté), « mot de passe à choisir » (déjà connecté, mais mot de passe encore provisoire : accès réinitialisé, ou bandelette jamais remplacée), « bloqué par le mot de passe ». Ce sont les élèves à prendre en premier lundi prochain, bandelette prête.</li>
+<li class="coche">Les bandelettes non distribuées : à détruire (elles expirent le lendemain matin de toute façon).</li>
+<li class="coche">Cahier de texte (proposition) : « Découverte de la plateforme de Technologie et ouverture du compte personnel. Évaluation diagnostique de rentrée en ligne (non notée), déposée dans le classeur. Séquence 1 : lecture de la situation déclenchante, début de l'activité 1. » Travail à faire : « Compte non ouvert en classe : « Première connexion » depuis chez soi ; le lien reçu vaut 24 heures. »</li>
+</ul>
+<h2>8. Et les séances suivantes</h2>
+<p>Dates : les trois lundis suivants, 28 septembre, 5 et 12 octobre (période 1 jusqu'au 17 octobre), sauf jour férié. La séquence 1 compte trois séances dans le plan, une par activité. La fiche 41A distingue quatre étapes : l'activité 1 du plan couvre les Étapes 1 et 2.</p>
+<h3>4e (4M7P2 et 4M7P1)</h3>
+<h4>Séance 2, 28 septembre</h4>
+<ul>
+<li>Fiche 41A : fin de l'activité 1. « Étape 1 » d), la fiche technique : avec la vidéo ZKTeco si vous l'avez sur le poste de la salle, sinon les cinq lignes données à l'oral (acier inoxydable ; bras pivotants, colonne centrale, capteurs, lecteur de badges ou QR code ; usage intensif et extérieur ; entrée, sortie, verrouillage, libre passage ; capteurs anti-panique, contrôle d'accès, alarmes). Puis « Étape 2 : Analyse fonctionnelle » : bête à cornes (à qui : utilisateurs autorisés et responsable de la sécurité ; sur quoi : le flux de personnes ; dans quel but : contrôler et sécuriser l'accès) et pieuvre (FP contrôler l'accès des personnes autorisées ; FC1 résister aux intempéries et à l'usure ; FC2 respecter les normes de sécurité ; FC3 s'intégrer au contrôle d'accès existant). Correction collective. En fin de séance, feuille B en ligne (3 min), déposée en « Autre document ».</li>
+<li>Dans le site : avant, bandelettes pour les « accès jamais ouvert ». Après, Plan de l'année › « Séances » › cocher « 1. Observer le tourniquet et analyser ses fonctions » ; « Élève par élève » › « Absent » ; lire les cartes « en cours », sans corriger.</li>
+<li>« J'ai terminé » : non.</li>
+</ul>
+<h4>Séance 3, 5 octobre</h4>
+<ul>
+<li>Fiche 41A : activité 2 = « Étape 3 : Dessin technique » (tableau des cinq composants : colonne centrale, bras pivotants, lecteur, capteurs, motorisation ; fonction, et type mécanique ou électronique). Activité 3 = « Étape 4 : Notion d'algorithme » : organigramme dessiné sur le cahier avec les sept étiquettes (le cadre de la fiche dit « À faire sur ton cahier, puis à déposer en photo avec « Rendre mon travail » »), explication b) dans le champ, puis « Synthèse : Ce que je retiens » (huit trous). Quiz 41Q s'il reste du temps.</li>
+<li>Dans le site, après : cocher les séances 2 et 3 ; « Classeur » › « Réponses rédigées » › cartes « terminée, à corriger » : « Commenter » sous un champ si besoin, « Correction de la fiche », « Enregistrer la correction » ; « Travaux déposés » : la photo de l'organigramme, appréciation, compétence « Analyser les interactions objet/environnement » et niveau de maîtrise, « Enregistrer ». Le badge se pose tout seul.</li>
+<li>« J'ai terminé » : oui, en fin de séance, synthèse remplie.</li>
+</ul>
+<h4>Séance 4, 12 octobre</h4>
+<ul>
+<li>Cours 41S projeté et lu (capteurs, traitement, actionneurs ; bête à cornes ; pieuvre ; organigramme ; vocabulaire), quiz 41Q (meilleur score gardé), évaluation 41E (50 min, sur feuille : la page n'a pas de champs ; rendu en photo par « Rendre mon travail », type « Évaluation »). S'il reste du temps, situation déclenchante de la séquence 2 « Algorithme et logique de programmation », activité 1 « Algorithme du quotidien ».</li>
+<li>Dans le site, après : « Travaux déposés » › évaluations : appréciation, compétence, maîtrise. « Retirer la correction » sur une fiche si un élève doit la compléter. La séquence 2 passe « Prochaine séquence » chez les élèves dès que la séquence 1 est cochée en entier.</li>
+<li>« J'ai terminé » : fiche 42A, plus tard.</li>
+</ul>
+<h3>5e (5M1 SVT)</h3>
+<h4>Séance 2, 28 septembre</h4>
+<ul>
+<li>Fiche 51A : fin de l'activité 1 : correction collective du tableau, étape « Définir » (définition écrite au tableau puis dans le champ : « Un objet technique est un objet fabriqué (conçu et réalisé) par l'Homme pour répondre à un besoin. »). Puis « Activité 2 : Le besoin », étape « Identifier les besoins » (vélo, lampe de bureau, smartphone, réfrigérateur, calculatrice : besoin et fonction d'usage, formule « [L'objet] permet à [l'utilisateur] de [action/fonction] »). Feuille B en ligne (4 min) en fin de séance, « Autre document ».</li>
+<li>Dans le site : avant, bandelettes pour les « accès jamais ouvert ». Après, cocher « 1. Objet naturel ou objet technique ? » ; « Absent » pour les absents ; lire les cartes « en cours ».</li>
+<li>« J'ai terminé » : non.</li>
+</ul>
+<h4>Séance 3, 5 octobre</h4>
+<ul>
+<li>Fiche 51A : fin de l'activité 2, étape « Comparer des objets techniques » (vélo, trottinette électrique, voiture : énergie, vitesse, passagers, impact, prix). « Activité 3 : Fonction d'usage et fonction d'estime » (montres, stylos, chaussures ; apporter deux objets identiques de marques différentes). « Synthèse : À retenir » (six trous). Quiz 51Q s'il reste du temps.</li>
+<li>Dans le site, après : cocher les séances 2 et 3 ; « Réponses rédigées » › « Correction de la fiche » › « Enregistrer la correction ». Le badge se pose tout seul.</li>
+<li>« J'ai terminé » : oui, en fin de séance, synthèse remplie.</li>
+</ul>
+<h4>Séance 4, 12 octobre</h4>
+<ul>
+<li>Cours 51S (objet naturel et objet technique, le besoin et la bête à cornes, fonction d'usage, fonctions techniques du vélo), quiz 51Q, évaluation 51E (45 min, sur feuille, rendue en photo type « Évaluation »). S'il reste du temps, situation déclenchante de la séquence 2 « L'évolution des objets techniques », activité 1 « La frise chronologique du téléphone ».</li>
+<li>Dans le site, après : corriger les évaluations déposées (appréciation, compétence, maîtrise). La séquence 2 passe « Prochaine séquence » dès que la séquence 1 est cochée en entier.</li>
+<li>« J'ai terminé » : fiche 52A, plus tard.</li>
+</ul>
+<h2>9. Renvois</h2>
+<ul>
+<li>Espace enseignant › « La première séance sur le site » (page réservée, bouton « Imprimer / PDF ») : le mode d'emploi général, vérifié en production le 20 septembre ; cette fiche le reprend et y ajoute l'évaluation diagnostique en ligne.</li>
+<li>Espace enseignant › « Présentation à l'équipe » : 14 diapositives ; la diapositive 4 (« Ce que voit l'élève : Mon classeur ») est projetable aux élèves pour son image.</li>
+<li>Courriel type de l'évaluation diagnostique en ligne (13_ORGANISATION, 18 septembre) : pour les élèves absents lundi, à faire chez soi ; le lien porte <code>?prof=max.rafaliarison</code>, qui pré-remplit le destinataire du bouton « Envoyer par courriel ». En salle, on n'en a pas besoin : le dépôt passe par le classeur.</li>
+<li>Livrets professeur des évaluations diagnostiques : Espace enseignant › « 4ème : professeur », « 5ème : professeur » (corrigé, codage R, P, N, V, NR, grille de classe, profils de remédiation).</li>
+</ul>
+      </div>
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+</body>
+</html>
