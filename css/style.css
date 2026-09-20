@@ -823,3 +823,148 @@ main:focus { outline: none; }
   .vp-form { display: none !important; }
   .seq-etat { border: 1px solid #999; }
 }
+
+/* ---- diagnostique en ligne (rentrée 2026) ---- */
+/* Évaluation diagnostique remplie en ligne (js/diagnostique.js). Toutes les
+   classes sont préfixées diag- ; les champs sont stylés sous .diag-form pour
+   ne pas toucher aux sélecteurs globaux. Apparence des champs reprise de
+   css/connecte.css (bordure 1,5 px #7B8794, focus bleu). */
+.diag-form { max-width: 860px; }
+/* La zone d'état reste visible sous l'en-tête du site pendant le défilement,
+   pour que les messages (PDF téléchargé, identité manquante) soient lus
+   même quand l'élève est en bas de la page. */
+.diag-etat { position: sticky; top: calc(var(--header-height) + var(--nav-height) + .5rem); z-index: 15; min-height: 1.4em; margin: 0 0 var(--space-md); padding: 0; font-size: .95rem; font-weight: 700; color: var(--encre-2); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; box-shadow: 0 4px 14px rgba(31, 42, 55, .10); }
+.diag-etat:empty { margin: 0; min-height: 0; box-shadow: none; position: static; }
+.diag-etat-ok, .diag-etat-attention, .diag-etat-erreur { padding: .65rem 1rem; border-left: 4px solid var(--trait); }
+.diag-etat-ok { background: var(--fait-pale); border-left-color: var(--fait); color: #14532D; }
+.diag-etat-discret { position: static; box-shadow: none; color: var(--fait); font-size: .88rem; }   /* enregistrement courant : sans relief */
+.diag-etat-attention { background: var(--encours-pale); border-left-color: var(--encours); color: #713F12; }
+.diag-etat-erreur { background: var(--error-light); border-left-color: var(--error); color: #7F1D1D; }
+.diag-bandeau { display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md); }
+.diag-bandeau p { flex: 1 1 24ch; margin: 0; }
+
+/* Identité */
+.diag-identite-grille { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: var(--space-sm) var(--space-md); }
+.diag-date { margin: 0; padding: .65rem .8rem; border: 1.5px dashed var(--trait); border-radius: var(--radius-sm); background: var(--papier); color: var(--encre-2); }
+.diag-rappel { margin-top: var(--space-md); font-weight: 700; color: var(--bleu); }
+.diag-duree { font-size: .88rem; font-weight: 700; color: var(--encre-3); letter-spacing: .02em; text-transform: uppercase; margin: -.4rem 0 var(--space-md); }
+
+/* Champs (préfixés : les règles globales de style.css restent intactes) */
+.diag-champ-ligne > label, .diag-label { display: block; font-weight: 700; font-size: .95rem; margin: 0 0 .25rem; }
+.diag-champ-ligne { margin: 0 0 var(--space-md); }
+.diag-champ-ligne:last-child { margin-bottom: 0; }
+.diag-form input[type="text"], .diag-form select, .diag-form textarea {
+  display: block; width: 100%; padding: .65rem .8rem; border: 1.5px solid #7B8794; border-radius: var(--radius-sm);
+  font: inherit; font-size: 1rem; background: var(--papier-2); color: var(--encre); min-height: 44px;
+}
+.diag-form textarea { min-height: 4.5rem; resize: vertical; line-height: 1.5; }
+.diag-form input:focus, .diag-form select:focus, .diag-form textarea:focus { border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); outline: 0; }
+.diag-form input:focus-visible, .diag-form select:focus-visible, .diag-form textarea:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
+.diag-aide-champ { font-weight: 400; color: var(--encre-3); }
+
+/* Items */
+.diag-item { padding: var(--space-md) 0 var(--space-lg); border-top: 1px solid var(--grille); }
+.diag-item:last-child { padding-bottom: 0; }
+.diag-item h3 { margin: 0 0 var(--space-sm); font-size: 1.05rem; }
+.diag-num { display: inline-block; padding: .15rem .7rem; border-radius: 999px; background: var(--bleu-pale); color: var(--bleu); font-size: .85rem; letter-spacing: .03em; text-transform: uppercase; }
+.diag-enonce { margin-bottom: .5rem; }
+.diag-enonce:last-of-type { margin-bottom: var(--space-md); }
+.diag-consigne { font-size: .93rem; color: var(--encre-2); font-style: italic; }
+.diag-avert { min-height: 0; margin: .4rem 0 0; font-size: .9rem; font-weight: 700; color: #7F1D1D; }
+.diag-avert:empty { display: none; }
+
+/* Documents supports */
+.diag-support { margin: var(--space-md) 0; padding: var(--space-md); border: 1px solid var(--trait); border-left: 5px solid var(--encre-4); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--papier); font-size: .95rem; }
+.diag-support h4 { margin: 0 0 .5rem; font-size: .82rem; letter-spacing: .06em; text-transform: uppercase; color: var(--encre-2); }
+.diag-support p { margin-bottom: .6rem; }
+.diag-support p:last-child { margin-bottom: 0; }
+.diag-support ul { margin-bottom: .5rem; }
+.diag-pre { font-family: var(--font-mono); font-size: .86rem; line-height: 1.55; white-space: pre; overflow-x: auto; padding: .6rem .8rem; background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--radius-sm); }
+.diag-defile { overflow-x: auto; -webkit-overflow-scrolling: touch; }
+.diag-form .diag-tableau { width: 100%; border-collapse: collapse; margin: .3rem 0 0; font-size: .92rem; }
+.diag-form .diag-tableau th, .diag-form .diag-tableau td { border: 1px solid var(--trait); padding: .45rem .6rem; }
+.diag-form .diag-tableau th { background: var(--papier-2); }
+.diag-note { font-size: .88rem; color: var(--encre-2); font-style: italic; }
+.diag-figure { margin: var(--space-md) 0; text-align: center; }
+.diag-figure svg { display: block; width: 100%; max-width: 560px; height: auto; margin: 0 auto; }
+
+/* Boutons radio habillés */
+.diag-champ { border: 0; padding: 0; margin: 0; min-width: 0; }
+.diag-champ > legend, .diag-ligne > legend { font-weight: 700; font-size: .95rem; padding: 0; margin-bottom: .4rem; }
+.diag-choix {
+  display: flex; align-items: flex-start; gap: .6rem; margin: 0 0 .45rem; padding: .55rem .8rem;
+  border: 1.5px solid var(--trait); border-radius: var(--radius-sm); background: var(--papier-2);
+  font-weight: 400; cursor: pointer; min-height: 44px; transition: background var(--transition-fast), border-color var(--transition-fast);
+}
+.diag-choix:hover { background: var(--papier); border-color: var(--encre-4); }
+.diag-choix input { flex: none; width: 22px; height: 22px; margin: .1rem 0 0; accent-color: var(--bleu); cursor: pointer; }
+.diag-choix:focus-within { border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); }
+.diag-choix.diag-coche { background: var(--bleu-pale); border-color: var(--bleu); }
+.diag-choix:has(:checked) { background: var(--bleu-pale); border-color: var(--bleu); }
+.diag-lettre { font-weight: 700; color: var(--bleu); flex: none; }
+.diag-legende { list-style: none; padding: .6rem .9rem; margin: 0 0 var(--space-md); border: 1px dashed var(--encre-4); border-radius: var(--radius-sm); background: var(--papier); font-size: .93rem; }
+.diag-form .diag-legende li { margin: 0 0 .25rem; }
+.diag-form .diag-legende li:last-child { margin: 0; }
+
+/* Lignes de classement et vrai/faux : une ligne par élément, une pastille par colonne */
+.diag-ligne { border: 0; padding: .5rem 0; margin: 0; min-width: 0; border-bottom: 1px solid var(--grille); display: flex; flex-wrap: wrap; align-items: center; gap: .4rem var(--space-md); }
+.diag-ligne:last-child { border-bottom: 0; }
+.diag-ligne > legend { float: left; margin: 0; flex: 1 1 18ch; min-width: 0; }
+.diag-ligne-choix { display: flex; flex-wrap: wrap; gap: .4rem; flex: 0 1 auto; margin-left: auto; }
+.diag-ligne-choix .diag-choix { margin: 0; padding: .35rem .7rem; min-height: 44px; }
+
+/* Selects en ligne (appariement, ordre, trous, cadres) */
+.diag-ordre-ligne { display: flex; align-items: center; gap: .7rem; }
+.diag-ordre-ligne label { margin: 0; font-weight: 400; flex: 1; }
+.diag-form .diag-ordre-ligne select { width: 5.5rem; flex: none; }
+.diag-trou { display: flex; flex-wrap: wrap; align-items: center; gap: .3rem .4rem; margin-bottom: .6rem; }
+.diag-form .diag-trou select { display: inline-block; width: auto; min-width: 9rem; max-width: 100%; }
+
+/* Barre d'actions collante */
+.diag-actions {
+  position: sticky; bottom: 0; z-index: 20; display: flex; flex-wrap: wrap; align-items: center; gap: var(--space-sm) var(--space-md);
+  margin: var(--space-lg) 0 var(--space-sm); padding: .8rem var(--space-md);
+  background: var(--papier-2); border: 1px solid var(--trait); border-top: 3px solid var(--bleu); border-radius: var(--radius-md);
+  box-shadow: 0 -4px 18px rgba(31, 42, 55, .10);
+}
+.diag-compteur { font-weight: 800; font-family: var(--font-display); color: var(--encre-2); flex: 1 1 12ch; }
+.diag-boutons { display: flex; flex-wrap: wrap; gap: var(--space-sm); }
+/* Les deux boutons « Nouvelle copie » (bandeau et barre) gardent une zone de touche de 44 px */
+.diag-form .btn-sm { min-height: 44px; }
+.diag-sous-barre { font-size: .92rem; color: var(--encre-2); }
+.diag-aide { margin: 0 0 .4rem; }
+.diag-lien { background: none; border: 0; padding: .3rem 0; min-height: 44px; color: var(--bleu); font: inherit; font-size: .9rem; text-decoration: underline; cursor: pointer; text-align: left; }
+.diag-lien:hover { color: var(--primary-dark); }
+.diag-imprime { display: none; }
+
+.diag-identite { scroll-margin-top: calc(var(--header-height) + var(--nav-height) + 5.5rem); }   /* place pour le message d'etat colle en haut */
+
+@media (max-width: 768px) {
+  .diag-etat { top: calc(var(--header-height) + .5rem); }
+  .diag-identite { scroll-margin-top: calc(var(--header-height) + 6.5rem); }
+}
+
+@media (max-width: 640px) {
+  .diag-identite-grille { grid-template-columns: 1fr; }
+  .diag-actions { margin-left: calc(-1 * var(--space-md)); margin-right: calc(-1 * var(--space-md)); border-radius: var(--radius-md) var(--radius-md) 0 0; padding: .55rem var(--space-md) .7rem; gap: .5rem var(--space-sm); }
+  .diag-compteur { flex: 1 1 auto; font-size: .95rem; }
+  .diag-actions > .btn-ghost { margin-left: auto; }
+  .diag-boutons { width: 100%; gap: .5rem; }
+  .diag-boutons .btn { flex: 1 1 40%; justify-content: center; padding: .6rem .45rem; font-size: .85rem; min-height: 44px; }
+  .diag-ligne > legend { flex-basis: 100%; }
+  .diag-ligne-choix { margin-left: 0; width: 100%; }
+  .diag-ligne-choix .diag-choix { flex: 1 1 40%; }
+}
+
+@media print {
+  .diag-actions, .diag-bandeau, .diag-etat, .diag-sous-barre, .diag-avert:empty { display: none !important; }
+  .diag-form textarea { display: none !important; }
+  .diag-imprime { display: block; border: .7pt solid #000; padding: 1.5mm 2mm; min-height: 12mm; white-space: pre-wrap; font-size: 10pt; }
+  .diag-form input[type="text"], .diag-form select { border: 0 !important; border-bottom: .7pt solid #000 !important; border-radius: 0; padding: .5mm 1mm; min-height: 0; }
+  .diag-choix { border: 0; padding: .3mm 0; min-height: 0; margin: 0 0 .5mm; page-break-inside: avoid; }
+  .diag-choix input { width: 3.4mm; height: 3.4mm; }
+  .diag-item { break-inside: avoid; page-break-inside: avoid; padding: 2mm 0 3mm; }
+  .diag-num { background: #fff !important; color: #000 !important; border: .7pt solid #000; border-radius: 0; padding: .3mm 1.5mm; }
+  .diag-support, .diag-legende { background: #fff !important; border-color: #000; }
+  .diag-date { border: 0; padding: 0; }
+}

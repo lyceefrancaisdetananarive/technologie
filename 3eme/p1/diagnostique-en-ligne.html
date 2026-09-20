@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Évaluation diagnostique de rentrée en ligne | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"Évaluation diagnostique en ligne"}]'
+    data-print-title="3ème · Évaluation diagnostique de rentrée"
+    data-print-subtitle="Réponses de l’élève · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme"><span class="ico">&#x1F7E0;</span> 3ème · Rentrée 2026</span>
+        <h1>Où j’en suis en début d’année</h1>
+        <p class="page-description">Évaluation diagnostique de rentrée, à faire en ligne. Ce travail n’est pas noté.</p>
+      </div>
+
+      <div id="diag"></div>
+      <noscript><div class="info-box info-box-orange"><p>Cette page a besoin de JavaScript pour afficher les questions et fabriquer le PDF. Active-le, ou demande la version papier à ton professeur.</p></div></noscript>
+    </main>
+  </div>
+  <script>
+  /* Données de l'évaluation diagnostique de rentrée, niveau 3ème.
+     Transcription de 04_DIAGNOSTIQUE/diagnostiques.json (clé « 3eme »), adaptée à l'écran.
+     Cette page est publique : elle ne contient aucune réponse attendue. */
+  window.DIAG = (function () {
+
+    /* Document 1 (notice du kit solaire), utilisé par les questions 13, 14 et 15.
+       Sur papier il est imprimé sur une feuille séparée posée à côté de la copie ;
+       à l'écran il est rappelé sous chacune des trois questions. */
+    function document1(titre) {
+      return {
+        type: 'liste',
+        titre: titre,
+        lignes: [
+          'Puissance du panneau solaire : 30 W',
+          'Tension de sortie : 12 V',
+          'Batterie : 12 V, 18 Ah',
+          'Durée de charge complète au soleil : 7 heures',
+          'Sorties disponibles : 3 prises pour lampes de 3 W + 1 prise USB 5 V',
+          'Autonomie annoncée avec les 3 lampes allumées : 8 heures',
+          'Température de fonctionnement : de 0 °C à 45 °C',
+          'Poids du kit complet : 4,2 kg',
+          'Garantie : 2 ans'
+        ],
+        notes: [
+          'Deux mots du document :',
+          'Autonomie : durée pendant laquelle le kit peut faire fonctionner les lampes sans être rechargé.',
+          'Durée de charge complète : temps de soleil nécessaire pour remplir complètement la batterie.'
+        ]
+      };
+    }
+
+    /* Programme du lampadaire, utilisé par les questions 9 et 10. */
+    var PROGRAMME = 'RÉPÉTER INDÉFINIMENT\n    SI luminosité < 30 ALORS\n        allumer la lampe\n    SINON\n        éteindre la lampe\n    FIN SI\nFIN RÉPÉTER';
+
+    return {
+      niveau: '3eme',
+      libelle: '3ème',
+      court: '3e',
+      classes: ['3M1', '3M2', '3M3', '3M4', '3M5', '3M6', '3M7'],
+      titre: 'Où j’en suis en début d’année',
+      duree: 38,
+      mot: [
+        'Bienvenue en 3ème.',
+        'Ce travail n’est pas un contrôle : il n’est pas noté, il ne compte pas dans ta moyenne, et il ne sera pas rendu avec une note.',
+        'Il me sert, à moi ton professeur, à savoir ce que tu sais déjà faire et ce que nous allons travailler ensemble cette année.',
+        'Réponds seul, calmement, avec tes propres mots, directement sur cet écran. L’orthographe n’est pas prise en compte.',
+        'Si tu n’arrives pas à répondre à une question, passe à la suivante. Tu reviendras après si tu as le temps. Si tu ne sais pas, coche ou écris « je ne sais pas » : c’est une vraie réponse, ce n’est pas une faute.',
+        'Tu as environ trente-huit minutes. La durée indiquée pour chaque partie est un repère, personne ne te chronomètre. Si tu ne finis pas, ce n’est pas grave.',
+        'Quand tu as fini, clique sur « Télécharger mon PDF », puis envoie ce fichier à ton professeur par courriel : le bouton « Envoyer par courriel » prépare le message.'
+      ],
+      parties: [
+        {
+          titre: 'Partie 1 : À quoi sert un objet ? (analyse fonctionnelle et cahier des charges)',
+          duree: 8,
+          items: [
+            {
+              num: '1', type: 'qcm',
+              enonce: 'On installe un cadenas à code sur la porte du magasin de matériel de l’école. Parmi les quatre phrases ci-dessous, une seule exprime le BESOIN auquel ce cadenas répond. Coche cette phrase.',
+              resume: 'Le besoin auquel répond le cadenas',
+              options: [
+                { val: 'A', texte: 'Il est fabriqué en acier.' },
+                { val: 'B', texte: 'Il empêche une personne non autorisée d’ouvrir la porte.' },
+                { val: 'C', texte: 'Il coûte 25 000 ariary.' },
+                { val: 'D', texte: 'Il est de forme ronde.' }
+              ]
+            },
+            {
+              num: '2', type: 'appariement',
+              enonce: 'Voici quatre phrases écrites au sujet du même cadenas à code. Pour chaque phrase (1 à 4), choisis l’étiquette qui lui convient (A à D).',
+              resume: 'Fonction, contrainte, critère, niveau',
+              consigne: 'Chaque étiquette est utilisée une seule fois.',
+              gauche: [
+                { val: '1', texte: '« Le cadenas doit empêcher l’ouverture de la porte par une personne non autorisée. »' },
+                { val: '2', texte: '« Le cadenas doit coûter moins de 30 000 ariary. »' },
+                { val: '3', texte: '« Nombre de chiffres du code. »' },
+                { val: '4', texte: '« Au moins 4 chiffres. »' }
+              ],
+              droite: [
+                { val: 'A', texte: 'une fonction de service (ce que l’objet doit faire)' },
+                { val: 'B', texte: 'une contrainte (une limite que l’objet doit respecter)' },
+                { val: 'C', texte: 'un critère (ce que l’on mesure pour vérifier)' },
+                { val: 'D', texte: 'un niveau (la valeur attendue pour ce critère)' }
+              ]
+            },
+            {
+              num: '3', type: 'texte',
+              enonce: 'En une seule phrase, explique à quoi sert un cahier des charges quand on va concevoir un objet technique. Écris avec tes propres mots.',
+              resume: 'À quoi sert un cahier des charges',
+              champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+            },
+            {
+              num: '4', type: 'lignes_choix',
+              enonce: 'Pour chacune des trois phrases, coche VRAI ou FAUX.',
+              resume: 'Vrai ou faux sur le cahier des charges',
+              choix: [{ val: 'V', texte: 'Vrai' }, { val: 'F', texte: 'Faux' }],
+              phrases: [
+                { val: 'a', texte: 'Le cahier des charges est écrit avant de fabriquer l’objet.' },
+                { val: 'b', texte: 'Le cahier des charges indique ce que l’objet doit faire.' },
+                { val: 'c', texte: 'Le cahier des charges impose la matière et la forme de l’objet.' }
+              ]
+            }
+          ]
+        },
+        {
+          titre: 'Partie 2 : Comment fonctionne un objet ? (chaîne d’énergie et chaîne d’information)',
+          duree: 6,
+          items: [
+            {
+              num: '5', type: 'classement',
+              enonce: 'Un lampadaire solaire éclaire la cour d’une école. Il s’allume tout seul quand la nuit arrive. Voici six éléments qui le composent. Pour chaque élément, coche la bonne colonne. Il y a trois numéros dans chaque colonne.',
+              resume: 'Chaîne d’énergie et chaîne d’information du lampadaire',
+              colonnes: ['CHAÎNE D’ÉNERGIE (l’électricité circule)', 'CHAÎNE D’INFORMATION (l’information circule)'],
+              elements: [
+                { val: '1', texte: 'le panneau solaire' },
+                { val: '2', texte: 'le capteur de luminosité' },
+                { val: '3', texte: 'la batterie' },
+                { val: '4', texte: 'la carte électronique programmée' },
+                { val: '5', texte: 'la lampe LED' },
+                { val: '6', texte: 'le petit écran qui affiche le niveau de charge de la batterie' }
+              ]
+            },
+            {
+              num: '6', type: 'qcm',
+              enonce: 'Le portail motorisé de l’entrée du lycée s’ouvre automatiquement. Un moteur électrique fait coulisser le portail. Dans ce système, ce moteur est : coche la bonne réponse.',
+              resume: 'Nature du moteur du portail motorisé',
+              options: [
+                { val: 'A', texte: 'un capteur' },
+                { val: 'B', texte: 'un actionneur' },
+                { val: 'C', texte: 'une unité de traitement' },
+                { val: 'D', texte: 'une information' }
+              ]
+            },
+            {
+              num: '7', type: 'texte',
+              enonce: 'Voici trois objets : un téléphone mobile, une porte de magasin qui s’ouvre toute seule quand une personne s’approche, une balance électronique du marché.\nChoisis UN seul de ces trois objets. Cite un capteur de cet objet, puis indique quelle information ce capteur capte.',
+              resume: 'Un capteur et l’information qu’il capte',
+              champs: [
+                { cle: 'objet', label: 'Objet', lignes: 1 },
+                { cle: 'capteur', label: 'Capteur', lignes: 1 },
+                { cle: 'information', label: 'Information captée', lignes: 1 }
+              ]
+            },
+            {
+              num: '8', type: 'cadres',
+              enonce: 'Une école possède une citerne (grand réservoir d’eau). Quand le niveau de l’eau descend trop bas, une sonnerie prévient le gardien. Voici la chaîne d’information de ce système. Pour chaque case, choisis le NUMÉRO de l’élément qui convient. Chaque numéro est utilisé une seule fois.\n1. la sonnerie\n2. la carte électronique programmée\n3. le capteur de niveau d’eau',
+              resume: 'Chaîne d’information de la citerne',
+              figure: '<svg class="fig" viewBox="0 0 600 145" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trois cases vides reliées par des flèches, sous-titrées ACQUÉRIR, TRAITER et COMMUNIQUER."><defs><marker id="fl-8" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="70" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="110" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">ACQUÉRIR</text><rect x="260" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="300" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">TRAITER</text><rect x="450" y="20" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="490" y="128" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">COMMUNIQUER</text><line x1="150" y1="60" x2="258" y2="60" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#fl-8)"/><line x1="340" y1="60" x2="448" y2="60" fill="none" stroke="#000" stroke-width="2.4" marker-end="url(#fl-8)"/></svg>',
+              liste: [
+                { val: '1', texte: '1. la sonnerie' },
+                { val: '2', texte: '2. la carte électronique programmée' },
+                { val: '3', texte: '3. le capteur de niveau d’eau' }
+              ],
+              cadres: [
+                { val: '1', label: 'Case 1', aide: 'ACQUÉRIR' },
+                { val: '2', label: 'Case 2', aide: 'TRAITER' },
+                { val: '3', label: 'Case 3', aide: 'COMMUNIQUER' }
+              ]
+            }
+          ]
+        },
+        {
+          titre: 'Partie 3 : Lire un programme (suite d’instructions, condition, organigramme)',
+          duree: 8,
+          items: [
+            {
+              num: '9', type: 'qcm',
+              enonce: 'Un lampadaire solaire est piloté par le programme ci-dessous. Le capteur mesure la luminosité : il donne un nombre entier compris entre 0 (nuit noire) et 100 (plein soleil). Il est 13 heures, le soleil est fort : le capteur donne 80. Que fait la lampe ? Coche la bonne réponse.',
+              resume: 'Le programme du lampadaire : que fait la lampe ?',
+              supports: [
+                { type: 'pre', titre: 'Programme du lampadaire', texte: PROGRAMME }
+              ],
+              options: [
+                { val: 'A', texte: 'Elle s’allume.' },
+                { val: 'B', texte: 'Elle reste éteinte.' },
+                { val: 'C', texte: 'Elle clignote.' },
+                { val: 'D', texte: 'On ne peut pas le savoir avec ce programme.' }
+              ]
+            },
+            {
+              num: '10', type: 'texte',
+              enonce: 'On veut maintenant que la lampe s’allume aussi lorsque la luminosité vaut exactement 30. Recopie la ligne du programme qu’il faut modifier, puis écris la ligne corrigée.',
+              resume: 'Corriger la ligne du programme',
+              supports: [
+                { type: 'pre', titre: 'Rappel du programme (le même qu’à la question 9)', texte: PROGRAMME }
+              ],
+              champs: [
+                { cle: 'modifier', label: 'Ligne à modifier', lignes: 1 },
+                { cle: 'corrigee', label: 'Ligne corrigée', lignes: 1 }
+              ]
+            },
+            {
+              num: '11', type: 'appariement',
+              enonce: 'Voici quatre formes utilisées dans un organigramme. Pour chaque forme (1 à 4), choisis son rôle (A à D).',
+              resume: 'Les formes de l’organigramme',
+              consigne: 'Chaque rôle est utilisé une seule fois.',
+              figure: '<svg class="fig" viewBox="0 0 600 150" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Quatre formes d’organigramme vides, alignées : 1 un losange, 2 un rectangle, 3 un ovale, 4 une flèche horizontale."><defs><marker id="fl-11" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><polygon points="80,15 140,60 80,105 20,60" fill="#fff" stroke="#000" stroke-width="2"/><text x="80" y="135" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">1 (losange)</text><rect x="170" y="25" width="120" height="70" fill="#fff" stroke="#000" stroke-width="2"/><text x="230" y="135" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">2 (rectangle)</text><ellipse cx="380" cy="60" rx="60" ry="35" fill="#fff" stroke="#000" stroke-width="2"/><text x="380" y="135" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">3 (ovale)</text><line x1="475" y1="60" x2="583" y2="60" fill="none" stroke="#000" stroke-width="2" marker-end="url(#fl-11)"/><text x="530" y="135" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">4 (flèche)</text></svg>',
+              gauche: [
+                { val: '1', texte: 'le losange' },
+                { val: '2', texte: 'le rectangle' },
+                { val: '3', texte: 'l’ovale' },
+                { val: '4', texte: 'la flèche horizontale' }
+              ],
+              droite: [
+                { val: 'A', texte: 'poser une question, tester une condition (la réponse est oui ou non)' },
+                { val: 'B', texte: 'effectuer une action' },
+                { val: 'C', texte: 'marquer le début ou la fin de l’organigramme' },
+                { val: 'D', texte: 'indiquer l’ordre dans lequel on parcourt l’organigramme' }
+              ]
+            },
+            {
+              num: '12', type: 'lignes_choix',
+              enonce: 'Pour chacune des trois phrases ci-dessous, coche VRAI ou FAUX.',
+              resume: 'Vrai ou faux sur boucle, condition et variable',
+              choix: [{ val: 'V', texte: 'Vrai' }, { val: 'F', texte: 'Faux' }],
+              phrases: [
+                { val: 'a', texte: 'Une boucle « répéter indéfiniment » exécute les instructions qu’elle contient une seule fois.' },
+                { val: 'b', texte: 'Dans un bloc « SI … ALORS … SINON … », une seule des deux parties est exécutée à chaque passage.' },
+                { val: 'c', texte: 'Une variable est une case mémoire dont la valeur peut changer pendant l’exécution du programme.' }
+              ]
+            }
+          ]
+        },
+        {
+          titre: 'Partie 4 : Posture d’examen : lire un document technique et justifier',
+          duree: 10,
+          items: [
+            {
+              num: '13', type: 'texte',
+              enonce: 'Lis le Document 1 ci-dessous. Il servira aussi pour les questions 14 et 15.\nQuestion : combien de lampes peut-on brancher en même temps sur ce kit solaire ? Recopie ensuite la ligne du document qui t’a permis de répondre.',
+              resume: 'Nombre de lampes du kit solaire et ligne du document',
+              supports: [
+                document1('DOCUMENT 1 : Notice simplifiée d’un kit solaire domestique « Masoandro 30 » (document pédagogique)')
+              ],
+              champs: [
+                { cle: 'reponse', label: 'Réponse', lignes: 1 },
+                { cle: 'ligne', label: 'Ligne du document', lignes: 1 }
+              ]
+            },
+            {
+              num: '14', type: 'texte',
+              enonce: 'Une famille veut éclairer trois pièces avec ce kit, tous les soirs, de 18 h à 22 h, soit 4 heures par soir. Nous sommes en saison sèche : le ciel est dégagé, le panneau reçoit le soleil toute la journée.\nCe kit convient-il ? Réponds d’abord par OUI ou NON, puis justifie ta réponse avec une donnée chiffrée du Document 1. Écris deux lignes au maximum.',
+              resume: 'Le kit convient-il pour 4 heures par soir ?',
+              supports: [
+                document1('DOCUMENT 1 (rappel) : Notice simplifiée d’un kit solaire domestique « Masoandro 30 »')
+              ],
+              champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 3 }]
+            },
+            {
+              num: '15', type: 'texte',
+              enonce: 'Pendant la saison des pluies, le ciel reste couvert : le panneau ne reçoit un bon soleil que 4 heures par jour. Explique pourquoi, dans ces conditions, la batterie risque de ne pas être complètement chargée. Ta réponse doit contenir une donnée chiffrée du Document 1.',
+              resume: 'Batterie et saison des pluies',
+              supports: [
+                document1('DOCUMENT 1 (rappel) : Notice simplifiée d’un kit solaire domestique « Masoandro 30 »')
+              ],
+              champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+            }
+          ]
+        },
+        {
+          titre: 'Partie 5 : Organiser un projet',
+          duree: 2,
+          items: [
+            {
+              num: '16', type: 'texte',
+              enonce: 'Dans un projet de groupe, un élève est chargé de tenir le planning. En une phrase, explique à quoi sert un planning dans un projet.',
+              resume: 'À quoi sert un planning',
+              champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+            }
+          ]
+        }
+      ]
+    };
+  })();
+  </script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/pdf-mini.js"></script>
+  <script src="../../js/diagnostique.js"></script>
+</body>
+</html>

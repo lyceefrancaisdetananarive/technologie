@@ -57,6 +57,9 @@ const PAGES_PUBLIQUES = new Set([
   '/5eme', '/5eme/', '/5eme/index.html',
   '/4eme', '/4eme/', '/4eme/index.html',
   '/3eme', '/3eme/', '/3eme/index.html',
+  // Évaluation diagnostique de rentrée en ligne (D17) : envoyée par courriel avant
+  // que les élèves aient leur mot de passe, sans corrigé, aucune donnée stockée.
+  '/5eme/p1/diagnostique-en-ligne.html', '/4eme/p1/diagnostique-en-ligne.html', '/3eme/p1/diagnostique-en-ligne.html',
   '/robots.txt', '/favicon.ico',
 ]);
 // Les fonctions vérifient elles-mêmes la session ; les quatre dossiers de

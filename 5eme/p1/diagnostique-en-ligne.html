@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Évaluation diagnostique de rentrée en ligne | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"Évaluation diagnostique en ligne"}]'
+    data-print-title="5ème · Évaluation diagnostique de rentrée"
+    data-print-subtitle="Réponses de l’élève · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme"><span class="ico">&#x1F535;</span> 5ème · Rentrée 2026</span>
+        <h1>Ce que tu sais déjà</h1>
+        <p class="page-description">Évaluation diagnostique de rentrée, à faire en ligne. Ce travail n’est pas noté.</p>
+      </div>
+
+      <div id="diag"></div>
+      <noscript><div class="info-box info-box-orange"><p>Cette page a besoin de JavaScript pour afficher les questions et fabriquer le PDF. Active-le, ou demande la version papier à ton professeur.</p></div></noscript>
+    </main>
+  </div>
+  <script>
+  // Donnees de l'evaluation diagnostique de rentree, niveau 5eme.
+  // Source : 04_DIAGNOSTIQUE/diagnostiques.json (cle 5eme), consignes adaptees a l'ecran.
+  // Cette page est publique : elle ne contient aucune reponse attendue.
+  window.DIAG = {
+    niveau: '5eme',
+    libelle: '5ème',
+    court: '5e',
+    classes: ['5M1', '5M2', '5M3', '5M4', '5M5', '5M6', '5M7'],
+    titre: 'Ce que tu sais déjà',
+    duree: 35,
+    mot: [
+      'Bienvenue en Technologie.',
+      'Ce travail n’est pas une note : il ne compte pas dans ta moyenne, et personne ne te reprochera une erreur.',
+      'Il me sert seulement à savoir ce que tu connais déjà, pour préparer les séances de l’année et t’aider là où tu en as besoin.',
+      'Tu n’es pas censé tout savoir : beaucoup de questions portent sur des choses que nous verrons ensemble plus tard.',
+      'Réponds avec tes mots, directement sur cet écran. L’orthographe n’est pas comptée. Si tu hésites, écris quand même ce que tu penses : une réponse fausse m’apprend plus qu’une case vide. Si tu ne sais pas, coche ou écris « je ne sais pas » : c’est une vraie réponse.',
+      'Compte environ 35 minutes. Ce n’est pas une course : la durée indiquée pour chaque partie est un repère, personne ne te chronomètre. Si tu n’as pas tout fini, ce n’est pas grave, cela ne te sera pas reproché.',
+      'Quand tu as fini, clique sur « Télécharger mon PDF », puis envoie ce fichier à ton professeur par courriel : le bouton « Envoyer par courriel » prépare le message.'
+    ],
+    parties: [
+      {
+        titre: 'Partie 1 : Les objets autour de moi',
+        duree: 9,
+        items: [
+          {
+            num: '1',
+            type: 'classement',
+            enonce: 'Un objet technique est un objet fabriqué par l’homme pour rendre un service. Un objet naturel existe dans la nature sans que l’homme l’ait fabriqué.\nPour chaque élément, coche la bonne colonne.',
+            resume: 'Objets techniques et objets naturels',
+            colonnes: ['Objet technique', 'Objet naturel'],
+            elements: [
+              { val: '1', texte: 'le taxi-be' },
+              { val: '2', texte: 'le galet ramassé au bord de la rivière' },
+              { val: '3', texte: 'la lampe à pétrole' },
+              { val: '4', texte: 'la fleur sauvage' },
+              { val: '5', texte: 'le téléphone mobile' },
+              { val: '6', texte: 'le nuage' }
+            ]
+          },
+          {
+            num: '2',
+            type: 'appariement',
+            enonce: 'Pour chaque objet, choisis la lettre du besoin auquel il répond.',
+            resume: 'Le besoin auquel répond chaque objet',
+            consigne: 'Attention : il y a six besoins et cinq objets. Un besoin ne sert pas. Chaque lettre ne sert qu’une seule fois.',
+            gauche: [
+              { val: '1', texte: 'la moustiquaire posée au-dessus du lit' },
+              { val: '2', texte: 'le panneau solaire posé sur le toit' },
+              { val: '3', texte: 'le foyer amélioré' },
+              { val: '4', texte: 'le pousse-pousse' },
+              { val: '5', texte: 'le parapluie' }
+            ],
+            droite: [
+              { val: 'A', texte: 'Produire de l’électricité à partir de la lumière du soleil.' },
+              { val: 'B', texte: 'Transporter une personne dans la rue.' },
+              { val: 'C', texte: 'Empêcher les moustiques de piquer pendant la nuit.' },
+              { val: 'D', texte: 'Se protéger de la pluie.' },
+              { val: 'E', texte: 'Cuire les aliments en dépensant moins de charbon.' },
+              { val: 'F', texte: 'Conserver les aliments au froid.' }
+            ]
+          },
+          {
+            num: '3',
+            type: 'qcm',
+            enonce: 'Voici quatre phrases sur le vélo. Coche la seule phrase qui dit à quoi sert le vélo.',
+            resume: 'À quoi sert le vélo',
+            options: [
+              { val: 'a', texte: 'Le vélo est vieux et un peu rouillé.' },
+              { val: 'b', texte: 'Le vélo est fabriqué avec du métal.' },
+              { val: 'c', texte: 'Le vélo sert à se déplacer plus vite qu’à pied.' },
+              { val: 'd', texte: 'Le vélo appartient à mon voisin.' }
+            ]
+          },
+          {
+            num: '4',
+            type: 'texte',
+            enonce: 'Cite un objet technique que tu utilises souvent à la maison ou sur le chemin du collège. Écris son nom, puis une phrase pour dire à quoi il sert.\nExemple de la forme attendue (n’utilise pas cet exemple dans ta réponse) : « La règle. Elle sert à tracer des traits droits. »',
+            resume: 'Un objet technique de tous les jours et son usage',
+            champs: [
+              { cle: 'objet', label: 'Objet', lignes: 1 },
+              { cle: 'usage', label: 'À quoi il sert', lignes: 2 }
+            ]
+          }
+        ]
+      },
+      {
+        titre: 'Partie 2 : Matériaux et énergie',
+        duree: 9,
+        items: [
+          {
+            num: '5',
+            type: 'appariement',
+            enonce: 'Pour chaque objet, choisis la lettre du matériau principal dont il est fait.',
+            resume: 'Le matériau principal de chaque objet',
+            consigne: 'Attention : il y a six matériaux et cinq objets. Un matériau ne sert pas. Chaque lettre ne sert qu’une seule fois.',
+            gauche: [
+              { val: '1', texte: 'la marmite posée sur le foyer à charbon' },
+              { val: '2', texte: 'le seau que l’on remplit à la borne-fontaine' },
+              { val: '3', texte: 'le manche de l’angady (la bêche)' },
+              { val: '4', texte: 'la vitre de la fenêtre de la classe' },
+              { val: '5', texte: 'le panier tressé du marché' }
+            ],
+            droite: [
+              { val: 'A', texte: 'le verre' },
+              { val: 'B', texte: 'le métal' },
+              { val: 'C', texte: 'la fibre végétale (raphia, paille)' },
+              { val: 'D', texte: 'le plastique' },
+              { val: 'E', texte: 'le bois' },
+              { val: 'F', texte: 'le caoutchouc' }
+            ]
+          },
+          {
+            num: '6',
+            type: 'qcm',
+            enonce: 'La marmite que l’on pose sur le foyer à charbon est faite en métal, et non en plastique. Pourquoi ? Coche la seule bonne réponse.',
+            resume: 'Pourquoi la marmite est en métal',
+            options: [
+              { val: 'a', texte: 'parce que le métal coûte moins cher que le plastique' },
+              { val: 'b', texte: 'parce que le métal résiste à la chaleur du feu, alors que le plastique fondrait' },
+              { val: 'c', texte: 'parce que le métal est plus léger que le plastique' },
+              { val: 'd', texte: 'parce que le métal est plus joli' }
+            ]
+          },
+          {
+            num: '7',
+            type: 'classement',
+            enonce: 'Une source d’énergie est ce qui fournit l’énergie nécessaire pour faire fonctionner un objet, chauffer, éclairer ou déplacer quelque chose.\nPour chaque mot, coche la bonne colonne.',
+            resume: 'Source d’énergie ou non',
+            colonnes: ['C’est une source d’énergie', 'Ce n’est pas une source d’énergie'],
+            elements: [
+              { val: '1', texte: 'le soleil' },
+              { val: '2', texte: 'un tournevis' },
+              { val: '3', texte: 'le charbon de bois' },
+              { val: '4', texte: 'une roue' },
+              { val: '5', texte: 'le pétrole que l’on met dans la lampe' },
+              { val: '6', texte: 'le vent' }
+            ]
+          },
+          {
+            num: '8',
+            type: 'lignes_choix',
+            enonce: 'Pour chaque phrase, coche V (vrai) ou F (faux).',
+            resume: 'Vrai ou faux sur l’énergie',
+            choix: [
+              { val: 'V', texte: 'Vrai' },
+              { val: 'F', texte: 'Faux' }
+            ],
+            phrases: [
+              { val: 'a', texte: 'Un téléphone mobile a besoin d’énergie pour fonctionner.' },
+              { val: 'b', texte: 'Une lampe à pétrole éclaire sans consommer aucune énergie.' },
+              { val: 'c', texte: 'Un panneau solaire produit de l’électricité à partir de la lumière du soleil.' },
+              { val: 'd', texte: 'Une charrette tirée par un zébu se déplace sans aucune énergie.' },
+              { val: 'e', texte: 'Quand il n’y a plus de charbon dans le foyer, le feu finit par s’éteindre.' }
+            ]
+          }
+        ]
+      },
+      {
+        titre: 'Partie 3 : Lire un schéma, comprendre un fonctionnement',
+        duree: 13,
+        items: [
+          {
+            num: '9',
+            type: 'cadres',
+            enonce: 'Le schéma ci-dessous représente une lampe torche qui fonctionne avec des piles. Le courant électrique fait un tour complet : il part d’un élément, traverse les autres, et revient à son point de départ.\nCadre 1 : il fournit l’énergie électrique.\nCadre 2 : il permet d’ouvrir ou de fermer le passage du courant.\nCadre 3 : il produit la lumière.\nPour chaque cadre, choisis le mot qui convient dans la liste : ampoule, fil électrique, interrupteur, pile.\nAttention : il y a quatre mots et trois cadres. Un mot ne sert pas.',
+            resume: 'Les éléments du circuit de la lampe torche',
+            figure: '<svg class="fig" viewBox="0 0 600 205" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Trois cadres carrés vides, numérotés 1, 2 et 3, alignés et reliés par un trait ; un trait de retour marqué fil électrique repart du cadre 3, passe sous les trois cadres et revient au cadre 1 pour fermer la boucle."><defs><marker id="fl-9" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0,0 L10,5 L0,10 z" fill="#000"/></marker></defs><rect x="70" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="110" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 1</text><rect x="260" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="300" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 2</text><rect x="450" y="30" width="80" height="80" fill="#fff" stroke="#000" stroke-width="2.4"/><text x="490" y="134" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">Cadre 3</text><line x1="150" y1="70" x2="260" y2="70" fill="none" stroke="#000" stroke-width="2.4"/><line x1="340" y1="70" x2="450" y2="70" fill="none" stroke="#000" stroke-width="2.4"/><path d="M490 110 L490 170 L110 170 L110 110" fill="none" stroke="#000" stroke-width="2.4"/><text x="300" y="192" text-anchor="middle" font-family="Inter, Arial, sans-serif" font-size="15" fill="#000">fil électrique</text></svg>',
+            liste: [
+              { val: 'ampoule', texte: 'ampoule' },
+              { val: 'fil', texte: 'fil électrique' },
+              { val: 'interrupteur', texte: 'interrupteur' },
+              { val: 'pile', texte: 'pile' }
+            ],
+            cadres: [
+              { val: '1', label: 'Cadre 1', aide: 'il fournit l’énergie électrique' },
+              { val: '2', label: 'Cadre 2', aide: 'il permet d’ouvrir ou de fermer le passage du courant' },
+              { val: '3', label: 'Cadre 3', aide: 'il produit la lumière' }
+            ]
+          },
+          {
+            num: '10',
+            type: 'texte',
+            enonce: 'En une phrase, explique ce qui se passe dans la lampe torche quand on allume l’interrupteur.',
+            resume: 'Ce qui se passe quand on allume la lampe torche',
+            champs: [
+              { cle: 'reponse', label: 'Ta réponse', lignes: 2 }
+            ]
+          },
+          {
+            num: '11',
+            type: 'qcm',
+            enonce: 'Lis le texte ci-dessous, puis réponds à la question. Ce texte sert aussi à la question 12.\nD’après ce texte, à quoi sert la bougie filtrante ? Coche la seule bonne réponse.',
+            resume: 'À quoi sert la bougie filtrante (texte)',
+            supports: [
+              {
+                type: 'texte',
+                titre: 'LE FILTRE À EAU',
+                texte: 'Dans beaucoup de maisons, on utilise un filtre à eau. On verse l’eau dans le réservoir du haut. L’eau traverse ensuite la bougie filtrante. C’est une pièce en céramique percée de trous très fins. Elle retient les saletés et une partie des microbes. L’eau propre tombe goutte à goutte dans le réservoir du bas. Pour la boire, on ouvre le petit robinet placé sur le côté.'
+              }
+            ],
+            options: [
+              { val: 'a', texte: 'à éclairer l’intérieur du filtre' },
+              { val: 'b', texte: 'à retenir les saletés contenues dans l’eau' },
+              { val: 'c', texte: 'à chauffer l’eau pour la faire bouillir' },
+              { val: 'd', texte: 'à fermer le robinet quand le réservoir est plein' }
+            ]
+          },
+          {
+            num: '12',
+            type: 'ordre',
+            enonce: 'Toujours d’après le texte sur le filtre à eau, remets les quatre étapes dans l’ordre du trajet de l’eau. Choisis 1, 2, 3 ou 4 devant chaque phrase.',
+            resume: 'Les étapes du trajet de l’eau dans le filtre',
+            etapes: [
+              { val: 'a', texte: 'L’eau traverse la bougie filtrante.' },
+              { val: 'b', texte: 'On ouvre le robinet pour prendre l’eau propre.' },
+              { val: 'c', texte: 'On verse l’eau dans le réservoir du haut.' },
+              { val: 'd', texte: 'L’eau propre tombe dans le réservoir du bas.' }
+            ]
+          },
+          {
+            num: '13',
+            type: 'trous',
+            enonce: 'Complète chaque phrase avec le mot qui convient, choisi dans la liste.\nAttention : il y a six mots et cinq phrases. Un mot ne sert pas. Chaque mot ne sert qu’une seule fois.\nListe : la panne, le moteur, l’outil, l’utilisateur, la pièce, réparer',
+            resume: 'Le vocabulaire de l’objet technique (mots à placer)',
+            liste: ['la panne', 'le moteur', 'l’outil', 'l’utilisateur', 'la pièce', 'réparer'],
+            phrases: [
+              { val: 'a', avant: 'La personne qui se sert d’un objet technique est son', apres: '.' },
+              { val: 'b', avant: 'Le marteau et le tournevis sont des', apres: '.' },
+              { val: 'c', avant: 'La roue et le guidon sont deux', apres: 'du vélo.' },
+              { val: 'd', avant: 'Quand la lampe ne s’allume plus, on dit qu’elle est en', apres: '.' },
+              { val: 'e', avant: 'Le mécanicien va', apres: 'le vélo cassé.' }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+  </script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/pdf-mini.js"></script>
+  <script src="../../js/diagnostique.js"></script>
+</body>
+</html>

@@ -688,7 +688,13 @@
      "titre": "Fiche de révision : Trimestre 3"
     }
    ],
-   "annexes": []
+   "annexes": [
+    {
+     "fichier": "5eme/p1/diagnostique-en-ligne.html",
+     "titre": "Évaluation diagnostique de rentrée, version en ligne",
+     "reserve": false
+    }
+   ]
   },
   "4eme": {
    "libelle": "4e",
@@ -1318,7 +1324,13 @@
      "titre": "Révision : Trimestre 3"
     }
    ],
-   "annexes": []
+   "annexes": [
+    {
+     "fichier": "4eme/p1/diagnostique-en-ligne.html",
+     "titre": "Évaluation diagnostique de rentrée, version en ligne",
+     "reserve": false
+    }
+   ]
   },
   "3eme": {
    "libelle": "3e",
@@ -1962,6 +1974,11 @@
     }
    ],
    "annexes": [
+    {
+     "fichier": "3eme/p1/diagnostique-en-ligne.html",
+     "titre": "Évaluation diagnostique de rentrée, version en ligne",
+     "reserve": false
+    },
     {
      "fichier": "3eme/p1/diagnostique-feuille-b.html",
      "titre": "Feuille B · Toi, le projet et les outils de travail",
