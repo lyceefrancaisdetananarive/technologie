@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Le site en classe : présentation à l’équipe | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* Diaporama : une diapositive par écran, défilement aimanté, flèches du clavier. */
+    .diapos { scroll-snap-type: y mandatory; }
+    .diapo { scroll-snap-align: start; min-height: calc(100vh - var(--header-height) - var(--nav-height));
+             display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); gap: var(--space-xl);
+             align-items: center; padding: var(--space-xl) 0; border-bottom: 1px solid var(--grille); }
+    .diapo.seule { grid-template-columns: minmax(0, 1fr); max-width: 60rem; }
+    .diapo .num { font-family: var(--font-display); font-weight: 800; color: var(--bleu); font-size: .9rem; letter-spacing: .08em; text-transform: uppercase; margin-bottom: .4rem; }
+    .diapo h2 { font-size: clamp(1.6rem, 3.2vw, 2.4rem); margin-bottom: var(--space-md); line-height: 1.15; }
+    .diapo p, .diapo li { font-size: 1.08rem; line-height: 1.6; }
+    .diapo ul, .diapo ol { padding-left: 1.3rem; margin-bottom: var(--space-md); }
+    .diapo li { margin-bottom: .45rem; }
+    .diapo .cle { background: var(--bleu-pale); border-left: 5px solid var(--bleu); padding: .8rem 1rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-weight: 600; }
+    .diapo figure { margin: 0; }
+    .diapo figure img { width: 100%; height: auto; border: 1px solid var(--trait); border-radius: var(--radius-md); box-shadow: var(--ombre); background: #fff; }
+    .diapo figcaption { font-size: .85rem; color: var(--encre-3); margin-top: .5rem; }
+    .diapo .deux { display: grid; grid-template-columns: 1fr 1fr; gap: var(--space-md); }
+    .titre { text-align: center; min-height: calc(100vh - var(--header-height) - var(--nav-height)); display: grid; place-items: center; }
+    .titre h1 { font-size: clamp(2rem, 5vw, 3.4rem); margin-bottom: var(--space-md); }
+    .titre p { font-size: 1.2rem; color: var(--encre-2); max-width: 44ch; margin: 0 auto var(--space-lg); }
+    .nav-diapo { position: sticky; bottom: 0; background: var(--papier-2); border-top: 1px solid var(--trait);
+                 padding: .5rem var(--space-md); display: flex; gap: var(--space-sm); align-items: center; justify-content: center; z-index: 5; }
+    .nav-diapo span { font-size: .9rem; color: var(--encre-3); min-width: 6rem; text-align: center; }
+    @media (max-width: 900px) { .diapo { grid-template-columns: 1fr; min-height: 0; } .titre { min-height: 70vh; } }
+    @media print { .diapo { break-after: page; min-height: 0; border: 0; } .nav-diapo, .page-actions { display: none !important; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="enseignant"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant","url":"index.html"},{"label":"Présentation à l’équipe"}]'
+    data-print-title="Le site de Technologie en classe"
+    data-print-subtitle="Présentation à l’équipe · septembre 2026">
+
+    <main class="site-main">
+      <div class="page-actions no-print">
+        <a class="btn btn-outline" href="premiere-seance.html"><span class="ico">&#x1F4CB;</span> La fiche « première séance »</a>
+        <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
+        <span class="text-muted" style="font-size:.9rem">Flèches du clavier ou défilement : une diapositive par écran.</span>
+      </div>
+
+      <div class="diapos" id="diapos">
+
+        <section class="diapo titre seule">
+          <div>
+            <span class="page-level-badge"><span class="ico">&#x1F511;</span> Réunion d’équipe · septembre 2026</span>
+            <h1>Le site de Technologie en classe</h1>
+            <p>Ce qui change, ce que voit l’élève, ce que vous faites en trois clics, et la première séance pas à pas.</p>
+            <p><a class="btn btn-primary" href="#d2">Commencer</a></p>
+          </div>
+        </section>
+
+        <section class="diapo" id="d2">
+          <div>
+            <div class="num">1 / 13</div>
+            <h2>Ce qui a changé depuis le 18 septembre</h2>
+            <ul>
+              <li>Le site <code>techlft.egd.mg</code> est <strong>réservé</strong> : sans compte, on ne voit que l’accueil, la page des parents, les progressions par niveau et les pages légales.</li>
+              <li>Chaque élève a un <strong>compte personnel</strong> (adresse <code>@eleve.egd.mg</code>), qui le suit jusqu’en 3e, et ne voit que <strong>son niveau</strong>.</li>
+              <li>Les 33 groupes sont déjà remplis d’après l’export EDUKA du 17 septembre (532 élèves) : vous n’importez rien.</li>
+              <li>Chaque professeur voit ses groupes, corrige ses élèves, coche ses séances. Le coordonnateur voit tous les groupes pour les comptes, pas les dépôts des collègues.</li>
+            </ul>
+            <p class="cle">Un seul geste avant lundi : vérifier que vos groupes sont là, avec le bon effectif.</p>
+          </div>
+          <figure><img src="../img/presentation/prof-tableau-de-bord.jpg" alt="Le tableau de bord de l’espace enseignant : une carte par groupe avec les séances faites, la séquence en cours et ce qui attend une correction"><figcaption>Espace enseignant : vos groupes, la séquence en cours, ce qui attend une correction.</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">2 / 13</div>
+            <h2>Se connecter, la première fois</h2>
+            <ol>
+              <li>Page de connexion, <strong>« Je suis élève »</strong> ou <strong>« Je suis professeur »</strong> (vous : votre adresse <code>@egd.mg</code>).</li>
+              <li>L’élève qui n’a pas encore de mot de passe : <strong>« Première connexion »</strong>, son adresse, « Recevoir un message ». Le courriel arrive en moins d’une minute (expéditeur « Technologie LFT »), le lien vaut <strong>24 heures</strong>.</li>
+              <li>Il choisit son mot de passe : <strong>12 caractères au moins</strong>, sans son nom ni son adresse. Trois mots reliés par des tirets font l’affaire.</li>
+            </ol>
+            <p class="cle">Sans boîte de courriel accessible : le mot de passe provisoire (diapositive 7).</p>
+          </div>
+          <figure><div class="deux"><img src="../img/presentation/public-connexion.jpg" alt="La page de connexion : Je suis élève, Je suis professeur, adresse et mot de passe"><img src="../img/presentation/public-premiere-connexion.jpg" alt="La page Première connexion : une adresse et le bouton Recevoir un message"></div><figcaption>Connexion et première connexion. Les espaces et les majuscules dans l’adresse sont corrigés tout seuls.</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">3 / 13</div>
+            <h2>Ce que voit l’élève : Mon classeur</h2>
+            <ul>
+              <li><strong>Mon année</strong> : les neuf séquences de son niveau, dans l’ordre de votre plan ; la première est « Prochaine séquence ». Rien à activer.</li>
+              <li>Pour chaque séquence : <strong>Activité, Cours, Quiz</strong>, les pastilles des séances (cochées par vous quand elles sont faites), le badge de fin de séquence, son meilleur score au quiz.</li>
+              <li><strong>Déposer un travail</strong> (photo ou PDF), <strong>Mes travaux déposés</strong> avec vos corrections, <strong>Mes réponses rédigées</strong>.</li>
+              <li>Jamais de note ni de classement : la progression, le badge et le meilleur score, c’est tout.</li>
+            </ul>
+          </div>
+          <figure><img src="../img/presentation/eleve-classeur.jpg" alt="Le classeur d’un élève fictif : Mon année avec les neuf séquences, chacune avec Activité, Cours, Quiz"><figcaption>Le classeur d’un élève fictif du groupe d’essai, un dimanche : tout est « à venir ».</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">4 / 13</div>
+            <h2>Sur la fiche : répondre, rendre, s’entraîner</h2>
+            <ul>
+              <li>Au pied de chaque fiche d’activité, <strong>« Ma réponse »</strong> : une réponse rédigée (4 000 caractères), enregistrée dans votre classeur. Elle reste modifiable jusqu’à votre correction.</li>
+              <li><strong>« Rendre mon travail »</strong> : photo du cahier ou PDF, réduite avant l’envoi, depuis un poste ou un téléphone.</li>
+              <li>Le <strong>quiz</strong> de la séquence : dix questions, correction immédiate, seul le meilleur score est gardé. L’élève peut recommencer.</li>
+              <li>Une fiche d’un autre niveau répond « Pas cette année ».</li>
+            </ul>
+          </div>
+          <figure><img src="../img/presentation/eleve-quiz-resultat.jpg" alt="Le quiz de la séquence 1 : la première question et ses quatre réponses, avec le rappel que le meilleur score est gardé dans le classeur"><figcaption>Le quiz de la séquence 1, vu par un élève connecté : « ton meilleur score sera gardé dans ton classeur ». Ce n’est pas une note.</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">5 / 13</div>
+            <h2>Votre plan de l’année : cocher après, jamais avant</h2>
+            <ul>
+              <li>Chaque groupe part du plan du catalogue : neuf séquences, toutes « traitées cette année ». <strong>Réordonnez</strong> avec les flèches, <strong>décochez</strong> une séquence que vous ne ferez pas.</li>
+              <li>Après une séance, <strong>« Séances »</strong> : cochez la séance faite en classe, pour tout le groupe. C’est ce qui fait avancer la barre et pose le badge de l’élève.</li>
+              <li>En bas, <strong>élève par élève</strong> : absent, à reprendre, rattrapé.</li>
+              <li>« Imprimer le plan (A5, sans nom) » pour le cahier.</li>
+            </ul>
+            <p class="cle">La coche veut dire « faite en classe », pas « autorisée ». Les fiches sont ouvertes dès le premier jour.</p>
+          </div>
+          <figure><img src="../img/presentation/prof-plan-annee.jpg" alt="La page Plan de l’année d’un groupe : les séquences dans l’ordre, la case Traitée cette année, le bouton Séances"><figcaption>Plan de l’année du groupe d’essai.</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">6 / 13</div>
+            <h2>Le classeur : corriger</h2>
+            <ul>
+              <li>Le tableau de bord vous dit <strong>« N dépôts et M réponses à corriger »</strong> par groupe ; le classeur du groupe met ce qui attend en premier.</li>
+              <li><strong>Dépôts</strong> : correction par compétence et niveau de maîtrise (insuffisante, fragile, satisfaisante, très bonne), un mot pour l’élève. Pas de note.</li>
+              <li><strong>Réponses rédigées</strong> : votre correction fige la réponse ; « Retirer la correction » la rouvre à l’élève.</li>
+              <li>L’élève lit tout dans son classeur et au pied de la fiche.</li>
+            </ul>
+          </div>
+          <figure><img src="../img/presentation/prof-classeur-correction.jpg" alt="Le classeur des élèves côté professeur : une réponse rédigée corrigée, le bloc Redonner un accès à un élève et le bloc Mots de passe provisoires pour tout le groupe"><figcaption>Classeur du groupe d’essai : une réponse corrigée, et les deux blocs « accès ».</figcaption></figure>
+        </section>
+
+        <section class="diapo seule">
+          <div>
+            <div class="num">7 / 13</div>
+            <h2>Les mots de passe, en trois règles</h2>
+            <ol>
+              <li><strong>Le courriel d’abord.</strong> « Première connexion » envoie un lien valable 24 heures dans la boîte <code>@eleve.egd.mg</code>. Il faut que l’élève sache ouvrir sa boîte.</li>
+              <li><strong>La bandelette ensuite.</strong> Classeur du groupe, <strong>« Mots de passe provisoires pour tout le groupe »</strong> : une seule ressaisie de votre mot de passe, une liste imprimable, un mot de passe du type <code>bafi-rolun-47</code> par élève qui n’a pas encore choisi le sien. Valable 24 heures : à générer <strong>le matin même</strong>. L’élève le change à sa première connexion.</li>
+              <li><strong>Un élève à la fois.</strong> « Redonner un accès à un élève » (mot de passe oublié, compte bloqué après dix erreurs) : votre mot de passe, un mot de passe provisoire dicté, le compteur d’erreurs remis à zéro. Tout est journalisé et l’élève en est informé.</li>
+            </ol>
+            <p class="cle">Jamais un mot de passe projeté au tableau : la ressaisie se fait dans un champ masqué, la liste s’imprime et se découpe.</p>
+          </div>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">8 / 13</div>
+            <h2>Groupes et comptes</h2>
+            <ul>
+              <li>Vos groupes portent les codes de PRONOTE (<code>5M1 SVT</code>, <code>4M1-4M2 PHY CH</code>, <code>3M7P1</code>…) ; les élèves y sont déjà.</li>
+              <li>Un nouvel élève : <strong>inscrire</strong> (nom, prénom, adresse), il reçoit son compte. Un élève parti : <strong>retirer du groupe</strong> ou <strong>mettre à la corbeille</strong> (l’accès se ferme partout, ses travaux sont conservés, restaurable).</li>
+              <li><strong>Importer</strong> une liste à trois colonnes (nom ; prénom ; adresse) rattache les élèves déjà connus sans les dupliquer.</li>
+              <li>Un <strong>groupe d’essai</strong> à élèves fictifs, depuis le tableau de bord, pour tester sans risque ; il se supprime depuis le plan de l’année.</li>
+            </ul>
+          </div>
+          <figure><img src="../img/presentation/prof-groupes-comptes.jpg" alt="La page Groupes et comptes : un groupe d’essai avec six élèves fictifs et les actions modifier, retirer du groupe, mettre à la corbeille"><figcaption>Groupes et comptes, sur le groupe d’essai.</figcaption></figure>
+        </section>
+
+        <section class="diapo">
+          <div>
+            <div class="num">9 / 13</div>
+            <h2>Suivi du groupe</h2>
+            <ul>
+              <li>Ce qui se lit dans le classeur, rien d’autre : séances faites, dépôts par séquence, quiz faits, <strong>accès jamais ouverts</strong>, comptes bloqués, dépôts sans correction depuis plus de sept jours.</li>
+              <li>La grille élève × séquence pour repérer qui n’a pas encore travaillé une séquence.</li>
+              <li>Aucune moyenne, aucun classement.</li>
+            </ul>
+            <p class="cle">Après la première séance : la colonne « accès jamais ouvert » donne la liste des bandelettes à préparer pour la suivante.</p>
+          </div>
+          <figure><img src="../img/presentation/prof-suivi-groupe.jpg" alt="La page Suivi du groupe : compteurs de séances, dépôts, quiz, accès jamais ouverts, et la grille élève par séquence"><figcaption>Suivi du groupe d’essai.</figcaption></figure>
+        </section>
+
+        <section class="diapo seule">
+          <div>
+            <div class="num">10 / 13</div>
+            <h2>L’évaluation diagnostique de rentrée, en ligne</h2>
+            <ul>
+              <li>Trois pages publiques (sans compte), une par niveau : <code>5eme/p1/diagnostique-en-ligne.html</code>, <code>4eme/…</code>, <code>3eme/…</code>, plus la <strong>feuille B</strong> (matériel, façon de travailler) au bout de chaque page.</li>
+              <li>L’élève répond sur téléphone ou ordinateur, télécharge ses réponses en <strong>PDF</strong> et vous l’envoie par courriel. Rien n’est stocké sur un serveur.</li>
+              <li>Le destinataire du courriel vient du lien que <strong>vous</strong> envoyez : ajoutez <code>?prof=votre.identifiant</code> (la partie avant <code>@egd.mg</code>) à l’adresse de la page, et les PDF de vos élèves arrivent chez vous.</li>
+              <li>Les questions sont celles des fiches papier (livret professeur inchangé pour le dépouillement).</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="diapo seule">
+          <div>
+            <div class="num">11 / 13</div>
+            <h2>La première séance, en cinq temps</h2>
+            <ol>
+              <li><strong>La veille</strong> : vérifier ses groupes, lire la fiche d’activité jusqu’au bloc « Ma réponse ».</li>
+              <li><strong>Le matin</strong> (moins de 24 h avant) : générer et imprimer les bandelettes de chaque groupe.</li>
+              <li><strong>10 à 30 min</strong> : première connexion, courriel ou bandelette, mot de passe choisi, « Bonjour Prénom » dans Mon classeur.</li>
+              <li><strong>30 à 80 min</strong> : la fiche d’activité de la séquence 1, « Ma réponse », le quiz s’il reste du temps.</li>
+              <li><strong>Fin</strong> : « Fermer ma session » et fermer le navigateur, pour tout le monde. Puis vous cochez la séance et vous corrigez.</li>
+            </ol>
+            <p class="cle">La fiche détaillée, avec le tableau « si ça bloque » : <a href="premiere-seance.html">La première séance sur le site</a>.</p>
+          </div>
+        </section>
+
+        <section class="diapo seule">
+          <div>
+            <div class="num">12 / 13</div>
+            <h2>Quatre règles qui protègent les élèves</h2>
+            <ul>
+              <li><strong>Poste partagé</strong> : « Fermer ma session » puis fermer le navigateur. Un élève qui voit un autre prénom en haut de page ferme la session avant tout.</li>
+              <li><strong>Votre session</strong> dure 90 minutes sans écriture, 4 heures au plus : ne laissez pas un poste ouvert sur votre compte ; une action lourde (redonner un accès, inscrire un collègue) redemande votre mot de passe.</li>
+              <li><strong>Les données des élèves</strong> restent dans le site : pas d’export sur clé, pas de liste projetée, pas de mot de passe dicté à voix haute devant la classe si on peut l’éviter.</li>
+              <li><strong>Ce qui n’est pas noté ne l’est pas</strong> : quiz, badges, progression sont des repères pour l’élève, jamais un classement.</li>
+            </ul>
+          </div>
+        </section>
+
+        <section class="diapo seule">
+          <div>
+            <div class="num">13 / 13</div>
+            <h2>Et si ça ne marche pas</h2>
+            <ul>
+              <li>Le courriel n’arrive pas en deux minutes : indésirables, puis bandelette.</li>
+              <li>« Adresse ou mot de passe incorrect » dix fois : « Redonner un accès à un élève ».</li>
+              <li>« Pas encore de groupe » : inscrire l’élève dans « Groupes et comptes », puis il se reconnecte.</li>
+              <li>Le poste n’a pas internet : binôme, téléphone, ou papier et photo déposée plus tard.</li>
+              <li>Tout le reste : un message au coordonnateur avec l’adresse de la page et le code du cahier, correction dans la journée.</li>
+            </ul>
+            <p class="cle">Merci. Les fiches, le mode d’emploi et cette présentation restent dans l’espace enseignant.</p>
+          </div>
+        </section>
+
+      </div>
+
+      <div class="nav-diapo no-print">
+        <button type="button" class="btn btn-outline btn-sm" id="prec">&larr; Précédente</button>
+        <span id="pos"></span>
+        <button type="button" class="btn btn-outline btn-sm" id="suiv">Suivante &rarr;</button>
+      </div>
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+  <script>
+  (function () {
+    var diapos = Array.prototype.slice.call(document.querySelectorAll('.diapo'));
+    var pos = document.getElementById('pos');
+    function courante() {
+      var h = window.innerHeight / 2, i = 0;
+      diapos.forEach(function (d, k) { if (d.getBoundingClientRect().top <= h) i = k; });
+      return i;
+    }
+    function aller(i) {
+      i = Math.max(0, Math.min(diapos.length - 1, i));
+      diapos[i].scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+    function maj() { pos.textContent = (courante() + 1) + ' / ' + diapos.length; }
+    document.getElementById('prec').addEventListener('click', function () { aller(courante() - 1); });
+    document.getElementById('suiv').addEventListener('click', function () { aller(courante() + 1); });
+    document.addEventListener('keydown', function (e) {
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+      if (e.key === 'ArrowRight' || e.key === 'PageDown' || e.key === ' ') { e.preventDefault(); aller(courante() + 1); }
+      if (e.key === 'ArrowLeft' || e.key === 'PageUp') { e.preventDefault(); aller(courante() - 1); }
+    });
+    window.addEventListener('scroll', maj, { passive: true });
+    maj();
+  })();
+  </script>
+</body>
+</html>

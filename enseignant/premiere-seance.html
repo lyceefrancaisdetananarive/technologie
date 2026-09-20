@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La première séance sur le site | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    .fiche h2 { margin-top: var(--space-xl); }
+    .fiche h3 { color: var(--bleu); }
+    .fiche li.coche { list-style: none; margin-left: -1.4rem; padding-left: 1.9rem; position: relative; }
+    .fiche li.coche::before { content: ""; position: absolute; left: 0; top: .25rem; width: 1.05rem; height: 1.05rem; border: 2px solid var(--encre-4); border-radius: 4px; background: #fff; }
+    .fiche table td:first-child { font-weight: 600; width: 34%; }
+    .fiche code { font-size: .9em; }
+    @media print { .fiche li.coche::before { border-color: #000; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="enseignant"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant","url":"index.html"},{"label":"La première séance"}]'
+    data-print-title="La première séance sur le site"
+    data-print-subtitle="Mode d’emploi · Technologie LFT · rentrée 2026">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge"><span class="ico">&#x1F511;</span> Enseignant</span>
+        <h1>La première séance sur le site</h1>
+        <p class="page-description">Mode d’emploi minute par minute : avant, pendant, après, et quoi faire quand ça bloque. Vérifié en production le 20 septembre 2026 avec un groupe d’essai. À imprimer (bouton ci-dessous) et à garder sur le bureau.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
+        <a class="btn btn-outline" href="presentation.html"><span class="ico">&#x1F4CA;</span> La présentation pour l’équipe</a>
+      </div>
+      <div class="content-card fiche">
+<p>Pour M. Rafaliarison (AH13, 14 postes : <code>4M7P2</code> à 8 h 00, <code>5M1 SVT</code> à 9 h 40, <code>4M7P1</code> à 11 h 00), et pour les collègues avec leurs propres groupes. Ce que fait le site a été vérifié en production le 20 septembre avec un groupe d'essai (parcours élève complet : première connexion, mot de passe, classeur, fiche, réponse rédigée, quiz, correction).</p>
+<p>Trois idées à garder en tête :</p>
+<ol>
+<li><strong>Rien à activer.</strong> Le plan de chaque groupe contient d'office les neuf séquences de son niveau ; la séquence 1 est « en cours » dès la première connexion. La coche « séances » sert à noter ce qui a été <strong>fait en classe</strong>, après coup, jamais avant.</li>
+<li><strong>Deux façons d'entrer</strong> : le courriel de première connexion (lien valable 24 heures, dans la boîte <code>@eleve.egd.mg</code>) ou le mot de passe provisoire imprimé (valable 24 heures, à générer le matin même). L'élève choisit ensuite son propre mot de passe, une fois pour toutes.</li>
+<li><strong>Un élève qui se trompe dix fois est bloqué un quart d'heure</strong> ; le mot de passe provisoire que vous lui redonnez remet le compteur à zéro.</li>
+</ol>
+<h2>Avant la séance (dimanche soir : 5 minutes ; lundi 7 h 30 : 10 minutes)</h2>
+<p>Dimanche soir :</p>
+<ul>
+<li class="coche">Vérifier que le site répond : <code>https://techlft.egd.mg</code> puis « Je suis professeur », connexion.</li>
+<li class="coche">Tableau de bord : vos groupes du lundi sont là, avec leur effectif. Si un élève manque, « Groupes et comptes » (inscrire) ; s'il est dans le mauvais groupe, retirer puis inscrire.</li>
+<li class="coche">Ouvrir la fiche d'activité que vous ferez (5e : <code>Séquence 1 · Découverte des objets techniques · Activité</code> ; 4e : séquence 1 de 4e) et la lire jusqu'au bloc « Ma réponse » en bas : c'est là que les élèves écriront.</li>
+<li class="coche">Imprimer, au besoin, le plan de l'année (bouton « Imprimer le plan (A5, sans nom) » sur la page Plan de l'année du groupe).</li>
+</ul>
+<p>Lundi matin, <strong>moins de 24 heures avant chaque groupe</strong> (7 h 30 pour les trois groupes de la matinée) :</p>
+<ul>
+<li class="coche">Espace enseignant › Classeur › choisir le groupe › bloc <strong>« Mots de passe provisoires pour tout le groupe »</strong> › « Générer la liste du groupe » › votre mot de passe › <strong>« Imprimer la liste »</strong>. Une feuille par groupe, à découper en bandelettes, une par élève. Seuls les élèves qui n'ont pas encore choisi de mot de passe reçoivent une bandelette ; les autres gardent le leur.</li>
+<li class="coche">Ranger les bandelettes dans une enveloppe par groupe. Ne jamais projeter la liste.</li>
+<li class="coche">Sur les 14 postes : navigateur fermé, page d'accueil <code>https://techlft.egd.mg</code> (ou le raccourci sur le bureau).</li>
+</ul>
+<h2>Pendant la séance (1 h 30)</h2>
+<h3>0 à 10 min : installer, expliquer</h3>
+<p>Au tableau, écrire : <code>techlft.egd.mg</code>, puis « Je suis élève ».</p>
+<p>Dire aux élèves : « Ce site, c'est votre classeur de Technologie. Vous y trouvez les fiches, les cours, les quiz, et vous y rendez votre travail. Vous avez un compte personnel : il vous suit jusqu'en 3e. Aujourd'hui : on ouvre le compte, on choisit son mot de passe, on fait la première activité. »</p>
+<p>Deux élèves par poste au plus. Un élève avec son téléphone peut se connecter dessus (le site est fait pour) ; il le range ensuite si vous le demandez.</p>
+<h3>10 à 30 min : la première connexion, poste par poste</h3>
+<p>Trois cas, dans l'ordre de préférence :</p>
+<p><strong>Cas A, l'élève ouvre sa boîte du lycée (mail.google.com, adresse <code>prenom.nom@eleve.egd.mg</code>).</strong></p>
+<ol>
+<li>Page de connexion › « Je suis élève » › <strong>« Première connexion, ou mot de passe oublié ? »</strong>.</li>
+<li>Il tape son adresse, « Recevoir un message ». Le message arrive en moins d'une minute, expéditeur « Technologie LFT », objet « Site de Technologie : choisir votre mot de passe » (regarder aussi les indésirables).</li>
+<li>Il clique sur le bouton du message › page « Choisissez votre mot de passe » : deux fois le même, <strong>12 caractères au moins</strong>, sans son nom ni son adresse. Astuce à donner : trois mots collés par des tirets (<code>girafe-tournevis-orage</code>).</li>
+<li>« Enregistrer » › il arrive sur <strong>Mon classeur</strong>.</li>
+</ol>
+<p><strong>Cas B, l'élève n'ouvre pas sa boîte (identifiants jamais reçus, mot de passe de la boîte oublié) : la bandelette.</strong></p>
+<ol>
+<li>Vous lui donnez sa bandelette (adresse + mot de passe provisoire du type <code>bafi-rolun-47</code>).</li>
+<li>Page de connexion › « Je suis élève » › son adresse, le mot de passe provisoire › « Se connecter ».</li>
+<li>Le site l'envoie directement sur « Choisissez votre mot de passe » : mot de passe actuel = celui de la bandelette, puis son nouveau mot de passe, deux fois.</li>
+<li>« Enregistrer » › Mon classeur. La bandelette est morte : elle ne servira plus.</li>
+</ol>
+<p><strong>Cas C, l'élève a déjà un mot de passe (il a fait le diagnostique chez lui, ou il est passé la semaine dernière) :</strong> « Je suis élève » › adresse et mot de passe › Mon classeur. S'il l'a oublié : réinitialisation à l'unité (voir « Si ça bloque »).</p>
+<p>Ce que l'élève voit dans <strong>Mon classeur</strong> : « Mon année » (les neuf séquences, la première marquée « Prochaine séquence »), « Déposer un travail », « Mes travaux déposés », « Mes réponses rédigées », et en haut « Bonjour Prénom ». S'il voit un autre prénom, c'est la session du binôme précédent : <strong>« Fermer ma session »</strong> puis se connecter.</p>
+<h3>30 à 80 min : l'activité</h3>
+<ol>
+<li>Dans Mon classeur, séquence 1 › <strong>Activité</strong> (ou le code du cahier sur <code>go.html</code>). L'élève est sur la fiche de sa séquence, dans son niveau ; une fiche d'un autre niveau lui dit « Pas cette année ».</li>
+<li>Il travaille sur la fiche (situation déclenchante, activités), sur cahier ou à l'écran selon votre consigne.</li>
+<li>En bas de la fiche, <strong>« Ma réponse »</strong> : une réponse rédigée (4 000 caractères au plus), « Envoyer ma réponse ». Elle est dans votre classeur aussitôt, avec le compteur « à corriger » sur votre tableau de bord. Il peut la modifier tant que vous ne l'avez pas corrigée.</li>
+<li>S'il a une feuille à rendre : « Rendre mon travail » › photo du cahier ou PDF, depuis le téléphone ou le poste (la photo est réduite automatiquement).</li>
+<li>Le <strong>Quiz</strong> de la séquence, s'il reste du temps : le meilleur score est gardé dans son classeur (ce n'est pas une note, il peut recommencer).</li>
+</ol>
+<h3>80 à 90 min : fermer</h3>
+<ul>
+<li>Chaque élève clique <strong>« Fermer ma session »</strong> (en haut de page), puis ferme le navigateur. Sur un poste partagé, c'est ce qui protège son compte.</li>
+<li>Vous notez qui n'a pas réussi à se connecter (voir « Suivi du groupe » : « accès jamais ouvert »).</li>
+</ul>
+<h2>Si ça bloque</h2>
+<table><thead><tr><th>Ce qui arrive</th><th>Ce qu'il faut faire</th></tr></thead><tbody>
+<tr><td>« Adresse ou mot de passe incorrect »</td><td>Vérifier l'adresse (le site enlève les espaces et les majuscules tout seul) ; sinon, bandelette ou réinitialisation à l'unité.</td></tr>
+<tr><td>Le courriel n'arrive pas en deux minutes</td><td>Regarder les indésirables ; sinon bandelette (cas B). Le lien du courriel reste valable 24 heures : l'élève pourra aussi finir chez lui.</td></tr>
+<tr><td>« Compte en pause » après dix erreurs</td><td>Classeur › « Redonner un accès à un élève » › l'élève, un motif, votre mot de passe › mot de passe provisoire dicté à l'élève ; le compteur est remis à zéro.</td></tr>
+<tr><td>L'élève a déjà un mot de passe mais l'a oublié</td><td>Même geste : « Redonner un accès à un élève ».</td></tr>
+<tr><td>« Pas encore de groupe : demande à ton professeur »</td><td>L'élève n'est dans aucun de vos groupes : « Groupes et comptes » › inscrire (adresse), puis il se <strong>reconnecte</strong> (le niveau est lu à la connexion).</td></tr>
+<tr><td>« Pas cette année » sur une fiche</td><td>Il a ouvert une fiche d'un autre niveau : revenir à Mon classeur. Si son groupe est du mauvais niveau, le corriger dans Groupes et comptes, puis reconnexion.</td></tr>
+<tr><td>Le poste n'a pas internet</td><td>Binôme sur un autre poste, ou téléphone de l'élève. Le travail papier reste possible : la photo sera déposée plus tard depuis chez lui.</td></tr>
+<tr><td>« Session expirée » en cours de réponse</td><td>Le texte reste dans le champ : « Reconnecte-toi » s'ouvre dans un nouvel onglet, puis revenir et cliquer à nouveau sur Envoyer.</td></tr>
+<tr><td>Votre propre session se ferme</td><td>Elle dure 90 minutes sans écriture (une séance) ; une correction ou une coche la prolonge. Reconnectez-vous, rien n'est perdu.</td></tr>
+<tr><td>Un élève voit le prénom d'un autre</td><td>Session du poste laissée ouverte : « Fermer ma session » puis se connecter. En fin de séance, faire fermer le navigateur à tous.</td></tr>
+</tbody></table>
+<h2>Après la séance (10 minutes)</h2>
+<ul>
+<li class="coche">Plan de l'année du groupe › séquence 1 › <strong>« Séances »</strong> › cocher la séance 1 « faite en classe » (pour tout le groupe). Un élève absent : « Élève par élève » en bas de page › « Absent ».</li>
+<li class="coche">Classeur du groupe : lire les réponses rédigées, écrire une correction (elle fige la réponse ; « Retirer la correction » la rouvre) ; corriger les dépôts par compétence et niveau de maîtrise.</li>
+<li class="coche">Suivi du groupe : « accès jamais ouvert » = les élèves à voir la prochaine fois avec une bandelette.</li>
+<li class="coche">Les bandelettes non distribuées : détruire (elles expirent dans la journée de toute façon).</li>
+</ul>
+<h2>Pour les collègues</h2>
+<p>Même déroulé, avec leurs propres groupes. Deux différences :</p>
+<ul>
+<li>Chacun génère les bandelettes de <strong>ses</strong> groupes (le site refuse les groupes d'un collègue, même au coordonnateur) et redonne un accès à ses propres élèves. Si un de vos élèves est dans le groupe d'un collègue par erreur, c'est dans « Groupes et comptes » que le coordonnateur le déplace.</li>
+<li>Pour un premier essai sans élève, chacun peut se créer un <strong>groupe d'essai</strong> (tableau de bord, « Créer le groupe d'essai ») : six élèves fictifs, un plan de l'année, un classeur, à supprimer ensuite depuis la page Plan de l'année.</li>
+</ul>
+      </div>
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+</body>
+</html>
