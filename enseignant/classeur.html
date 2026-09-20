@@ -615,7 +615,7 @@ $('liste').addEventListener('click', async (ev) => {
         corrige_le: new Date().toISOString(),
       });
       rafraichirArticle(r);
-      direCorrection();
+      direCorrection($('liste').querySelector(`article[data-rendu="${id}"]`));
     } catch (e) {
       cible.textContent = 'Échec'; cible.disabled = false;
       alert(e.message);
@@ -719,7 +719,7 @@ $('liste-reponses').addEventListener('click', async (ev) => {
       Object.assign(f, { correction: texte, corrige_le: quand, etat: 'corrigee', edition: false });
       rafraichirFiche(f);
       compterFiches();
-      direCorrection();
+      direCorrection($('liste-reponses').querySelector(`article[data-fiche="${CSS.escape(f.cle)}"]`));
       if (perdus.length) {
         alert(`La correction est enregistrée. ${perdus.length > 1 ? 'Les champs' : 'Le champ'} ${perdus.join(', ')} ${perdus.length > 1 ? 'ont été effacés' : 'a été effacé'} par l’élève entre-temps : ${perdus.length > 1 ? 'leurs commentaires n’ont' : 'son commentaire n’a'} pas été enregistré${perdus.length > 1 ? 's' : ''}.`);
       }
@@ -763,14 +763,20 @@ function fermerConfirmation() {
 }
 
 /**
- * « Correction enregistrée. » partage la zone #mr avec le mot de passe
- * provisoire : on n'écrase jamais un mot de passe encore affiché, que le
- * professeur n'a peut-être pas encore dicté.
+ * « Correction enregistrée. » s'affiche DANS la carte qui vient d'être
+ * corrigée, sous la correction. La zone #mr appartient au bloc « Redonner
+ * un accès » : un message qui y apparaît depuis une carte deux sections
+ * plus haut semble sortir de nulle part, et elle peut porter un mot de
+ * passe provisoire pas encore dicté.
  */
-function direCorrection() {
-  if ($('mr').querySelector('.mdp')) return;
-  $('mr').className = 'msg ok';
-  $('mr').textContent = 'Correction enregistrée.';
+function direCorrection(article) {
+  if (!article) return;
+  article.querySelector('.msg.ok')?.remove();
+  const p = document.createElement('p');
+  p.className = 'msg ok';
+  p.setAttribute('role', 'status');
+  p.textContent = 'Correction enregistrée.';
+  article.append(p);
 }
 
 $('reinit').addEventListener('click', () => {

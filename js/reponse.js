@@ -760,7 +760,7 @@
   function direEtat(r, texte, classe) {
     r.etat.textContent = texte || '';
     r.etat.className = 'champ-etat' + (r.etat.classList.contains('champ-etat-court') ? ' champ-etat-court' : '') + (classe ? ' ' + classe : '');
-    if (classe === 'ok' && texte) r.etat.title = 'Enregistré dans ton classeur';
+    if (classe === 'ok' && texte) r.etat.title = texte === 'corrigé' ? 'Corrigé par ton professeur : ce champ ne se modifie plus' : 'Enregistré dans ton classeur';
   }
 
   /** Programme l'envoi d'un champ : tout de suite (delai 0) ou après la dernière frappe. */
