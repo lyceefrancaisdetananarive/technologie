@@ -6,6 +6,31 @@
 <meta name="robots" content="noindex">
 <title>Classeur des élèves · Espace enseignant · LFT</title>
 <link rel="stylesheet" href="/css/connecte.css">
+<style>
+/* Les réponses d'une fiche interactive : un bloc par champ, l'intitulé en
+   gris au-dessus de ce que l'élève a écrit, le commentaire du professeur
+   en dessous. Propre à cette page, d'où le bloc local. */
+.champs { margin: .6rem 0 .2rem; }
+.champ-rep { padding: .55rem .75rem; margin: 0 0 .45rem; background: var(--papier); border-radius: var(--r); }
+/* L'intitulé et le lien « Commenter » sur une même ligne : douze champs par
+   fiche, la carte doit rester courte. Le lien garde 44 px de haut au doigt. */
+.champ-rep .entete { display: flex; align-items: center; gap: .3rem .8rem; flex-wrap: wrap; }
+.champ-rep .intitule { margin: 0; flex: 1 1 14rem; font-size: .8rem; color: var(--encre-3); overflow-wrap: anywhere; }
+.champ-rep .entete .lien-sup { padding: 0; min-height: 0; font-size: .8rem; }
+@media (pointer: coarse) { .champ-rep .entete .lien-sup { min-height: 44px; } }
+.champ-rep .intitule code { font: .72rem var(--mono); color: var(--encre-3); margin-right: .45rem; }
+.champ-rep .texte { margin: .15rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; }
+.champ-rep .texte.libre { font-style: italic; }
+.champ-rep .commentaire-existant { margin-top: .45rem; padding: .4rem .6rem; background: var(--fait-pale); border-left: 3px solid var(--fait); border-radius: 0 var(--r) var(--r) 0; font-size: .88rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+.champ-rep .commentaire-existant strong { color: var(--fait); }
+.champ-rep details { margin: 0; }
+.champ-rep summary { cursor: pointer; }
+.rendu > details > summary { cursor: pointer; font-size: .88rem; color: var(--bleu); font-weight: 700; margin: .5rem 0 0; }
+.champ-rep label { font-size: .84rem; margin: .3rem 0 .2rem; }
+.champ-rep textarea { min-height: 3.2rem; font-size: .92rem; }
+.pied-fiche { margin-top: .5rem; }
+.pied-fiche .correction span { white-space: pre-wrap; overflow-wrap: anywhere; }
+</style>
 </head>
 <body>
 <header>
@@ -32,8 +57,10 @@
 
   <section>
     <h2>Réponses rédigées</h2>
-    <p class="meta">Ce que les élèves ont écrit au pied d'une fiche d'activité (une réponse par fiche).
-       Votre correction fige la réponse ; « Retirer la correction » la rouvre à l'élève.</p>
+    <p class="meta">Ce que les élèves ont écrit dans les fiches d'activité : les champs de la fiche
+       et, s'il existe, le bloc libre « Ma réponse ». Une carte par élève et par fiche.
+       La correction de la fiche est obligatoire et la fige entière ; le commentaire par champ
+       est facultatif ; « Retirer la correction » rouvre la fiche à l'élève.</p>
     <p class="meta" id="compte-reponses"></p>
     <div id="liste-reponses"><p class="vide">Chargement…</p></div>
   </section>
@@ -153,7 +180,8 @@ async function charger() {
 }
 
 let rendus = [];   // les dépôts du groupe affiché, tels que reçus puis corrigés
-let reponses = []; // les réponses rédigées du groupe affiché
+let reponses = []; // les lignes de réponses du groupe affiché, telles que reçues
+let fiches = [];   // une entrée par (élève, fiche), construite à partir des lignes
 
 /** Les dépôts « à corriger » d'abord, puis les incomplets, puis les corrigés ;
     à l'intérieur, l'ordre reçu (dépôt le plus récent en premier). */
@@ -210,20 +238,26 @@ async function voirGroupe() {
 /** La liste des réponses rédigées, à partir du résultat (tenu ou rejeté) de l'API. */
 function voirReponses(rq) {
   if (rq.status === 'rejected') {
-    reponses = [];
+    reponses = []; fiches = [];
     $('compte-reponses').textContent = '';
     $('liste-reponses').innerHTML =
       `<p class="msg err" style="display:block">Réponses rédigées indisponibles : ${echapper(rq.reason?.message || 'lecture impossible.')}</p>`;
     return;
   }
-  reponses = rq.value.reponses;
-  const n = rq.value.a_corriger;
+  reponses = rq.value.reponses || [];
+  fiches = construireFiches(reponses, rq.value.fiches);
+  compterFiches(rq.value.a_corriger);
+  $('liste-reponses').replaceChildren(...(fiches.length
+    ? fiches.map(articleFiche)
+    : [el('p', { class: 'vide' }, 'Aucune réponse rédigée pour ce groupe.')]));
+}
+
+/** Le compteur des fiches à corriger, recalculé après chaque geste. */
+function compterFiches(depuisApi) {
+  const n = typeof depuisApi === 'number' ? depuisApi : fiches.filter((f) => f.etat !== 'corrigee').length;
   $('compte-reponses').textContent = n
-    ? `${n} réponse${n > 1 ? 's' : ''} à corriger dans ce groupe, affichée${n > 1 ? 's' : ''} en premier.`
+    ? `${n} fiche${n > 1 ? 's' : ''} à corriger dans ce groupe, affichée${n > 1 ? 's' : ''} en premier.`
     : '';
-  $('liste-reponses').innerHTML = reponses.length
-    ? reponses.map(articleReponse).join('')
-    : '<p class="vide">Aucune réponse rédigée pour ce groupe.</p>';
 }
 
 /** Le titre d'une fiche à partir de son chemin : 5eme/p1/seq1-ebep.html. */
@@ -233,35 +267,191 @@ function titreFiche(page) {
   return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
 }
 
-/** Une réponse rédigée. Rendue à part pour remplacer UN article après correction. */
-function articleReponse(r) {
-  const etat = r.corrige_le
-    ? '<span class="etiquette corrige">corrigée</span>'
-    : '<span class="etiquette attente">à corriger</span>';
-  return `
-    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}" data-reponse="${r.id}">
-      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}${etat}</h3>
-      <p class="meta"><a href="/${echapper(r.page)}">${echapper(titreFiche(r.page))}</a> ·
-        rédigée le ${dateCourte(r.modifie_le || r.redige_le)}
-        ${r.corrige_le ? ' · corrigée le ' + dateCourte(r.corrige_le) : ''}</p>
-      <p class="mot" style="white-space:pre-wrap;font-style:normal">${echapper(r.texte)}</p>
-      <div class="ligne">
-        <div style="flex:2 1 16rem">
-          <label for="c-r-${r.id}">Correction</label>
-          <textarea id="c-r-${r.id}" data-initial="${echapper(r.correction || '')}">${echapper(r.correction || '')}</textarea>
-        </div>
-        <button class="corriger-reponse" data-reponse="${r.id}">Enregistrer</button>
-      </div>
-      ${r.corrige_le ? `<p class="meta"><button class="lien-sup retirer-reponse"
-          data-reponse="${r.id}">Retirer la correction</button></p>` : ''}
-    </article>`;
+// ---- Les fiches interactives (cahier des charges du 20 septembre) ----------
+// Une ligne par champ de la fiche (z<n> : zone sous une question, t<i>-r<j>-c<k> :
+// case d'un tableau, b<n> : trou d'une synthèse), une ligne `fiche` qui porte
+// l'état et la correction globale, et l'ancienne ligne `reponse` du bloc libre.
+const CLE_CHAMP = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
+
+/** Le rang d'une clé : les zones, puis les tableaux, puis les trous, chacun par numéro. */
+function rangCle(q) {
+  const famille = q[0] === 'z' ? 0 : q[0] === 't' ? 1 : 2;
+  return [famille, ...(String(q).match(/\d+/g) || []).map(Number)];
+}
+function comparerCles(a, b) {
+  const ra = rangCle(a), rb = rangCle(b);
+  for (let i = 0; i < Math.max(ra.length, rb.length); i++) {
+    const d = (ra[i] ?? 0) - (rb[i] ?? 0);
+    if (d) return d;
+  }
+  return 0;
 }
 
-function rafraichirReponse(r) {
-  const ancien = $('liste-reponses').querySelector(`article[data-reponse="${r.id}"]`);
+/**
+ * Une entrée par (élève, fiche) à partir des lignes. Le serveur envoie aussi
+ * son propre agrégat `fiches` (état, dates, nombre de champs) : il prime quand
+ * il est là, les lignes donnent le contenu. Sans lui (API d'avant), tout se
+ * déduit des lignes, et les anciennes réponses libres seules gardent leur
+ * correction sur la ligne `reponse`.
+ */
+function construireFiches(lignes, agregats) {
+  const parCle = new Map();
+  for (const l of lignes) {
+    const profil = l.profil_id ?? l.profils?.id ?? '';
+    const cle = `${profil}|${l.page}`;
+    let f = parCle.get(cle);
+    if (!f) {
+      f = { cle, profil_id: profil, prenom: l.profils?.prenom || '', nom: l.profils?.nom || '',
+            page: l.page, lignes: [], champs: [], ligneFiche: null, ligneLibre: null, edition: false };
+      parCle.set(cle, f);
+    }
+    f.lignes.push(l);
+    if (l.question === 'fiche') f.ligneFiche = l;
+    else if (l.question === 'reponse' || !l.question) f.ligneLibre = l;
+    else if (CLE_CHAMP.test(l.question)) f.champs.push(l);
+  }
+  const liste = [];
+  for (const f of parCle.values()) {
+    // Une fiche « en cours » dont l'élève a effacé tous les champs : rien à lire.
+    if (!f.champs.length && !f.ligneLibre) continue;
+    f.champs.sort((a, b) => comparerCles(a.question, b.question));
+    f.libreSeule = !f.ligneFiche && !f.champs.length;
+    const porteuse = f.ligneFiche ?? f.ligneLibre;
+    f.corrige_le = porteuse?.corrige_le ?? null;
+    f.correction = porteuse?.correction ?? null;
+    f.etat = f.corrige_le ? 'corrigee'
+      : f.ligneFiche ? (f.ligneFiche.texte === 'terminee' ? 'terminee' : 'en cours')
+      : f.champs.length ? 'en cours' : 'libre';
+    f.modifie_le = f.lignes.map((l) => l.modifie_le || l.redige_le).filter(Boolean).sort().pop() ?? null;
+    f.nb_champs = f.champs.length;
+    const a = Array.isArray(agregats)
+      ? agregats.find((x) => `${x.profil_id}|${x.page}` === f.cle) : null;
+    if (a) {
+      if (a.etat) f.etat = a.etat;
+      if (a.corrige_le !== undefined) f.corrige_le = a.corrige_le;
+      if (a.correction !== undefined) f.correction = a.correction;
+      if (a.modifie_le) f.modifie_le = a.modifie_le;
+      // nb_champs reste le compte local des champs de fiche (z, t, b) : le
+      // même que la barre de la fiche côté élève, sans le bloc libre.
+      if (a.prenom) f.prenom = a.prenom;
+      if (a.nom) f.nom = a.nom;
+    }
+    liste.push(f);
+  }
+  // À corriger d'abord, puis les corrigées ; à l'intérieur, la plus récente en premier.
+  liste.sort((a, b) => (a.etat === 'corrigee') - (b.etat === 'corrigee')
+    || String(b.modifie_le ?? '').localeCompare(String(a.modifie_le ?? '')));
+  liste.forEach((f, i) => { f.n = i; });
+  return liste;
+}
+
+/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des nœuds texte, jamais de l'HTML. */
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'dataset') Object.assign(e.dataset, v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+/** Une carte (élève, fiche). Rendue à part pour remplacer UNE carte après correction. */
+function articleFiche(f) {
+  const corrigee = f.etat === 'corrigee';
+  const libelles = {
+    corrigee: ['corrige', 'corrigée'], terminee: ['attente', 'terminée, à corriger'],
+    'en cours': ['attente', 'en cours'], libre: ['attente', 'à corriger'],
+  };
+  const [classe, texteEtiquette] = libelles[f.etat] || libelles.libre;
+  const etat = corrigee ? `corrigée le ${dateCourte(f.corrige_le)}`
+    : f.etat === 'terminee' ? `terminée le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
+    : f.etat === 'en cours' ? `en cours, modifiée le ${dateCourte(f.modifie_le)}`
+    : `rédigée le ${dateCourte(f.modifie_le)}`;
+  const nb = f.nb_champs
+    ? ` · ${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}`
+    : (f.ligneLibre ? ' · réponse libre seulement' : '');
+  const art = el('article', { class: `rendu ${corrigee ? 'fait' : 'attente'}`, dataset: { fiche: f.cle } },
+    el('h3', {}, `${f.nom} ${f.prenom}`, el('span', { class: `etiquette ${classe}` }, texteEtiquette)),
+    el('p', { class: 'meta' }, el('a', { href: '/' + f.page, target: '_blank', rel: 'noopener' }, titreFiche(f.page)), ` · ${etat}${nb}`));
+  const champs = el('div', { class: 'champs' });
+  if (f.ligneLibre) champs.append(blocChamp(f, f.ligneLibre, true));
+  for (const l of f.champs) champs.append(blocChamp(f, l, false));
+  // Une fiche corrigée se replie : douze champs par fiche, la page resterait
+  // interminable. Les commentaires y restent lisibles en dépliant.
+  const figee = corrigee && !f.edition;
+  art.append(figee && f.champs.length
+    ? el('details', {}, el('summary', {}, `Voir les réponses (${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''})`), champs)
+    : champs, piedFiche(f));
+  return art;
+}
+
+/** Un champ de la fiche (ou le bloc libre) : intitulé, réponse, commentaire. */
+function blocChamp(f, l, libre) {
+  const figee = f.etat === 'corrigee' && !f.edition;
+  const entete = el('div', { class: 'entete' },
+    el('p', { class: 'intitule' }, libre ? null : el('code', {}, l.question),
+      libre ? 'Réponse libre' : (l.intitule || 'Champ sans intitulé')));
+  const bloc = el('div', { class: 'champ-rep' }, entete,
+    el('p', { class: `texte${libre ? ' libre' : ''}` }, l.texte ?? ''));
+  // Sur une réponse libre SEULE, la « correction » de cette ligne EST celle
+  // de la fiche, affichée en pied : pas de commentaire propre. Sur une fiche
+  // à champs, le bloc libre se commente comme un champ (clé 'reponse',
+  // acceptée par l'API).
+  if (libre && f.libreSeule) return bloc;
+  if (figee) {
+    if (l.correction) bloc.append(commentaireLu(l.correction));
+    return bloc;
+  }
+  const id = `cm-${f.n}-${l.question}`;
+  const zone = el('div', { class: 'commentaire-zone', id: `${id}-zone`, hidden: !l.correction },
+    el('label', { for: id }, libre ? 'Commentaire pour la réponse libre (facultatif)' : 'Commentaire pour ce champ (facultatif)'),
+    el('textarea', { id, class: 'commentaire', maxlength: '4000',
+      dataset: { question: l.question, initial: l.correction || '' } }));
+  zone.querySelector('textarea').value = l.correction || '';
+  entete.append(el('button', { type: 'button', class: 'lien-sup commenter',
+    'aria-expanded': l.correction ? 'true' : 'false', 'aria-controls': `${id}-zone` }, l.correction ? 'Masquer le commentaire' : 'Commenter'));
+  bloc.append(zone);
+  return bloc;
+}
+
+function commentaireLu(texte) {
+  return el('div', { class: 'commentaire-existant' }, el('strong', {}, 'Commentaire : '), texte);
+}
+
+/** Le pied d'une carte : la correction de la fiche, obligatoire, ou celle déjà posée. */
+function piedFiche(f) {
+  const figee = f.etat === 'corrigee' && !f.edition;
+  const pied = el('div', { class: 'pied-fiche' });
+  if (figee) {
+    pied.append(
+      el('div', { class: 'correction' }, el('strong', {}, 'Correction : '), el('span', {}, f.correction || '')),
+      el('p', { class: 'meta' },
+        el('button', { type: 'button', class: 'lien-sup modifier-fiche' }, 'Modifier la correction'), ' · ',
+        el('button', { type: 'button', class: 'lien-sup retirer-fiche' }, 'Retirer la correction')));
+    return pied;
+  }
+  const id = `c-f-${f.n}`;
+  const zone = el('textarea', { id, class: 'correction-fiche', maxlength: '4000',
+    dataset: { initial: f.correction || '' } });
+  zone.value = f.correction || '';
+  pied.append(el('div', { class: 'ligne' },
+    el('div', { style: 'flex:2 1 16rem' },
+      el('label', { for: id }, f.libreSeule ? 'Correction' : 'Correction de la fiche'), zone),
+    el('button', { type: 'button', class: 'corriger-fiche' }, 'Enregistrer la correction')));
+  if (f.edition) {
+    pied.append(el('p', { class: 'meta' },
+      el('button', { type: 'button', class: 'lien-sup annuler-edition' }, 'Garder la correction telle quelle')));
+  }
+  return pied;
+}
+
+function rafraichirFiche(f) {
+  const ancien = $('liste-reponses').querySelector(`article[data-fiche="${CSS.escape(f.cle)}"]`);
   if (!ancien) return;
-  ancien.insertAdjacentHTML('afterend', articleReponse(r));
-  ancien.remove();
+  ancien.replaceWith(articleFiche(f));
 }
 
 /** Un dépôt. Rendu à part pour pouvoir remplacer UN article après sa correction. */
@@ -433,50 +623,106 @@ $('liste').addEventListener('click', async (ev) => {
   }
 });
 
-// Les réponses rédigées ont LEUR gestionnaire, avec leurs propres classes de
-// boutons : les deux listes ne partagent ni identifiants ni gestes, et le
-// professeur n'efface jamais une réponse (voir api/prof/reponses.js).
+// Les fiches ont LEUR gestionnaire, avec leurs propres classes de boutons :
+// les deux listes ne partagent ni identifiants ni gestes, et le professeur
+// n'efface jamais une réponse (voir api/prof/reponses.js). Une carte est
+// remplacée après chaque écriture, d'où la délégation.
 $('liste-reponses').addEventListener('click', async (ev) => {
   const cible = ev.target.closest('button');
   if (!cible) return;
-  const id = cible.dataset.reponse;
-  const r = reponses.find((x) => x.id === id);
-  if (!r) return;
+  const art = cible.closest('article[data-fiche]');
+  const f = art && fiches.find((x) => x.cle === art.dataset.fiche);
+  if (!f) return;
 
-  if (cible.classList.contains('retirer-reponse')) {
-    if (!confirm('Retirer la correction ? Elle sera effacée, et l’élève pourra de nouveau modifier sa réponse.')) return;
+  // « Commenter » ouvre ou replie la zone du champ : un commentaire replié
+  // n'est pas perdu, il part avec la correction.
+  if (cible.classList.contains('commenter')) {
+    const zone = cible.closest('.champ-rep').querySelector('.commentaire-zone');
+    zone.hidden = !zone.hidden;
+    cible.setAttribute('aria-expanded', String(!zone.hidden));
+    cible.textContent = zone.hidden ? 'Commenter' : 'Masquer le commentaire';
+    if (!zone.hidden) zone.querySelector('textarea').focus();
+    return;
+  }
+  if (cible.classList.contains('modifier-fiche')) { f.edition = true; rafraichirFiche(f); return; }
+  if (cible.classList.contains('annuler-edition')) { f.edition = false; rafraichirFiche(f); return; }
+
+  // Un clic par mégarde sur « Enregistrer » figeait la fiche pour toujours :
+  // la correction se retire, avec les commentaires par champ.
+  if (cible.classList.contains('retirer-fiche')) {
+    if (!confirm('Retirer la correction ? Elle sera effacée, avec les commentaires par champ, et l’élève pourra de nouveau modifier sa fiche.')) return;
     cible.disabled = true; cible.textContent = '…';
     try {
       await api('/api/prof/reponses', {
-        method: 'PATCH', body: JSON.stringify({ reponse: id, annuler: true }),
+        method: 'PATCH',
+        body: JSON.stringify(f.libreSeule
+          ? { reponse: f.ligneLibre.id, annuler: true }
+          : { fiche: { profil: f.profil_id, page: f.page }, annuler: true }),
       });
-      Object.assign(r, { correction: null, corrige_le: null });
-      rafraichirReponse(r);
-      $('compte-reponses').textContent = '';
+      for (const l of f.lignes) Object.assign(l, { correction: null, corrige_le: null });
+      Object.assign(f, {
+        correction: null, corrige_le: null, edition: false,
+        etat: f.ligneFiche ? (f.ligneFiche.texte === 'terminee' ? 'terminee' : 'en cours')
+          : f.champs.length ? 'en cours' : 'libre',
+      });
+      rafraichirFiche(f);
+      compterFiches();
     } catch (e) {
       alert(e.message); cible.disabled = false; cible.textContent = 'Retirer la correction';
     }
     return;
   }
 
-  if (cible.classList.contains('corriger-reponse')) {
-    const correction = $('c-r-' + id).value;
+  if (cible.classList.contains('corriger-fiche')) {
+    const correction = art.querySelector('textarea.correction-fiche').value;
     if (!correction.trim()) {
-      alert('Écrivez une correction. Pour retirer une correction déjà enregistrée, utilisez « Retirer la correction ».');
+      alert('Écrivez la correction de la fiche : elle est obligatoire, les commentaires par champ sont facultatifs. Pour retirer une correction déjà enregistrée, utilisez « Retirer la correction ».');
       return;
     }
+    // Tous les commentaires de la carte, repliés ou non : un texte vidé
+    // efface le commentaire (l'API pose null).
+    const commentaires = {};
+    for (const z of art.querySelectorAll('textarea.commentaire')) commentaires[z.dataset.question] = z.value;
     cible.disabled = true; cible.textContent = '…';
     try {
       const d = await api('/api/prof/reponses', {
-        method: 'PATCH', body: JSON.stringify({ reponse: id, correction }),
+        method: 'PATCH',
+        body: JSON.stringify(f.libreSeule
+          ? { reponse: f.ligneLibre.id, correction }
+          : { fiche: { profil: f.profil_id, page: f.page }, correction, commentaires }),
       });
-      Object.assign(r, {
-        correction: d.reponse?.correction ?? correction,
-        corrige_le: d.reponse?.corrige_le ?? new Date().toISOString(),
-      });
-      rafraichirReponse(r);
-      $('compte-reponses').textContent = '';
+      const quand = d.fiche?.corrige_le ?? d.reponse?.corrige_le ?? new Date().toISOString();
+      const texte = d.fiche?.correction ?? d.reponse?.correction ?? correction.trim();
+      // Ce que l'API a réellement posé (d.commentaires) fait foi : un champ
+      // effacé par l'élève entre le chargement et la correction n'existe
+      // plus, son commentaire n'a pas été enregistré, la carte ne doit pas
+      // l'afficher comme tel.
+      const poses = (d.commentaires && typeof d.commentaires === 'object') ? d.commentaires : commentaires;
+      const perdus = [];
+      const commentables = f.libreSeule ? f.champs : f.champs.concat(f.ligneLibre ? [f.ligneLibre] : []);
+      for (const l of commentables) {
+        if (!(l.question in commentaires)) continue;
+        if (l.question in poses) l.correction = (poses[l.question] ?? '').trim() || null;
+        else if (commentaires[l.question].trim()) perdus.push(l.question);
+      }
+      if (poses !== commentaires) {
+        // Un champ demandé mais non posé n'existe plus en base : il sort de la carte.
+        const disparus = f.champs.filter((l) => (l.question in commentaires) && !(l.question in poses));
+        if (disparus.length) {
+          f.champs = f.champs.filter((l) => !disparus.includes(l));
+          f.lignes = f.lignes.filter((l) => !disparus.includes(l));
+          f.nb_champs = f.champs.length;
+        }
+      }
+      const porteuse = f.ligneFiche ?? f.ligneLibre;
+      if (porteuse) Object.assign(porteuse, { correction: texte, corrige_le: quand });
+      Object.assign(f, { correction: texte, corrige_le: quand, etat: 'corrigee', edition: false });
+      rafraichirFiche(f);
+      compterFiches();
       direCorrection();
+      if (perdus.length) {
+        alert(`La correction est enregistrée. ${perdus.length > 1 ? 'Les champs' : 'Le champ'} ${perdus.join(', ')} ${perdus.length > 1 ? 'ont été effacés' : 'a été effacé'} par l’élève entre-temps : ${perdus.length > 1 ? 'leurs commentaires n’ont' : 'son commentaire n’a'} pas été enregistré${perdus.length > 1 ? 's' : ''}.`);
+      }
     } catch (e) {
       cible.textContent = 'Échec'; cible.disabled = false;
       alert(e.message);

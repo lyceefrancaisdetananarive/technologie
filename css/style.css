@@ -973,3 +973,107 @@ main:focus { outline: none; }
   .diag-support, .diag-legende { background: #fff !important; border-color: #000; }
   .diag-date { border: 0; padding: 0; }
 }
+
+/* ---- champs de la fiche interactive ---- */
+/* Posés par js/reponse.js à l'ouverture d'une fiche d'activité, pour un
+   élève connecté seulement : zones de réponse (textarea), cases vides des
+   tableaux (input ou textarea), trous des synthèses (input en ligne). Tout
+   est préfixé .champ- ; l'apparence reprend css/connecte.css (bordure
+   1,5 px #7B8794, focus bleu). Sans session, rien de tout cela n'existe. */
+.champ-fiche {
+  font: inherit; font-size: 1rem; line-height: 1.45; color: var(--encre);
+  background: #fff; border: 1.5px solid #7B8794; border-radius: var(--radius-sm);
+  padding: .5rem .65rem; box-sizing: border-box; max-width: 100%;
+}
+.champ-fiche:focus { border-color: var(--bleu); box-shadow: 0 0 0 3px var(--bleu-pale); outline: 0; }
+.champ-fiche:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
+.champ-fiche:disabled { background: var(--papier); color: var(--encre-2); border-style: dashed; }
+textarea.champ-fiche { display: block; width: 100%; min-height: 3.4rem; resize: vertical; }
+
+/* Zone de réponse : le cadre pointillé garde son rôle, le champ vient dedans */
+.zone-reponse.champ-hote { display: block; min-height: 0; padding: var(--space-sm); }
+.champ-zone-creee { margin-top: .4rem; }
+.champ-consigne { margin: 0 0 .4rem; font-size: .9rem; font-style: italic; color: var(--encre-2); }
+
+/* Case de tableau : toute la largeur de la cellule */
+td.champ-hote, .champ-hote.ebep-fill { padding-top: .35rem; padding-bottom: .35rem; }
+.champ-case { display: block; width: 100%; min-width: 7rem; padding: .4rem .55rem; }
+textarea.champ-case { min-height: 2.8rem; }
+td .ebep-fill.champ-hote, td .ebep-hint.champ-hote { margin: 0; padding: .3rem; min-height: 0; }
+/* Le champ posé dans un ebep-fill est trop large pour un tableau étroit : minimum souple */
+td.champ-hote .champ-case { min-width: 5rem; }
+
+/* Trou : en ligne, bord inférieur seul, dans la phrase */
+.champ-trou {
+  display: inline-block; vertical-align: baseline; width: 11rem; min-width: 9rem; max-width: 14rem;
+  padding: .1rem .35rem; margin: 0 .15rem; border-width: 0 0 2px; border-radius: 0; background: transparent;
+}
+.champ-trou:focus { box-shadow: 0 2px 0 0 var(--bleu-pale); }
+/* Le champ qui prend la place d'un blanc pointillé ou d'un cadre en ligne */
+.champ-trou-plein { width: 100%; min-width: 0; max-width: none; margin: 0; }
+.champ-hote[style*="dotted"] { border-bottom-color: transparent !important; }
+span.ebep-fill.champ-hote { padding: 0 !important; border: 0 !important; vertical-align: baseline; }
+input.champ-trou[size="6"] { width: 5rem; min-width: 0; }
+
+/* L'état d'un champ : petit, gris, vert une fois enregistré */
+.champ-etat { display: block; font-size: .78rem; color: var(--encre-3); margin-top: .2rem; min-height: 1em; }
+.champ-etat:empty { display: none; }
+.champ-etat-court { display: inline-block; margin: 0 0 0 .25rem; vertical-align: baseline; }
+td .champ-etat-court { display: block; margin: .15rem 0 0; }
+.champ-etat.ok { color: var(--fait); }
+.champ-etat.attente { color: var(--encre-3); font-style: italic; }
+.champ-etat.err { color: var(--error); font-weight: 700; }
+.champ-etat a { color: var(--error); text-decoration: underline; }
+
+/* Commentaire du professeur sous un champ (textContent, jamais innerHTML) */
+.champ-commentaire { margin: .4rem 0 .2rem; padding: .5rem .8rem; background: var(--fait-pale); border-left: 4px solid var(--fait); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; font-size: .92rem; white-space: pre-wrap; color: #14532D; }
+.champ-commentaire strong { color: var(--fait); }
+.champ-commentaire-ligne { display: inline-block; margin: .15rem .25rem; padding: .15rem .5rem; white-space: normal; }
+
+/* La barre de la fiche, sous l'en-tête : consigne, compteur, « J'ai terminé » */
+.champ-barre {
+  margin: 0 0 var(--space-lg); padding: var(--space-md) var(--space-lg);
+  border-left: 5px solid var(--bleu); border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  background: var(--bleu-pale); font-size: .95rem;
+}
+.champ-barre-texte { margin: 0 0 .5rem; font-weight: 600; }
+.champ-barre-ligne { display: flex; flex-wrap: wrap; align-items: center; gap: .5rem var(--space-md); }
+.champ-barre-compteur { font-family: var(--font-display); font-weight: 800; color: var(--bleu); }
+.champ-barre .btn { min-height: 40px; }
+.champ-barre-message { font-size: .9rem; flex: 1 1 18ch; }
+.champ-barre-message.ok { color: var(--fait); font-weight: 700; }
+.champ-barre-message.err { color: var(--error); font-weight: 700; }
+.champ-barre-message a { color: var(--error); text-decoration: underline; }
+
+/* La correction globale, en haut de la fiche */
+.champ-correction { margin: 0 0 var(--space-lg); padding: var(--space-md) var(--space-lg); background: var(--fait-pale); border-left: 5px solid var(--fait); border-radius: 0 var(--radius-md) var(--radius-md) 0; white-space: pre-wrap; color: #14532D; }
+.champ-correction strong { color: var(--fait); }
+
+/* Le miroir imprimable d'un textarea n'existe qu'à l'impression */
+.champ-imprime { display: none; }
+
+/* Téléphone (360 px) : les champs prennent toute la largeur ; les tableaux
+   restent dans leur cadre défilant (.table-scroll, posé par components.js) */
+@media (max-width: 640px) {
+  /* Les trous restent dans la phrase (un bloc pleine largeur casserait la lecture) */
+  .champ-trou { width: 8.5rem; min-width: 6rem; max-width: 100%; }
+  .champ-trou-plein { width: 100%; min-width: 0; }
+  .champ-etat-court { display: block; margin: .1rem 0 0; }
+  .champ-barre { padding: var(--space-sm) var(--space-md); }
+  .champ-barre-ligne { gap: .5rem; }
+  .champ-barre .btn { width: 100%; justify-content: center; }
+  .champ-barre-message { flex-basis: 100%; }
+  td.champ-hote { min-width: 9rem; }
+}
+
+@media print {
+  .champ-barre, .champ-etat, .champ-consigne { display: none !important; }
+  .champ-fiche { border: .7pt solid #000 !important; background: #fff !important; box-shadow: none !important; color: #000 !important; border-radius: 0 !important; }
+  .champ-trou { border-width: 0 0 .7pt !important; }
+  .zone-reponse.champ-hote { height: auto !important; min-height: 20mm !important; background-image: none !important; border: none !important; padding: 0 !important; }
+  textarea.champ-fiche { display: none !important; }
+  .champ-imprime { display: block; border: .7pt solid #000; padding: 1.5mm 2mm; min-height: 12mm; white-space: pre-wrap; font-size: 10pt; }
+  .champ-imprime:empty { min-height: 20mm; }
+  td .champ-imprime { min-height: 6mm; }
+  .champ-commentaire, .champ-correction { background: #fff !important; border-color: #000 !important; color: #000 !important; }
+}

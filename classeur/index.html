@@ -76,8 +76,9 @@
 
   <section id="mes-reponses">
     <h2>Mes réponses rédigées</h2>
-    <p class="aide">Ce que tu as écrit au pied d'une fiche d'activité, et la correction de ton
-       professeur. Pour modifier ou supprimer une réponse, ouvre la fiche.</p>
+    <p class="aide">Ce que tu as écrit dans les fiches d'activité (les champs de la fiche et le bloc
+       « Ma réponse »), et la correction de ton professeur. Pour modifier ou compléter une
+       réponse, ouvre la fiche.</p>
     <div id="liste-reponses"><p class="vide">Chargement…</p></div>
   </section>
 </main>
@@ -277,36 +278,99 @@ function titreFiche(page) {
 }
 
 /**
- * Mes réponses rédigées, en lecture seule : la modification et la
- * suppression se font dans la fiche, là où la réponse a été écrite. La
- * lecture est un plus, jamais une barrière : si elle échoue, le reste du
- * classeur s'affiche quand même.
+ * Mes réponses rédigées, en lecture seule : la modification se fait dans la
+ * fiche, là où la réponse a été écrite. Une entrée par fiche : l'API renvoie
+ * une ligne par champ (z<n>, t<i>-r<j>-c<k>, b<n>), une ligne `fiche` qui
+ * porte l'état et la correction, et le bloc libre `reponse` s'il existe ;
+ * ici on regroupe par page. La lecture est un plus, jamais une barrière :
+ * si elle échoue, le reste du classeur s'affiche quand même.
  */
+const CLE_CHAMP = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
+
+/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des nœuds texte, jamais de l'HTML. */
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+function regrouperParFiche(lignes) {
+  const parPage = new Map();
+  for (const l of lignes) {
+    let f = parPage.get(l.page);
+    if (!f) {
+      f = { page: l.page, groupe: l.groupes?.code || '', ligneFiche: null, ligneLibre: null,
+            nb_champs: 0, nb_commentaires: 0, modifie_le: '' };
+      parPage.set(l.page, f);
+    }
+    if (l.question === 'fiche') f.ligneFiche = l;
+    else if (l.question === 'reponse' || !l.question) f.ligneLibre = l;
+    else if (CLE_CHAMP.test(l.question)) {
+      f.nb_champs++;
+      if (l.correction) f.nb_commentaires++;
+    }
+    const quand = l.modifie_le || l.redige_le || '';
+    if (quand > f.modifie_le) f.modifie_le = quand;
+  }
+  const liste = [];
+  for (const f of parPage.values()) {
+    if (!f.nb_champs && !f.ligneLibre) continue;
+    const porteuse = f.ligneFiche ?? f.ligneLibre;
+    f.corrige_le = porteuse?.corrige_le ?? null;
+    f.correction = porteuse?.correction ?? null;
+    // Une réponse libre seule (fiche d'avant le 20 septembre, ou bloc libre
+    // sans champ) n'a rien « en cours » : elle est envoyée, elle attend.
+    f.etat = f.corrige_le ? 'corrigee'
+      : f.ligneFiche?.texte === 'terminee' ? 'terminee'
+      : (!f.ligneFiche && !f.nb_champs) ? 'libre' : 'en cours';
+    liste.push(f);
+  }
+  return liste.sort((a, b) => b.modifie_le.localeCompare(a.modifie_le));
+}
+
 function listerReponses(q) {
   if (q.status === 'rejected') {
-    $('liste-reponses').innerHTML =
-      `<p class="vide">${echapper(q.reason?.message || 'Tes réponses n’ont pas pu être lues pour le moment.')}</p>`;
+    $('liste-reponses').replaceChildren(el('p', { class: 'vide' },
+      q.reason?.message || 'Tes réponses n’ont pas pu être lues pour le moment.'));
     return;
   }
-  const liste = q.value.reponses || [];
-  if (!liste.length) {
-    $('liste-reponses').innerHTML = '<p class="vide">Tu n\'as encore rédigé aucune réponse.</p>';
+  const fiches = regrouperParFiche(q.value.reponses || []);
+  if (!fiches.length) {
+    $('liste-reponses').replaceChildren(el('p', { class: 'vide' }, 'Tu n’as encore rien écrit dans une fiche.'));
     return;
   }
-  $('liste-reponses').innerHTML = liste.map((r) => {
-    const etat = r.corrige_le
-      ? '<span class="etiquette corrige">corrigée</span>'
-      : '<span class="etiquette attente">en attente de correction</span>';
-    return `<article class="rendu ${r.corrige_le ? 'fait' : 'attente'}">
-      <h3>${echapper(titreFiche(r.page))}${etat}</h3>
-      <p class="meta">${echapper(r.groupes?.code || '')} · rédigée le ${dateCourte(r.modifie_le || r.redige_le)}
-        ${r.corrige_le ? ' · corrigée le ' + dateCourte(r.corrige_le) : ''}
-        · <a href="/${echapper(r.page)}#ma-reponse">Ouvrir la fiche</a></p>
-      <p class="mot" style="white-space:pre-wrap">${echapper(r.texte)}</p>
-      ${r.correction ? `<div class="correction"><strong>Correction :</strong>
-          <span style="white-space:pre-wrap">${echapper(r.correction)}</span></div>` : ''}
-    </article>`;
-  }).join('');
+  $('liste-reponses').replaceChildren(...fiches.map((f) => {
+    const corrigee = f.etat === 'corrigee';
+    const etiquette = corrigee ? el('span', { class: 'etiquette corrige' }, 'corrigée')
+      : (f.etat === 'terminee' || f.etat === 'libre') ? el('span', { class: 'etiquette attente' }, 'envoyée, en attente de correction')
+      : el('span', { class: 'etiquette attente' }, 'en cours');
+    const etat = corrigee ? `corrigée le ${dateCourte(f.corrige_le)}`
+      : f.etat === 'terminee' ? `envoyée le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
+      : f.etat === 'libre' ? `rédigée le ${dateCourte(f.modifie_le)}`
+      : `modifiée le ${dateCourte(f.modifie_le)}`;
+    const nb = f.nb_champs ? ` · ${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}` : '';
+    const art = el('article', { class: `rendu ${corrigee ? 'fait' : 'attente'}` },
+      el('h3', {}, titreFiche(f.page), etiquette),
+      el('p', { class: 'meta' }, `${f.groupe ? f.groupe + ' · ' : ''}${etat}${nb} · `,
+        el('a', { href: '/' + f.page + (f.nb_champs ? '' : '#ma-reponse') }, 'Ouvrir la fiche')));
+    if (f.ligneLibre) {
+      art.append(el('p', { class: 'mot', style: 'white-space:pre-wrap' }, f.ligneLibre.texte ?? ''));
+    }
+    if (f.correction) {
+      art.append(el('div', { class: 'correction' }, el('strong', {}, 'Correction : '),
+        el('span', { style: 'white-space:pre-wrap' }, f.correction)));
+    }
+    if (f.nb_commentaires) {
+      art.append(el('p', { class: 'meta' },
+        `${f.nb_commentaires} commentaire${f.nb_commentaires > 1 ? 's' : ''} de ton professeur sur tes réponses : ouvre la fiche pour ${f.nb_commentaires > 1 ? 'les' : 'le'} lire.`));
+    }
+    return art;
+  }));
 }
 
 async function listerRendus() {

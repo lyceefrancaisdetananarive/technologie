@@ -250,7 +250,9 @@ const echapper = (t) => { const d = document.createElement('div'); d.textContent
 /**
  * Le compteur « à corriger » d'un groupe (décision D16, point e). L'API
  * renvoie null pour une lecture qui a échoué : on le dit, plutôt que
- * d'afficher un zéro rassurant et faux.
+ * d'afficher un zéro rassurant et faux. Depuis la fiche interactive,
+ * a_corriger.reponses compte des FICHES (une par élève et par fiche), pas
+ * des lignes de réponse : le libellé le dit.
  */
 function libelleCorriger(a) {
   const d = a?.depots ?? null;
@@ -258,10 +260,10 @@ function libelleCorriger(a) {
   if (d === null && r === null) return { texte: 'Rendus indisponibles', alerte: false };
   const parts = [];
   if (d) parts.push(`${d} dépôt${d > 1 ? 's' : ''}`);
-  if (r) parts.push(`${r} réponse${r > 1 ? 's' : ''}`);
+  if (r) parts.push(`${r} fiche${r > 1 ? 's' : ''}`);
   let texte = parts.length ? parts.join(' et ') + ' à corriger' : 'Rien à corriger';
   if (d === null) texte += ', dépôts indisponibles';
-  else if (r === null) texte += ', réponses indisponibles';
+  else if (r === null) texte += ', fiches indisponibles';
   return { texte, alerte: parts.length > 0 };
 }
 

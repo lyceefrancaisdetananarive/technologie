@@ -38,6 +38,39 @@ const COLONNES_PLAN = 'sequence,position,visible';
  */
 const auCatalogue = (lignes) => lignes.filter((p) => sequenceDuCatalogue(p.sequence));
 
+/**
+ * Le nombre de FICHES à corriger par groupe, à partir des lignes de
+ * reponses (fiche interactive du 20 septembre 2026 ; même règle que
+ * a_corriger dans api/prof/reponses.js). Une fiche est une paire (élève,
+ * page) ; elle attend une correction quand :
+ *   - sa ligne d'état (question = 'fiche') n'a pas de corrige_le et que
+ *     l'élève y a écrit au moins un champ (une ligne d'état seule, tous les
+ *     champs effacés, n'a rien à corriger) ;
+ *   - ou, sans ligne d'état (fiche d'avant le 20 septembre), sa réponse
+ *     libre (question = 'reponse') n'a pas de corrige_le.
+ * Renvoie une Map groupe_id -> nombre, ou null si la lecture a échoué.
+ */
+export function fichesACorriger(lignes) {
+  if (!lignes) return null;
+  const parFiche = new Map();
+  for (const l of lignes) {
+    const cle = `${l.profil_id}\n${l.page}`;
+    let f = parFiche.get(cle);
+    if (!f) { f = { groupe_id: l.groupe_id, etat: null, libre: null, champs: 0 }; parFiche.set(cle, f); }
+    if (l.question === 'fiche') f.etat = l;
+    else {
+      f.champs += 1;
+      if (l.question === 'reponse') f.libre = l;
+    }
+  }
+  const parGroupe = new Map();
+  for (const f of parFiche.values()) {
+    const attend = f.etat ? (!f.etat.corrige_le && f.champs > 0) : Boolean(f.libre && !f.libre.corrige_le);
+    if (attend) parGroupe.set(f.groupe_id, (parGroupe.get(f.groupe_id) ?? 0) + 1);
+  }
+  return parGroupe;
+}
+
 export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
   if (req.method !== 'GET' && !origineLegitime(req)) {
@@ -56,21 +89,23 @@ export default async function handler(req, res) {
       if (!groupes.length) return res.status(200).json({ ok: true, groupes: [] });
       const ids = groupes.map((g) => g.id).join(',');
       // Les deux compteurs « à corriger » (D16, point e) : les dépôts qui
-      // portent un fichier et pas de corrige_le, les réponses rédigées sans
-      // corrige_le. Sans filtre de plan ni d'appartenance : c'est ce que la
-      // page de correction montre. Chaque lecture est protégée à part : une
-      // panne (table reponses pas encore créée, liaison) donne null, jamais
-      // un tableau de bord qui tombe.
+      // portent un fichier et pas de corrige_le, et les FICHES à corriger
+      // (une par élève et par page, voir fichesACorriger). Sans filtre de
+      // plan ni d'appartenance : c'est ce que la page de correction montre.
+      // Chaque lecture est protégée à part : une panne (table reponses pas
+      // encore créée, liaison) donne null, jamais un tableau de bord qui
+      // tombe.
       const [plans, coches, membres, depots, redigees] = await Promise.all([
         lire('plans', `groupe_id=in.(${ids})&select=groupe_id,${COLONNES_PLAN}&order=position`),
         lire('avancement', `groupe_id=in.(${ids})&select=groupe_id,sequence,seance`),
         lire('appartenances', `groupe_id=in.(${ids})&select=groupe_id`),
         lire('rendus', `groupe_id=in.(${ids})&fichier=not.is.null&corrige_le=is.null&select=groupe_id`)
           .catch(() => null),
-        lire('reponses', `groupe_id=in.(${ids})&corrige_le=is.null&select=groupe_id`)
+        lire('reponses', `groupe_id=in.(${ids})&select=groupe_id,profil_id,page,question,corrige_le`)
           .catch(() => null),
       ]);
       const compter = (lignes, gid) => (lignes ? lignes.filter((l) => l.groupe_id === gid).length : null);
+      const fiches = fichesACorriger(redigees);
       return res.status(200).json({
         ok: true,
         groupes: groupes.map((g) => {
@@ -84,7 +119,7 @@ export default async function handler(req, res) {
             avancement: coches.filter((c) => c.groupe_id === g.id)
               .map(({ groupe_id, ...c }) => c),
             // null = « indisponible », que la page distingue de zéro.
-            a_corriger: { depots: compter(depots, g.id), reponses: compter(redigees, g.id) },
+            a_corriger: { depots: compter(depots, g.id), reponses: fiches ? (fiches.get(g.id) ?? 0) : null },
           };
         }),
       });
