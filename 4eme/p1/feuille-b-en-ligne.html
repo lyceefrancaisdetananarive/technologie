@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Feuille B en ligne | 4ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="4eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"4ème","url":"../index.html"},{"label":"Feuille B en ligne"}]'
+    data-print-title="4ème · Feuille B"
+    data-print-subtitle="Réponses de l’élève · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-4eme"><span class="ico">&#x1F7E2;</span> 4ème · Rentrée 2026</span>
+        <h1>Pour préparer les séances sur ordinateur</h1>
+        <p class="page-description">Feuille B de l’évaluation diagnostique, à remplir en ligne. Elle n’est pas notée et n’est lue que par ton professeur.</p>
+      </div>
+
+      <div id="diag"></div>
+      <noscript><div class="info-box info-box-orange"><p>Cette page a besoin de JavaScript pour afficher les questions et fabriquer le PDF. Active-le, ou demande la version papier à ton professeur.</p></div></noscript>
+    </main>
+  </div>
+  <script>
+  /* Données de la feuille B de l'évaluation diagnostique de rentrée, niveau 4ème.
+     Source : 04_DIAGNOSTIQUE/diagnostiques.json (clé 4eme.feuille_b), items B1 à B5.
+     Seuls les énoncés et les propositions figurent ici : la page est publique,
+     rien du livret professeur n'y est recopié. Aucune réponse n'est juste ou fausse. */
+  window.DIAG = {
+    niveau: '4eme',
+    libelle: '4ème',
+    court: '4e',
+    classes: ['4M1', '4M2', '4M3', '4M4', '4M5', '4M6', '4M7'],
+    titre: 'Pour préparer les séances sur ordinateur',
+    duree: 3,
+    prefixe: 'FeuilleB',
+    intitule: 'Feuille B : pour préparer les séances sur ordinateur',
+    complement: 'à la feuille B (pour préparer les séances sur ordinateur)',
+    cleStockage: 'feuilleb',
+    identiteFacultative: true,
+    jsp: false,
+    rappel: 'Cette feuille n’est pas notée et n’est lue que par ton professeur.',
+    mot: [
+      'Cette page n’est pas notée et ne sera pas rendue. Elle sert seulement à savoir comment organiser les séances sur ordinateur pour toute la classe. Personne d’autre que le professeur ne la lit. Écris ton nom, ou ne l’écris pas : les deux sont autorisés.',
+      'Coche la réponse qui correspond à ta situation. Il n’y a pas de bonne ni de mauvaise réponse.',
+      'Quand tu as fini, clique sur « Télécharger mon PDF », puis envoie ce fichier à ton professeur par courriel : le bouton « Envoyer par courriel » prépare le message.'
+    ],
+    parties: [
+      {
+        titre: 'Tes réponses',
+        items: [
+          {
+            num: 'B1',
+            type: 'qcm',
+            enonce: 'Pour un travail scolaire, en dehors du collège, je peux utiliser un ordinateur ou une tablette :',
+            resume: 'Ordinateur ou tablette en dehors du collège',
+            options: [
+              { val: 'a', texte: 'tous les jours' },
+              { val: 'b', texte: 'quelques jours par semaine' },
+              { val: 'c', texte: 'rarement' },
+              { val: 'd', texte: 'jamais' }
+            ]
+          },
+          {
+            num: 'B2',
+            type: 'qcm',
+            enonce: 'Pour un travail scolaire, en dehors du collège, je peux utiliser internet :',
+            resume: 'Internet en dehors du collège',
+            options: [
+              { val: 'a', texte: 'tous les jours' },
+              { val: 'b', texte: 'quelques jours par semaine' },
+              { val: 'c', texte: 'rarement' },
+              { val: 'd', texte: 'jamais' }
+            ]
+          },
+          {
+            num: 'B3',
+            type: 'qcm',
+            enonce: 'J’ai déjà utilisé un logiciel où l’on programme avec des blocs (Scratch, mBlock, MakeCode) :',
+            resume: 'Programmation avec des blocs',
+            options: [
+              { val: 'a', texte: 'souvent' },
+              { val: 'b', texte: 'quelques fois' },
+              { val: 'c', texte: 'jamais' }
+            ]
+          },
+          {
+            num: 'B4',
+            type: 'qcm',
+            enonce: 'J’ai déjà utilisé un logiciel de dessin en 3D (Tinkercad, FreeCAD, Sweet Home 3D) :',
+            resume: 'Dessin en 3D',
+            options: [
+              { val: 'a', texte: 'souvent' },
+              { val: 'b', texte: 'quelques fois' },
+              { val: 'c', texte: 'jamais' }
+            ]
+          },
+          {
+            num: 'B5',
+            type: 'texte',
+            enonce: 'Dernière question, tout à fait libre. Y a-t-il quelque chose qui t’aiderait à mieux travailler en Technologie cette année ? Par exemple : être placé devant, avoir plus de temps, que je répète les consignes, ou autre chose.\nTu peux écrire une phrase, ou laisser cette case vide : c’est autorisé.',
+            resume: 'Ce qui t’aiderait à mieux travailler cette année',
+            champs: [
+              { cle: 'reponse', label: 'Ta réponse', lignes: 2 }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+  </script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/pdf-mini.js"></script>
+  <script src="../../js/diagnostique.js"></script>
+</body>
+</html>

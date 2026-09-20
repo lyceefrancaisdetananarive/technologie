@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Feuille B en ligne | 3ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="3eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"3ème","url":"../index.html"},{"label":"Feuille B en ligne"}]'
+    data-print-title="3ème · Feuille B"
+    data-print-subtitle="Réponses de l’élève · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-3eme"><span class="ico">&#x1F7E0;</span> 3ème · Rentrée 2026</span>
+        <h1>Toi, le projet et les outils de travail</h1>
+        <p class="page-description">Feuille B de l’évaluation diagnostique, à remplir en ligne. Elle n’est pas notée et n’est lue que par ton professeur.</p>
+      </div>
+
+      <div id="diag"></div>
+      <noscript><div class="info-box info-box-orange"><p>Cette page a besoin de JavaScript pour afficher les questions et fabriquer le PDF. Active-le, ou demande la version papier à ton professeur.</p></div></noscript>
+    </main>
+  </div>
+  <script>
+  /* Données de la feuille B de l'évaluation diagnostique de rentrée, niveau 3ème.
+     Transcription de la feuille papier 3eme/p1/diagnostique-feuille-b.html, adaptée à l'écran.
+     Il n'y a aucune bonne réponse : cette feuille recueille des informations de contexte.
+     La note de chaque section de la feuille papier est reprise en tête de la première question
+     de la partie correspondante (le moteur n'affiche pas de texte entre le titre et les questions). */
+  window.DIAG = {
+    niveau: '3eme',
+    libelle: '3ème',
+    court: '3e',
+    classes: ['3M1', '3M2', '3M3', '3M4', '3M5', '3M6', '3M7'],
+    titre: 'Toi, le projet et les outils de travail',
+    prefixe: 'FeuilleB',
+    intitule: 'Feuille B : toi, le projet et les outils de travail',
+    complement: 'à la feuille B (toi, le projet et les outils de travail)',
+    cleStockage: 'feuilleb',
+    identiteFacultative: false,
+    jsp: false,
+    rappel: 'Cette feuille n’est pas notée et n’est lue que par ton professeur.',
+    duree: 8,
+    mot: [
+      'Cette feuille n’est pas notée et ne sera pas rendue. Elle me sert à préparer les séances sur ordinateur et à composer les groupes de projet.',
+      'Il n’y a pas de bonne réponse : réponds honnêtement, directement sur cet écran, cela m’aide à préparer l’année.',
+      'Je ne te demande jamais ton mot de passe, et tu ne dois l’écrire nulle part.',
+      'Quand tu as fini, clique sur « Télécharger mon PDF », puis envoie ce fichier à ton professeur par courriel : le bouton « Envoyer par courriel » prépare le message.'
+    ],
+    parties: [
+      {
+        titre: '1. Ton compte du lycée',
+        items: [
+          {
+            num: 'B1', type: 'qcm',
+            enonce: 'Je ne te demande jamais ton mot de passe. Ne l’écris nulle part.\nAs-tu déjà utilisé ton adresse du lycée, celle qui finit par @eleve.egd.mg ?',
+            resume: 'Utilisation de l’adresse du lycée',
+            options: [
+              { val: 'a', texte: 'oui, souvent' },
+              { val: 'b', texte: 'oui, une ou deux fois' },
+              { val: 'c', texte: 'jamais' },
+              { val: 'd', texte: 'je ne sais pas' }
+            ]
+          },
+          {
+            num: 'B2', type: 'texte',
+            enonce: 'Écris cette adresse telle que tu la connais. Si tu ne la connais pas, laisse vide. Jamais ton mot de passe.',
+            resume: 'Adresse du lycée telle que l’élève la connaît',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 1 }]
+          },
+          {
+            num: 'B3', type: 'qcm',
+            enonce: 'As-tu déjà réussi à ouvrir une session avec ce compte du lycée (sur un ordinateur du lycée ou sur Gmail) ?',
+            resume: 'Ouverture d’une session avec le compte du lycée',
+            options: [
+              { val: 'a', texte: 'oui, du premier coup' },
+              { val: 'b', texte: 'oui, avec de l’aide' },
+              { val: 'c', texte: 'non' }
+            ]
+          },
+          {
+            num: 'B4', type: 'qcm',
+            enonce: 'Si tu n’as pas réussi, qu’est-ce qui a bloqué ?',
+            resume: 'Ce qui a bloqué l’ouverture de session',
+            options: [
+              { val: 'a', texte: 'mot de passe oublié' },
+              { val: 'b', texte: 'adresse refusée' },
+              { val: 'c', texte: 'je n’ai jamais reçu mes identifiants' },
+              { val: 'd', texte: 'autre' },
+              { val: 'e', texte: 'je n’ai pas eu de problème' }
+            ]
+          },
+          {
+            num: 'B5', type: 'texte',
+            enonce: 'Si tu as coché « autre », dis en quelques mots ce qui a bloqué.',
+            resume: 'Autre blocage, en quelques mots',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 1 }]
+          }
+        ]
+      },
+      {
+        titre: '2. PIX',
+        items: [
+          {
+            num: 'B6', type: 'qcm',
+            enonce: 'PIX est le service qui mesure et certifie les compétences numériques. Tu passeras sa certification cette année.\nAs-tu déjà utilisé PIX ?',
+            resume: 'Utilisation de PIX',
+            options: [
+              { val: 'a', texte: 'oui, l’an dernier' },
+              { val: 'b', texte: 'oui, il y a plus longtemps' },
+              { val: 'c', texte: 'jamais' },
+              { val: 'd', texte: 'je ne sais pas ce que c’est' }
+            ]
+          },
+          {
+            num: 'B7', type: 'qcm',
+            enonce: 'Si oui, te souviens-tu comment tu te connectais ?',
+            resume: 'Mode de connexion à PIX',
+            options: [
+              { val: 'a', texte: 'avec mon adresse du lycée' },
+              { val: 'b', texte: 'avec une autre adresse' },
+              { val: 'c', texte: 'je ne me souviens pas' }
+            ]
+          }
+        ]
+      },
+      {
+        titre: '3. Chez toi',
+        items: [
+          {
+            num: 'B8', type: 'qcm',
+            enonce: 'Cela me sert à savoir ce que je peux demander comme travail à la maison, et ce que je ne peux pas.\nAs-tu un ordinateur à la maison que tu peux utiliser pour le travail scolaire ?',
+            resume: 'Ordinateur à la maison',
+            options: [
+              { val: 'a', texte: 'oui, c’est le mien' },
+              { val: 'b', texte: 'oui, mais partagé' },
+              { val: 'c', texte: 'non' }
+            ]
+          },
+          {
+            num: 'B9', type: 'qcm',
+            enonce: 'As-tu une connexion internet à la maison ?',
+            resume: 'Connexion internet à la maison',
+            options: [
+              { val: 'a', texte: 'oui, stable' },
+              { val: 'b', texte: 'oui, mais irrégulière' },
+              { val: 'c', texte: 'seulement par téléphone' },
+              { val: 'd', texte: 'non' }
+            ]
+          },
+          {
+            num: 'B10', type: 'qcm',
+            enonce: 'Peux-tu imprimer une feuille chez toi ?',
+            resume: 'Impression à la maison',
+            options: [
+              { val: 'a', texte: 'oui' },
+              { val: 'b', texte: 'non' }
+            ]
+          }
+        ]
+      },
+      {
+        titre: '4. Le travail en groupe',
+        items: [
+          {
+            num: 'B11', type: 'texte',
+            enonce: 'Cette année, tu travailleras en projet. Ces réponses m’aident à composer les groupes. Personne d’autre que moi ne les lit.\nCite deux camarades avec qui tu travaillerais bien. Ce ne sont pas forcément tes meilleurs amis : pense à qui te fait avancer.',
+            resume: 'Deux camarades avec qui bien travailler',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          },
+          {
+            num: 'B12', type: 'texte',
+            enonce: 'Y a-t-il quelqu’un avec qui il vaut mieux ne pas te mettre ? Tu n’es pas obligé de répondre, et tu n’as pas à expliquer pourquoi.',
+            resume: 'Quelqu’un avec qui il vaut mieux ne pas se mettre',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          },
+          {
+            num: 'B13', type: 'texte',
+            enonce: 'Qu’est-ce que tu sais faire qui pourrait servir dans un projet ? Par exemple : dessiner, programmer, bricoler, filmer, monter une vidéo, organiser, parler devant la classe, expliquer aux autres.',
+            resume: 'Ce que l’élève sait faire pour un projet',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          }
+        ]
+      },
+      {
+        titre: '5. Toi et la technologie',
+        items: [
+          {
+            num: 'B14', type: 'texte',
+            enonce: 'Qu’est-ce que tu as aimé en technologie les années précédentes ?',
+            resume: 'Ce que l’élève a aimé en technologie',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          },
+          {
+            num: 'B15', type: 'texte',
+            enonce: 'Qu’est-ce qui t’a paru difficile ?',
+            resume: 'Ce qui a paru difficile',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          },
+          {
+            num: 'B16', type: 'texte',
+            enonce: 'Y a-t-il quelque chose que je devrais savoir pour t’aider à mieux travailler ? Par exemple pour voir le tableau, pour entendre, pour écrire, ou autre chose.',
+            resume: 'Ce que le professeur devrait savoir pour aider',
+            champs: [{ cle: 'reponse', label: 'Ta réponse', lignes: 2 }]
+          }
+        ]
+      }
+    ]
+  };
+  </script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/pdf-mini.js"></script>
+  <script src="../../js/diagnostique.js"></script>
+</body>
+</html>

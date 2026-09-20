@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex">
+  <title>Feuille B en ligne | 5ème</title>
+  <link rel="icon" type="image/png" href="../../img/logo-lft.png">
+  <link rel="stylesheet" href="../../css/style.css">
+</head>
+<body>
+  <div id="app" data-page="5eme"
+    data-breadcrumb='[{"label":"Accueil","url":"../../index.html"},{"label":"5ème","url":"../index.html"},{"label":"Feuille B en ligne"}]'
+    data-print-title="5ème · Feuille B"
+    data-print-subtitle="Réponses de l’élève · Technologie LFT">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge level-5eme"><span class="ico">&#x1F535;</span> 5ème · Rentrée 2026</span>
+        <h1>Toi et les outils de travail</h1>
+        <p class="page-description">Feuille B de l’évaluation diagnostique, à remplir en ligne. Elle n’est pas notée et n’est lue que par ton professeur.</p>
+      </div>
+
+      <div id="diag"></div>
+      <noscript><div class="info-box info-box-orange"><p>Cette page a besoin de JavaScript pour afficher les questions et fabriquer le PDF. Active-le, ou demande la version papier à ton professeur.</p></div></noscript>
+    </main>
+  </div>
+  <script>
+  // Donnees de la feuille B de l'evaluation diagnostique de rentree, niveau 5eme.
+  // Source : 04_DIAGNOSTIQUE/diagnostiques.json (cle 5eme.feuille_b), consignes adaptees a l'ecran.
+  // Cette page est publique : aucune bonne reponse n'existe, aucune consigne professeur n'y figure.
+  window.DIAG = {
+    niveau: '5eme',
+    libelle: '5ème',
+    court: '5e',
+    classes: ['5M1', '5M2', '5M3', '5M4', '5M5', '5M6', '5M7'],
+    titre: 'Toi et les outils de travail',
+    prefixe: 'FeuilleB',
+    intitule: 'Feuille B : toi et les outils de travail',
+    complement: 'à la feuille B (toi et les outils de travail)',
+    cleStockage: 'feuilleb',
+    identiteFacultative: true,
+    jsp: false,
+    rappel: 'Cette feuille n’est pas notée et n’est lue que par ton professeur.',
+    duree: 4,
+    mot: [
+      'Cette page n’est pas notée et ne sera pas rendue. Elle sert seulement à préparer les séances sur ordinateur.',
+      'Personne d’autre que le professeur ne la lit.',
+      'Écris ton nom, ou ne l’écris pas : les deux sont autorisés.',
+      'Quand tu as fini, clique sur « Télécharger mon PDF », puis envoie ce fichier à ton professeur par courriel : le bouton « Envoyer par courriel » prépare le message.'
+    ],
+    parties: [
+      {
+        titre: 'Tes réponses',
+        items: [
+          {
+            num: 'B1',
+            type: 'qcm',
+            enonce: 'En dehors du collège, à quelle fréquence peux-tu utiliser un ordinateur ou une tablette pour un travail scolaire ? Coche une seule case.',
+            resume: 'Accès à un ordinateur ou une tablette hors du collège',
+            options: [
+              { val: 'a', texte: 'jamais' },
+              { val: 'b', texte: 'quelques fois dans l’année' },
+              { val: 'c', texte: 'environ une fois par mois' },
+              { val: 'd', texte: 'au moins une fois par semaine' }
+            ]
+          },
+          {
+            num: 'B2',
+            type: 'cases',
+            enonce: 'Pour faire un travail scolaire, peux-tu utiliser internet en dehors du collège ? Coche la ou les cases qui correspondent à ta situation. Tu peux en cocher deux.',
+            resume: 'Accès à internet hors du collège',
+            options: [
+              { val: 'a', texte: 'non, pas du tout' },
+              { val: 'b', texte: 'oui, mais la connexion est lente ou coupée souvent' },
+              { val: 'c', texte: 'oui, mais seulement sur un téléphone' },
+              { val: 'd', texte: 'oui, sans difficulté' }
+            ]
+          },
+          {
+            num: 'B3',
+            type: 'qcm',
+            enonce: 'Sur un ordinateur, sais-tu enregistrer un fichier dans un dossier, puis le retrouver plus tard ? Coche une seule case.',
+            resume: 'Enregistrer un fichier et le retrouver',
+            options: [
+              { val: 'a', texte: 'je n’ai jamais essayé' },
+              { val: 'b', texte: 'j’ai essayé, mais je n’y arrive pas seul' },
+              { val: 'c', texte: 'j’y arrive avec de l’aide' },
+              { val: 'd', texte: 'j’y arrive seul' }
+            ]
+          },
+          {
+            num: 'B4',
+            type: 'qcm',
+            enonce: 'As-tu déjà fabriqué un programme, un jeu ou une animation sur un ordinateur, par exemple avec le logiciel Scratch ? Coche une seule case.',
+            resume: 'Expérience de la programmation (Scratch)',
+            options: [
+              { val: 'a', texte: 'je n’ai jamais entendu parler de cela' },
+              { val: 'b', texte: 'j’en ai entendu parler, mais je ne l’ai jamais fait' },
+              { val: 'c', texte: 'je l’ai fait une ou deux fois' },
+              { val: 'd', texte: 'je l’ai fait plusieurs fois' }
+            ]
+          },
+          {
+            num: 'B5',
+            type: 'texte',
+            enonce: 'Dernière question, tout à fait libre. Y a-t-il quelque chose qui t’aiderait à mieux travailler en Technologie cette année ? Par exemple : être placé devant, avoir plus de temps, que je répète les consignes, ou autre chose.\nTu peux écrire une phrase, ou laisser cette case vide : c’est autorisé.',
+            resume: 'Ce qui t’aiderait à mieux travailler en Technologie',
+            champs: [
+              { cle: 'reponse', label: 'Ta réponse', lignes: 2 }
+            ]
+          }
+        ]
+      }
+    ]
+  };
+  </script>
+  <script src="../../js/components.js"></script>
+  <script src="../../js/pdf-mini.js"></script>
+  <script src="../../js/diagnostique.js"></script>
+</body>
+</html>

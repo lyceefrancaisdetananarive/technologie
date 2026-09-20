@@ -21,6 +21,20 @@
   var SANS_REPONSE = '(sans réponse)';
   var JSP = 'jsp';
 
+  // Réglages propres a un document ; la page peut les surcharger dans DIAG
+  // (feuille B : prefixe 'FeuilleB', intitule 'Feuille B', identite facultative...)
+  function reglages(config) {
+    return {
+      prefixe: config.prefixe || 'Diagnostique',
+      intitule: config.intitule || 'Évaluation diagnostique de rentrée',
+      complement: config.complement || 'à l’évaluation diagnostique de rentrée',   // « Voici mes réponses … »
+      cleStockage: config.cleStockage || 'diag',
+      identiteFacultative: !!config.identiteFacultative,
+      rappel: config.rappel || 'Ce travail n’est pas noté. Il ne compte pas dans ta moyenne.',
+      jsp: config.jsp !== false
+    };
+  }
+
   // ============================================================
   // Utilitaires purs
   // ============================================================
@@ -96,6 +110,7 @@
     var noms = [];
     switch (item.type) {
       case 'qcm': noms.push(nomChamp(item)); break;
+      case 'cases': (item.options || []).forEach(function (o) { noms.push(nomChamp(item, o.val)); }); break;
       case 'classement': (item.elements || []).forEach(function (e) { noms.push(nomChamp(item, e.val)); }); break;
       case 'lignes_choix': (item.phrases || []).forEach(function (p) { noms.push(nomChamp(item, p.val)); }); break;
       case 'appariement': (item.gauche || []).forEach(function (g) { noms.push(nomChamp(item, g.val)); }); break;
@@ -126,6 +141,13 @@
           e = trouver(item.options, v);
           lignes.push(e ? e.val + ') ' + e.texte : v);
         }
+        break;
+
+      case 'cases':
+        (item.options || []).forEach(function (o) {
+          if (val(champs, nomChamp(item, o.val)) !== '') lignes.push(o.val + ') ' + o.texte);
+        });
+        if (!lignes.length) lignes.push(SANS_REPONSE);
         break;
 
       case 'classement':
@@ -224,10 +246,18 @@
   }
 
   function nomFichier(config, identite) {
-    var nom = morceauFichier(identite.nom, true) || 'NOM';
-    var prenom = morceauFichier(identite.prenom, false) || 'Prenom';
+    var r = reglages(config);
+    var nom = morceauFichier(identite.nom, true);
+    var prenom = morceauFichier(identite.prenom, false);
     var classe = morceauFichier(identite.classe, false) || 'classe-inconnue';
-    return 'Diagnostique-' + config.court + '_' + nom + '-' + prenom + '_' + classe + '.pdf';
+    var qui = (!nom && !prenom && r.identiteFacultative) ? 'Anonyme' : (nom || 'NOM') + '-' + (prenom || 'Prenom');
+    return r.prefixe + '-' + config.court + '_' + qui + '_' + classe + '.pdf';
+  }
+
+  // « NOM Prénom », ou « Sans nom » quand l'identite est facultative et vide
+  function nomComplet(config, identite) {
+    var s = propre(propre(identite.nom) + ' ' + propre(identite.prenom));
+    return s || (reglages(config).identiteFacultative ? 'Sans nom' : '');
   }
 
   // ---- Destinataire : ?prof=xxx -> xxx suivi du domaine des professeurs ----
@@ -245,12 +275,12 @@
 
   // ---- Lien mailto ----
   function lienCourriel(config, identite, prof) {
-    var nom = propre(identite.nom).toLocaleUpperCase('fr');
-    var prenom = propre(identite.prenom);
+    var r = reglages(config);
+    var qui = nomComplet(config, { nom: propre(identite.nom).toLocaleUpperCase('fr'), prenom: identite.prenom });
     var classe = propre(identite.classe) || 'classe inconnue';
-    var sujet = 'Diagnostique ' + config.court + ' : ' + nom + ' ' + prenom + ', ' + classe;
-    var corps = 'Bonjour,\n\nVoici mes réponses à l’évaluation diagnostique de rentrée, en pièce jointe (fichier ' +
-      nomFichier(config, identite) + ').\n\n' + nom + ' ' + prenom + ', classe ' + classe + '\n';
+    var sujet = r.prefixe.replace('FeuilleB', 'Feuille B') + ' ' + config.court + ' : ' + qui + ', ' + classe;
+    var corps = 'Bonjour,\n\nVoici mes réponses ' + r.complement + ', en pièce jointe (fichier ' +
+      nomFichier(config, identite) + ').\n\n' + qui + ', classe ' + classe + '\n';
     return 'mailto:' + (prof ? encodeURIComponent(prof).replace(/%40/g, '@') : '') +
       '?subject=' + encodeURIComponent(sujet) + '&body=' + encodeURIComponent(corps);
   }
@@ -258,15 +288,17 @@
   // ---- Construction du PDF (PdfMini) ----
   function construirePdf(config, resultat, PdfMini) {
     var id = resultat.identite;
+    var r = reglages(config);
+    var qui = nomComplet(config, id);
     var pdf = PdfMini.nouveau({
-      titre: 'Évaluation diagnostique ' + config.libelle + ' : ' + id.nom + ' ' + id.prenom,
-      auteur: id.nom + ' ' + id.prenom,
+      titre: r.intitule + ' ' + config.libelle + ' : ' + qui,
+      auteur: qui,
       marges: { haut: 18, bas: 18, gauche: 18, droite: 18 }
     });
     pdf.texte('Lycée Français de Tananarive · Technologie · Année scolaire ' + ANNEE_SCOLAIRE, { taille: 10, gras: true, apres: 2 });
-    pdf.texte('Évaluation diagnostique de rentrée · ' + config.libelle, { taille: 16, gras: true, apres: 1 });
+    pdf.texte(r.intitule + ' · ' + config.libelle, { taille: 16, gras: true, apres: 1 });
     if (config.titre) pdf.texte(config.titre, { taille: 12, apres: 2 });
-    pdf.texte(id.nom + ' ' + id.prenom + ' · classe ' + (id.classe || 'inconnue') + ' · rempli en ligne le ' + id.date, { taille: 11, apres: 1 });
+    pdf.texte(qui + ' · classe ' + (id.classe || 'inconnue') + ' · rempli en ligne le ' + id.date, { taille: 11, apres: 1 });
     pdf.texte('Ce travail n’est pas noté.', { taille: 10, gris: true, apres: 1 });
     pdf.trait();
     resultat.parties.forEach(function (partie) {
@@ -282,7 +314,7 @@
         pdf.espace(2);
       });
     });
-    pdf.pied('Diagnostique ' + config.court + ' · ' + id.nom + ' ' + id.prenom, 'page {n} / {N}');
+    pdf.pied(r.prefixe.replace('FeuilleB', 'Feuille B') + ' ' + config.court + ' · ' + qui, 'page {n} / {N}');
     return pdf.octets();
   }
 
@@ -374,7 +406,17 @@
   function rendreQcm(item) {
     var fs = el('fieldset', { class: 'diag-champ diag-qcm' }, [el('legend', { text: 'Question ' + item.num + ' : coche une seule réponse' })]);
     (item.options || []).forEach(function (o) { fs.appendChild(choix(nomChamp(item), o.val, o.val + ')', o.texte)); });
-    fs.appendChild(choix(nomChamp(item), JSP, '', 'Je ne sais pas'));
+    if (item.jsp !== false) fs.appendChild(choix(nomChamp(item), JSP, '', 'Je ne sais pas'));
+    return fs;
+  }
+
+  // cases : plusieurs réponses possibles, une case par option
+  function rendreCases(item) {
+    var fs = el('fieldset', { class: 'diag-champ diag-qcm' }, [el('legend', { text: 'Question ' + item.num + ' : coche une ou plusieurs réponses' })]);
+    (item.options || []).forEach(function (o) {
+      var input = el('input', { type: 'checkbox', name: nomChamp(item, o.val), value: 'oui' });
+      fs.appendChild(el('label', { class: 'diag-choix' }, [input, el('span', { class: 'diag-lettre', text: o.val + ')' }), el('span', { class: 'diag-choix-texte', text: o.texte })]));
+    });
     return fs;
   }
 
@@ -507,7 +549,7 @@
   }
 
   var RENDUS = {
-    qcm: rendreQcm, classement: rendreClassement, lignes_choix: rendreLignesChoix,
+    qcm: rendreQcm, cases: rendreCases, classement: rendreClassement, lignes_choix: rendreLignesChoix,
     appariement: rendreAppariement, ordre: rendreOrdre, texte: rendreTexte,
     trous: rendreTrous, cadres: rendreCadres
   };
@@ -531,7 +573,12 @@
   function monter(conteneur, config) {
     if (!conteneur || !config) return;
     var PdfMini = (typeof window !== 'undefined') ? window.PdfMini : null;
-    var cle = 'diag-' + config.niveau + '-' + ANNEE;
+    var regl = reglages(config);
+    var cle = regl.cleStockage + '-' + config.niveau + '-' + ANNEE;
+    // « Je ne sais pas » : reglage du document, que chaque item peut surcharger
+    (config.parties || []).forEach(function (p) {
+      (p.items || []).forEach(function (it) { if (it.jsp === undefined) it.jsp = regl.jsp; });
+    });
     var stockageOk = true;
     var minuterie = null;
     var pdfTelecharge = false;
@@ -578,19 +625,20 @@
     // Carte identité
     var classes = (config.classes || []).map(function (c) { return { val: c, texte: c }; });
     classes.push({ val: 'autre', texte: 'autre' });
-    var champNom = el('input', { type: 'text', name: 'nom', id: 'diag-nom', required: true, autocomplete: 'family-name', maxlength: '60' });
-    var champPrenom = el('input', { type: 'text', name: 'prenom', id: 'diag-prenom', required: true, autocomplete: 'given-name', maxlength: '60' });
+    var champNom = el('input', { type: 'text', name: 'nom', id: 'diag-nom', required: !regl.identiteFacultative, autocomplete: 'family-name', maxlength: '60' });
+    var champPrenom = el('input', { type: 'text', name: 'prenom', id: 'diag-prenom', required: !regl.identiteFacultative, autocomplete: 'given-name', maxlength: '60' });
+    var suffixeFacultatif = regl.identiteFacultative ? ' (facultatif)' : '';
     var champClasse = selectAvec('classe', 'diag-classe', classes, 'choisir ta classe');
     champClasse.required = true;
     var carteIdentite = el('section', { class: 'content-card diag-identite' }, [
       el('h2', { text: 'Qui es-tu ?' }),
       el('div', { class: 'diag-identite-grille' }, [
-        el('div', { class: 'diag-champ-ligne' }, [el('label', { for: 'diag-nom', text: 'Nom' }), champNom]),
-        el('div', { class: 'diag-champ-ligne' }, [el('label', { for: 'diag-prenom', text: 'Prénom' }), champPrenom]),
+        el('div', { class: 'diag-champ-ligne' }, [el('label', { for: 'diag-nom', text: 'Nom' + suffixeFacultatif }), champNom]),
+        el('div', { class: 'diag-champ-ligne' }, [el('label', { for: 'diag-prenom', text: 'Prénom' + suffixeFacultatif }), champPrenom]),
         el('div', { class: 'diag-champ-ligne' }, [el('label', { for: 'diag-classe', text: 'Classe' }), champClasse]),
         el('div', { class: 'diag-champ-ligne' }, [el('span', { class: 'diag-label', text: 'Date' }), el('p', { class: 'diag-date', text: dateFr(new Date()) })])
       ]),
-      el('p', { class: 'diag-rappel', text: 'Ce travail n’est pas noté. Il ne compte pas dans ta moyenne.' })
+      el('p', { class: 'diag-rappel', text: regl.rappel })
     ]);
 
     // Carte mot du professeur
@@ -619,6 +667,14 @@
       el('p', { class: 'diag-aide', text: '1. Télécharge ton PDF. 2. Clique sur « Envoyer par courriel » et joins le fichier téléchargé au message (ou réponds au courriel de ton professeur en joignant le PDF).' }),
       el('p', null, [boutonImprimer])
     ]);
+    if (config.suite && config.suite.url) {
+      // Le parametre ?prof= du lien recu par courriel suit l'eleve vers la page suivante
+      var recherche = (typeof location !== 'undefined' && location.search) ? location.search : '';
+      aide.appendChild(el('p', { class: 'diag-suite' }, [
+        config.suite.avant ? el('span', { text: config.suite.avant + ' ' }) : null,
+        el('a', { class: 'btn btn-outline', href: config.suite.url + recherche, text: config.suite.texte || 'Étape suivante' })
+      ]));
+    }
 
     form.appendChild(etat);
     form.appendChild(bandeau);
@@ -647,6 +703,7 @@
         if (!c.name || c.tagName === 'BUTTON') return;
         var v = champs[c.name];
         if (c.type === 'radio') c.checked = (v !== undefined && String(v) === c.value);
+        else if (c.type === 'checkbox') c.checked = (v !== undefined);
         else if (v !== undefined) c.value = String(v);
       });
       majCoches();
@@ -721,11 +778,11 @@
 
     // --- Identité exigée avant PDF et courriel ---
     function exigerIdentite() {
-      var manquants = [
+      var manquants = (regl.identiteFacultative ? [] : [
         { champ: champNom, nom: 'ton nom' },
-        { champ: champPrenom, nom: 'ton prénom' },
-        { champ: champClasse, nom: 'ta classe' }
-      ].filter(function (x) { return propre(x.champ.value) === ''; });
+        { champ: champPrenom, nom: 'ton prénom' }
+      ]).concat([{ champ: champClasse, nom: 'ta classe' }])
+        .filter(function (x) { return propre(x.champ.value) === ''; });
       if (!manquants.length) return true;
       dire('Avant de continuer, indique ' + manquants.map(function (x) { return x.nom; }).join(', ') + ' dans la carte « Qui es-tu ? ».', 'erreur');
       // La carte est en haut de page : la centrer est impossible, on la cale

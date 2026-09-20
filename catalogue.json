@@ -693,6 +693,11 @@
      "fichier": "5eme/p1/diagnostique-en-ligne.html",
      "titre": "Évaluation diagnostique de rentrée, version en ligne",
      "reserve": false
+    },
+    {
+     "fichier": "5eme/p1/feuille-b-en-ligne.html",
+     "titre": "Feuille B en ligne : toi et les outils de travail",
+     "reserve": false
     }
    ]
   },
@@ -1328,6 +1333,11 @@
     {
      "fichier": "4eme/p1/diagnostique-en-ligne.html",
      "titre": "Évaluation diagnostique de rentrée, version en ligne",
+     "reserve": false
+    },
+    {
+     "fichier": "4eme/p1/feuille-b-en-ligne.html",
+     "titre": "Feuille B en ligne : pour préparer les séances sur ordinateur",
      "reserve": false
     }
    ]
@@ -1977,6 +1987,11 @@
     {
      "fichier": "3eme/p1/diagnostique-en-ligne.html",
      "titre": "Évaluation diagnostique de rentrée, version en ligne",
+     "reserve": false
+    },
+    {
+     "fichier": "3eme/p1/feuille-b-en-ligne.html",
+     "titre": "Feuille B en ligne : toi, le projet et les outils de travail",
      "reserve": false
     },
     {
