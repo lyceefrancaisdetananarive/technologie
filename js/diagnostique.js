@@ -4,12 +4,20 @@
 
    La page fournit window.DIAG (données du niveau, voir le cahier des
    charges) ; le moteur se monte seul sur #diag. L'élève répond, ses
-   réponses sont gardées dans localStorage (jamais envoyées à un
-   serveur), puis il télécharge un PDF (module PdfMini) et l'envoie par
-   courriel à son professeur (lien mailto, destinataire lu dans ?prof=).
+   réponses sont gardées dans localStorage, puis il télécharge un PDF
+   (module PdfMini) et l'envoie par courriel à son professeur (lien
+   mailto, destinataire lu dans ?prof=).
 
-   Les fonctions formater, nomFichier, lienCourriel et lireProf sont
-   pures : le fichier se charge sous Node sans DOM pour les tester.
+   Mode classeur (décision D20) : un élève connecté (témoin lft_ouvert)
+   a le bouton « Envoyer à mon professeur » : le même PDF part dans son
+   classeur (preparer-depot, PUT, confirmer-depot, comme « Déposer un
+   travail »), puis sa correction s'affiche (GET corrige-diagnostique).
+   Le corrigé n'est jamais dans la page : il vient du serveur, pour un
+   élève connecté qui a déposé. Sans session, rien ne change.
+
+   Les fonctions formater, nomFichier, lienCourriel, lireProf,
+   temoinEleve, normaliserMot et evaluerItem sont pures : le fichier se
+   charge sous Node sans DOM pour les tester.
    ============================================================= */
 (function () {
   'use strict';
@@ -23,15 +31,22 @@
 
   // Réglages propres a un document ; la page peut les surcharger dans DIAG
   // (feuille B : prefixe 'FeuilleB', intitule 'Feuille B', identite facultative...)
+  // document et corrige (mode classeur) se déduisent du préfixe : l'évaluation
+  // part comme document « eval » et reçoit sa correction ; la feuille B part
+  // comme « autre » et n'a pas de corrigé.
   function reglages(config) {
+    var prefixe = config.prefixe || 'Diagnostique';
+    var feuilleB = prefixe === 'FeuilleB';
     return {
-      prefixe: config.prefixe || 'Diagnostique',
+      prefixe: prefixe,
       intitule: config.intitule || 'Évaluation diagnostique de rentrée',
       complement: config.complement || 'à l’évaluation diagnostique de rentrée',   // « Voici mes réponses … »
       cleStockage: config.cleStockage || 'diag',
       identiteFacultative: !!config.identiteFacultative,
       rappel: config.rappel || 'Ce travail n’est pas noté. Il ne compte pas dans ta moyenne.',
-      jsp: config.jsp !== false
+      jsp: config.jsp !== false,
+      document: config.document || (feuilleB ? 'autre' : 'eval'),
+      corrige: config.corrige !== undefined ? !!config.corrige : !feuilleB
     };
   }
 
@@ -319,6 +334,209 @@
   }
 
   // ============================================================
+  // Session élève et correction (fonctions pures)
+  // ============================================================
+
+  // ---- temoinEleve(config[, cookie, maintenant]) : fonction pure ----
+  // Le témoin lft_ouvert (voir components.js) est un voyant, pas une
+  // barrière : le serveur décide sur le cookie scellé. Lecture par
+  // window.lireTemoin / window.lireNiveaux quand components.js est chargé,
+  // sinon lecture TOLÉRANTE du cookie (le suffixe des niveaux, ou tout autre
+  // suffixe, ne le rend pas invalide), échéance respectée : même logique que
+  // temoin() de reponse.js. Rend { role, niveaux, classeur } : classeur vaut
+  // vrai pour un élève dont les niveaux sont inconnus ou contiennent celui de
+  // la page. Un professeur ou un visiteur garde le parcours par courriel.
+  // cookie et maintenant (ms) servent aux tests sous Node.
+  var TEMOIN = /(?:^|;\s*)lft_ouvert=(prof|eleve)\.(\d+)((?:\.[345]eme)*)/;
+  function temoinEleve(config, cookie, maintenant) {
+    var role = null, niveaux = [];
+    if (maintenant === undefined) maintenant = Date.now();
+    try {
+      var fenetre = (cookie === undefined && typeof window !== 'undefined') ? window : null;
+      if (fenetre && fenetre.lireTemoin) role = fenetre.lireTemoin() || null;
+      if (role && fenetre && fenetre.lireNiveaux) niveaux = fenetre.lireNiveaux() || [];
+      if (!role || !niveaux.length) {
+        var brut = cookie !== undefined ? cookie : ((typeof document !== 'undefined') ? document.cookie : '');
+        var m = TEMOIN.exec(String(brut || ''));
+        if (m && Number(m[2]) * 1000 >= maintenant) {
+          if (!role) role = m[1];
+          if (!niveaux.length) niveaux = m[3].split('.').filter(Boolean);
+        }
+      }
+    } catch (e) { role = null; niveaux = []; }
+    if (role !== 'eleve') niveaux = [];
+    var niveau = config && config.niveau;
+    return {
+      role: role,
+      niveaux: niveaux,
+      classeur: role === 'eleve' && (!niveaux.length || !niveau || niveaux.indexOf(niveau) >= 0)
+    };
+  }
+
+  // Mot d'un texte à trous ramené à une forme comparable : minuscules, sans
+  // accent, sans espace, apostrophes unifiées (« L’outil » vaut « l'outil »)
+  function normaliserMot(s) {
+    return sansAccent(String(s === undefined || s === null ? '' : s)).toLowerCase()
+      .replace(/[’‘`´]/g, '\'').replace(/\s+/g, '');
+  }
+
+  // Mot d'un trou : l'index dans la liste de la page (chaîne de chiffres) ou
+  // le mot lui-même, même tolérance que lignesItem
+  function motTrou(item, v) {
+    v = String(v);
+    if (/^\d+$/.test(v) && item.liste && item.liste[Number(v)] !== undefined && item.liste.indexOf(v) < 0) return item.liste[Number(v)];
+    return v;
+  }
+
+  // Mots acceptés pour un trou : un index dans la liste, un mot, ou un tableau
+  function motsAcceptes(item, a) {
+    return [].concat(a).map(function (x) { return motTrou(item, x); }).filter(function (x) { return propre(x) !== ''; });
+  }
+
+  // ---- evaluerItem(item, champs, corrigeItem) : fonction pure ----
+  // Compare les réponses locales d'un item au corrigé du serveur (format de
+  // api/_lib/diagnostiques-corriges.js : attendu au format des valeurs des
+  // champs de la page). Rend { etat, total, justes, attendu } : etat vaut
+  // juste, partiel, a_revoir, sans_reponse ou libre (question ouverte, ou
+  // item sans corrigé) ; attendu est la liste des lignes lisibles de la
+  // réponse attendue, dans le style de lignesItem. Jamais de note : des
+  // repères pour voir ensemble ce que l'élève sait déjà.
+  function evaluerItem(item, champs, corrigeItem) {
+    var r = { etat: 'libre', total: 0, justes: 0, attendu: [] };
+    var attendu = corrigeItem ? corrigeItem.attendu : undefined;
+    if (!item || attendu === undefined || attendu === null) return r;
+    champs = champs || {};
+    var v, e;
+    var bonnes = 0, fausses = 0;   // cases : coches justes et coches en trop
+
+    switch (item.type) {
+
+      case 'texte':
+        // Jamais évalué : on montre seulement ce qu'on attendait
+        if (typeof attendu === 'string') { if (propre(attendu) !== '') r.attendu.push(propre(attendu)); }
+        else (item.champs || []).forEach(function (c) {
+          if (attendu[c.cle] !== undefined && propre(attendu[c.cle]) !== '') r.attendu.push(c.label + ' : ' + propre(attendu[c.cle]));
+        });
+        return r;
+
+      case 'qcm':
+        e = trouver(item.options, attendu);
+        r.attendu.push(e ? e.val + ') ' + e.texte : String(attendu));
+        r.total = 1;
+        v = val(champs, nomChamp(item));
+        if (v !== '' && v !== JSP && v === String(attendu)) r.justes = 1;
+        break;
+
+      case 'cases':
+        var voulues = [].concat(attendu).map(String);
+        (item.options || []).forEach(function (o) {
+          var voulue = voulues.indexOf(String(o.val)) >= 0;
+          var cochee = val(champs, nomChamp(item, o.val)) !== '';
+          if (voulue) r.attendu.push(o.val + ') ' + o.texte);
+          if (cochee && voulue) bonnes++;
+          else if (cochee) fausses++;
+        });
+        r.total = voulues.length;
+        r.justes = bonnes;
+        break;
+
+      case 'lignes_choix':
+        (item.phrases || []).forEach(function (p) {
+          var a = attendu[p.val];
+          if (a === undefined || a === null) return;
+          e = trouver(item.choix, a);
+          r.attendu.push(p.val + ') ' + p.texte + ' : ' + (e ? e.texte : String(a)));
+          r.total++;
+          if (val(champs, nomChamp(item, p.val)) === String(a)) r.justes++;
+        });
+        break;
+
+      case 'appariement':
+        (item.gauche || []).forEach(function (g) {
+          var a = attendu[g.val];
+          if (a === undefined || a === null) return;
+          e = trouver(item.droite, a);
+          r.attendu.push(g.val + '. ' + g.texte + ' : ' + (e ? e.val + '. ' + e.texte : String(a)));
+          r.total++;
+          if (val(champs, nomChamp(item, g.val)) === String(a)) r.justes++;
+        });
+        break;
+
+      case 'ordre':
+        var ordonnees = [];
+        (item.etapes || []).forEach(function (et, idx) {
+          var a = attendu[et.val];
+          if (a === undefined || a === null || isNaN(Number(a))) return;
+          ordonnees.push({ n: Number(a), idx: idx, texte: et.texte });
+          r.total++;
+          v = val(champs, nomChamp(item, et.val));
+          if (v !== '' && parseInt(v, 10) === Number(a)) r.justes++;
+        });
+        ordonnees.sort(function (a, b) { return a.n - b.n || a.idx - b.idx; });
+        ordonnees.forEach(function (x) { r.attendu.push(x.n + '. ' + x.texte); });
+        break;
+
+      case 'classement':
+        (item.elements || []).forEach(function (el) {
+          var a = attendu[el.val];
+          if (a === undefined || a === null) return;
+          var col = (item.colonnes && item.colonnes[Number(a)] !== undefined) ? item.colonnes[Number(a)] : String(a);
+          r.attendu.push(el.val + '. ' + el.texte + ' : ' + col);
+          r.total++;
+          v = val(champs, nomChamp(item, el.val));
+          if (v !== '' && String(Number(v)) === String(Number(a))) r.justes++;
+        });
+        break;
+
+      case 'trous':
+        (item.phrases || []).forEach(function (p) {
+          var a = attendu[p.val];
+          if (a === undefined || a === null) return;
+          var acceptes = motsAcceptes(item, a);
+          if (!acceptes.length) return;
+          r.attendu.push(p.val + ') ' + phraseTrou(p.avant, acceptes.join(' / '), p.apres));
+          r.total++;
+          v = val(champs, nomChamp(item, p.val));
+          if (v === '') return;
+          var mien = normaliserMot(motTrou(item, v));
+          if (acceptes.some(function (mot) { return normaliserMot(mot) === mien; })) r.justes++;
+        });
+        break;
+
+      case 'cadres':
+        (item.cadres || []).forEach(function (c) {
+          var a = attendu[c.val];
+          if (a === undefined || a === null) return;
+          e = trouver(item.liste, a);
+          r.attendu.push(c.label + ' : ' + (e ? e.texte : String(a)));
+          r.total++;
+          if (val(champs, nomChamp(item, c.val)) === String(a)) r.justes++;
+        });
+        break;
+
+      default:
+        return r;   // type inconnu : rien à comparer
+    }
+
+    if (!r.total) return r;   // corrigé sans valeur exploitable pour cet item
+    v = item.type === 'qcm' ? val(champs, nomChamp(item)) : '';
+    if (!estRepondu(item, champs) || v === JSP) { r.etat = 'sans_reponse'; return r; }
+    if (item.type === 'cases') {
+      // Juste : exactement les bonnes cases. En partie : au moins une bonne
+      // case et aucune fausse en trop, ou une seule case fausse en trop.
+      if (bonnes === r.total && !fausses) r.etat = 'juste';
+      else if (bonnes >= 1 && fausses <= 1) r.etat = 'partiel';
+      else r.etat = 'a_revoir';
+    } else if (r.justes === r.total) {
+      r.etat = 'juste';
+    } else {
+      // Sous-champs : en partie dès la moitié (arrondie au-dessus) de justes
+      r.etat = r.justes >= Math.ceil(r.total / 2) ? 'partiel' : 'a_revoir';
+    }
+    return r;
+  }
+
+  // ============================================================
   // Rendu DOM (uniquement en présence de document)
   // ============================================================
 
@@ -575,6 +793,7 @@
     var PdfMini = (typeof window !== 'undefined') ? window.PdfMini : null;
     var regl = reglages(config);
     var cle = regl.cleStockage + '-' + config.niveau + '-' + ANNEE;
+    var cleEnvoye = cle + '-envoye';
     // « Je ne sais pas » : reglage du document, que chaque item peut surcharger
     (config.parties || []).forEach(function (p) {
       (p.items || []).forEach(function (it) { if (it.jsp === undefined) it.jsp = regl.jsp; });
@@ -582,6 +801,12 @@
     var stockageOk = true;
     var minuterie = null;
     var pdfTelecharge = false;
+    // Mode classeur : élève connecté (témoin) sur un navigateur capable
+    // d'envoyer (fetch, Promise, Blob). Sinon parcours par courriel, inchangé.
+    var classeur = temoinEleve(config).classeur &&
+      typeof fetch === 'function' && typeof Promise === 'function' && typeof Blob === 'function';
+    var envoye = false;         // copie envoyée dans le classeur : formulaire figé
+    var rechargement = false;   // rechargement volontaire (Nouvelle copie) : ne pas retenir l'élève
 
     // --- localStorage protégé (navigation privée, quota, refus) ---
     function lireStockage() {
@@ -599,6 +824,21 @@
     function effacerStockage() {
       try { localStorage.removeItem(cle); } catch (e) { /* rien à faire */ }
     }
+    // Marque locale d'envoi { quand, rendu } : un repère sur ce poste, pas
+    // l'état de référence, qui vient de l'API (un autre élève peut se
+    // connecter sur le même poste)
+    function lireMarque() {
+      try {
+        var brut = localStorage.getItem(cleEnvoye);
+        return brut ? JSON.parse(brut) : null;
+      } catch (e) { return null; }
+    }
+    function ecrireMarque(marque) {
+      try { localStorage.setItem(cleEnvoye, JSON.stringify(marque)); } catch (e) { /* rien à faire */ }
+    }
+    function effacerMarque() {
+      try { localStorage.removeItem(cleEnvoye); } catch (e) { /* rien à faire */ }
+    }
 
     // --- Zone d'état ---
     var etat = el('p', { class: 'diag-etat', role: 'status', 'aria-live': 'polite' });
@@ -609,6 +849,15 @@
       if (genre === 'discret' && etat.textContent === msg && etat.className === classe) return;
       etat.textContent = msg;
       etat.className = classe;
+    }
+    // Même zone, avec des éléments (un lien vers la connexion ou le classeur)
+    function direAvec(enfants, genre) {
+      etat.textContent = '';
+      enfants.forEach(function (c) {
+        if (c === null || c === undefined) return;
+        etat.appendChild(typeof c === 'string' ? document.createTextNode(c) : c);
+      });
+      etat.className = 'diag-etat' + (genre ? ' diag-etat-' + genre : '');
     }
 
     // --- Formulaire ---
@@ -644,6 +893,9 @@
     // Carte mot du professeur
     var carteMot = el('section', { class: 'content-card diag-mot' }, [el('h2', { text: 'Mot du professeur' })]);
     (config.mot || []).forEach(function (p) { carteMot.appendChild(el('p', { text: p })); });
+    // Le mot de certaines pages se termine par le courriel : en mode classeur,
+    // une ligne sous le mot rétablit le parcours réel sans toucher aux pages
+    if (classeur) carteMot.appendChild(el('p', { class: 'diag-mot-classeur', text: 'Tu es connecté : ta copie partira directement dans ton classeur, pas par courriel.' }));
     if (config.duree) carteMot.appendChild(el('p', { class: 'diag-duree', text: 'Durée indicative totale : ' + config.duree + ' minutes.' }));
 
     // Parties et items
@@ -654,17 +906,23 @@
       return sec;
     });
 
-    // Barre d'actions
+    // Barre d'actions. En mode classeur, « Envoyer à mon professeur » prend
+    // la place de « Envoyer par courriel » (créé mais pas rendu) et le PDF
+    // devient une copie pour soi (bouton secondaire).
     var compteur = el('span', { class: 'diag-compteur', 'aria-live': 'polite' });
-    var boutonPdf = el('button', { type: 'button', class: 'btn btn-primary', text: 'Télécharger mon PDF' });
+    var boutonPdf = el('button', { type: 'button', class: classeur ? 'btn btn-outline' : 'btn btn-primary', text: 'Télécharger mon PDF' });
     var boutonCourriel = el('button', { type: 'button', class: 'btn btn-outline', text: 'Envoyer par courriel' });
+    var boutonEnvoyer = el('button', { type: 'button', class: 'btn btn-primary', text: 'Envoyer à mon professeur' });
     var boutonNouvelle = el('button', { type: 'button', class: 'btn btn-ghost btn-sm', text: 'Nouvelle copie' });
     // « Nouvelle copie » reste hors de .diag-boutons : sur mobile il se place
     // à côté du compteur, les deux boutons principaux occupant la ligne du bas
-    var barre = el('div', { class: 'diag-actions' }, [compteur, boutonNouvelle, el('div', { class: 'diag-boutons' }, [boutonPdf, boutonCourriel])]);
+    var barre = el('div', { class: 'diag-actions' }, [compteur, boutonNouvelle, el('div', { class: 'diag-boutons' }, [boutonPdf, classeur ? boutonEnvoyer : boutonCourriel])]);
     var boutonImprimer = el('button', { type: 'button', class: 'diag-lien', text: 'Si le téléchargement ne marche pas, imprime cette page en PDF.' });
+    var texteAide = classeur
+      ? 'Quand tu as fini, clique sur « Envoyer à mon professeur » : ' + (regl.corrige ? 'ta copie part dans ton classeur et ta correction s’affiche.' : 'ta feuille part dans ton classeur.')
+      : '1. Télécharge ton PDF. 2. Clique sur « Envoyer par courriel » et joins le fichier téléchargé au message (ou réponds au courriel de ton professeur en joignant le PDF).';
     var aide = el('div', { class: 'diag-sous-barre' }, [
-      el('p', { class: 'diag-aide', text: '1. Télécharge ton PDF. 2. Clique sur « Envoyer par courriel » et joins le fichier téléchargé au message (ou réponds au courriel de ton professeur en joignant le PDF).' }),
+      el('p', { class: 'diag-aide', text: texteAide }),
       el('p', null, [boutonImprimer])
     ]);
     if (config.suite && config.suite.url) {
@@ -724,6 +982,7 @@
     }
 
     function enregistrer() {
+      if (envoye) return;   // copie figée : l'état affiché est celui de l'envoi
       var champs = lireChamps();
       if (ecrireStockage(champs)) dire('Réponses enregistrées dans ce navigateur.', 'discret');
       else dire('Enregistrement automatique indisponible : ne ferme pas cette page avant d’avoir téléchargé ton PDF.', 'attention');
@@ -751,18 +1010,32 @@
 
     // Sans enregistrement, on prévient avant de quitter une copie commencée
     window.addEventListener('beforeunload', function (ev) {
-      if (stockageOk || pdfTelecharge || propre(champNom.value) === '') return;
+      if (rechargement || envoye || stockageOk || pdfTelecharge || propre(champNom.value) === '') return;
       ev.preventDefault();
       ev.returnValue = '';
     });
 
     // --- Nouvelle copie ---
     function nouvelleCopie() {
-      if (!window.confirm('Effacer toutes les réponses de cette copie ?')) return;
+      // Sur une copie envoyée, la correction détaillée (réponses du poste et
+      // verdicts) part avec les réponses : l'élève doit le savoir avant
+      var question = (classeur && envoye)
+        ? 'Effacer les réponses gardées sur cet appareil ? Ta copie envoyée reste dans ton classeur, mais ta correction détaillée (tes réponses et les verdicts) ne s’affichera plus ici.'
+        : 'Effacer toutes les réponses de cette copie ?';
+      if (!window.confirm(question)) return;
       // Une saisie faite juste avant le clic ne doit pas réenregistrer après l'effacement
       clearTimeout(minuterie);
       minuterie = null;
       effacerStockage();
+      if (classeur) {
+        // La marque d'envoi part avec les réponses et la page se recharge :
+        // un autre élève sur ce poste repart d'un formulaire vide, son
+        // propre état d'envoi vient de l'API, pas du poste
+        effacerMarque();
+        rechargement = true;
+        window.location.reload();
+        return;
+      }
       form.reset();
       Array.prototype.forEach.call(form.querySelectorAll('.diag-avert'), function (a) { a.textContent = ''; });
       majCoches();
@@ -806,7 +1079,10 @@
       if (PdfMini.telecharger(octets, nom)) {
         pdfTelecharge = true;
         boutonCourriel.className = 'btn btn-primary';
-        dire('PDF téléchargé : ' + nom + '. Envoie-le maintenant à ton professeur.', 'ok');
+        // En mode classeur, le PDF est une copie pour soi : l'envoi passe par le bouton dédié
+        var suite = !classeur ? '. Envoie-le maintenant à ton professeur.'
+          : (envoye ? '.' : '. Pour l’envoyer, clique sur « Envoyer à mon professeur ».');
+        dire('PDF téléchargé : ' + nom + suite, 'ok');
       } else {
         dire('Le téléchargement ne marche pas sur ce navigateur. Utilise l’impression en PDF.', 'erreur');
       }
@@ -822,6 +1098,276 @@
         (prof ? '' : ' Aucun destinataire n’est pré-rempli : choisis l’adresse de ton professeur.'), 'ok');
       window.location.href = lien;
     });
+
+    // ============================================================
+    // Mode classeur : envoi direct et correction (élève connecté)
+    // ============================================================
+    // Même séquence que « Déposer un travail » de classeur/index.html :
+    // preparer-depot (ligne créée, url signée), PUT du fichier, puis
+    // confirmer-depot. Le PDF est celui de « Télécharger mon PDF », gardé
+    // en mémoire. Le corrigé vient ensuite du serveur (corrige-diagnostique),
+    // qui ne le rend qu'à un élève connecté ayant déposé.
+
+    // Appel JSON vers nos propres fonctions ; rejette avec e.status pour
+    // distinguer la session expirée (401) du plafond de fichiers (409)
+    function appelJson(chemin, options) {
+      options = options || {};
+      var entetes = { accept: 'application/json' };
+      if (options.body !== undefined) entetes['content-type'] = 'application/json';
+      return fetch(chemin, { method: options.method || 'GET', headers: entetes, body: options.body, credentials: 'same-origin' })
+        .then(function (r) {
+          return r.json().then(null, function () { return {}; }).then(function (d) {
+            if (!r.ok) {
+              var e = new Error(d.message || 'Le service ne répond pas.');
+              e.status = r.status;
+              throw e;
+            }
+            return d;
+          });
+        });
+    }
+
+    // Envoi avec reprise : trois essais espacés de 1,2 s puis 2,4 s (copie
+    // de envoyerAvecReprise de js/classeur-commun.js, module ES qu'on ne
+    // peut pas importer ici). Une microcoupure ne doit pas perdre la copie.
+    function envoyerAvecReprise(url, options, essais) {
+      essais = essais || 3;
+      var derniere = null;
+      function suivant(i) {
+        if (i >= essais - 1) throw derniere;
+        return new Promise(function (ok) { setTimeout(ok, 1200 * (i + 1)); })
+          .then(function () { return essai(i + 1); });
+      }
+      function essai(i) {
+        return fetch(url, options).then(function (r) {
+          if (r.ok || (r.status >= 400 && r.status < 500)) return r;
+          derniere = new Error('HTTP ' + r.status);
+          return suivant(i);
+        }, function (e) {
+          derniere = e;
+          return suivant(i);
+        });
+      }
+      return essai(0);
+    }
+
+    // Formulaire figé : plus aucun champ modifiable, bouton d'envoi caché ;
+    // « Télécharger mon PDF » et « Nouvelle copie » restent actifs
+    function figer() {
+      envoye = true;
+      Array.prototype.forEach.call(form.elements, function (c) {
+        if (c.tagName === 'BUTTON') return;
+        c.disabled = true;
+      });
+      boutonEnvoyer.hidden = true;
+    }
+
+    function chargerCorrection() {
+      return appelJson('/api/classeur/corrige-diagnostique?niveau=' + encodeURIComponent(config.niveau));
+    }
+
+    function lienReconnexion() {
+      var suite = encodeURIComponent(location.pathname + location.search);
+      return el('a', { href: '/connexion.html?suite=' + suite, target: '_blank', rel: 'noopener', text: 'Reconnecte-toi dans un nouvel onglet' });
+    }
+
+    // Échec de l'envoi : rien n'est figé, les réponses restent sur le poste
+    function echecEnvoi(e) {
+      var statut = e && e.status;
+      if (e && e.sansGroupe) {
+        dire(e.message, 'erreur');
+      } else if (statut === 401) {
+        direAvec(['Ta session a expiré. ', lienReconnexion(), ', puis reviens ici et clique à nouveau : tes réponses sont toujours là.'], 'erreur');
+      } else if (statut === 409) {
+        direAvec([(e.message || 'Tu as déjà trop de fichiers pour ce travail.') + ' ', el('a', { href: '/classeur/index.html', text: 'Ouvrir mon classeur' })], 'erreur');
+      } else {
+        dire('L’envoi n’a pas abouti : vérifie la connexion et réessaie. Tes réponses sont toujours là. Tu peux aussi télécharger ton PDF et le déposer depuis Mon classeur.', 'erreur');
+      }
+    }
+
+    function envoyerAuClasseur() {
+      if (!exigerIdentite()) return;
+      // Une saisie juste avant le clic est enregistrée tout de suite : le
+      // poste garde exactement la copie envoyée, et l'enregistrement différé
+      // ne viendra pas réécrire l'état de l'envoi
+      clearTimeout(minuterie);
+      minuterie = null;
+      enregistrer();
+      var champs = lireChamps();
+      var resultat = formater(config, champs);
+      var reste = resultat.total - resultat.repondus;
+      if (reste > 0 && !window.confirm('Il reste ' + reste + (reste > 1 ? ' questions' : ' question') + ' sans réponse. Envoyer quand même ?')) return;
+      if (!PdfMini) { dire('Le module PDF n’est pas chargé. Recharge la page, ou utilise l’impression en PDF.', 'erreur'); return; }
+      // Le PDF en mémoire : exactement celui de « Télécharger mon PDF »
+      var octets;
+      try { octets = construirePdf(config, resultat, PdfMini); }
+      catch (e) { dire('La fabrication du PDF a échoué. Utilise l’impression en PDF.', 'erreur'); return; }
+      var fichier = new Blob([octets], { type: 'application/pdf' });
+
+      boutonEnvoyer.disabled = true;
+      boutonEnvoyer.textContent = 'Envoi…';
+      dire('Ta copie part dans ton classeur…', 'attention');
+      var prep = null;
+      appelJson('/api/classeur/groupes')
+        .then(function (d) {
+          // Le groupe du niveau de la page, sinon le premier
+          var groupes = d.groupes || [];
+          var groupe = null;
+          for (var i = 0; i < groupes.length; i++) {
+            if (groupes[i].niveau === config.niveau) { groupe = groupes[i]; break; }
+          }
+          if (!groupe && groupes.length) groupe = groupes[0];
+          if (!groupe) {
+            var e = new Error('Tu n’es dans aucun groupe : demande à ton professeur, puis réessaie. Tu peux aussi télécharger ton PDF.');
+            e.sansGroupe = true;
+            throw e;
+          }
+          return appelJson('/api/classeur/preparer-depot', { method: 'POST', body: JSON.stringify({
+            groupe: groupe.id,
+            sequence: config.niveau + '/p1/diagnostique',
+            document: regl.document,
+            type: 'application/pdf',
+            commentaire: ''
+          }) });
+        })
+        .then(function (d) {
+          prep = d;
+          return envoyerAvecReprise(prep.url, { method: 'PUT', headers: { 'content-type': 'application/pdf' }, body: fichier });
+        })
+        .then(function (envoi) {
+          if (!envoi.ok) throw new Error('Le fichier n’est pas arrivé.');
+          return appelJson('/api/classeur/confirmer-depot', { method: 'POST', body: JSON.stringify({ rendu: prep.rendu, chemin: prep.chemin }) });
+        })
+        .then(function () {
+          figer();
+          bandeau.hidden = true;   // les réponses rechargées viennent d'être envoyées : ce sont bien les siennes
+          ecrireMarque({ quand: new Date().toISOString(), rendu: prep.rendu });
+          if (!regl.corrige) { dire('Envoyée : merci.', 'ok'); return; }
+          dire('Envoyé : ton professeur le voit dans son classeur.', 'ok');
+          return chargerCorrection().then(function (d) {
+            afficherCorrection(d, champs);
+          }, function () {
+            dire('Envoyé : ton professeur le voit dans son classeur. La correction n’a pas pu s’afficher : recharge la page dans un instant.', 'ok');
+          });
+        })
+        .then(null, function (e) {
+          if (!envoye) echecEnvoi(e);
+        })
+        .then(function () {
+          if (envoye) return;
+          boutonEnvoyer.disabled = false;
+          boutonEnvoyer.textContent = 'Envoyer à mon professeur';
+        });
+    }
+    boutonEnvoyer.addEventListener('click', envoyerAuClasseur);
+
+    // --- La correction : une section avant la barre d'actions ---
+    var VERDICTS = { juste: 'Juste', partiel: 'En partie', a_revoir: 'À revoir', sans_reponse: 'Sans réponse' };
+    var carteCorrection = null;
+
+    function blocLignes(classe, titre, lignes) {
+      return el('div', { class: classe }, [
+        el('b', { text: titre }),
+        el('ul', null, lignes.map(function (l) { return el('li', { text: l }); }))
+      ]);
+    }
+
+    // tiennes : les lignes de la réponse locale, ou null quand la copie a été
+    // envoyée depuis un autre poste (alors seulement l'attendu, sans verdict)
+    function rendreCorrectionItem(item, ev, tiennes, corrigeItem) {
+      var libre = ev.etat === 'libre';
+      var art = el('article', { class: 'diag-item diag-corrige' + (libre ? ' diag-libre' : '') });
+      art.appendChild(el('h3', null, [
+        el('span', { class: 'diag-num', text: 'Question ' + item.num }),
+        el('span', { class: 'diag-corrige-resume', text: '· ' + (item.resume || '') }),
+        (libre || !tiennes) ? null : el('span', { class: 'diag-verdict ' + ev.etat, text: VERDICTS[ev.etat] })
+      ]));
+      if (tiennes) art.appendChild(blocLignes('diag-tienne', 'Ta réponse : ', tiennes));
+      if (ev.attendu.length) art.appendChild(blocLignes('diag-attendue', libre ? 'Ce qu’on attendait : ' : 'Réponse attendue : ', ev.attendu));
+      if (corrigeItem && propre(corrigeItem.explication) !== '') art.appendChild(el('p', { class: 'diag-explication', text: propre(corrigeItem.explication) }));
+      return art;
+    }
+
+    function pluriel(n, un, plusieurs) {
+      return n + ' ' + (n > 1 ? plusieurs : un);
+    }
+
+    // d : réponse de corrige-diagnostique { items, appreciation, ... } ;
+    // champs : les réponses locales (vides si la copie vient d'un autre poste)
+    function afficherCorrection(d, champs) {
+      champs = champs || {};
+      var items = (d && d.items) || {};
+      var avecReponses = formater(config, champs).repondus > 0;
+      var carte = el('section', { class: 'content-card diag-correction', id: 'diag-correction' }, [el('h2', { text: 'Ta correction' })]);
+      carte.appendChild(el('p', { class: 'diag-rappel', text: 'Ce n’est pas une note : c’est pour voir ensemble ce que tu sais déjà.' }));
+      if (d && propre(d.appreciation) !== '') {
+        carte.appendChild(el('div', { class: 'diag-mot-prof' }, [el('p', null, [el('b', { text: 'Le mot de ton professeur : ' }), propre(d.appreciation)])]));
+      } else {
+        carte.appendChild(el('p', { text: 'Ton professeur lira ta copie et te laissera un mot ici et dans ton classeur.' }));
+      }
+      var comptes = { juste: 0, partiel: 0, a_revoir: 0, sans_reponse: 0 };
+      var cartes = [];
+      (config.parties || []).forEach(function (partie) {
+        (partie.items || []).forEach(function (item) {
+          var corrigeItem = items[String(item.num)];
+          var ev = evaluerItem(item, champs, corrigeItem);
+          if (comptes[ev.etat] !== undefined) comptes[ev.etat]++;
+          cartes.push(rendreCorrectionItem(item, ev, avecReponses ? lignesItem(item, champs) : null, corrigeItem));
+        });
+      });
+      // Le résumé des questions à choix n'a de sens qu'avec les réponses du poste
+      if (avecReponses) {
+        carte.appendChild(el('p', { class: 'diag-resume', text: 'Questions à choix : ' + pluriel(comptes.juste, 'juste', 'justes') +
+          ', ' + comptes.partiel + ' en partie, ' + comptes.a_revoir + ' à revoir, ' + comptes.sans_reponse + ' sans réponse.' }));
+      } else {
+        carte.appendChild(el('p', { class: 'diag-note', text: 'Tes réponses sont dans le PDF envoyé. Voici ce qu’on attendait à chaque question.' }));
+      }
+      cartes.forEach(function (c) { carte.appendChild(c); });
+      if (carteCorrection && carteCorrection.parentNode) carteCorrection.parentNode.removeChild(carteCorrection);
+      carteCorrection = carte;
+      form.insertBefore(carte, barre);
+      // La carte vient après la dernière partie : l'élève, en haut au
+      // chargement ou n'importe où au clic (barre collante), y est amené,
+      // calée sous l'en-tête et le message d'état (scroll-margin-top).
+      // Sans animation (la page a scroll-behavior: smooth) : un défilement
+      // animé est abandonné dans un onglet encore caché, et treize questions
+      // à faire défiler au chargement seraient longues. Pendant le chargement,
+      // le navigateur peut remettre la position à la fin : on attend load.
+      function amener() { carte.scrollIntoView({ block: 'start', behavior: 'instant' }); }
+      if (document.readyState === 'complete') amener();
+      else window.addEventListener('load', amener);
+    }
+
+    // --- Au chargement, en mode classeur : l'API dit si la copie est déjà envoyée ---
+    if (classeur && regl.corrige) {
+      chargerCorrection().then(function (d) {
+        figer();
+        // Les réponses du poste ne sont « les tiennes » que si la marque
+        // locale désigne le dépôt que l'API vient de rendre : sur un poste
+        // partagé, celles d'un camarade ne sont pas corrigées à son nom, et
+        // le bandeau orange reste avec son bouton « Nouvelle copie »
+        var marque = lireMarque();
+        var miennes = !!(marque && d && d.rendu && marque.rendu === d.rendu);
+        if (miennes) {
+          bandeau.hidden = true;
+          dire('Copie déjà envoyée : ton professeur la voit dans son classeur. Voici ta correction.', 'ok');
+        } else {
+          // Copie envoyée ailleurs : rien à mettre dans un PDF depuis ce
+          // poste, et les champs figés ne se remplissent plus
+          boutonPdf.hidden = true;
+          dire('Copie déjà envoyée : ton professeur la voit dans son classeur, avec ton PDF. Voici ta correction.', 'ok');
+        }
+        afficherCorrection(d, miennes ? lireChamps() : {});
+      }, function (e) {
+        // 403 : pas encore envoyée. Une marque locale ne vaut alors rien
+        // (autre compte sur ce poste) ; le bouton reste actif.
+        if (e && e.status === 403) effacerMarque();
+      });
+    } else if (classeur && lireMarque()) {
+      // Feuille B : pas d'API de correction, la marque de ce poste fait foi
+      figer();
+      dire('Feuille déjà envoyée depuis cet appareil. Pour en remplir une autre, clique sur « Nouvelle copie ».', 'ok');
+    }
 
     // --- Impression de secours ---
     boutonImprimer.addEventListener('click', function () { window.print(); });
@@ -847,7 +1393,11 @@
     lienCourriel: lienCourriel,
     lireProf: lireProf,
     echapper: echapper,
-    construirePdf: construirePdf
+    construirePdf: construirePdf,
+    reglages: reglages,
+    temoinEleve: temoinEleve,
+    normaliserMot: normaliserMot,
+    evaluerItem: evaluerItem
   };
 
   if (typeof module !== 'undefined' && module.exports) module.exports = DiagEnLigne;

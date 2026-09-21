@@ -942,11 +942,35 @@ main:focus { outline: none; }
 .diag-lien:hover { color: var(--primary-dark); }
 .diag-imprime { display: none; }
 
-.diag-identite { scroll-margin-top: calc(var(--header-height) + var(--nav-height) + 5.5rem); }   /* place pour le message d'etat colle en haut */
+/* Mode classeur (élève connecté) : la copie part dans le classeur et la
+   correction s'affiche avant la barre d'actions. Pastilles de verdict
+   (jamais une note), mot du professeur, ligne sous le mot d'accueil.
+   Aucune largeur fixe : lisible à 360 px. */
+.diag-mot-classeur { color: var(--encre-2); font-weight: 700; }
+.diag-correction { border-top: 3px solid var(--fait); }
+.diag-correction h3 { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .6rem; margin: 0 0 var(--space-sm); font-size: 1.05rem; }
+.diag-corrige-resume { flex: 1 1 12ch; min-width: 0; }
+.diag-resume { font-weight: 700; color: var(--encre); }
+.diag-verdict { display: inline-block; padding: .15rem .7rem; border-radius: 999px; border: 1px solid var(--trait); background: var(--papier-2); color: var(--encre-2); font-size: .78rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; white-space: nowrap; }
+.diag-verdict.juste { background: var(--fait-pale); color: var(--fait); border-color: var(--fait); }
+.diag-verdict.partiel { background: var(--encours-pale); color: var(--encours); border-color: var(--encours); }
+.diag-verdict.a_revoir { background: var(--error-light); color: var(--erreur, var(--error)); border-color: var(--erreur, var(--error)); }
+.diag-verdict.sans_reponse { background: var(--papier-2); color: var(--encre-3); border-color: var(--encre-4); }
+.diag-tienne, .diag-attendue { margin: 0 0 .6rem; font-size: .95rem; }
+.diag-form .diag-tienne ul, .diag-form .diag-attendue ul { margin: .2rem 0 0; padding-left: 1.3rem; }
+.diag-form .diag-tienne li, .diag-form .diag-attendue li { margin: 0 0 .2rem; overflow-wrap: anywhere; }
+.diag-attendue > b { color: var(--fait); }
+.diag-libre .diag-attendue > b { color: var(--encre-2); }
+.diag-explication { margin: 0; color: var(--encre-2); font-size: .92rem; }
+.diag-mot-prof { margin: 0 0 var(--space-md); padding: var(--space-md); border-left: 5px solid var(--fait); border-radius: 0 var(--radius-md) var(--radius-md) 0; background: var(--fait-pale); }
+.diag-form .diag-mot-prof p { margin: 0; color: #14532D; overflow-wrap: anywhere; white-space: pre-wrap; }   /* le mot vient d'un textarea : ses lignes restent */
+.diag-etat a { color: inherit; text-decoration: underline; font-weight: 700; }
+
+.diag-identite, .diag-correction { scroll-margin-top: calc(var(--header-height) + var(--nav-height) + 5.5rem); }   /* place pour le message d'etat colle en haut */
 
 @media (max-width: 768px) {
   .diag-etat { top: calc(var(--header-height) + .5rem); }
-  .diag-identite { scroll-margin-top: calc(var(--header-height) + 6.5rem); }
+  .diag-identite, .diag-correction { scroll-margin-top: calc(var(--header-height) + 6.5rem); }
 }
 
 @media (max-width: 640px) {
@@ -972,6 +996,10 @@ main:focus { outline: none; }
   .diag-num { background: #fff !important; color: #000 !important; border: .7pt solid #000; border-radius: 0; padding: .3mm 1.5mm; }
   .diag-support, .diag-legende { background: #fff !important; border-color: #000; }
   .diag-date { border: 0; padding: 0; }
+  /* La correction s'imprime après les réponses, sur sa propre page */
+  .diag-correction { break-before: page; page-break-before: always; border-top: 0; }
+  .diag-verdict, .diag-mot-prof { background: #fff !important; color: #000 !important; border-color: #000; border-radius: 0; }
+  .diag-form .diag-mot-prof p { color: #000; }
 }
 
 /* ---- champs de la fiche interactive ---- */
