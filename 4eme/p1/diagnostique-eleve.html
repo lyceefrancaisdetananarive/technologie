@@ -73,6 +73,18 @@ svg.fig { display: block; margin: 10px auto; max-width: 100%; height: auto; }
   font-size: 9.5pt; display: flex; justify-content: space-between;
 }
 .saut { break-before: page; page-break-before: always; }
+/* Feuille B : bloc de questions resserre pour tenir sur une page (demi-feuille dans la source) */
+.feuille-b { font-size: 10.5pt; line-height: 1.25; }
+.feuille-b .item { margin-bottom: 7px; }
+.feuille-b .item-num { font-size: 10.5pt; min-width: 40px; }
+.feuille-b .enonce { margin-bottom: 2px; }
+.feuille-b ul.props { margin: 2px 0; }
+.feuille-b ul.props li { margin: 0; }
+.feuille-b .lignes { margin-top: 3px; }
+.feuille-b .lignes div { height: 21px; }
+.feuille-b .partie { margin-top: 6px; break-after: avoid; page-break-after: avoid; }
+.feuille-b .partie-titre { font-size: 10.5pt; padding: 3px 10px; margin-bottom: 6px; }
+.feuille-b + .pied { margin-top: 10px; }
 
 /* --- Livret professeur --- */
 .bloc { border: 1.5px solid #000; padding: 10px 12px; margin-bottom: 14px; break-inside: avoid; }
@@ -174,5 +186,6 @@ Réponse : .....................................................................
 <h1>Feuille B : Pour préparer les séances sur ordinateur (cette feuille n&#x27;est pas notée et ne sera pas rendue)</h1>
 <p class="sous-titre">À remettre séparément, ne sera pas rendue</p><div class='mot'>Cette page n&#x27;est pas notée et ne sera pas rendue. Elle sert seulement à savoir comment organiser les séances sur ordinateur pour toute la classe. Personne d&#x27;autre que le professeur ne la lit. Écris ton nom, ou ne l&#x27;écris pas : les deux sont autorisés.
 Nom (facultatif) : .....................................  Classe : 4ème .....
-Entoure la réponse qui correspond à ta situation. Il n&#x27;y a pas de bonne ni de mauvaise réponse.</div><div class="pied"><span>Feuille B, non notée, non rendue, conservée à part</span>
+Entoure la réponse qui correspond à ta situation. Il n&#x27;y a pas de bonne ni de mauvaise réponse.</div><div class='feuille-b'><div class='item'><span class='item-num'>B1.</span><span class='enonce'>Pour un travail scolaire, en dehors du collège, je peux utiliser un ordinateur ou une tablette :</span><ul class='props'><li>a) tous les jours</li><li>b) quelques jours par semaine</li><li>c) rarement</li><li>d) jamais</li></ul></div><div class='item'><span class='item-num'>B2.</span><span class='enonce'>Pour un travail scolaire, en dehors du collège, je peux utiliser internet :</span><ul class='props'><li>a) tous les jours</li><li>b) quelques jours par semaine</li><li>c) rarement</li><li>d) jamais</li></ul></div><div class='item'><span class='item-num'>B3.</span><span class='enonce'>J&#x27;ai déjà utilisé un logiciel où l&#x27;on programme avec des blocs (Scratch, mBlock, MakeCode) :</span><ul class='props'><li>a) souvent</li><li>b) quelques fois</li><li>c) jamais</li></ul></div><div class='item'><span class='item-num'>B4.</span><span class='enonce'>J&#x27;ai déjà utilisé un logiciel de dessin en 3D (Tinkercad, FreeCAD, Sweet Home 3D) :</span><ul class='props'><li>a) souvent</li><li>b) quelques fois</li><li>c) jamais</li></ul></div><div class='item'><span class='item-num'>B5.</span><span class='enonce'>Dernière question, tout à fait libre. Y a-t-il quelque chose qui t&#x27;aiderait à mieux travailler en Technologie cette année ? Par exemple : être placé devant, avoir plus de temps, que je répète les consignes, ou autre chose.
+Tu peux écrire une phrase, ou laisser cette case vide : c&#x27;est autorisé.</span><div class='lignes'><div></div><div></div></div></div></div><!-- fin feuille-b --><div class="pied"><span>Feuille B, non notée, non rendue, conservée à part</span>
 <span>Lycée Français de Tananarive · Technologie · 2026-2027</span></div></div></body></html>
