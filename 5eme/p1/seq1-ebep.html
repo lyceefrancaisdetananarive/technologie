@@ -6,6 +6,30 @@
   <title>Séq. 1 : Version adaptée | 5ème</title>
   <link rel="icon" type="image/png" href="../../img/logo-lft.png">
   <link rel="stylesheet" href="../../css/style.css">
+  <style>
+    /* Cases à cocher des activités 1 et 3 (21 septembre 2026) : un carré tracé
+       en CSS. L'emoji d'avant ne s'imprimait pas (.ico est masqué à
+       l'impression) et empêchait js/reponse.js de poser un champ dans la
+       case, qu'il ne voyait pas vide. Quand le script y pose un champ (classe
+       champ-hote), le carré s'efface et la case reçoit une croix au clavier. */
+    td.a-cocher { text-align: center; vertical-align: middle; }
+    td.a-cocher::before { content: ""; display: inline-block; width: 1.4em; height: 1.4em; border: 2px solid #4B5563; border-radius: 4px; background: #fff; vertical-align: middle; }
+    td.a-cocher.champ-hote::before { display: none; }
+    /* Le champ que js/reponse.js pose dans une case à cocher est un textarea
+       (le tableau a trois colonnes). On n'y écrit qu'une croix : la page le
+       réduit à une petite case centrée, sans poignée. Le script n'est pas
+       modifié et les clés des champs ne dépendent pas de ce style. */
+    td.a-cocher.champ-hote { min-width: 0; }
+    td.a-cocher .champ-case { width: 3.2rem; min-width: 0; height: 2.6rem; min-height: 0; margin: 0 auto; padding: .3rem 0; resize: none; overflow: hidden; text-align: center; font-weight: 700; font-size: 1.2rem; line-height: 1.6; }
+    td.a-cocher .champ-etat-court { text-align: center; }
+    /* La consigne propre à « Ma réponse » ne s'affiche que lorsque le bloc est
+       ouvert (élève connecté, ou aperçu du professeur). */
+    .pied-fiche:has(> #ma-reponse[hidden]) > .consigne-ma-reponse { display: none; }
+    @media print {
+      td.a-cocher::before { width: 5mm; height: 5mm; border: .8pt solid #000; border-radius: 0; }
+      td.a-cocher .champ-imprime { width: 6mm; min-height: 5mm; margin: 0 auto; padding: 0; text-align: center; }
+    }
+  </style>
 </head>
 <body>
   <div id="app" data-page="5eme"
@@ -42,6 +66,7 @@
           <li>Nombre de questions réduit</li>
           <li>Aides visuelles et amorces de réponse</li>
           <li>Tiers-temps applicable pour l'évaluation</li>
+          <li>Ajouts du 21 septembre 2026 : document ressource en phrases courtes sur les cinq objets, schéma pour classer un objet, exemples déjà faits sur d'autres objets (la chaise, la pomme, le réfrigérateur), banque de mots de l'activité 2, lexique. Les cases à cocher se remplissent d'une croix, sur papier comme en ligne.</li>
         </ul>
       </div></details>
 
@@ -59,6 +84,77 @@
         </p>
       </div>
 
+      <!-- Document ressource, ajouté le 21 septembre 2026 : les cinq objets de
+           la fiche en phrases courtes, un schéma pour classer un objet, un
+           exemple déjà fait sur un autre objet et un lexique. Sans tableau, ni
+           cadre pointillé, ni suite de points : les champs de la fiche
+           interactive gardent leurs clés. -->
+      <div class="content-card ebep-content">
+        <h2><span class="ico">&#x1F4D6;</span> Document : les cinq objets de la fiche</h2>
+        <p>Lis ce document avant de répondre. Tu peux y revenir pendant les activités 1 et 2.</p>
+
+        <div class="info-box info-box-green">
+          <div class="info-box-title">Document 1 : d'où vient chaque objet, et à quoi il sert</div>
+          <ul>
+            <li><strong>Le caillou</strong> : on le ramasse par terre, au bord du chemin ou dans la rivière. Personne ne l'a fabriqué.</li>
+            <li><strong>Le smartphone</strong> : il est fabriqué dans une usine, avec un écran et des pièces électroniques. Avec lui, on téléphone et on envoie des messages à des gens qui sont loin.</li>
+            <li><strong>La fleur</strong> : elle pousse toute seule sur une plante, dans le jardin ou dans la nature.</li>
+            <li><strong>Le vélo</strong> : il est fabriqué dans une usine, avec un cadre en métal, deux roues et une chaîne. Avec lui, on va à l'école ou au marché plus vite qu'à pied.</li>
+            <li><strong>La lampe</strong> : elle est fabriquée dans une usine, avec une ampoule et un fil électrique. Le soir, on l'allume pour voir dans la pièce.</li>
+          </ul>
+        </div>
+
+        <figure style="margin:0 0 var(--space-md)">
+          <svg viewBox="0 0 680 270" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Schéma pour classer un objet : on se demande si quelqu'un l'a fabriqué. Si oui, c'est un objet technique, par exemple une chaise. Si non, c'est un objet naturel, par exemple une pomme." style="width:100%;max-width:680px;height:auto;display:block;margin:0 auto;background:#fff;border:1px solid var(--trait);border-radius:var(--radius-md)">
+            <defs><marker id="fl-objet" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0 0 L8 4 L0 8 Z" fill="#1F2A37"/></marker></defs>
+            <g font-family="Inter, Arial, sans-serif" font-size="16" fill="#1F2A37" text-anchor="middle">
+              <text x="340" y="26" font-weight="700" font-size="17">Comment savoir si un objet est naturel ou technique ?</text>
+              <!-- l'objet -->
+              <rect x="270" y="40" width="140" height="38" rx="19" fill="#E5E9EF" stroke="#1F2A37" stroke-width="2"/>
+              <text x="340" y="65" font-weight="700">Un objet</text>
+              <line x1="340" y1="78" x2="340" y2="98" stroke="#1F2A37" stroke-width="2" marker-end="url(#fl-objet)"/>
+              <!-- la question -->
+              <polygon points="340,104 520,150 340,196 160,150" fill="#FDEBD3" stroke="#1F2A37" stroke-width="2"/>
+              <text x="340" y="146" font-weight="700">Est-ce que quelqu'un</text>
+              <text x="340" y="166" font-weight="700">l'a fabriqué ?</text>
+              <!-- non : objet naturel -->
+              <path d="M160 150 H100 V206" fill="none" stroke="#1F2A37" stroke-width="2" marker-end="url(#fl-objet)"/>
+              <text x="122" y="142" font-weight="700" fill="#14532D">Non</text>
+              <rect x="20" y="212" width="200" height="48" rx="6" fill="#DCFCE7" stroke="#14532D" stroke-width="2"/>
+              <text x="120" y="232" font-weight="700" fill="#14532D">Objet NATUREL</text>
+              <text x="120" y="251" font-size="14">exemple : une pomme</text>
+              <!-- oui : objet technique -->
+              <path d="M520 150 H580 V206" fill="none" stroke="#1F2A37" stroke-width="2" marker-end="url(#fl-objet)"/>
+              <text x="558" y="142" font-weight="700" fill="#1F4E8C">Oui</text>
+              <rect x="460" y="212" width="200" height="48" rx="6" fill="#DCE8F8" stroke="#1F4E8C" stroke-width="2"/>
+              <text x="560" y="232" font-weight="700" fill="#1F4E8C">Objet TECHNIQUE</text>
+              <text x="560" y="251" font-size="14">exemple : une chaise</text>
+            </g>
+          </svg>
+          <figcaption style="font-size:.85rem;color:var(--encre-3);margin-top:.3rem">Schéma de la fiche : la question à se poser pour classer un objet (activité 1).</figcaption>
+        </figure>
+
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">Exemple déjà fait, avec un autre objet : la chaise</div>
+          <p>Quelqu'un a fabriqué la chaise, dans un atelier ou une usine. Donc la chaise est un <strong>objet technique</strong>.</p>
+          <p>La chaise a été fabriquée pour un <strong>besoin</strong> : s'asseoir. On dit : « La chaise sert à s'asseoir. »</p>
+        </div>
+
+        <!-- Lexique en encadré et non en dépliant : details.depliant est masqué
+             à l'impression (css/style.css, @media print), or le lexique doit
+             rester sur la feuille. L'info-box est ignorée par js/reponse.js. -->
+        <div class="info-box info-box-orange">
+          <div class="info-box-title">Lexique : les mots de la fiche</div>
+          <ul style="margin:.4rem 0 0 1.1rem">
+            <li><strong>Objet naturel</strong> : il existe dans la nature, personne ne l'a fabriqué. Exemple : une pomme.</li>
+            <li><strong>Objet technique</strong> : l'Homme l'a fabriqué pour répondre à un besoin. Exemple : une chaise.</li>
+            <li><strong>Besoin</strong> : ce dont on a besoin dans la vie (manger, dormir, s'abriter). C'est pour un besoin que l'on fabrique un objet.</li>
+            <li><strong>Fonction d'usage</strong> : à quoi sert l'objet. Elle est la même pour tous les objets du même type. Exemple : toutes les chaises servent à s'asseoir.</li>
+            <li><strong>Fonction d'estime</strong> : ce qui fait qu'on aime un objet plus qu'un autre : sa couleur, sa forme, sa marque. Exemple : je préfère la chaise bleue.</li>
+          </ul>
+        </div>
+      </div>
+
       <div class="content-card ebep-content">
         <h2>Activité 1 : Classe ces objets</h2>
         <div class="ebep-hint">
@@ -66,7 +162,7 @@
           Un objet <strong>technique</strong> = l'Homme l'a fabriqué.
         </div>
 
-        <p><strong>Coche la bonne colonne :</strong></p>
+        <p><strong>Mets une croix (X) dans la bonne colonne.</strong> Si tu hésites, relis le document 1 et pose-toi la question du schéma : est-ce que quelqu'un l'a fabriqué ?</p>
         <table>
           <thead>
             <tr>
@@ -76,11 +172,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1FAA8;</span> Un caillou</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F4F1;</span> Un smartphone</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F338;</span> Une fleur</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F6B2;</span> Un vélo</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F4A1;</span> Une lampe</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
+            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1FAA8;</span> Un caillou</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F4F1;</span> Un smartphone</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F338;</span> Une fleur</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F6B2;</span> Un vélo</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td style="font-size:1.1rem;"><span class="ico">&#x1F4A1;</span> Une lampe</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
           </tbody>
         </table>
       </div>
@@ -91,7 +187,10 @@
           <strong>Aide :</strong> Chaque objet technique a été fabriqué pour <strong>un besoin</strong> = quelque chose dont on a besoin dans la vie.
         </div>
 
-        <p><strong>Relie chaque objet à son besoin :</strong></p>
+        <div class="info-box info-box-blue">
+          <p style="margin:0"><strong>Banque de mots :</strong> <em>se déplacer</em> / <em>éclairer</em> / <em>communiquer</em></p>
+        </div>
+        <p><strong>Complète chaque phrase avec un mot ou une expression de la banque.</strong> Le document 1 dit ce que l'on fait avec chaque objet.</p>
         <table>
           <thead>
             <tr>
@@ -104,7 +203,7 @@
               <td style="font-size:1.1rem;"><span class="ico">&#x1F6B2;</span> Le vélo</td>
               <td>
                 <div class="ebep-hint" style="background: white; border-color: var(--gray-200);">
-                  Le vélo sert à &#x2192; se .............................
+                  Le vélo sert à &#x2192; .............................
                 </div>
               </td>
             </tr>
@@ -136,7 +235,15 @@
           &#x2764;&#xFE0F; <strong>Fonction d'estime</strong> = pourquoi on le préfère (couleur, marque, design...)
         </div>
 
-        <p><strong>Pour chaque phrase, coche si c'est l'usage &#x1F527; ou l'estime &#x2764;&#xFE0F; :</strong></p>
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">Exemple déjà fait, avec d'autres objets</div>
+          <p>« La chaise sert à s'asseoir. » &#x2192; la phrase dit à quoi sert l'objet : c'est l'<strong>usage</strong> &#x1F527;.</p>
+          <p>« Le réfrigérateur garde les aliments au froid. » &#x2192; la phrase dit ce que fait l'objet, même sans les mots « sert à » : c'est encore l'<strong>usage</strong> &#x1F527;.</p>
+          <p>« Je préfère la chaise bleue. » &#x2192; la phrase parle d'un goût, d'une couleur : c'est l'<strong>estime</strong> &#x2764;&#xFE0F;.</p>
+          <p style="margin-bottom:0">« J'adore ce réfrigérateur, il est très beau. » &#x2192; c'est encore l'<strong>estime</strong> &#x2764;&#xFE0F;.</p>
+        </div>
+
+        <p><strong>Pour chaque phrase, mets une croix (X) dans la bonne colonne : usage &#x1F527; ou estime &#x2764;&#xFE0F;.</strong></p>
         <table>
           <thead>
             <tr>
@@ -146,11 +253,11 @@
             </tr>
           </thead>
           <tbody>
-            <tr><td>"Le vélo sert à se déplacer"</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td>"Je préfère le vélo rouge"</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td>"Le stylo sert à écrire"</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td>"J'aime le stylo de marque Pilot"</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
-            <tr><td>"La montre donne l'heure"</td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td><td style="text-align:center;"><span style="font-size:1.5rem;"><span class="ico">&#x2B1C;</span> </span></td></tr>
+            <tr><td>« Le vélo sert à se déplacer »</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td>« Je préfère le vélo rouge »</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td>« Le stylo sert à écrire »</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td>« J'aime le stylo de marque Pilot »</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
+            <tr><td>« La montre donne l'heure »</td><td class="a-cocher"></td><td class="a-cocher"></td></tr>
           </tbody>
         </table>
       </div>
@@ -178,6 +285,17 @@
 
     
       <div class="pied-fiche">
+      <!-- Consigne propre à cette fiche pour le bloc « Ma réponse » (21 septembre
+           2026). Elle vit HORS des marqueurs reponse:debut / reponse:fin, que
+           outils/migrer.py réécrit ; le style de la page la cache tant que le
+           bloc reste fermé (visiteur sans session). -->
+      <div class="content-card ebep-content no-print consigne-ma-reponse">
+        <div class="info-box info-box-blue">
+          <div class="info-box-title">Pour finir : dans « Ma réponse », juste en dessous</div>
+          <p style="font-size:1.05rem">Écris le nom d'un <strong>objet technique de ta maison</strong>. Dis <strong>à quoi il sert</strong>. Une phrase suffit.</p>
+          <p style="font-size:1.05rem;margin-bottom:0">Exemple avec un autre objet : « Le balai sert à nettoyer le sol. »</p>
+        </div>
+      </div>
       <!-- reponse:debut -->
       <section class="content-card ma-reponse no-print" id="ma-reponse" hidden>
         <h2><span class="ico">&#x270F;</span> Ma réponse</h2>
