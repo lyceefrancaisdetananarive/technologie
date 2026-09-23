@@ -14,25 +14,81 @@
   ecrire une variable entre doubles accolades dans ce commentaire : le moteur
   de gabarit l'interpolerait, meme dans un commentaire HTML, et le lien
   vivant partirait dans le courriel. Coller dans Supabase a partir de la
-  ligne <table, sans ce commentaire.
+  ligne <div lang, sans ce commentaire.
 
   Accents en entites HTML, fichier integralement ASCII : coller du texte
   accentue dans un editeur Supabase depuis le navigateur abime l'UTF-8.
   Le logo est servi par le site lui-meme, en HTTPS.
+
+  Regles tenues par ce gabarit, et pourquoi (ne pas les defaire sans motif) :
+  - RGAA 4.1 / WCAG AA : texte reel et jamais d'image de texte, contraste
+    verifie (corps #1F2A37 sur blanc = 14,5:1 ; gris #4B5563 = 7,5:1 ;
+    blanc sur le bleu #004E8C du bouton = 8,5:1 ; l'ancien bleu #0096C8
+    plafonnait a 3,4:1 et echouait), corps a 16 px et mentions a 13 px
+    jamais moins, intitules de liens explicites, logo decoratif en alt vide
+    puisque le nom de l'etablissement est ecrit juste apres, tableaux en
+    role="presentation", langue declaree, bouton d'au moins 44 px de haut.
+  - CNIL deliberation 2022-100 et ANSSI : douze caracteres au moins, phrase
+    de passe encouragee, aucune composition imposee, consigne de ne pas
+    reutiliser un mot de passe d'un autre service. Meme regle que
+    api/_lib/motdepasse.js : les deux textes doivent rester d'accord.
+  - Hameconnage (cybermalveillance.gouv.fr) : l'adresse attendue est ecrite
+    en clair, le courriel annonce que personne ne demande jamais un mot de
+    passe, et il dit quoi faire quand on n'a rien demande.
+  - RGPD : finalite du message, responsable du traitement nomme, liens vers
+    les trois pages legales du site (publiques, cf. PAGES_PUBLIQUES du
+    portier : les couper mettrait un mur de connexion devant une personne
+    qui n'a justement pas encore de mot de passe).
 -->
-<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f4f7f9;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">
+<div lang="fr">
+<div style="display:none;max-height:0;overflow:hidden;opacity:0;">Votre lien pour choisir votre mot de passe du site de Technologie. Valable 24 heures.</div>
+<table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#F3F5F7;padding:24px 12px;font-family:Arial,Helvetica,sans-serif;">
 <tr><td align="center">
-<table role="presentation" width="520" cellpadding="0" cellspacing="0" style="max-width:520px;width:100%;background:#ffffff;border-radius:12px;padding:32px 28px;">
-<tr><td align="center" style="padding-bottom:12px;"><img src="https://techlft.egd.mg/img/logo-lft.png" width="88" height="88" alt="Lyc&eacute;e Fran&ccedil;ais de Tananarive" style="display:block;border:0;width:88px;height:88px;"></td></tr>
-<tr><td align="center" style="font-size:20px;font-weight:bold;color:#0096c8;padding-bottom:2px;">Site de Technologie</td></tr>
-<tr><td align="center" style="font-size:13px;color:#6b7280;padding-bottom:24px;">Lyc&eacute;e Fran&ccedil;ais de Tananarive</td></tr>
-<tr><td style="font-size:16px;line-height:1.6;color:#323232;">Bonjour,</td></tr>
-<tr><td style="font-size:16px;line-height:1.6;color:#323232;padding-top:12px;">Vous avez demand&eacute; &agrave; choisir votre mot de passe pour le site de Technologie. Cliquez sur le bouton, puis saisissez le mot de passe que vous garderez toute l'ann&eacute;e : au moins 12 caract&egrave;res, trois mots coll&eacute;s font l'affaire.</td></tr>
-<tr><td align="center" style="padding:28px 0 24px;"><a href="{{ .SiteURL }}/changer-mot-de-passe.html#jeton={{ .TokenHash }}&amp;type=recovery" style="display:inline-block;background:#0096c8;color:#ffffff;text-decoration:none;font-size:16px;font-weight:bold;padding:14px 28px;border-radius:8px;">Choisir mon mot de passe</a></td></tr>
-<tr><td style="font-size:14px;line-height:1.6;color:#6b7280;">Ce lien est personnel : il ne sert qu'une fois et il expire au bout de 24 heures. S'il ne fonctionne plus, retournez sur la page de connexion et cliquez de nouveau sur &laquo;&nbsp;Premi&egrave;re connexion&nbsp;&raquo;.</td></tr>
-<tr><td style="font-size:14px;line-height:1.6;color:#6b7280;padding-top:12px;">Si vous n'&ecirc;tes pas &agrave; l'origine de cette demande, ignorez ce message : rien ne sera modifi&eacute;.</td></tr>
-<tr><td style="font-size:12px;line-height:1.6;color:#9ca3af;padding-top:24px;">Si le bouton ne r&eacute;agit pas, copiez cette adresse dans votre navigateur :<br>{{ .SiteURL }}/changer-mot-de-passe.html#jeton={{ .TokenHash }}&amp;type=recovery</td></tr>
-<tr><td style="font-size:12px;line-height:1.6;color:#9ca3af;padding-top:16px;border-top:1px solid #e5e7eb;">Message automatique du site de Technologie du LFT. Merci de ne pas y r&eacute;pondre.</td></tr>
+<table role="presentation" width="560" cellpadding="0" cellspacing="0" style="max-width:560px;width:100%;background:#ffffff;border-radius:12px;padding:32px 28px;">
+
+<tr><td align="center" style="padding-bottom:10px;"><img src="https://techlft.egd.mg/img/logo-lft.png" width="76" height="76" alt="" style="display:block;border:0;width:76px;height:76px;"></td></tr>
+<tr><td align="center" style="font-size:19px;font-weight:bold;color:#004E8C;padding-bottom:2px;">Site de Technologie</td></tr>
+<tr><td align="center" style="font-size:13px;color:#4B5563;padding-bottom:26px;">Lyc&eacute;e Fran&ccedil;ais de Tananarive</td></tr>
+
+<tr><td style="font-size:21px;font-weight:bold;line-height:1.3;color:#1F2A37;padding-bottom:14px;">Choisir votre mot de passe</td></tr>
+<tr><td style="font-size:16px;line-height:1.6;color:#1F2A37;">Bonjour,</td></tr>
+<tr><td style="font-size:16px;line-height:1.6;color:#1F2A37;padding-top:12px;">Ce message vous permet de choisir le mot de passe du site de Technologie. C&rsquo;est celui que vous garderez toute l&rsquo;ann&eacute;e pour ouvrir votre espace.</td></tr>
+
+<tr><td align="center" style="padding:26px 0 14px;"><a href="{{ .SiteURL }}/changer-mot-de-passe.html#jeton={{ .TokenHash }}&amp;type=recovery" style="display:inline-block;background:#004E8C;color:#ffffff;text-decoration:none;font-size:17px;font-weight:bold;line-height:1.2;padding:16px 32px;border-radius:8px;">Choisir mon mot de passe</a></td></tr>
+<tr><td align="center" style="font-size:13px;line-height:1.6;color:#4B5563;padding-bottom:22px;">Le bouton ouvre le site du lyc&eacute;e, &agrave; l&rsquo;adresse <strong style="color:#1F2A37;">techlft.egd.mg</strong>.<br>V&eacute;rifiez cette adresse en haut du navigateur avant de taper votre mot de passe.</td></tr>
+
+<tr><td style="background:#E4EFF9;border-left:5px solid #004E8C;border-radius:0 8px 8px 0;padding:16px 18px;">
+<p style="margin:0 0 8px;font-size:16px;font-weight:bold;color:#1F2A37;">Comment choisir un bon mot de passe</p>
+<ul style="margin:0;padding-left:20px;font-size:15px;line-height:1.65;color:#1F2A37;">
+<li>Au moins <strong>12 caract&egrave;res</strong>. Le plus simple&nbsp;: trois mots qui n&rsquo;ont rien &agrave; voir entre eux, coll&eacute;s ou s&eacute;par&eacute;s par des tirets.</li>
+<li>Par exemple &laquo;&nbsp;vanille-tonnerre-girafe&nbsp;&raquo;. N&rsquo;utilisez pas cet exemple&nbsp;: inventez le v&ocirc;tre, il se retiendra tout seul.</li>
+<li>N&rsquo;y mettez ni votre nom, ni votre pr&eacute;nom, ni votre adresse, ni le mot &laquo;&nbsp;technologie&nbsp;&raquo;.</li>
+<li>Ne reprenez pas un mot de passe que vous utilisez d&eacute;j&agrave; ailleurs.</li>
+<li>Gardez-le pour vous. Ne le pr&ecirc;tez &agrave; personne, pas m&ecirc;me &agrave; un camarade.</li>
+</ul>
+</td></tr>
+
+<tr><td style="padding-top:22px;">
+<p style="margin:0 0 8px;font-size:16px;font-weight:bold;color:#1F2A37;">Bon &agrave; savoir</p>
+<ul style="margin:0;padding-left:20px;font-size:15px;line-height:1.65;color:#4B5563;">
+<li>Ce lien ne sert qu&rsquo;une fois et il s&rsquo;arr&ecirc;te de fonctionner au bout de <strong style="color:#1F2A37;">24&nbsp;heures</strong>.</li>
+<li>S&rsquo;il ne marche plus, retournez sur la page de connexion du site et cliquez sur &laquo;&nbsp;Premi&egrave;re connexion&nbsp;&raquo;&nbsp;: un nouveau message vous sera envoy&eacute;.</li>
+<li>Personne au lyc&eacute;e ne vous demandera jamais votre mot de passe, ni par courriel, ni de vive voix. Si on vous le demande, refusez et pr&eacute;venez votre professeur.</li>
+<li>Si vous n&rsquo;avez rien demand&eacute;, ignorez ce message&nbsp;: rien n&rsquo;est modifi&eacute;.</li>
+</ul>
+</td></tr>
+
+<tr><td style="font-size:13px;line-height:1.6;color:#4B5563;padding-top:22px;word-break:break-all;overflow-wrap:anywhere;">Si le bouton ne r&eacute;agit pas, copiez cette adresse dans la barre de votre navigateur&nbsp;:<br><span style="word-break:break-all;overflow-wrap:anywhere;color:#1F2A37;">{{ .SiteURL }}/changer-mot-de-passe.html#jeton={{ .TokenHash }}&amp;type=recovery</span></td></tr>
+
+<tr><td style="font-size:13px;line-height:1.7;color:#4B5563;padding-top:24px;border-top:1px solid #D7DEE5;">
+Message automatique&nbsp;: personne ne lit les r&eacute;ponses envoy&eacute;es &agrave; cette adresse. Une question, une difficult&eacute; pour vous connecter&nbsp;? Parlez-en &agrave; votre professeur de Technologie.
+<br><br>
+Site de Technologie du Lyc&eacute;e Fran&ccedil;ais de Tananarive, Ambatobe, Antananarivo, Madagascar. &Eacute;tablissement en gestion directe de l&rsquo;AEFE.
+<br>
+<a href="{{ .SiteURL }}/donnees-personnelles.html" style="color:#004E8C;">Donn&eacute;es personnelles</a> &middot; <a href="{{ .SiteURL }}/mentions-legales.html" style="color:#004E8C;">Mentions l&eacute;gales</a> &middot; <a href="{{ .SiteURL }}/accessibilite.html" style="color:#004E8C;">Accessibilit&eacute;</a>
+</td></tr>
+
 </table>
 </td></tr>
 </table>
+</div>
