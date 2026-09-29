@@ -96,9 +96,11 @@ export default async function handler(req, res) {
     // coordonnateur.
     const [miens, siens] = await Promise.all([
       sesGroupes(moi),
-      lire('appartenances', `profil_id=eq.${eleve}&select=groupe_id`),
+      lire('appartenances',
+        `profil_id=eq.${eleve}&select=groupe_id,version_adaptee`),
     ]);
     const aLui = new Set(siens.map((a) => a.groupe_id));
+    const adaptee = new Map(siens.map((a) => [a.groupe_id, !!a.version_adaptee]));
     const communs = miens.filter((g) => aLui.has(g.id));
     if (!communs.length) {
       return res.status(200).json({
@@ -139,6 +141,8 @@ export default async function handler(req, res) {
           .map((x) => ({ ...x, seances: sequenceDuCatalogue(x.sequence).seances }));
         return {
           id: g.id, code: g.code, libelle: g.libelle, niveau: g.niveau, plan,
+          // Le SERVICE rendu, jamais sa cause : voir db/16-version-adaptee.sql.
+          version_adaptee: adaptee.get(g.id) === true,
           avancement: coches.filter((c) => c.groupe_id === g.id)
             .map(({ groupe_id, ...c }) => c),
         };

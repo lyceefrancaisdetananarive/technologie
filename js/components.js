@@ -421,7 +421,46 @@
   //
   // Si l'appel echoue, la pastille garde « Session eleve ouverte » : on
   // n'affiche jamais un nom incertain, et rien ne regresse.
-  const CLE_NOM = 'lft_nom';
+  const CLE_PROFIL = 'lft_profil';
+
+  // Le profil de la personne connectee, tel que cet onglet le connait :
+  //   { nom, adaptee, ouvertes: ['5eme/p1/seq1', ...] }
+  // Une seule lecture reseau par onglet, gardee dans sessionStorage, qui
+  // meurt avec l'onglet. Sur un poste partage en salle, rien ne survit a la
+  // fermeture, ce qu'un localStorage ne garantirait pas.
+  let PROFIL = null;
+  try { PROFIL = JSON.parse(sessionStorage.getItem(CLE_PROFIL) || 'null'); }
+  catch (e) { PROFIL = null; }
+
+  function garderProfil(p) {
+    PROFIL = p;
+    try { sessionStorage.setItem(CLE_PROFIL, JSON.stringify(p)); }
+    catch (e) { /* mode prive */ }
+  }
+
+  // Deux lectures en parallele, une seule fois : le nom et le role d'un cote,
+  // les evaluations ouvertes de l'autre. Un professeur n'a pas de liste
+  // d'evaluations ouvertes : il les voit toutes.
+  async function chargerProfil() {
+    const prof = lireTemoin() === 'prof';
+    const [moi, pub] = await Promise.all([
+      fetch('/api/auth/moi', { credentials: 'same-origin' })
+        .then(function (r) { return r && r.ok ? r.json() : null; })
+        .catch(function () { return null; }),
+      prof ? Promise.resolve(null)
+        : fetch('/api/classeur/publications', { credentials: 'same-origin' })
+          .then(function (r) { return r && r.ok ? r.json() : null; })
+          .catch(function () { return null; }),
+    ]);
+    if (!moi || !moi.connecte) return null;
+    return {
+      nom: [moi.prenom, moi.nom].filter(Boolean).join(' ').trim(),
+      adaptee: moi.versionAdaptee === true,
+      ouvertes: pub && Array.isArray(pub.sequences) ? pub.sequences : [],
+    };
+  }
+
+  const CLE_NOM = 'lft_nom';   // ancien cache, efface a la deconnexion
 
   function poser(pile, nom, phrase) {
     // Un nom fait d espaces passait la garde et vidait la pastille : on
@@ -443,19 +482,24 @@
   }
 
   function nommerLaPastille(pile, phrase) {
-    let garde = null;
-    try { garde = sessionStorage.getItem(CLE_NOM); } catch (e) { /* mode prive */ }
-    if (garde) { poser(pile, garde, phrase); return; }
-    fetch('/api/auth/moi', { credentials: 'same-origin' })
-      .then(function (r) { return r && r.ok ? r.json() : null; })
-      .then(function (d) {
-        if (!d || !d.connecte) return;
-        const nom = [d.prenom, d.nom].filter(Boolean).join(' ').trim();
-        if (!nom) return;
-        try { sessionStorage.setItem(CLE_NOM, nom); } catch (e) { /* mode prive */ }
-        poser(pile, nom, phrase);
+    if (PROFIL) { poser(pile, PROFIL.nom, phrase); appliquerProfil(); return; }
+    chargerProfil()
+      .then(function (p) {
+        if (!p) return;
+        garderProfil(p);
+        poser(pile, p.nom, phrase);
+        appliquerProfil();
       })
       .catch(function () { /* la pastille garde son libelle generique */ });
+  }
+
+  // Ce que le profil commande, une fois connu : les liens d'evaluation des
+  // pages de niveau, et les onglets d'une page de sequence. Appele deux
+  // fois, une avec le cache et une apres la lecture reseau : les deux
+  // passages sont sans effet si rien ne change.
+  function appliquerProfil() {
+    liensEvaluation();
+    completerOnglets();
   }
 
   function renderSession(activePage) {
@@ -505,7 +549,8 @@
         .then(function (r) {
           if (!r || !r.ok) return echec();
           document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
-          try { sessionStorage.removeItem(CLE_NOM); } catch (e) { /* mode prive */ }
+          try { sessionStorage.removeItem(CLE_NOM); sessionStorage.removeItem(CLE_PROFIL); }
+          catch (e) { /* mode prive */ }
           location.reload();
         })
         .catch(echec);
@@ -541,6 +586,44 @@
     return { niveau: m[1], niv, seq, doc, total: niv.sequences.length };
   }
 
+  // Le contexte de la fiche en cours, garde pour pouvoir completer les
+  // onglets quand le profil arrive apres le premier rendu.
+  let CTX_FICHE = null;
+
+  function ongletAutorise(quoi, idSequence) {
+    if (!PROFIL) return false;
+    if (quoi === 'ebep') return PROFIL.adaptee === true;
+    return (PROFIL.ouvertes || []).indexOf(idSequence) >= 0;
+  }
+
+  /** Ajoute l'onglet manquant si le profil, arrive apres coup, l'autorise. */
+  function completerOnglets() {
+    if (!CTX_FICHE || !PROFIL) return;
+    // Le conteneur est <nav class="docs">, pose par renderFicheTete.
+    const bloc = document.querySelector('nav.docs');
+    if (!bloc) return;
+    const { seq, doc } = CTX_FICHE;
+    const libelles = { eval: ['Évaluation', 'en classe'],
+      ebep: ['Version adaptée', 'même activité, autrement'] };
+    // On respecte l'ordre d'origine : l'evaluation avant la revision, la
+    // version adaptee apres. On insere donc AVANT le premier onglet qui la
+    // suit dans cet ordre, et a defaut a la fin.
+    const apres = { eval: ['revision', 'ebep', 'prof'], ebep: ['prof'] };
+    ['eval', 'ebep'].forEach(function (k) {
+      if (!seq.documents[k] || doc === k) return;
+      if (!ongletAutorise(k, seq.id)) return;
+      if (bloc.querySelector('[data-onglet="' + k + '"]')) return;
+      const a = document.createElement('a');
+      a.href = ROOT + '/' + seq.documents[k].fichier;
+      a.dataset.onglet = k;
+      a.innerHTML = libelles[k][0] + '<small>' + libelles[k][1] + '</small>';
+      const suivant = apres[k]
+        .map(function (n) { return bloc.querySelector('[data-onglet="' + n + '"]'); })
+        .filter(Boolean)[0];
+      if (suivant) bloc.insertBefore(a, suivant); else bloc.appendChild(a);
+    });
+  }
+
   function renderFicheTete(ctx) {
     const { niveau, niv, seq, doc, total } = ctx;
     const theme = window.CATALOGUE.themes[String(seq.theme)] || (seq.theme === 0 ? 'Transversal' : '');
@@ -548,15 +631,23 @@
       quiz: ['Quiz', 'pour vérifier'], eval: ['Évaluation', 'en classe'], revision: ['Révision', 'avant l’évaluation'],
       ebep: ['Version adaptée', 'même activité, autrement'], prof: ['Fiche professeur', 'réservée'] };
     const prof = lireTemoin() === 'prof';
+    CTX_FICHE = ctx;
     const onglets = ['activite', 'cours', 'quiz', 'eval', 'revision', 'ebep', 'prof'].filter(k => seq.documents[k]).filter(k => {
       if (k === 'prof') return prof || doc === 'prof';
-      if (k === 'ebep') return prof || doc === 'ebep';
+      // La version adaptee ne s'affiche qu'a qui la recoit (D23). Elle reste
+      // atteignable par ses vingt-sept codes de cahier : on ne ferme pas la
+      // page, on cesse seulement de la proposer a tout le monde.
+      if (k === 'ebep') return prof || doc === 'ebep' || ongletAutorise('ebep', seq.id);
+      // L'evaluation ne s'affiche qu'une fois ouverte par le professeur
+      // (D21). Le portier la ferme de toute facon ; proposer un onglet qui
+      // mene a un refus serait une mauvaise maniere de dire << pas encore >>.
+      if (k === 'eval') return prof || doc === 'eval' || ongletAutorise('eval', seq.id);
       return true;
     }).map(k => {
       const f = seq.documents[k].fichier;
       const href = ROOT + '/' + f;
       const cur = k === doc ? ' aria-current="page"' : '';
-      return `<a href="${href}" class="${k === 'prof' ? 'reserve' : ''}"${cur}>${libelles[k][0]}<small>${libelles[k][1]}</small></a>`;
+      return `<a href="${href}" class="${k === 'prof' ? 'reserve' : ''}" data-onglet="${k}"${cur}>${libelles[k][0]}<small>${libelles[k][1]}</small></a>`;
     }).join('');
     const tete = document.createElement('div');
     tete.className = 'fiche-tete-bloc';
@@ -989,22 +1080,20 @@
         if (garder(a.getAttribute('href') || '')) a.removeAttribute('data-ferme');
       });
     };
+    // Le professeur voit tout : il doit pouvoir relire avant d'ouvrir.
     if (role === 'prof') { montrer(function () { return true; }); return; }
-    fetch('/api/classeur/publications', { credentials: 'same-origin' })
-      .then(function (r) { return r && r.ok ? r.json() : null; })
-      .then(function (d) {
-        if (!d || !d.sequences || !d.sequences.length) return;
-        // Un href de page de niveau est relatif : « p1/seq1-eval.html ». La
-        // sequence publiee est absolue : « 5eme/p1/seq1 ». On compare donc
-        // sur la fin, ce qui reste exact tant qu'une sequence n'existe qu'a
-        // un seul endroit de l'arborescence, ce que le catalogue garantit.
-        const fins = d.sequences.map(function (x) { return x.split('/').slice(-2).join('/'); });
-        montrer(function (href) {
-          const cle = href.replace(/-eval\.html.*$/, '').split('/').slice(-2).join('/');
-          return fins.indexOf(cle) >= 0;
-        });
-      })
-      .catch(function () { /* repli sur : rien ne s'affiche */ });
+    if (!PROFIL) return;                     // le profil n'est pas encore la
+    const ouvertes = PROFIL.ouvertes || [];
+    if (!ouvertes.length) return;
+    // Un href de page de niveau est relatif : << p1/seq1-eval.html >>. La
+    // sequence ouverte est absolue : << 5eme/p1/seq1 >>. On compare donc sur
+    // la fin, ce qui reste exact tant qu'une sequence n'existe qu'a un seul
+    // endroit de l'arborescence, ce que le catalogue garantit.
+    const fins = ouvertes.map(function (x) { return x.split('/').slice(-2).join('/'); });
+    montrer(function (href) {
+      const cle = href.replace(/-eval\.html.*$/, '').split('/').slice(-2).join('/');
+      return fins.indexOf(cle) >= 0;
+    });
   }
 
   // Run on DOM ready
