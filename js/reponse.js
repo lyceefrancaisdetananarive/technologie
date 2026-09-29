@@ -603,6 +603,9 @@
     el.spellcheck = true;
     el.addEventListener('change', function () { programmer(champ.cle, 0); });
     el.addEventListener('input', function () {
+      // Le brouillon AVANT le reseau : si la requete ne part jamais, la
+      // valeur est deja sur le disque de l'eleve.
+      noterBrouillon(champ.cle, el.value.replace(/\r\n?/g, '\n').trim());
       compterRemplis();
       if (el.tagName === 'TEXTAREA') programmer(champ.cle, 1500);
     });
@@ -763,6 +766,132 @@
     if (classe === 'ok' && texte) r.etat.title = texte === 'corrigé' ? 'Corrigé par ton professeur : ce champ ne se modifie plus' : 'Enregistré dans ton classeur';
   }
 
+  // =====================================================================
+  // LE BROUILLON LOCAL
+  //
+  // Sans lui, un eleve qui perd la connexion au mauvais moment perd son
+  // travail : la valeur ne repartait que s'il retouchait le champ, et rien
+  // au niveau de la page ne l'avertissait. Sur la liaison de Tananarive et
+  // sur un poste partage, c'est le defaut qui coute le plus cher.
+  //
+  // POURQUOI localStorage ET NON sessionStorage. Le scenario a couvrir est
+  // precisement la fermeture de l'onglet : sessionStorage meurt avec lui et
+  // ne protegerait de rien.
+  //
+  // LE PIEGE DU POSTE PARTAGE, ET SA PARADE. localStorage survit a la
+  // session : sans precaution, l'eleve suivant retrouverait le brouillon du
+  // precedent. Le brouillon porte donc le TEMOIN DE SESSION de celui qui
+  // l'a ecrit ; a l'ouverture, un temoin different fait table rase. Il
+  // expire aussi au bout de douze heures. Et surtout, un champ ENREGISTRE
+  // sort du brouillon : ne survit que ce qui n'est pas passe, ce qui est
+  // rare et appartient a qui vient de quitter le poste.
+  // =====================================================================
+  const CLE_BROUILLON = 'lft_brouillon:' + page;
+  const VIE_BROUILLON = 12 * 3600 * 1000;
+
+  function marqueSession() {
+    try {
+      const c = document.cookie.match(/(?:^|;\s*)lft_ouvert=([^;]+)/);
+      return c ? c[1] : '';
+    } catch (e) { return ''; }
+  }
+
+  function lireBrouillon() {
+    try {
+      const b = JSON.parse(localStorage.getItem(CLE_BROUILLON) || 'null');
+      if (!b || b.proprietaire !== marqueSession()) return null;
+      if (!b.le || Date.now() - b.le > VIE_BROUILLON) return null;
+      return b;
+    } catch (e) { return null; }
+  }
+
+  function ecrireBrouillon(champs) {
+    try {
+      if (!champs || !Object.keys(champs).length) {
+        localStorage.removeItem(CLE_BROUILLON);
+        return;
+      }
+      localStorage.setItem(CLE_BROUILLON, JSON.stringify({
+        proprietaire: marqueSession(), le: Date.now(), champs: champs,
+      }));
+    } catch (e) { /* stockage plein ou refuse : on continue sans filet */ }
+  }
+
+  function noterBrouillon(cle, valeur) {
+    const b = lireBrouillon();
+    const champs = (b && b.champs) || {};
+    if (valeur) champs[cle] = valeur; else delete champs[cle];
+    ecrireBrouillon(champs);
+  }
+
+  function oublierBrouillon(cle) {
+    const b = lireBrouillon();
+    if (!b || !b.champs || !(cle in b.champs)) return;
+    delete b.champs[cle];
+    ecrireBrouillon(b.champs);
+  }
+
+  /** Combien de champs portent une valeur qui n'est pas arrivee au serveur. */
+  function enAttente() {
+    let n = 0;
+    ordre.forEach(function (k) {
+      const r = registre[k];
+      if (!r || r.el.disabled) return;
+      if (r.el.value.replace(/\r\n?/g, '\n').trim() !== r.enregistre) n += 1;
+    });
+    return n;
+  }
+
+  /**
+   * Une bande unique en haut de page, plutot que cinquante micro-regions.
+   * Un eleve ne surveille pas cinquante etats : il regarde une ligne.
+   */
+  function direAttente() {
+    if (!barre.message || figee) return;
+    const n = enAttente();
+    if (!n) {
+      if (barre.message.dataset.attente) {
+        barre.message.dataset.attente = '';
+        direBarre('');
+      }
+      return;
+    }
+    barre.message.dataset.attente = '1';
+    direBarre(n + ' réponse' + (n > 1 ? 's' : '') + ' pas encore enregistrée'
+      + (n > 1 ? 's' : '') + ' : nouvel essai en cours, ne ferme pas la page.',
+      'attente');
+  }
+
+  // Reessai automatique, avec un ecart qui s'allonge : sur une coupure, une
+  // rafale de requetes n'aide personne. Plafonne a une minute.
+  let delaiReessai = 4000;
+  let minuteurReessai = null;
+
+  function programmerReessai() {
+    if (minuteurReessai || figee) return;
+    minuteurReessai = setTimeout(function () {
+      minuteurReessai = null;
+      const restants = ordre.filter(function (k) {
+        const r = registre[k];
+        return r && !r.el.disabled
+          && r.el.value.replace(/\r\n?/g, '\n').trim() !== r.enregistre;
+      });
+      if (!restants.length) { delaiReessai = 4000; return; }
+      restants.forEach(function (k) { programmer(k, 0); });
+      delaiReessai = Math.min(delaiReessai * 2, 60000);
+      programmerReessai();
+    }, delaiReessai);
+  }
+
+  // Fermer l'onglet avec du travail non enregistre demande une confirmation.
+  // js/diagnostique.js le fait deja ; cette fiche ne le faisait pas.
+  window.addEventListener('beforeunload', function (ev) {
+    if (figee || !enAttente()) return;
+    ev.preventDefault();
+    ev.returnValue = '';
+    return '';
+  });
+
   /** Programme l'envoi d'un champ : tout de suite (delai 0) ou après la dernière frappe. */
   function programmer(cle, delai) {
     const r = registre[cle];
@@ -806,13 +935,23 @@
         }
         if (res.statut !== 200 || !res.corps.ok) {
           direEtat(r, (res.corps && res.corps.message) || 'erreur : non enregistré', 'err');
+          direAttente();
+          programmerReessai();
           return;
         }
         r.enregistre = valeur;
+        oublierBrouillon(cle);
+        direAttente();
         if (res.corps.fiche) refleterFiche(res.corps.fiche);
         direEtat(r, valeur ? (r.etat.classList.contains('champ-etat-court') ? 'ok' : 'enregistré') : '', 'ok');
       })
-      .catch(function () { direEtat(r, 'erreur : vérifie la connexion', 'err'); })
+      .catch(function () {
+        // La valeur est dans le brouillon local : on le dit au niveau de la
+        // page, et on reessaie sans attendre que l'eleve retouche le champ.
+        direEtat(r, 'pas encore envoyé', 'err');
+        direAttente();
+        programmerReessai();
+      })
       .then(function () {
         r.enVol = false;
         // Une valeur a changé pendant l'envoi : on repart avec la dernière.
@@ -856,6 +995,47 @@
     if (orphelines && barre.message && !barre.message.textContent) {
       direBarre(orphelines + (orphelines > 1 ? ' réponses enregistrées ne correspondent' : ' réponse enregistrée ne correspond')
         + ' plus à cette version de la fiche : demande à ton professeur.', 'err');
+    }
+    reprendreBrouillon();
+  }
+
+  /**
+   * LA REPRISE. Appelee APRES que les valeurs du serveur ont ete posees :
+   * le serveur fait foi, le brouillon ne sert qu'a rattraper ce qui n'y est
+   * pas arrive.
+   *
+   * Un champ n'est repris que si les trois conditions tiennent :
+   *   - le brouillon porte le temoin de session courant (lireBrouillon le
+   *     verifie, sans quoi on servirait le travail de l'eleve precedent) ;
+   *   - le champ n'est pas fige par une correction ;
+   *   - la valeur locale differe de celle du serveur ET n'est pas vide.
+   *
+   * Une valeur vide en local n'efface jamais une valeur du serveur : entre
+   * perdre une reponse et en garder une de trop, on garde.
+   */
+  function reprendreBrouillon() {
+    const b = lireBrouillon();
+    if (!b || !b.champs) return;
+    let repris = 0;
+    Object.keys(b.champs).forEach(function (cle) {
+      const r = registre[cle];
+      const valeur = String(b.champs[cle] || '').trim();
+      if (!r || r.el.disabled || !valeur) return;
+      if (valeur === r.enregistre) { oublierBrouillon(cle); return; }
+      if (/\n/.test(valeur) || Array.from(valeur).length > 400) allonger(r);
+      r.el.value = valeur;
+      const mir = r.el.nextElementSibling;
+      if (mir && mir.classList.contains('champ-imprime')) mir.textContent = valeur;
+      repris += 1;
+      programmer(cle, 0);
+    });
+    if (repris) {
+      compterRemplis();
+      direBarre(repris + ' réponse' + (repris > 1 ? 's' : '')
+        + ' retrouvée' + (repris > 1 ? 's' : '') + ' sur cet ordinateur et '
+        + (repris > 1 ? 'renvoyées' : 'renvoyée') + ' à ton classeur : '
+        + 'elles n’étaient pas arrivées la dernière fois.', 'attente');
+      programmerReessai();
     }
   }
 
