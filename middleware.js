@@ -181,6 +181,63 @@ function page(statut, titre, corps) {
   );
 }
 
+// =====================================================================
+// LE VERROU DES EVALUATIONS (D21, 29 septembre 2026)
+//
+// Une evaluation n'est lisible que si le professeur du groupe l'a publiee.
+// Le controle vit ICI et pas dans la page, pour trois raisons :
+//
+//  1. vingt-sept codes de cahier en << E >> (51E, 52E...) menent directement
+//     a ces adresses, deja imprimes et colles dans les cahiers ; la decision
+//     D9 interdit de les reimprimer, donc l'adresse ne peut pas changer ;
+//  2. un eleve qui connait le motif de l'adresse la tape en trente secondes ;
+//  3. cacher le lien dans le classeur ne cache pas la page.
+//
+// COUT : un appel reseau, UNIQUEMENT sur les pages en -eval.html, soit
+// vingt-sept pages sur deux cent trente-quatre. Toutes les autres traversent
+// le portier sans rien demander a personne, comme avant. La fonction SQL
+// eval_publiee() repond en un seul aller-retour la ou il en aurait fallu
+// deux, ce qui compte quand vingt-huit eleves ouvrent la meme evaluation a
+// la meme minute depuis Tananarive.
+//
+// EN CAS DE PANNE, ON FERME. Une evaluation montree par erreur ne se
+// rattrape pas ; une evaluation retardee de dix secondes, si. Le message
+// distingue les deux cas, sans quoi un professeur chercherait un probleme
+// pedagogique la ou il y a un probleme de reseau.
+// =====================================================================
+const FIN_EVAL = '-eval.html';
+
+/** << /5eme/p1/seq1-eval.html >> donne << 5eme/p1/seq1 >>, ou null. */
+function sequenceDeLEvaluation(chemin) {
+  const m = normaliser(chemin)
+    .match(/^\/([345]eme\/p\d\/seq\d{1,2})-eval\.html$/);
+  return m ? m[1] : null;
+}
+
+/** true publiee, false pas publiee, null on n'a pas pu savoir. */
+async function evaluationPubliee(profil, sequence) {
+  const base = process.env.SUPABASE_URL;
+  const cle = process.env.SUPABASE_SERVICE_ROLE_KEY;
+  if (!base || !cle) return null;
+  try {
+    const r = await fetch(base.replace(/\/$/, '') + '/rest/v1/rpc/eval_publiee', {
+      method: 'POST',
+      headers: {
+        apikey: cle,
+        authorization: `Bearer ${cle}`,
+        'content-type': 'application/json',
+      },
+      body: JSON.stringify({ p_profil: profil, p_sequence: sequence }),
+      signal: AbortSignal.timeout(4000),
+    });
+    if (!r.ok) return null;
+    const d = await r.json();
+    return d === true || d === 'true';
+  } catch {
+    return null;
+  }
+}
+
 export default async function middleware(requete) {
   const url = new URL(requete.url);
 
@@ -247,6 +304,41 @@ export default async function middleware(requete) {
         `<p>Cette page fait partie du programme de ${libelle[niveau] ?? niveau}. ` +
         `Cette année, tu es en ${libelle[mien] ?? mien} : tu la retrouveras le moment venu.</p>` +
         `<p><a href="/${mien}/index.html">Voir mon programme de ${libelle[mien] ?? mien}</a></p>`);
+    }
+  }
+
+  // LE VERROU DES EVALUATIONS. Un professeur n'est jamais filtre : il doit
+  // pouvoir relire une evaluation avant de l'ouvrir, c'est meme la raison
+  // pour laquelle le verrou existe.
+  if (session.role === 'eleve' && normaliser(url.pathname).endsWith(FIN_EVAL)) {
+    const seq = sequenceDeLEvaluation(url.pathname);
+    // Une adresse en -eval.html qui ne suit PAS le motif des sequences
+    // n'existe pas sur le site : verifie le 29 septembre 2026, les
+    // vingt-sept evaluations deployees le suivent toutes, et les deux
+    // exceptions vivent dans _a_fusionner/, exclu du deploiement par le
+    // rsync. On laisse donc Vercel repondre 404, ce qui est la verite,
+    // plutot que d'annoncer un incident technique sur une faute de frappe.
+    // Si un jour une evaluation echappe a ce motif, elle passerait SANS
+    // controle : c'est la seule chose a verifier avant d'en ajouter une.
+    if (!seq) return;
+    const ouverte = await evaluationPubliee(session.sub, seq);
+    if (ouverte === false) {
+      return page(403, 'Cette évaluation n’est pas encore ouverte',
+        '<p>Ton professeur ne l’a pas encore ouverte pour ton groupe. Elle ' +
+        'apparaîtra dans ton classeur le moment venu, et tu pourras la faire ' +
+        'à ce moment-là.</p>' +
+        '<p><a href="/classeur/">Revenir à mon classeur</a></p>');
+    }
+    if (ouverte === null) {
+      // On ferme, et on dit que c'est technique : sans cette distinction,
+      // l'eleve croirait que son professeur n'a pas ouvert l'evaluation, et
+      // le professeur chercherait la faute du mauvais cote.
+      return page(503, 'Impossible de vérifier pour le moment',
+        '<p>Le site n’arrive pas à vérifier si cette évaluation est ouverte. ' +
+        'Ce n’est pas une décision de ton professeur, c’est un incident ' +
+        'technique. Réessaie dans un instant, et préviens ton professeur si ' +
+        'cela se répète.</p>' +
+        '<p><a href="/classeur/">Revenir à mon classeur</a></p>');
     }
   }
 }

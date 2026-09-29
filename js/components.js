@@ -770,6 +770,7 @@
     if (!app) return;
 
     const activePage = app.dataset.page || '';
+    liensEvaluation();
     // Lien d'evitement (RGAA 12.7) : premier element focalisable de la page,
     // visible seulement a la prise de focus, vers le contenu principal.
     const main = app.querySelector('main');
@@ -961,6 +962,49 @@
         });
       })
       .catch(function () { /* la carte est un plus, jamais une barriere */ });
+  }
+
+  // ---- LES LIENS D'EVALUATION SUR LES PAGES DE NIVEAU (D21) ----
+  //
+  // Les trois pages de niveau sont PUBLIQUES et portent en dur les liens des
+  // vingt-sept evaluations. Depuis le verrou de publication, une evaluation
+  // n'est lisible que si le professeur du groupe l'a ouverte : afficher le
+  // lien a tout le monde reviendrait a promettre une page qui refusera.
+  //
+  // La regle appliquee ici :
+  //   visiteur sans session  -> aucun lien d'evaluation ;
+  //   professeur             -> tous, il doit pouvoir relire avant d'ouvrir ;
+  //   eleve                  -> ceux que SON groupe a ouverts.
+  //
+  // Le defaut est CACHE, pose en CSS et non en JavaScript : sans script, ou
+  // si l'appel echoue, aucun lien n'apparait. Un verrou dont le repli est
+  // << ouvert >> n'est pas un verrou.
+  function liensEvaluation() {
+    const liens = [].slice.call(document.querySelectorAll('.seq-link-eval'));
+    if (!liens.length) return;
+    const role = lireTemoin();
+    if (!role) return;                       // visiteur : rien ne s'affiche
+    const montrer = function (garder) {
+      liens.forEach(function (a) {
+        if (garder(a.getAttribute('href') || '')) a.removeAttribute('data-ferme');
+      });
+    };
+    if (role === 'prof') { montrer(function () { return true; }); return; }
+    fetch('/api/classeur/publications', { credentials: 'same-origin' })
+      .then(function (r) { return r && r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.sequences || !d.sequences.length) return;
+        // Un href de page de niveau est relatif : « p1/seq1-eval.html ». La
+        // sequence publiee est absolue : « 5eme/p1/seq1 ». On compare donc
+        // sur la fin, ce qui reste exact tant qu'une sequence n'existe qu'a
+        // un seul endroit de l'arborescence, ce que le catalogue garantit.
+        const fins = d.sequences.map(function (x) { return x.split('/').slice(-2).join('/'); });
+        montrer(function (href) {
+          const cle = href.replace(/-eval\.html.*$/, '').split('/').slice(-2).join('/');
+          return fins.indexOf(cle) >= 0;
+        });
+      })
+      .catch(function () { /* repli sur : rien ne s'affiche */ });
   }
 
   // Run on DOM ready

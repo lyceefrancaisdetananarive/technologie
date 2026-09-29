@@ -636,6 +636,37 @@ def verifier_portier():
     return len(pages)
 
 
+def verifier_verrou_evaluations():
+    """Le verrou des évaluations (D21) ne s'applique qu'aux adresses de la
+    forme `<niveau>/p<n>/seq<n>-eval.html` : c'est le motif que
+    sequenceDeLEvaluation() reconnaît dans middleware.js, et le portier
+    laisse passer sans contrôle tout le reste.
+
+    Une évaluation nommée autrement serait donc lisible par n'importe quel
+    élève avant l'heure, sans que rien ne le signale. Ce contrôle est la
+    seule chose qui empêche cette page d'exister : le commentaire du portier
+    y renvoie."""
+    motif = re.compile(r'^[345]eme/p\d/seq\d{1,2}-eval\.html$')
+    trouves = 0
+    for racine, dossiers, fichiers in os.walk('.'):
+        # _a_fusionner/ n'est pas déployé : le rsync l'exclut.
+        dossiers[:] = [d for d in dossiers
+                       if d not in ('_a_fusionner', 'node_modules', '.git', 'outils')]
+        for f in fichiers:
+            # Les doublons macOS ._* sont exclus du déploiement : les
+            # signaler ici ferait du bruit sans rien protéger.
+            if f.startswith('._') or not f.endswith('-eval.html'):
+                continue
+            chemin = os.path.normpath(os.path.join(racine, f)).replace(os.sep, '/')
+            chemin = chemin[2:] if chemin.startswith('./') else chemin
+            trouves += 1
+            if not motif.match(chemin):
+                erreur(f'{chemin} : évaluation hors du motif reconnu par le '
+                       'portier. Elle échapperait au verrou de publication '
+                       '(middleware.js, sequenceDeLEvaluation).')
+    return trouves
+
+
 def main():
     with open('catalogue.json', encoding='utf-8') as f:
         cat = json.load(f)
@@ -648,6 +679,7 @@ def main():
     verifier_equilibre()
     na = verifier_ancres()
     npub = verifier_portier()
+    nev = verifier_verrou_evaluations()
     verifier_generes()
     verifier_parasites()
     verifier_hygiene(cat)

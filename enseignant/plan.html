@@ -18,6 +18,19 @@ main { max-width: 64rem; }
 .actions { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: 1rem; }
 .actions button { padding: .55rem .9rem; font-size: .9rem; }
 .pastille { display: inline-block; font-size: .7rem; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 999px; vertical-align: middle; }
+
+/* D21 : l'ouverture d'une evaluation. Le bouton dit ce qu'il VA faire,
+   jamais l'etat courant : « Ouvrir l'evaluation » quand elle est fermee.
+   Un bouton qui affiche un etat se lit a contresens une fois sur deux.
+   La pastille, elle, dit l'etat, et elle porte la date : savoir QUAND une
+   evaluation a ete ouverte est ce qui permet de trancher une contestation. */
+.pastille.ouverte { background: var(--fait-pale); color: var(--fait); }
+.seq-droite .publier { border: 1.5px solid var(--bleu); background: var(--papier-2);
+  color: var(--bleu); border-radius: 999px; font-weight: 700; font-size: .82rem;
+  padding: .25rem .8rem; cursor: pointer; }
+.seq-droite .publier:hover { background: var(--bleu-pale); }
+.seq-droite .publier.est-ouverte { border-color: var(--fait); color: var(--fait); }
+.seq-droite .publier:disabled { opacity: .5; cursor: progress; }
 .pastille.fait { background: var(--fait-pale); color: var(--fait); }
 .pastille.encours { background: var(--encours-pale); color: var(--encours); }
 .pastille.avenir { background: var(--grille); color: var(--encre-2); }
@@ -204,6 +217,7 @@ const LIBELLE_ETAT = { fait: 'Fait', encours: 'En cours', avenir: 'À venir' };
 let etat = null;          // la réponse de GET /api/prof/plan?groupe=
 let planLocal = [];       // l'ordre en cours d'édition
 let ordreModifie = false;
+let publiees = new Map();   // sequence -> date d'ouverture de l'evaluation
 let chargement = 0;       // numéro du dernier chargement demandé
 const deplies = new Set();
 const enVol = new Map();  // coches parties et pas encore confirmées : "seq|n" -> fait
@@ -262,9 +276,16 @@ async function chargerPlan({ garderMessage = false } = {}) {
   const num = ++chargement;
   if (!garderMessage) dire('');
   try {
-    const d = await api('/api/prof/plan?groupe=' + id);
+    const [d, pub] = await Promise.all([
+      api('/api/prof/plan?groupe=' + id),
+      // La liste des evaluations ouvertes ne doit jamais empecher le plan de
+      // s'afficher : si elle manque, aucune n'est annoncee comme ouverte, ce
+      // qui est le repli sur.
+      api('/api/prof/publier?groupe=' + id).catch(() => ({ publications: [] })),
+    ]);
     if (num !== chargement) return;
     etat = d;
+    publiees = new Map((pub.publications || []).map((x) => [x.sequence, x.publie_le]));
     etat.plan = etat.plan.filter((p) => sequence(p.sequence));
     planLocal = etat.plan.map((p) => ({ ...p }));
     ordreModifie = false;
@@ -338,10 +359,16 @@ function rendrePlan() {
             ${p.visible ? `<span class="pastille ${e}">${LIBELLE_ETAT[e]}</span>`
                         : '<span class="pastille masquee">Non traitée cette année</span>'}
             ${faites.size ? `<span>${faites.size}/${s.seances} cochée${faites.size > 1 ? 's' : ''}</span>` : ''}
+            ${s.documents && s.documents.eval && publiees.has(s.id)
+              ? `<span class="pastille ouverte">Évaluation ouverte depuis le ${dateCourte(publiees.get(s.id))}</span>` : ''}
           </div>
         </div>
         <div class="seq-droite">
           <label><input type="checkbox" class="visible" data-i="${i}" ${p.visible ? 'checked' : ''} aria-label="Traitée cette année : ${titre}"> Traitée cette année</label>
+          ${s.documents && s.documents.eval ? (() => {
+            const ouverteEval = publiees.has(s.id);
+            return `<button type="button" class="publier ${ouverteEval ? 'est-ouverte' : ''}" data-seq="${s.id}" data-ouverte="${ouverteEval}" aria-label="${ouverteEval ? 'Fermer' : 'Ouvrir'} l\u2019évaluation : ${titre}">${ouverteEval ? 'Fermer l\u2019évaluation' : 'Ouvrir l\u2019évaluation'}</button>`;
+          })() : ''}
           ${autreNiveau ? `<button type="button" class="retirer-seq" data-i="${i}" aria-label="Retirer du plan : ${titre}">Retirer du plan</button>` : ''}
           <button type="button" class="deplier" data-seq="${s.id}" aria-expanded="${ouverte}" aria-controls="${idTitre}-seances" aria-label="${ouverte ? 'Replier' : 'Séances'} : ${titre}">${ouverte ? 'Replier' : 'Séances'}</button>
         </div>
@@ -399,6 +426,30 @@ $('plan').addEventListener('click', async (ev) => {
     planLocal.splice(i, 1);
     marquerModifie();
     $('ajout-seq').focus();
+  } else if (b.classList.contains('publier')) {
+    // Ouvrir demande confirmation, fermer non : une evaluation ouverte par
+    // megarde est lue par vingt-huit eleves, et le remede doit etre plus
+    // rapide que l'erreur.
+    const seq = b.dataset.seq;
+    const ouvrir = b.dataset.ouverte !== 'true';
+    const s = sequence(seq);
+    if (ouvrir && !confirm(`Ouvrir l\u2019évaluation de « ${s ? s.titre : seq} » `
+      + `pour le groupe ${etat.groupe.code} ?\n\n`
+      + 'Les élèves du groupe pourront la lire immédiatement. '
+      + 'Vous pourrez la refermer à tout moment.')) return;
+    b.disabled = true;
+    try {
+      const d = await api('/api/prof/publier', {
+        method: ouvrir ? 'POST' : 'DELETE',
+        body: JSON.stringify({ groupe: $('groupe').value, sequence: seq }),
+      });
+      publiees = new Map((d.publications || []).map((x) => [x.sequence, x.publie_le]));
+      dire(ouvrir ? 'Évaluation ouverte pour ce groupe.' : 'Évaluation refermée.', 'ok');
+      rendrePlan();
+    } catch (e) {
+      b.disabled = false;
+      dire(e.message || 'L\u2019opération n\u2019a pas abouti.', 'err');
+    }
   } else if (b.classList.contains('deplier')) {
     const id = b.dataset.seq;
     if (deplies.has(id)) deplies.delete(id); else deplies.add(id);

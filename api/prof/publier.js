@@ -1,0 +1,89 @@
+import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
+import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
+import { UUID, sequenceDuCatalogue } from '../_lib/progression.js';
+
+// =====================================================================
+// PUBLIER OU RETIRER UNE ÉVALUATION, POUR UN GROUPE (D21).
+//
+//   GET    ?groupe=ID              ce qui est publié dans ce groupe
+//   POST   { groupe, sequence }    publier l'évaluation de cette séquence
+//   DELETE { groupe, sequence }    la retirer
+//
+// Une évaluation publiée devient lisible par les élèves de CE groupe, et
+// d'aucun autre. Le geste est daté et signé : `publie_le` et `par`.
+//
+// POURQUOI LE RETRAIT EXISTE, ET POURQUOI IL EST AUSSI SIMPLE QUE LA
+// PUBLICATION. Un clic de trop sur « publier » ouvre une évaluation à
+// vingt-huit élèves. Si le retrait demandait une confirmation, un mot de
+// passe ou un détour, la réaction naturelle serait d'attendre, et pendant
+// ce temps l'évaluation reste ouverte. Une erreur doit pouvoir se défaire
+// plus vite qu'elle ne s'est faite.
+//
+// CE QUI N'EST PAS VÉRIFIÉ ICI, ET C'EST VOULU : que la séquence soit au
+// plan du groupe, ou qu'elle ait commencé. Un professeur peut vouloir
+// ouvrir une évaluation de rattrapage sur une séquence écartée, ou une
+// évaluation de début d'année sur une séquence pas encore traitée. Le site
+// n'a pas à arbitrer une décision pédagogique ; il vérifie seulement que la
+// séquence existe et qu'elle porte bien une évaluation.
+// =====================================================================
+
+async function etatDuGroupe(groupe) {
+  const lignes = await lire('publications',
+    `groupe_id=eq.${groupe}&document=eq.eval&select=sequence,publie_le,par&order=publie_le.desc`);
+  return lignes;
+}
+
+export default async function handler(req, res) {
+  if (!configuree()) return refus(res, 503, 'Service non configuré.');
+  const moi = await appelant(req);
+  if (!moi) return refus(res, 401, 'Session expirée.');
+  if (moi.role !== 'prof') return refus(res, 403, 'Réservé aux professeurs.');
+
+  try {
+    if (req.method === 'GET') {
+      const groupe = String(req.query?.groupe ?? '');
+      if (!UUID.test(groupe)) return refus(res, 400, 'Groupe non précisé.');
+      if (!(await possedeGroupe(moi.id, groupe))) {
+        return refus(res, 403, "Ce groupe n'est pas le vôtre.");
+      }
+      return res.status(200).json({ ok: true, publications: await etatDuGroupe(groupe) });
+    }
+
+    if (req.method !== 'POST' && req.method !== 'DELETE') {
+      return refus(res, 405, 'Méthode non autorisée.');
+    }
+    // Les écritures ne partent que du site : même règle que corriger.js.
+    if (!origineLegitime(req)) return refus(res, 403, 'Origine non autorisée.');
+
+    const { groupe, sequence } = req.body ?? {};
+    if (!UUID.test(String(groupe ?? ''))) return refus(res, 400, 'Groupe non précisé.');
+    const seq = String(sequence ?? '');
+    const s = sequenceDuCatalogue(seq);
+    if (!s) return refus(res, 400, 'Séquence inconnue.');
+    if (!s.documents || !s.documents.eval) {
+      return refus(res, 400, 'Cette séquence ne porte pas d’évaluation.');
+    }
+    if (!(await possedeGroupe(moi.id, groupe))) {
+      return refus(res, 403, "Ce groupe n'est pas le vôtre.");
+    }
+
+    if (req.method === 'POST') {
+      // « resolution=merge-duplicates » : republier une évaluation déjà
+      // publiée ne doit pas échouer sur la clé primaire. Le geste est alors
+      // sans effet visible, et c'est exactement ce qu'on attend d'un double
+      // clic.
+      await ecrire('publications', '',
+        { groupe_id: groupe, sequence: seq, document: 'eval', par: moi.id },
+        'POST', 'resolution=merge-duplicates');
+    } else {
+      await ecrire('publications',
+        `groupe_id=eq.${groupe}&sequence=eq.${encodeURIComponent(seq)}&document=eq.eval`,
+        {}, 'DELETE');   // corps vide, comme partout ailleurs dans le dépôt
+    }
+    if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
+    res.status(200).json({ ok: true, publications: await etatDuGroupe(groupe) });
+  } catch (e) {
+    console.error('publier :', e.message);
+    refus(res, 500, "L'opération n'a pas abouti.");
+  }
+}

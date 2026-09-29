@@ -247,7 +247,13 @@ def carte_sequence(niv, s):
     for cle_doc in ('activite', 'cours', 'eval', 'quiz', 'revision'):
         doc = s['documents'].get(cle_doc)
         if doc:
-            liens.append(f'                <a href="{doc["fichier"].split("/", 1)[1]}" class="seq-link seq-link-{CLASSE_DOC[cle_doc]}"><span class="ico">{PICTO_DOC[cle_doc]}</span> {LIBELLE_COURT[cle_doc]}</a>')
+            # D21 : le lien d'une ÉVALUATION part fermé. Le défaut caché est
+            # posé en CSS sur [data-ferme] ; js/components.js retire
+            # l'attribut pour un professeur, et pour un élève dont le groupe
+            # a publié cette évaluation. Sans script, rien ne s'affiche : un
+            # verrou dont le repli est « ouvert » n'est pas un verrou.
+            ferme = ' data-ferme' if cle_doc == 'eval' else ''
+            liens.append(f'                <a href="{doc["fichier"].split("/", 1)[1]}" class="seq-link seq-link-{CLASSE_DOC[cle_doc]}"{ferme}><span class="ico">{PICTO_DOC[cle_doc]}</span> {LIBELLE_COURT[cle_doc]}</a>')
     resume = f' · {e(s["resume"])}' if s.get('resume') else ''
     return f'''            <!-- Séquence {s['n']} -->
             <div class="seq-card" data-seq="{s['n']}" data-id="{s['dossier']}/{s['cle']}">

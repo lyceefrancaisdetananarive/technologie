@@ -394,6 +394,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .seq-link:hover { background: var(--trait); color: var(--encre); }
 .seq-link-activite, .seq-link-structuration { background: var(--bleu-pale); color: var(--bleu); }
 .seq-link-quiz, .seq-link-eval, .seq-link-revision { background: var(--papier); color: var(--encre-2); border: 1px solid var(--trait); }
+/* D21 : une évaluation n'est lisible que si le professeur l'a ouverte.
+   Le lien est donc CACHÉ par défaut, en CSS et non en JavaScript : sans
+   script, ou si l'appel échoue, rien n'apparaît. components.js retire
+   l'attribut data-ferme sur les seuls liens autorisés. Un verrou dont le
+   repli est « ouvert » n'est pas un verrou. */
+.seq-link-eval[data-ferme] { display: none; }
 .seq-link-prof, .seq-link-ebep { background: var(--papier-2); color: var(--encre-2); border: 1px dashed #8B98A5; }
 
 /* Où en sont mes groupes (espace enseignant, données de la table plans) */
