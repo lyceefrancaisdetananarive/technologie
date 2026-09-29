@@ -164,6 +164,9 @@ table.grille { border-collapse: collapse; width: 100%; min-width: 34rem; font-si
     <p class="intro">Réordonnez avec les flèches, décochez « traitée cette année » pour une séquence
     que vous ne ferez pas, dépliez pour cocher les séances <b>faites en classe</b> avec tout le groupe.
     La coche vaut pour tous les élèves ; les absences et reprises se notent en bas de page.</p>
+    <p class="intro"><b>Ouvrir l'évaluation</b> n'apparaît qu'une fois la séquence entamée,
+    c'est-à-dire dès la première séance cochée. Tant qu'elle n'est pas ouverte, les élèves du groupe
+    ne voient pas l'évaluation et ne peuvent pas l'atteindre, même en tapant son adresse.</p>
     <ol class="plan" id="plan"></ol>
     <div class="ajout">
       <div>
@@ -368,7 +371,20 @@ function rendrePlan() {
         </div>
         <div class="seq-droite">
           <label><input type="checkbox" class="visible" data-i="${i}" ${p.visible ? 'checked' : ''} aria-label="Traitée cette année : ${titre}"> Traitée cette année</label>
-          ${s.documents && s.documents.eval ? (() => {
+          ${(() => {
+            // La commande n'apparait que sur une sequence ENTAMEE : neuf
+            // boutons identiques sur un ecran qui parle du plan de l'annee
+            // font du bruit, et une evaluation de juin ne s'ouvre pas en
+            // septembre.
+            //
+            // MAIS aussi sur une sequence deja ouverte, meme si elle n'est
+            // plus entamee. Sans cette seconde condition, decocher les
+            // seances d'une evaluation ouverte ferait disparaitre le bouton
+            // qui sert a la fermer : l'evaluation resterait ouverte sans
+            // aucun moyen de la refermer depuis cet ecran.
+            const aUneEval = s.documents && s.documents.eval;
+            return aUneEval && (faites.size > 0 || publiees.has(s.id));
+          })() ? (() => {
             const ouverteEval = publiees.has(s.id);
             return `<button type="button" class="publier ${ouverteEval ? 'est-ouverte' : ''}" data-seq="${s.id}" data-ouverte="${ouverteEval}" aria-label="${ouverteEval ? 'Fermer' : 'Ouvrir'} l\u2019évaluation : ${titre}">${ouverteEval ? 'Fermer l\u2019évaluation' : 'Ouvrir l\u2019évaluation'}</button>`;
           })() : ''}
