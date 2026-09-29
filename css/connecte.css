@@ -14,6 +14,13 @@
 :root {
   --encre: #1F2A37; --encre-2: #4B5867; --encre-3: #5F6B7A; --gris: #5F6B7A;
   --papier: #F3F5F7; --papier-2: #FFFFFF; --grille: #E3E8EE; --trait: #D5DCE4;
+  /* BORDURE D'UN COMPOSANT D'INTERFACE, RGAA 3.3, seuil de 3 pour 1.
+     --trait (#D5DCE4) ne donne que 1,4 sur blanc : il convient a un filet
+     decoratif, jamais au contour d'un bouton ou d'un champ, qui EST
+     l'information. Les champs employaient deja cette valeur, ecrite en
+     dur ; elle devient un jeton, et s'etend aux boutons. Meme valeur que
+     --bord-composant de css/style.css, a garder identique. */
+  --bord-composant: #7B8794;
   --bleu: #004E8C; --bleu-2: #0A63AD; --bleu-pale: #E4EFF9;
   --cyan: var(--bleu); --orange: #B45309;
   --fait: #166534; --fait-pale: #DCF3E3; --encours: #9A3F05; --encours-pale: #FDEBD3;
@@ -54,7 +61,7 @@ header h1 { font: 700 1.1rem var(--display); color: var(--encre); margin: 0; fle
 header .qui { font-size: .88rem; color: var(--encre-3); }
 header a.retour, header .lien-tete { font-size: .88rem; color: var(--bleu); text-decoration: none; font-weight: 700; }
 .sortir {
-  padding: .45rem .9rem; border: 1.5px solid var(--trait); border-radius: var(--r);
+  padding: .45rem .9rem; border: 1.5px solid var(--bord-composant); border-radius: var(--r);
   background: var(--papier-2); color: var(--encre-2); font: 700 .86rem var(--texte); cursor: pointer;
 }
 .sortir:hover { border-color: var(--erreur); color: var(--erreur); }
@@ -73,7 +80,7 @@ h2 { font: 700 1.15rem var(--display); margin: 0 0 1rem; }
 /* ---- formulaires ---- */
 label { display: block; font-weight: 700; margin: .9rem 0 .3rem; font-size: .92rem; }
 select, input, textarea {
-  width: 100%; padding: .65rem .8rem; border: 1.5px solid #7B8794; border-radius: var(--r);
+  width: 100%; padding: .65rem .8rem; border: 1.5px solid var(--bord-composant); border-radius: var(--r);
   font: inherit; font-size: .98rem; background: var(--papier-2); color: var(--encre);
 }
 textarea { min-height: 4.5rem; resize: vertical; }
@@ -101,7 +108,7 @@ button[disabled] { opacity: .55; cursor: progress; }
 button.principal { width: 100%; margin-top: 1.25rem; padding: .8rem 1.5rem; font-size: 1rem; }
 button.secondaire, .bouton.secondaire { background: var(--papier-2); color: var(--bleu); }
 button.secondaire:hover { background: var(--bleu-pale); }
-button.discret { background: transparent; color: var(--encre-2); border-color: var(--trait); }
+button.discret { background: transparent; color: var(--encre-2); border-color: var(--bord-composant); }
 .ligne { display: flex; gap: .6rem; align-items: flex-end; flex-wrap: wrap; }
 .ligne > *, .ligne > div { flex: 1; min-width: 9rem; }
 .ligne button { flex: 0 0 auto; }
@@ -261,7 +268,7 @@ body.etroit .pied-legal { justify-content: center; }
 
 /* Les deux entrées de la page de connexion (décision D16) : un choix d'aide, pas de rôle. */
 .entrees { display: flex; gap: .5rem; margin: 0 0 .5rem; }
-.entrees .entree { flex: 1; margin: 0; padding: .6rem .5rem; background: var(--papier-2); color: var(--encre-2); border: 1.5px solid var(--trait); font-weight: 700; font-size: .92rem; min-height: 44px; }
+.entrees .entree { flex: 1; margin: 0; padding: .6rem .5rem; background: var(--papier-2); color: var(--encre-2); border: 1.5px solid var(--bord-composant); font-weight: 700; font-size: .92rem; min-height: 44px; }
 .entrees .entree[aria-pressed="true"] { background: var(--bleu); color: #fff; border-color: var(--bleu); }
 .entrees .entree:hover { filter: brightness(.97); }
 .aide { margin: .35rem 0 0; font-size: .84rem; color: var(--encre-3); }

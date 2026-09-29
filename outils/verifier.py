@@ -667,6 +667,55 @@ def verifier_verrou_evaluations():
     return trouves
 
 
+def verifier_contrastes():
+    """Les bordures de composant doivent passer le seuil de 3 pour 1 (RGAA 3.3).
+
+    Le contour d'un champ de saisie ou d'un bouton EST l'information : sans
+    lui, on ne sait pas ou cliquer. Les deux feuilles portent un jeton
+    --bord-composant pour cela ; ce controle verifie qu'il existe, qu'il vaut
+    la meme chose des deux cotes, et qu'il passe reellement le seuil sur les
+    fonds du site. Il refuse aussi le retour des gris qui ne le passaient pas.
+
+    Ecrire le calcul ici plutot que de faire confiance a une valeur : une
+    couleur se change en une seconde, et personne ne recalcule."""
+    def luminance(hexa):
+        h = hexa.lstrip('#')
+        canaux = [int(h[i:i + 2], 16) / 255 for i in (0, 2, 4)]
+        canaux = [c / 12.92 if c <= 0.03928 else ((c + 0.055) / 1.055) ** 2.4
+                  for c in canaux]
+        return 0.2126 * canaux[0] + 0.7152 * canaux[1] + 0.0722 * canaux[2]
+
+    def rapport(a, b):
+        la, lb = luminance(a), luminance(b)
+        return (max(la, lb) + 0.05) / (min(la, lb) + 0.05)
+
+    FONDS = {'blanc': '#FFFFFF', '--papier': '#F3F5F7'}
+    valeurs = {}
+    for feuille in ('css/style.css', 'css/connecte.css'):
+        src = lire(feuille)
+        m = re.search(r'--bord-composant:\s*(#[0-9A-Fa-f]{6})', src)
+        if not m:
+            erreur(f'{feuille} : jeton --bord-composant absent (RGAA 3.3)')
+            continue
+        valeurs[feuille] = m.group(1).upper()
+        for nom, fond in FONDS.items():
+            r = rapport(m.group(1), fond)
+            if r < 3:
+                erreur(f'{feuille} : --bord-composant {m.group(1)} donne '
+                       f'{r:.2f} pour 1 sur {nom}, le seuil RGAA 3.3 est 3.')
+        # Les gris ecartes le 29 septembre 2026 ne doivent pas revenir sur
+        # une bordure : ils ne passent pas le seuil.
+        for gris in ('#8B98A5', 'var(--gray-400)'):
+            for forme in ('solid ', 'dashed '):
+                if forme + gris in src:
+                    erreur(f'{feuille} : bordure en {gris}, sous le seuil de '
+                           '3 pour 1. Employer var(--bord-composant).')
+    if len(valeurs) == 2 and len(set(valeurs.values())) != 1:
+        erreur('--bord-composant differe entre les deux feuilles : '
+               + ', '.join(f'{k} {v}' for k, v in valeurs.items()))
+    return len(valeurs)
+
+
 def main():
     with open('catalogue.json', encoding='utf-8') as f:
         cat = json.load(f)
@@ -680,6 +729,7 @@ def main():
     na = verifier_ancres()
     npub = verifier_portier()
     nev = verifier_verrou_evaluations()
+    verifier_contrastes()
     verifier_generes()
     verifier_parasites()
     verifier_hygiene(cat)

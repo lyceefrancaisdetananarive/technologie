@@ -62,6 +62,13 @@
   --gray-200: #E3E8EE;
   --gray-300: #D5DCE4;
   --gray-400: #A3AEBA;
+  /* BORDURE D'UN COMPOSANT D'INTERFACE, RGAA 3.3, seuil de 3 pour 1.
+     Les gris employes jusqu'ici ne le passaient pas : #8B98A5 donne 2,94
+     sur blanc et 2,77 sur --papier, #A3AEBA moins encore. Le contour d'un
+     champ de saisie ou d'une case a cocher EST l'information : sans lui,
+     on ne sait pas ou cliquer. Calcule, pas estime : #7B8794 donne 3,66
+     sur blanc et 3,45 sur --papier. */
+  --bord-composant: #7B8794;
   --gray-500: #5F6B7A;
   --gray-600: #4B5867;
   --gray-700: #364453;
@@ -164,11 +171,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .header-search { position: relative; flex: 1; max-width: 380px; margin-left: auto; }
 .header-search input {
   width: 100%; padding: .55rem .9rem .55rem 2.3rem;
-  border: 1.5px solid #8B98A5; border-radius: var(--radius-full);
+  border: 1.5px solid var(--bord-composant); border-radius: var(--radius-full);
   background: var(--papier); font-size: .92rem; color: var(--encre);
 }
 .header-search input::placeholder { color: var(--encre-3); }
-.header-search input:focus { outline: 0; border-color: var(--bleu); background: var(--papier-2); }
+.header-search input:focus { border-color: var(--bleu); background: var(--papier-2); }
+.header-search input:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
 .header-search-icon { position: absolute; left: .8rem; top: 50%; transform: translateY(-50%); color: var(--encre-3); display: flex; pointer-events: none; }
 .header-search-icon svg { width: 16px; height: 16px; }
 .search-results {
@@ -331,8 +339,9 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .code-cahier h3 { margin: 0 0 .25rem; font-size: 1.15rem; }
 .code-cahier p { font-size: .92rem; color: var(--encre-2); margin-bottom: .8rem; }
 .code-form { display: flex; gap: 8px; }
-.code-form input { flex: 1; min-width: 0; font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; letter-spacing: .18em; text-transform: uppercase; border: 1.5px solid #8B98A5; border-radius: var(--radius-sm); padding: .5rem .8rem; background: var(--papier); }
-.code-form input:focus { outline: 0; border-color: var(--bleu); background: var(--papier-2); }
+.code-form input { flex: 1; min-width: 0; font-family: var(--font-mono); font-weight: 700; font-size: 1.5rem; letter-spacing: .18em; text-transform: uppercase; border: 1.5px solid var(--bord-composant); border-radius: var(--radius-sm); padding: .5rem .8rem; background: var(--papier); }
+.code-form input:focus { border-color: var(--bleu); background: var(--papier-2); }
+.code-form input:focus-visible { outline: 3px solid var(--bleu); outline-offset: 2px; }
 .code-cahier .exemple { font-size: .82rem; color: var(--encre-3); margin: .6rem 0 0; }
 .entrees { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--space-md); margin-bottom: var(--space-xl); }
 .entree { display: flex; gap: 14px; align-items: flex-start; background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--radius-lg); padding: var(--space-md) var(--space-lg); color: var(--encre); transition: border-color var(--transition-fast), transform 80ms ease; }
@@ -400,7 +409,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
    l'attribut data-ferme sur les seuls liens autorisés. Un verrou dont le
    repli est « ouvert » n'est pas un verrou. */
 .seq-link-eval[data-ferme] { display: none; }
-.seq-link-prof, .seq-link-ebep { background: var(--papier-2); color: var(--encre-2); border: 1px dashed #8B98A5; }
+.seq-link-prof, .seq-link-ebep { background: var(--papier-2); color: var(--encre-2); border: 1px dashed var(--bord-composant); }
 
 /* Où en sont mes groupes (espace enseignant, données de la table plans) */
 .groupes-grille { display: grid; grid-template-columns: repeat(auto-fill, minmax(230px, 1fr)); gap: var(--space-md); margin: .5rem 0 0; }
@@ -485,6 +494,7 @@ a.hors-niveau { pointer-events: none; text-decoration: none; }
 .activity-step-content p:last-child { margin-bottom: 0; }
 
 /* Un tableau large défile dans son cadre */
+.table-scroll:focus-visible { outline: 3px solid var(--bleu); outline-offset: -3px; }
 .table-scroll { overflow-x: auto; max-width: 100%; margin: var(--space-md) 0; }
 .table-scroll > table { margin: 0; }
 
@@ -492,13 +502,13 @@ a.hors-niveau { pointer-events: none; text-decoration: none; }
 .zone-reponse { border: 1.5px dashed var(--trait); border-radius: var(--radius-sm); padding: var(--space-md); min-height: 52px; background: var(--papier); margin-bottom: var(--space-md); }
 .zone-reponse-haute { min-height: 110px; }
 .consigne-pliage { font-size: .9rem; font-style: italic; color: var(--encre-2); margin-bottom: .5rem; }
-.table-pliage td:first-child, .table-pliage th:first-child { border-right: 2px dashed var(--gray-400); }
+.table-pliage td:first-child, .table-pliage th:first-child { border-right: 2px dashed var(--bord-composant); }
 .liste-etiquetee { list-style: none; margin: var(--space-md) 0; padding: 0; }
 .liste-etiquetee li { padding: .45rem 0 .45rem .9rem; border-left: 3px solid var(--trait); margin-bottom: .4rem; }
 .doc-table { width: 100%; border-collapse: collapse; margin: var(--space-md) 0; font-size: .93rem; }
 .doc-table th, .doc-table td { border: 1px solid var(--trait); padding: .5rem .7rem; text-align: left; vertical-align: top; }
 .doc-table th { background: var(--papier); font-weight: 700; }
-.doc-note { border: 1px solid var(--gray-400); border-left-width: 4px; padding: .6rem .8rem; margin: var(--space-md) 0; font-size: .93rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
+.doc-note { border: 1px solid var(--bord-composant); border-left-width: 4px; padding: .6rem .8rem; margin: var(--space-md) 0; font-size: .93rem; border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
 
 /* Version adaptée (EBEP) : plus d'air, sans étiquette qui désigne l'élève */
 .ebep-content { font-size: 1.05rem; line-height: 1.8; }
@@ -557,11 +567,11 @@ details.note-prof .info-box { margin-top: .5rem; }
 .vid-cadre { aspect-ratio: 16 / 9; width: 100%; max-width: 640px; border: 0; border-radius: var(--radius-md); display: block; margin-bottom: .6rem; background: #000; }
 .vid-licence { font-size: .82rem; color: var(--encre-3); margin: .2rem 0; line-height: 1.45; }
 .vp-alerte { color: var(--error); font-weight: 700; }
-.vp-form { border: 1.5px dashed var(--gray-400); padding: .8rem 1rem; margin-top: .8rem; border-radius: var(--radius-sm); background: var(--papier); }
+.vp-form { border: 1.5px dashed var(--bord-composant); padding: .8rem 1rem; margin-top: .8rem; border-radius: var(--radius-sm); background: var(--papier); }
 .vp-form h4 { margin: 0 0 .5rem; font-size: .95rem; }
 .vp-l { display: flex; gap: .7rem; align-items: baseline; margin-bottom: .45rem; flex-wrap: wrap; }
 .vp-l label { flex: 0 0 9rem; font-size: .85rem; font-weight: 700; }
-.vp-l input { flex: 1 1 14rem; font-size: .9rem; padding: .3rem .5rem; border: 1.4px solid var(--gray-400); background: #fff; min-width: 0; border-radius: 6px; }
+.vp-l input { flex: 1 1 14rem; font-size: .9rem; padding: .3rem .5rem; border: 1.4px solid var(--bord-composant); background: #fff; min-width: 0; border-radius: 6px; }
 .vp-l input:focus { outline: 2px solid var(--bleu); }
 .vp-actions { display: flex; gap: .5rem; flex-wrap: wrap; align-items: center; margin-top: .5rem; }
 .vp-actions button { font-size: .85rem; font-weight: 700; padding: .4rem .9rem; cursor: pointer; border: 1.5px solid var(--bleu); background: var(--bleu); color: #fff; border-radius: var(--radius-sm); }

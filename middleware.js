@@ -168,15 +168,29 @@ function rediriger(vers) {
   });
 }
 
+// Les cinq pages d'erreur du portier sont les seules du site qui ne passent
+// pas par le gabarit commun : elles se fabriquent ici, en une chaine. Ce sont
+// aussi celles qu'une classe entiere rencontre en meme temps, quand le reseau
+// tombe ou qu'une evaluation n'est pas ouverte. Trois defauts y vivaient :
+//
+//   - le bleu #0096c8 donne 3,39 pour 1 sur blanc, sous les 4,5 exiges
+//     pour un texte et un lien (RGAA 3.2). Remplace par #004E8C, 8,51 pour 1 ;
+//   - aucune region : le corps flottait sans <main>, donc sans point d'entree
+//     pour un lecteur d'ecran (RGAA 9.2, 12.6) ;
+//   - aucun lien vers la declaration d'accessibilite, qui doit figurer sur
+//     CHAQUE page.
 function page(statut, titre, corps) {
   return new Response(
-    '<!doctype html><html lang="fr"><meta charset="utf-8">' +
+    '<!doctype html><html lang="fr"><head><meta charset="utf-8">' +
     '<meta name="viewport" content="width=device-width, initial-scale=1">' +
     `<title>${titre}</title>` +
     '<style>body{font-family:system-ui;max-width:32rem;margin:4rem auto;' +
-    'padding:0 1rem;color:#323232;line-height:1.6}h1{color:#0096c8}' +
-    'a{color:#0096c8}</style>' +
-    `<h1>${titre}</h1>${corps}</html>`,
+    'padding:0 1rem;color:#1F2A37;line-height:1.6}h1{color:#004E8C;font-size:1.5rem}' +
+    'a{color:#004E8C}a:focus-visible{outline:3px solid #004E8C;outline-offset:2px}' +
+    '.pied{margin-top:2.5rem;font-size:.85rem;color:#4B5867}</style></head><body>' +
+    `<main id="contenu"><h1>${titre}</h1>${corps}</main>` +
+    '<p class="pied"><a href="/accessibilite.html">Accessibilité : non conforme</a></p>' +
+    '</body></html>',
     { status: statut, headers: { 'content-type': 'text/html; charset=utf-8', 'cache-control': 'no-store' } }
   );
 }

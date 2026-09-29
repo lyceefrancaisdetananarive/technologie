@@ -331,7 +331,11 @@
   // ---- BREADCRUMB ----
   function renderBreadcrumb(items) {
     if (!items || items.length === 0) return null;
-    const bc = document.createElement('div');
+    // <nav> et non <div> : un aria-label ne s'applique qu'a un element
+    // qui porte un role. Sur un <div> nu, l'etiquette ecrite juste en
+    // dessous n'etait annoncee nulle part, et le fil d'Ariane n'etait pas
+    // une region reperable. RGAA 12.x, une balise, 241 pages.
+    const bc = document.createElement('nav');
     bc.className = 'breadcrumb';
     bc.setAttribute('aria-label', 'Fil d’Ariane');
     const parts = items.map((item, i) => {
@@ -925,6 +929,20 @@
     document.querySelectorAll('.site-main table').forEach(function (t) {
       if (t.closest('.table-scroll')) return;
       const w = document.createElement('div'); w.className = 'table-scroll';
+      // Une zone qui defile horizontalement doit pouvoir recevoir le focus :
+      // sans cela, ce qui depasse a droite est hors d'atteinte pour qui
+      // navigue au clavier. Le modele est celui de enseignant/mesure.html,
+      // deja ecrit dans le depot. RGAA 7.3 et 12.8.
+      //
+      // Le nom vient du <caption> quand il y en a un, sinon d'un libelle
+      // generique : une region sans nom accessible ne vaut pas mieux qu'une
+      // region absente.
+      const legende = t.querySelector('caption');
+      w.setAttribute('role', 'region');
+      w.setAttribute('tabindex', '0');
+      w.setAttribute('aria-label', legende && legende.textContent.trim()
+        ? 'Tableau : ' + legende.textContent.trim()
+        : 'Tableau, defilement horizontal');
       t.parentNode.insertBefore(w, t); w.appendChild(t);
     });
 
