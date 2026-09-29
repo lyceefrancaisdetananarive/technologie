@@ -49,6 +49,7 @@ table.usage { border-collapse: collapse; width: 100%; font-size: .86rem; }
   <span class="qui" id="qui"></span>
   <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
   <a class="lien-tete" id="lien-plan" href="/enseignant/plan.html">Plan de l'année</a>
+  <a class="lien-tete" id="lien-seance" href="/enseignant/seance.html">La séance</a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
 
@@ -137,6 +138,7 @@ async function charger() {
     etat = d;
     history.replaceState(null, '', `?groupe=${id}`);
     $('lien-plan').href = `/enseignant/plan.html?groupe=${id}`;
+    $('lien-seance').href = `/enseignant/seance.html?groupe=${id}`;
     rendre();
   } catch (e) {
     if (num !== chargement) return;

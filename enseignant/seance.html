@@ -1,0 +1,285 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>La séance en cours · Espace enseignant · LFT</title>
+<link rel="stylesheet" href="/css/connecte.css">
+<style>
+main { max-width: 58rem; }
+/* Cet écran s'ouvre pendant le cours, et on le regarde de loin, debout,
+   entre deux tables. D'où les gros caractères, le tri par besoin, et le
+   très petit nombre d'informations par ligne. */
+.tete-seance { display: flex; flex-wrap: wrap; gap: .75rem 1.25rem; align-items: end; }
+.tete-seance select { width: auto; min-width: 13rem; max-width: 100%; }
+.fraicheur { font-size: .84rem; color: var(--encre-2); margin: .6rem 0 0; }
+.fraicheur b { color: var(--encre); }
+.fraicheur.vieille b { color: var(--encours); }
+
+.compteurs { display: grid; grid-template-columns: repeat(auto-fit, minmax(8.5rem, 1fr));
+  gap: .7rem; margin-top: 1rem; }
+.compteur { border: 1px solid var(--trait); border-radius: 12px; padding: .7rem .8rem;
+  background: var(--papier-2); }
+.compteur b { display: block; font: 800 1.6rem var(--display); }
+.compteur span { font-size: .82rem; color: var(--encre-2); }
+.compteur.rien b { color: var(--encours); }
+.compteur.avance b { color: var(--fait); }
+
+.eleves { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .45rem; }
+.el { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem;
+  padding: .6rem .85rem; border-radius: var(--r); border: 1px solid var(--trait);
+  background: var(--papier-2); }
+.el .qui-nom { font-weight: 700; font-size: 1.02rem; flex: 1 1 11rem; }
+.el .qui-nom a { color: inherit; text-decoration: none; border-bottom: 1px dotted var(--bleu); }
+.el .qui-nom a:hover { color: var(--bleu); border-bottom-style: solid; }
+.el .etat { font-size: .9rem; }
+.el .detail { font-size: .84rem; color: var(--encre-2); }
+/* Trois états, trois couleurs, et c'est tout. Un dégradé de nuances se lit
+   mal de loin et invite à comparer les élèves entre eux, ce qui n'est pas
+   l'objet. */
+.el.rien { border-left: 5px solid var(--encours); background: var(--encours-pale); }
+.el.rien .etat { color: var(--encours); font-weight: 700; }
+.el.avance { border-left: 5px solid var(--fait); }
+.el.avance .etat { color: var(--fait); font-weight: 700; }
+.el.depose { border-left: 5px solid var(--bleu); }
+.el.depose .etat { color: var(--bleu); font-weight: 700; }
+.el.jamais { border-left: 5px solid var(--erreur); background: var(--erreur-pale); }
+.el.jamais .etat { color: var(--erreur); font-weight: 700; }
+
+.reglages { display: flex; flex-wrap: wrap; gap: .5rem 1rem; align-items: center;
+  margin-top: 1rem; font-size: .88rem; }
+.reglages label { display: inline-flex; align-items: center; gap: .4rem; margin: 0; }
+.note { font-size: .84rem; color: var(--encre-2); margin-top: 1rem; line-height: 1.5; }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; }
+@media print { header, .reglages { display: none !important; } }
+</style>
+</head>
+<body>
+<header>
+  <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
+  <h1>La séance en cours</h1>
+  <span class="qui" id="qui"></span>
+  <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
+  <a class="lien-tete" id="lien-suivi" href="/enseignant/mesure.html">Suivi du groupe</a>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <section>
+    <div class="tete-seance">
+      <div>
+        <label for="groupe">Groupe</label>
+        <select id="groupe"></select>
+      </div>
+      <div>
+        <label for="fenetre">Depuis</label>
+        <select id="fenetre">
+          <option value="30">30 minutes</option>
+          <option value="60">1 heure</option>
+          <option value="90" selected>1 h 30</option>
+          <option value="120">2 heures</option>
+        </select>
+      </div>
+      <button class="secondaire" id="rafraichir" type="button">Actualiser</button>
+    </div>
+    <p class="intro" style="margin-top:1rem">Qui avance, et qui n'avance pas. Cet écran ne dit pas qui est
+    connecté&nbsp;: un élève dont le réseau a lâché n'est pas un problème pédagogique, un élève qui n'a rien
+    écrit depuis douze minutes en est un. Les élèves sans activité remontent en tête, parce que c'est la
+    seule raison d'ouvrir cette page.</p>
+    <p class="fraicheur" id="fraicheur"></p>
+    <div class="compteurs" id="compteurs"></div>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section>
+    <h2>Élève par élève</h2>
+    <ul class="eleves" id="eleves"></ul>
+    <div class="reglages">
+      <label><input type="checkbox" id="auto" checked> Actualiser tout seul toutes les 25 secondes</label>
+      <span id="etat-auto" class="detail"></span>
+    </div>
+    <p class="note">Ce que cet écran lit&nbsp;: les champs remplis dans les fiches d'activité et les travaux
+    déposés, tels que le classeur les enregistre déjà. Il ne lit ni le texte écrit, ni le temps de connexion,
+    ni les pages consultées. La règle qui a servi à le construire&nbsp;: si une donnée ne sert pas à décider
+    d'une aide dans les cinq minutes, elle n'a rien à faire ici.</p>
+  </section>
+</main>
+
+<script src="/js/components.js" defer></script>
+<script type="module">
+import { api, echapper } from '/js/classeur-commun.js';
+
+const $ = (id) => document.getElementById(id);
+const PAS = 25000;
+let etat = null;
+let minuteur = null;
+let chargement = 0;
+
+function dire(texte, classe = 'info') {
+  $('msg').className = texte ? `msg ${classe}` : 'msg';
+  $('msg').textContent = texte || '';
+}
+
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+/** « il y a 3 min », « il y a 1 h 05 ». En minutes entières : la seconde
+ * près n'aide personne et donne une fausse idée de précision. */
+function ilYA(iso, reference) {
+  if (!iso) return null;
+  const m = Math.max(0, Math.round((reference - new Date(iso)) / 60000));
+  if (m < 1) return 'à l’instant';
+  if (m < 60) return `il y a ${m} min`;
+  return `il y a ${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')}`;
+}
+
+/**
+ * L'ORDRE DE LA LISTE EST LE CŒUR DE CET ÉCRAN.
+ *
+ * On ne trie pas par nom : une liste alphabétique demande de la lire en
+ * entier pour trouver qui a besoin d'aide, et pendant ce temps on ne
+ * regarde pas la classe. On trie par BESOIN, du plus criant au moins.
+ *
+ * 1. le compte n'a jamais été ouvert : ce n'est pas un problème de travail,
+ *    c'est un problème d'accès, et il se règle tout de suite ;
+ * 2. rien écrit, rien déposé pendant la fenêtre ;
+ * 3. écrit il y a longtemps, donc peut-être bloqué ;
+ * 4. écrit récemment, ou déposé : rien à faire.
+ */
+function rang(e, maintenant) {
+  if (e.compte_jamais_ouvert) return 0;
+  if (!e.dernier_ecrit && !e.dernier_depot) return 1;
+  const dernier = Math.max(
+    e.dernier_ecrit ? new Date(e.dernier_ecrit).getTime() : 0,
+    e.dernier_depot ? new Date(e.dernier_depot).getTime() : 0);
+  return (maintenant - dernier) / 60000 >= 10 ? 2 : 3;
+}
+
+function rendre() {
+  if (!etat) return;
+  const maintenant = Date.now();
+  const mesure = new Date(etat.mesure_le);
+  const age = Math.round((maintenant - mesure) / 1000);
+  $('fraicheur').className = 'fraicheur' + (age > 90 ? ' vieille' : '');
+  $('fraicheur').replaceChildren(
+    'Relevé ', el('b', {}, age < 5 ? 'à l’instant' : `il y a ${age} s`),
+    `, sur les ${etat.fenetre} dernières minutes. ${etat.eleves.length} élève${etat.eleves.length > 1 ? 's' : ''} dans le groupe.`);
+
+  const classes = etat.eleves.map((e) => rang(e, maintenant));
+  const jamais = classes.filter((r) => r === 0).length;
+  const rien = classes.filter((r) => r === 1).length;
+  const bloques = classes.filter((r) => r === 2).length;
+  const actifs = classes.filter((r) => r === 3).length;
+  $('compteurs').replaceChildren(
+    el('div', { class: 'compteur avance' }, el('b', {}, String(actifs)), el('span', {}, 'avancent')),
+    el('div', { class: 'compteur' + (bloques ? ' rien' : '') }, el('b', {}, String(bloques)),
+      el('span', {}, 'rien depuis 10 min')),
+    el('div', { class: 'compteur' + (rien ? ' rien' : '') }, el('b', {}, String(rien)),
+      el('span', {}, 'rien du tout')),
+    el('div', { class: 'compteur' + (jamais ? ' rien' : '') }, el('b', {}, String(jamais)),
+      el('span', {}, 'compte jamais ouvert')));
+
+  const tries = etat.eleves
+    .map((e) => ({ e, r: rang(e, maintenant) }))
+    .sort((a, b) => a.r - b.r
+      || String(a.e.nom || '').localeCompare(String(b.e.nom || ''), 'fr'));
+
+  $('eleves').replaceChildren(...tries.map(({ e, r }) => {
+    const classe = r === 0 ? 'jamais' : r === 1 ? 'rien' : r === 2 ? 'rien' : 'avance';
+    const etatTexte = r === 0 ? 'compte jamais ouvert'
+      : r === 1 ? 'rien pendant la séance'
+      : e.dernier_ecrit ? `${e.champs_ecrits} champ${e.champs_ecrits > 1 ? 's' : ''}, ${ilYA(e.dernier_ecrit, maintenant)}`
+      : `déposé ${ilYA(e.dernier_depot, maintenant)}`;
+    const detail = [];
+    if (e.depots) detail.push(`${e.depots} dépôt${e.depots > 1 ? 's' : ''}`);
+    if (e.pages.length) {
+      detail.push(e.pages.length > 1 ? `${e.pages.length} fiches` : e.pages[0].split('/').pop().replace('.html', ''));
+    }
+    return el('li', { class: 'el ' + (e.depots && r >= 2 ? 'depose' : classe) },
+      el('span', { class: 'qui-nom' },
+        el('a', { href: 'eleve.html?eleve=' + encodeURIComponent(e.id)
+          + '&groupe=' + encodeURIComponent($('groupe').value) },
+          `${e.prenom || ''} ${e.nom || ''}`.trim() || 'Élève')),
+      el('span', { class: 'etat' }, etatTexte),
+      detail.length ? el('span', { class: 'detail' }, detail.join(' · ')) : null);
+  }));
+}
+
+async function charger({ discret = false } = {}) {
+  const id = $('groupe').value;
+  if (!id) return;
+  const num = ++chargement;
+  if (!discret) dire('');
+  try {
+    const d = await api(`/api/prof/seance?groupe=${id}&minutes=${$('fenetre').value}`);
+    if (num !== chargement) return;
+    etat = d;
+    rendre();
+  } catch (e) {
+    // Une actualisation automatique qui échoue ne doit pas effacer l'écran :
+    // mieux vaut une donnée d'il y a une minute qu'un écran vide.
+    if (discret) { $('fraicheur').className = 'fraicheur vieille'; return; }
+    dire(e.message || 'Lecture impossible.', 'err');
+  }
+}
+
+function reglerMinuteur() {
+  if (minuteur) { clearInterval(minuteur); minuteur = null; }
+  // On n'interroge pas une page cachée : un onglet oublié derrière un autre
+  // n'a aucune raison de réveiller la base toutes les vingt-cinq secondes.
+  const actif = $('auto').checked && document.visibilityState === 'visible';
+  $('etat-auto').textContent = actif ? 'actualisation en cours'
+    : $('auto').checked ? 'en pause, cet onglet n’est pas au premier plan'
+    : 'arrêtée';
+  if (!actif) return;
+  minuteur = setInterval(() => {
+    charger({ discret: true });
+    rendre();                   // l'âge affiché avance même sans nouvelle lecture
+  }, PAS);
+}
+
+async function chargerGroupes() {
+  const g = await api('/api/classeur/groupes');
+  if (g.role !== 'prof') { location.href = '/classeur/'; return; }
+  $('qui').textContent = g.prenom || '';
+  if (!g.groupes.length) {
+    $('groupe').innerHTML = '<option value="">Aucun groupe</option>';
+    dire('Aucun groupe ne vous est rattaché.', 'attention');
+    return;
+  }
+  $('groupe').innerHTML = g.groupes
+    .map((x) => `<option value="${x.id}">${echapper(x.code)} · ${echapper(x.libelle)}</option>`).join('');
+  const voulu = new URLSearchParams(location.search).get('groupe');
+  if (voulu && g.groupes.some((x) => x.id === voulu)) $('groupe').value = voulu;
+  $('lien-suivi').href = '/enseignant/mesure.html?groupe=' + $('groupe').value;
+  await charger();
+  reglerMinuteur();
+}
+
+$('groupe').addEventListener('change', () => {
+  history.replaceState(null, '', `?groupe=${$('groupe').value}`);
+  $('lien-suivi').href = '/enseignant/mesure.html?groupe=' + $('groupe').value;
+  charger();
+});
+$('fenetre').addEventListener('change', () => charger());
+$('rafraichir').addEventListener('click', () => charger());
+$('auto').addEventListener('change', reglerMinuteur);
+document.addEventListener('visibilitychange', () => {
+  reglerMinuteur();
+  if (document.visibilityState === 'visible' && $('auto').checked) charger({ discret: true });
+});
+
+chargerGroupes().catch((e) => dire(e.message || 'Lecture impossible.', 'err'));
+</script>
+</body>
+</html>

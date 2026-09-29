@@ -300,7 +300,7 @@ async function charger() {
       ${(() => { const c = libelleCorriger(g.a_corriger); return c.alerte
         ? `<a class="groupe-corriger alerte" href="classeur.html?groupe=${g.id}">${echapper(c.texte)}<span class="visually-hidden"> dans le groupe ${echapper(g.code)} : ouvrir le classeur</span></a>`
         : `<span class="groupe-corriger">${echapper(c.texte)}</span>`; })()}
-      <span class="groupe-liens"><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a><a href="classeur.html?groupe=${g.id}">Classeur<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a></span>
+      <span class="groupe-liens"><a href="seance.html?groupe=${g.id}">La séance<span class="visually-hidden"> en cours, groupe ${echapper(g.code)}</span></a><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a><a href="classeur.html?groupe=${g.id}">Classeur<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a></span>
     </article>`;
   }).join('') + '</div>';
 }
