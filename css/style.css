@@ -193,6 +193,13 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .session-pile.prof { background: #FDEAED; color: #7F1D1D; border-color: #F5B7BF; }
 .session-pile .ini { width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; font-family: var(--font-display); font-weight: 800; font-size: .72rem; background: var(--fait); color: #fff; }
 .session-pile.prof .ini { background: var(--aefe-red); }
+/* La pastille portait un libelle de longueur fixe ; elle porte maintenant
+   un nom, qui peut etre long. Sans plafond, un nom compose poussait le
+   bouton de menu hors de l'ecran, exactement le defaut deja corrige sur
+   le libelle du bouton de fermeture. Le nom entier reste dans le title.
+   En dessous de 768 px, .txt est deja masque : seules les initiales
+   restent, et elles sont desormais celles de l'eleve. */
+.session-pile .txt { max-width: 22ch; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .session-pile .fermer { border: 1.5px solid currentColor; background: var(--papier-2); color: inherit; border-radius: 999px; font-size: .8rem; font-weight: 700; cursor: pointer; padding: .25rem .7rem; min-height: 28px; }
 .session-pile .fermer:hover { background: #fff; }
 .session-pile .fermer:disabled { opacity: .5; cursor: progress; }

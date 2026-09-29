@@ -405,6 +405,59 @@
     } catch (e) { return []; }
   }
 
+  // ---- LE NOM DANS LA PASTILLE ----
+  // Le temoin de session est un cookie volontairement maigre : un role, une
+  // date d'expiration, des niveaux. Il ne porte PAS le nom, et il ne doit pas
+  // le porter : un cookie non chiffre lisible par tout script de la page n'est
+  // pas un endroit pour l'identite d'un mineur.
+  //
+  // Le nom est donc demande une seule fois par onglet a /api/auth/moi, puis
+  // garde dans sessionStorage. Consequences voulues :
+  //   - le cout reseau au chargement reste nul sur toutes les pages suivantes,
+  //     ce qui etait la promesse de renderSession et qu'il ne faut pas casser ;
+  //   - sessionStorage meurt avec l'onglet. Sur un poste partage en salle, le
+  //     nom de l'eleve precedent ne survit pas a la fermeture, ce qu'un
+  //     localStorage ne garantirait pas.
+  //
+  // Si l'appel echoue, la pastille garde « Session eleve ouverte » : on
+  // n'affiche jamais un nom incertain, et rien ne regresse.
+  const CLE_NOM = 'lft_nom';
+
+  function poser(pile, nom, phrase) {
+    // Un nom fait d espaces passait la garde et vidait la pastille : on
+    // rogne d abord, on refuse ensuite.
+    nom = String(nom || '').trim();
+    if (!nom) return;
+    const txt = pile.querySelector('.txt');
+    const ini = pile.querySelector('.ini');
+    if (txt) txt.textContent = nom;
+    if (ini) {
+      const mots = nom.split(/\s+/).filter(Boolean);
+      ini.textContent = ((mots[0] || '')[0] || '') +
+        ((mots.length > 1 ? mots[mots.length - 1] : '')[0] || '');
+    }
+    // Le role reste dit, pour les lecteurs d'ecran et au survol : la couleur
+    // de la pastille le dit a l'oeil, elle ne le dit pas a tout le monde.
+    pile.title = phrase + ' : ' + nom;
+    pile.setAttribute('aria-label', phrase + ', ' + nom);
+  }
+
+  function nommerLaPastille(pile, phrase) {
+    let garde = null;
+    try { garde = sessionStorage.getItem(CLE_NOM); } catch (e) { /* mode prive */ }
+    if (garde) { poser(pile, garde, phrase); return; }
+    fetch('/api/auth/moi', { credentials: 'same-origin' })
+      .then(function (r) { return r && r.ok ? r.json() : null; })
+      .then(function (d) {
+        if (!d || !d.connecte) return;
+        const nom = [d.prenom, d.nom].filter(Boolean).join(' ').trim();
+        if (!nom) return;
+        try { sessionStorage.setItem(CLE_NOM, nom); } catch (e) { /* mode prive */ }
+        poser(pile, nom, phrase);
+      })
+      .catch(function () { /* la pastille garde son libelle generique */ });
+  }
+
   function renderSession(activePage) {
     const zone = document.getElementById('header-session');
     if (!zone) return;
@@ -421,7 +474,10 @@
     const pile = document.createElement('span');
     pile.className = 'session-pile' + (prof ? ' prof' : '');
     pile.setAttribute('role', 'status');
-    pile.innerHTML = `<span class="ini">${prof ? 'P' : 'E'}</span><span class="txt">Session ${prof ? 'professeur' : 'élève'} ouverte</span>`;
+    const phrase = `Session ${prof ? 'professeur' : 'élève'} ouverte`;
+    pile.innerHTML = `<span class="ini">${prof ? 'P' : 'E'}</span><span class="txt">${phrase}</span>`;
+    pile.title = phrase;
+    nommerLaPastille(pile, phrase);
     // Sur un petit ecran, le libelle court : « Fermer ma session » (135 px)
     // poussait le bouton de menu hors de l'ecran a 360 px. Le nom complet
     // reste pour les lecteurs d'ecran.
@@ -449,6 +505,7 @@
         .then(function (r) {
           if (!r || !r.ok) return echec();
           document.cookie = 'lft_ouvert=; Path=/; Max-Age=0; SameSite=Strict';
+          try { sessionStorage.removeItem(CLE_NOM); } catch (e) { /* mode prive */ }
           location.reload();
         })
         .catch(echec);
