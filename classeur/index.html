@@ -23,6 +23,10 @@
     <p class="intro" id="annee-resume">Chargement…</p>
     <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
     <p class="meta" id="annee-prochaine"></p>
+    <section class="a-faire" id="a-faire" hidden aria-labelledby="a-faire-titre">
+      <h3 id="a-faire-titre">Ce que j’ai à faire</h3>
+      <ul id="a-faire-liste"></ul>
+    </section>
     <ol class="parcours" id="parcours"></ol>
     <p class="legende-parcours" id="annee-legende" hidden>
       <span class="point fait" aria-hidden="true"></span> séance faite en classe ·
@@ -101,6 +105,7 @@ import {
 const $ = (id) => document.getElementById(id);
 let groupes = [];
 let progression = [];   // la carte de l'année, par groupe (api/classeur/progression)
+let mesFiches = [];     // mes fiches d'activité regroupées (api/classeur/reponse)
 const PICTO_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>';
 const LIBELLE_ETAT = { fait: 'Fait', encours: 'En cours', avenir: 'À venir' };
 const MAITRISES = {
@@ -181,6 +186,111 @@ function etatDepot(seqId) {
 
 const ETAT_SEANCE = { fait: 'faite', 'a-rattraper': 'à rattraper', 'a-reprendre': 'à reprendre', rattrape: 'rattrapée' };
 
+/**
+ * CE QUE J'AI À FAIRE : le seul endroit du classeur qui ne parle que de moi.
+ *
+ * Le reste de la page montre l'avancement du GROUPE, ce qui est juste et
+ * honnête : un élève n'est pas en retard parce qu'une séance n'a pas encore
+ * eu lieu. Mais du coup rien ne lui dit ce qui, lui, l'attend. Trente-deux
+ * lignes « pas encore faite » ne sont pas une liste de tâches, elles sont un
+ * calendrier.
+ *
+ * Trois sources, et trois seulement, toutes déjà lues par la page :
+ *   - mes exceptions non réglées : absent, ou à reprendre ;
+ *   - mes fiches d'activité commencées et non terminées ;
+ *   - les quiz jamais tentés d'une séquence déjà entamée en classe.
+ *
+ * Ce qui n'y figure pas, volontairement : ce que le professeur n'a pas
+ * encore demandé. Le classeur n'invente pas de devoirs.
+ */
+function calculerAFaire(prog) {
+  const taches = [];
+  const enCours = new Set();
+
+  // 1. Ce que je dois rattraper ou reprendre. Une séance rattrapée est
+  //    réglée : elle ne revient pas dans la liste.
+  for (const x of prog.exceptions ?? []) {
+    if (x.etat === 'rattrape') continue;
+    const s = sequence(x.sequence);
+    if (!s) continue;
+    const titres = titresSeances(s);
+    taches.push({
+      genre: x.etat === 'absent' ? 'rattraper' : 'reprendre',
+      titre: x.etat === 'absent'
+        ? `Rattraper la séance ${x.seance} de « ${s.titre} »`
+        : `Reprendre la séance ${x.seance} de « ${s.titre} »`,
+      detail: titres[x.seance - 1] || '',
+      lien: s.documents && s.documents.activite ? '/' + s.documents.activite.fichier : null,
+      lienTexte: 'Ouvrir l’activité',
+    });
+  }
+
+  // 2. Mes fiches commencées et laissées en plan. Une fiche terminée, même
+  //    non corrigée, n'est plus de mon ressort : elle attend le professeur.
+  for (const f of mesFiches) {
+    if (f.etat !== 'encours') continue;
+    const id = String(f.page).replace(/-(activite|ebep)\.html$/, '');
+    const s = sequence(id);
+    if (!s || !(prog.plan ?? []).some((pl) => pl.sequence === id && pl.visible)) continue;
+    enCours.add(id);
+    taches.push({
+      genre: 'fiche',
+      titre: `Finir ma fiche de « ${s.titre} »`,
+      detail: f.nb_champs
+        ? `${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}, `
+          + 'il reste à cliquer sur « J’ai terminé »'
+        : 'commencée, pas encore envoyée',
+      lien: '/' + f.page,
+      lienTexte: 'Ouvrir la fiche',
+    });
+  }
+
+  // 3. Les quiz d'une séquence déjà entamée en classe, jamais tentés. Un
+  //    quiz proposé avant la séance serait une consigne que personne n'a
+  //    donnée : on attend que le travail ait commencé.
+  for (const pl of prog.plan ?? []) {
+    if (!pl.visible) continue;
+    const s = sequence(pl.sequence);
+    if (!s || !s.documents || !s.documents.quiz) continue;
+    const entamee = (prog.avancement ?? []).some((a) => a.sequence === pl.sequence);
+    if (!entamee) continue;
+    if (mesScores.some((x) => x.quiz === s.id)) continue;
+    taches.push({
+      genre: 'quiz',
+      titre: `Faire le quiz de « ${s.titre} »`,
+      detail: 'pour vérifier ce que tu retiens, ce n’est pas une note',
+      lien: '/' + s.documents.quiz.fichier,
+      lienTexte: 'Ouvrir le quiz',
+    });
+  }
+  return taches;
+}
+
+const GENRE_ETIQUETTE = {
+  rattraper: 'à rattraper', reprendre: 'à reprendre',
+  fiche: 'à finir', quiz: 'à faire',
+};
+
+function rendreAFaire(prog) {
+  const zone = $('a-faire');
+  const liste = $('a-faire-liste');
+  if (!zone || !liste) return;
+  const taches = calculerAFaire(prog);
+  zone.hidden = false;
+  zone.classList.toggle('vide', taches.length === 0);
+  if (!taches.length) {
+    liste.replaceChildren(el('li', { class: 'a-faire-rien' },
+      'Rien en attente de ton côté. Tout est à jour.'));
+    return;
+  }
+  liste.replaceChildren(...taches.map((t) => el('li', { class: 'a-faire-item ' + t.genre },
+    el('span', { class: 'a-faire-etiquette' }, GENRE_ETIQUETTE[t.genre] || ''),
+    el('span', { class: 'a-faire-texte' },
+      el('strong', {}, t.titre),
+      t.detail ? el('span', { class: 'a-faire-detail' }, ' ' + t.detail) : null),
+    t.lien ? el('a', { class: 'a-faire-lien', href: t.lien }, t.lienTexte) : null)));
+}
+
 function rendreAnnee() {
   const gid = $('groupe').value;
   const prog = progression.find((g) => g.id === gid) ?? progression[0];
@@ -214,6 +324,7 @@ function rendreAnnee() {
       ? `${etatSequence(r.courante, prog.avancement) === 'encours' ? 'Séquence en cours' : 'Prochaine séquence'} : ${r.courante.titre}.`
         + (r.ouvertes ? ' Pour ce qui est à rattraper ou à reprendre, demande à ton professeur.' : '')
       : '';
+  rendreAFaire(prog);
   $('annee-legende').hidden = false;
   $('parcours').innerHTML = prog.plan.map((p, i) => {
     const s = sequence(p.sequence);
@@ -266,7 +377,7 @@ async function charger() {
   if (r.status === 'rejected') dire(r.reason?.message || 'Lecture impossible.', 'err');
   listerReponses(q);
   remplirSequences();
-  rendreAnnee();
+  rendreAnnee();   // appelé APRÈS listerReponses : il lit mesFiches.
 }
 
 /** Le titre d'une fiche à partir de son chemin (5eme/p1/seq1-ebep.html). */
@@ -340,6 +451,7 @@ function listerReponses(q) {
     return;
   }
   const fiches = regrouperParFiche(q.value.reponses || []);
+  mesFiches = fiches;
   if (!fiches.length) {
     $('liste-reponses').replaceChildren(el('p', { class: 'vide' }, 'Tu n’as encore rien écrit dans une fiche.'));
     return;

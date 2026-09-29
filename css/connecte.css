@@ -170,6 +170,37 @@ button.danger:hover { filter: brightness(.9); }
    publiques. Pas de mascotte, pas de série, pas de classement. */
 .annee-barre { display: block; height: 10px; margin: .5rem 0 .4rem; }
 .annee-barre div { background: var(--fait); }
+/* ------------------------------------------------ ce que j'ai a faire */
+/* Le seul bloc du classeur qui ne parle que de l'eleve. Il se place entre le
+   resume de l'annee, qui est collectif, et le parcours, qui est un
+   calendrier : c'est la seule position ou il repond a la question que
+   l'eleve se pose en ouvrant la page.
+   Quand il n'y a rien, il ne disparait pas, il le DIT : un bloc absent se
+   lit comme une panne, un bloc qui annonce « tout est a jour » se lit comme
+   une reponse. */
+.a-faire { margin: 1rem 0 0; padding: .9rem 1rem; border-radius: var(--r-lg);
+  background: var(--encours-pale); border: 1px solid #F3D3AC; }
+.a-faire.vide { background: var(--fait-pale); border-color: #A9DDBB; }
+.a-faire h3 { margin: 0 0 .6rem; font-family: var(--display); font-size: 1rem;
+  color: var(--encours); }
+.a-faire.vide h3 { color: var(--fait); }
+.a-faire ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.a-faire-item { display: flex; align-items: baseline; flex-wrap: wrap; gap: .5rem;
+  background: var(--papier-2); border-radius: var(--r); padding: .5rem .7rem; }
+.a-faire-etiquette { flex: none; font-size: .7rem; font-weight: 800;
+  letter-spacing: .03em; text-transform: uppercase; padding: .15rem .55rem;
+  border-radius: 999px; background: var(--encours); color: #fff; }
+.a-faire-item.quiz .a-faire-etiquette { background: var(--bleu); }
+.a-faire-item.fiche .a-faire-etiquette { background: var(--or); color: #3A2A00; }
+.a-faire-texte { flex: 1 1 14rem; line-height: 1.35; }
+.a-faire-detail { color: var(--encre-2); }
+.a-faire-lien { flex: none; font-weight: 700; white-space: nowrap; }
+.a-faire-rien { color: var(--fait); font-weight: 600; }
+@media (max-width: 520px) {
+  /* Le lien passe sous le texte plutot que de le comprimer a trois mots. */
+  .a-faire-lien { flex-basis: 100%; }
+}
+
 .parcours { list-style: none; margin: 1rem 0 0; padding: 0; position: relative; }
 .parcours::before { content: ""; position: absolute; left: 17px; top: 18px; bottom: 18px; width: 2px; background: var(--grille); }
 .etape { display: grid; grid-template-columns: 36px 1fr; gap: .8rem; align-items: start; padding: .55rem 0; position: relative; }
