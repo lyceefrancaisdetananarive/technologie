@@ -1,0 +1,341 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Fiche d'un élève · Espace enseignant · LFT</title>
+<link rel="stylesheet" href="/css/connecte.css">
+<style>
+main { max-width: 62rem; }
+/* La fiche se lit du général au particulier : qui, puis où il en est, puis
+   ce qu'il a produit séquence par séquence, puis le détail daté. Aucun
+   total, aucune moyenne, aucun rang : le classeur mesure le travail, les
+   notes vivent dans PRONOTE. */
+.identite { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
+.identite h2 { margin: 0; font-size: 1.5rem; }
+.identite .meta { margin: 0; }
+.alerte-compte { margin-top: .75rem; padding: .6rem .8rem; border-radius: var(--r);
+  background: var(--encours-pale); border-left: 4px solid var(--encours); font-size: .9rem; }
+.chiffres { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr));
+  gap: .7rem; margin-top: 1rem; }
+.chiffre { border: 1px solid var(--trait); border-radius: 12px; padding: .7rem .8rem;
+  background: var(--papier-2); }
+.chiffre b { display: block; font: 800 1.5rem var(--display); color: var(--bleu); }
+.chiffre.alerte b { color: var(--encours); }
+.chiffre span { font-size: .82rem; color: var(--encre-2); }
+
+.seq { border: 1px solid var(--trait); border-radius: var(--r-lg); padding: .8rem 1rem;
+  margin-top: .7rem; background: var(--papier-2); }
+.seq.rien { background: var(--papier); }
+.seq h3 { margin: 0 0 .2rem; font-size: 1rem; display: flex; flex-wrap: wrap;
+  align-items: baseline; gap: .5rem; }
+.seq .rang { font: 800 .8rem var(--display); color: var(--encre-3); }
+.seq .lignes { margin: .5rem 0 0; padding: 0; list-style: none; display: grid; gap: .35rem;
+  font-size: .9rem; }
+.seq .lignes li { display: flex; flex-wrap: wrap; gap: .45rem; align-items: baseline; }
+.seq .quand { color: var(--encre-3); font-size: .84rem; white-space: nowrap; }
+.seq .vide-seq { margin: .4rem 0 0; font-size: .88rem; color: var(--encre-3); }
+.etiq { flex: none; font-size: .7rem; font-weight: 800; letter-spacing: .03em;
+  text-transform: uppercase; padding: .12rem .5rem; border-radius: 999px; }
+.etiq.depot { background: var(--encours-pale); color: var(--encours); }
+.etiq.corrige { background: var(--fait-pale); color: var(--fait); }
+.etiq.fiche { background: var(--bleu-pale); color: var(--bleu); }
+.etiq.quiz { background: var(--bleu-pale); color: var(--bleu); }
+.etiq.absent { background: var(--erreur-pale); color: var(--erreur); }
+.mot, .retour { margin: .3rem 0 0 .2rem; padding: .45rem .6rem; border-radius: var(--r);
+  font-size: .88rem; white-space: pre-wrap; }
+.mot { background: var(--papier); border-left: 3px solid var(--grille); }
+.retour { background: var(--papier); border-left: 3px solid var(--fait); }
+.retour strong { color: var(--fait); }
+.rien-du-tout { color: var(--encre-2); }
+.visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden;
+  clip: rect(0 0 0 0); white-space: nowrap; }
+@media print {
+  header, .actions, .lien-tete, .sortir { display: none !important; }
+  main { max-width: none; }
+  .seq { break-inside: avoid; }
+}
+</style>
+</head>
+<body>
+<header>
+  <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
+  <h1>Fiche d'un élève</h1>
+  <span class="qui" id="qui"></span>
+  <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
+  <a class="lien-tete" id="lien-suivi" href="/enseignant/mesure.html">Suivi du groupe</a>
+  <button class="sortir" id="sortir">Fermer ma session</button>
+</header>
+
+<main>
+  <section>
+    <div class="identite">
+      <h2 id="nom">Chargement…</h2>
+      <p class="meta" id="appartenance"></p>
+    </div>
+    <div class="alerte-compte" id="alerte-compte" hidden></div>
+    <p class="intro" style="margin-top:1rem">Tout ce que le site sait du travail de cet élève en
+      Technologie, dans les groupes que vous lui enseignez. Aucune note, aucun total, aucun
+      classement&nbsp;: les notes vivent dans PRONOTE, cette fiche sert à préparer un entretien,
+      une remédiation ou un conseil de classe.</p>
+    <div class="chiffres" id="chiffres"></div>
+    <p class="msg" id="msg" role="status" aria-live="polite"></p>
+  </section>
+
+  <section id="bloc-parcours" hidden>
+    <h2>Son parcours, séquence par séquence</h2>
+    <div id="parcours"></div>
+  </section>
+
+  <section id="bloc-ecarts" hidden>
+    <h2>Absences, reprises et rattrapages</h2>
+    <div id="ecarts"></div>
+  </section>
+</main>
+
+<script src="/js/components.js" defer></script>
+<script src="/js/catalogue.js"></script>
+<script type="module">
+import { api, echapper, dateCourte } from '/js/classeur-commun.js';
+import { catalogueCharge, sequence, NIVEAU_COURT } from '/js/progression-regles.js';
+
+const $ = (id) => document.getElementById(id);
+let F = null;
+
+const ETAT_FICHE = {
+  encours: ['fiche', 'fiche en cours'],
+  terminee: ['fiche', 'fiche terminée, à corriger'],
+  corrigee: ['corrige', 'fiche corrigée'],
+};
+const ETAT_ECART = {
+  absent: ['absent', 'absent'],
+  a_reprendre: ['depot', 'à reprendre'],
+  rattrape: ['corrige', 'rattrapé'],
+};
+const DOCUMENT = {
+  activite: 'fiche d’activité', eval: 'évaluation',
+  projet: 'document de projet', autre: 'autre document',
+};
+
+function dire(texte, classe = 'info') {
+  $('msg').className = texte ? `msg ${classe}` : 'msg';
+  $('msg').textContent = texte || '';
+}
+
+/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des
+ * nœuds texte, jamais de l'HTML. Même règle que dans le classeur élève : une
+ * réponse d'élève ne doit jamais pouvoir être interprétée comme du balisage. */
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+/** Date ET heure : « déposé le 29 sept. à 10:12 ». L'heure compte, c'est ce
+ * qui distingue un travail rendu en séance d'un travail rendu le soir. */
+function quand(iso) {
+  if (!iso) return '';
+  const d = new Date(iso);
+  if (Number.isNaN(d.getTime())) return '';
+  return d.toLocaleDateString('fr-FR', { day: 'numeric', month: 'short' })
+    + ' à ' + d.toLocaleTimeString('fr-FR', { hour: '2-digit', minute: '2-digit' });
+}
+
+function titreFiche(page) {
+  const id = String(page).replace(/-(activite|ebep)\.html$/, '');
+  const s = sequence(id);
+  const t = s ? s.titre : id;
+  return /-ebep\.html$/.test(page) ? `${t} (version adaptée)` : t;
+}
+
+/** La séquence d'une page de fiche, pour ranger la fiche au bon endroit. */
+function sequenceDeLaPage(page) {
+  return String(page).replace(/-(activite|ebep)\.html$/, '');
+}
+
+function chiffre(valeur, libelle, alerte = false) {
+  return el('div', { class: 'chiffre' + (alerte ? ' alerte' : '') },
+    el('b', {}, String(valeur)), el('span', {}, libelle));
+}
+
+function rendreChiffres() {
+  const rendus = F.rendus.length;
+  const corriges = F.rendus.filter((r) => r.corrige_le).length;
+  const fiches = F.fiches.length;
+  const aCorriger = F.rendus.filter((r) => !r.corrige_le).length
+    + F.fiches.filter((f) => f.etat === 'terminee').length;
+  const ouverts = F.exceptions.filter((x) => x.etat !== 'rattrape').length;
+  $('chiffres').replaceChildren(
+    chiffre(rendus, rendus > 1 ? 'travaux déposés' : 'travail déposé'),
+    chiffre(corriges, corriges > 1 ? 'corrigés' : 'corrigé'),
+    chiffre(fiches, fiches > 1 ? 'fiches renseignées' : 'fiche renseignée'),
+    chiffre(F.scores.length, F.scores.length > 1 ? 'quiz tentés' : 'quiz tenté'),
+    chiffre(aCorriger, 'en attente de ma correction', aCorriger > 0),
+    chiffre(ouverts, 'séances à rattraper ou reprendre', ouverts > 0));
+}
+
+/** Le bloc d'une séquence : ce que l'élève y a produit, daté. */
+function blocSequence(g, entree, rang) {
+  const s = sequence(entree.sequence);
+  if (!s) return null;
+  const rendus = F.rendus.filter((r) => r.groupe_id === g.id && r.sequence === s.id);
+  const fiches = F.fiches.filter((f) => f.groupe_id === g.id
+    && sequenceDeLaPage(f.page) === s.id);
+  const score = F.scores.find((x) => x.quiz === s.id);
+  const rien = !rendus.length && !fiches.length && !score;
+
+  const lignes = [];
+  for (const r of rendus) {
+    const corrige = !!r.corrige_le;
+    const li = el('li', {},
+      el('span', { class: 'etiq ' + (corrige ? 'corrige' : 'depot') },
+        corrige ? 'corrigé' : 'à corriger'),
+      el('span', {}, DOCUMENT[r.document] || r.document),
+      el('span', { class: 'quand' }, 'déposé le ' + quand(r.depose_le)),
+      r.binome ? el('span', { class: 'quand' }, '· avec ' + r.binome) : null);
+    lignes.push(li);
+    if (r.commentaire) {
+      lignes.push(el('li', {}, el('div', { class: 'mot' },
+        el('strong', {}, 'Son mot : '), r.commentaire)));
+    }
+    if (r.appreciation) {
+      lignes.push(el('li', {}, el('div', { class: 'retour' },
+        el('strong', {}, 'Ma correction : '), r.appreciation)));
+    }
+    if (r.competence && r.maitrise) {
+      lignes.push(el('li', {}, el('span', { class: 'quand' },
+        `${r.competence} · ${r.maitrise.replace('_', ' ')}`)));
+    }
+  }
+  for (const f of fiches) {
+    const [classe, libelle] = ETAT_FICHE[f.etat] || ETAT_FICHE.encours;
+    lignes.push(el('li', {},
+      el('span', { class: 'etiq ' + classe }, libelle),
+      el('span', {}, `${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}`),
+      el('span', { class: 'quand' }, 'modifiée le ' + quand(f.modifie_le)),
+      el('a', { href: '/' + f.page }, 'ouvrir la fiche')));
+    if (f.libre && f.libre.texte) {
+      lignes.push(el('li', {}, el('div', { class: 'mot' },
+        el('strong', {}, 'Son bilan : '), f.libre.texte)));
+    }
+    if (f.correction) {
+      lignes.push(el('li', {}, el('div', { class: 'retour' },
+        el('strong', {}, 'Ma correction : '), f.correction)));
+    }
+  }
+  if (score) {
+    lignes.push(el('li', {},
+      el('span', { class: 'etiq quiz' }, 'quiz'),
+      el('span', {}, `${score.meilleur} sur ${score.total}`),
+      el('span', { class: 'visually-hidden' }, ', son meilleur score, ce n’est pas une note'),
+      el('span', { class: 'quand' }, 'le ' + quand(score.meilleur_le))));
+  }
+
+  return el('article', { class: 'seq' + (rien ? ' rien' : '') },
+    el('h3', {},
+      el('span', { class: 'rang' }, String(rang)),
+      s.titre,
+      s.niveau !== g.niveau ? el('span', { class: 'etiq fiche' }, NIVEAU_COURT[s.niveau]) : null,
+      entree.visible === false ? el('span', { class: 'quand' }, 'écartée du plan') : null),
+    lignes.length ? el('ul', { class: 'lignes' }, lignes)
+      : el('p', { class: 'vide-seq' }, 'Rien de déposé, rien d’écrit, quiz non tenté.'));
+}
+
+function rendreParcours() {
+  const zone = $('parcours');
+  if (!F.groupes.length) {
+    zone.replaceChildren(el('p', { class: 'vide' },
+      'Cet élève n’est dans aucun de vos groupes cette année.'));
+    $('bloc-parcours').hidden = false;
+    return;
+  }
+  const morceaux = [];
+  for (const g of F.groupes) {
+    if (F.groupes.length > 1) {
+      morceaux.push(el('h3', { style: 'margin:1.2rem 0 .2rem' }, `${g.code} · ${g.libelle}`));
+    }
+    let rang = 0;
+    for (const entree of g.plan) {
+      rang += 1;
+      const bloc = blocSequence(g, entree, rang);
+      if (bloc) morceaux.push(bloc);
+    }
+  }
+  zone.replaceChildren(...morceaux);
+  $('bloc-parcours').hidden = false;
+}
+
+function rendreEcarts() {
+  const zone = $('ecarts');
+  if (!F.exceptions.length) {
+    zone.replaceChildren(el('p', { class: 'rien-du-tout' },
+      'Aucune absence ni reprise notée pour cet élève.'));
+    $('bloc-ecarts').hidden = false;
+    return;
+  }
+  const lignes = F.exceptions
+    .slice()
+    .sort((a, b) => String(b.le).localeCompare(String(a.le)))
+    .map((x) => {
+      const s = sequence(x.sequence);
+      const [classe, libelle] = ETAT_ECART[x.etat] || ETAT_ECART.absent;
+      return el('li', {},
+        el('span', { class: 'etiq ' + classe }, libelle),
+        el('span', {}, `séance ${x.seance} de « ${s ? s.titre : x.sequence} »`),
+        el('span', { class: 'quand' }, 'noté le ' + quand(x.le)),
+        x.note ? el('span', { class: 'quand' }, '· ' + x.note) : null);
+    });
+  zone.replaceChildren(el('ul', { class: 'lignes' }, lignes));
+  $('bloc-ecarts').hidden = false;
+}
+
+async function charger() {
+  const eleve = new URLSearchParams(location.search).get('eleve');
+  if (!eleve) {
+    dire('Aucun élève indiqué. Ouvrez cette fiche depuis le suivi du groupe.', 'attention');
+    $('nom').textContent = 'Fiche d’un élève';
+    return;
+  }
+  const groupeVoulu = new URLSearchParams(location.search).get('groupe');
+  if (groupeVoulu) $('lien-suivi').href = '/enseignant/mesure.html?groupe=' + encodeURIComponent(groupeVoulu);
+  try {
+    const g = await api('/api/classeur/groupes');
+    if (g.role !== 'prof') { location.href = '/classeur/'; return; }
+    $('qui').textContent = g.prenom || '';
+    F = await api('/api/prof/fiche-eleve?eleve=' + encodeURIComponent(eleve));
+  } catch (e) {
+    dire(e.message || 'Lecture impossible.', 'err');
+    $('nom').textContent = 'Fiche d’un élève';
+    return;
+  }
+  if (!catalogueCharge()) {
+    dire('Le catalogue des séquences n’a pas pu être lu : le parcours ne peut pas être affiché.', 'attention');
+  }
+  const e = F.eleve;
+  $('nom').textContent = `${e.prenom || ''} ${e.nom || ''}`.trim() || 'Élève';
+  document.title = `${$('nom').textContent} · Fiche · Espace enseignant · LFT`;
+  $('appartenance').textContent = F.groupes.map((x) => x.code).join(' · ');
+
+  const avis = [];
+  if (e.actif === false) avis.push('Ce compte est à la corbeille.');
+  if (e.mot_de_passe_a_choisir) avis.push('Cet élève n’a pas encore choisi son mot de passe.');
+  if (!e.derniere_connexion) avis.push('Ce compte n’a jamais été ouvert.');
+  else avis.push('Dernière connexion le ' + quand(e.derniere_connexion) + '.');
+  $('alerte-compte').textContent = avis.join(' ');
+  $('alerte-compte').hidden = !avis.length;
+
+  rendreChiffres();
+  if (catalogueCharge()) rendreParcours();
+  rendreEcarts();
+}
+
+charger();
+</script>
+</body>
+</html>
