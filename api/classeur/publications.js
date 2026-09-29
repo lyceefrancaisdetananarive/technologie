@@ -31,8 +31,10 @@ export default async function handler(req, res) {
     const groupes = await sesGroupes(moi);
     if (!groupes.length) return res.status(200).json({ ok: true, sequences: [] });
     const ids = groupes.map((g) => g.id).join(',');
+    // `retire_le=is.null` : une évaluation refermée laisse sa ligne pour
+    // l'historique (D21 bis), elle ne doit pas rester ouverte pour autant.
     const lignes = await lire('publications',
-      `groupe_id=in.(${ids})&document=eq.eval&select=sequence`);
+      `groupe_id=in.(${ids})&document=eq.eval&retire_le=is.null&select=sequence`);
     res.status(200).json({
       ok: true,
       sequences: [...new Set(lignes.map((l) => l.sequence))],

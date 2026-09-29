@@ -285,7 +285,10 @@ async function chargerPlan({ garderMessage = false } = {}) {
     ]);
     if (num !== chargement) return;
     etat = d;
-    publiees = new Map((pub.publications || []).map((x) => [x.sequence, x.publie_le]));
+    // L'API renvoie tout l'historique, fermetures comprises : seules les
+    // lignes encore ouvertes font une évaluation ouverte.
+    publiees = new Map((pub.publications || [])
+      .filter((x) => !x.retire_le).map((x) => [x.sequence, x.publie_le]));
     etat.plan = etat.plan.filter((p) => sequence(p.sequence));
     planLocal = etat.plan.map((p) => ({ ...p }));
     ordreModifie = false;
@@ -443,7 +446,8 @@ $('plan').addEventListener('click', async (ev) => {
         method: ouvrir ? 'POST' : 'DELETE',
         body: JSON.stringify({ groupe: $('groupe').value, sequence: seq }),
       });
-      publiees = new Map((d.publications || []).map((x) => [x.sequence, x.publie_le]));
+      publiees = new Map((d.publications || [])
+        .filter((x) => !x.retire_le).map((x) => [x.sequence, x.publie_le]));
       dire(ouvrir ? 'Évaluation ouverte pour ce groupe.' : 'Évaluation refermée.', 'ok');
       rendrePlan();
     } catch (e) {

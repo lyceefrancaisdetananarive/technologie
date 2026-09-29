@@ -5,9 +5,15 @@ import { UUID, sequenceDuCatalogue } from '../_lib/progression.js';
 // =====================================================================
 // PUBLIER OU RETIRER UNE ÉVALUATION, POUR UN GROUPE (D21).
 //
-//   GET    ?groupe=ID              ce qui est publié dans ce groupe
+//   GET    ?groupe=ID              l'historique des ouvertures du groupe
 //   POST   { groupe, sequence }    publier l'évaluation de cette séquence
-//   DELETE { groupe, sequence }    la retirer
+//   DELETE { groupe, sequence }    la refermer
+//
+// FERMER N'EFFACE PAS (D21 bis). La ligne reste, avec `retire_le` et
+// `retire_par` : savoir qu'une évaluation a été ouverte à 16 h 34 puis
+// refermée à 16 h 47 vaut mieux que de constater qu'elle est fermée. Le
+// verbe HTTP reste DELETE parce que c'est ce que le professeur fait, du
+// point de vue de l'élève ; ce qui se passe en base est une mise à jour.
 //
 // Une évaluation publiée devient lisible par les élèves de CE groupe, et
 // d'aucun autre. Le geste est daté et signé : `publie_le` et `par`.
@@ -28,9 +34,12 @@ import { UUID, sequenceDuCatalogue } from '../_lib/progression.js';
 // =====================================================================
 
 async function etatDuGroupe(groupe) {
-  const lignes = await lire('publications',
-    `groupe_id=eq.${groupe}&document=eq.eval&select=sequence,publie_le,par&order=publie_le.desc`);
-  return lignes;
+  // Tout l'historique, fermetures comprises : l'écran du plan n'affiche que
+  // les lignes ouvertes, mais la fiche d'un groupe pourra montrer le reste
+  // sans nouvel appel.
+  return lire('publications',
+    `groupe_id=eq.${groupe}&document=eq.eval` +
+    '&select=id,sequence,publie_le,par,retire_le,retire_par&order=publie_le.desc');
 }
 
 export default async function handler(req, res) {
@@ -67,18 +76,27 @@ export default async function handler(req, res) {
       return refus(res, 403, "Ce groupe n'est pas le vôtre.");
     }
 
+    const cleOuverte = `groupe_id=eq.${groupe}`
+      + `&sequence=eq.${encodeURIComponent(seq)}`
+      + '&document=eq.eval&retire_le=is.null';
+
     if (req.method === 'POST') {
-      // « resolution=merge-duplicates » : republier une évaluation déjà
-      // publiée ne doit pas échouer sur la clé primaire. Le geste est alors
-      // sans effet visible, et c'est exactement ce qu'on attend d'un double
-      // clic.
-      await ecrire('publications', '',
-        { groupe_id: groupe, sequence: seq, document: 'eval', par: moi.id },
-        'POST', 'resolution=merge-duplicates');
+      try {
+        await ecrire('publications', '',
+          { groupe_id: groupe, sequence: seq, document: 'eval', par: moi.id },
+          'POST');
+      } catch (e) {
+        // 23505 : l'index partiel a refusé une seconde ouverture alors qu'une
+        // est déjà en cours. C'est un double clic, pas une erreur : le
+        // résultat voulu est déjà là. Toute autre faute remonte.
+        if (e.code !== '23505') throw e;
+      }
     } else {
-      await ecrire('publications',
-        `groupe_id=eq.${groupe}&sequence=eq.${encodeURIComponent(seq)}&document=eq.eval`,
-        {}, 'DELETE');   // corps vide, comme partout ailleurs dans le dépôt
+      // On FERME la ligne ouverte, on ne la supprime pas. Si aucune n'est
+      // ouverte, la mise à jour ne touche rien et c'est très bien : refermer
+      // deux fois n'est pas une erreur.
+      await ecrire('publications', cleOuverte,
+        { retire_le: new Date().toISOString(), retire_par: moi.id });
     }
     if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
     res.status(200).json({ ok: true, publications: await etatDuGroupe(groupe) });
