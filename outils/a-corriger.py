@@ -10,6 +10,8 @@ Relève ce qui attend une correction, pour préparer les appréciations hors lig
 
     python3 outils/a-corriger.py --accuser [--groupe CODE] [--ecrire]
         pose l'accusé de réception sur les dépôts du diagnostique en attente.
+        Un dépôt SANS FICHIER est écarté et signalé à part : sa ligne existe,
+        le PDF n'a jamais été téléversé, il n'y a rien à accuser.
         Sans --ecrire, rien n'est envoyé : la commande affiche ce qu'elle
         ferait. Les identifiants écrits sont journalisés dans un fichier, ce
         qui rend l'opération annulable.
@@ -299,14 +301,37 @@ def ecrire_ligne(table, cible, corps):
 
 
 def accuser(groupes, depots, ecrire_vraiment):
-    """Pose l'accusé sur les dépôts du diagnostique restés sans correction."""
+    """Pose l'accusé sur les dépôts du diagnostique restés sans correction.
+
+    UN DÉPÔT SANS FICHIER NE REÇOIT PAS D'ACCUSÉ. Le rendu naît avec
+    `fichier` à null et ne se remplit qu'à l'appel de `confirmer-depot` : si
+    le téléversement a échoué, la ligne demeure et le PDF n'existe pas. Poser
+    l'accusé dessus écrit à l'élève que son évaluation est « prise en compte
+    dans son parcours » pour une copie que personne ne pourra jamais lire, et
+    lui retire toute raison de s'inquiéter.
+
+    C'est arrivé : le 20 septembre 2026, cinq dépôts vides ont été accusés
+    faute de ce contrôle. Ils sont désormais écartés et signalés à part, avec
+    leur identifiant, pour être repris avec l'élève.
+    """
     vises = [d for d in depots
              if d['sequence'].endswith('/diagnostique')
              and d['document'] in ACCUSES]
-    autres = [d for d in depots if d not in vises]
+    incomplets = [d for d in vises if not d.get('fichier')]
+    vises = [d for d in vises if d.get('fichier')]
+    autres = [d for d in depots if not d['sequence'].endswith('/diagnostique')
+              or d['document'] not in ACCUSES]
     if autres:
         print('%d dépôt(s) NON concerné(s), laissés intacts : ce ne sont pas '
               'des diagnostiques.' % len(autres))
+    if incomplets:
+        print('\n%d DÉPÔT(S) SANS FICHIER, écartés de l\u2019accusé.' % len(incomplets))
+        print('La ligne existe, le PDF n\u2019a jamais été téléversé : il n\u2019y a rien')
+        print('à accuser. À retrouver dans le classeur par cet identifiant, et à')
+        print('reprendre avec l\u2019élève.')
+        for d in incomplets:
+            print('  %-14s %-6s %s' % (nom_groupe(groupes, d['groupe_id']),
+                                       d['document'], d['id']))
     par_doc = {}
     for d in vises:
         par_doc[d['document']] = par_doc.get(d['document'], 0) + 1
