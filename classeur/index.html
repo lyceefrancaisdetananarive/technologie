@@ -6,8 +6,9 @@
 <meta name="robots" content="noindex">
 <title>Mon classeur · Technologie · LFT</title>
 <link rel="stylesheet" href="/css/connecte.css">
+<link rel="stylesheet" href="/css/tableau-de-bord.css">
 </head>
-<body>
+<body class="tdb">
 <header>
   <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
   <h1>Mon classeur de Technologie</h1>
@@ -17,74 +18,84 @@
 
 <main>
   <p class="msg" id="repli"></p>
+  <p class="msg" id="m" role="status" aria-live="polite"></p>
 
-  <section id="mon-annee">
-    <h2>Mon année</h2>
-    <p class="intro" id="annee-resume">Chargement…</p>
-    <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
-    <p class="meta" id="annee-prochaine"></p>
-    <section class="a-faire" id="a-faire" hidden aria-labelledby="a-faire-titre">
-      <h3 id="a-faire-titre">Ce que j’ai à faire</h3>
-      <ul id="a-faire-liste"></ul>
+  <div class="bandeau">
+    <label for="groupe">Mon groupe</label>
+    <select id="groupe" required></select>
+    <span class="creneau" id="creneau"></span>
+  </div>
+
+  <div class="mur">
+
+    <!-- 1. LE SEUL BLOC QUI NE PARLE QUE DE MOI, ET LE PLUS GROS. -->
+    <section class="bloc maintenant b8" id="a-faire" aria-labelledby="a-faire-titre">
+      <h2 id="a-faire-titre">Ce que j’ai à faire</h2>
+      <ul id="a-faire-liste" role="list"><li class="a-faire-rien">Chargement…</li></ul>
     </section>
-    <ol class="parcours" id="parcours"></ol>
-    <p class="legende-parcours" id="annee-legende" hidden>
-      <span class="point fait" aria-hidden="true"></span> séance faite en classe ·
-      <span class="point a-rattraper" aria-hidden="true"></span> à rattraper (tu étais absent) ·
-      <span class="point a-reprendre" aria-hidden="true"></span> à reprendre (à refaire) ·
-      <span class="point rattrape" aria-hidden="true"></span> rattrapée (c'est réglé) ·
-      <span class="point" aria-hidden="true"></span> pas encore faite ·
-      <span class="pastille quiz" aria-hidden="true">Quiz</span> ton meilleur score au quiz, ce n'est pas une note
-    </p>
-  </section>
 
-  <section>
-    <h2>Déposer un travail</h2>
-    <form id="f">
-      <label for="groupe">Mon groupe</label>
-      <select id="groupe" required></select>
+    <!-- 2. Où j'en suis, en trois chiffres. -->
+    <section class="bloc b4" aria-labelledby="ou-titre">
+      <h2 id="ou-titre">Où j’en suis</h2>
+      <div class="chiffres" id="chiffres"></div>
+      <p class="meta" id="annee-resume">Chargement…</p>
+      <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
+      <p class="meta" id="annee-prochaine"></p>
+    </section>
 
-      <label for="sequence">Séquence</label>
-      <select id="sequence" required></select>
+    <!-- 3. L'année, période par période. -->
+    <section class="bloc b8" id="mon-annee" aria-labelledby="annee-titre">
+      <h2 id="annee-titre">Ma progression dans l’année</h2>
+      <div id="parcours"></div>
+    </section>
 
-      <label for="document">Type de document</label>
-      <select id="document" required></select>
+    <!-- 4. Tous mes travaux, documents déposés et fiches, dans une seule liste. -->
+    <section class="bloc b4" id="mes-travaux" aria-labelledby="travaux-titre">
+      <h2 id="travaux-titre">Mes travaux <span class="compteur" id="n-travaux"></span></h2>
+      <div class="filtres" id="filtres" role="group" aria-label="Filtrer mes travaux"></div>
+      <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
+    </section>
 
-      <label for="fichier">Photo ou PDF de mon travail</label>
-      <input id="fichier" type="file" required
-             accept="image/jpeg,image/png,image/webp,application/pdf">
-      <p class="aide">Une photo bien cadrée suffit. Elle est réduite
-         automatiquement avant l'envoi, pour que cela passe même quand la
-         connexion est lente.</p>
+    <!-- 5. Déposer un travail. C'est le geste le plus fréquent de la page :
+            il reste ouvert, visible, et porte un vrai titre. -->
+    <section class="bloc b4" id="depot" aria-labelledby="depot-titre">
+      <h2 id="depot-titre">Déposer un travail</h2>
+      <form id="f">
+        <label for="sequence">Séquence</label>
+        <select id="sequence" required></select>
 
-      <label for="binome">Travail fait avec (facultatif)</label>
-      <input id="binome" type="text" maxlength="40"
-             placeholder="Prénom de ton binôme">
-      <p class="aide">Si tu as travaillé à deux, écris le prénom de ton binôme : sinon tout
-         le travail te sera attribué à toi seul.</p>
+        <label for="document">Type de document</label>
+        <select id="document" required></select>
 
-      <label for="commentaire">Un mot pour ton professeur (facultatif)</label>
-      <textarea id="commentaire" maxlength="2000"
-                placeholder="Ce que tu n'as pas réussi, une question… Parle du travail, pas de ta santé ni de ta vie privée."></textarea>
+        <label for="fichier">Photo ou PDF de mon travail</label>
+        <input id="fichier" type="file" required
+               accept="image/jpeg,image/png,image/webp,application/pdf">
+        <p class="aide">Une photo bien cadrée suffit. Elle est réduite
+           automatiquement avant l'envoi, pour que cela passe même quand la
+           connexion est lente.</p>
 
-      <div class="barre" id="barre"><div id="progres"></div></div>
-      <button class="principal" id="b" type="submit">Déposer</button>
-    </form>
-    <p class="msg" id="m" role="status" aria-live="polite"></p>
-  </section>
+        <label for="binome">Travail fait avec (facultatif)</label>
+        <input id="binome" type="text" maxlength="40"
+               placeholder="Prénom de ton binôme">
+        <p class="aide">Si tu as travaillé à deux, écris le prénom de ton binôme : sinon tout
+           le travail te sera attribué à toi seul.</p>
 
-  <section id="mes-travaux">
-    <h2>Mes travaux déposés</h2>
-    <div id="liste"><p class="vide">Chargement…</p></div>
-  </section>
+        <label for="commentaire">Un mot pour ton professeur (facultatif)</label>
+        <textarea id="commentaire" maxlength="2000"
+                  placeholder="Ce que tu n'as pas réussi, une question… Parle du travail, pas de ta santé ni de ta vie privée."></textarea>
 
-  <section id="mes-reponses">
-    <h2>Mes réponses rédigées</h2>
-    <p class="aide">Ce que tu as écrit dans les fiches d'activité (les champs de la fiche et le bloc
-       « Ma réponse »), et la correction de ton professeur. Pour modifier ou compléter une
-       réponse, ouvre la fiche.</p>
-    <div id="liste-reponses"><p class="vide">Chargement…</p></div>
-  </section>
+        <div class="barre" id="barre"><div id="progres"></div></div>
+        <button class="principal" id="b" type="submit">Déposer</button>
+      </form>
+    </section>
+
+    <!-- 6. Comment lire ce qu'on voit. -->
+    <section class="bloc b8" aria-labelledby="legende-titre">
+      <h2 id="legende-titre">Comment lire les couleurs</h2>
+      <div class="legende" id="legende"></div>
+    </section>
+
+  </div>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -92,6 +103,12 @@
   <a href="/mentions-legales.html">Mentions légales</a>
 </footer>
 
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+ <g id="i-afaire"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.7"/></g>
+ <g id="i-encours"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 1.6a6.4 6.4 0 0 1 0 12.8z" fill="currentColor"/></g>
+ <g id="i-rendu"><circle cx="8" cy="8" r="6.4" fill="currentColor"/></g>
+ <g id="i-corrige"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.7 8.2l2.3 2.3 4.3-4.6" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>
+</defs></svg>
 
 <script src="/js/catalogue.js"></script>
 <script type="module">
@@ -99,29 +116,69 @@ import { SEQUENCES, DOCUMENTS } from '/js/sequences.js';
 import { reduireImage, envoyerAvecReprise, api, dateCourte, echapper }
   from '/js/classeur-commun.js';
 import {
-  catalogueCharge, sequence, titresSeances, seancesFaites, etatSequence, resumeGroupe,
+  catalogueCharge, sequence, titresSeances, etatSequence, resumeGroupe,
 } from '/js/progression-regles.js';
 import {
-  etatFiche, attendEleve, LIBELLE_ELEVE, RENDU, LIBRE, CORRIGE,
+  etatFiche, attendEleve, attendCorrection, LIBELLE_ELEVE, CLASSE_ETAT,
+  A_FAIRE, EN_COURS, RENDU, LIBRE, CORRIGE,
 } from '/js/etats-fiche.js';
 
 const $ = (id) => document.getElementById(id);
 let groupes = [];
 let progression = [];   // la carte de l'année, par groupe (api/classeur/progression)
 let mesFiches = [];     // mes fiches d'activité regroupées (api/classeur/reponse)
+let mesRendus = [];     // ce que j'ai déposé
+let mesScores = [];     // mes meilleurs scores de quiz (décision 10), jamais les réponses
+let filtre = 'tout';
+// Une lecture qui échoue ne doit jamais ressembler à une absence de travail.
+// Chaque panne est retenue ici et dite à l'écran, là où l'élève regarde.
+const pannes = { fiches: null, depots: null, progression: null };
+
 const PICTO_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>';
-const LIBELLE_ETAT = { fait: 'Fait', encours: 'En cours', avenir: 'À venir' };
+const LIBELLE_SEQ = { fait: 'Faite', encours: 'En cours', avenir: 'À venir' };
+const CLASSE_SEQ  = { fait: 'corrige', encours: 'encours', avenir: 'afaire' };
 const MAITRISES = {
   insuffisante: 'maîtrise insuffisante', fragile: 'maîtrise fragile',
   satisfaisante: 'maîtrise satisfaisante', tres_bonne: 'très bonne maîtrise',
 };
+const RANG_MAITRISE = { insuffisante: 1, fragile: 2, satisfaisante: 3, tres_bonne: 4 };
 
 function dire(t, c) { $('m').textContent = t; $('m').className = 'msg ' + c; }
+
+/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des nœuds texte, jamais de l'HTML. */
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+/** La pastille d'état : une forme, une couleur, et toujours un mot à côté. */
+function pastille(etat) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'past');
+  svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', '#i-' + (CLASSE_ETAT[etat] ?? 'afaire'));
+  svg.append(use);
+  return svg;
+}
+function etiquetteEtat(etat, mot) {
+  return el('span', { class: 'etat etat-' + (CLASSE_ETAT[etat] ?? 'afaire') },
+    pastille(etat), mot ?? LIBELLE_ELEVE[etat] ?? '');
+}
 
 function niveauDe(codeGroupe) {
   const g = groupes.find((x) => x.id === codeGroupe);
   return g ? g.niveau : '3eme';
 }
+
+const NIVEAU_COURT = { '5eme': '5e', '4eme': '4e', '3eme': '3e' };
 
 /**
  * Les séquences proposées au dépôt suivent LE PLAN DU GROUPE (décision 3) :
@@ -129,9 +186,6 @@ function niveauDe(codeGroupe) {
  * celles qu'il a ajoutées d'un autre niveau. Le catalogue du niveau ne sert
  * que de repli, quand la progression n'a pas pu être lue.
  */
-const NIVEAU_COURT = { '5eme': '5e', '4eme': '4e', '3eme': '3e' };
-
-/** Le libellé d'une séquence : son rang dans le plan, son titre, son niveau s'il diffère. */
 function libelleSequence(id, gid) {
   const prog = progression.find((g) => g.id === gid);
   const s = sequence(id);
@@ -164,7 +218,7 @@ function remplirSequences() {
   else if (r?.courante) $('sequence').value = r.courante.id;
 }
 
-// ---- Ma carte de l'année ---------------------------------------------------
+// ---- Ma progression dans l'année -------------------------------------------
 function etatSeance(prog, seqId, n) {
   const x = prog.exceptions.find((e) => e.sequence === seqId && e.seance === n);
   if (x?.etat === 'absent') return 'a-rattraper';
@@ -172,22 +226,29 @@ function etatSeance(prog, seqId, n) {
   if (x?.etat === 'rattrape') return 'rattrape';
   return prog.avancement.some((a) => a.sequence === seqId && a.seance === n) ? 'fait' : '';
 }
+const ETAT_SEANCE = {
+  fait: 'faite', 'a-rattraper': 'à rattraper (tu étais absent)',
+  'a-reprendre': 'à reprendre', rattrape: 'rattrapée',
+};
 
 function lienDoc(s, cle, libelle) {
   const d = s.documents?.[cle];
-  return d?.fichier ? `<a href="/${d.fichier}">${libelle}</a>` : '';
+  return d?.fichier ? el('a', { href: '/' + d.fichier }, libelle) : null;
 }
-
-let mesRendus = [];   // ce que j'ai déposé, pour le montrer sur la carte
-let mesScores = [];   // mes meilleurs scores de quiz (décision 10), jamais les réponses
 
 function etatDepot(seqId) {
   const miens = mesRendus.filter((r) => r.sequence === seqId && r.fichier);
   if (!miens.length) return null;
-  return miens.some((r) => r.corrige_le) ? 'corrige' : 'depose';
+  return miens.some((r) => r.corrige_le) ? CORRIGE : RENDU;
 }
 
-const ETAT_SEANCE = { fait: 'faite', 'a-rattraper': 'à rattraper', 'a-reprendre': 'à reprendre', rattrape: 'rattrapée' };
+/** Les périodes de l'année, et celle où nous sommes aujourd'hui. */
+const PERIODES = (window.CATALOGUE?.periodes ?? []);
+function periodeDuJour() {
+  const jour = new Date().toISOString().slice(0, 10);
+  const p = PERIODES.find((x) => jour >= x.debut && jour <= x.fin);
+  return p ? p.n : null;
+}
 
 /**
  * CE QUE J'AI À FAIRE : le seul endroit du classeur qui ne parle que de moi.
@@ -208,7 +269,6 @@ const ETAT_SEANCE = { fait: 'faite', 'a-rattraper': 'à rattraper', 'a-reprendre
  */
 function calculerAFaire(prog) {
   const taches = [];
-  const enCours = new Set();
 
   // 1. Ce que je dois rattraper ou reprendre. Une séance rattrapée est
   //    réglée : elle ne revient pas dans la liste.
@@ -228,21 +288,20 @@ function calculerAFaire(prog) {
     });
   }
 
-  // 2. Mes fiches commencées et laissées en plan. Une fiche terminée, même
-  //    non corrigée, n'est plus de mon ressort : elle attend le professeur.
+  // 2. Mes fiches commencées et laissées en plan. Une fiche rendue, même non
+  //    corrigée, n'est plus de mon ressort : elle attend le professeur.
   for (const f of mesFiches) {
     if (!attendEleve(f.etat)) continue;
     const id = String(f.page).replace(/-(activite|ebep)\.html$/, '');
     const s = sequence(id);
     if (!s || !(prog.plan ?? []).some((pl) => pl.sequence === id && pl.visible)) continue;
-    enCours.add(id);
     taches.push({
       genre: 'fiche',
       titre: `Finir ma fiche de « ${s.titre} »`,
       detail: f.nb_champs
         ? `${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}, `
           + 'il reste à cliquer sur « J’ai terminé »'
-        : 'commencée, pas encore envoyée',
+        : 'commencée, pas encore rendue',
       lien: '/' + f.page,
       lienTexte: 'Ouvrir la fiche',
     });
@@ -275,38 +334,68 @@ const GENRE_ETIQUETTE = {
 };
 
 function rendreAFaire(prog) {
-  const zone = $('a-faire');
   const liste = $('a-faire-liste');
-  if (!zone || !liste) return;
-  const taches = calculerAFaire(prog);
-  zone.hidden = false;
-  zone.classList.toggle('vide', taches.length === 0);
+  const taches = prog ? calculerAFaire(prog) : [];
+  // « Tout est à jour » est une affirmation : elle n'a le droit d'être dite
+  // que si TOUT a pu être lu. Sinon c'est un mensonge rassurant.
+  const aveugle = !prog || pannes.fiches || pannes.progression;
   if (!taches.length) {
-    liste.replaceChildren(el('li', { class: 'a-faire-rien' },
-      'Rien en attente de ton côté. Tout est à jour.'));
+    liste.replaceChildren(el('li', { class: 'a-faire-rien' }, aveugle
+      ? 'Ta liste de travail n’a pas pu être lue pour le moment. Actualise la page.'
+      : 'Rien en attente de ton côté. Tout est à jour.'));
     return;
   }
-  liste.replaceChildren(...taches.map((t) => el('li', { class: 'a-faire-item ' + t.genre },
+  // Une liste de tâches amputée d'une source ne doit pas se présenter comme
+  // complète : l'élève croirait avoir fini ce qui n'a pas pu être lu.
+  const incomplete = pannes.fiches
+    ? [el('li', { class: 'a-faire-rien' },
+        'Tes fiches n’ont pas pu être lues : cette liste est peut-être incomplète.')]
+    : [];
+  liste.replaceChildren(...incomplete, ...taches.map((t) => el('li', { class: 'a-faire-item ' + t.genre },
     el('span', { class: 'a-faire-etiquette' }, GENRE_ETIQUETTE[t.genre] || ''),
     el('span', { class: 'a-faire-texte' },
       el('strong', {}, t.titre),
-      t.detail ? el('span', { class: 'a-faire-detail' }, ' ' + t.detail) : null),
+      t.detail ? el('span', { class: 'a-faire-detail' }, t.detail) : null),
     t.lien ? el('a', { class: 'a-faire-lien', href: t.lien }, t.lienTexte) : null)));
+}
+
+/** Les trois chiffres du haut : ce qui est corrigé, ce qui attend, ce qui reste. */
+function rendreChiffres() {
+  const corriges = mesFiches.filter((f) => f.etat === CORRIGE).length
+    + mesRendus.filter((r) => r.corrige_le).length;
+  const rendus = mesFiches.filter((f) => attendCorrection(f.etat)).length
+    + mesRendus.filter((r) => r.fichier && !r.corrige_le).length;
+  // Un envoi incomplet n'entrait dans aucun des trois chiffres, alors que
+  // l'élève a bien un geste à refaire : il compte avec ce qui est en cours.
+  const enCours = mesFiches.filter((f) => f.etat === EN_COURS).length
+    + mesRendus.filter((r) => !r.fichier).length;
+  const c = (n, mot, classe) => el('div', { class: classe },
+    el('b', {}, String(n)), el('span', {}, mot));
+  $('chiffres').replaceChildren(
+    c(corriges, corriges > 1 ? 'corrigés' : 'corrigé', 'c-corrige'),
+    c(rendus, 'en attente', 'c-rendu'),
+    c(enCours, 'en cours', 'c-encours'));
 }
 
 function rendreAnnee() {
   const gid = $('groupe').value;
   const prog = progression.find((g) => g.id === gid) ?? progression[0];
+  const g = groupes.find((x) => x.id === gid);
+  $('creneau').textContent = g?.libelle ?? '';
+
   if (!groupes.length) {
     $('annee-resume').textContent = 'Tu n’es inscrit dans aucun groupe pour le moment : demande à ton professeur.';
-    $('parcours').innerHTML = '';
+    $('parcours').replaceChildren();
+    rendreAFaire(null);
     return;
   }
   if (!prog || !catalogueCharge()) {
     $('annee-resume').textContent = 'Ta carte de l’année n’est pas disponible pour le moment. Le dépôt reste possible.';
-    $('parcours').innerHTML = '';
+    $('parcours').replaceChildren();
+    rendreAFaire(null);
     return;
   }
+
   const r = resumeGroupe(prog.plan, prog.avancement, prog.exceptions);
   const badges = new Set(prog.badges ?? []);
   // Le résumé se lit par rapport à soi : les séances que j'ai encore à
@@ -324,66 +413,108 @@ function rendreAnnee() {
     : r.courante
       // « En cours » seulement si une séance y est déjà cochée : sinon la
       // pastille de la même séquence dit « À venir » juste en dessous.
-      ? `${etatSequence(r.courante, prog.avancement) === 'encours' ? 'Séquence en cours' : 'Prochaine séquence'} : ${r.courante.titre}.`
+      ? `${etatSequence(r.courante, prog.avancement) === 'encours' ? 'Séquence en cours' : 'Prochaine séquence'} : ${r.courante.titre}.`
         + (r.ouvertes ? ' Pour ce qui est à rattraper ou à reprendre, demande à ton professeur.' : '')
       : '';
+
   rendreAFaire(prog);
-  $('annee-legende').hidden = false;
-  $('parcours').innerHTML = prog.plan.map((p, i) => {
+
+  // Le parcours se lit période par période. Un ruban de neuf séquences sans
+  // repère de calendrier ne dit pas à un élève de 5e où l'on en est ; les
+  // dates sont dans le catalogue depuis toujours, elles n'étaient pas
+  // affichées.
+  const pJour = periodeDuJour();
+  // Le professeur réordonne librement son plan (enseignant/plan.html), et il
+  // peut y glisser une séquence d'un autre niveau. Comparer une séquence à sa
+  // voisine pour ouvrir une période produisait alors des en-têtes répétés et
+  // un calendrier faux. On regroupe donc PAR période, dans l'ordre du
+  // calendrier, en gardant l'ordre du professeur à l'intérieur de chacune.
+  // Le numéro affiché sur chaque étape reste son rang dans le plan : son
+  // ordre à lui reste lisible.
+  const parPeriode = new Map();
+  prog.plan.forEach((p, i) => {
     const s = sequence(p.sequence);
-    if (!s) return '';
+    if (!s) return;
+    const n = s.periode ?? 0;
+    if (!parPeriode.has(n)) parPeriode.set(n, []);
+    parPeriode.get(n).push({ p, s, i });
+  });
+  const blocs = [];
+  let ol = null;
+  for (const periodeVue of [...parPeriode.keys()].sort((a, b) => a - b)) {
+    const def = PERIODES.find((x) => x.n === periodeVue);
+    blocs.push(el('p', { class: 'periode' },
+      periodeVue ? `Période ${periodeVue}${def ? ' · ' + def.libelle : ''}` : 'Hors période',
+      periodeVue === pJour ? el('span', { class: 'ici' }, 'nous y sommes') : null));
+    ol = el('ol', { class: 'parcours', role: 'list' });
+    blocs.push(ol);
+    for (const { p, s, i } of parPeriode.get(periodeVue)) {
     const etat = p.visible ? etatSequence(s, prog.avancement) : 'masquee';
     const titres = titresSeances(s);
     const depot = etatDepot(s.id);
-    return `<li class="etape ${etat}">
-      <span class="etape-num" aria-hidden="true">${i + 1}</span>
-      <div class="etape-corps">
-        <h3>${echapper(s.titre)}${s.niveau !== prog.niveau ? ` <span class="pastille avenir">${NIVEAU_COURT[s.niveau]}</span>` : ''}
-          ${p.visible ? `<span class="pastille ${etat}">${LIBELLE_ETAT[etat]}</span>` : '<span class="pastille masquee">Pas cette année</span>'}
-          ${depot ? `<a class="pastille ${depot === 'corrige' ? 'fait' : 'encours'}" href="#mes-travaux">${depot === 'corrige' ? 'Travail corrigé' : 'Travail déposé'}</a>` : ''}
-          ${(() => { const q = mesScores.find((x) => x.quiz === s.id); return q ? `<span class="pastille quiz">Quiz : ${q.meilleur} sur ${q.total}<span class="visually-hidden">, ton meilleur score, ce n'est pas une note</span></span>` : ''; })()}
-          ${badges.has(s.id) ? `<span class="badge-annee">${PICTO_BADGE} Badge</span>` : ''}
-        </h3>
-        ${p.visible ? `<ul class="points" aria-label="Séances">
-          ${titres.map((tt, k) => { const e = etatSeance(prog, s.id, k + 1); return `<li class="point ${e}"><span class="visually-hidden">${k + 1}. ${echapper(tt)} : ${ETAT_SEANCE[e] || 'pas encore faite'}. </span></li>`; }).join('')}
-        </ul>` : ''}
-        <div class="etape-liens">
-          ${lienDoc(s, 'activite', 'Activité')}${lienDoc(s, 'cours', 'Cours')}${lienDoc(s, 'quiz', 'Quiz')}
-        </div>
-      </div>
-    </li>`;
-  }).join('');
-}
+    const quiz = mesScores.find((x) => x.quiz === s.id);
 
-async function charger() {
-  const g = await api('/api/classeur/groupes');
-  groupes = g.groupes;
-  $('qui').textContent = g.prenom ? `Bonjour ${g.prenom}` : '';
-  $('groupe').innerHTML = groupes
-    .map((x) => `<option value="${x.id}">${echapper(x.code)}${x.annee ? ' · ' + echapper(x.annee) : ''}</option>`).join('');
-  // sesGroupes() met le groupe de l'année en cours en tête : c'est lui qui s'affiche.
-  if (!groupes.length) {
-    $('f').hidden = true;
-    dire('Tu n’es inscrit dans aucun groupe pour le moment : demande à ton professeur.', 'info');
+    const titre = el('h3', {}, s.titre);
+    if (s.niveau !== prog.niveau) {
+      titre.append(el('span', { class: 'etat etat-afaire' }, NIVEAU_COURT[s.niveau]));
+    }
+    titre.append(p.visible
+      ? el('span', { class: 'etat etat-' + CLASSE_SEQ[etat] }, LIBELLE_SEQ[etat])
+      : el('span', { class: 'etat etat-masquee' }, 'Pas cette année'));
+    if (depot) {
+      titre.append(el('a', { class: 'etat etat-' + CLASSE_ETAT[depot], href: '#mes-travaux' },
+        pastille(depot), depot === CORRIGE ? 'Document corrigé' : 'Document rendu'));
+    }
+    if (quiz) {
+      // Le score du quiz N'EST PAS un état de travail : il ne porte donc
+      // aucune des classes d'état, sans quoi la pastille bleue le ferait
+      // lire comme « en cours ». La légende dit en clair que ce n'est pas
+      // une note.
+      titre.append(el('span', { class: 'score-quiz' },
+        `Quiz : ${quiz.meilleur} sur ${quiz.total}`,
+        el('span', { class: 'visually-hidden' }, ', ton meilleur score, ce n’est pas une note')));
+    }
+    if (badges.has(s.id)) {
+      const b = el('span', { class: 'etat etat-corrige badge-annee' }, ' Badge');
+      b.insertAdjacentHTML('afterbegin', PICTO_BADGE);
+      titre.append(b);
+    }
+
+    const corps = el('div', { class: 'etape-corps' }, titre,
+      el('p', { class: 'resume' },
+        `${s.seances} séance${s.seances > 1 ? 's' : ''}`
+        + (s.resume ? ' · ' + s.resume : '')));
+
+    if (p.visible) {
+      corps.append(el('ul', { class: 'seances', role: 'list',
+                              'aria-label': 'Séances de cette séquence' },
+        ...titres.map((tt, k) => {
+          const e = etatSeance(prog, s.id, k + 1);
+          return el('li', { class: e }, String(k + 1),
+            el('span', { class: 'visually-hidden' },
+              `. ${tt} : ${ETAT_SEANCE[e] || 'pas encore faite'}.`));
+        })));
+    }
+    const liens = [lienDoc(s, 'activite', 'Activité'), lienDoc(s, 'cours', 'Cours'),
+                   lienDoc(s, 'quiz', 'Quiz')].filter(Boolean);
+    if (liens.length) corps.append(el('div', { class: 'etape-liens' }, ...liens));
+
+    ol.append(el('li', { class: 'etape ' + etat },
+      el('span', { class: 'etape-num' },
+        String(i + 1), el('span', { class: 'visually-hidden' }, `e séquence du plan.`)), corps));
+    }
   }
-  $('document').innerHTML = DOCUMENTS
-    .map((d) => `<option value="${d.id}">${echapper(d.titre)}</option>`).join('');
-  // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose
-  // quand même. Les trois lectures partent ensemble : sur la liaison de
-  // Tananarive, trois allers-retours en série se voient.
-  const [p, s, r, q] = await Promise.allSettled([
-    api('/api/classeur/progression'), api('/api/classeur/score'), listerRendus(),
-    api('/api/classeur/reponse'),
-  ]);
-  progression = p.status === 'fulfilled' ? p.value.groupes : [];
-  mesScores = s.status === 'fulfilled' ? s.value.scores : [];
-  if (r.status === 'rejected') dire(r.reason?.message || 'Lecture impossible.', 'err');
-  listerReponses(q);
-  remplirSequences();
-  rendreAnnee();   // appelé APRÈS listerReponses : il lit mesFiches.
+  $('parcours').replaceChildren(...blocs);
 }
 
-/** Le titre d'une fiche à partir de son chemin (5eme/p1/seq1-ebep.html). */
+// ---- Mes travaux : une seule liste, documents déposés et fiches ------------
+/**
+ * L'élève avait deux listes, « Mes travaux déposés » et « Mes réponses
+ * rédigées », avec deux vocabulaires d'état différents. Il lui fallait
+ * comprendre la différence entre un document photographié et une fiche
+ * remplie en ligne avant de savoir où regarder. Ce sont ses travaux : une
+ * seule liste, un seul vocabulaire, et la nature du travail en sous-titre.
+ */
 function titreFiche(page) {
   const id = String(page).replace(/-(activite|ebep)\.html$/, '');
   const s = Object.values(SEQUENCES).flat().find((x) => x.id === id);
@@ -391,27 +522,208 @@ function titreFiche(page) {
   return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
 }
 
-/**
- * Mes réponses rédigées, en lecture seule : la modification se fait dans la
- * fiche, là où la réponse a été écrite. Une entrée par fiche : l'API renvoie
- * une ligne par champ (z<n>, t<i>-r<j>-c<k>, b<n>), une ligne `fiche` qui
- * porte l'état et la correction, et le bloc libre `reponse` s'il existe ;
- * ici on regroupe par page. La lecture est un plus, jamais une barrière :
- * si elle échoue, le reste du classeur s'affiche quand même.
- */
-const CLE_CHAMP = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
-
-/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des nœuds texte, jamais de l'HTML. */
-function el(balise, attrs = {}, ...enfants) {
-  const e = document.createElement(balise);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v == null || v === false) continue;
-    if (k === 'class') e.className = v;
-    else e.setAttribute(k, v === true ? '' : v);
-  }
-  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
-  return e;
+/** Corrigé dans les sept derniers jours : l'élève ne l'a probablement pas encore vu. */
+function recent(quand) {
+  if (!quand) return false;
+  return (Date.now() - Date.parse(quand)) < 7 * 24 * 3600 * 1000;
 }
+
+function travauxFusionnes() {
+  const liste = [];
+  for (const f of mesFiches) {
+    liste.push({
+      cle: 'fiche:' + f.page, genre: 'Fiche d’activité', etat: f.etat, brut: f,
+      titre: titreFiche(f.page), quand: f.corrige_le || f.modifie_le,
+    });
+  }
+  for (const r of mesRendus) {
+    const etat = !r.fichier ? A_FAIRE : r.corrige_le ? CORRIGE : RENDU;
+    liste.push({
+      cle: 'rendu:' + r.id, genre: 'Document déposé', etat, brut: r, rendu: true,
+      titre: libelleSequence(r.sequence, $('groupe').value),
+      quand: r.corrige_le || r.depose_le,
+    });
+  }
+  const rang = { [CORRIGE]: 0, [RENDU]: 1, [LIBRE]: 1, [EN_COURS]: 2, [A_FAIRE]: 3 };
+  return liste.sort((a, b) => (rang[a.etat] ?? 9) - (rang[b.etat] ?? 9)
+    || String(b.quand ?? '').localeCompare(String(a.quand ?? '')));
+}
+
+const FILTRES = [
+  { cle: 'tout', mot: 'Tout', garde: () => true },
+  { cle: 'corrige', mot: 'Corrigé', garde: (t) => t.etat === CORRIGE },
+  { cle: 'attente', mot: 'En attente', garde: (t) => attendCorrection(t.etat) || (t.rendu && t.etat === RENDU) },
+  { cle: 'encours', mot: 'À finir', garde: (t) => t.etat === EN_COURS || t.etat === A_FAIRE },
+];
+
+/**
+ * Les boutons sont posés UNE fois et mis à jour en place. Les reconstruire à
+ * chaque clic détacherait celui qui vient d'être activé, et un élève au
+ * clavier perdrait le focus à chaque changement de filtre.
+ */
+function rendreFiltres() {
+  if (!$('filtres').children.length) {
+    $('filtres').replaceChildren(...FILTRES.map((f) => {
+      const b = el('button', { type: 'button', 'data-f': f.cle }, f.mot);
+      b.addEventListener('click', () => { filtre = f.cle; rendreFiltres(); rendreTravaux(); });
+      return b;
+    }));
+  }
+  for (const b of $('filtres').children) {
+    b.setAttribute('aria-pressed', String(b.dataset.f === filtre));
+  }
+}
+
+function carteFiche(t) {
+  const f = t.brut;
+  const quand = f.etat === CORRIGE ? `corrigée le ${dateCourte(f.corrige_le)}`
+    : f.etat === RENDU ? `rendue le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
+    : f.etat === LIBRE ? `rendue le ${dateCourte(f.modifie_le)}`
+    : `modifiée le ${dateCourte(f.modifie_le)}`;
+  const nb = f.nb_champs
+    ? ` · ${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}` : '';
+  const art = el('article', { class: 'travail est-' + CLASSE_ETAT[f.etat] },
+    el('h3', {}, t.titre, etiquetteEtat(f.etat),
+      f.etat === CORRIGE && recent(f.corrige_le) ? el('span', { class: 'neuf' }, 'NOUVEAU') : null),
+    el('p', { class: 'meta' }, el('span', { class: 'genre' }, t.genre), ' ',
+      f.groupe ? f.groupe + ' · ' : '', quand, nb, ' · ',
+      el('a', { href: '/' + f.page + (f.nb_champs ? '' : '#ma-reponse') }, 'Ouvrir la fiche')));
+  if (f.ligneLibre) {
+    art.append(el('p', { class: 'mot', style: 'white-space:pre-wrap' }, f.ligneLibre.texte ?? ''));
+  }
+  if (f.correction) {
+    art.append(el('div', { class: 'correction' }, el('strong', {}, 'Correction : '),
+      el('span', { style: 'white-space:pre-wrap' }, f.correction)));
+  }
+  if (f.nb_commentaires) {
+    art.append(el('p', { class: 'meta' },
+      `${f.nb_commentaires} commentaire${f.nb_commentaires > 1 ? 's' : ''} de ton professeur sur tes réponses : ouvre la fiche pour ${f.nb_commentaires > 1 ? 'les' : 'le'} lire.`));
+  }
+  return art;
+}
+
+function carteRendu(t) {
+  const r = t.brut;
+  const art = el('article', { class: 'travail est-' + CLASSE_ETAT[t.etat] },
+    el('h3', {}, t.titre,
+      r.fichier ? etiquetteEtat(t.etat) : etiquetteEtat(A_FAIRE, 'envoi incomplet'),
+      t.etat === CORRIGE && recent(r.corrige_le) ? el('span', { class: 'neuf' }, 'NOUVEAU') : null),
+    el('p', { class: 'meta' }, el('span', { class: 'genre' }, t.genre), ' ',
+      `${r.groupes?.code || ''} · déposé le ${dateCourte(r.depose_le)}`
+      + (r.binome ? ' · avec ' + r.binome : '')));
+
+  if (r.fichier) {
+    const a = el('a', { href: '#' }, 'Voir mon document');
+    a.addEventListener('click', async (e) => {
+      e.preventDefault();
+      // La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
+      // Safari (les téléphones des élèves) et les bloqueurs la refusent.
+      const fenetre = window.open('', '_blank', 'noopener');
+      try {
+        const d = await api('/api/classeur/fichier?rendu=' + r.id);
+        if (fenetre) fenetre.location = d.url; else location.href = d.url;
+      } catch (err) {
+        if (fenetre) fenetre.close();
+        dire(err.message, 'err');
+      }
+    });
+    art.append(el('p', { class: 'meta' }, a));
+  }
+
+  if (r.appreciation || r.competence) {
+    const d = el('div', { class: 'correction' }, el('strong', {}, 'Correction : '), r.appreciation || '');
+    if (r.competence) {
+      const n = RANG_MAITRISE[r.maitrise] ?? 0;
+      const mot = MAITRISES[r.maitrise] || r.maitrise || 'non évalué';
+      const barre = el('span', { class: 'maitrise', 'data-n': String(n), 'aria-hidden': 'true' },
+        el('i'), el('i'), el('i'), el('i'));
+      // La barre seule était muette pour qui la regarde : le mot revient à
+      // côté, et la barre devient décorative pour les lecteurs d'écran.
+      d.append(el('p', { class: 'meta', style: 'margin:.4rem 0 0' },
+        r.competence, ' ', barre, ' ', el('span', { class: 'maitrise-mot' }, mot)));
+    }
+    art.append(d);
+  }
+
+  // Un envoi interrompu laissait une ligne vide que personne ne pouvait
+  // enlever, et chaque nouvel essai en ajoutait une. L'élève fait le ménage
+  // lui-même, tant que son travail n'a pas été corrigé.
+  if (!r.corrige_le) {
+    const vide = !r.fichier;
+    const b = el('button', { class: 'lien-sup', type: 'button' },
+      vide ? 'Supprimer cet envoi incomplet' : 'Supprimer ce dépôt');
+    b.addEventListener('click', async () => {
+      if (!vide && !confirm(
+        'Supprimer ce dépôt ? Ton document sera effacé, et ton ' +
+        'professeur ne le verra plus. Tu pourras en redéposer un autre.')) return;
+      b.disabled = true; b.textContent = 'Suppression…';
+      try {
+        await api('/api/classeur/supprimer-depot', {
+          method: 'POST', body: JSON.stringify({ rendu: r.id }),
+        });
+        await listerRendus();
+        rendreTravaux(); rendreChiffres(); rendreAnnee();
+      } catch (e) {
+        dire(e.message || 'Suppression impossible.', 'err');
+        b.disabled = false; b.textContent = 'Supprimer';
+      }
+    });
+    art.append(el('p', { class: 'meta' }, b));
+  }
+  return art;
+}
+
+function rendreTravaux() {
+  const tous = travauxFusionnes();
+  const garde = (FILTRES.find((f) => f.cle === filtre) ?? FILTRES[0]).garde;
+  const vus = tous.filter(garde);
+  $('n-travaux').textContent = String(tous.length);
+  $('n-travaux').className = 'compteur' + (tous.some((t) => t.etat === CORRIGE && recent(t.quand)) ? ' bon' : '');
+  // Deux lectures qui tombent pour la même raison ne méritent qu'un message.
+  const alertes = [...new Set([pannes.fiches, pannes.depots].filter(Boolean))].map((m) =>
+    el('p', { class: 'msg err' }, m + ' Actualise la page : rien n’est perdu.'));
+  if (!vus.length) {
+    $('travaux').replaceChildren(...alertes, el('p', { class: 'vide' },
+      alertes.length ? 'Rien à afficher pour l’instant.'
+        : tous.length ? 'Rien dans cette catégorie.'
+        : 'Tu n’as encore rien rendu ni écrit.'));
+    return;
+  }
+  $('travaux').replaceChildren(...alertes, ...vus.map((t) => (t.rendu ? carteRendu(t) : carteFiche(t))));
+}
+
+// ---- La légende ------------------------------------------------------------
+function rendreLegende() {
+  const ligne = (etat, mot) => el('li', {}, etiquetteEtat(etat, mot));
+  const cran = (n, mot) => el('li', {},
+    el('span', { class: 'maitrise', 'data-n': String(n) }, el('i'), el('i'), el('i'), el('i')), mot);
+  $('legende').replaceChildren(
+    el('div', {}, el('h3', {}, 'L’état de mon travail'),
+      el('ul', {}, ligne(A_FAIRE, 'À faire'), ligne(EN_COURS, 'En cours'),
+        ligne(RENDU, 'Rendu, j’attends la correction'),
+        ligne(CORRIGE, 'Corrigé, je peux le regarder'))),
+    el('div', {}, el('h3', {}, 'Comment j’ai réussi'),
+      el('ul', {}, cran(1, 'Maîtrise insuffisante'), cran(2, 'Maîtrise fragile'),
+        cran(3, 'Maîtrise satisfaisante'), cran(4, 'Très bonne maîtrise'))),
+    el('div', {}, el('h3', {}, 'Les séances de chaque séquence'),
+      el('ul', {},
+        el('li', {}, el('span', { class: 'seances' }, el('span', { class: 'fait' }, '1')), 'faite en classe'),
+        el('li', {}, el('span', { class: 'seances' }, el('span', { class: 'a-rattraper' }, '2')), 'à rattraper, tu étais absent'),
+        el('li', {}, el('span', { class: 'seances' }, el('span', { class: 'a-reprendre' }, '3')), 'à reprendre, à refaire'),
+        el('li', {}, el('span', { class: 'seances' }, el('span', { class: 'rattrape' }, '4')), 'rattrapée, c’est réglé'),
+        el('li', {}, el('span', { class: 'seances' }, el('span', {}, '5')), 'pas encore faite'))),
+    el('div', {}, el('h3', {}, 'Le quiz'),
+      el('ul', {}, el('li', {}, el('span', { class: 'score-quiz' }, 'Quiz : 7 sur 10'),
+        'ton meilleur score, ce n’est pas une note')),
+      el('p', { class: 'mot-cle' },
+        'Tu peux refaire un quiz autant de fois que tu veux : seul ton meilleur score reste.')),
+    el('p', { class: 'mot-cle' },
+      'Un rond dit où tu en es. Une barre dit comment tu as réussi. '
+      + 'Ce ne sont jamais les mêmes formes, pour qu’un rond orange ne soit pas confondu avec une note.'));
+}
+
+// ---- Lecture ---------------------------------------------------------------
+const CLE_CHAMP = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
 
 function regrouperParFiche(lignes) {
   const parPage = new Map();
@@ -423,6 +735,7 @@ function regrouperParFiche(lignes) {
       parPage.set(l.page, f);
     }
     if (l.question === 'fiche') f.ligneFiche = l;
+    // Une ligne sans question est le bloc libre d'avant le 20 septembre 2026.
     else if (l.question === 'reponse' || !l.question) f.ligneLibre = l;
     else if (CLE_CHAMP.test(l.question)) {
       f.nb_champs++;
@@ -437,8 +750,6 @@ function regrouperParFiche(lignes) {
     const porteuse = f.ligneFiche ?? f.ligneLibre;
     f.corrige_le = porteuse?.corrige_le ?? null;
     f.correction = porteuse?.correction ?? null;
-    // Une réponse libre seule (fiche d'avant le 20 septembre, ou bloc libre
-    // sans champ) n'a rien « en cours » : elle est envoyée, elle attend.
     f.etat = etatFiche({ corrigeLe: f.corrige_le, ligneFiche: f.ligneFiche,
                          nbChamps: f.nb_champs, ligneLibre: f.ligneLibre });
     liste.push(f);
@@ -448,121 +759,62 @@ function regrouperParFiche(lignes) {
 
 function listerReponses(q) {
   if (q.status === 'rejected') {
-    $('liste-reponses').replaceChildren(el('p', { class: 'vide' },
-      q.reason?.message || 'Tes réponses n’ont pas pu être lues pour le moment.'));
+    mesFiches = [];
+    pannes.fiches = q.reason?.message || 'Tes fiches n’ont pas pu être lues pour le moment.';
     return;
   }
-  const fiches = regrouperParFiche(q.value.reponses || []);
-  mesFiches = fiches;
-  if (!fiches.length) {
-    $('liste-reponses').replaceChildren(el('p', { class: 'vide' }, 'Tu n’as encore rien écrit dans une fiche.'));
-    return;
-  }
-  $('liste-reponses').replaceChildren(...fiches.map((f) => {
-    const corrigee = f.etat === CORRIGE;
-    const etiquette = el('span',
-      { class: 'etiquette ' + (corrigee ? 'corrige' : 'attente') }, LIBELLE_ELEVE[f.etat]);
-    const etat = corrigee ? `corrigée le ${dateCourte(f.corrige_le)}`
-      : f.etat === RENDU ? `rendue le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
-      : f.etat === LIBRE ? `rendue le ${dateCourte(f.modifie_le)}`
-      : `modifiée le ${dateCourte(f.modifie_le)}`;
-    const nb = f.nb_champs ? ` · ${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}` : '';
-    const art = el('article', { class: `rendu ${corrigee ? 'fait' : 'attente'}` },
-      el('h3', {}, titreFiche(f.page), etiquette),
-      el('p', { class: 'meta' }, `${f.groupe ? f.groupe + ' · ' : ''}${etat}${nb} · `,
-        el('a', { href: '/' + f.page + (f.nb_champs ? '' : '#ma-reponse') }, 'Ouvrir la fiche')));
-    if (f.ligneLibre) {
-      art.append(el('p', { class: 'mot', style: 'white-space:pre-wrap' }, f.ligneLibre.texte ?? ''));
-    }
-    if (f.correction) {
-      art.append(el('div', { class: 'correction' }, el('strong', {}, 'Correction : '),
-        el('span', { style: 'white-space:pre-wrap' }, f.correction)));
-    }
-    if (f.nb_commentaires) {
-      art.append(el('p', { class: 'meta' },
-        `${f.nb_commentaires} commentaire${f.nb_commentaires > 1 ? 's' : ''} de ton professeur sur tes réponses : ouvre la fiche pour ${f.nb_commentaires > 1 ? 'les' : 'le'} lire.`));
-    }
-    return art;
-  }));
+  pannes.fiches = null;
+  mesFiches = regrouperParFiche(q.value.reponses || []);
 }
 
 async function listerRendus() {
   const d = await api('/api/classeur/mes-rendus');
   mesRendus = d.rendus;
-
   if (d.repli) {
     $('repli').className = 'msg info';
     $('repli').textContent =
       `Ton professeur a réinitialisé ton accès le ${dateCourte(d.repli.quand)}. ` +
       `Si tu ne l'as pas demandé, dis-le-lui.`;
   }
-
-  if (!d.rendus.length) {
-    $('liste').innerHTML = '<p class="vide">Tu n\'as encore rien déposé.</p>';
-    return;
-  }
-  $('liste').innerHTML = d.rendus.map((r) => {
-    const etat = !r.fichier
-      ? '<span class="etiquette incomplet">envoi incomplet</span>'
-      : r.corrige_le
-        ? '<span class="etiquette corrige">corrigé</span>'
-        : '<span class="etiquette attente">en attente de correction</span>';
-    return `<article class="rendu">
-      <h3>${echapper(libelleSequence(r.sequence, $('groupe').value))}${etat}</h3>
-      <p class="meta">${echapper(r.groupes?.code || '')} · déposé le ${dateCourte(r.depose_le)}
-        ${r.binome ? ' · avec ' + echapper(r.binome) : ''}</p>
-      ${r.fichier ? `<p class="meta"><a href="#" data-rendu="${r.id}"
-          class="voir">Voir mon document</a></p>` : ''}
-      ${r.appreciation || r.competence ? `<div class="correction"><strong>Correction :</strong>
-          ${echapper(r.appreciation || '')}${r.competence ?
-          `<br><em>${echapper(r.competence)} : ${echapper(MAITRISES[r.maitrise] || r.maitrise || '')}</em>` : ''}</div>` : ''}
-      ${!r.corrige_le ? `<p class="meta"><button class="lien-sup"
-          data-rendu="${r.id}" data-vide="${r.fichier ? '' : '1'}">${
-          r.fichier ? 'Supprimer ce dépôt' : 'Supprimer cet envoi incomplet'
-          }</button></p>` : ''}
-    </article>`;
-  }).join('');
-
-  document.querySelectorAll('.voir').forEach((a) => {
-    a.addEventListener('click', async (e) => {
-      e.preventDefault();
-      // La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
-      // Safari (les téléphones des élèves) et les bloqueurs la refusent.
-      const fenetre = window.open('', '_blank', 'noopener');
-      try {
-        const d = await api('/api/classeur/fichier?rendu=' + a.dataset.rendu);
-        if (fenetre) fenetre.location = d.url; else location.href = d.url;
-      } catch (err) {
-        if (fenetre) fenetre.close();
-        dire(err.message, 'err');
-      }
-    });
-  });
-
-  // Un envoi interrompu laissait une ligne vide que personne ne pouvait
-  // enlever, et chaque nouvel essai en ajoutait une. L'élève fait le ménage
-  // lui-même, tant que son travail n'a pas été corrigé.
-  document.querySelectorAll('.lien-sup').forEach((b) => {
-    b.addEventListener('click', async () => {
-      const vide = b.dataset.vide === '1';
-      if (!vide && !confirm(
-        'Supprimer ce dépôt ? Ton document sera effacé, et ton ' +
-        'professeur ne le verra plus. Tu pourras en redéposer un autre.')) return;
-      b.disabled = true; b.textContent = 'Suppression…';
-      try {
-        await api('/api/classeur/supprimer-depot', {
-          method: 'POST', body: JSON.stringify({ rendu: b.dataset.rendu }),
-        });
-        await listerRendus();
-      } catch (e) {
-        dire(e.message || 'Suppression impossible.', 'err');
-        b.disabled = false; b.textContent = 'Supprimer';
-      }
-    });
-  });
 }
 
-$('groupe').addEventListener('change', () => { rendreAnnee(); remplirSequences(); });
+async function charger() {
+  const g = await api('/api/classeur/groupes');
+  groupes = g.groupes;
+  $('qui').textContent = g.prenom ? `Bonjour ${g.prenom}` : '';
+  $('groupe').innerHTML = groupes
+    .map((x) => `<option value="${x.id}">${echapper(x.code)}${x.annee ? ' · ' + echapper(x.annee) : ''}</option>`).join('');
+  // sesGroupes() met le groupe de l'année en cours en tête : c'est lui qui s'affiche.
+  if (!groupes.length) {
+    $('depot').hidden = true;
+    dire('Tu n’es inscrit dans aucun groupe pour le moment : demande à ton professeur.', 'info');
+  }
+  $('document').innerHTML = DOCUMENTS
+    .map((d) => `<option value="${d.id}">${echapper(d.titre)}</option>`).join('');
+  // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose
+  // quand même. Les lectures partent ensemble : sur la liaison de Tananarive,
+  // quatre allers-retours en série se voient.
+  const [p, s, r, q] = await Promise.allSettled([
+    api('/api/classeur/progression'), api('/api/classeur/score'), listerRendus(),
+    api('/api/classeur/reponse'),
+  ]);
+  progression = p.status === 'fulfilled' ? p.value.groupes : [];
+  pannes.progression = p.status === 'rejected'
+    ? (p.reason?.message || 'Ta progression n’a pas pu être lue pour le moment.') : null;
+  mesScores = s.status === 'fulfilled' ? s.value.scores : [];
+  pannes.depots = r.status === 'rejected'
+    ? (r.reason?.message || 'Tes travaux déposés n’ont pas pu être lus pour le moment.') : null;
+  if (pannes.depots) dire(pannes.depots, 'err');
+  listerReponses(q);
+  remplirSequences();
+  rendreLegende();
+  rendreFiltres();
+  rendreTravaux();
+  rendreChiffres();
+  rendreAnnee();   // appelé APRÈS listerReponses : il lit mesFiches.
+}
+
+$('groupe').addEventListener('change', () => { rendreAnnee(); remplirSequences(); rendreTravaux(); });
 
 $('sortir').addEventListener('click', async () => {
   try {
@@ -571,16 +823,16 @@ $('sortir').addEventListener('click', async () => {
     location.href = '/';
   } catch (e) {
     // Ne pas partir vers l'accueil comme si c'était fait : la session serait
-    // toujours vivante et le professeur croirait être sorti.
+    // toujours vivante et l'élève croirait être sorti.
     alert('La session n’a PAS été fermée : le réseau ou le service n’a pas ' +
-          'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
+          'répondu. Ferme complètement le navigateur, la session meurt avec lui.');
   }
 });
 
 $('f').addEventListener('submit', async (e) => {
   e.preventDefault();
   const f = $('fichier').files[0];
-  if (!f) return dire('Choisissez un fichier.', 'err');
+  if (!f) return dire('Choisis un fichier.', 'err');
 
   $('b').disabled = true; $('b').textContent = 'Envoi…';
   $('barre').style.display = 'block'; $('progres').style.width = '10%';
@@ -617,12 +869,12 @@ $('f').addEventListener('submit', async (e) => {
     });
     $('progres').style.width = '100%';
 
-    dire('Ton travail est déposé. Ton professeur le verra.', 'ok');
+    dire('Ton travail est rendu. Ton professeur le verra.', 'ok');
     // On ne vide que ce qui a été envoyé : le groupe et la séquence restent,
     // l'élève dépose souvent deux documents d'affilée pour la même séquence.
     $('fichier').value = ''; $('binome').value = ''; $('commentaire').value = '';
     await listerRendus();
-    rendreAnnee();
+    rendreTravaux(); rendreChiffres(); rendreAnnee();
   } catch (err) {
     dire((err.message || 'Envoi impossible.') +
       " Ton travail n'est PAS perdu : ne ferme pas la page, réessaie.", 'err');
@@ -636,17 +888,19 @@ $('f').addEventListener('submit', async (e) => {
 charger().catch((e) => {
   // La première lecture a échoué (réseau coupé, fonction en panne) : le
   // dire là où l'élève regarde, en haut de page et dans les blocs restés
-  // sur « Chargement… », avec le geste attendu. #m, sous le bouton Déposer,
+  // sur « Chargement… », avec le geste attendu. #m, dans le dépôt replié,
   // est hors de l'écran sur un poste de salle ou un téléphone.
   const t = (e.message || 'Le classeur n’a pas pu être lu.') + ' Actualise la page pour réessayer.';
   $('repli').className = 'msg err';
-  $('repli').innerHTML = `${echapper(t)} <button type="button" class="lien-sup" id="reessayer">Réessayer</button>`;
-  $('reessayer').addEventListener('click', () => location.reload());
+  $('repli').replaceChildren(t + ' ');
+  const b = el('button', { type: 'button', class: 'lien-sup' }, 'Réessayer');
+  b.addEventListener('click', () => location.reload());
+  $('repli').append(b);
   if ($('annee-resume').textContent.trim() === 'Chargement…') $('annee-resume').textContent = t;
-  for (const id of ['liste', 'liste-reponses']) {
-    if ($(id).textContent.trim() === 'Chargement…') $(id).innerHTML = `<p class="vide">${echapper(t)}</p>`;
-  }
-  if (!groupes.length) $('f').hidden = true;
+  $('a-faire-liste').replaceChildren(el('li', { class: 'a-faire-rien' }, t));
+  $('travaux').replaceChildren(el('p', { class: 'vide' }, t));
+  rendreLegende();
+  if (!groupes.length) $('depot').hidden = true;
   dire(t, 'err');
 });
 </script>

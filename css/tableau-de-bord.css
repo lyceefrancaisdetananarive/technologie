@@ -1,0 +1,278 @@
+/* =====================================================================
+   Technologie LFT · les tableaux de bord, celui de l'élève et celui du
+   professeur.
+
+   Une seule feuille pour les deux, afin que l'élève et le professeur voient
+   la même chose dire la même chose. Elle ne définit que des classes propres
+   au tableau de bord et ne redéfinit aucune règle des pages existantes.
+
+   Elle se charge APRÈS la feuille de l'espace : connecte.css côté élève,
+   style.css côté professeur. Ces deux feuilles ne nomment pas tout à fait
+   les mêmes jetons ; css/tableau-de-bord-prof.css comble les cinq écarts
+   côté professeur.
+
+   Deux principes, et tout le reste en découle.
+
+   1. UN MUR DE BLOCS, AVEC UNE HIÉRARCHIE. La page d'avant empilait quatre
+      cartes de même poids : l'élève ne savait pas par où commencer. Ici un
+      seul bloc domine, « Ce que j'ai à faire », et les autres se rangent
+      autour. Un coup d'œil doit suffire.
+
+   2. DEUX LANGAGES VISUELS QUI NE SE MÉLANGENT JAMAIS. Un rond dit OÙ J'EN
+      SUIS (à faire, en cours, rendu, corrigé). Une barre à quatre crans dit
+      COMMENT J'AI RÉUSSI. Les deux emploient l'orange et le vert ; si les
+      deux employaient aussi la même forme, un élève de 5e lirait « orange »
+      et comprendrait « j'ai raté » là où cela veut dire « j'attends ta
+      correction ». Des formes différentes rendent la confusion impossible,
+      y compris pour un élève qui distingue mal les couleurs. Aucun état
+      n'est jamais porté par la couleur seule : chacun porte aussi un mot.
+   ===================================================================== */
+
+body.tdb main, main.tdb { max-width: 68rem; }
+
+/* ---- le bandeau : mon groupe, et ce qu'il commande ------------------- */
+.bandeau {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
+  background: var(--papier-2); border: 1px solid var(--trait);
+  border-radius: var(--r); padding: .7rem .9rem; margin-bottom: 1.1rem;
+}
+.bandeau label { font: 700 .78rem/1.3 var(--display); letter-spacing: .05em;
+                 text-transform: uppercase; color: var(--encre-3); margin: 0; }
+.bandeau select { margin: 0; width: auto; min-width: 11rem; }
+.bandeau .creneau { color: var(--encre-2); font-size: .88rem; }
+
+/* ---- le mur ---------------------------------------------------------- */
+.mur { display: grid; gap: 1.1rem; grid-template-columns: repeat(12, 1fr); align-items: start; }
+.mur > * { grid-column: span 12; min-width: 0; }
+@media (min-width: 62rem) {
+  .mur > .b8 { grid-column: span 7; }
+  .mur > .b4 { grid-column: span 5; }
+}
+@media (min-width: 82rem) {
+  .mur > .b8 { grid-column: span 8; }
+  .mur > .b4 { grid-column: span 4; }
+}
+.bloc {
+  background: var(--papier-2); border: 1px solid var(--trait);
+  border-radius: var(--r-lg); padding: 1.1rem 1.15rem; margin: 0;
+}
+.bloc > h2 {
+  font: 700 .8rem/1.3 var(--display); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--encre-3); margin: 0 0 .85rem;
+  display: flex; align-items: center; justify-content: space-between; gap: .6rem;
+}
+.compteur {
+  font: 800 .78rem var(--display); background: var(--grille); color: var(--encre-2);
+  border-radius: 999px; padding: .1rem .55rem; font-variant-numeric: tabular-nums;
+}
+.compteur.chaud { background: var(--encours-pale); color: var(--encours); }
+.compteur.bon   { background: var(--fait-pale);    color: var(--fait); }
+
+/* ---- 1. le bloc dominant : ce que j'ai à faire ------------------------ */
+.maintenant { background: linear-gradient(140deg, var(--bleu), #032844); border: 0; color: #fff; }
+/* L'anneau de focus global est bleu, exactement la couleur de ce fond : il y
+   devenait invisible. Sur ce bloc il passe en blanc, avec un halo sombre. */
+.maintenant :focus-visible { outline-color: #fff; box-shadow: 0 0 0 5px #032844; }
+.maintenant > h2 { color: rgba(255, 255, 255, .74); }
+.maintenant ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .55rem; }
+.maintenant li {
+  display: grid; grid-template-columns: auto 1fr auto; gap: .75rem; align-items: center;
+  background: rgba(255, 255, 255, .1); border-radius: var(--r); padding: .65rem .8rem;
+}
+@media (max-width: 34rem) {
+  .maintenant li { grid-template-columns: auto 1fr; align-items: start; }
+  .maintenant li .a-faire-lien { grid-column: 2; justify-self: start; margin-top: .3rem; }
+  .a-faire-etiquette { margin-top: .2rem; }
+}
+.a-faire-etiquette {
+  font: 800 .68rem var(--display); letter-spacing: .05em; text-transform: uppercase;
+  background: rgba(255, 255, 255, .92); color: #032844; border-radius: 999px;
+  padding: .16rem .5rem; white-space: nowrap;
+}
+.a-faire-texte strong { font: 700 1rem/1.35 var(--display); display: block; }
+.a-faire-detail { color: rgba(255, 255, 255, .8); font-size: .86rem; }
+.a-faire-lien {
+  background: #fff; color: #00396B; border-radius: 999px; padding: .4rem .9rem;
+  font: 800 .84rem var(--display); text-decoration: none; white-space: nowrap;
+}
+.a-faire-lien:hover { background: var(--bleu-pale); }
+.a-faire-rien { background: none; display: block; font-size: 1rem; padding: .2rem 0; }
+.maintenant .a-faire-rien { color: rgba(255, 255, 255, .88); }
+
+/* ---- 2. où j'en suis -------------------------------------------------- */
+.chiffres { display: grid; grid-template-columns: repeat(3, 1fr); gap: .6rem; margin-bottom: .9rem; }
+.chiffres div { text-align: center; }
+.chiffres b {
+  display: block; font: 800 1.7rem/1.1 var(--display); font-variant-numeric: tabular-nums;
+}
+.chiffres span { font-size: .74rem; color: var(--encre-3); }
+.chiffres .c-corrige b { color: var(--fait); }
+.chiffres .c-rendu b   { color: var(--encours); }
+.chiffres .c-encours b { color: var(--bleu); }
+
+/* ---- 3. la progression, période par période --------------------------- */
+.periode {
+  font: 700 .72rem var(--display); letter-spacing: .07em; text-transform: uppercase;
+  color: var(--encre-3); margin: 1.1rem 0 .5rem; display: flex; align-items: center; gap: .6rem;
+}
+.periode:first-child { margin-top: 0; }
+.periode::after { content: ""; flex: 1; height: 1px; background: var(--grille); }
+.periode .ici {
+  background: var(--bleu); color: #fff; border-radius: 999px; padding: .08rem .45rem;
+  font-size: .66rem; letter-spacing: .04em;
+}
+.parcours { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.etape {
+  display: grid; grid-template-columns: auto 1fr; gap: .8rem; align-items: start;
+  border: 1px solid var(--trait); border-left-width: 4px; border-left-color: var(--grille);
+  border-radius: var(--r); padding: .7rem .85rem; background: var(--papier-2);
+}
+.etape.encours { border-left-color: var(--bleu); background: var(--bleu-pale); }
+.etape.fait    { border-left-color: var(--fait); }
+/* L'opacité faisait tomber quatre textes sous le seuil de contraste. L'état
+   « pas cette année » se dit par un trait discontinu et un fond neutre, comme
+   le faisait la version d'avant, sans jamais délaver le texte. */
+.etape.masquee { background: var(--papier); border-style: dashed; }
+.etape.masquee .etape-num { background: transparent; border: 1px dashed var(--bord-composant); }
+.etape-num {
+  font: 800 .72rem var(--display); color: var(--encre-3); background: var(--grille);
+  border-radius: 6px; padding: .18rem .42rem; font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.etape.encours .etape-num { background: var(--bleu); color: #fff; }
+.etape-corps { min-width: 0; }
+.etape h3 {
+  font: 700 1rem/1.35 var(--display); margin: 0 0 .25rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
+}
+.etape .resume { font-size: .8rem; color: var(--encre-3); margin: 0 0 .45rem; }
+
+/* les séances, numérotées et lisibles sans compter les points */
+.seances { list-style: none; display: flex; flex-wrap: wrap; gap: .3rem; margin: 0 0 .5rem; padding: 0; }
+.seances > li, .seances > span {
+  font: 700 .72rem var(--display); font-variant-numeric: tabular-nums;
+  min-width: 1.5rem; text-align: center; border-radius: 5px; padding: .1rem .3rem;
+  border: 1px solid var(--trait); color: var(--encre-3); background: var(--papier-2);
+}
+.seances > .fait, .seances > li.fait         { background: var(--fait-pale);    border-color: var(--fait);    color: var(--fait); }
+.seances > .a-rattraper, .seances > li.a-rattraper  { background: var(--encours-pale); border-color: var(--encours); color: var(--encours); }
+.seances > .a-reprendre, .seances > li.a-reprendre  { background: var(--erreur-pale);  border-color: var(--erreur);  color: var(--erreur); }
+.seances > .rattrape, .seances > li.rattrape     { background: var(--fait-pale);    border-color: var(--fait);    color: var(--fait);
+                           text-decoration: underline; text-underline-offset: 2px; }
+.etape-liens { display: flex; flex-wrap: wrap; gap: .35rem; }
+.etape-liens a {
+  font: 700 .78rem var(--display); text-decoration: none; border: 1px solid var(--trait);
+  border-radius: 999px; padding: .2rem .65rem; color: var(--bleu);
+}
+.etape-liens a:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+
+/* ---- l'état, en rond : à faire, en cours, rendu, corrigé -------------- */
+.past { width: 15px; height: 15px; flex: none; display: inline-block; vertical-align: -2px; }
+.etat {
+  display: inline-flex; align-items: center; gap: .32rem; white-space: nowrap;
+  font: 700 .74rem var(--display); border-radius: 999px; padding: .14rem .55rem;
+}
+.etat-afaire  { background: var(--grille);        color: var(--encre-2); }
+.etat-encours { background: var(--bleu-pale);     color: var(--bleu); }
+.etat-rendu   { background: var(--encours-pale);  color: var(--encours); }
+.etat-corrige { background: var(--fait-pale);     color: var(--fait); }
+.etat-masquee { background: var(--grille);        color: var(--encre-2); }
+
+/* Le score d'un quiz n'est pas un état de travail : forme et couleur
+   différentes de toutes les pastilles d'état, pour qu'aucune confusion avec
+   une note ne soit possible. */
+.score-quiz {
+  display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap;
+  font-family: var(--display); font-weight: 700; font-size: .74rem;
+  border: 1px dashed var(--bord-composant); border-radius: var(--r-s);
+  padding: .1rem .5rem; color: var(--encre-2); background: var(--papier);
+}
+.badge-annee svg { width: 14px; height: 14px; flex: none; }
+
+/* ---- la maîtrise, en barre à quatre crans ----------------------------- */
+.maitrise { display: inline-flex; gap: 2px; vertical-align: -1px; }
+/* Un cran vide qui ne se voit pas, c'est une échelle sans graduation : on lit
+   « trois » sans savoir « sur combien ». Bordure pleine plutôt que fond pâle. */
+.maitrise i { width: 13px; height: 7px; border-radius: 2px;
+              background: transparent; border: 1px solid var(--bord-composant); }
+.maitrise[data-n="1"] i:nth-child(1)     { background: var(--erreur);  border-color: var(--erreur); }
+.maitrise[data-n="2"] i:nth-child(-n+2)  { background: var(--encours); border-color: var(--encours); }
+.maitrise[data-n="3"] i:nth-child(-n+3)  { background: var(--fait);    border-color: var(--fait); opacity: .72; }
+.maitrise[data-n="4"] i                  { background: var(--fait);    border-color: var(--fait); }
+.maitrise-mot { font-size: .82rem; color: var(--encre-2); }
+
+/* ---- 5. mes travaux --------------------------------------------------- */
+.filtres { display: flex; flex-wrap: wrap; gap: .4rem; margin-bottom: .9rem; }
+.filtres button {
+  font: 700 .8rem var(--display); border: 1px solid var(--bord-composant);
+  background: var(--papier-2); color: var(--encre-2); border-radius: 999px;
+  padding: .28rem .8rem; cursor: pointer;
+}
+.filtres button[aria-pressed="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+.travaux { display: grid; gap: .6rem; }
+.travail {
+  border: 1px solid var(--trait); border-left-width: 4px; border-left-color: var(--grille);
+  border-radius: var(--r); padding: .75rem .9rem; background: var(--papier-2);
+}
+.travail.est-encours { border-left-color: var(--bleu); }
+.travail.est-rendu   { border-left-color: var(--encours); }
+.travail.est-corrige { border-left-color: var(--fait); }
+.travail h3 {
+  font: 700 1rem/1.35 var(--display); margin: 0 0 .2rem;
+  display: flex; flex-wrap: wrap; align-items: center; gap: .4rem;
+}
+.travail .genre {
+  font: 700 .68rem var(--display); letter-spacing: .04em; text-transform: uppercase;
+  color: var(--encre-3); border: 1px solid var(--trait); border-radius: 999px; padding: .06rem .45rem;
+}
+.travail .meta { font-size: .82rem; color: var(--encre-3); margin: 0 0 .3rem; }
+.travail .meta:last-child { margin-bottom: 0; }
+.travail .correction {
+  background: var(--fait-pale); border-radius: var(--r); padding: .55rem .7rem;
+  margin: .5rem 0 0; font-size: .9rem;
+}
+.travail .mot {
+  background: var(--papier); border-radius: var(--r); padding: .55rem .7rem;
+  margin: .5rem 0 0; font-size: .9rem;
+}
+.neuf {
+  background: #B61880; color: #fff; font: 800 .64rem var(--display);
+  letter-spacing: .05em; border-radius: 999px; padding: .1rem .42rem;
+}
+
+/* ---- La pile à corriger, côté professeur ------------------------------ */
+.pile { display: grid; gap: .5rem; }
+.pile a {
+  display: flex; justify-content: space-between; align-items: center; gap: .7rem;
+  border: 1px solid var(--trait); border-radius: var(--r); padding: .6rem .75rem;
+  text-decoration: none; color: inherit;
+}
+.pile a:hover { border-color: var(--encours); }
+.pile .t { font-family: var(--display); font-weight: 700; font-size: .88rem; min-width: 0; }
+.pile .t small { display: block; font-family: var(--texte); font-weight: 400;
+                 font-size: .77rem; color: var(--encre-3); }
+.pile .n { font-family: var(--display); font-weight: 800; font-size: 1.2rem;
+           color: var(--encours); font-variant-numeric: tabular-nums; }
+
+/* ---- 6. le dépôt, replié par défaut ----------------------------------- */
+.bloc details > summary {
+  font: 700 .8rem/1.3 var(--display); letter-spacing: .08em; text-transform: uppercase;
+  color: var(--encre-3); cursor: pointer; list-style: none;
+}
+.bloc details > summary::-webkit-details-marker { display: none; }
+.bloc details > summary::before { content: "▸ "; color: var(--bleu); }
+.bloc details[open] > summary::before { content: "▾ "; }
+.bloc details[open] > summary { margin-bottom: .9rem; }
+
+/* ---- 7. la légende ---------------------------------------------------- */
+.legende { display: grid; gap: 1rem; }
+@media (min-width: 40rem) { .legende { grid-template-columns: 1fr 1fr; } }
+.legende h3 { font: 700 .88rem var(--display); margin: 0 0 .5rem; color: var(--encre); }
+.legende ul { list-style: none; margin: 0; padding: 0; display: grid; gap: .4rem; font-size: .88rem; }
+.legende .seances { display: inline-flex; margin: 0; }
+.legende { grid-template-columns: 1fr; }
+@media (min-width: 40rem) { .legende { grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); } }
+.legende li { display: flex; align-items: center; gap: .5rem; }
+.legende .mot-cle { font-size: .84rem; color: var(--encre-2); margin: .8rem 0 0; }
+
+@media print { .bandeau, .filtres, .maintenant, .bloc details { display: none; } }
