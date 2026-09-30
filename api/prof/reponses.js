@@ -1,6 +1,8 @@
 import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 import { UUID } from '../_lib/progression.js';
+import { etatFiche, estACorriger, rangTri, EN_COURS, RENDU, CORRIGE }
+  from '../_lib/etats-fiche.js';
 
 // =====================================================================
 // LES RÉPONSES D'UN GROUPE DANS LES FICHES, ET LEUR CORRECTION (D16 point
@@ -72,7 +74,7 @@ export function agregerFiches(lignes) {
     if (!f) {
       f = {
         profil_id: l.profil_id, prenom: l.profils?.prenom ?? null, nom: l.profils?.nom ?? null,
-        page: l.page, etat: 'en cours', corrige_le: null, correction: null,
+        page: l.page, etat: EN_COURS, corrige_le: null, correction: null,
         modifie_le: null, nb_champs: 0, libre: false, ids: [], _fiche: null, _libre: null,
       };
       parCle.set(cle, f);
@@ -90,13 +92,12 @@ export function agregerFiches(lignes) {
       f.corrige_le = porteuse.corrige_le ?? null;
       f.correction = porteuse.correction ?? null;
     }
-    if (f.corrige_le) f.etat = 'corrigee';
-    else if (f._fiche) f.etat = f._fiche.texte === 'terminee' ? 'terminee' : 'en cours';
-    else if (f._libre && f.nb_champs === 0) f.etat = 'libre';
+    f.etat = etatFiche({ corrigeLe: f.corrige_le, ligneFiche: f._fiche,
+                         nbChamps: f.nb_champs, ligneLibre: f._libre });
     delete f._fiche; delete f._libre;
     fiches.push(f);
   }
-  fiches.sort((a, b) => (a.etat === 'corrigee') - (b.etat === 'corrigee')
+  fiches.sort((a, b) => rangTri(a.etat) - rangTri(b.etat)
     || String(b.modifie_le).localeCompare(String(a.modifie_le)));
   return fiches;
 }
@@ -131,7 +132,7 @@ export default async function handler(req, res) {
         ok: true, reponses, fiches,
         // Une fiche vide (ligne d'état seule, tous les champs effacés) n'a
         // rien à corriger ; un bloc libre seul, si (même règle que plan.js).
-        a_corriger: fiches.filter((f) => f.etat !== 'corrigee' && (f.nb_champs > 0 || f.libre)).length,
+        a_corriger: fiches.filter((f) => estACorriger(f.etat) && (f.nb_champs > 0 || f.libre)).length,
       });
     }
 
@@ -195,7 +196,7 @@ export default async function handler(req, res) {
         try {
           await ecrire('reponses', '', {
             profil_id: profil, groupe_id: champs[0].groupe_id, page, question: FICHE,
-            texte: 'terminee', redige_le: quand, modifie_le: quand,
+            texte: RENDU, redige_le: quand, modifie_le: quand,
             correction: texte, corrige_le: quand,
           }, 'POST');
         } catch (e) {
@@ -227,7 +228,7 @@ export default async function handler(req, res) {
       if (!(await reArmer(req, res, moi))) return refus(res, 401, 'Session expirée.');
       return res.status(200).json({
         ok: true,
-        fiche: { profil_id: profil, page, etat: 'corrigee', correction: texte, corrige_le: quand },
+        fiche: { profil_id: profil, page, etat: CORRIGE, correction: texte, corrige_le: quand },
         commentaires: poses,
       });
     }

@@ -114,6 +114,7 @@ main { max-width: 62rem; }
 <script type="module">
 import { api, echapper, dateCourte } from '/js/classeur-commun.js';
 import { catalogueCharge, sequence, NIVEAU_COURT } from '/js/progression-regles.js';
+import { attendCorrection } from '/js/etats-fiche.js';
 
 const $ = (id) => document.getElementById(id);
 let F = null;
@@ -238,7 +239,7 @@ function rendreChiffres() {
   const corriges = F.rendus.filter((r) => r.corrige_le).length;
   const fiches = F.fiches.length;
   const aCorriger = F.rendus.filter((r) => !r.corrige_le).length
-    + F.fiches.filter((f) => f.etat === 'terminee').length;
+    + F.fiches.filter((f) => attendCorrection(f.etat)).length;
   const ouverts = F.exceptions.filter((x) => x.etat !== 'rattrape').length;
   $('chiffres').replaceChildren(
     chiffre(rendus, rendus > 1 ? 'travaux déposés' : 'travail déposé'),

@@ -144,6 +144,8 @@
 <script type="module">
 import { SEQUENCES } from '/js/sequences.js';
 import { api, dateCourte, echapper } from '/js/classeur-commun.js';
+import { etatFiche, estACorriger, rangTri, LIBELLE_PROF, CORRIGE }
+  from '/js/etats-fiche.js';
 
 const $ = (id) => document.getElementById(id);
 const TITRES = Object.fromEntries(
@@ -254,7 +256,7 @@ function voirReponses(rq) {
 
 /** Le compteur des fiches à corriger, recalculé après chaque geste. */
 function compterFiches(depuisApi) {
-  const n = typeof depuisApi === 'number' ? depuisApi : fiches.filter((f) => f.etat !== 'corrigee').length;
+  const n = typeof depuisApi === 'number' ? depuisApi : fiches.filter((f) => estACorriger(f.etat)).length;
   $('compte-reponses').textContent = n
     ? `${n} fiche${n > 1 ? 's' : ''} à corriger dans ce groupe, affichée${n > 1 ? 's' : ''} en premier.`
     : '';
@@ -319,9 +321,8 @@ function construireFiches(lignes, agregats) {
     const porteuse = f.ligneFiche ?? f.ligneLibre;
     f.corrige_le = porteuse?.corrige_le ?? null;
     f.correction = porteuse?.correction ?? null;
-    f.etat = f.corrige_le ? 'corrigee'
-      : f.ligneFiche ? (f.ligneFiche.texte === 'terminee' ? 'terminee' : 'en cours')
-      : f.champs.length ? 'en cours' : 'libre';
+    f.etat = etatFiche({ corrigeLe: f.corrige_le, ligneFiche: f.ligneFiche,
+                         nbChamps: f.champs.length, ligneLibre: f.ligneLibre });
     f.modifie_le = f.lignes.map((l) => l.modifie_le || l.redige_le).filter(Boolean).sort().pop() ?? null;
     f.nb_champs = f.champs.length;
     const a = Array.isArray(agregats)
@@ -339,7 +340,7 @@ function construireFiches(lignes, agregats) {
     liste.push(f);
   }
   // À corriger d'abord, puis les corrigées ; à l'intérieur, la plus récente en premier.
-  liste.sort((a, b) => (a.etat === 'corrigee') - (b.etat === 'corrigee')
+  liste.sort((a, b) => rangTri(a.etat) - rangTri(b.etat)
     || String(b.modifie_le ?? '').localeCompare(String(a.modifie_le ?? '')));
   liste.forEach((f, i) => { f.n = i; });
   return liste;
@@ -360,12 +361,9 @@ function el(balise, attrs = {}, ...enfants) {
 
 /** Une carte (élève, fiche). Rendue à part pour remplacer UNE carte après correction. */
 function articleFiche(f) {
-  const corrigee = f.etat === 'corrigee';
-  const libelles = {
-    corrigee: ['corrige', 'corrigée'], terminee: ['attente', 'terminée, à corriger'],
-    'en cours': ['attente', 'en cours'], libre: ['attente', 'à corriger'],
-  };
-  const [classe, texteEtiquette] = libelles[f.etat] || libelles.libre;
+  const corrigee = f.etat === CORRIGE;
+  const classe = corrigee ? 'corrige' : 'attente';
+  const texteEtiquette = LIBELLE_PROF[f.etat] ?? LIBELLE_PROF.libre;
   const etat = corrigee ? `corrigée le ${dateCourte(f.corrige_le)}`
     : f.etat === 'terminee' ? `terminée le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
     : f.etat === 'en cours' ? `en cours, modifiée le ${dateCourte(f.modifie_le)}`
@@ -390,7 +388,7 @@ function articleFiche(f) {
 
 /** Un champ de la fiche (ou le bloc libre) : intitulé, réponse, commentaire. */
 function blocChamp(f, l, libre) {
-  const figee = f.etat === 'corrigee' && !f.edition;
+  const figee = f.etat === CORRIGE && !f.edition;
   const entete = el('div', { class: 'entete' },
     el('p', { class: 'intitule' }, libre ? null : el('code', {}, l.question),
       libre ? 'Réponse libre' : (l.intitule || 'Champ sans intitulé')));
@@ -423,7 +421,7 @@ function commentaireLu(texte) {
 
 /** Le pied d'une carte : la correction de la fiche, obligatoire, ou celle déjà posée. */
 function piedFiche(f) {
-  const figee = f.etat === 'corrigee' && !f.edition;
+  const figee = f.etat === CORRIGE && !f.edition;
   const pied = el('div', { class: 'pied-fiche' });
   if (figee) {
     pied.append(
@@ -662,8 +660,8 @@ $('liste-reponses').addEventListener('click', async (ev) => {
       for (const l of f.lignes) Object.assign(l, { correction: null, corrige_le: null });
       Object.assign(f, {
         correction: null, corrige_le: null, edition: false,
-        etat: f.ligneFiche ? (f.ligneFiche.texte === 'terminee' ? 'terminee' : 'en cours')
-          : f.champs.length ? 'en cours' : 'libre',
+        etat: etatFiche({ corrigeLe: null, ligneFiche: f.ligneFiche,
+                          nbChamps: f.champs.length, ligneLibre: f.ligneLibre }),
       });
       rafraichirFiche(f);
       compterFiches();
@@ -716,7 +714,7 @@ $('liste-reponses').addEventListener('click', async (ev) => {
       }
       const porteuse = f.ligneFiche ?? f.ligneLibre;
       if (porteuse) Object.assign(porteuse, { correction: texte, corrige_le: quand });
-      Object.assign(f, { correction: texte, corrige_le: quand, etat: 'corrigee', edition: false });
+      Object.assign(f, { correction: texte, corrige_le: quand, etat: CORRIGE, edition: false });
       rafraichirFiche(f);
       compterFiches();
       direCorrection($('liste-reponses').querySelector(`article[data-fiche="${CSS.escape(f.cle)}"]`));

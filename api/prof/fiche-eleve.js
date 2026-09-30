@@ -1,6 +1,7 @@
 import { appelant, gereEleve, sesGroupes } from '../_lib/autorisation.js';
 import { lire, configuree, refus } from '../_lib/supabase.js';
 import { UUID, planParDefaut, sequenceDuCatalogue } from '../_lib/progression.js';
+import { etatFiche, EN_COURS } from '../_lib/etats-fiche.js';
 
 // =====================================================================
 // LA FICHE D'UN ÉLÈVE EN TECHNOLOGIE : tout ce que le site sait de son
@@ -48,8 +49,8 @@ function parFiche(lignes) {
     if (!pages.has(l.page)) {
       pages.set(l.page, {
         page: l.page, groupe_id: l.groupe_id, champs: [], libre: null,
-        etat: 'encours', correction: null, corrige_le: null,
-        modifie_le: l.modifie_le,
+        etat: EN_COURS, correction: null, corrige_le: null,
+        modifie_le: l.modifie_le, _fiche: null, _libre: null,
       });
     }
     const f = pages.get(l.page);
@@ -57,18 +58,32 @@ function parFiche(lignes) {
     if (l.question === 'fiche') {
       // La ligne d'état porte l'avancement de la fiche ET la correction
       // globale du professeur : c'est elle qui gèle la page une fois posée.
-      f.etat = l.corrige_le ? 'corrigee'
-        : (l.texte || '').trim() === 'terminee' ? 'terminee' : 'encours';
-      f.correction = l.correction ?? null;
-      f.corrige_le = l.corrige_le ?? null;
+      f._fiche = l;
     } else if (l.question === 'reponse') {
+      f._libre = l;
       f.libre = { texte: l.texte, modifie_le: l.modifie_le };
     } else if (CHAMP.test(l.question)) {
       f.champs.push({ champ: l.question, intitule: l.intitule ?? null, texte: l.texte });
     }
   }
   return [...pages.values()]
-    .map((f) => ({ ...f, nb_champs: f.champs.length }))
+    .map(({ _fiche, _libre, ...f }) => {
+      // La correction est portée par la ligne « fiche », ou, pour une fiche
+      // d'avant le 20 septembre 2026, par la ligne de réponse libre. Ne lire
+      // que la première laissait une fiche ancienne corrigée s'afficher
+      // « en cours » sur cet écran.
+      const porteuse = _fiche ?? _libre;
+      return {
+        ...f,
+        nb_champs: f.champs.length,
+        corrige_le: porteuse?.corrige_le ?? null,
+        correction: porteuse?.correction ?? null,
+        etat: etatFiche({
+          corrigeLe: porteuse?.corrige_le ?? null, ligneFiche: _fiche,
+          nbChamps: f.champs.length, ligneLibre: _libre,
+        }),
+      };
+    })
     .sort((a, b) => String(b.modifie_le).localeCompare(String(a.modifie_le)));
 }
 

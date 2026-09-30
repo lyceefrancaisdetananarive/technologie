@@ -17,3 +17,6 @@ catalogue.json
 
 # brouillons de fusion : jamais deployes
 _a_fusionner/
+
+# outils de controle, jamais servis
+outils/*.mjs
