@@ -122,7 +122,7 @@ export default async function handler(req, res) {
       lire('scores', `profil_id=eq.${eleve}&select=quiz,meilleur,total,meilleur_le`),
       lire('exceptions',
         `profil_id=eq.${eleve}&groupe_id=in.(${ids})` +
-        `&select=groupe_id,sequence,seance,etat,note,le`),
+        `&select=groupe_id,sequence,seance,etat,le`),
       lire('plans', `groupe_id=in.(${ids})&select=groupe_id,sequence,position,visible&order=position`),
       lire('avancement', `groupe_id=in.(${ids})&select=groupe_id,sequence,seance,fait_le`),
     ]);

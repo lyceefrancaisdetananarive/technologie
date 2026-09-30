@@ -228,7 +228,7 @@ function calculerAFaire(prog) {
   // 2. Mes fiches commencées et laissées en plan. Une fiche terminée, même
   //    non corrigée, n'est plus de mon ressort : elle attend le professeur.
   for (const f of mesFiches) {
-    if (f.etat !== 'encours') continue;
+    if (f.etat !== 'en cours') continue;
     const id = String(f.page).replace(/-(activite|ebep)\.html$/, '');
     const s = sequence(id);
     if (!s || !(prog.plan ?? []).some((pl) => pl.sequence === id && pl.visible)) continue;

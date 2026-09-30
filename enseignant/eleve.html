@@ -357,8 +357,7 @@ function rendreEcarts() {
       return el('li', {},
         el('span', { class: 'etiq ' + classe }, libelle),
         el('span', {}, `séance ${x.seance} de « ${s ? s.titre : x.sequence} »`),
-        el('span', { class: 'quand' }, 'noté le ' + quand(x.le)),
-        x.note ? el('span', { class: 'quand' }, '· ' + x.note) : null);
+        el('span', { class: 'quand' }, 'noté le ' + quand(x.le)));
     });
   zone.replaceChildren(el('ul', { class: 'lignes' }, lignes));
   $('bloc-ecarts').hidden = false;
