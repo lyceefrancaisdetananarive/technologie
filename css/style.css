@@ -709,6 +709,62 @@ main:focus { outline: none; }
    zones de réponse, quiz papier, EBEP sans aplat). Elles sont reprises
    telles quelles de la première version, seules les polices changent.
    ===================================================================== */
+/* ============================================================
+   Fiches d'activite : habillage « manuel scolaire »
+   Une couleur par activite, documents ressources a bandeau de
+   titre, encadre « a retenir ». Tout passe par des classes et par
+   ce fichier : la structure des pages n'est jamais touchee, car
+   les cles de « Ma reponse » dependent de l'ordre des elements.
+   ============================================================ */
+
+/* Trois variantes d'encadre, en complement des quatre existantes */
+.info-box-teal    { background: var(--c5-pale); border-left-color: var(--c5); color: #0B4A45; }
+.info-box-magenta { background: #FCE8F3; border-left-color: var(--lft-pink); color: #6B1046; }
+.info-box-retenir { background: var(--or-pale); border-left-color: var(--or); color: #6B4E06; }
+.info-box-rappel  { border-left-style: dashed; }
+
+/* Documents ressources : le titre devient un bandeau plein */
+.documents .info-box { padding-top: 0; }
+.documents .info-box > .info-box-title {
+  margin: 0 calc(-1 * var(--space-lg)) var(--space-md);
+  padding: .5rem var(--space-lg);
+  background: var(--bleu); color: #fff;
+  border-radius: 0 var(--radius-md) 0 0;
+  font-size: .95rem; line-height: 1.35;
+}
+.documents .info-box-teal > .info-box-title    { background: var(--c5); }
+.documents .info-box-green > .info-box-title   { background: var(--fait); }
+.documents .info-box-orange > .info-box-title  { background: var(--encours); }
+.documents .info-box-magenta > .info-box-title { background: var(--lft-pink); }
+.documents .info-box-retenir > .info-box-title { background: var(--or); color: #3F2E02; }
+
+/* Une couleur par activite : bleu du site, turquoise du niveau 5e, magenta LFT */
+.fiche-act   { border-top: 4px solid var(--acc); }
+.fiche-act-1 { --acc: var(--bleu);     --acc-pale: var(--bleu-pale); --acc-encre: #12324F; }
+.fiche-act-2 { --acc: var(--c5);       --acc-pale: var(--c5-pale);   --acc-encre: #0B4A45; }
+.fiche-act-3 { --acc: var(--lft-pink); --acc-pale: #FCE8F3;          --acc-encre: #6B1046; }
+
+.fiche-act > h2 {
+  color: var(--acc); border-bottom: 2px solid var(--acc);
+  padding-bottom: .45rem; margin-bottom: var(--space-lg);
+}
+.fiche-act > .info-box { background: var(--acc-pale); border-left-color: var(--acc); color: var(--acc-encre); }
+.fiche-act .activity-step { background: var(--acc-pale); border-left-color: var(--acc); }
+.fiche-act .activity-step-number { background: var(--acc); }
+.fiche-act .activity-step table { background: #fff; border-radius: var(--radius-sm); }
+.fiche-act .activity-step .zone-reponse { background: #fff; border-color: var(--acc); }
+.fiche-act .activity-step-content h4 { color: var(--acc); }
+
+/* Les tableaux a completer prennent la couleur de leur activite */
+.fiche-act table th { color: var(--acc); border-bottom-color: var(--acc); }
+.fiche-act table th:not(:first-child),
+.fiche-act table td:not(:first-child) { border-left: 1px solid var(--grille); }
+.fiche-act table tr:nth-child(2n) td { background: var(--acc-pale); }
+.fiche-act table tr:hover td { background: var(--gray-50); }
+.fiche-act table td:first-child { font-weight: 600; }
+
+/* Les pastilles de competence alternent pour ne pas former un bloc uni */
+.competences .competence-badge:nth-of-type(2n) { background: var(--c5-pale); color: var(--c5-fonce); }
 @media print {
 
   @page { size: A4 portrait; margin: 14mm 14mm 16mm 14mm; }
@@ -1127,4 +1183,19 @@ td .champ-etat-court { display: block; margin: .15rem 0 0; }
   .champ-imprime:empty { min-height: 20mm; }
   td .champ-imprime { min-height: 6mm; }
   .champ-commentaire, .champ-correction { background: #fff !important; border-color: #000 !important; color: #000 !important; }
+}
+
+/* Habillage des fiches d'activite : retour au noir et blanc a l'impression */
+@media print {
+  .documents .info-box { padding-top: 1.5mm !important; }
+  .documents .info-box > .info-box-title {
+    margin: 0 0 .8mm !important; padding: 0 !important;
+    background: none !important; color: #000 !important; font-size: 9.5pt;
+  }
+  .fiche-act { border-top: none !important; }
+  .fiche-act > h2 { color: #000 !important; border-bottom: .8pt solid #000 !important; }
+  .fiche-act .activity-step-content h4 { color: #000 !important; }
+  .fiche-act .activity-step .zone-reponse { border-color: #000 !important; }
+  .info-box-teal, .info-box-retenir { border-left-width: 3.4pt !important; }
+  .info-box-magenta, .info-box-rappel { border-left-style: dashed !important; }
 }

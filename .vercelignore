@@ -12,3 +12,8 @@ outils/*.py
 # Le catalogue complet reste un fichier de travail (annexes réservées,
 # champs de diagnostic) : le site ne sert que js/catalogue.js, sa version allégée.
 catalogue.json
+
+.claude/
+
+# brouillons de fusion : jamais deployes
+_a_fusionner/
