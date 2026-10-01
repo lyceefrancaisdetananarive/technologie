@@ -1255,3 +1255,25 @@ body.volet-ouvert { overflow: hidden; }
 .fil-rang { margin: 0 auto 0 0; font-family: var(--font-display); font-weight: 700; font-size: .9rem; }
 body:has(.fil-activites) { padding-bottom: 4.5rem; }
 @media print { .fil-activites, .volet-doc { display: none !important; } }
+
+/* ---- Fiches d'activite : le resume en tete d'un document --------------
+   Le resume est une porte d'entree, pas un remplacement : il se lit d'un
+   coup d'oeil, et le texte complet s'ouvre juste en dessous. */
+.doc-resume {
+  font-size: 1rem; line-height: 1.5; margin: 0 0 .7rem;
+  padding-left: .85rem; border-left: 3px solid currentColor;
+}
+.doc-resume strong { font-weight: 800; }
+.doc-plus {
+  font-family: var(--font-display); font-weight: 700; font-size: .82rem;
+  background: none; border: 1px solid currentColor; color: inherit;
+  border-radius: 999px; padding: .26rem .8rem; cursor: pointer;
+  margin-bottom: .6rem; opacity: .85;
+}
+.doc-plus:hover { opacity: 1; background: rgba(255, 255, 255, .55); }
+.doc-plus[aria-expanded="true"] { margin-bottom: .8rem; }
+@media print { .doc-plus { display: none !important; } }
+.doc-note {
+  font-size: .86rem; font-style: italic; opacity: .85;
+  margin: 0 0 .7rem; padding-left: .85rem; border-left: 2px dashed currentColor;
+}

@@ -100,6 +100,10 @@
     if (t) t.remove();
     copie.removeAttribute('id');
     copie.querySelectorAll('[id]').forEach(function (x) { x.removeAttribute('id'); });
+    // Le volet EST la lecture en entier : le document s'y montre déplié, et
+    // sans le bouton qui n'aurait plus rien à commander.
+    copie.querySelectorAll('.doc-plus').forEach(function (b) { b.remove(); });
+    copie.querySelectorAll('[hidden]').forEach(function (x) { x.hidden = false; });
     corpsVolet.replaceChildren(copie);
     allerAu.href = '#' + id;
     rendreLeFocus = depuis || null;
@@ -151,7 +155,90 @@
   }
 
   // =====================================================================
-  // 2. UNE ACTIVITÉ À LA FOIS
+  // 2. LES DOCUMENTS SE REPLIENT DERRIÈRE LEUR RÉSUMÉ
+  //
+  // Chaque document porte en tête un résumé de trois lignes, écrit dans la
+  // page. Le texte complet est juste en dessous, replié. L'élève pressé lit
+  // le résumé et répond ; celui qui a besoin du détail ouvre.
+  //
+  // UN DOCUMENT FAIT EXCEPTION, et ce n'est pas un oubli. Le programme de
+  // Technologie du cycle 4, arrêté du 9 février 2024, porte une connaissance
+  // exigible explicite sur « les composantes d'une notice et d'une
+  // documentation technique et leur organisation ». Un élève qui ne
+  // rencontrerait plus que des résumés n'apprendrait jamais à lire une vraie
+  // documentation. Le document qui en est une, les fiches produit, reste donc
+  // entier et sans résumé : c'est celui-là qu'il faut apprendre à lire.
+  // =====================================================================
+  if (habille) {
+    document.querySelectorAll('.info-box > .doc-resume').forEach(function (resume) {
+      const boite = resume.parentElement;
+      const apres = [];
+      let n = resume.nextElementSibling;
+      while (n) { apres.push(n); n = n.nextElementSibling; }
+      if (!apres.length) return;
+
+      const bouton = el('button', { type: 'button', class: 'doc-plus', 'aria-expanded': 'false' }, []);
+      const corpsId = (boite.id || 'doc') + '-entier';
+      apres.forEach(function (x, i) { if (i === 0) x.id = x.id || corpsId; });
+      bouton.setAttribute('aria-controls', corpsId);
+      let ouvert = false;
+      function peindre() {
+        apres.forEach(function (x) { x.hidden = !ouvert; });
+        bouton.setAttribute('aria-expanded', String(ouvert));
+        bouton.textContent = ouvert ? 'Replier le document' : 'Lire le document en entier';
+      }
+      bouton.addEventListener('click', function () { ouvert = !ouvert; peindre(); });
+      resume.after(bouton);
+      peindre();
+    });
+
+    // Le lexique n'est pas un texte qu'on lit, c'est un texte qu'on consulte :
+    // il se replie en entier, sans résumé, ce qui n'aurait aucun sens pour une
+    // liste de définitions.
+    const lexique = Array.prototype.find.call(
+      document.querySelectorAll('.info-box'),
+      function (b) {
+        const t = b.querySelector('.info-box-title');
+        return t && /lexique/i.test(t.textContent) && !b.querySelector('.doc-resume');
+      });
+    if (lexique) {
+      const corps = [];
+      let n = lexique.querySelector('.info-box-title');
+      n = n && n.nextElementSibling;
+      while (n) { corps.push(n); n = n.nextElementSibling; }
+      if (corps.length) {
+        const b = el('button', { type: 'button', class: 'doc-plus', 'aria-expanded': 'false' }, []);
+        let ouvert = false;
+        function peindreLex() {
+          corps.forEach(function (x) { x.hidden = !ouvert; });
+          b.setAttribute('aria-expanded', String(ouvert));
+          b.textContent = ouvert ? 'Replier le lexique' : 'Ouvrir le lexique, huit mots à retrouver quand tu en as besoin';
+        }
+        b.addEventListener('click', function () { ouvert = !ouvert; peindreLex(); });
+        lexique.querySelector('.info-box-title').after(b);
+        peindreLex();
+      }
+    }
+
+    // Un document replié doit s'ouvrir quand on arrive dessus, par le volet
+    // comme par une ancre : sinon l'élève atterrit sur un titre seul.
+    document.querySelectorAll('.info-box .doc-plus').forEach(function (b) {
+      const boite = b.closest('.info-box');
+      if (!boite || !boite.id) return;
+      window.addEventListener('hashchange', function () {
+        if (location.hash === '#' + boite.id && b.getAttribute('aria-expanded') === 'false') b.click();
+      });
+    });
+
+    // À l'impression, la fiche papier porte tous les documents en entier.
+    window.addEventListener('beforeprint', function () {
+      document.querySelectorAll('.info-box .doc-plus[aria-expanded="false"]')
+        .forEach(function (b) { b.click(); });
+    });
+  }
+
+  // =====================================================================
+  // 3. UNE ACTIVITÉ À LA FOIS
   // =====================================================================
   // Masquer des activités sans pouvoir afficher la barre qui permet d'en
   // changer enfermerait l'élève dans la première : on s'en abstient.
