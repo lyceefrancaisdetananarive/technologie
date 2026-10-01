@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Les projets personnalisés : PPRE, PAI, PAP, PPS | Technologie LFT</title>
+  <link rel="icon" type="image/png" href="../img/logo-lft.png">
+  <link rel="stylesheet" href="../css/style.css">
+  <style>
+    /* LE CODE COULEUR DES DISPOSITIFS.
+       Relevé sur la roue « Quel plan ? Qui solliciter ? Pour qui ? » de
+       l'Éducation nationale. Il ne vit QUE sur cette page de référence : il
+       n'est posé sur aucun élève, nulle part dans le site. Une couleur
+       attachée à un élève dirait son dispositif aussi sûrement qu'un mot. */
+    .dispo { --teinte: var(--encre-3); --pale: var(--gray-100); }
+    .dispo.pai  { --teinte: #1C8C8C; --pale: #E3F2F2; }
+    .dispo.pps  { --teinte: #46936F; --pale: #E6F3EC; }
+    .dispo.ppre { --teinte: #6E8A12; --pale: #F0F5DC; }
+    .dispo.pap  { --teinte: #6F3D77; --pale: #F1E8F3; }
+
+    .dispos { display: grid; gap: var(--space-lg); grid-template-columns: repeat(auto-fit, minmax(17rem, 1fr)); margin: var(--space-lg) 0; }
+    .dispo { border: 1px solid var(--trait); border-radius: var(--radius-lg); overflow: hidden; background: var(--papier-2); }
+    .dispo > header { background: var(--teinte); color: #fff; padding: .7rem 1rem; }
+    .dispo > header b { display: block; font: 800 1.35rem var(--font-display); letter-spacing: .02em; }
+    .dispo > header span { font-size: .84rem; opacity: .95; }
+    .dispo dl { margin: 0; padding: 1rem; }
+    .dispo dt { font: 800 .72rem var(--font-sans); letter-spacing: .06em; text-transform: uppercase; color: var(--teinte); margin-top: .9rem; }
+    .dispo dt:first-child { margin-top: 0; }
+    .dispo dd { margin: .25rem 0 0; font-size: .93rem; color: var(--encre-2); }
+    .dispo dd ul { margin: .25rem 0 0; padding-left: 1.1rem; }
+    .dispo .marque { display: inline-block; background: var(--pale); color: var(--teinte); font-weight: 800; font-size: .78rem; padding: .1rem .5rem; border-radius: 999px; }
+
+    .avert { border-left: 4px solid var(--bleu); background: var(--bleu-pale); padding: .9rem 1.1rem; border-radius: 0 var(--radius-md) var(--radius-md) 0; margin: var(--space-lg) 0; }
+    .avert p { margin: 0 0 .5rem; }
+    .avert p:last-child { margin-bottom: 0; }
+    .fiche h2 { margin-top: var(--space-xl); }
+    .fiche h3 { color: var(--bleu); margin-top: var(--space-lg); }
+    .fiche li { margin-bottom: .35rem; }
+    @media print { .dispo > header { -webkit-print-color-adjust: exact; print-color-adjust: exact; } }
+  </style>
+</head>
+<body>
+  <div id="app" data-page="enseignant"
+    data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant","url":"index.html"},{"label":"Les projets personnalisés"}]'
+    data-print-title="Les projets personnalisés : PPRE, PAI, PAP, PPS"
+    data-print-subtitle="Mémo de l’équipe de Technologie · Lycée Français de Tananarive">
+
+    <main class="site-main">
+      <div class="page-header">
+        <span class="page-level-badge"><span class="ico">&#x1F511;</span> Enseignant</span>
+        <h1>Les projets personnalisés : PPRE, PAI, PAP, PPS</h1>
+        <p class="page-description">Quatre dispositifs, quatre situations, quatre interlocuteurs. Mémo de référence, aux couleurs employées par l’Éducation nationale. Il ne contient aucun nom d’élève et le site n’enregistre jamais le dispositif d’un élève.</p>
+      </div>
+      <div class="page-actions no-print">
+        <button class="btn btn-print" onclick="printPage()"><span class="ico">&#x1F5A8;</span> Imprimer / PDF</button>
+        <a class="btn btn-outline" href="index.html"><span class="ico">&#x2190;</span> Espace enseignant</a>
+      </div>
+
+      <div class="content-card fiche">
+
+        <p>Le premier réflexe n’est pas de choisir un plan, c’est de nommer la situation. C’est elle qui désigne le dispositif, et avec lui l’interlocuteur à saisir. Les quatre fiches ci-dessous se lisent dans cet ordre : <b>pour qui</b>, <b>qui solliciter</b>, <b>ce que le plan ouvre</b>.</p>
+
+        <div class="dispos">
+
+          <section class="dispo ppre">
+            <header>
+              <b>PPRE</b>
+              <span>Programme personnalisé de réussite éducative</span>
+            </header>
+            <dl>
+              <dt>Pour qui</dt>
+              <dd>L’élève qui ne maîtrise pas suffisamment certaines connaissances et compétences attendues à la fin d’un cycle. Difficulté scolaire, sans trouble ni maladie.</dd>
+              <dt>Qui solliciter</dt>
+              <dd>Le chef d’établissement, ou le directeur de l’école.</dd>
+              <dt>Ce que le plan ouvre</dt>
+              <dd>Des pratiques pédagogiques diversifiées et différenciées, sur une <span class="marque">courte période</span>, avec des objectifs qu’on réévalue.</dd>
+            </dl>
+          </section>
+
+          <section class="dispo pai">
+            <header>
+              <b>PAI</b>
+              <span>Projet d’accueil individualisé</span>
+            </header>
+            <dl>
+              <dt>Pour qui</dt>
+              <dd>L’élève dont l’état de santé demande des traitements ou des protocoles pendant le temps scolaire : pathologie chronique, maladie invalidante, intolérance alimentaire, allergie.</dd>
+              <dt>Qui solliciter</dt>
+              <dd>Le médecin scolaire, ou le chef d’établissement, ou le directeur de l’école.</dd>
+              <dt>Ce que le plan ouvre</dt>
+              <dd>Des aménagements de la scolarité, un traitement médical pendant le temps scolaire, un <span class="marque">protocole d’urgence</span>.</dd>
+            </dl>
+          </section>
+
+          <section class="dispo pap">
+            <header>
+              <b>PAP</b>
+              <span>Plan d’accompagnement personnalisé</span>
+            </header>
+            <dl>
+              <dt>Pour qui</dt>
+              <dd>L’élève qui présente des difficultés scolaires durables dues à un trouble des apprentissages, constaté par un avis médical.</dd>
+              <dt>Qui solliciter</dt>
+              <dd>Sur proposition du conseil de classe, ou du conseil des maîtres, ou à la demande de la famille.</dd>
+              <dt>Ce que le plan ouvre</dt>
+              <dd>Des aménagements et des adaptations pédagogiques, <span class="marque">examens compris</span>. Pas d’aide humaine ni de matériel attribué : cela relève du PPS.</dd>
+            </dl>
+          </section>
+
+          <section class="dispo pps">
+            <header>
+              <b>PPS</b>
+              <span>Projet personnalisé de scolarisation</span>
+            </header>
+            <dl>
+              <dt>Pour qui</dt>
+              <dd>L’élève en situation de handicap, reconnue par la maison départementale des personnes handicapées.</dd>
+              <dt>Qui solliciter</dt>
+              <dd>La famille saisit la MDPH, avec l’aide éventuelle de l’enseignant référent.</dd>
+              <dt>Ce que le plan ouvre</dt>
+              <dd>
+                <ul>
+                  <li>une orientation ou un accompagnement ;</li>
+                  <li>des aménagements et adaptations pédagogiques ;</li>
+                  <li>une <span class="marque">aide humaine</span> ;</li>
+                  <li>l’attribution de matériels pédagogiques adaptés.</li>
+                </ul>
+              </dd>
+            </dl>
+          </section>
+
+        </div>
+
+        <h2>Ce que le site fait, et ce qu’il ne fait pas</h2>
+
+        <div class="avert">
+          <p><b>Le site n’enregistre aucun dispositif.</b> Ni PAP, ni PAI, ni PPS, ni PPRE, ni le motif, ni le trouble. La base ne porte qu’un booléen, posé sur l’inscription d’un élève dans un groupe : il reçoit la version adaptée des fiches, ou il ne la reçoit pas.</p>
+          <p>C’est une décision, pas un oubli. Écrire « cet élève a un PAP » créerait un traitement de données de santé, que ni la fiche de traitement ni l’information faite aux familles ne couvrent. Les documents des projets restent où ils sont, à la vie scolaire.</p>
+          <p><b>C’est aussi pourquoi la pastille de l’élève ne change pas de couleur selon le dispositif.</b> Une teinte se lit par-dessus l’épaule aussi sûrement qu’un mot : violet dirait PAP, bleu canard dirait PAI. Elle porte donc la même couleur pour tout le monde, celle du médaillon central de la roue, qui désigne l’élève et aucun dispositif.</p>
+        </div>
+
+        <h3>Côté élève</h3>
+        <p>Dans l’en-tête de son classeur et de chaque fiche, l’élève concerné voit une pastille <b>« Version adaptée »</b>. Un clic ouvre ce qu’elle change pour lui : phrases courtes, document qui reprend l’essentiel, exemple déjà fait, lexique ouvert dès le début. La fiche ordinaire reste à côté, dans les onglets de la séance.</p>
+
+        <h3>Côté professeur</h3>
+        <p>Dans la fiche d’un élève, un pavé indique s’il reçoit la version adaptée, et un bouton la sert ou la retire, <b>groupe par groupe</b>. Le geste est réversible et n’efface rien. Il n’est proposé qu’au professeur du groupe, et au coordonnateur.</p>
+
+        <h2>Deux précisions utiles</h2>
+
+        <h3>Le livret de parcours inclusif</h3>
+        <p>Le LPI rassemble ces dispositifs dans un outil unique, autour d’un « livret simple » qui recense les adaptations et aménagements pour tous les élèves. Il porte aujourd’hui le PPRE, le PPS et le PAP ; le PAI y est annoncé. Son infographie emploie un <b>autre code couleur</b> que la roue reprise ci-dessus : le PAI y est orange et le PAP y est bleu. Deux documents officiels, deux palettes : ne pas s’étonner d’un écart, et toujours lire le sigle plutôt que la couleur.</p>
+
+        <h3>PPI et PAOA</h3>
+        <p>On rencontre aussi le <b>PPI</b>, projet pédagogique individualisé, qui est le volet pédagogique du PPS, et la <b>PAOA</b>, programmation adaptée des objectifs d’apprentissage, quand les objectifs visés sont très éloignés de ceux du programme suivi par la classe. Les deux relèvent de la situation de handicap, donc du PPS.</p>
+
+        <h2>Sources</h2>
+        <ul>
+          <li>Roue « Quel plan ? Qui solliciter ? Pour qui ? » de l’Éducation nationale : les quatre dispositifs, leur public, leur interlocuteur, et le code couleur repris sur cette page.</li>
+          <li>Infographie du livret de parcours inclusif : la composition du livret et son code couleur propre.</li>
+          <li>Planche « Tout sur les projets personnalisés », ASH 2 de Seine-Maritime : le détail des troubles visés par le PAP, le PPI et la PAOA.</li>
+          <li>Pour la version adaptée du site : <code>db/16-version-adaptee.sql</code>, qui porte la décision de ne jamais enregistrer de motif.</li>
+        </ul>
+
+        <p class="text-muted"><small>Mémo rédigé le 1er octobre 2026 pour l’équipe de Technologie. En cas de doute sur un élève, c’est la vie scolaire qui fait foi, pas cette page.</small></p>
+
+      </div>
+    </main>
+  </div>
+  <script src="../js/components.js"></script>
+</body>
+</html>

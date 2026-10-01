@@ -214,21 +214,29 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .session-avis { flex-basis: 100%; font-size: .82rem; font-weight: 700; color: #7F1D1D; }
 
 /* La pastille de la version adaptée (D23), à gauche du voyant de session.
-   Bleue, la couleur de l'information : le vert et l'orange disent déjà
-   « corrigé » et « rendu, en attente » dans le classeur, et une pastille qui
-   ne parle d'aucun travail n'a pas à emprunter leur code. En dessous de
-   768 px, seule l'étoile reste : l'en-tête y est déjà serré. */
+   Elle porte le vert d'eau du MÉDAILLON CENTRAL de la roue « Quel plan ?
+   Qui solliciter ? Pour qui ? » de l'Éducation nationale : dans cette roue,
+   cette couleur désigne l'élève, et aucun dispositif. C'est exactement ce
+   qu'il faut ici. Les quatre teintes des dispositifs (bleu canard du PAI,
+   vert du PPS, tilleul du PPRE, violet du PAP) ne doivent JAMAIS arriver sur
+   un élève : une teinte se lit par-dessus l'épaule aussi sûrement qu'un mot,
+   et dirait le dispositif que cette base n'enregistre pas (db/16). La
+   pastille garde donc la même couleur pour tout le monde. Le mémo
+   enseignant/dispositifs.html est le seul endroit du site qui emploie le
+   code couleur des dispositifs, et il n'est attaché à aucun élève.
+   En dessous de 768 px, seule l'étoile reste : l'en-tête y est déjà serré. */
 .badge-adaptee {
   display: inline-flex; align-items: center; gap: .3rem; flex: none;
-  padding: .3rem .7rem; border: 1.5px solid var(--bleu-2); border-radius: 999px;
-  background: var(--bleu-pale); color: var(--bleu);
+  padding: .3rem .7rem; border: 1.5px solid #238173; border-radius: 999px;
+  background: var(--papier-2); color: #1A6F64;
   font: 700 .78rem var(--font-sans); cursor: pointer; min-height: 28px;
 }
 .badge-adaptee::before { content: '\2726'; font-size: .9em; line-height: 1; }
-.badge-adaptee:hover { background: #D7E8F7; }
+.badge-adaptee:hover { background: #E6F5F2; }
+.badge-adaptee:focus-visible { outline: 3px solid #238173; outline-offset: 2px; }
 .dit-adaptee {
-  padding: .6rem 1.25rem; background: var(--bleu-pale);
-  border-bottom: 1px solid var(--bleu-2); color: var(--encre);
+  padding: .6rem 1.25rem; background: #E6F5F2;
+  border-bottom: 1px solid #238173; color: var(--encre);
   font-size: .88rem; line-height: 1.55; text-align: center;
 }
 
