@@ -782,6 +782,24 @@ main:focus { outline: none; }
   .seances { grid-template-columns: repeat(2, 1fr); }
 }
 
+/* LES RENVOIS « document 2, 3, 4 » SE TOUCHENT AU DOIGT.
+
+   Dans « voir les documents 2, 3 et 4 », seul le chiffre est cliquable : la
+   cible fait 10 px de large. Confortable à la souris, pénible au doigt. Or les
+   élèves qui travaillent sur tablette, parce qu'ils compensent un trouble,
+   sont précisément ceux qui ont le moins de marge pour viser deux fois.
+
+   Le RGAA exempte les liens en ligne de son critère de taille de cible : ce
+   n'est donc pas un manquement, c'est un inconfort, et il se corrige en une
+   règle sans toucher au texte des fiches. Constaté le 1er octobre 2026 en
+   mesurant une fiche de 5e à 1024 px, la taille d'un iPad en paysage.
+
+   La marge NEGATIVE annule exactement le remplissage : la cible grandit, le
+   texte ne bouge pas. Sans elle, « documents 2 , 3 et 4 » gagnait un espace
+   avant chaque virgule, ce qui ne s'écrit pas en français. */
+.va-au-doc { display: inline-block; padding: .35rem .45rem; margin: -.35rem -.45rem;
+  text-align: center; }
+
 /* =====================================================================
    IMPRESSION
    Ces règles ont été mises au point fiche par fiche (cosignature AEFE,
