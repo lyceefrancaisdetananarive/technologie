@@ -82,11 +82,14 @@
           <h2 id="direct-titre">La séance en cours
             <span class="compteur" id="direct-fraicheur"></span></h2>
           <div id="direct-resume"></div>
-          <ul class="direct-eleves" id="direct-eleves"></ul>
+          <!-- Le geste d'une seconde AVANT la liste nominative : pendant la
+               séance, le professeur coche la séance faite ; il ne lit pas
+               d'abord treize noms pour trouver le bouton en dessous. -->
           <div class="direct-pied">
             <button type="button" class="cocher" id="cocher-seance" hidden></button>
             <span class="detail" id="direct-etat"></span>
           </div>
+          <ul class="direct-eleves" id="direct-eleves"></ul>
         </section>
 
         <!-- 2. La pile à corriger. -->
@@ -108,7 +111,7 @@
 
         <!-- 4. Le groupe, en chiffres. -->
         <section class="bloc b4" aria-labelledby="groupe-titre">
-          <h2 id="groupe-titre">Le groupe en un coup d’œil</h2>
+          <h2 id="groupe-titre">Où en est le groupe</h2>
           <div class="chiffres" id="g-chiffres"></div>
           <p class="meta" id="g-mot"></p>
           <div class="barre annee-barre"><div id="g-progres"></div></div>

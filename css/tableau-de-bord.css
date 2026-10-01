@@ -35,6 +35,14 @@
    connecte.css : le jeton n'y est pas defini. */
 body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
 
+/* LA MESURE DE LECTURE DANS UNE TUILE LARGE (1er octobre 2026).
+   Les tuiles b8 font maintenant près de 1 200 px : une phrase d'explication
+   qui s'y étale sur toute la largeur ne se lit plus. La borne va sur les
+   PARAGRAPHES nommés, jamais sur la tuile : les listes, les grilles de
+   séances et les tableaux doivent, eux, profiter de toute la place.
+   Même règle que .page-description dans css/style.css. */
+.bloc .aide-cocher, .bloc .direct-mot, .bloc .aide, .dit-adaptee p { max-width: 68ch; }
+
 /* ---- le bandeau : mon groupe, et ce qu'il commande ------------------- */
 .bandeau {
   display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;

@@ -101,7 +101,10 @@
   padding: .04rem .45rem; font-size: .72rem; font-weight: 700;
 }
 .direct-eleves .r0, .direct-eleves .r1 { background: rgba(255, 255, 255, .18); }
-.direct-pied { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-top: .9rem; }
+/* La coche est passée AVANT la liste nominative (1er octobre 2026) :
+   la marge suit le déplacement, sinon le bouton collait au résumé et
+   flottait au-dessus des noms. */
+.direct-pied { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin: .9rem 0 .2rem; }
 .cocher {
   background: #95C11F; color: #16240A; border: 0; border-radius: 999px;
   padding: .5rem 1.1rem; font-family: var(--font-display); font-weight: 800;

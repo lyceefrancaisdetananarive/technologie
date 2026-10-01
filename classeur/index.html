@@ -50,30 +50,9 @@
       <ul id="a-faire-liste" role="list"><li class="a-faire-rien">Chargement…</li></ul>
     </section>
 
-    <!-- 2. Où j'en suis, en trois chiffres. -->
-    <section class="bloc b4" aria-labelledby="ou-titre">
-      <h2 id="ou-titre">Où j’en suis</h2>
-      <div class="chiffres" id="chiffres"></div>
-      <p class="meta" id="annee-resume">Chargement…</p>
-      <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
-      <p class="meta" id="annee-prochaine"></p>
-    </section>
-
-    <!-- 3. L'année, période par période. -->
-    <section class="bloc b8" id="mon-annee" aria-labelledby="annee-titre">
-      <h2 id="annee-titre">Ma progression dans l’année</h2>
-      <div id="parcours"></div>
-    </section>
-
-    <!-- 4. Tous mes travaux, documents déposés et fiches, dans une seule liste. -->
-    <section class="bloc b4" id="mes-travaux" aria-labelledby="travaux-titre">
-      <h2 id="travaux-titre">Mes travaux <span class="compteur" id="n-travaux"></span></h2>
-      <div class="filtres" id="filtres" role="group" aria-label="Filtrer mes travaux"></div>
-      <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
-    </section>
-
-    <!-- 5. Déposer un travail. C'est le geste le plus fréquent de la page :
-            il reste ouvert, visible, et porte un vrai titre. -->
+    <!-- 2. Déposer un travail. C'est le geste le plus fréquent de la page :
+            il passe donc juste après « ce que j'ai à faire », au lieu du
+            cinquième rang où il se trouvait. -->
     <section class="bloc b4" id="depot" aria-labelledby="depot-titre">
       <h2 id="depot-titre">Déposer un travail</h2>
       <form id="f">
@@ -105,8 +84,32 @@
       </form>
     </section>
 
-    <!-- 6. Comment lire ce qu'on voit. -->
-    <section class="bloc b8" aria-labelledby="legende-titre">
+    <!-- 3. L'année, période par période. -->
+    <section class="bloc b8" id="mon-annee" aria-labelledby="annee-titre">
+      <h2 id="annee-titre">Ma progression dans l’année</h2>
+      <div id="parcours"></div>
+    </section>
+
+    <!-- 4. Où j'en suis, en trois chiffres. -->
+    <section class="bloc b4" aria-labelledby="ou-titre">
+      <h2 id="ou-titre">Où j’en suis</h2>
+      <div class="chiffres" id="chiffres"></div>
+      <p class="meta" id="annee-resume">Chargement…</p>
+      <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
+      <p class="meta" id="annee-prochaine"></p>
+    </section>
+
+    <!-- 5. Tous mes travaux, documents déposés et fiches, dans une seule liste. -->
+    <section class="bloc b4" id="mes-travaux" aria-labelledby="travaux-titre">
+      <h2 id="travaux-titre">Mes travaux <span class="compteur" id="n-travaux"></span></h2>
+      <div class="filtres" id="filtres" role="group" aria-label="Filtrer mes travaux"></div>
+      <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
+    </section>
+
+    <!-- 6. Comment lire ce qu'on voit. Sur quatre colonnes et non plus huit :
+            on la lit une fois dans l'année, elle n'a pas à prendre deux fois la
+            place du geste quotidien. -->
+    <section class="bloc b4" aria-labelledby="legende-titre">
       <h2 id="legende-titre">Comment lire les couleurs</h2>
       <div class="legende" id="legende"></div>
     </section>
