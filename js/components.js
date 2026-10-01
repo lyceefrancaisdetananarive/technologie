@@ -1111,7 +1111,13 @@
           if (p.visible) {
             const faites = g.avancement.filter(function (a) { return a.sequence === id; }).length;
             const total = p.seances || 0;
-            etat = total && faites >= total ? 'fait' : faites > 0 ? 'encours' : 'avenir';
+            // MEME REGLE QUE js/progression-regles.js:56, au caractere pres.
+            // Le `total &&` d'avant divergeait : une sequence dont le
+            // catalogue annonce zero seance etait rendue « a venir » ici et
+            // « faite » partout ailleurs. Cette page est un script classique,
+            // elle ne peut pas importer le module ; elle doit donc au moins
+            // dire la meme chose que lui.
+            etat = faites >= total ? 'fait' : faites > 0 ? 'encours' : 'avenir';
           }
           c.classList.add('seq-' + etat);
           const s = document.createElement('span');

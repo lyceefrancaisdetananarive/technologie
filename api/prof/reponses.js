@@ -1,6 +1,7 @@
 import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 import { UUID } from '../_lib/progression.js';
+import { CLE_CHAMP } from '../_lib/cles-champs.js';
 import { etatFiche, estACorriger, rangTri, EN_COURS, RENDU, CORRIGE }
   from '../_lib/etats-fiche.js';
 
@@ -45,7 +46,7 @@ const MAX = 4000;
 const FICHE = 'fiche';
 const LIBRE = 'reponse';
 // Même motif que api/classeur/reponse.js : une clé de champ (zone, trou, case).
-const CLE = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
+const CLE = CLE_CHAMP;
 // p\d et non p[1-5] : le même chemin est validé à trois endroits, et ce
 // motif-ci était le seul à refuser une sixième période. Une période de
 // rattrapage ajoutée au catalogue aurait laissé l'élève écrire dans sa fiche

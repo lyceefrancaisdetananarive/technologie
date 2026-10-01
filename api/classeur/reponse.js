@@ -2,6 +2,7 @@ import { appelant, sesGroupes } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 import { sequenceDuCatalogue } from '../_lib/progression.js';
 import { journaliser } from '../_lib/journal.js';
+import { CLE_CHAMP } from '../_lib/cles-champs.js';
 
 // =====================================================================
 // LES RÉPONSES D'UN ÉLÈVE DANS UNE FICHE D'ACTIVITÉ (D16 point f, puis
@@ -57,7 +58,7 @@ const PAGE = /^([345]eme)\/(p\d)\/(seq\d{1,2})-(activite|ebep)\.html$/;
 const LIBRE = 'reponse';      // le bloc libre au pied de la fiche
 const FICHE = 'fiche';        // la ligne d'état de la fiche
 // Une clé de champ : zone (z3), trou (b4) ou case de tableau (t2-r3-c2).
-const CLE = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
+const CLE = CLE_CHAMP;
 const MAX = 4000;
 const MAX_INTITULE = 200;
 const FIGEE = 'Ton professeur a corrigé cette fiche : elle ne se modifie plus.';

@@ -2,6 +2,7 @@ import { appelant, gereEleve, sesGroupes } from '../_lib/autorisation.js';
 import { lire, configuree, refus } from '../_lib/supabase.js';
 import { UUID, planParDefaut, sequenceDuCatalogue } from '../_lib/progression.js';
 import { etatFiche, EN_COURS } from '../_lib/etats-fiche.js';
+import { CLE_CHAMP } from '../_lib/cles-champs.js';
 
 // =====================================================================
 // LA FICHE D'UN ÉLÈVE EN TECHNOLOGIE : tout ce que le site sait de son
@@ -40,7 +41,7 @@ import { etatFiche, EN_COURS } from '../_lib/etats-fiche.js';
 // tables que le classeur remplit déjà.
 // =====================================================================
 
-const CHAMP = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
+const CHAMP = CLE_CHAMP;
 
 /** Regroupe les lignes de `reponses` par page, comme le fait le classeur. */
 function parFiche(lignes) {

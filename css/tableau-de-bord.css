@@ -46,7 +46,7 @@
    (1180 px), parce que main.tdb l'emporte en specificite sur .site-main.
    Le repli vaut pour enseignant/index.html, qui charge style.css et non
    connecte.css : le jeton n'y est pas defini. */
-body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
+body.tdb main, main.tdb { max-width: var(--mesure-app); }
 
 /* LA MESURE DE LECTURE DANS UNE TUILE LARGE (1er octobre 2026).
    Les tuiles b8 font maintenant près de 1 200 px : une phrase d'explication
