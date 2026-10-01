@@ -6,6 +6,8 @@
   <title>Espace enseignant · Technologie LFT</title>
   <link rel="icon" type="image/png" href="../img/logo-lft.png">
   <link rel="stylesheet" href="../css/style.css">
+  <link rel="stylesheet" href="../css/tableau-de-bord-prof.css">
+  <link rel="stylesheet" href="../css/tableau-de-bord.css">
 <style>
 .prog-sel{font:inherit;font-size:.92rem;padding:.5rem .6rem;border:1.5px solid #8B98A5;border-radius:var(--radius-md);background:#fff;min-height:44px}
 </style>
@@ -14,7 +16,7 @@
   <div id="app" data-page="enseignant"
     data-breadcrumb='[{"label":"Accueil","url":"../index.html"},{"label":"Espace enseignant"}]'>
 
-    <main class="site-main">
+    <main class="site-main tdb">
       <div class="page-header">
         <span class="page-level-badge" style="background: var(--primary-light); color: var(--primary-dark);"><span class="ico">&#x1F4DA;</span> Enseignant</span>
         <h1>Espace enseignant</h1>
@@ -23,26 +25,100 @@
         </p>
       </div>
 
-      <div class="content-card" id="tableau-groupes" style="border-left:5px solid var(--fait);">
-        <h2><span class="ico">&#x1F3AF;</span> Où en sont mes groupes</h2>
-        <p>Pour chaque groupe, l'ordre des séquences de l'année, les séances cochées
-        <strong>faites en classe</strong>, les absences ou reprises élève par élève, et ce qui
-        <strong>attend une correction</strong> : les travaux déposés et les réponses rédigées au pied
-        des fiches d'activité. La progression est enregistrée en base, avec l'auteur et l'heure :
-        elle est la même sur tous vos postes, et c'est elle que voit chaque élève dans son classeur
-        et sur la page de son niveau.</p>
-        <div id="groupes-liste" aria-live="polite"><p class="text-muted">Chargement…</p></div>
-        <div style="display:flex; gap: var(--space-md); flex-wrap: wrap; align-items:center; margin-top:var(--space-md);">
-          <a href="comptes.html" class="btn btn-outline"><span class="ico">&#x1F465;</span> Groupes et comptes</a>
-          <label for="essai-niveau" class="text-sm" style="margin:0">Groupe d'essai (élèves fictifs) en</label>
+
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+       <g id="i-afaire"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.7"/></g>
+       <g id="i-encours"><circle cx="8" cy="8" r="6.4" fill="none" stroke="currentColor" stroke-width="1.7"/><path d="M8 1.6a6.4 6.4 0 0 1 0 12.8z" fill="currentColor"/></g>
+       <g id="i-rendu"><circle cx="8" cy="8" r="6.4" fill="currentColor"/></g>
+       <g id="i-corrige"><circle cx="8" cy="8" r="7" fill="currentColor"/><path d="M4.7 8.2l2.3 2.3 4.3-4.6" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/></g>
+      </defs></svg>
+
+      <!-- =============================================================
+           LE TABLEAU DE BORD DU GROUPE.
+
+           Avant, cette page montrait douze cartes de groupe côte à côte,
+           puis renvoyait vers quatre écrans différents. Le professeur
+           choisit maintenant SON groupe, et tout ce qui le concerne tient
+           sur un seul écran, dans la même langue visuelle que le classeur
+           de l'élève : même pastille d'état, même barre de maîtrise, même
+           découpage par période.
+           ============================================================= -->
+      <div class="groupes-chips" id="groupes-chips" role="group" aria-label="Choisir un groupe">
+        <p class="text-muted">Chargement des groupes…</p>
+      </div>
+
+      <!-- Ces deux commandes vivent HORS du mur, qui reste masqué tant qu'aucun
+           groupe n'est choisi. Un professeur sans groupe, ou dont la lecture a
+           échoué, lisait sinon « Créez vos groupes dans Groupes et comptes »
+           devant un écran qui ne contenait ni le lien ni le bouton. -->
+      <div class="essai" id="essai">
+        <a href="comptes.html" class="btn btn-outline">Groupes et comptes</a>
+        <label for="essai-niveau">Groupe d’essai, avec des élèves fictifs</label>
+        <span class="essai-ligne">
           <select id="essai-niveau" class="prog-sel" aria-label="Niveau du groupe d'essai">
             <option value="5eme">5e</option><option value="4eme">4e</option><option value="3eme">3e</option>
           </select>
-          <button type="button" id="creer-essai" class="btn btn-outline"><span class="ico">&#x1F9F0;</span> Créer le groupe d'essai</button>
-          <span id="essai-etat" class="text-sm text-muted" role="status" aria-live="polite"></span>
-        </div>
+          <button type="button" id="creer-essai" class="btn btn-outline">Créer le groupe d’essai</button>
+        </span>
+        <span id="essai-etat" class="detail" role="status" aria-live="polite"></span>
       </div>
 
+      <div class="bandeau" id="bandeau" hidden>
+        <b id="g-code"></b>
+        <span class="creneau" id="g-creneau"></span>
+        <span class="bandeau-liens">
+          <a id="l-classeur" href="classeur.html">Corriger</a>
+          <a id="l-plan" href="plan.html">Plan de l’année</a>
+          <a id="l-mesure" href="mesure.html">Suivi du groupe</a>
+          <a id="l-seance" href="seance.html">La séance</a>
+          <a href="comptes.html">Groupes et comptes</a>
+        </span>
+      </div>
+
+      <div class="mur" id="tdb" hidden>
+
+        <!-- 1. Ce qui se passe maintenant. -->
+        <section class="bloc maintenant b8" aria-labelledby="direct-titre">
+          <h2 id="direct-titre">La séance en cours
+            <span class="compteur" id="direct-fraicheur"></span></h2>
+          <div id="direct-resume"></div>
+          <ul class="direct-eleves" id="direct-eleves"></ul>
+          <div class="direct-pied">
+            <button type="button" class="cocher" id="cocher-seance" hidden></button>
+            <span class="detail" id="direct-etat"></span>
+          </div>
+        </section>
+
+        <!-- 2. La pile à corriger. -->
+        <section class="bloc b4" aria-labelledby="corriger-titre">
+          <h2 id="corriger-titre">À corriger <span class="compteur" id="n-corriger"></span></h2>
+          <div class="pile" id="pile"></div>
+          <p class="meta" id="plan-releve"></p>
+        </section>
+
+        <!-- 3. La progression, et le geste d'une seconde qui l'alimente. -->
+        <section class="bloc b8" aria-labelledby="prog-titre">
+          <h2 id="prog-titre">La progression du groupe
+            <span class="compteur" id="prog-resume"></span></h2>
+          <p class="aide-cocher">Clique sur le numéro d’une séance pour la marquer faite en classe,
+             ou pour la décocher. C’est ce clic qui fait vivre la carte de l’année de tes élèves.</p>
+          <p class="msg" id="prog-msg" role="status" aria-live="polite"></p>
+          <div id="prog"></div>
+        </section>
+
+        <!-- 4. Le groupe, en chiffres. -->
+        <section class="bloc b4" aria-labelledby="groupe-titre">
+          <h2 id="groupe-titre">Le groupe en un coup d’œil</h2>
+          <div class="chiffres" id="g-chiffres"></div>
+          <p class="meta" id="g-mot"></p>
+          <div class="barre annee-barre"><div id="g-progres"></div></div>
+          <p class="msg" id="g-msg" role="status" aria-live="polite"></p>
+        </section>
+
+      </div>
+
+      <details class="content-card" id="ressources">
+        <summary>Ressources, fiches professeur et guides</summary>
       <div class="content-card" style="border-left: 5px solid var(--bleu);">
         <h2><span class="ico">&#x1F4CB;</span> Le site en classe : mode d'emploi et présentation</h2>
         <p>La première séance minute par minute (avant, pendant, après, et « si ça bloque »), et la
@@ -234,89 +310,523 @@
           </tbody>
         </table>
       </div>
-
+      </details>
     </main>
   </div>
   <script src="../js/components.js"></script>
 
 <script src="../js/catalogue.js"></script>
 <script type="module">
-import { catalogueCharge, resumeGroupe, NIVEAU_COURT } from '../js/progression-regles.js';
+import {
+  catalogueCharge, sequence, titresSeances, etatSequence, resumeGroupe, NIVEAU_COURT,
+} from '../js/progression-regles.js';
 
-const liste = document.getElementById('groupes-liste');
-const creer = document.getElementById('creer-essai');
-const etatEssai = document.getElementById('essai-etat');
+// =====================================================================
+// LE TABLEAU DE BORD D'UN GROUPE.
+//
+// Un seul écran par groupe, au lieu de quatre pages à visiter. Il lit trois
+// choses et n'en écrit qu'une :
+//   GET  /api/prof/plan              tous les groupes, leur plan, leur
+//                                    avancement et leurs deux compteurs
+//                                    « à corriger », en un seul appel ;
+//   GET  /api/prof/seance?groupe=ID  qui a écrit dans les quatre-vingt-dix
+//                                    dernières minutes ;
+//   POST /api/prof/avancement        cocher ou décocher une séance.
+//
+// LE DIRECT S'ALLUME TOUT SEUL, dès qu'un élève écrit : c'est le choix du
+// professeur, et il évite un bouton « démarrer la séance » à ne pas oublier.
+// La contrepartie est assumée : la vue s'allumera aussi le soir si un élève
+// travaille chez lui. On le dit à l'écran plutôt que de le cacher.
+//
+// CE QUI N'EST PAS MESURÉ : la présence, la frappe, le temps de connexion.
+// api/prof/seance.js s'en explique, et cette page ne demande rien de plus.
+// =====================================================================
+
+const $ = (id) => document.getElementById(id);
+const FENETRE = 90;          // minutes, la durée d'une séance au LFT
+const RAFRAICHIR = 25000;    // comme enseignant/seance.html, qui fait foi
+
+let groupes = [];
+let courant = null;
+let minuteur = null;
+let dernierReleve = null;   // l'instant du dernier direct LU avec succes
+// Les écritures en vol, par « sequence|seance ». Sans ce registre, le
+// rafraîchissement du direct, qui tombe toutes les 25 secondes et à chaque
+// retour sur l'onglet, réactivait un bouton dont l'écriture n'était pas
+// terminée : un second clic partait alors sur un état périmé.
+const enVol = new Set();
+let relecturePrevue = false;
+
 const echapper = (t) => { const d = document.createElement('div'); d.textContent = t ?? ''; return d.innerHTML; };
+
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+function pastille(cle) {
+  const svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+  svg.setAttribute('class', 'past'); svg.setAttribute('aria-hidden', 'true');
+  svg.setAttribute('focusable', 'false');
+  const use = document.createElementNS('http://www.w3.org/2000/svg', 'use');
+  use.setAttribute('href', '#i-' + cle);
+  svg.append(use);
+  return svg;
+}
+
+async function appel(url, options) {
+  const r = await fetch(url, options);
+  if (r.status === 401) {
+    location.href = '/connexion.html?suite=/enseignant/index.html';
+    throw new Error('Session expirée.');
+  }
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
+  return d;
+}
+
+/** Le résultat d'un geste s'affiche là où le geste a été fait, pas ailleurs. */
+function dire(texte, classe, ou = 'g-msg') {
+  const z = $(ou);
+  if (!z) return;
+  z.textContent = texte;
+  z.className = 'msg ' + (classe || '');
+}
+function taire() { for (const id of ['g-msg', 'prog-msg']) dire('', '', id); }
+
+/** « il y a 3 min », « il y a 1 h 10 ». Jamais une heure absolue : on lit un délai. */
+function ilYA(iso, reference) {
+  if (!iso) return null;
+  const s = Math.max(0, Math.round((reference - Date.parse(iso)) / 1000));
+  if (s < 60) return "à l'instant";
+  const m = Math.round(s / 60);
+  if (m < 60) return `il y a ${m} min`;
+  return `il y a ${Math.floor(m / 60)} h ${String(m % 60).padStart(2, '0')}`;
+}
+
+const groupeCourant = () => groupes.find((g) => g.id === courant) ?? null;
+
+/**
+ * Relit /api/prof/plan et redessine tout ce qui en dépend. Sans cela, la
+ * pastille de chaque groupe, le compteur « à corriger » et « n / m séances
+ * faites » dataient du chargement de la page et n'en bougeaient plus, pendant
+ * que le bloc du dessus se rafraîchissait toutes les vingt-cinq secondes et
+ * donnait à l'écran entier l'apparence d'être vivant.
+ */
+async function relirePlan({ garderMessage = false } = {}) {
+  if (relecturePrevue) return;
+  relecturePrevue = true;
+  try {
+    const d = await appel('/api/prof/plan');
+    groupes = d.groupes || [];
+    if (!groupes.some((g) => g.id === courant)) courant = groupes[0]?.id ?? null;
+    rendreChips();
+    if (courant) { rendreBandeau(); rendreProgression(); rendreChiffres(); rendrePile(); }
+    if (!garderMessage) taire();
+    $('plan-releve').textContent = 'relevé ' + heureCourte(new Date());
+  } catch (e) {
+    $('plan-releve').textContent = 'compteurs non relus';
+  } finally {
+    relecturePrevue = false;
+  }
+}
+
+const heureCourte = (d) => `${String(d.getHours()).padStart(2, '0')} h ${String(d.getMinutes()).padStart(2, '0')}`;
 
 /**
  * Le compteur « à corriger » d'un groupe (décision D16, point e). L'API
  * renvoie null pour une lecture qui a échoué : on le dit, plutôt que
- * d'afficher un zéro rassurant et faux. Depuis la fiche interactive,
- * a_corriger.reponses compte des FICHES (une par élève et par fiche), pas
- * des lignes de réponse : le libellé le dit.
+ * d'afficher un zéro rassurant et faux. a_corriger.reponses compte des
+ * FICHES (une par élève et par fiche), pas des lignes de réponse.
  */
-function libelleCorriger(a) {
+function totalACorriger(a) {
   const d = a?.depots ?? null;
   const r = a?.reponses ?? null;
-  if (d === null && r === null) return { texte: 'Rendus indisponibles', alerte: false };
-  const parts = [];
-  if (d) parts.push(`${d} dépôt${d > 1 ? 's' : ''}`);
-  if (r) parts.push(`${r} fiche${r > 1 ? 's' : ''}`);
-  let texte = parts.length ? parts.join(' et ') + ' à corriger' : 'Rien à corriger';
-  if (d === null) texte += ', dépôts indisponibles';
-  else if (r === null) texte += ', fiches indisponibles';
-  return { texte, alerte: parts.length > 0 };
+  if (d === null && r === null) return null;
+  return (d ?? 0) + (r ?? 0);
+}
+
+// ---- Les groupes, en pastilles ---------------------------------------------
+function rendreChips() {
+  const hote = $('groupes-chips');
+  if (!groupes.length) {
+    hote.replaceChildren(el('p', { class: 'text-muted' },
+      'Aucun groupe ne vous est rattaché. Créez vos groupes dans « Groupes et comptes », '
+      + 'ou un groupe d’essai pour découvrir le plan de l’année.'));
+    return;
+  }
+  hote.replaceChildren(...groupes.map((g) => {
+    const n = totalACorriger(g.a_corriger);
+    // null n'est pas zéro : une lecture en panne ne doit pas se lire comme
+    // « rien à corriger dans ce groupe ».
+    const partiel = n !== null && (g.a_corriger?.depots === null || g.a_corriger?.reponses === null);
+    const b = el('button', { type: 'button', 'data-g': g.id,
+                             'aria-pressed': String(g.id === courant) },
+      el('span', { class: 'chip-code' }, g.code),
+      n === null ? el('span', { class: 'chip-n chip-inconnu' }, '?',
+          el('span', { class: 'visually-hidden' }, ' nombre à corriger indisponible'))
+        : n ? el('span', { class: 'chip-n' }, (partiel ? '≥ ' : '') + n,
+          el('span', { class: 'visually-hidden' },
+            partiel ? ' au moins, une lecture étant indisponible' : ' à corriger')) : null);
+    b.addEventListener('click', () => choisir(g.id));
+    return b;
+  }));
+}
+
+function rendreBandeau() {
+  const g = groupeCourant();
+  if (!g) return;
+  $('g-code').textContent = g.code;
+  $('g-creneau').textContent = `${g.libelle} · ${g.effectif} élève${g.effectif > 1 ? 's' : ''}`;
+  for (const [id, page] of [['l-classeur', 'classeur.html'], ['l-plan', 'plan.html'],
+                            ['l-mesure', 'mesure.html'], ['l-seance', 'seance.html']]) {
+    $(id).href = `${page}?groupe=${g.id}`;
+  }
+  $('bandeau').hidden = false;
+  $('tdb').hidden = false;
+}
+
+// ---- La progression, et le clic qui la fait vivre ---------------------------
+const LIBELLE_SEQ = { fait: 'Faite', encours: 'En cours', avenir: 'À venir' };
+const CLASSE_SEQ  = { fait: 'corrige', encours: 'encours', avenir: 'afaire' };
+const PERIODES = (window.CATALOGUE?.periodes ?? []);
+
+function periodeDuJour() {
+  const jour = new Date().toISOString().slice(0, 10);
+  const p = PERIODES.find((x) => jour >= x.debut && jour <= x.fin);
+  return p ? p.n : null;
+}
+
+/** Les séances cochées d'une séquence, pour ce groupe. */
+function faites(g, seqId) {
+  return new Set(g.avancement.filter((a) => a.sequence === seqId).map((a) => a.seance));
+}
+
+async function basculer(seqId, n, bouton) {
+  const g = groupeCourant();
+  if (!g) return;
+  const cle = seqId + '|' + n;
+  if (enVol.has(cle)) return;          // double clic : la première écriture suffit
+  const gid = g.id;                     // le groupe au moment du clic
+  const etaitFaite = faites(g, seqId).has(n);
+  enVol.add(cle);
+  bouton.disabled = true;
+  bouton.setAttribute('aria-busy', 'true');
+  rendreDirectPied();   // le bouton vert passe à « Enregistrement… » s'il est le sien
+  try {
+    await appel('/api/prof/avancement', {
+      method: 'POST', headers: { 'content-type': 'application/json' },
+      body: JSON.stringify({ groupe: g.id, sequence: seqId, seances: [n], fait: !etaitFaite }),
+    });
+    // On met à jour la copie locale au lieu de tout relire : le professeur
+    // coche plusieurs séances d'affilée, et chaque relecture coûte un
+    // aller-retour sur la liaison de Tananarive.
+    // On retire TOUJOURS d'abord : etatSequence et resumeGroupe comptent la
+    // longueur du tableau, pas les numéros distincts, et un doublon suffirait
+    // à faire basculer une séquence en « Faite ».
+    g.avancement = g.avancement.filter((a) => !(a.sequence === seqId && a.seance === n));
+    if (!etaitFaite) g.avancement.push({ sequence: seqId, seance: n });
+    if (gid !== courant) return;        // le professeur a changé de groupe entre-temps
+    rendreProgression(); rendreChiffres(); rendreDirectPied();
+    const s = sequence(seqId);
+    dire(`Séance ${n} de « ${s ? s.titre : seqId} » ${etaitFaite ? 'décochée' : 'marquée faite'}.`,
+         'ok', 'prog-msg');
+    // Le focus revient sur le bouton équivalent du sous-arbre reconstruit :
+    // sans cela il retombait sur <body> à chaque coche, et le changement
+    // d'aria-pressed n'était annoncé à personne.
+    $('prog')?.querySelector(`[data-seq="${CSS.escape(seqId)}"][data-n="${n}"]`)?.focus();
+  } catch (e) {
+    if (gid !== courant) return;
+    dire((e.message || 'Enregistrement impossible.')
+         + ' L’écran est resynchronisé sur la base.', 'err', 'prog-msg');
+    // L'état local a pu diverger de la base : on relit plutôt que de garder
+    // un écran qui ment jusqu'au prochain rechargement manuel.
+    await relirePlan({ garderMessage: true });
+  } finally {
+    enVol.delete(cle);
+    bouton.removeAttribute('aria-busy');
+  }
+}
+
+function rendreProgression() {
+  const g = groupeCourant();
+  if (!g || !catalogueCharge()) {
+    $('prog').replaceChildren(el('p', { class: 'text-muted' },
+      'Le catalogue des séquences n’a pas pu être chargé. Recharge la page.'));
+    return;
+  }
+  const r = resumeGroupe(g.plan, g.avancement);
+  $('prog-resume').textContent = r.total ? `${r.faites} / ${r.total} séances faites` : '';
+
+  const pJour = periodeDuJour();
+  const blocs = [];
+  let ol = null, periodeVue = null;
+  g.plan.forEach((p, i) => {
+    const s = sequence(p.sequence);
+    if (!s) return;
+    if (s.periode !== periodeVue) {
+      periodeVue = s.periode;
+      const def = PERIODES.find((x) => x.n === periodeVue);
+      blocs.push(el('p', { class: 'periode' },
+        `Période ${periodeVue}${def ? ' · ' + def.libelle : ''}`,
+        periodeVue === pJour ? el('span', { class: 'ici' }, 'nous y sommes') : null));
+      ol = el('ol', { class: 'parcours' });
+      blocs.push(ol);
+    }
+    const etat = p.visible ? etatSequence(s, g.avancement) : 'masquee';
+    const titres = titresSeances(s);
+    const cochees = faites(g, s.id);
+
+    const titre = el('h3', {}, s.titre,
+      p.visible ? el('span', { class: 'etat etat-' + CLASSE_SEQ[etat] }, LIBELLE_SEQ[etat])
+                : el('span', { class: 'etat etat-masquee' }, 'Pas cette année'));
+
+    const corps = el('div', { class: 'etape-corps' }, titre,
+      el('p', { class: 'resume' }, `${s.seances} séance${s.seances > 1 ? 's' : ''}`
+        + (s.resume ? ' · ' + s.resume : '')));
+
+    if (p.visible) {
+      corps.append(el('ul', { class: 'seances cochables' },
+        ...titres.map((tt, k) => {
+          const n = k + 1;
+          const faite = cochees.has(n);
+          const b = el('button', { type: 'button', class: faite ? 'fait' : '',
+                                   'aria-pressed': String(faite),
+                                   'data-seq': s.id, 'data-n': String(n),
+                                   title: `${tt} : ${faite ? 'faite' : 'pas encore faite'}` },
+            String(n), el('span', { class: 'visually-hidden' },
+              `. ${tt} : ${faite ? 'faite, cliquer pour décocher' : 'pas encore faite, cliquer pour cocher'}`));
+          b.addEventListener('click', () => basculer(s.id, n, b));
+          return el('li', {}, b);
+        })));
+    }
+    ol.append(el('li', { class: 'etape ' + etat },
+      el('span', { class: 'etape-num', 'aria-hidden': 'true' }, String(i + 1)), corps));
+  });
+  $('prog').replaceChildren(...blocs);
+}
+
+// ---- Les chiffres du groupe -------------------------------------------------
+function rendreChiffres() {
+  const g = groupeCourant();
+  if (!g) return;
+  const r = resumeGroupe(g.plan, g.avancement);
+  const pct = r.total ? Math.round(100 * r.faites / r.total) : 0;
+  const n = totalACorriger(g.a_corriger);
+  const c = (valeur, mot, classe) => el('div', { class: classe },
+    el('b', {}, String(valeur)), el('span', {}, mot));
+  $('g-chiffres').replaceChildren(
+    c(g.effectif, g.effectif > 1 ? 'élèves' : 'élève', ''),
+    c(`${r.faites}/${r.total}`, 'séances', 'c-encours'),
+    c(n === null ? '?' : (g.a_corriger?.depots === null || g.a_corriger?.reponses === null)
+        ? '≥ ' + n : n,
+      n === null ? 'à corriger, indisponible' : 'à corriger',
+      n === null ? '' : n ? 'c-rendu' : 'c-corrige'));
+  $('g-progres').style.width = pct + '%';
+  $('g-mot').textContent = r.terminee ? 'Toutes les séquences prévues sont faites.'
+    : r.courante ? `Séquence en cours : ${r.courante.titre}.`
+    : 'Aucune séquence prévue pour le moment.';
+}
+
+function rendrePile() {
+  const g = groupeCourant();
+  if (!g) return;
+  const d = g.a_corriger?.depots ?? null;
+  const r = g.a_corriger?.reponses ?? null;
+  const n = totalACorriger(g.a_corriger);
+  $('n-corriger').textContent = n === null ? '?' : String(n);
+  $('n-corriger').className = 'compteur' + (n ? ' chaud' : '');
+  const lignes = [];
+  const ligne = (valeur, titre, detail) => el('a', { href: `classeur.html?groupe=${g.id}` },
+    el('span', { class: 't' }, titre, el('small', {}, detail)),
+    el('span', { class: 'n' }, valeur));
+  if (d === null) lignes.push(el('p', { class: 'vide' }, 'Dépôts indisponibles pour le moment.'));
+  else if (d) lignes.push(ligne(String(d), 'Documents déposés', 'photos et PDF rendus par les élèves'));
+  if (r === null) lignes.push(el('p', { class: 'vide' }, 'Fiches indisponibles pour le moment.'));
+  else if (r) lignes.push(ligne(String(r), 'Fiches d’activité', 'une par élève et par fiche'));
+  if (!lignes.length) lignes.push(el('p', { class: 'vide' }, 'Rien à corriger dans ce groupe.'));
+  $('pile').replaceChildren(...lignes);
+}
+
+// ---- La séance en cours -----------------------------------------------------
+/** La prochaine séance à cocher : la première non faite de la séquence en cours. */
+function prochaineSeance() {
+  const g = groupeCourant();
+  if (!g || !catalogueCharge()) return null;
+  for (const p of g.plan) {
+    if (!p.visible) continue;
+    const s = sequence(p.sequence);
+    if (!s) continue;
+    const cochees = faites(g, s.id);
+    for (let n = 1; n <= s.seances; n++) if (!cochees.has(n)) return { s, n };
+  }
+  return null;
+}
+
+function rendreDirectPied() {
+  const b = $('cocher-seance');
+  const p = prochaineSeance();
+  if (!p) { b.hidden = true; return; }
+  const cle = p.s.id + '|' + p.n;
+  b.hidden = false;
+  // Le rafraîchissement du direct passe ici toutes les 25 secondes : il ne
+  // doit pas réactiver un bouton dont l'écriture n'est pas revenue.
+  b.disabled = enVol.has(cle);
+  b.textContent = enVol.has(cle)
+    ? 'Enregistrement…'
+    : `Marquer la séance ${p.n} de « ${p.s.titre} » comme faite`;
+  b.onclick = () => basculer(p.s.id, p.n, b);
+}
+
+/** Le dernier geste de l'élève : écrire un champ, ou déposer un document. */
+function dernierGeste(e) {
+  const a = e.dernier_ecrit ? Date.parse(e.dernier_ecrit) : 0;
+  const b = e.dernier_depot ? Date.parse(e.dernier_depot) : 0;
+  const m = Math.max(a, b);
+  return m || null;
+}
+/**
+ * Un élève qui a passé la séance à photographier sa maquette et à la déposer
+ * travaille autant qu'un autre : enseignant/seance.html, qui fait foi, prend
+ * le maximum des deux dates, et cette page le suit.
+ */
+function rangEleve(e, maintenant) {
+  if (e.compte_jamais_ouvert) return 0;
+  const g = dernierGeste(e);
+  if (!g) return 1;
+  return (maintenant - g) > 10 * 60000 ? 2 : 3;
+}
+const MOT_RANG = ['compte jamais ouvert', 'rien fait', 'sans rien faire depuis 10 min', 'au travail'];
+const PASTILLE_RANG = ['afaire', 'afaire', 'encours', 'rendu'];
+
+async function chargerDirect({ discret = false } = {}) {
+  const g = groupeCourant();
+  if (!g) return;
+  if (!discret) $('direct-etat').textContent = 'Lecture…';
+  try {
+    const d = await appel(`/api/prof/seance?groupe=${g.id}&minutes=${FENETRE}`);
+    if (g.id !== courant) return;   // le professeur a changé de groupe entre-temps
+    const maintenant = Date.parse(d.mesure_le) || Date.now();
+    const eleves = (d.eleves || []).slice()
+      .sort((a, b) => rangEleve(a, maintenant) - rangEleve(b, maintenant)
+        || String(a.nom ?? '').localeCompare(String(b.nom ?? '')));
+    const actifs = eleves.filter((e) => dernierGeste(e)).length;
+
+    dernierReleve = Date.parse(d.mesure_le) || Date.now();
+    rendreFraicheur();
+    $('direct-resume').replaceChildren(el('p', { class: 'direct-mot' },
+      actifs
+        ? `${actifs} élève${actifs > 1 ? 's ont' : ' a'} écrit ou déposé dans les ${d.fenetre} `
+          + `dernières minutes, sur ${eleves.length}.`
+        : `Personne n’a écrit ni déposé dans les ${d.fenetre} dernières minutes. `
+          + 'Cette vue s’allume d’elle-même dès qu’un élève travaille, y compris le soir depuis chez lui.'));
+
+    $('direct-eleves').replaceChildren(...eleves.map((e) => {
+      const rang = rangEleve(e, maintenant);
+      const g = dernierGeste(e);
+      const quand = g ? ilYA(new Date(g).toISOString(), maintenant) : null;
+      return el('li', { class: 'r' + rang },
+        pastille(PASTILLE_RANG[rang]),
+        el('span', { class: 'nom' }, `${e.prenom ?? ''} ${e.nom ?? ''}`.trim() || 'Élève'),
+        el('span', { class: 'detail' },
+          e.compte_jamais_ouvert ? MOT_RANG[0]
+            : g
+              ? (e.champs_ecrits
+                  ? `${e.champs_ecrits} champ${e.champs_ecrits > 1 ? 's' : ''} · ${quand}`
+                  : `dépôt · ${quand}`)
+              : MOT_RANG[1]),
+        // La cellule du dépôt est toujours posée, vide s'il n'y a rien : sans
+        // elle, une ligne à trois cellules et une ligne à quatre ne s'alignent
+        // pas, et la liste devient illisible.
+        e.depots ? el('span', { class: 'depot' }, `${e.depots} dépôt${e.depots > 1 ? 's' : ''}`)
+                 : el('span', { class: 'depot-vide', 'aria-hidden': 'true' }));
+    }));
+    $('direct-etat').textContent = '';
+  } catch (e) {
+    $('direct-etat').textContent = e.message || 'Lecture impossible.';
+    // La pastille de fraîcheur affichait « à l'instant » pendant toute une
+    // panne, parce qu'elle n'était réécrite que dans le chemin de succès.
+    rendreFraicheur({ echec: true });
+  }
+  rendreDirectPied();
+}
+
+/** L'âge réel du dernier relevé RÉUSSI, recalculé à chaque tour. */
+function rendreFraicheur({ echec = false } = {}) {
+  const z = $('direct-fraicheur');
+  if (!dernierReleve) { z.textContent = echec ? 'lecture impossible' : ''; z.className = 'compteur'; return; }
+  const age = Date.now() - dernierReleve;
+  z.textContent = (echec ? 'figé · ' : '') + (ilYA(new Date(dernierReleve).toISOString(), Date.now()) ?? '');
+  z.className = 'compteur' + (echec || age > 120000 ? ' chaud' : '');
+}
+
+let toursDepuisPlan = 0;
+function reglerMinuteur() {
+  if (minuteur) clearInterval(minuteur);
+  // On ne sonde pas un onglet que personne ne regarde. Le direct passe à
+  // chaque tour ; le plan, plus lourd, un tour sur quatre, soit environ
+  // toutes les cent secondes : assez pour que les compteurs ne mentent pas,
+  // assez rare pour la liaison de Tananarive.
+  minuteur = setInterval(() => {
+    if (document.hidden) return;
+    rendreFraicheur();
+    chargerDirect({ discret: true });
+    if (++toursDepuisPlan >= 4) { toursDepuisPlan = 0; relirePlan({ garderMessage: true }); }
+  }, RAFRAICHIR);
+}
+function auRetour() {
+  if (document.hidden) return;
+  rendreFraicheur();
+  chargerDirect({ discret: true });
+  relirePlan({ garderMessage: true });
+}
+document.addEventListener('visibilitychange', auRetour);
+// Au retour par le bouton « page précédente », Safari restitue la page depuis
+// son cache sans relancer le module : sans ceci, l'écran reste figé.
+window.addEventListener('pageshow', (ev) => { if (ev.persisted) auRetour(); });
+
+// ---- Choisir un groupe ------------------------------------------------------
+function choisir(id) {
+  courant = id;
+  try { history.replaceState(null, '', `?groupe=${id}`); } catch (e) { /* page ouverte en local */ }
+  rendreChips(); rendreBandeau(); rendreProgression(); rendreChiffres(); rendrePile();
+  taire();
+  dernierReleve = null; toursDepuisPlan = 0;
+  chargerDirect();
+  reglerMinuteur();
 }
 
 async function charger() {
-  if (!catalogueCharge()) {
-    liste.innerHTML = '<p class="text-muted">Le catalogue des séquences n’a pas pu être chargé. Rechargez la page.</p>';
-    return;
-  }
-  let d;
   try {
-    const r = await fetch('/api/prof/plan');
-    if (r.status === 401) { liste.innerHTML = '<p class="text-muted">Session expirée : <a href="/connexion.html?suite=/enseignant/index.html">se reconnecter</a>.</p>'; return; }
-    d = await r.json();
-    if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
+    const d = await appel('/api/prof/plan');
+    groupes = d.groupes || [];
   } catch (e) {
-    liste.innerHTML = `<p class="text-muted">Progression indisponible pour le moment : ${echapper(e.message)} Les fiches restent accessibles.</p>`;
+    $('groupes-chips').replaceChildren(el('p', { class: 'text-muted' },
+      `Progression indisponible pour le moment : ${e.message} Les fiches restent accessibles.`));
     return;
   }
-  if (!d.groupes.length) {
-    liste.innerHTML = '<p class="text-muted">Aucun groupe ne vous est rattaché. Créez vos groupes dans « Groupes et comptes », ou un groupe d’essai pour découvrir le plan de l’année.</p>';
-    return;
-  }
-  liste.innerHTML = '<div class="groupes-grille">' + d.groupes.map((g) => {
-    const r = resumeGroupe(g.plan, g.avancement);
-    const pct = r.total ? Math.round(100 * r.faites / r.total) : 0;
-    return `<article class="groupe-carte">
-      <span class="page-level-badge level-${g.niveau}">${NIVEAU_COURT[g.niveau]}</span>
-      <h3>${echapper(g.code)}</h3>
-      <span class="groupe-libelle">${echapper(g.libelle)} · ${g.effectif} élève${g.effectif > 1 ? 's' : ''}</span>
-      <span class="groupe-barre" aria-hidden="true"><span style="width:${pct}%"></span></span>
-      <span class="groupe-chiffres">${r.faites} / ${r.total} séances faites</span>
-      <span class="groupe-courante">${r.terminee ? 'Année terminée' : r.courante ? 'En cours : ' + echapper(r.courante.titre) : 'Rien de prévu'}</span>
-      ${(() => { const c = libelleCorriger(g.a_corriger); return c.alerte
-        ? `<a class="groupe-corriger alerte" href="classeur.html?groupe=${g.id}">${echapper(c.texte)}<span class="visually-hidden"> dans le groupe ${echapper(g.code)} : ouvrir le classeur</span></a>`
-        : `<span class="groupe-corriger">${echapper(c.texte)}</span>`; })()}
-      <span class="groupe-liens"><a href="seance.html?groupe=${g.id}">La séance<span class="visually-hidden"> en cours, groupe ${echapper(g.code)}</span></a><a href="plan.html?groupe=${g.id}">Plan de l'année<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a><a href="mesure.html?groupe=${g.id}">Suivi du groupe<span class="visually-hidden"> ${echapper(g.code)}</span></a><a href="classeur.html?groupe=${g.id}">Classeur<span class="visually-hidden"> du groupe ${echapper(g.code)}</span></a></span>
-    </article>`;
-  }).join('') + '</div>';
+  if (!groupes.length) { rendreChips(); return; }
+  const demande = new URLSearchParams(location.search).get('groupe');
+  choisir(groupes.some((g) => g.id === demande) ? demande : groupes[0].id);
 }
 
-creer.addEventListener('click', async () => {
-  creer.disabled = true; etatEssai.textContent = 'Création…';
+$('creer-essai').addEventListener('click', async () => {
+  const b = $('creer-essai');
+  b.disabled = true; $('essai-etat').textContent = 'Création…';
   try {
-    const r = await fetch('/api/prof/essai', {
+    const d = await appel('/api/prof/essai', {
       method: 'POST', headers: { 'content-type': 'application/json' },
-      body: JSON.stringify({ niveau: document.getElementById('essai-niveau').value }),
+      body: JSON.stringify({ niveau: $('essai-niveau').value }),
     });
-    const d = await r.json();
-    if (!r.ok) throw new Error(d.message || 'Le service ne répond pas.');
     location.href = `plan.html?groupe=${d.groupe.id}`;
   } catch (e) {
-    etatEssai.textContent = e.message; creer.disabled = false;
+    $('essai-etat').textContent = e.message; b.disabled = false;
   }
 });
 

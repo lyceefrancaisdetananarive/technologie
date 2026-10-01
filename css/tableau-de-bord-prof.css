@@ -1,0 +1,155 @@
+/* =====================================================================
+   Technologie LFT · le pont entre css/style.css et css/tableau-de-bord.css.
+
+   Le tableau de bord est écrit une seule fois, pour les deux espaces. Côté
+   élève il s'appuie sur connecte.css, côté professeur sur style.css. Les
+   deux feuilles portent les mêmes couleurs mais ne les nomment pas toujours
+   pareil : cinq jetons manquent sous style.css. Ce fichier les pose, en
+   pointant sur les jetons que style.css définit déjà. Aucune valeur en dur,
+   donc aucune couleur à maintenir à deux endroits.
+
+   Se charge entre style.css et tableau-de-bord.css.
+   ===================================================================== */
+
+:root {
+  --display:     var(--font-display);
+  --erreur:      var(--error);
+  --erreur-pale: var(--error-light);
+  --r:           var(--radius-md);
+  --r-lg:        var(--radius-lg);
+  --texte:       var(--font-sans);
+}
+
+/* ---- Quatre composants que seule connecte.css portait ------------------
+   La feuille partagée et le balisage s'appuient aussi sur .msg, .barre,
+   .annee-barre et .meta, qui n'existent que dans css/connecte.css, laquelle
+   n'est pas chargée ici. Sans eux, la barre de progression annuelle était
+   invisible (.barre a display:none par défaut, levé par .annee-barre) et un
+   échec d'écriture s'affichait exactement comme un succès. Les règles sont
+   celles de connecte.css, pointées sur les jetons de style.css. */
+.msg { margin: 0; padding: 0; border-radius: 0 var(--r) var(--r) 0; font-size: .92rem; display: block; min-height: 0; }
+.msg.err, .msg.ok, .msg.info, .msg.attention { margin-top: .8rem; padding: .7rem .9rem; border-left: 4px solid var(--trait); }
+.msg.err       { background: var(--erreur-pale);  border-left-color: var(--erreur); }
+.msg.ok        { background: var(--fait-pale);    border-left-color: var(--fait); }
+.msg.info      { background: var(--bleu-pale);    border-left-color: var(--bleu); }
+.msg.attention { background: var(--encours-pale); border-left-color: var(--encours); }
+.bloc .meta { font-size: .84rem; color: var(--encre-3); }
+.barre { height: 6px; background: var(--grille); border-radius: 999px; margin-top: .75rem; overflow: hidden; display: none; }
+.barre div { height: 100%; background: var(--bleu); width: 0; transition: width .25s; }
+.annee-barre { display: block; height: 10px; margin: .5rem 0 .4rem; }
+.annee-barre div { background: var(--fait); }
+
+/* ---- Les groupes, en pastilles cliquables ---------------------------- */
+.groupes-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: var(--space-md); }
+.groupes-chips button {
+  display: inline-flex; align-items: center; gap: .4rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .86rem;
+  border: 1px solid var(--bord-composant); background: var(--papier-2);
+  color: var(--encre-2); border-radius: 999px; padding: .34rem .85rem; cursor: pointer;
+}
+.groupes-chips button:hover { border-color: var(--bleu); }
+.groupes-chips button[aria-pressed="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+.chip-n {
+  background: var(--encours); color: #fff; border-radius: 999px;
+  font-size: .72rem; padding: .04rem .4rem; font-variant-numeric: tabular-nums;
+}
+.groupes-chips button[aria-pressed="true"] .chip-n { background: #fff; color: var(--encours); }
+/* Un compteur indisponible n'est ni un zéro ni une alerte : il se distingue
+   des deux, et ne porte jamais la couleur du « tout est fait ». */
+.chip-inconnu { background: var(--encre-3); }
+.groupes-chips button[aria-pressed="true"] .chip-inconnu { background: #fff; color: var(--encre); }
+
+/* ---- Le bandeau du groupe -------------------------------------------- */
+.bandeau {
+  display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem 1.1rem;
+  background: var(--papier-2); border: 1px solid var(--trait);
+  border-radius: var(--radius-md); padding: .7rem .9rem; margin-bottom: var(--space-md);
+}
+.bandeau b { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; }
+.bandeau .creneau { color: var(--encre-2); font-size: .88rem; }
+.bandeau-liens { display: flex; flex-wrap: wrap; gap: .3rem; margin-left: auto; }
+.bandeau-liens a {
+  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
+  text-decoration: none; border: 1px solid var(--trait); border-radius: 999px;
+  padding: .2rem .7rem; color: var(--bleu);
+}
+.bandeau-liens a:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+
+/* ---- La séance en cours ---------------------------------------------- */
+.direct-mot { margin: 0 0 .7rem; color: rgba(255, 255, 255, .88); font-size: .92rem; }
+.direct-eleves { list-style: none; margin: 0; padding: 0; display: grid; gap: .3rem; }
+/* La feuille commune pose « .maintenant li » a trois colonnes pour la liste
+   de taches de l'eleve, et elle se charge apres celle-ci : il faut donc
+   nommer le parent pour que la liste des eleves garde ses quatre colonnes. */
+.maintenant .direct-eleves li {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: .55rem;
+  align-items: center; background: rgba(255, 255, 255, .1); border-radius: var(--radius-sm);
+  padding: .4rem .6rem; font-size: .88rem;
+}
+@media (max-width: 34rem) {
+  .maintenant .direct-eleves li { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .maintenant .direct-eleves .depot { grid-column: 3; }
+  .maintenant .direct-eleves .depot-vide { display: none; }
+}
+.maintenant .direct-eleves .detail,
+.maintenant .direct-eleves .depot { white-space: nowrap; }
+.maintenant .direct-eleves .depot-vide { display: block; width: 0; }
+.direct-eleves .nom { font-family: var(--font-display); font-weight: 700; min-width: 0; }
+.direct-eleves .detail { color: rgba(255, 255, 255, .78); font-size: .82rem; }
+.direct-eleves .depot {
+  background: rgba(255, 255, 255, .9); color: #032844; border-radius: 999px;
+  padding: .04rem .45rem; font-size: .72rem; font-weight: 700;
+}
+.direct-eleves .r0, .direct-eleves .r1 { background: rgba(255, 255, 255, .18); }
+.direct-pied { display: flex; flex-wrap: wrap; gap: .6rem; align-items: center; margin-top: .9rem; }
+.cocher {
+  background: #95C11F; color: #16240A; border: 0; border-radius: 999px;
+  padding: .5rem 1.1rem; font-family: var(--font-display); font-weight: 800;
+  font-size: .88rem; cursor: pointer;
+}
+.cocher:hover { background: #A8D62B; }
+.cocher:disabled { opacity: .55; cursor: default; }
+.direct-pied .detail { color: rgba(255, 255, 255, .78); font-size: .82rem; }
+
+/* ---- Cocher une séance d'un clic ------------------------------------- */
+.aide-cocher { font-size: .82rem; color: var(--encre-3); margin: 0 0 .8rem; }
+.seances.cochables li { padding: 0; border: 0; background: none; min-width: 0; }
+.seances.cochables button {
+  font-family: var(--font-display); font-weight: 700; font-size: .76rem;
+  font-variant-numeric: tabular-nums; min-width: 1.9rem; min-height: 1.9rem;
+  border: 1px solid var(--bord-composant); border-radius: 6px;
+  background: var(--papier-2); color: var(--encre-2); cursor: pointer;
+}
+.seances.cochables button:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+.seances.cochables button.fait { background: var(--fait-pale); border-color: var(--fait); color: var(--fait); }
+.seances.cochables button:disabled { opacity: .5; cursor: default; }
+
+/* ---- Le groupe d'essai ------------------------------------------------ */
+/* Hors du mur, donc visible même sans groupe choisi et même quand la lecture
+   a échoué : c'est par là qu'un collègue crée ses premiers groupes. */
+.essai {
+  display: flex; flex-wrap: wrap; align-items: center; gap: .5rem .9rem;
+  background: var(--papier-2); border: 1px solid var(--trait);
+  border-radius: var(--radius-md); padding: .6rem .9rem; margin-bottom: var(--space-md);
+}
+.essai label { font-size: .8rem; color: var(--encre-3); margin: 0 0 0 auto; }
+.essai-ligne { display: flex; gap: .4rem; flex-wrap: wrap; }
+.essai .detail { font-size: .8rem; color: var(--encre-3); }
+@media (max-width: 40rem) { .essai label { margin-left: 0; } }
+
+/* ---- Les ressources, repliées ---------------------------------------- */
+#ressources > summary {
+  font-family: var(--font-display); font-weight: 700; font-size: 1.05rem;
+  cursor: pointer; list-style: none; padding: .2rem 0;
+}
+#ressources > summary::-webkit-details-marker { display: none; }
+#ressources > summary::before { content: "▸ "; color: var(--bleu); }
+#ressources[open] > summary::before { content: "▾ "; }
+#ressources > summary + * { margin-top: var(--space-md); }
+
+/* Le tableau des ressources institutionnelles debordait de l'ecran sur un
+   telephone, et son contenu etait coupe sans qu'aucune barre ne permette de
+   le faire defiler. Defaut anterieur a la refonte, corrige ici puisqu'il est
+   desormais dans le bloc replie. */
+#ressources table { width: 100%; table-layout: fixed; }
+#ressources th, #ressources td { overflow-wrap: anywhere; }
