@@ -39,7 +39,16 @@ export async function lire(table, requete) {
   const r = await fetch(`${URL_BASE()}/rest/v1/${table}?${requete}`, {
     headers: { apikey: SERVICE(), authorization: `Bearer ${SERVICE()}` },
   });
-  if (!r.ok) throw new Error(`lecture ${table} : ${r.status}`);
+  if (!r.ok) {
+    // LE STATUT SUR L'ERREUR, comme ecrire() le fait plus bas. Sans lui, les
+    // appelants devaient reconnaitre la panne a la CHAINE du message : un
+    // filtre qui tombe en marche a la premiere relecture, et qui confondait
+    // une table absente (404, normal avant migration) avec une panne de
+    // PostgREST (500, qu'il faut dire a l'utilisateur).
+    const e = new Error(`lecture ${table} : ${r.status}`);
+    e.statut = r.status;
+    throw e;
+  }
   return r.json();
 }
 

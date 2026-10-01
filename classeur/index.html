@@ -162,7 +162,7 @@ let mesScores = [];     // mes meilleurs scores de quiz (décision 10), jamais l
 let filtre = 'tout';
 // Une lecture qui échoue ne doit jamais ressembler à une absence de travail.
 // Chaque panne est retenue ici et dite à l'écran, là où l'élève regarde.
-const pannes = { fiches: null, depots: null, progression: null };
+const pannes = { fiches: null, depots: null, progression: null, pix: null };
 
 const PICTO_BADGE = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="8" r="6"/><path d="M8.5 13.5 7 22l5-3 5 3-1.5-8.5"/></svg>';
 const LIBELLE_SEQ = { fait: 'Faite', encours: 'En cours', avenir: 'À venir' };
@@ -844,7 +844,12 @@ async function charger() {
   rendreTravaux();
   rendreChiffres();
   rendreAnnee();   // appelé APRÈS listerReponses : il lit mesFiches.
-  rendrePix(x.status === 'fulfilled' ? x.value.pix : null);
+  // UNE PANNE N'EST PAS UNE ABSENCE DE RELEVE. Taire les deux de la meme
+  // facon faisait disparaitre la tuile d'un eleve qui a bel et bien envoye son
+  // profil, comme s'il n'avait rien fait. La tuile le dit maintenant.
+  pannes.pix = x.status === 'rejected'
+    ? (x.reason?.message || 'Ton relevé Pix n’a pas pu être lu pour le moment.') : null;
+  rendrePix(x.status === 'fulfilled' ? x.value.pix : null, pannes.pix);
 }
 
 /* LA VERSION ADAPTÉE, VUE DE L'ÉLÈVE (décision D23).
@@ -888,8 +893,15 @@ $('badge-adaptee').addEventListener('click', () => {
  *
  * Tant qu'il n'y a rien, la tuile reste masquée : un élève qui n'a jamais
  * envoyé son profil n'a pas à lire une tuile vide de plus. */
-function rendrePix(p) {
+function rendrePix(p, panne) {
   const bloc = $('bloc-pix');
+  if (panne) {
+    bloc.hidden = false;
+    $('pix-maj').textContent = '';
+    $('pix-corps').innerHTML = `<p class="meta">${echapper(panne)}
+      Réessaie tout à l’heure : rien n’est perdu, tes résultats sont chez Pix.</p>`;
+    return;
+  }
   if (!p || (p.score === null && !Object.keys(p.parcours || {}).length)) {
     bloc.hidden = true;
     return;
@@ -918,8 +930,14 @@ function rendrePix(p) {
     }).join('') + '</ul>');
   }
 
+  // LA SECONDE ECRITURE COMPTE AUTANT QUE LA PREMIERE. Un eleve qui a envoye
+  // deux fois sous deux orthographes ne reconnait pas forcement celle qu'on a
+  // retenue ; lui montrer les deux, c'est lui donner de quoi dire « oui, c'est
+  // bien moi » au lieu de douter.
+  const aussi = p.nomPixAussi
+    ? ` (tu as aussi envoyé sous « <b>${echapper(p.nomPixAussi)}</b> »)` : '';
   morceaux.push(`<p class="meta pix-qui">Dans Pix, tu es inscrit sous le nom
-    « <b>${echapper(p.nomPix)}</b> ». Si ce n'est pas toi, dis-le à ton professeur :
+    « <b>${echapper(p.nomPix)}</b> »${aussi}. Si ce n'est pas toi, dis-le à ton professeur :
     c'est le nom que tu as tapé toi-même qui sert à retrouver tes résultats.</p>`);
   $('pix-corps').innerHTML = morceaux.join('');
 }

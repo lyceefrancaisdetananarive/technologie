@@ -396,12 +396,15 @@ def main():
 
         choix = fusion or tete
         v = choix[2]
-        nom_pix = (v['nom'] + ' ' + v['prenom']).strip()
-        if fusion:
-            autres = [(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in siennes
-                      if c is not fusion]
-            nom_pix += ' (aussi : ' + ', '.join(sorted(set(autres))) + ')'
-        ligne = {'profil_id': e['id'], 'nom_pix': nom_pix,
+        # nom_pix PORTE UNE SEULE ECRITURE, celle qui est retenue : c'est sur
+        # (nom_pix, classe) que db/18 pose son index d'unicite, et y glisser
+        # « (aussi : ...) » rendrait deux lignes differentes aux yeux de la
+        # base alors qu'elles designent le meme participant.
+        autres = sorted({(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in siennes
+                         if c is not choix}) if fusion else []
+        ligne = {'profil_id': e['id'],
+                 'nom_pix': (v['nom'] + ' ' + v['prenom']).strip(),
+                 'nom_pix_aussi': ', '.join(autres) or None,
                  'classe': v['classe'], 'score': v['score'],
                  'certifiable': v['certifiable'],
                  'envoi': v['envoi'].isoformat() if v['envoi'] else None,
@@ -562,6 +565,7 @@ def arbitrer(douteux, prises_base=None):
             # l'import suivant de reproposer le meme faux rapprochement.
             l = dict(ligne)
             l['appariement'] = 'refuse'
+            l.setdefault('nom_pix_aussi', None)
             retenus.append(l)
             print('   ecarte : aucun de ces noms n\'est le sien.')
             continue
@@ -578,6 +582,7 @@ def arbitrer(douteux, prises_base=None):
         retenus.append({
             'profil_id': profil_id,
             'nom_pix': (c['nom'] + ' ' + c['prenom']).strip(),
+            'nom_pix_aussi': None,
             'classe': c['classe'], 'score': c['score'], 'certifiable': c['certifiable'],
             'envoi': c['envoi'].isoformat() if c['envoi'] else None,
             'parcours': c['parcours'], 'competences': c['competences'],

@@ -54,6 +54,8 @@
 .eleve.sans { background: var(--papier); }
 .eleve.sans .nom small { color: var(--encre-3); }
 .pix-rien { margin: .45rem 0 0; font-size: .84rem; color: var(--encre-3); }
+.pix-collision { margin: .4rem 0 .2rem; padding: .4rem .55rem; font-size: .84rem;
+  color: var(--erreur); background: var(--erreur-pale); border-radius: var(--r); }
 .pix-sans-profil { margin: .5rem 0 .2rem; padding: .4rem .55rem; font-size: .84rem;
   color: var(--encours); background: var(--encours-pale); border-radius: var(--r); }
 
@@ -213,10 +215,21 @@ function rendre() {
   const tries = [...eleves].sort((a, b) => rang(a) - rang(b)
     || (b.pix?.score ?? -1) - (a.pix?.score ?? -1)
     || String(a.nom).localeCompare(String(b.nom), 'fr'));
-  $('liste').innerHTML = tries.map(carte).join('');
+
+  // DEUX ELEVES NE PEUVENT PAS PORTER LE MEME RELEVE. La base l'interdit
+  // depuis db/18, mais cet écran doit savoir le dire : une contrainte qu'on
+  // ne voit jamais à l'œuvre est une contrainte qu'on finit par retirer.
+  const compte = new Map();
+  avec.forEach((e) => {
+    const c = e.pix.nomPix + '|' + e.pix.classe;
+    compte.set(c, (compte.get(c) || 0) + 1);
+  });
+  const partages = new Set([...compte].filter(([, n]) => n > 1).map(([c]) => c));
+  $('liste').innerHTML = tries.map((e) => carte(e, e.pix
+    && partages.has(e.pix.nomPix + '|' + e.pix.classe))).join('');
 }
 
-function carte(e) {
+function carte(e, partage) {
   const nom = `<p class="nom">${echapper(e.prenom)} ${echapper(e.nom)}</p>`;
   if (!e.pix) {
     return `<article class="eleve sans">${nom}
@@ -260,9 +273,14 @@ function carte(e) {
     : `<button class="secondaire" data-eleve="${e.id}" data-quoi="confirme"${p.appariement === 'confirme' ? ' disabled' : ''}>C’est bien lui</button>
        <button class="secondaire" data-eleve="${e.id}" data-quoi="refuse">Ce n’est pas lui</button>`;
 
-  return `<article class="eleve${ecarte ? ' ecarte' : ''}">${nom}
+  const collision = partage ? `<p class="pix-collision">Ce relevé est porté par
+    <b>un autre élève du groupe</b>. Un seul des deux l’a envoyé : écartez-le
+    chez celui à qui il n’appartient pas.</p>` : '';
+
+  return `<article class="eleve${ecarte ? ' ecarte' : ''}">${nom}${collision}
     ${chiffres}${parcours}
-    <p class="pix-qui">Dans Pix, sous le nom <code>${echapper(p.nomPix)}</code>
+    <p class="pix-qui">Dans Pix, sous le nom <code>${echapper(p.nomPix)}</code>${p.nomPixAussi
+      ? ', et aussi <code>' + echapper(p.nomPixAussi) + '</code>' : ''}
       ${p.classe ? ' (campagne ' + echapper(p.classe) + ')' : ''}${p.envoi
         ? ', profil envoyé le ' + echapper(dateCourte(p.envoi)) : ''}.${etat}</p>
     <div class="trancher">${boutons}</div>

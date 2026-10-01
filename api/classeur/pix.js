@@ -31,12 +31,14 @@ export default async function handler(req, res) {
   try {
     const lignes = await lire('pix',
       `profil_id=eq.${moi.id}&appariement=neq.refuse`
-      + '&select=nom_pix,classe,score,certifiable,envoi,parcours,competences,appariement,releve_le');
+      + '&select=nom_pix,nom_pix_aussi,classe,score,certifiable,envoi,parcours,'
+      + 'competences,appariement,releve_le');
     const p = lignes[0];
     res.status(200).json({
       ok: true,
       pix: p ? {
         nomPix: p.nom_pix,
+        nomPixAussi: p.nom_pix_aussi || null,
         classe: p.classe,
         score: p.score,
         certifiable: p.certifiable === true,
@@ -48,9 +50,15 @@ export default async function handler(req, res) {
       } : null,
     });
   } catch (e) {
-    // La table peut ne pas encore exister : l'absence de relevé n'est pas une
-    // panne du classeur, et la tuile doit rester muette plutôt que rouge.
     console.error('pix :', e.message);
-    res.status(200).json({ ok: true, pix: null, indisponible: true });
+    // UNE TABLE ABSENTE N'EST PAS UNE PANNE : avant que db/17 ne soit joué,
+    // le classeur doit fonctionner et la tuile se taire. Mais TOUT LE RESTE
+    // en est une, et la taire aussi serait mentir à l'élève : pendant une
+    // indisponibilité, il lirait « pas encore de relevé » alors que le sien
+    // existe. On ne rattrape donc que le 404, et on le dit pour le reste.
+    if (e.statut === 404 || / pix : 404$/.test(e.message)) {
+      return res.status(200).json({ ok: true, pix: null, indisponible: true });
+    }
+    refus(res, 503, "Le relevé Pix n'a pas pu être lu pour le moment.");
   }
 }

@@ -60,9 +60,17 @@ export default async function handler(req, res) {
     // avec un accent, et `lire` « lecture pix » sans. Chercher la chaîne,
     // c'est le genre de filtre qui tombe en marche à la première relecture.
     const absente = e.statut === 404 || / pix : 404$/.test(e.message);
-    if (absente) {
+    // LE REPLI MUET EST RESERVE A LA LECTURE. Posé sur les deux méthodes, il
+    // répondait « tout va bien » à une ÉCRITURE qui n'avait pas eu lieu :
+    // l'écran affichait « Rapprochement écarté », le professeur passait à la
+    // suite, et rien n'était en base. Un geste qui échoue doit le dire.
+    if (absente && req.method === 'GET') {
       console.error('pix prof :', e.message);
       return res.status(200).json({ ok: true, indisponible: true, eleves: [] });
+    }
+    if (absente) {
+      return refus(res, 503, "Le relevé Pix n'est pas en service : votre "
+        + "décision n'a pas été enregistrée.");
     }
     console.error('pix prof :', e.message);
     return refus(res, 500, "Le relevé Pix n'a pas pu être lu.");
@@ -87,7 +95,8 @@ async function lecture(req, res, moi) {
 
   const releves = await lire('pix',
     `profil_id=in.(${eleves.map((e) => e.id).join(',')})`
-    + '&select=profil_id,nom_pix,classe,score,certifiable,envoi,parcours,appariement,releve_le');
+    + '&select=profil_id,nom_pix,nom_pix_aussi,classe,score,certifiable,envoi,'
+    + 'parcours,appariement,releve_le');
   const par = new Map(releves.map((r) => [r.profil_id, r]));
 
   res.status(200).json({
@@ -100,6 +109,7 @@ async function lecture(req, res, moi) {
         prenom: e.prenom,
         pix: r ? {
           nomPix: r.nom_pix,
+          nomPixAussi: r.nom_pix_aussi || null,
           classe: r.classe,
           score: r.score,
           certifiable: r.certifiable === true,
