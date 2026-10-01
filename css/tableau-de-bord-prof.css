@@ -40,7 +40,31 @@
 .annee-barre div { background: var(--fait); }
 
 /* ---- Les groupes, en pastilles cliquables ---------------------------- */
-.groupes-chips { display: flex; flex-wrap: wrap; gap: .45rem; margin-bottom: var(--space-md); }
+/* ---- Les groupes, rangés par jour de la semaine ----
+   UNE SEULE TEINTE, DECLINEE DU CLAIR AU FONCE. Cinq couleurs franches
+   entreraient en concurrence avec celles des niveaux (5e, 4e, 3e), que
+   l'élève et le professeur ont déjà dans l'oeil. Du lundi au vendredi, on lit
+   une semaine qui avance, et non cinq catégories sans rapport entre elles.
+   Le filet est à gauche, assez large pour se voir, assez sobre pour ne pas
+   tirer l'oeil avant les pastilles elles-mêmes. */
+.groupes-chips { display: grid; gap: .7rem; margin-bottom: var(--space-md); }
+.jour-groupe { border-left: 4px solid var(--jour, var(--grille)); padding-left: .7rem; }
+.jour-groupe[data-jour="0"] { --jour: #9FB6CC; }
+.jour-groupe[data-jour="1"] { --jour: #7E9CBA; }
+.jour-groupe[data-jour="2"] { --jour: #5E82A8; }
+.jour-groupe[data-jour="3"] { --jour: #3D6896; }
+.jour-groupe[data-jour="4"] { --jour: #1D4E84; }
+.jour-groupe[data-jour="5"] { --jour: #004E8C; }
+.jour-nom {
+  margin: 0 0 .3rem; font: 700 .7rem var(--font-display); letter-spacing: .08em;
+  text-transform: uppercase; color: var(--encre-3);
+  display: flex; align-items: center; gap: .5rem;
+}
+.jour-ici {
+  background: var(--bleu); color: #fff; border-radius: 999px; padding: .06rem .45rem;
+  font-size: .64rem; letter-spacing: .04em; text-transform: none;
+}
+.jour-pastilles { display: flex; flex-wrap: wrap; gap: .45rem; }
 .groupes-chips button {
   display: inline-flex; align-items: center; gap: .4rem;
   font-family: var(--font-display); font-weight: 700; font-size: .86rem;

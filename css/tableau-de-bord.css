@@ -89,16 +89,49 @@ body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
 .bandeau .creneau { color: var(--encre-2); font-size: .88rem; }
 
 /* ---- le mur ---------------------------------------------------------- */
-.mur { display: grid; gap: 1.1rem; grid-template-columns: repeat(12, 1fr); align-items: start; }
-.mur > * { grid-column: span 12; min-width: 0; }
+/* DEUX COLONNES QUI S'ECOULENT, ET NON UNE GRILLE DE RANGEES.
+   Une grille cale chaque rangée sur sa tuile la plus haute. Mesuré le
+   1er octobre sur un classeur réel : « Ma progression dans l'année » faisait
+   1592 px à côté de « Où j'en suis » qui en faisait 229, soit 1363 px de vide
+   sur une seule rangée. Total : 3,8 écrans à défiler.
+   Deux colonnes indépendantes n'ont pas de rangées : chaque tuile commence où
+   la précédente finit, et il n'y a plus de vide possible. Les classes b8 et
+   b4 restent sur les tuiles, elles ne servent plus ici mais ailleurs. */
+.mur { display: grid; gap: 1.1rem; grid-template-columns: 1fr; align-items: start; }
+.colonne { display: flex; flex-direction: column; gap: 1.1rem; min-width: 0; }
 @media (min-width: 62rem) {
-  .mur > .b8 { grid-column: span 7; }
-  .mur > .b4 { grid-column: span 5; }
+  .mur { grid-template-columns: 7fr 5fr; }
 }
 @media (min-width: 82rem) {
-  .mur > .b8 { grid-column: span 8; }
-  .mur > .b4 { grid-column: span 4; }
+  .mur { grid-template-columns: 8fr 4fr; }
 }
+
+/* ---- ce qui se replie ----
+   La fleche native de <summary> est remplacée par un chevron qui pivote :
+   celle du navigateur ne se place pas et ne se colore pas de la même façon
+   d'un navigateur à l'autre. */
+.bloc-pliant { padding: 0; }
+.bloc-pliant > details > summary, .periode-pli > summary { cursor: pointer; }
+.bloc-pliant > details > summary { padding: 1.1rem 1.15rem; display: flex; align-items: center; gap: .6rem; min-height: 44px; }
+.bloc-pliant > details[open] > summary { padding-bottom: .4rem; }
+.bloc-pliant > details > .legende { padding: 0 1.15rem 1.1rem; }
+.bloc-pliant > details > summary > h2 { margin: 0; }
+summary::-webkit-details-marker { display: none; }
+.bloc-pliant > details > summary::after, .periode-pli > summary::after {
+  content: ""; flex: none; width: .5rem; height: .5rem; margin-left: auto;
+  border-right: 2px solid var(--encre-3); border-bottom: 2px solid var(--encre-3);
+  transform: rotate(45deg); transition: transform .15s;
+}
+.bloc-pliant > details[open] > summary::after, .periode-pli[open] > summary::after {
+  transform: rotate(-135deg);
+}
+.periode-pli > summary { list-style: none; min-height: 44px; }
+.periode-pli > summary::-webkit-details-marker { display: none; }
+.periode-pli + .periode-pli { margin-top: .2rem; }
+.periode-compte { font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--encre-3); }
+/* Le filet de .periode mangeait la place du chevron : il s'arrête avant. */
+.periode-pli > summary.periode::after { content: ""; flex: none; }
+.periode-pli > summary.periode { gap: .6rem; }
 .bloc {
   background: var(--papier-2); border: 1px solid var(--trait);
   border-radius: var(--r-lg); padding: 1.1rem 1.15rem; margin: 0;
@@ -323,3 +356,21 @@ body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
 .legende .mot-cle { font-size: .84rem; color: var(--encre-2); margin: .8rem 0 0; }
 
 @media print { .bandeau, .filtres, .maintenant, .bloc details { display: none; } }
+
+/* ---- L'INDICATEUR PIX DE L'EN-TETE ----
+   Il vit dans l'en-tete, qui est collant : il reste donc visible quelle que
+   soit la position dans la page. Discret par defaut, il se souligne au survol
+   comme un lien, parce que c'en est un. La fleche dit qu'on sort du site. */
+.pix-tete {
+  display: inline-flex; align-items: baseline; gap: .55rem; flex: none;
+  padding: .3rem .7rem; border: 1px solid var(--trait); border-radius: 999px;
+  background: var(--papier); text-decoration: none; color: var(--encre-2);
+  font-size: .82rem; line-height: 1.2; min-height: 36px;
+}
+.pix-tete:hover, .pix-tete:focus-visible { background: var(--bleu-pale); border-color: var(--bleu-2); }
+.pix-tete-score b { font: 800 1.05rem var(--display); color: var(--bleu); }
+.pix-tete-certif.oui { color: var(--fait); font-weight: 700; }
+.pix-tete-certif.pas-encore { color: var(--encours); }
+.pix-tete-aller { color: var(--bleu); font-weight: 700; white-space: nowrap; }
+.pix-tete-aller::after { content: ' \2197'; }
+@media (max-width: 52rem) { .pix-tete-aller { display: none; } }

@@ -20,6 +20,20 @@
        étiquette muette : d'un clic, l'élève lit ce qui change pour lui. -->
   <button type="button" class="badge-adaptee" id="badge-adaptee" hidden
           aria-expanded="false" aria-controls="dit-adaptee">Version adaptée</button>
+  <!-- L'INDICATEUR PIX, EN HAUT A DROITE.
+       Ce que l'élève regarde d'un coup d'oeil en ouvrant son classeur : son
+       nombre de pix et s'il est certifiable. Il n'est pas décoratif, il mène
+       quelque part : un clic ouvre app.pix.fr dans un autre onglet, pour
+       s'entraîner. Hors du classeur, donc, et dans un nouvel onglet, pour que
+       le travail en cours ne soit pas perdu.
+       Tant qu'aucun relevé n'existe, il reste masqué : un élève qui n'a jamais
+       envoyé son profil n'a pas à lire un zéro. -->
+  <a class="pix-tete" id="pix-tete" href="https://app.pix.fr" target="_blank"
+     rel="noopener" hidden>
+    <span class="pix-tete-score"><b id="pix-tete-nb">0</b> pix</span>
+    <span class="pix-tete-certif" id="pix-tete-certif"></span>
+    <span class="pix-tete-aller">s’entraîner sur Pix</span>
+  </a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
 
@@ -42,14 +56,34 @@
     <span class="creneau" id="creneau"></span>
   </div>
 
+  <!-- DEUX COLONNES QUI S'ECOULENT, ET NON UNE GRILLE DE RANGEES.
+       La grille calait chaque rangée sur sa tuile la plus haute : « Ma
+       progression dans l'année » faisait 1592 px à côté de « Où j'en suis »
+       qui en faisait 229, soit 1363 px de vide sur une seule rangée, et un
+       classeur de 3,8 écrans. Deux colonnes indépendantes n'ont pas de
+       rangées, donc pas de vide : chaque tuile commence où la précédente
+       finit. C'est la mise en page des plateformes de cours.
+       Sous 62rem, les deux colonnes redeviennent un seul fil. -->
   <div class="mur">
-
+    <div class="colonne colonne-large">
     <!-- 1. LE SEUL BLOC QUI NE PARLE QUE DE MOI, ET LE PLUS GROS. -->
     <section class="bloc maintenant b8" id="a-faire" aria-labelledby="a-faire-titre">
       <h2 id="a-faire-titre">Ce que j’ai à faire</h2>
       <ul id="a-faire-liste" role="list"><li class="a-faire-rien">Chargement…</li></ul>
     </section>
-
+    <!-- 3. L'année, période par période. -->
+    <section class="bloc b8" id="mon-annee" aria-labelledby="annee-titre">
+      <h2 id="annee-titre">Ma progression dans l’année</h2>
+      <div id="parcours"></div>
+    </section>
+    <!-- 5. Tous mes travaux, documents déposés et fiches, dans une seule liste. -->
+    <section class="bloc b4" id="mes-travaux" aria-labelledby="travaux-titre">
+      <h2 id="travaux-titre">Mes travaux <span class="compteur" id="n-travaux"></span></h2>
+      <div class="filtres" id="filtres" role="group" aria-label="Filtrer mes travaux"></div>
+      <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
+    </section>
+    </div>
+    <div class="colonne colonne-cote">
     <!-- 2. Déposer un travail. C'est le geste le plus fréquent de la page :
             il passe donc juste après « ce que j'ai à faire », au lieu du
             cinquième rang où il se trouvait. -->
@@ -83,13 +117,6 @@
         <button class="principal" id="b" type="submit">Déposer</button>
       </form>
     </section>
-
-    <!-- 3. L'année, période par période. -->
-    <section class="bloc b8" id="mon-annee" aria-labelledby="annee-titre">
-      <h2 id="annee-titre">Ma progression dans l’année</h2>
-      <div id="parcours"></div>
-    </section>
-
     <!-- 4. Où j'en suis, en trois chiffres. -->
     <section class="bloc b4" aria-labelledby="ou-titre">
       <h2 id="ou-titre">Où j’en suis</h2>
@@ -98,14 +125,6 @@
       <div class="barre annee-barre" id="annee-barre" hidden aria-hidden="true"><div id="annee-progres"></div></div>
       <p class="meta" id="annee-prochaine"></p>
     </section>
-
-    <!-- 5. Tous mes travaux, documents déposés et fiches, dans une seule liste. -->
-    <section class="bloc b4" id="mes-travaux" aria-labelledby="travaux-titre">
-      <h2 id="travaux-titre">Mes travaux <span class="compteur" id="n-travaux"></span></h2>
-      <div class="filtres" id="filtres" role="group" aria-label="Filtrer mes travaux"></div>
-      <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
-    </section>
-
     <!-- 6. PIX. Ce que l'élève a fait hors du site, dans Pix, rapatrié ici
             pour qu'il n'ait pas deux endroits où regarder. La tuile dit aussi
             sous quel nom il s'est inscrit dans Pix : c'est ce qui lui permet
@@ -115,16 +134,21 @@
       <h2 id="pix-titre">Mes compétences numériques <span class="compteur" id="pix-maj"></span></h2>
       <div id="pix-corps"></div>
     </section>
-
     <!-- 6. Comment lire ce qu'on voit. Sur quatre colonnes et non plus huit :
             on la lit une fois dans l'année, elle n'a pas à prendre deux fois la
             place du geste quotidien. -->
-    <section class="bloc b4" aria-labelledby="legende-titre">
-      <h2 id="legende-titre">Comment lire les couleurs</h2>
-      <div class="legende" id="legende"></div>
+    <!-- LA LEGENDE SE REPLIE. Elle sert une fois, la premiere semaine, puis
+         plus jamais : dépliée, elle occupait 723 px au bas du classeur, soit
+         presque un écran, pour un texte que l'élève a cessé de lire. -->
+    <section class="bloc b4 bloc-pliant">
+      <details id="bloc-legende">
+        <summary><h2 id="legende-titre">Comment lire les couleurs</h2></summary>
+        <div class="legende" id="legende"></div>
+      </details>
     </section>
-
+    </div>
   </div>
+
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -469,15 +493,28 @@ function rendreAnnee() {
     if (!parPeriode.has(n)) parPeriode.set(n, []);
     parPeriode.get(n).push({ p, s, i });
   });
+  // CHAQUE PERIODE SE REPLIE, SAUF CELLE OU NOUS SOMMES.
+  //
+  // Les neuf séquences de l'année dépliées faisaient 1592 px : l'élève devait
+  // défiler quatre écrans pour atteindre le bas de son classeur, et la moitié
+  // de ce qu'il traversait concernait des périodes passées ou lointaines.
+  // La période du jour s'ouvre seule, les autres attendent un clic. C'est ce
+  // que font les plateformes de cours : on voit où l'on est, le reste est à
+  // portée sans encombrer.
   const blocs = [];
   let ol = null;
   for (const periodeVue of [...parPeriode.keys()].sort((a, b) => a - b)) {
     const def = PERIODES.find((x) => x.n === periodeVue);
-    blocs.push(el('p', { class: 'periode' },
+    const ici = periodeVue === pJour;
+    const resume = el('summary', { class: 'periode' },
       periodeVue ? `Période ${periodeVue}${def ? ' · ' + def.libelle : ''}` : 'Hors période',
-      periodeVue === pJour ? el('span', { class: 'ici' }, 'nous y sommes') : null));
+      ici ? el('span', { class: 'ici' }, 'nous y sommes') : null,
+      el('span', { class: 'periode-compte' },
+         `${parPeriode.get(periodeVue).length} séquence${parPeriode.get(periodeVue).length > 1 ? 's' : ''}`));
     ol = el('ol', { class: 'parcours', role: 'list' });
-    blocs.push(ol);
+    const pliant = el('details', ici ? { class: 'periode-pli', open: '' } : { class: 'periode-pli' },
+                      resume, ol);
+    blocs.push(pliant);
     for (const { p, s, i } of parPeriode.get(periodeVue)) {
     const etat = p.visible ? etatSequence(s, prog.avancement) : 'masquee';
     const titres = titresSeances(s);
@@ -850,6 +887,7 @@ async function charger() {
   pannes.pix = x.status === 'rejected'
     ? (x.reason?.message || 'Ton relevé Pix n’a pas pu être lu pour le moment.') : null;
   rendrePix(x.status === 'fulfilled' ? x.value.pix : null, pannes.pix);
+  rendrePixTete(x.status === 'fulfilled' ? x.value.pix : null);
 }
 
 /* LA VERSION ADAPTÉE, VUE DE L'ÉLÈVE (décision D23).
@@ -893,6 +931,21 @@ $('badge-adaptee').addEventListener('click', () => {
  *
  * Tant qu'il n'y a rien, la tuile reste masquée : un élève qui n'a jamais
  * envoyé son profil n'a pas à lire une tuile vide de plus. */
+/* L'INDICATEUR DE L'EN-TETE. Deux nombres et un lien, rien de plus : il doit
+   se lire sans s'arrêter dessus. Le détail des parcours reste dans la tuile. */
+function rendrePixTete(p) {
+  const a = $('pix-tete');
+  if (!p || !Number.isFinite(p.score)) { a.hidden = true; return; }
+  a.hidden = false;
+  $('pix-tete-nb').textContent = p.score;
+  const c = $('pix-tete-certif');
+  c.textContent = p.certifiable ? 'certifiable' : 'pas encore certifiable';
+  c.className = 'pix-tete-certif ' + (p.certifiable ? 'oui' : 'pas-encore');
+  a.setAttribute('aria-label',
+    `${p.score} pix, ${p.certifiable ? 'certifiable' : 'pas encore certifiable'}.`
+    + ' S’entraîner sur Pix, dans un nouvel onglet.');
+}
+
 function rendrePix(p, panne) {
   const bloc = $('bloc-pix');
   if (panne) {

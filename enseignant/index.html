@@ -59,9 +59,12 @@
         </span>
       </div>
 
+      <!-- DEUX COLONNES QUI S'ECOULENT, comme le classeur de l'élève.
+           Une grille calait chaque rangée sur sa tuile la plus haute, ce qui
+           laissait un vide sous la plus courte. Deux colonnes n'ont pas de
+           rangées : la tuile suivante commence où la précédente finit. -->
       <div class="mur" id="tdb" hidden>
-
-        <!-- 1. Ce qui se passe maintenant. -->
+        <div class="colonne colonne-large">
         <section class="bloc maintenant b8" aria-labelledby="direct-titre">
           <h2 id="direct-titre">La séance en cours
             <span class="compteur" id="direct-fraicheur"></span></h2>
@@ -75,15 +78,6 @@
           </div>
           <ul class="direct-eleves" id="direct-eleves"></ul>
         </section>
-
-        <!-- 2. La pile à corriger. -->
-        <section class="bloc b4" aria-labelledby="corriger-titre">
-          <h2 id="corriger-titre">À corriger <span class="compteur" id="n-corriger"></span></h2>
-          <div class="pile" id="pile"></div>
-          <p class="meta" id="plan-releve"></p>
-        </section>
-
-        <!-- 3. La progression, et le geste d'une seconde qui l'alimente. -->
         <section class="bloc b8" aria-labelledby="prog-titre">
           <h2 id="prog-titre">La progression du groupe
             <span class="compteur" id="prog-resume"></span></h2>
@@ -92,8 +86,13 @@
           <p class="msg" id="prog-msg" role="status" aria-live="polite"></p>
           <div id="prog"></div>
         </section>
-
-        <!-- 4. Le groupe, en chiffres. -->
+        </div>
+        <div class="colonne colonne-cote">
+        <section class="bloc b4" aria-labelledby="corriger-titre">
+          <h2 id="corriger-titre">À corriger <span class="compteur" id="n-corriger"></span></h2>
+          <div class="pile" id="pile"></div>
+          <p class="meta" id="plan-releve"></p>
+        </section>
         <section class="bloc b4" aria-labelledby="groupe-titre">
           <h2 id="groupe-titre">Où en est le groupe</h2>
           <div class="chiffres" id="g-chiffres"></div>
@@ -101,7 +100,7 @@
           <div class="barre annee-barre"><div id="g-progres"></div></div>
           <p class="msg" id="g-msg" role="status" aria-live="polite"></p>
         </section>
-
+        </div>
       </div>
 
       <!-- LE GROUPE D'ESSAI VIT SOUS LE MUR, ET NON AU-DESSUS.
@@ -495,7 +494,26 @@ function rendreChips() {
       + 'ou un groupe d’essai pour découvrir le plan de l’année.'));
     return;
   }
-  hote.replaceChildren(...groupes.map((g) => {
+  // LES GROUPES SE RANGENT PAR JOUR DE LA SEMAINE.
+  //
+  // Trente-six groupes en une seule file de pastilles, c'est une liste qu'on
+  // relit chaque fois. Rangés par jour, on retrouve d'un coup d'oeil ceux
+  // qu'on a aujourd'hui. Le jour est dans le libellé, écrit de la même façon
+  // partout : « 3e, 3M2 TECHNO, vendredi 8 h 30 ».
+  //
+  // LA NUANCE EST UNE SEULE TEINTE, DECLINEE. Cinq couleurs franches
+  // entreraient en concurrence avec celles des niveaux (5e, 4e, 3e), qui sont
+  // déjà dans l'oeil de l'élève et du professeur. Du plus clair au plus
+  // foncé, on lit une semaine, pas cinq catégories sans rapport.
+  const JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const jourDe = (g) => {
+    const l = (g.libelle || '').toLowerCase();
+    const i = JOURS.findIndex((j) => l.includes(j));
+    return i < 0 ? JOURS.length : i;
+  };
+  const AUJOURDHUI = (new Date().getDay() + 6) % 7;   // lundi = 0
+
+  const pastilleGroupe = (g) => {
     const n = totalACorriger(g.a_corriger);
     // null n'est pas zéro : une lecture en panne ne doit pas se lire comme
     // « rien à corriger dans ce groupe ».
@@ -510,7 +528,20 @@ function rendreChips() {
             partiel ? ' au moins, une lecture étant indisponible' : ' à corriger')) : null);
     b.addEventListener('click', () => choisir(g.id));
     return b;
-  }));
+  };
+
+  const parJour = new Map();
+  for (const g of groupes) {
+    const j = jourDe(g);
+    if (!parJour.has(j)) parJour.set(j, []);
+    parJour.get(j).push(g);
+  }
+  hote.replaceChildren(...[...parJour.keys()].sort((a, b) => a - b).map((j) => el('div',
+    { class: 'jour-groupe', 'data-jour': String(j) },
+    el('p', { class: 'jour-nom' },
+      j < JOURS.length ? JOURS[j] : 'sans créneau',
+      j === AUJOURDHUI ? el('span', { class: 'jour-ici' }, 'aujourd’hui') : null),
+    el('div', { class: 'jour-pastilles' }, parJour.get(j).map(pastilleGroupe)))));
 }
 
 function rendreBandeau() {
