@@ -55,7 +55,12 @@ export default async function handler(req, res) {
   } catch (e) {
     // La table peut ne pas exister encore (db/17-pix.sql non joué). Ce n'est
     // pas une panne du tableau de bord : on le dit, et l'écran le dira aussi.
-    if (/lecture pix|ecriture pix/.test(e.message)) {
+    //
+    // On teste le STATUT, pas le message : `ecrire` jette « écriture pix »
+    // avec un accent, et `lire` « lecture pix » sans. Chercher la chaîne,
+    // c'est le genre de filtre qui tombe en marche à la première relecture.
+    const absente = e.statut === 404 || / pix : 404$/.test(e.message);
+    if (absente) {
       console.error('pix prof :', e.message);
       return res.status(200).json({ ok: true, indisponible: true, eleves: [] });
     }
