@@ -66,6 +66,28 @@ header a.retour, header .lien-tete { font-size: .88rem; color: var(--bleu); text
 }
 .sortir:hover { border-color: var(--erreur); color: var(--erreur); }
 
+/* ---- la pastille de la version adaptée (D23) ----
+   Bleu, la couleur de l'information sur ce site, et non le vert ni l'orange :
+   ces deux-là veulent déjà dire « corrigé » et « rendu, en attente » dans le
+   classeur, et une pastille d'état qui ne parle pas d'un travail brouillerait
+   le code couleur. Elle reste discrète : c'est un repère, pas une étiquette
+   que l'on porte. */
+.badge-adaptee {
+  display: inline-flex; align-items: center; gap: .35rem;
+  padding: .3rem .7rem; border: 1.5px solid var(--bleu-2); border-radius: 999px;
+  background: var(--bleu-pale); color: var(--bleu);
+  font: 700 .78rem var(--texte); letter-spacing: .01em; cursor: pointer;
+}
+.badge-adaptee::before { content: '\2726'; font-size: .9em; line-height: 1; }
+.badge-adaptee:hover { background: #D7E8F7; }
+.badge-adaptee:focus-visible { outline: 3px solid var(--bleu-2); outline-offset: 2px; }
+.dit-adaptee {
+  background: var(--bleu-pale); border: 1px solid var(--bleu-2);
+  border-radius: var(--r-lg); padding: 1rem 1.2rem; margin: 0 0 1rem;
+}
+.dit-adaptee p { margin: 0 0 .6rem; font-size: .92rem; color: var(--encre); line-height: 1.55; }
+.dit-adaptee p:last-child { margin-bottom: 0; }
+
 /* ---- corps ---- */
 main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
 main.etroit, body.etroit main { width: 100%; max-width: 27rem; margin: 6vh auto 0; }

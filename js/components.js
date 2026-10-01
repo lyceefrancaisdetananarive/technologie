@@ -504,6 +504,59 @@
   function appliquerProfil() {
     liensEvaluation();
     completerOnglets();
+    pastilleAdaptee();
+  }
+
+  // ---- LA PASTILLE DE LA VERSION ADAPTEE (decision D23) ----
+  //
+  // Elle se tient dans l'en-tete, a cote du voyant de session et du bouton
+  // de fermeture, et elle ne dit QUE ce que l'eleve recoit : jamais le
+  // dispositif, jamais le motif, jamais un sigle. Le motif n'existe pas
+  // dans cette base et n'a pas a y entrer, voir db/16-version-adaptee.sql.
+  //
+  // Posee par appliquerProfil(), donc deux fois : une avec le profil garde
+  // dans sessionStorage, une apres la lecture reseau. Elle est idempotente,
+  // et se retire d'elle-meme si le drapeau tombe.
+  const DIT_ADAPTEE =
+    'Tu reçois la version adaptée des fiches : la même activité et les mêmes '
+    + 'notions que le reste du groupe, présentées autrement. Des phrases '
+    + 'courtes, un document qui reprend l’essentiel, un exemple déjà fait, un '
+    + 'lexique ouvert dès le début. Elle s’ouvre par l’onglet « Version '
+    + 'adaptée » de la séance ; la fiche ordinaire reste juste à côté.';
+
+  function pastilleAdaptee() {
+    const zone = document.getElementById('header-session');
+    if (!zone) return;
+    const doit = lireTemoin() === 'eleve' && !!(PROFIL && PROFIL.adaptee === true);
+    const deja = document.getElementById('badge-adaptee');
+    if (!doit) {
+      if (deja) deja.remove();
+      const note = document.getElementById('dit-adaptee');
+      if (note) note.remove();
+      return;
+    }
+    if (deja) return;
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.id = 'badge-adaptee';
+    b.className = 'badge-adaptee';
+    b.textContent = 'Version adaptée';
+    b.title = 'Ce que la version adaptée change pour toi';
+    b.setAttribute('aria-expanded', 'false');
+    b.addEventListener('click', function () {
+      let note = document.getElementById('dit-adaptee');
+      if (note) { note.remove(); b.setAttribute('aria-expanded', 'false'); return; }
+      const tete = document.querySelector('.site-header');
+      if (!tete) return;
+      note = document.createElement('div');
+      note.id = 'dit-adaptee';
+      note.className = 'dit-adaptee no-print';
+      note.setAttribute('role', 'status');
+      note.textContent = DIT_ADAPTEE;
+      tete.insertAdjacentElement('afterend', note);
+      b.setAttribute('aria-expanded', 'true');
+    });
+    zone.insertBefore(b, zone.firstChild);
   }
 
   function renderSession(activePage) {
@@ -562,6 +615,10 @@
     pile.appendChild(b);
     zone.innerHTML = '';
     zone.appendChild(pile);
+    // APRES le vidage de la zone : nommerLaPastille() a pu poser la pastille
+    // de version adaptee des le profil garde en session, et zone.innerHTML
+    // l'aurait effacee. pastilleAdaptee() est idempotente.
+    pastilleAdaptee();
     document.documentElement.dataset.session = role;
     if (!prof) document.documentElement.dataset.niveaux = lireNiveaux().join(' ');
 

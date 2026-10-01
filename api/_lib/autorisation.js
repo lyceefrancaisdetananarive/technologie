@@ -99,9 +99,15 @@ export async function sesGroupes(profil) {
     return lire('groupes',
       `prof_id=eq.${profil.id}&select=id,code,libelle,niveau,annee&order=annee.desc,code`);
   }
+  // LA VERSION ADAPTÉE VOYAGE AVEC LE GROUPE (décision D23). Le drapeau est
+  // porté par l'inscription, pas par le profil : un élève peut recevoir la
+  // version adaptée en Technologie sans que rien n'en transparaisse ailleurs,
+  // et le professeur la retire groupe par groupe. On ne lit qu'un booléen ;
+  // le motif, lui, n'existe nulle part dans cette base (db/16).
   const liens = await lire('appartenances',
-    `profil_id=eq.${profil.id}&select=groupes(id,code,libelle,niveau,annee)`);
-  return liens.map((l) => l.groupes).filter(Boolean)
+    `profil_id=eq.${profil.id}&select=version_adaptee,groupes(id,code,libelle,niveau,annee)`);
+  return liens.filter((l) => l.groupes)
+    .map((l) => ({ ...l.groupes, adaptee: l.version_adaptee === true }))
     .sort((a, b) => String(b.annee).localeCompare(String(a.annee)) || String(a.code).localeCompare(String(b.code)));
 }
 
