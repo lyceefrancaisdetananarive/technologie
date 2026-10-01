@@ -298,6 +298,9 @@
       ? 'Dernière activité' : 'Activité suivante →';
     tout.textContent = deroule ? 'Une activité à la fois' : 'Tout afficher';
     tout.setAttribute('aria-pressed', String(deroule));
+    // Les champs atteignables ont change : la barre de reponse.js doit le
+    // dire, sans quoi l'eleve lit un objectif qui n'est pas le sien.
+    if (typeof window.recompterChampsFiche === 'function') window.recompterChampsFiche();
     if (focaliser) {
       const c = activites[courante];
       c.scrollIntoView({ block: 'start', behavior: 'smooth' });

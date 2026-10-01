@@ -673,14 +673,49 @@
     bouton.addEventListener('click', terminer);
   }
 
+  /**
+   * LE COMPTEUR SE LIMITE A CE QUI EST A L'ECRAN.
+   *
+   * Depuis que les fiches se lisent une activite a la fois
+   * (js/fiche-parcours.js), un eleve sur la premiere de onze activites lisait
+   * « 2 champs remplis sur 74 » : un objectif hors d'atteinte, decourageant,
+   * exactement l'inverse du but du decoupage. Le compteur annonce donc
+   * d'abord ce qui est atteignable maintenant, et rappelle le total ensuite.
+   *
+   * Cette fonction ne touche a rien d'autre : ni la detection, ni les cles,
+   * ni l'enregistrement. Elle lit, elle compte, elle ecrit une phrase.
+   */
   function compterRemplis() {
     if (!barre.compteur) return;
     let remplis = 0;
-    ordre.forEach(function (k) { if (registre[k].el.value.trim()) remplis += 1; });
+    let visibles = 0;
+    let remplisVisibles = 0;
+    ordre.forEach(function (k) {
+      const el = registre[k].el;
+      const plein = Boolean(el.value.trim());
+      if (plein) remplis += 1;
+      // Un champ est hors d'atteinte si lui ou l'un de ses ancetres porte
+      // l'attribut hidden : c'est ainsi que le parcours masque une activite.
+      const cache = typeof el.closest === 'function' && el.closest('[hidden]');
+      if (!cache) {
+        visibles += 1;
+        if (plein) remplisVisibles += 1;
+      }
+    });
     const total = ordre.length;
-    barre.compteur.textContent = remplis + ' champ' + (remplis > 1 ? 's' : '') + ' rempli' + (remplis > 1 ? 's' : '') + ' sur ' + total;
+    const mot = function (n) {
+      return n + ' champ' + (n > 1 ? 's' : '') + ' rempli' + (n > 1 ? 's' : '');
+    };
+    barre.compteur.textContent = visibles < total
+      ? mot(remplisVisibles) + ' sur ' + visibles + ' dans cette activité, '
+        + remplis + ' sur ' + total + ' dans toute la fiche'
+      : mot(remplis) + ' sur ' + total;
     return remplis;
   }
+
+  // Le parcours appelle ceci quand il change d'activite : les champs
+  // atteignables ne sont plus les memes.
+  window.recompterChampsFiche = compterRemplis;
 
   function direBarre(texte, classe) {
     if (!barre.message) return;
