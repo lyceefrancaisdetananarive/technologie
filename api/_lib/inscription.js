@@ -4,7 +4,6 @@
 // (api/prof/importer.js). Un seul endroit à relire, un seul à corriger.
 // =====================================================================
 
-import { enseigneA } from './autorisation.js';
 import { lire, ecrire, creerUtilisateur, utilisateurParEmail } from './supabase.js';
 import { journaliser } from './journal.js';
 
@@ -74,17 +73,29 @@ export async function creerOuRattacher({ moi, email, nom, prenom, role, groupe }
       await journaliser(moi.id, 'compte.promu', idAuth);
       return { ok: true, id: idAuth, nouveau: false };
     }
-    // Un élève que j'inscris dans MON groupe (l'appelant a vérifié
-    // possedeGroupe) est un élève que j'encadre : la réinscription réactive
-    // et met le nom à jour, comme desinscrire.js le promet. L'ancienne
-    // condition regardait enseigneA() AVANT l'inscription au groupe, donc
-    // jamais vraie pour un élève venu d'un collègue.
-    if ((role === 'eleve' && groupe) || await enseigneA(moi.id, idAuth)) {
-      await ecrire('profils', `id=eq.${idAuth}`, {
-        actif: true,
-        ...(nom ? { nom } : {}), ...(prenom ? { prenom } : {}),
-      });
-      if (existant && existant.actif === false) await journaliser(moi.id, 'compte.reactive', idAuth);
+    // UN COMPTE A LA CORBEILLE NE SE ROUVRE PAS PAR UNE INSCRIPTION.
+    //
+    // Cette branche réactivait le compte et réécrivait nom et prénom avec ce
+    // qui arrivait dans la requête, au seul motif que le GROUPE appartenait à
+    // l'appelant. Rien n'était vérifié sur le COMPTE visé. Un professeur qui
+    // n'a jamais eu cet élève pouvait donc, en l'inscrivant dans l'un de ses
+    // groupes, défaire une mise à la corbeille décidée par un collègue ou par
+    // la coordonnatrice, et au passage écraser son identité. La corbeille,
+    // que le code présente comme maîtrisée, ne tenait pas.
+    //
+    // Deux effets de bord disparaissent, et aucune règle n'est inventée :
+    //   - on ne réactive plus. Restaurer un compte reste ce que c'était, un
+    //     geste explicite depuis la corbeille (api/prof/eleve.js), avec ses
+    //     propres conditions et sa journalisation.
+    //   - on ne renomme plus un profil qui existe déjà. Corriger un nom est
+    //     aussi un geste à part, journalisé, dans api/prof/eleve.js. Le nom
+    //     reçu ici ne sert qu'à la création, plus bas.
+    if (existant && existant.actif === false) {
+      return {
+        ok: false, statut: 409,
+        message: 'Ce compte est à la corbeille. Restaurez-le depuis la corbeille '
+          + 'avant de l’inscrire dans un groupe.',
+      };
     }
     if (role === 'eleve') {
       await ecrire('appartenances', '',
