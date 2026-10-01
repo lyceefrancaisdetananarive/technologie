@@ -1199,3 +1199,59 @@ td .champ-etat-court { display: block; margin: .15rem 0 0; }
   .info-box-teal, .info-box-retenir { border-left-width: 3.4pt !important; }
   .info-box-magenta, .info-box-rappel { border-left-style: dashed !important; }
 }
+
+/* =====================================================================
+   Fiches d'activite : le volet document et le fil des activites.
+   Poses par js/fiche-parcours.js sur <body>, jamais dans <main> : l'ordre
+   des elements de la fiche ne doit pas bouger, les cles des champs en
+   dependent.
+   ===================================================================== */
+.volet-doc[hidden] { display: none !important; }
+.volet-doc { position: fixed; inset: 0; z-index: 150; display: flex; justify-content: flex-end; }
+.volet-fond { position: absolute; inset: 0; background: rgba(6, 16, 26, .45); }
+.volet-feuille {
+  position: relative; background: var(--papier-2); width: min(34rem, 100%);
+  max-height: 100%; overflow-y: auto; box-shadow: var(--ombre-forte, 0 0 40px rgba(0,0,0,.3));
+  padding: var(--space-lg); display: flex; flex-direction: column; gap: var(--space-md);
+}
+@media (max-width: 48rem) {
+  .volet-doc { align-items: flex-end; }
+  .volet-feuille { width: 100%; max-height: 82vh; border-radius: var(--radius-lg) var(--radius-lg) 0 0; }
+}
+/* L'en-tete reste sous les yeux : sur un document de six cents mots, l'eleve
+   doit pouvoir refermer sans remonter. */
+.volet-tete {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: var(--space-md);
+  position: sticky; top: calc(var(--space-lg) * -1); z-index: 1;
+  background: var(--papier-2); padding: var(--space-lg) 0 .6rem;
+  margin: calc(var(--space-lg) * -1) 0 0; border-bottom: 1px solid var(--grille);
+}
+.volet-tete h2 { font-size: 1.05rem; margin: 0; }
+.volet-fermer, .fil-bouton, .fil-tout {
+  font-family: var(--font-display); font-weight: 700; font-size: .86rem;
+  border: 1px solid var(--bord-composant); background: var(--papier-2);
+  color: var(--encre-2); border-radius: 999px; padding: .4rem .9rem; cursor: pointer;
+  white-space: nowrap; min-height: 2.4rem;
+}
+.volet-fermer:hover, .fil-bouton:hover, .fil-tout:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+.fil-bouton.principal { background: var(--bleu); border-color: var(--bleu); color: #fff; }
+.fil-bouton.principal:hover { background: var(--primary-dark); }
+.fil-bouton:disabled { opacity: .45; cursor: default; }
+.fil-bouton:disabled:hover { background: var(--papier-2); border-color: var(--bord-composant); }
+.volet-corps .info-box { margin: 0; }
+.volet-pied { margin: 0; font-size: .86rem; }
+body.volet-ouvert { overflow: hidden; }
+
+.fil-activites {
+  position: fixed; left: 0; right: 0; bottom: 0; z-index: 95;
+  background: var(--papier-2); border-top: 1px solid var(--trait);
+  padding: .55rem var(--space-lg); padding-bottom: calc(.55rem + env(safe-area-inset-bottom, 0px));
+  box-shadow: 0 -2px 14px rgba(31, 42, 55, .08);
+}
+.fil-dedans {
+  max-width: var(--max-width); margin: 0 auto;
+  display: flex; align-items: center; gap: .5rem; flex-wrap: wrap;
+}
+.fil-rang { margin: 0 auto 0 0; font-family: var(--font-display); font-weight: 700; font-size: .9rem; }
+body:has(.fil-activites) { padding-bottom: 4.5rem; }
+@media print { .fil-activites, .volet-doc { display: none !important; } }
