@@ -527,6 +527,76 @@ def verifier_parasites():
         avert(f'{n} fichier(s) parasite(s) macOS (._* ou .DS_Store) dans la source : exclus du déploiement, à nettoyer avec `find . -name "._*" -delete`')
 
 
+def feuilles_de(page):
+    """Les feuilles de style qu'une page charge."""
+    return {'css/' + m for m in re.findall(r'href="/?(?:\.\./)*css/([a-z-]+\.css)"', lire(page))}
+
+
+def verifier_jetons():
+    """Les jetons CSS, dans les deux sens.
+
+    DANS UN SENS, LE PLUS GRAVE : un `var(--x)` sans valeur de repli dont le
+    jeton n'est defini pour AUCUNE des feuilles que la page charge. Un var()
+    qui ne resout pas rend la DECLARATION ENTIERE invalide, et la propriete
+    disparait sans un mot. Constate deux fois le 1er octobre 2026 : le fond
+    des barres de parcours etait transparent dans le classeur de l'eleve, et
+    la pastille de score de quiz avait perdu ses angles. Rien ne le signalait.
+
+    C'est une ERREUR : la page est cassee, silencieusement.
+
+    DANS L'AUTRE SENS : un jeton declare que personne n'emploie. Il ne casse
+    rien, mais il ment. On croit changer une couleur en le modifiant, et rien
+    ne bouge, parce que les regles qui comptent lisent un autre jeton de meme
+    valeur. C'est un AVERTISSEMENT.
+    """
+    declares, employes = {}, {}
+    for f in sorted(glob.glob('css/*.css')):
+        t = lire(f)
+        for m in re.finditer(r'(--[a-z0-9-]+)\s*:', t):
+            declares.setdefault(m.group(1), set()).add(f)
+        # Pour l'EMPLOI, un var() a valeur de repli compte : le jeton sert.
+        for m in re.finditer(r'var\(\s*(--[a-z0-9-]+)\s*[,)]', t):
+            employes.setdefault(m.group(1), set()).add(f)
+
+    # les pages peuvent declarer et employer dans leur propre bloc <style>
+    pages = list(pages_deployees())
+    for page in pages:
+        t = lire(page)
+        for m in re.finditer(r'(--[a-z0-9-]+)\s*:', t):
+            declares.setdefault(m.group(1), set()).add(page)
+        for m in re.finditer(r'var\(\s*(--[a-z0-9-]+)\s*[,)]', t):
+            employes.setdefault(m.group(1), set()).add(page)
+
+    # 1. le jeton est-il disponible pour chaque page qui l'emploie ?
+    casses = []
+    for page in pages:
+        dispo = {page} | feuilles_de(page)
+        a_voir = {j for f, js in (((f, re.findall(r'var\(\s*(--[a-z0-9-]+)\s*\)', lire(f)))
+                                   for f in dispo | {page})) for j in js}
+        for jeton in a_voir:
+            if not (declares.get(jeton, set()) & dispo):
+                casses.append('%s : %s' % (page, jeton))
+    if casses:
+        vus = sorted(set(casses))
+        erreur('jeton employe sans repli et non defini pour la page : '
+               + ', '.join(vus[:6]) + (' …' if len(vus) > 6 else ''))
+
+    # 2. les jetons que personne n'emploie
+    #
+    # LES BROUILLONS COMPTENT ICI, et seulement ici. Une page de
+    # _a_fusionner/ ne part pas en production, mais elle sera reprise un jour :
+    # supprimer un jeton qu'elle seule emploie casserait ce travail en silence,
+    # le jour ou on le reprend. Un jeton en attente n'est pas un jeton inutile.
+    for f in glob.glob('*/_a_fusionner/*.html'):
+        for m in re.finditer(r'var\(\s*(--[a-z0-9-]+)\s*[,)]', lire(f)):
+            employes.setdefault(m.group(1), set()).add(f)
+    jamais = sorted(set(declares) - set(employes))
+    if jamais:
+        avert('%d jeton(s) declare(s) et jamais employe(s) : %s'
+              % (len(jamais), ', '.join(jamais[:10]) + (' …' if len(jamais) > 10 else '')))
+    return len(declares)
+
+
 def verifier_brouillons():
     """Les brouillons de _a_fusionner/ ne doivent jamais partir en production.
 
@@ -827,6 +897,7 @@ def main():
     verifier_contrastes()
     verifier_generes()
     verifier_parasites()
+    njt = verifier_jetons()
     nbr = verifier_brouillons()
     ncl = verifier_classes(cat)
     verifier_sql_ascii()

@@ -12,7 +12,7 @@
 @import url('../fonts/faces.css');
 
 :root {
-  --encre: #1F2A37; --encre-2: #4B5867; --encre-3: #5F6B7A; --gris: #5F6B7A;
+  --encre: #1F2A37; --encre-2: #4B5867; --encre-3: #5F6B7A;
   --papier: #F3F5F7; --papier-2: #FFFFFF; --grille: #E3E8EE; --trait: #D5DCE4;
   /* BORDURE D'UN COMPOSANT D'INTERFACE, RGAA 3.3, seuil de 3 pour 1.
      --trait (#D5DCE4) ne donne que 1,4 sur blanc : il convient a un filet
@@ -22,7 +22,6 @@
      --bord-composant de css/style.css, a garder identique. */
   --bord-composant: #7B8794;
   --bleu: #004E8C; --bleu-2: #0A63AD; --bleu-pale: #E4EFF9;
-  --cyan: var(--bleu); --orange: #B45309;
   --fait: #166534; --fait-pale: #DCF3E3; --encours: #9A3F05; --encours-pale: #FDEBD3;
   --erreur: #B91C1C; --erreur-pale: #FEE2E2; --or: #D4A017;
   --display: 'Bricolage Grotesque', 'Nunito Sans', system-ui, sans-serif;

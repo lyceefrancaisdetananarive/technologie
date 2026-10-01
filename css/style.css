@@ -33,17 +33,15 @@
   --bleu-pale: #E4EFF9;
   --aefe-blue: #00549F;
   --aefe-red: #B71234;
-  --aefe-gray: #A7A7A8;
-  --lft-blue: #004E8C;
   --lft-pink: #D4207D;
 
   /* Un accent par niveau */
   --c5: #0F766E;  --c5-pale: #DDF3EF;  --c5-fonce: #0B5A54;
   --c4: #C2410C;  --c4-pale: #FBE7DC;  --c4-fonce: #9A3412;
   --c3: #6D28D9;  --c3-pale: #ECE4FB;  --c3-fonce: #5B21B6;
-  --color-5eme: var(--c5); --color-5eme-light: var(--c5-pale); --color-5eme-dark: var(--c5-fonce);
-  --color-4eme: var(--c4); --color-4eme-light: var(--c4-pale); --color-4eme-dark: var(--c4-fonce);
-  --color-3eme: var(--c3); --color-3eme-light: var(--c3-pale); --color-3eme-dark: var(--c3-fonce);
+  --color-5eme: var(--c5);
+  --color-4eme: var(--c4);
+  --color-3eme: var(--c3);
 
   /* États de progression */
   --fait: #166534;     --fait-pale: #DCF3E3;
@@ -52,7 +50,6 @@
   --or: #D4A017;       --or-pale: #FBF1CF;
 
   /* Alias historiques, conservés pour les pages */
-  --primary: var(--bleu);
   --primary-light: var(--bleu-pale);
   --primary-dark: #003A6E;
   --accent: var(--aefe-red);
@@ -73,11 +70,10 @@
   --gray-600: #4B5867;
   --gray-700: #364453;
   --gray-800: #1F2A37;
-  --gray-900: #111821;
   --success: var(--fait);        --success-light: var(--fait-pale);
-  --warning: var(--encours);     --warning-light: var(--encours-pale);
+  --warning-light: var(--encours-pale);
   --error: #B91C1C;              --error-light: #FEE2E2;
-  --info: var(--bleu-2);         --info-light: var(--bleu-pale);
+  --info-light: var(--bleu-pale);
 
   /* Typographie */
   --font-display: 'Bricolage Grotesque', 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
@@ -101,10 +97,8 @@
   --radius-full: 9999px;
   --ombre: 0 1px 2px rgba(31, 42, 55, .06), 0 4px 14px rgba(31, 42, 55, .06);
   --ombre-haute: 0 10px 30px rgba(31, 42, 55, .12);
-  --shadow-md: var(--ombre);
   --transition-fast: 120ms ease;
   --transition-base: 220ms ease;
-  --transition-slow: 400ms ease;
 
   /* Gabarit */
   --max-width: 1180px;
