@@ -73,7 +73,27 @@ export default async function handler(req, res) {
     // d'entrée sait effacer. Dans l'ordre inverse, elle laisserait un fichier
     // sans ligne, donc plus rien pour le désigner : un objet orphelin dans le
     // stockage, invisible et impossible à retrouver.
-    if (r.fichier) await supprimerFichier(r.fichier).catch(() => {});
+    //
+    // Ce raisonnement était juste et incomplet : il ne valait que pour les
+    // dépôts dont la colonne `fichier` est renseignée. Voir ci-dessous.
+    if (r.fichier) {
+      await supprimerFichier(r.fichier).catch(() => {});
+    } else {
+      // UNE LIGNE SANS FICHIER NE VEUT PAS DIRE QU'IL N'Y A PAS DE FICHIER.
+      // Le dépôt se fait en trois temps : la ligne, le téléversement, la
+      // confirmation. Si la liaison tombe entre les deux derniers, l'objet
+      // est bien chez Supabase et la colonne reste nulle. Supprimer alors la
+      // seule ligne laissait l'objet dans le bucket sans plus rien pour le
+      // désigner : invisible sur tous les écrans, hors de portée de la purge
+      // de fin de cycle, et conservé indéfiniment. Six cas constatés le
+      // 1er octobre 2026, tous des travaux d'élèves mineurs.
+      //
+      // Le chemin est reconstructible : preparer-depot.js le forme en
+      // `profil_id/rendu_id.ext`. On tente les quatre extensions possibles ;
+      // une suppression qui ne trouve rien ne coûte rien.
+      await Promise.all(['pdf', 'jpg', 'png', 'webp'].map(
+        (ext) => supprimerFichier(`${r.profil_id}/${rendu}.${ext}`).catch(() => false)));
+    }
     await ecrire('rendus', `id=eq.${rendu}`, {}, 'DELETE');
     await journaliser(moi.id, 'depot.supprime', r.profil_id, rendu);
 
