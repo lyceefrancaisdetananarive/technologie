@@ -290,8 +290,12 @@ button, input, select, textarea { font: inherit; color: inherit; }
 #app:is([data-page="5eme"], [data-page="4eme"], [data-page="3eme"]) .site-main {
   max-width: var(--mesure-app);
 }
-#app:is([data-page="5eme"], [data-page="4eme"], [data-page="3eme"])
-  :is(.content-card, .info-box) > :is(p, ul, ol):not([style*="dotted"]):not([style*="dashed"]):not(
+/* LA MESURE DE LECTURE NE DEPEND PAS DU NIVEAU DE CLASSE. Ces deux règles
+   étaient enfermées derrière data-page="5eme|4eme|3eme" : les six pages de
+   l'espace enseignant, les cinq pages d'outils, la structuration et l'accueil
+   n'en profitaient pas, alors qu'une ligne de prose de 1800 px ne se lit pas
+   mieux parce qu'un professeur la lit. La condition de niveau tombe. */
+#app :is(.content-card, .info-box) > :is(p, ul, ol):not([style*="dotted"]):not([style*="dashed"]):not(
     :has([style*="dotted"], [style*="dashed"], .ebep-fill, input, textarea, .zone-reponse)) {
   max-width: 74ch;
 }
@@ -304,8 +308,7 @@ button, input, select, textarea { font: inherit; color: inherit; }
    que le balisage d'origine ([style*="dotted"]) raterait donc la fiche telle
    que l'eleve la voit. Les deux formes sont visees, avant et apres
    injection. */
-#app:is([data-page="5eme"], [data-page="4eme"], [data-page="3eme"])
-  :is(.content-card, .info-box) > :is(p, li):has(
+#app :is(.content-card, .info-box) > :is(p, li):has(
     [style*="dotted"], [style*="dashed"], .ebep-fill, input, textarea) {
   max-width: 108ch;
 }
@@ -466,7 +469,14 @@ button, input, select, textarea { font: inherit; color: inherit; }
 .profil-carte span:last-child { font-size: .9rem; color: var(--encre-2); line-height: 1.5; }
 
 /* ------------------------------------------------------------ séquences */
-.sequence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: var(--space-md); }
+/* UNE PISTE NE S'ETIRE PLUS A L'INFINI. En pleine largeur, auto-fill
+   fabriquait cinq pistes de 357 px pour une ou deux cartes, qui s'étalaient
+   alors sur toute la page : une séquence seule devenait une bannière. Le
+   plafond de 380 px garde la carte à sa taille, et justify-content: start les
+   range à gauche au lieu de les disperser. Les périodes à huit cartes des
+   pages de 3e et de 4e gardent toute la largeur. */
+.sequence-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 380px));
+  justify-content: start; gap: var(--space-md); }
 .seq-card { display: block; background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--radius-lg); padding: var(--space-lg); color: inherit; position: relative; transition: transform 80ms ease, border-color var(--transition-fast); }
 .seq-card:hover { transform: translateY(-2px); border-color: var(--encre-3); }
 .seq-card-number { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 10px; font-family: var(--font-display); font-weight: 800; font-size: .95rem; color: #fff; background: var(--bleu); margin-bottom: var(--space-sm); }
@@ -654,7 +664,11 @@ details.note-prof .info-box { margin-top: .5rem; }
 .vp-apercu { margin-top: .6rem; }
 
 /* ------------------------------------------------------------ quiz */
-.quiz-container { max-width: 800px; }
+/* margin-inline: auto, OUBLIE A L'ELARGISSEMENT. Depuis que les pages de
+   niveau prennent l'écran, ce conteneur de 800 px restait collé à gauche
+   d'une colonne de 1852 px : le quiz se faisait dans un coin, sur 29 pages.
+   Il se borne toujours à 800 px, mais au milieu. */
+.quiz-container { max-width: 800px; margin-inline: auto; }
 .quiz-header { display: flex; align-items: center; justify-content: space-between; gap: var(--space-md); margin-bottom: var(--space-lg); padding-bottom: var(--space-md); border-bottom: 1px solid var(--trait); flex-wrap: wrap; }
 .quiz-progress { font-size: .86rem; color: var(--encre-3); }
 .quiz-progress-bar { width: 200px; max-width: 100%; height: 8px; background: var(--avenir-pale); border-radius: 999px; overflow: hidden; margin-top: .3rem; }
@@ -1009,7 +1023,8 @@ main:focus { outline: none; }
    classes sont préfixées diag- ; les champs sont stylés sous .diag-form pour
    ne pas toucher aux sélecteurs globaux. Apparence des champs reprise de
    css/connecte.css (bordure 1,5 px #7B8794, focus bleu). */
-.diag-form { max-width: 860px; }
+/* Même oubli que .quiz-container : 860 px collés à gauche de 1852. */
+.diag-form { max-width: 860px; margin-inline: auto; }
 /* La zone d'état reste visible sous l'en-tête du site pendant le défilement,
    pour que les messages (PDF téléchargé, identité manquante) soient lus
    même quand l'élève est en bas de la page. */

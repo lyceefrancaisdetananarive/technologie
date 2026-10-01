@@ -9,7 +9,6 @@
    Meme famille de piege que .barre, dont connecte.css impose display:none. */
 :root {
   --avenir-pale: #EEF1F4;   /* identique a css/style.css */
-  --r-s: 6px;               /* le petit rayon, entre --r (10px) et rien */
 }
 
 /* =====================================================================
@@ -176,7 +175,11 @@ summary::-webkit-details-marker { display: none; }
   font: 800 .84rem var(--display); text-decoration: none; white-space: nowrap;
 }
 .a-faire-lien:hover { background: var(--bleu-pale); }
-.a-faire-rien { background: none; display: block; font-size: 1rem; padding: .2rem 0; }
+/* .maintenant li (0,1,1) battait .a-faire-rien (0,1,0) : les trois premières
+   déclarations étaient mortes, et la ligne « rien à faire » héritait de la
+   grille des items. On nomme le parent, comme le fait déjà
+   css/tableau-de-bord-prof.css pour .direct-eleves. */
+.maintenant li.a-faire-rien { background: none; display: block; font-size: 1rem; padding: .2rem 0; }
 .maintenant .a-faire-rien { color: rgba(255, 255, 255, .88); }
 
 /* ---- 2. où j'en suis -------------------------------------------------- */
@@ -264,7 +267,10 @@ summary::-webkit-details-marker { display: none; }
 .score-quiz {
   display: inline-flex; align-items: center; gap: .3rem; white-space: nowrap;
   font-family: var(--display); font-weight: 700; font-size: .74rem;
-  border: 1px dashed var(--bord-composant); border-radius: var(--r-s);
+  /* --r-s n'est déclaré nulle part : la pastille perdait ses angles. On
+     emploie --r, qui existe des deux côtés (10 px chez l'élève, 14 chez le
+     professeur), plutôt que d'inventer un jeton de plus. */
+  border: 1px dashed var(--bord-composant); border-radius: var(--r);
   padding: .1rem .5rem; color: var(--encre-2); background: var(--papier);
 }
 .badge-annee svg { width: 14px; height: 14px; flex: none; }
