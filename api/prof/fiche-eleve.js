@@ -126,6 +126,16 @@ export default async function handler(req, res) {
     }
     const ids = communs.map((g) => g.id).join(',');
 
+    // LE RELEVE PIX, s'il existe. Lecture a part et tolerante : la table peut
+    // ne pas exister (db/17 pas joue), et un classeur d'eleve ne doit pas
+    // devenir illisible pour autant. Le rapprochement ECARTE n'est pas servi,
+    // comme sur le classeur de l'eleve : un refus ne revient pas par la bande.
+    const pix = await lire('pix',
+      `profil_id=eq.${eleve}&appariement=neq.refuse`
+      + '&select=nom_pix,nom_pix_aussi,classe,score,certifiable,envoi,parcours,appariement,releve_le')
+      .then((l) => l[0] || null)
+      .catch(() => null);
+
     const [rendus, reponses, scores, exceptions, plans, coches] = await Promise.all([
       lire('rendus',
         `profil_id=eq.${eleve}&groupe_id=in.(${ids})` +
@@ -167,6 +177,12 @@ export default async function handler(req, res) {
       fiches: parFiche(reponses),
       scores,
       exceptions,
+      pix: pix && {
+        nomPix: pix.nom_pix, nomPixAussi: pix.nom_pix_aussi || null,
+        classe: pix.classe, score: pix.score, certifiable: pix.certifiable === true,
+        envoi: pix.envoi, parcours: pix.parcours || {},
+        confirme: pix.appariement === 'confirme', releveLe: pix.releve_le,
+      },
     });
   } catch (e) {
     console.error('fiche-eleve :', e.message);

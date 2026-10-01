@@ -55,6 +55,26 @@
 .seq .lignes li { display: flex; flex-wrap: wrap; gap: .45rem; align-items: baseline; }
 .seq .quand { color: var(--encre-3); font-size: .84rem; white-space: nowrap; }
 .seq .vide-seq { margin: .4rem 0 0; font-size: .88rem; color: var(--encre-3); }
+/* Le relevé Pix. Les barres reprennent la forme de celles du classeur de
+   l'élève, pour qu'il ne découvre pas une autre représentation de la même
+   chose en regardant par-dessus l'épaule de son professeur. */
+.pix-parcours { list-style: none; margin: .4rem 0 0; padding: 0; display: grid; gap: .3rem; }
+.pix-parcours li { display: grid; grid-template-columns: 1fr 5rem 2.8rem; gap: .5rem;
+  align-items: center; font-size: .88rem; }
+.pix-parcours .barre { display: block; height: 8px; background: var(--grille);
+  border-radius: 999px; overflow: hidden; }
+.pix-parcours .barre > span { display: block; height: 100%; background: var(--bleu-2);
+  border-radius: 999px; }
+.pix-parcours b { text-align: right; font-variant-numeric: tabular-nums; }
+.pix-qui { margin-top: .6rem; }
+.pix-qui code { font: .86rem var(--mono); color: var(--encre); overflow-wrap: anywhere; }
+.pix-qui .confirme { color: var(--fait); font-weight: 700; }
+.pix-qui .auto { color: var(--encre-3); }
+.pix-sans-profil { margin: .2rem 0; padding: .45rem .6rem; font-size: .88rem;
+  color: var(--encours); background: var(--encours-pale); border-radius: var(--r); }
+@media (max-width: 34rem) { .pix-parcours li { grid-template-columns: 1fr auto; }
+  .pix-parcours .barre { grid-column: 1 / -1; } }
+
 .etiq { flex: none; font-size: .7rem; font-weight: 800; letter-spacing: .03em;
   text-transform: uppercase; padding: .12rem .5rem; border-radius: 999px; }
 .etiq.depot { background: var(--encours-pale); color: var(--encours); }
@@ -103,6 +123,15 @@
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
   </section>
 
+  <!-- LE RELEVE PIX. Ce que le professeur regarde avant un entretien : ou en
+       est l'eleve, et s'il pourra etre certifie. Le nom saisi dans Pix est
+       montre parce que c'est la seule chose qui permet de voir un
+       rapprochement faux ; l'ecran de groupe sert a le corriger. -->
+  <section id="bloc-pix" hidden>
+    <h2>Ses compétences numériques <span class="compteur" id="pix-maj"></span></h2>
+    <div id="pix-corps"></div>
+  </section>
+
   <section id="bloc-parcours" hidden>
     <h2>Son parcours, séquence par séquence</h2>
     <div id="parcours"></div>
@@ -120,6 +149,7 @@
 import { api, echapper, dateCourte } from '/js/classeur-commun.js';
 import { catalogueCharge, sequence, NIVEAU_COURT } from '/js/progression-regles.js';
 import { attendCorrection } from '/js/etats-fiche.js';
+import { libelleParcours, pourcentage } from '/js/pix.js';
 
 const $ = (id) => document.getElementById(id);
 let F = null;
@@ -237,6 +267,65 @@ function rendreAdaptee() {
   }
   // Le premier bloc remplace la zone, les suivants se posent à la suite.
   zone.replaceWith(...morceaux.map((m, i) => { if (i === 0) m.id = 'adaptee'; return m; }));
+}
+
+/* LE RELEVE PIX, VU DU PROFESSEUR.
+ *
+ * Trois choses, et dans cet ordre : ou en est l'eleve, s'il pourra etre
+ * certifie, et sous quel nom il est inscrit dans Pix.
+ *
+ * Ce dernier point n'est pas decoratif. Pix n'expose aucun identifiant : le
+ * participant tape son nom, et le rapprochement est fait par nous. Le montrer
+ * ici, c'est donner au professeur le moyen de voir qu'il est faux ; l'ecran
+ * du groupe (enseignant/pix.html) sert alors a l'ecarter.
+ *
+ * SANS SCORE NE VEUT PAS DIRE SANS TRAVAIL : les parcours viennent des
+ * campagnes d'evaluation, le score et la certifiabilite de la collecte de
+ * profil. Un eleve peut avoir tout fait sans avoir jamais envoye son profil,
+ * et c'est precisement celui-la qu'il faut relancer.
+ */
+function rendrePix() {
+  const p = F.pix;
+  const bloc = $('bloc-pix');
+  if (!p) { bloc.hidden = true; return; }
+  bloc.hidden = false;
+  $('pix-maj').textContent = p.envoi ? 'au ' + dateCourte(p.envoi) : '';
+
+  const morceaux = [];
+  if (Number.isFinite(p.score)) {
+    morceaux.push(el('div', { class: 'chiffres' },
+      chiffre(p.score, 'pix'),
+      chiffre(p.certifiable ? 'Oui' : 'Pas encore', 'certifiable', !p.certifiable)));
+  } else {
+    morceaux.push(el('p', { class: 'pix-sans-profil' },
+      'Profil jamais envoyé : aucun score, et la certification est impossible '
+      + 'tant qu’il ne l’envoie pas depuis son compte Pix.'));
+  }
+
+  const faits = Object.entries(p.parcours || {})
+    .map(([cle, v]) => [libelleParcours(cle), pourcentage(v)])
+    .filter(([, v]) => v !== null)
+    .sort((a, b) => b[1] - a[1]);
+  if (faits.length) {
+    morceaux.push(el('p', { class: 'meta' }, 'Ses parcours de cette année'));
+    morceaux.push(el('ul', { class: 'pix-parcours', role: 'list' }, faits.map(([nom, pc]) =>
+      el('li', {},
+        el('span', {}, nom),
+        el('span', { class: 'barre' }, el('span', { style: 'width:' + pc + '%' })),
+        el('b', {}, pc + ' %')))));
+  }
+
+  morceaux.push(el('p', { class: 'meta pix-qui' },
+    'Dans Pix, sous le nom ', el('code', {}, p.nomPix),
+    p.nomPixAussi ? ', et aussi ' : null,
+    p.nomPixAussi ? el('code', {}, p.nomPixAussi) : null,
+    p.classe ? ' (campagne ' + p.classe + ')' : '', '. ',
+    el('span', { class: p.confirme ? 'confirme' : 'auto' },
+       p.confirme ? 'Rapprochement confirmé par vous.'
+                  : 'Rapprochement automatique, sur le nom et la classe. À vérifier.'),
+    ' ', el('a', { href: 'pix.html' }, 'Le relevé du groupe')));
+
+  $('pix-corps').replaceChildren(...morceaux);
 }
 
 function rendreChiffres() {
@@ -405,6 +494,7 @@ async function charger() {
   $('alerte-compte').hidden = !avis.length;
 
   rendreAdaptee();
+  rendrePix();
   rendreChiffres();
   if (catalogueCharge()) rendreParcours();
   rendreEcarts();
