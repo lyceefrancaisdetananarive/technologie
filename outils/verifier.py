@@ -597,6 +597,49 @@ def verifier_jetons():
     return len(declares)
 
 
+def verifier_selecteurs():
+    """Les classes declarees dans les feuilles globales que rien ne nomme.
+
+    Une regle morte ne casse rien, elle encombre : on la lit en cherchant
+    pourquoi un element ne prend pas le style attendu, et elle fait perdre le
+    temps qu'on cherchait a gagner.
+
+    LE RELEVE EST VOLONTAIREMENT PERMISSIF, et c'est ce qui le rend sur. Une
+    classe peut etre construite a la volee (`'etat-' + CLASSE_ETAT[etat]`,
+    `'seq-etat-' + etat`) : son nom complet n'apparait alors nulle part. On
+    considere donc comme employee toute classe dont un PREFIXE jusqu'a un
+    tiret se lit quelque part hors des feuilles. On rate ainsi quelques
+    classes mortes, et c'est le bon sens de l'erreur : mieux vaut en laisser
+    passer une que faire supprimer une regle vivante.
+    """
+    classes = set()
+    for f in sorted(glob.glob('css/*.css')):
+        t = re.sub(r'/\*.*?\*/', '', lire(f), flags=re.S)
+        for bloc in re.findall(r'([^{}]+)\{', t):
+            classes |= set(re.findall(r'\.(-?[A-Za-z_][\w-]*)', bloc))
+    ailleurs = []
+    for f in list(pages_deployees()) + glob.glob('js/*.js') + glob.glob('js/*.mjs') \
+            + glob.glob('*/_a_fusionner/*.html') + glob.glob('outils/*.py'):
+        ailleurs.append(lire(f))
+    tout = '\n'.join(ailleurs)
+    # LES PREFIXES SE LISENT A L'INTERIEUR DES LITTERAUX, mot par mot.
+    # « 'etat etat-' + CLASSE_ETAT[etat] » porte deux mots, et c'est le second
+    # qui compte. Prendre n'importe quelle suite finissant par un tiret dans
+    # tout le texte rendait le releve si permissif qu'il ne voyait meme pas une
+    # classe inventee de toutes pieces : un controle qui ne controle rien.
+    prefixes = set()
+    for lit in re.findall(r'''\'([^\'\n]{0,60})\'|"([^"\n]{0,60})"''', tout):
+        for mot in (lit[0] or lit[1]).split():
+            if re.fullmatch(r'[a-z][\w-]*-', mot):
+                prefixes.add(mot)
+    mortes = sorted(c for c in classes if c not in tout
+                    and not any(c.startswith(p) for p in prefixes))
+    if mortes:
+        avert('%d classe(s) declaree(s) dans les feuilles et nommee(s) nulle part : %s'
+              % (len(mortes), ', '.join(mortes[:10]) + (' …' if len(mortes) > 10 else '')))
+    return len(classes)
+
+
 def verifier_brouillons():
     """Les brouillons de _a_fusionner/ ne doivent jamais partir en production.
 
@@ -898,6 +941,7 @@ def main():
     verifier_generes()
     verifier_parasites()
     njt = verifier_jetons()
+    nsel = verifier_selecteurs()
     nbr = verifier_brouillons()
     ncl = verifier_classes(cat)
     verifier_sql_ascii()
