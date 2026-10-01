@@ -54,11 +54,16 @@
 .eleve.sans { background: var(--papier); }
 .eleve.sans .nom small { color: var(--encre-3); }
 .pix-rien { margin: .45rem 0 0; font-size: .84rem; color: var(--encre-3); }
+.pix-sans-profil { margin: .5rem 0 .2rem; padding: .4rem .55rem; font-size: .84rem;
+  color: var(--encours); background: var(--encours-pale); border-radius: var(--r); }
 
 /* Le résumé du groupe : quatre nombres, en haut, avant toute carte. Un
    professeur veut d'abord savoir combien d'élèves ont envoyé leur profil. */
 .resume { display: flex; flex-wrap: wrap; gap: 1.6rem; margin: .6rem 0 0; }
 .resume div b { display: block; font: 700 1.5rem/1 var(--display); color: var(--bleu); }
+/* Le chiffre sur lequel on peut agir se distingue, sans crier : un relevé
+   n'est pas une alarme. --encours est la couleur du « en cours » du site. */
+.resume div b.alerte { color: var(--encours); }
 .resume div span { font-size: .8rem; color: var(--encre-3); }
 </style>
 </head>
@@ -112,6 +117,11 @@
       <div><b id="n-sans">0</b><span>sans relevé</span></div>
       <div><b id="n-median">0</b><span>pix, médiane</span></div>
       <div><b id="n-certif">0</b><span>certifiables</span></div>
+      <!-- LE NOMBRE QUI APPELLE UN GESTE. Un élève peut avoir fait ses parcours
+           et n'avoir jamais envoyé son profil : il n'a alors aucun score, et
+           surtout il ne peut pas être certifié. C'est le seul chiffre de cette
+           ligne sur lequel le professeur peut agir dès la séance suivante. -->
+      <div><b id="n-sans-profil">0</b><span>sans profil envoyé</span></div>
     </div>
     <div id="liste"></div>
   </section>
@@ -187,6 +197,9 @@ function rendre() {
   $('n-sans').textContent = eleves.length - avec.length;
   $('n-median').textContent = mediane(scores);
   $('n-certif').textContent = avec.filter((e) => e.pix.certifiable).length;
+  const sansProfil = avec.filter((e) => !Number.isFinite(e.pix.score));
+  $('n-sans-profil').textContent = sansProfil.length;
+  $('n-sans-profil').className = sansProfil.length ? 'alerte' : '';
 
   if (!eleves.length) {
     $('liste').innerHTML = '<p class="vide">Aucun élève inscrit dans ce groupe.</p>';
@@ -219,11 +232,17 @@ function carte(e) {
     .filter(([, v]) => v !== null)
     .sort((a, b) => b[1] - a[1]);
 
+  // Pas de score ne veut PAS dire « n'a rien fait » : les parcours viennent
+  // des campagnes d'évaluation, le score et la certifiabilité de la collecte
+  // de profil. Un élève peut donc avoir travaillé sans avoir jamais envoyé son
+  // profil. Le dire en toutes lettres, sinon la carte muette passe pour un bogue.
   const chiffres = Number.isFinite(p.score) ? `<div class="pix-chiffres">
       <div><b>${p.score}</b> <span>pix</span></div>
       <div><b class="${p.certifiable ? 'oui' : 'pas-encore'}">${p.certifiable ? 'Oui' : 'Pas encore'}</b>
         <span>certifiable</span></div>
-    </div>` : '';
+    </div>` : `<p class="pix-sans-profil">Profil jamais envoyé : aucun score, et
+      la certification est impossible tant qu’il ne l’envoie pas depuis son
+      compte Pix.</p>`;
 
   const parcours = faits.length ? `<ul class="pix-parcours" role="list">${faits.map(
     ([t, pc]) => `<li><span>${echapper(t)}</span>
