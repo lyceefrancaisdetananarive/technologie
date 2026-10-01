@@ -151,6 +151,7 @@ import {
   etatFiche, attendEleve, attendCorrection, LIBELLE_ELEVE, CLASSE_ETAT,
   A_FAIRE, EN_COURS, RENDU, LIBRE, CORRIGE,
 } from '/js/etats-fiche.js';
+import { libelleParcours, pourcentage } from '/js/pix.js';
 
 const $ = (id) => document.getElementById(id);
 let groupes = [];
@@ -887,14 +888,6 @@ $('badge-adaptee').addEventListener('click', () => {
  *
  * Tant qu'il n'y a rien, la tuile reste masquée : un élève qui n'a jamais
  * envoyé son profil n'a pas à lire une tuile vide de plus. */
-const PARCOURS = {
-  rentree: 'Parcours de rentrée',
-  cyberharcelement: 'Cyberharcèlement',
-  creation_de_contenu: 'Création de contenu',
-  '6e-ps': 'Protection et sécurité',
-  collecte: 'Collecte de profil',
-};
-
 function rendrePix(p) {
   const bloc = $('bloc-pix');
   if (!p || (p.score === null && !Object.keys(p.parcours || {}).length)) {
@@ -913,13 +906,12 @@ function rendrePix(p) {
   }
 
   const faits = Object.entries(p.parcours || {})
-    .map(([cle, v]) => [PARCOURS[cle] || cle, Number(String(v).replace(',', '.'))])
-    .filter(([, v]) => Number.isFinite(v))
+    .map(([cle, v]) => [libelleParcours(cle), pourcentage(v)])
+    .filter(([, v]) => v !== null)
     .sort((a, b) => b[1] - a[1]);
   if (faits.length) {
     morceaux.push('<p class="meta">Mes parcours de cette année</p>');
-    morceaux.push('<ul class="pix-parcours" role="list">' + faits.map(([nom, v]) => {
-      const pc = Math.round(v <= 1 ? v * 100 : v);
+    morceaux.push('<ul class="pix-parcours" role="list">' + faits.map(([nom, pc]) => {
       return `<li><span>${echapper(nom)}</span>
         <span class="barre"><span style="width:${pc}%"></span></span>
         <b>${pc}&nbsp;%</b></li>`;

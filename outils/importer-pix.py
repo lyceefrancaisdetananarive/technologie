@@ -5,10 +5,16 @@ Importe les exports de Pix Orga dans la table `pix`.
     SUPABASE_URL="https://bumyriwwysycbrngtzhk.supabase.co" \
     SUPABASE_SERVICE_ROLE_KEY="$(security find-generic-password \
         -a technologie -s supabase-service-role -w)" \
-    python3 outils/importer-pix.py <dossier-des-csv> [--ecrire]
+    python3 outils/importer-pix.py <dossier-des-csv> [--ecrire] [--trancher]
 
 Sans --ecrire, il ne fait que dire ce qu'il ferait. C'est le mode par defaut :
 on regarde la liste des rapprochements douteux AVANT d'ecrire quoi que ce soit.
+
+Avec --trancher, il DEMANDE, pour chacun des douteux, lequel des noms tapes
+dans Pix est le bon, ou aucun. C'est le seul endroit ou cette question peut
+etre posee : il faut avoir les noms de la campagne sous les yeux, et ils ne
+sont que dans ces fichiers. L'ecran du professeur, lui, ne sait que confirmer
+ou ecarter ce qui est deja en base. --trancher implique --ecrire.
 
 POURQUOI CE PROGRAMME EXISTE, ET CE QU'IL NE PEUT PAS FAIRE
 
@@ -197,7 +203,10 @@ def qualite(base, pix):
 
 def main():
     args = [a for a in sys.argv[1:] if not a.startswith('--')]
-    ecrire = '--ecrire' in sys.argv
+    trancher = '--trancher' in sys.argv
+    # --trancher implique --ecrire : on ne pose pas quatre questions pour
+    # ensuite ne rien enregistrer.
+    ecrire = '--ecrire' in sys.argv or trancher
     fichier_classes = next((a.split('=', 1)[1] for a in sys.argv[1:]
                             if a.startswith('--classes=')), None)
     if not args:
@@ -228,6 +237,7 @@ def main():
 
     # La table peut ne pas exister encore (db/17-pix.sql pas joue) : on tourne
     # alors a blanc, ce qui est precisement l'usage de ce mode.
+    table_absente = False
     try:
         deja = {l['profil_id']: l['appariement']
                 for l in appel('GET', 'pix', 'select=profil_id,appariement')}
@@ -236,6 +246,7 @@ def main():
             raise
         print('table `pix` absente : jouer db/17-pix.sql avant d\'ecrire.')
         deja = {}
+        table_absente = True
 
     # Le perimetre est celui des campagnes importees, pas celui de
     # l'etablissement. Un eleve dont la classe n'a pas ete relevee n'est pas
@@ -283,8 +294,11 @@ def main():
         if tete[0] >= 2 and len(exaequo) == 1:
             surs.append((identifiant, ligne, tete[1]))
         else:
+            # On garde les candidats ENTIERS, et pas seulement leurs noms :
+            # --trancher doit pouvoir ecrire celui que le professeur designe.
             douteux.append((identifiant, ligne, tete[1],
-                            [(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in exaequo[1:4]]))
+                            [(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in exaequo[1:4]],
+                            [c[2] for c in cands[:6]], e['id']))
 
     # UNE LIGNE PIX NE SERT QU'UN ELEVE. Deux freres, deux homonymes, et le
     # meme releve se collait sur les deux. Si deux eleves revendiquent la
@@ -297,7 +311,8 @@ def main():
         garde = []
         for ident, ligne, raison in surs:
             if ligne['nom_pix'] + '|' + ligne['classe'] in litiges:
-                douteux.append((ident, ligne, raison + ' (revendique par plusieurs eleves)', []))
+                douteux.append((ident, ligne, raison + ' (revendique par plusieurs eleves)',
+                                [], [], ligne['profil_id']))
             else:
                 garde.append((ident, ligne, raison))
         surs = garde
@@ -310,19 +325,98 @@ def main():
 
     if douteux:
         print('\nA TRANCHER (rien n\'est ecrit pour ceux-la) :')
-        for ident, ligne, raison, autres in douteux:
+        for d in douteux:
+            ident, ligne, raison, autres = d[0], d[1], d[2], d[3]
             print('  %-28s %-5s -> %-28s %s%s'
                   % (ident, ligne['classe'], ligne['nom_pix'], raison,
                      ('  | autres : ' + ', '.join(autres)) if autres else ''))
 
     if not ecrire:
-        print('\nRien n\'a ete ecrit. Relancer avec --ecrire pour enregistrer les %d surs.'
-              % len(surs))
+        print('\nRien n\'a ete ecrit. Relancer avec --ecrire pour enregistrer les %d surs,'
+              ' --trancher pour decider des %d douteux.' % (len(surs), len(douteux)))
         return
+
+    # Mieux vaut le dire ici qu'au premier POST : sans la table, l'ecriture
+    # part en trace d'exception apres avoir pose les questions d'arbitrage.
+    if table_absente:
+        raise SystemExit("La table `pix` n'existe pas : jouer db/17-pix.sql dans "
+                         "l'editeur SQL de Supabase, puis relancer. Rien n'a ete ecrit.")
+
+    tranches = arbitrer(douteux) if trancher else []
 
     for i in range(0, len(surs), 50):
         appel('POST', 'pix', '', [l for _, l, _ in surs[i:i + 50]])
     print('\n%d lignes ecrites.' % len(surs))
+    if tranches:
+        for i in range(0, len(tranches), 50):
+            appel('POST', 'pix', '', tranches[i:i + 50])
+        print('%d arbitrage(s) enregistre(s), que les imports suivants ne toucheront plus.'
+              % len(tranches))
+
+
+def arbitrer(douteux):
+    """Demande, pour chaque douteux, lequel des noms tapes dans Pix est le bon.
+
+    POURQUOI AU TERMINAL ET NON DANS LE SITE. La question n'a de sens qu'avec
+    les noms de la campagne sous les yeux, et ils ne sont que dans les CSV
+    exportes. L'ecran du professeur sait confirmer ou ecarter une ligne deja en
+    base ; il ne sait pas en inventer une, et c'est tant mieux.
+
+    Ce qui est ecrit ici porte `confirme` ou `refuse` : un arbitrage humain,
+    que plus aucun import ne remettra en cause.
+    """
+    if not douteux:
+        return []
+    if not sys.stdin.isatty():
+        print('\n--trancher demande un terminal : rien de douteux n\'a ete decide.')
+        return []
+
+    print('\n--- ARBITRAGE ---')
+    print('Pour chacun : le numero du bon nom, `0` si aucun ne convient,')
+    print('Entree pour passer, `q` pour arreter la.\n')
+    retenus = []
+    for d in douteux:
+        ident, ligne, raison, _, cands, profil_id = d[0], d[1], d[2], d[3], d[4], d[5]
+        if not cands:
+            # Litige entre deux eleves : les candidats ne sont pas rejoues ici,
+            # il faut reprendre le releve a la main dans Pix Orga.
+            print('%s : %s. A regarder dans Pix Orga.' % (ident, raison))
+            continue
+        print('%s  (classe %s, %s)' % (ident, ligne['classe'], raison))
+        for i, c in enumerate(cands, 1):
+            print('   %d. %-32s %4s pix  envoi %s'
+                  % (i, (c['nom'] + ' ' + c['prenom']).strip(),
+                     c['score'] if c['score'] is not None else '?',
+                     c['envoi'].strftime('%d/%m') if c['envoi'] else '?'))
+        rep = input('   > ').strip().lower()
+        if rep == 'q':
+            print('   arret de l\'arbitrage.')
+            break
+        if not rep:
+            print('   passe.')
+            continue
+        if rep == '0':
+            # ECARTER, ce n'est pas NE RIEN FAIRE. Une ligne `refuse` empeche
+            # l'import suivant de reproposer le meme faux rapprochement.
+            l = dict(ligne)
+            l['appariement'] = 'refuse'
+            retenus.append(l)
+            print('   ecarte : aucun de ces noms n\'est le sien.')
+            continue
+        if not rep.isdigit() or not 1 <= int(rep) <= len(cands):
+            print('   reponse non comprise, passe.')
+            continue
+        c = cands[int(rep) - 1]
+        retenus.append({
+            'profil_id': profil_id,
+            'nom_pix': (c['nom'] + ' ' + c['prenom']).strip(),
+            'classe': c['classe'], 'score': c['score'], 'certifiable': c['certifiable'],
+            'envoi': c['envoi'].isoformat() if c['envoi'] else None,
+            'parcours': c['parcours'], 'competences': c['competences'],
+            'appariement': 'confirme',
+        })
+        print('   confirme : %s' % (c['nom'] + ' ' + c['prenom']).strip())
+    return retenus
 
 
 if __name__ == '__main__':
