@@ -117,15 +117,28 @@ def lire_csv(chemin):
     return []
 
 
-NOM_FICHIER = re.compile(r'resultats-(\d{4}-\d{4})__([0-9a-z]+)__([a-z_]+)-(\d+)-')
+# La classe s'ecrit en majuscules dans Pix Orga : « __5M1__ ». Le motif ne
+# l'acceptait qu'en minuscules, et un export ainsi nomme etait ignore SANS UN
+# MOT. Le programme annoncait « 0 participants releves » et continuait : tous
+# les eleves partaient en « hors perimetre », ce qui a l'air d'un import qui a
+# tourne. `match` restant ancre, les fichiers AppleDouble « ._resultats-… » du
+# volume continuent d'etre ecartes, et il y en a un par export reel.
+NOM_FICHIER = re.compile(r'resultats-(\d{4}-\d{4})__([0-9A-Za-z]+)__([a-z_]+)-(\d+)-')
 
 
-def relever(dossier):
-    """Rend { (classe, mots) : releve }, en gardant le dernier envoi."""
+def relever(dossier, ignores=None):
+    """Rend { (classe, mots) : releve }, en gardant le dernier envoi.
+
+    `ignores` recoit les fichiers que le motif a ecartes : un export dont le
+    nom ne colle pas doit se VOIR, sans quoi un import peut sembler avoir
+    tourne alors qu'il n'a rien lu.
+    """
     pix = {}
     for f in sorted(os.listdir(dossier)):
         m = NOM_FICHIER.match(f)
         if not m:
+            if ignores is not None and f.lower().endswith('.csv') and not f.startswith('._'):
+                ignores.append(f)
             continue
         classe, typ = m.group(2).upper(), m.group(3)
         for r in lire_csv(os.path.join(dossier, f)):
@@ -201,7 +214,9 @@ def tronque_vers(mot_base, mot_pix):
 
 
 def qualite(base, pix):
-    """(rang, raison). 3 = certain, 2 = tres probable, 1 = douteux, 0 = non."""
+    """(rang, raison). 4 = le nom exact, 3 = certain, 2 = tres probable,
+    1 = douteux, 0 = non.
+    """
     b, p = set(base), set(pix)
     # LES PARTICULES RECOLLEES. « da silva » dans la base, « dasilva » dans
     # Pix : un seul mot commun, alors que c'est le meme nom. On ajoute donc de
@@ -211,8 +226,13 @@ def qualite(base, pix):
     pc = p | {pix[i] + pix[i + 1] for i in range(len(pix) - 1)}
     if not (bc & pc):
         return 0, 'aucun mot commun'
+    # L'EGALITE EXACTE PRIME SUR L'INCLUSION. Deux soeurs, « RABEMANANJARA
+    # Tiana » tape par l'une et « RABEMANANJARA Tiana Paul » par l'autre : pour
+    # l'eleve dont le nom est exactement celui tape, sa propre ligne rendait 3
+    # et celle de sa soeur aussi, par inclusion. Ex aequo, donc arbitrage, pour
+    # un cas qui ne laisse pourtant aucun doute. Le rang 4 le tranche.
     if b == p:
-        return 3, 'mots identiques'
+        return 4, 'mots identiques'
     # L'INCLUSION NE VAUT QU'A PARTIR DE DEUX MOTS. Avec un seul, « Ariel
     # Lucas » (un prenom commun) battait « Ouedraogo Lucas », qui etait le
     # bon : un prenom partage n'est pas une identite.
@@ -262,8 +282,18 @@ def main():
         raise SystemExit(__doc__)
     dossier = args[0]
 
-    pix = relever(dossier)
+    ignores = []
+    pix = relever(dossier, ignores)
     print('%d participants releves dans %s' % (len(pix), dossier))
+    if ignores:
+        print('%d fichier(s) CSV ignore(s), leur nom ne suit pas le motif attendu :'
+              % len(ignores))
+        for f in ignores[:8]:
+            print('   %s' % f)
+        print('   (attendu : resultats-AAAA-AAAA__CLASSE__type-123-...csv)')
+    if not pix:
+        raise SystemExit('Aucun participant lu : rien a faire. Verifiez le dossier '
+                         'et le nom des fichiers avant de relancer.')
 
     # TOUS LES ELEVES, ACTIFS OU NON. Le filtre `actif=is.true` etait ici, et
     # c'etait l'angle mort : un eleve mis a la corbeille ne revendiquait plus
@@ -322,7 +352,7 @@ def main():
                 {g['groupes']['niveau'] for g in (e.get('appartenances') or [])
                  if g.get('groupes')})
 
-    def candidats(base, sa_classe, ses_niveaux):
+    def candidats(base, sa_classe, ses_niveaux, pour='attribution'):
         """Les lignes Pix que cet eleve peut revendiquer, les meilleures d'abord.
 
         LA CONTRAINTE QUI EVITE LES FAUX : un resultat de 5M1 ne peut
@@ -330,6 +360,23 @@ def main():
         se collait sur camille.loray de 3M4. A defaut de classe, le NIVEAU
         ecarte deja l'essentiel des confusions de prenom.
         """
+        # NI CLASSE NI NIVEAU : LES DEUX USAGES NE DEMANDENT PAS LA MEME CHOSE,
+        # et les confondre rouvre le defaut que la passe 1 existe pour fermer.
+        #
+        #   ATTRIBUTION : on n'ECRIT rien. Un eleve nouvellement inscrit, pas
+        #   encore rattache a un groupe, et un import sans --classes, etait
+        #   confronte aux lignes de TOUTES les campagnes, de la 6e a la 3e, et
+        #   recevait sans arbitrage le releve du premier homonyme venu.
+        #
+        #   REVENDICATION : il revendique PARTOUT, au contraire. C'est tout
+        #   l'objet de la passe 1 : un eleve qu'on ne sait pas placer est
+        #   justement celui dont la revendication protege un camarade au nom
+        #   proche. Le lui retirer rendrait « sur » un rapprochement qui ne
+        #   l'est pas. Une revendication de trop ne coute qu'un arbitrage ;
+        #   une revendication manquante coute le releve d'un eleve sur le
+        #   compte d'un autre.
+        if not sa_classe and not ses_niveaux and pour == 'attribution':
+            return []
         out = []
         for (classe, cle), v in pix.items():
             if sa_classe:
@@ -356,12 +403,12 @@ def main():
     revendiquee = {}
     for e in tous:
         ident, base, sa_classe, ses_niveaux = contexte(e)
-        for rang, _, v in candidats(base, sa_classe, ses_niveaux):
+        for rang, _, v in candidats(base, sa_classe, ses_niveaux, 'revendication'):
             if rang >= 2:
                 revendiquee.setdefault(cle_ligne(v), set()).add(ident)
 
     # ---------------------------------------------------------------- passe 2
-    surs, douteux, absents, intouches, hors = [], [], [], [], []
+    surs, douteux, absents, intouches, hors, sans_classe = [], [], [], [], [], []
     for e in eleves:
         ident, base, sa_classe, ses_niveaux = contexte(e)
         if deja.get(e['id']) in ('confirme', 'refuse'):
@@ -371,6 +418,9 @@ def main():
             hors.append(ident)
             continue
 
+        if not sa_classe and not ses_niveaux:
+            sans_classe.append(ident)
+            continue
         cands = candidats(base, sa_classe, ses_niveaux)
         if not cands:
             absents.append(ident)
@@ -430,6 +480,13 @@ def main():
     print('  sans Pix  : %d' % len(absents))
     print('  hors perim: %d (classe non relevee)' % len(hors))
     print('  intouches : %d (deja confirmes ou refuses par le professeur)' % len(intouches))
+    if sans_classe:
+        print('  sans classe NI groupe : %d, ecartes de l\'appariement' % len(sans_classe))
+        for i in range(0, len(sans_classe), 4):
+            print('    ' + '  '.join('%-26s' % a for a in sans_classe[i:i + 4]).rstrip())
+        print('    Leur nom seul ne dit pas de quelle classe ils sont : les rapprocher')
+        print('    reviendrait a leur donner le releve du premier homonyme venu.')
+        print('    Rattachez-les a un groupe, ou ajoutez-les au fichier --classes.')
 
     # LES ABSENTS SONT UNE LISTE, PAS UN NOMBRE. « 16 sans Pix » ne permet
     # d'aller chercher personne ; seize identifiants, si. Ce sont des eleves
@@ -524,7 +581,8 @@ def arbitrer(douteux, prises_base=None):
 
     print('\n--- ARBITRAGE ---')
     print('Pour chacun : le numero du bon nom, `0` si aucun ne convient,')
-    print('Entree pour passer, `q` pour arreter la.\n')
+    print('`p` pour passer, `q` pour arreter la. Une reponse non comprise')
+    print('est redemandee : rien ne se decide par une faute de frappe.\n')
     retenus = []
     # UNE LIGNE PIX NE S'ATTRIBUE PAS DEUX FOIS. Deux soeurs aux prenoms
     # proches arrivent avec la MEME liste de candidats, dans le MEME ordre :
@@ -546,31 +604,50 @@ def arbitrer(douteux, prises_base=None):
                      c['score'] if c['score'] is not None else '?',
                      c['envoi'].strftime('%d/%m') if c['envoi'] else '?',
                      '   <-- DEJA ATTRIBUE a ' + prises[cle] if cle in prises else ''))
-        try:
-            rep = input('   > ').strip().lower()
-        except (KeyboardInterrupt, EOFError):
-            # Ce qui est deja decide est garde : on ne refait pas taper dix
-            # reponses parce que la onzieme a ete interrompue.
-            print('\n   interrompu. Les %d arbitrage(s) deja decides sont '
-                  'conserves.' % len(retenus))
+        # LA QUESTION SE REPOSE JUSQU'A UNE REPONSE COMPRISE.
+        #
+        # « 2. », « deux », un numero hors liste ou une frappe accidentelle sur
+        # Entree faisaient passer l'eleve, et la question ne revenait jamais :
+        # sur soixante questions tapees a la suite, une faute de frappe est
+        # certaine, et le professeur croyait avoir repondu pour tout le monde.
+        # Passer reste possible, mais il faut le DIRE : `p`.
+        arret = sortie = None
+        while True:
+            try:
+                rep = input('   > ').strip().lower()
+            except (KeyboardInterrupt, EOFError):
+                # Ce qui est deja decide est garde : on ne refait pas taper dix
+                # reponses parce que la onzieme a ete interrompue.
+                print('\n   interrompu. Les %d arbitrage(s) deja decides sont '
+                      'conserves.' % len(retenus))
+                arret = True
+                break
+            if rep == 'q':
+                print('   arret de l\'arbitrage.')
+                arret = True
+                break
+            if rep == 'p':
+                print('   passe.')
+                sortie = True
+                break
+            if rep == '0':
+                # ECARTER, ce n'est pas NE RIEN FAIRE. Une ligne `refuse`
+                # empeche l'import suivant de reproposer le meme faux
+                # rapprochement.
+                l = dict(ligne)
+                l['appariement'] = 'refuse'
+                l.setdefault('nom_pix_aussi', None)
+                retenus.append(l)
+                print('   ecarte : aucun de ces noms n\'est le sien.')
+                sortie = True
+                break
+            if rep.isdigit() and 1 <= int(rep) <= len(cands):
+                break
+            print('   Reponse attendue : un numero de 1 a %d, `0` pour ecarter, '
+                  '`p` pour passer, `q` pour arreter.' % len(cands))
+        if arret:
             break
-        if rep == 'q':
-            print('   arret de l\'arbitrage.')
-            break
-        if not rep:
-            print('   passe.')
-            continue
-        if rep == '0':
-            # ECARTER, ce n'est pas NE RIEN FAIRE. Une ligne `refuse` empeche
-            # l'import suivant de reproposer le meme faux rapprochement.
-            l = dict(ligne)
-            l['appariement'] = 'refuse'
-            l.setdefault('nom_pix_aussi', None)
-            retenus.append(l)
-            print('   ecarte : aucun de ces noms n\'est le sien.')
-            continue
-        if not rep.isdigit() or not 1 <= int(rep) <= len(cands):
-            print('   reponse non comprise, passe.')
+        if sortie:
             continue
         c = cands[int(rep) - 1]
         cle = (c['nom'] + ' ' + c['prenom']).strip() + '|' + c['classe']
