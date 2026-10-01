@@ -233,7 +233,13 @@ button.danger:hover { filter: brightness(.9); }
 .a-faire-etiquette { flex: none; font-size: .7rem; font-weight: 800;
   letter-spacing: .03em; text-transform: uppercase; padding: .15rem .55rem;
   border-radius: 999px; background: var(--encours); color: #fff; }
-.a-faire-item.quiz .a-faire-etiquette { background: var(--bleu); }
+/* LA COULEUR SE POSE AVEC LE FOND, TOUJOURS. css/tableau-de-bord.css, chargée
+   après celle-ci, redéfinit `.a-faire-etiquette` en #032844 pour la tuile
+   sombre « ce que j'ai à faire ». La règle « fiche » ci-dessous pose fond ET
+   couleur, elle est donc intacte ; celle du quiz ne posait que le fond, et sa
+   couleur tombait sur #032844 : bleu nuit sur bleu, 1,77:1 mesuré, contre 4,5
+   exigés. L'étiquette était illisible sur le tableau de bord de chaque élève. */
+.a-faire-item.quiz .a-faire-etiquette { background: var(--bleu); color: #fff; }
 .a-faire-item.fiche .a-faire-etiquette { background: var(--or); color: #3A2A00; }
 .a-faire-texte { flex: 1 1 14rem; line-height: 1.35; }
 .a-faire-detail { color: var(--encre-2); }
