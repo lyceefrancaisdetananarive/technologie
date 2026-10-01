@@ -527,6 +527,74 @@ def verifier_parasites():
         avert(f'{n} fichier(s) parasite(s) macOS (._* ou .DS_Store) dans la source : exclus du déploiement, à nettoyer avec `find . -name "._*" -delete`')
 
 
+def verifier_brouillons():
+    """Les brouillons de _a_fusionner/ ne doivent jamais partir en production.
+
+    Quatorze pages y dorment, dont d'anciennes versions de séquences qui
+    contredisent les actuelles. Elles sont tenues hors ligne par UNE ligne de
+    .vercelignore. Une ligne qu'on retire par mégarde, un dossier qu'on
+    renomme, et un élève tombe sur l'ancienne séquence 8 sans que rien ne le
+    signale : elle a l'air d'une page du site, elle en porte la charte.
+
+    Deux contrôles, parce qu'il y a deux façons de se tromper : l'exclusion
+    peut disparaître, et une page en ligne peut pointer vers le dossier.
+    """
+    dossiers = sorted({os.path.dirname(c) for c in glob.glob('*/_a_fusionner')
+                       } | {c for c in glob.glob('*/_a_fusionner')})
+    pages = glob.glob('*/_a_fusionner/*.html')
+    if not pages:
+        return 0
+    if '_a_fusionner/' not in lire('.vercelignore'):
+        erreur('%d brouillon(s) dans _a_fusionner/ et .vercelignore ne les exclut PAS : '
+               'ils partiraient en production' % len(pages))
+    liens = []
+    for chemin in pages_deployees():
+        if '_a_fusionner' in lire(chemin):
+            liens.append(chemin)
+    if liens:
+        erreur('page(s) en ligne qui renvoient vers un brouillon : ' + ', '.join(liens[:5]))
+    return len(pages)
+
+
+def verifier_classes(cat):
+    """Les quatorze copies de la liste des classes disent-elles la même chose ?
+
+    Les 21 classes de l'établissement sont recopiées à la main dans huit
+    `<select>` et six tableaux `window.DIAG.classes`. Une classe qui change de
+    nom, un niveau qui passe à huit divisions, et il faut les retrouver toutes
+    les quatorze : celle qu'on oublie ne proteste pas, elle propose seulement
+    un choix faux à un élève qui remplit sa feuille.
+
+    `catalogue.json` porte désormais la liste de référence. On ne RÉÉCRIT pas
+    les quatorze copies, ce qui demanderait un générateur de plus : on les
+    CONFRONTE, ce qui suffit à ce qu'aucune ne dérive en silence.
+    """
+    attendues = cat.get('classes') or {}
+    if not attendues:
+        avert('catalogue.json ne porte pas la liste des classes')
+        return
+    toutes = sorted(c for v in attendues.values() for c in v)
+    souci = []
+    for chemin in pages_deployees():
+        t = lire(chemin)
+        # les <select> : toutes les classes de l'établissement
+        if '<option value="5M1"' in t:
+            vues = sorted(set(re.findall(r'<option value="([3-5]M\d)"', t)))
+            if vues != toutes:
+                souci.append('%s : %d classe(s) au lieu de %d'
+                             % (chemin, len(vues), len(toutes)))
+        # les tableaux DIAG.classes : les classes d'un seul niveau
+        for m in re.finditer(r"classes:\s*\[([^\]]*)\]", t):
+            vues = sorted(re.findall(r"'([3-5]M\d)'", m.group(1)))
+            niveau = {'5': '5eme', '4': '4eme', '3': '3eme'}.get(vues[0][0]) if vues else None
+            if niveau and vues != sorted(attendues.get(niveau, [])):
+                souci.append('%s : %s ne correspond pas au catalogue' % (chemin, niveau))
+    if souci:
+        avert('liste des classes divergente : ' + ' ; '.join(souci))
+    else:
+        return len(toutes)
+
+
 def verifier_sql_ascii():
     """Le SQL destiné à l'éditeur de Supabase doit être intégralement ASCII.
 
@@ -759,10 +827,14 @@ def main():
     verifier_contrastes()
     verifier_generes()
     verifier_parasites()
+    nbr = verifier_brouillons()
+    ncl = verifier_classes(cat)
     verifier_sql_ascii()
     verifier_hygiene(cat)
     print(f'{nl} liens internes, {nc} codes de cahier, {nd} documents au catalogue, {nr} entrées de recherche, '
-          f'{nf} fils d\'Ariane, {nq} quiz ({nqq} questions), {na} ancres inter-pages, {npub} pages publiques.')
+          f'{nf} fils d\'Ariane, {nq} quiz ({nqq} questions), {na} ancres inter-pages, {npub} pages publiques'
+          + (f', {ncl} classes concordantes' if ncl else '')
+          + (f', {nbr} brouillon(s) tenus hors ligne.' if nbr else '.'))
     for a in AVERTS:
         print('  avertissement :', a)
     for e in ERREURS:
