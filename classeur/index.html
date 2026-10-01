@@ -106,6 +106,16 @@
       <div class="travaux" id="travaux"><p class="vide">Chargement…</p></div>
     </section>
 
+    <!-- 6. PIX. Ce que l'élève a fait hors du site, dans Pix, rapatrié ici
+            pour qu'il n'ait pas deux endroits où regarder. La tuile dit aussi
+            sous quel nom il s'est inscrit dans Pix : c'est ce qui lui permet
+            de signaler que le relevé n'est pas le sien, puisque Pix ne connaît
+            pas nos comptes et laisse chacun taper son nom. -->
+    <section class="bloc b4" id="bloc-pix" aria-labelledby="pix-titre" hidden>
+      <h2 id="pix-titre">Mes compétences numériques <span class="compteur" id="pix-maj"></span></h2>
+      <div id="pix-corps"></div>
+    </section>
+
     <!-- 6. Comment lire ce qu'on voit. Sur quatre colonnes et non plus huit :
             on la lit une fois dans l'année, elle n'a pas à prendre deux fois la
             place du geste quotidien. -->
@@ -815,9 +825,9 @@ async function charger() {
   // La carte de l'année ne bloque jamais le dépôt : si elle manque, on dépose
   // quand même. Les lectures partent ensemble : sur la liaison de Tananarive,
   // quatre allers-retours en série se voient.
-  const [p, s, r, q] = await Promise.allSettled([
+  const [p, s, r, q, x] = await Promise.allSettled([
     api('/api/classeur/progression'), api('/api/classeur/score'), listerRendus(),
-    api('/api/classeur/reponse'),
+    api('/api/classeur/reponse'), api('/api/classeur/pix'),
   ]);
   progression = p.status === 'fulfilled' ? p.value.groupes : [];
   pannes.progression = p.status === 'rejected'
@@ -833,6 +843,7 @@ async function charger() {
   rendreTravaux();
   rendreChiffres();
   rendreAnnee();   // appelé APRÈS listerReponses : il lit mesFiches.
+  rendrePix(x.status === 'fulfilled' ? x.value.pix : null);
 }
 
 /* LA VERSION ADAPTÉE, VUE DE L'ÉLÈVE (décision D23).
@@ -863,6 +874,63 @@ $('badge-adaptee').addEventListener('click', () => {
   $('dit-adaptee').hidden = !ouvert;
   $('badge-adaptee').setAttribute('aria-expanded', ouvert ? 'true' : 'false');
 });
+
+/* LA TUILE PIX.
+ *
+ * Trois choses, dans cet ordre : le nombre de pix, les parcours faits cette
+ * année, et sous quel nom l'élève est inscrit dans Pix.
+ *
+ * Ce dernier point n'est pas un détail. Pix n'expose aucun identifiant : le
+ * participant tape son nom, et le rapprochement avec son compte est fait par
+ * nous. Montrer le nom tapé, c'est donner à l'élève le moyen de dire « ce
+ * n'est pas moi ». Un score sans ce repère serait invérifiable.
+ *
+ * Tant qu'il n'y a rien, la tuile reste masquée : un élève qui n'a jamais
+ * envoyé son profil n'a pas à lire une tuile vide de plus. */
+const PARCOURS = {
+  rentree: 'Parcours de rentrée',
+  cyberharcelement: 'Cyberharcèlement',
+  creation_de_contenu: 'Création de contenu',
+  '6e-ps': 'Protection et sécurité',
+  collecte: 'Collecte de profil',
+};
+
+function rendrePix(p) {
+  const bloc = $('bloc-pix');
+  if (!p || (p.score === null && !Object.keys(p.parcours || {}).length)) {
+    bloc.hidden = true;
+    return;
+  }
+  bloc.hidden = false;
+  $('pix-maj').textContent = p.envoi ? 'au ' + dateCourte(p.envoi) : '';
+
+  const morceaux = [];
+  if (p.score !== null && p.score !== undefined) {
+    morceaux.push(`<div class="chiffres">
+      <div><b class="c-corrige">${p.score}</b><span>pix</span></div>
+      <div><b class="${p.certifiable ? 'c-corrige' : 'c-attente'}">${p.certifiable ? 'Oui' : 'Pas encore'}</b><span>certifiable</span></div>
+    </div>`);
+  }
+
+  const faits = Object.entries(p.parcours || {})
+    .map(([cle, v]) => [PARCOURS[cle] || cle, Number(String(v).replace(',', '.'))])
+    .filter(([, v]) => Number.isFinite(v))
+    .sort((a, b) => b[1] - a[1]);
+  if (faits.length) {
+    morceaux.push('<p class="meta">Mes parcours de cette année</p>');
+    morceaux.push('<ul class="pix-parcours" role="list">' + faits.map(([nom, v]) => {
+      const pc = Math.round(v <= 1 ? v * 100 : v);
+      return `<li><span>${echapper(nom)}</span>
+        <span class="barre"><span style="width:${pc}%"></span></span>
+        <b>${pc}&nbsp;%</b></li>`;
+    }).join('') + '</ul>');
+  }
+
+  morceaux.push(`<p class="meta pix-qui">Dans Pix, tu es inscrit sous le nom
+    « <b>${echapper(p.nomPix)}</b> ». Si ce n'est pas toi, dis-le à ton professeur :
+    c'est le nom que tu as tapé toi-même qui sert à retrouver tes résultats.</p>`);
+  $('pix-corps').innerHTML = morceaux.join('');
+}
 
 $('groupe').addEventListener('change', () => { rendreAdaptee(); rendreAnnee(); remplirSequences(); rendreTravaux(); });
 

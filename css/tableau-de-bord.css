@@ -43,6 +43,21 @@ body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
    Même règle que .page-description dans css/style.css. */
 .bloc .aide-cocher, .bloc .direct-mot, .bloc .aide, .dit-adaptee p { max-width: 68ch; }
 
+/* ---- LA TUILE PIX ----
+   Une ligne par parcours : le nom, une barre, le pourcentage. La barre est
+   la meme que celle de l'annee (.barre), pour que l'oeil n'ait pas a
+   apprendre une seconde forme. */
+.pix-parcours { list-style: none; margin: .3rem 0 .9rem; padding: 0; display: grid; gap: .5rem; }
+.pix-parcours li { display: grid; grid-template-columns: 1fr 6rem auto; gap: .6rem; align-items: center; font-size: .9rem; }
+.pix-parcours li > span:first-child { color: var(--encre-2); overflow-wrap: anywhere; }
+.pix-parcours .barre { height: 8px; background: var(--avenir-pale); border-radius: 999px; overflow: hidden; }
+.pix-parcours .barre > span { display: block; height: 100%; background: var(--bleu-2); border-radius: 999px; }
+.pix-parcours b { font-variant-numeric: tabular-nums; color: var(--encre); }
+/* Le nom tape dans Pix : discret, mais lisible. C'est le seul moyen pour
+   l'eleve de reperer un rapprochement faux. */
+.pix-qui { font-size: .84rem; color: var(--encre-3); max-width: 60ch; }
+@media (max-width: 30rem) { .pix-parcours li { grid-template-columns: 1fr auto; } .pix-parcours .barre { grid-column: 1 / -1; } }
+
 /* ---- le bandeau : mon groupe, et ce qu'il commande ------------------- */
 .bandeau {
   display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem;
