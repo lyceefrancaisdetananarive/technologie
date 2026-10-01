@@ -28,7 +28,12 @@
       n'est jamais porté par la couleur seule : chacun porte aussi un mot.
    ===================================================================== */
 
-body.tdb main, main.tdb { max-width: 68rem; }
+/* Meme largeur que les autres pages d'application. A 68rem, le tableau de
+   bord du professeur etait PLUS ETROIT (1088 px) que le site public
+   (1180 px), parce que main.tdb l'emporte en specificite sur .site-main.
+   Le repli vaut pour enseignant/index.html, qui charge style.css et non
+   connecte.css : le jeton n'y est pas defini. */
+body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
 
 /* ---- le bandeau : mon groupe, et ce qu'il commande ------------------- */
 .bandeau {

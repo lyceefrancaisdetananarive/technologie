@@ -30,6 +30,20 @@
 .champ-rep textarea { min-height: 3.2rem; font-size: .92rem; }
 .pied-fiche { margin-top: .5rem; }
 .pied-fiche .correction span { white-space: pre-wrap; overflow-wrap: anywhere; }
+
+/* ---- LA PAGE EN TUILES (1er octobre 2026) ----
+   Elargir le conteneur ne raccourcit rien : les cartes etaient des blocs
+   empiles, vingt-cinq travaux faisaient vingt-cinq lignes. C'est la grille
+   qui convertit la largeur en hauteur gagnee. minmax(26rem, 1fr) : trois
+   colonnes sur un ecran de salle, deux sur un portable, une sur un
+   telephone, sans aucun point de rupture a maintenir. */
+#liste, #liste-reponses { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr)); align-items: start; }
+#liste > .rendu, #liste-reponses > .rendu { margin-bottom: 0; }
+#liste > .vide, #liste-reponses > .vide { grid-column: 1 / -1; }
+/* Une fiche depliee deborde sa colonne : elle la prend toute. */
+#liste-reponses > .rendu:has(> details[open]) { grid-column: 1 / -1; }
+/* Le resume d'une fiche repliee doit suffire a choisir : nom, etat, volume. */
+.rendu > details > summary { margin: .35rem 0 0; }
 </style>
 </head>
 <body>
@@ -377,10 +391,14 @@ function articleFiche(f) {
   const champs = el('div', { class: 'champs' });
   if (f.ligneLibre) champs.append(blocChamp(f, f.ligneLibre, true));
   for (const l of f.champs) champs.append(blocChamp(f, l, false));
-  // Une fiche corrigée se replie : douze champs par fiche, la page resterait
-  // interminable. Les commentaires y restent lisibles en dépliant.
-  const figee = corrigee && !f.edition;
-  art.append(figee && f.champs.length
+  // TOUTE fiche se replie, pas seulement la corrigée. Douze fiches de douze
+  // champs dépliées faisaient une page d'un kilomètre : le professeur devait
+  // défiler pour atteindre l'élève suivant. Repliées et posées en grille, les
+  // douze tiennent sur un écran ; il déplie celle qu'il corrige, et elle
+  // prend alors toute la largeur (voir #liste-reponses > .rendu:has(...)).
+  // La fiche en cours de correction reste ouverte : f.edition.
+  const replier = f.champs.length && !f.edition;
+  art.append(replier
     ? el('details', {}, el('summary', {}, `Voir les réponses (${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''})`), champs)
     : champs, piedFiche(f));
   return art;

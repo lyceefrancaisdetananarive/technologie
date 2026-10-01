@@ -29,6 +29,16 @@
   --texte: 'Nunito Sans', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
   --mono: 'JetBrains Mono', ui-monospace, Menlo, monospace;
   --r: 10px; --r-lg: 16px;
+  /* LA LARGEUR DES PAGES D'APPLICATION (1er octobre 2026).
+     Les eleves travaillent sur les ecrans de la salle, et le professeur
+     corrige sur le sien : le classeur, les listes et les outils prennent la
+     largeur disponible au lieu d'une colonne de 832 px au milieu d'un ecran
+     de 1920. Le cap ne sert plus qu'aux tres grands ecrans.
+     CE JETON NE BORNE PAS LA LECTURE. La mesure d'un paragraphe se borne en
+     ch, sur le paragraphe lui-meme, jamais sur le conteneur : une ligne de
+     prose de 1900 px ne se lit pas. C'est deja la regle de la maison, voir
+     .page-description et .probleme p dans css/style.css. */
+  --mesure-app: 120rem;
   --ombre: 0 1px 2px rgba(31, 42, 55, .06), 0 4px 14px rgba(31, 42, 55, .06);
 }
 * { box-sizing: border-box; }
@@ -93,7 +103,7 @@ header a.retour, header .lien-tete { font-size: .88rem; color: var(--bleu); text
 .dit-adaptee p:last-child { margin-bottom: 0; }
 
 /* ---- corps ---- */
-main { max-width: 52rem; margin: 0 auto; padding: 1.5rem 1.25rem 4rem; }
+main { max-width: var(--mesure-app); margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
 main.etroit, body.etroit main { width: 100%; max-width: 27rem; margin: 6vh auto 0; }
 section {
   background: var(--papier-2); border: 1px solid var(--trait); border-radius: var(--r-lg);
@@ -274,7 +284,7 @@ button.danger:hover { filter: brightness(.9); }
 .visually-hidden { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
 /* Pied de page des pages connectées : les trois liens légaux, rien d'autre. */
-.pied-legal { max-width: 52rem; margin: 0 auto; padding: 1rem 1.25rem 2rem; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: .82rem; }
+.pied-legal { max-width: var(--mesure-app); margin: 0 auto; padding: 1rem 1.5rem 2rem; display: flex; flex-wrap: wrap; gap: .5rem 1.25rem; font-size: .82rem; }
 .pied-legal a { color: var(--encre-2); min-height: 44px; display: inline-flex; align-items: center; }
 body.etroit .pied-legal { justify-content: center; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
