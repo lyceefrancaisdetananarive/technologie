@@ -32,8 +32,8 @@ begin
     where n.nspname = 'public' and c.relkind = 'r' and not c.relrowsecurity
   loop
     raise exception
-      'RLS DÉSACTIVÉ sur la table public.% — son contenu est lisible par '
-      'quiconque possède la clé anon, qui est publique. Corriger avec : '
+      'RLS DESACTIVE sur la table public.% - son contenu est lisible par '
+      'quiconque possede la cle anon, qui est publique. Corriger avec : '
       'alter table % enable row level security;', t.relname, t.relname;
   end loop;
 
@@ -57,7 +57,7 @@ begin
       raise exception
         'La table public.% n''a AUCUNE politique : le classeur affichera des '
         'listes vides, sans message d''erreur, car le RLS ne refuse pas, il '
-        'renvoie zéro ligne.', t.nom;
+        'renvoie zero ligne.', t.nom;
     end if;
     compte_politiques := compte_politiques + n;
   end loop;
@@ -83,7 +83,7 @@ begin
   if n > 0 then
     raise exception
       'La table tentatives porte % politique(s). Elle ne doit en avoir '
-      'aucune : le navigateur n''a rien à y voir.', n;
+      'aucune : le navigateur n''a rien a y voir.', n;
   end if;
 
   -- 4. ------------------------------------------------------------------
@@ -94,7 +94,7 @@ begin
    where id = 'rendus' and buckets.public is false;
   if n <> 1 then
     raise exception
-      'Le bucket « rendus » est PUBLIC, ou absent. Les copies des élèves '
+      'Le bucket "rendus" est PUBLIC, ou absent. Les copies des eleves '
       'seraient lisibles sans authentification.';
   end if;
 
@@ -105,8 +105,8 @@ begin
                                      'application/pdf'];
   if n <> 1 then
     raise warning
-      'Le bucket « rendus » n''a pas la limite de taille ou la liste de '
-      'formats attendues. Ce filet protège si le code client est trafiqué.';
+      'Le bucket "rendus" n''a pas la limite de taille ou la liste de '
+      'formats attendues. Ce filet protege si le code client est trafique.';
   end if;
 
   -- 5. ------------------------------------------------------------------
@@ -121,8 +121,8 @@ begin
     and (column_default is not null or is_nullable = 'NO');
   if n > 0 then
     raise exception
-      'profils.mdp_pose_le porte une valeur par défaut ou une contrainte '
-      'NOT NULL. Tout compte créé en bloc serait refusé 24 h plus tard, '
+      'profils.mdp_pose_le porte une valeur par defaut ou une contrainte '
+      'NOT NULL. Tout compte cree en bloc serait refuse 24 h plus tard, '
       'quel que soit son mot de passe. Corriger avec : alter table profils '
       'alter column mdp_pose_le drop default, alter column mdp_pose_le '
       'drop not null;';
@@ -144,7 +144,7 @@ begin
        ) not like '%@eleve.egd.mg%' then
       raise exception
         'profils_domaine_coherent ne mentionne pas @eleve.egd.mg : elle '
-        'rejette probablement toutes les adresses d''élèves.';
+        'rejette probablement toutes les adresses d''eleves.';
     end if;
   end;
 
@@ -163,11 +163,11 @@ begin
   loop
     raise exception
       'La fonction %() n''est pas SECURITY DEFINER avec un search_path '
-      'fixé. Les politiques qui s''appuient dessus ne sont pas fiables.',
+      'fixe. Les politiques qui s''appuient dessus ne sont pas fiables.',
       t.proname;
   end loop;
 
   -- ---------------------------------------------------------------------
-  raise notice 'Vérification passée : % table(s), % politique(s), bucket privé.',
+  raise notice 'Verification passee : % table(s), % politique(s), bucket prive.',
     compte_tables, compte_politiques;
 end $$;

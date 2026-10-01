@@ -56,7 +56,6 @@ Lire dans l'ordre du fichier donnait une mediane de 81 pix au lieu de 92.
 """
 import csv
 import datetime
-import difflib
 import io
 import json
 import os
@@ -160,6 +159,47 @@ def relever(dossier):
 # --------------------------------------------------------- appariement
 
 
+def distance(x, y, plafond=1):
+    """Distance de Levenshtein, abandonnee des qu'elle depasse le plafond.
+
+    POURQUOI PAS UN RATIO. difflib donnait 0,857 aussi bien pour
+    « ouedrogo » / « ouedraogo » (une lettre inseree, le meme nom) que pour
+    « martin » / « martinez » (deux lettres, deux familles). Le ratio ne sait
+    pas separer une faute de frappe d'un autre nom ; le nombre d'editions,
+    si. Une faute de frappe, c'est UNE lettre.
+    """
+    if abs(len(x) - len(y)) > plafond:
+        return plafond + 1
+    precedente = list(range(len(y) + 1))
+    for i, cx in enumerate(x, 1):
+        courante = [i]
+        for j, cy in enumerate(y, 1):
+            courante.append(min(precedente[j] + 1, courante[j - 1] + 1,
+                                precedente[j - 1] + (cx != cy)))
+        if min(courante) > plafond:
+            return plafond + 1
+        precedente = courante
+    return precedente[-1]
+
+
+def voisin(x, y):
+    """Deux ecritures du meme mot, a une faute de frappe pres."""
+    return x != y and min(len(x), len(y)) >= 5 and distance(x, y) <= 1
+
+
+def tronque_vers(mot_base, mot_pix):
+    """Le mot tape dans Pix est un DEBUT du mot de la base.
+
+    LA REGLE EST ASYMETRIQUE, ET C'EST TOUT L'INTERET. « Vali » pour
+    « Valinkiry » : l'eleve a tape moins que son nom, cela arrive tous les
+    jours. L'inverse n'arrive pas : personne n'ajoute des lettres a son propre
+    nom. « Martin » dans la base contre « Martinez » dans Pix, ce ne sont donc
+    pas deux ecritures d'un nom, ce sont deux familles. La version symetrique
+    de cette regle rapprochait les deux.
+    """
+    return mot_base != mot_pix and mot_base.startswith(mot_pix) and len(mot_pix) >= 3
+
+
 def qualite(base, pix):
     """(rang, raison). 3 = certain, 2 = tres probable, 1 = douteux, 0 = non."""
     b, p = set(base), set(pix)
@@ -182,15 +222,24 @@ def qualite(base, pix):
         return 3, 'le nom de la base est contenu dans celui tape dans Pix'
     communs = b & p
     colles = len((bc & pc) - communs)
-    tronque = any(x != y and (x.startswith(y) or y.startswith(x)) and min(len(x), len(y)) >= 3
-                  for x in b for y in p)
+    tronque = any(tronque_vers(x, y) for x in b for y in p)
     # Une faute de frappe d'une lettre n'est pas un autre nom : « ouedrogo »
     # et « ouedraogo », « rajaona » et « rajaobna ». On compte ces mots-la
     # comme communs, sans quoi deux candidats restaient a egalite et le
     # professeur devait trancher une evidence.
-    voisins = sum(1 for x in b for y in p
-                  if x != y and min(len(x), len(y)) >= 5
-                  and difflib.SequenceMatcher(None, x, y).ratio() >= 0.85)
+    voisins = sum(1 for x in b for y in p if voisin(x, y))
+
+    # DEUX NOMS DIFFERENTS NE DEVIENNENT PAS LE MEME PARCE QU'ILS PARTAGENT UN
+    # PRENOM. Si chaque cote garde un mot qui lui est propre, qui n'est ni un
+    # voisin orthographique ni un recollement, alors ce sont deux personnes :
+    # MARTIN Lucas et MARTINEZ Lucas, RAKOTO Hery et RAKOTOARISOA Hery. Le
+    # rang 1 renvoie au professeur au lieu d'ecrire.
+    couvert_b = {x for x in b if x in pc or any(voisin(x, y) or tronque_vers(x, y) for y in p)}
+    couvert_p = {y for y in p if y in bc or any(voisin(y, x) or tronque_vers(x, y) for x in b)}
+    if (b - couvert_b) and (p - couvert_p):
+        return 1, 'un mot propre a chacun : %s contre %s' % (
+            '/'.join(sorted(b - couvert_b)), '/'.join(sorted(p - couvert_p)))
+
     if len(communs) + voisins + colles >= 2:
         return 2, '%d mots communs%s%s' % (
             len(communs),
@@ -216,9 +265,17 @@ def main():
     pix = relever(dossier)
     print('%d participants releves dans %s' % (len(pix), dossier))
 
-    eleves = appel('GET', 'profils', urllib.parse.urlencode({
-        'role': 'eq.eleve', 'actif': 'is.true',
-        'select': 'id,email,nom,prenom,appartenances(groupes(code,niveau))'}))
+    # TOUS LES ELEVES, ACTIFS OU NON. Le filtre `actif=is.true` etait ici, et
+    # c'etait l'angle mort : un eleve mis a la corbeille ne revendiquait plus
+    # son propre releve, qui partait alors sur le compte d'un camarade. On lit
+    # donc tout le monde, on ne REGARDE les revendications que la-dessus, et on
+    # n'ECRIT que pour les actifs.
+    tous = appel('GET', 'profils', urllib.parse.urlencode({
+        'role': 'eq.eleve',
+        'select': 'id,email,nom,prenom,actif,appartenances(groupes(code,niveau))'}))
+    eleves = [e for e in tous if e.get('actif') is not False]
+    print('%d eleves, dont %d a la corbeille (comptes dans les revendications, '
+          'jamais dans les ecritures)' % (len(tous), len(tous) - len(eleves)))
 
     # LA CLASSE DE L'ELEVE. Elle n'est pas dans la base : un groupe comme
     # 3SVT2 melange deux classes. On l'accepte donc d'un fichier
@@ -253,24 +310,28 @@ def main():
     # « sans Pix » : il est hors perimetre, et le dire evite de faire croire
     # a un trou dans les donnees.
     classes_relevees = {c for c, _ in pix}
-    surs, douteux, absents, intouches, hors = [], [], [], [], []
-    for e in eleves:
-        identifiant = (e.get('email') or '').split('@')[0]
-        if deja.get(e['id']) in ('confirme', 'refuse'):
-            intouches.append(identifiant)
-            continue
-        base = mots(e.get('nom')) + mots(e.get('prenom'))
-        sa_classe = classe_de.get(identifiant)
-        if classe_de and (not sa_classe or sa_classe not in classes_relevees):
-            hors.append(identifiant)
-            continue
-        ses_niveaux = {g['groupes']['niveau'] for g in (e.get('appartenances') or [])
-                       if g.get('groupes')}
-        cands = []
+
+    def cle_ligne(v):
+        return (v['nom'] + ' ' + v['prenom']).strip() + '|' + v['classe']
+
+    def contexte(e):
+        """(identifiant, mots du nom, classe PRONOTE, niveaux du site)."""
+        ident = (e.get('email') or '').split('@')[0]
+        return (ident, mots(e.get('nom')) + mots(e.get('prenom')),
+                classe_de.get(ident),
+                {g['groupes']['niveau'] for g in (e.get('appartenances') or [])
+                 if g.get('groupes')})
+
+    def candidats(base, sa_classe, ses_niveaux):
+        """Les lignes Pix que cet eleve peut revendiquer, les meilleures d'abord.
+
+        LA CONTRAINTE QUI EVITE LES FAUX : un resultat de 5M1 ne peut
+        appartenir qu'a un eleve de 5M1. Sans elle, « Rajaona Camille » de 5M1
+        se collait sur camille.loray de 3M4. A defaut de classe, le NIVEAU
+        ecarte deja l'essentiel des confusions de prenom.
+        """
+        out = []
         for (classe, cle), v in pix.items():
-            # LA CONTRAINTE QUI EVITE LES FAUX : un resultat de 5M1 ne peut
-            # appartenir qu'a un eleve de 5M1. Sans elle, « Rajaona Camille »
-            # de 5M1 se collait sur camille.loray de 3M4.
             if sa_classe:
                 if classe != sa_classe:
                     continue
@@ -278,44 +339,88 @@ def main():
                 continue
             rang, raison = qualite(base, cle)
             if rang:
-                cands.append((rang, raison, v))
-        cands.sort(key=lambda x: -x[0])
-        if not cands:
-            absents.append(identifiant)
+                out.append((rang, raison, v))
+        out.sort(key=lambda x: -x[0])
+        return out
+
+    # ---------------------------------------------------------------- passe 1
+    # QUI REVENDIQUE QUOI, SUR TOUT L'ETABLISSEMENT.
+    #
+    # Le garde-fou « une ligne Pix ne sert qu'un eleve » ne valait autrefois
+    # que pour les eleves du lot courant. Trois portes le contournaient : un
+    # eleve deja tranche par le professeur, un eleve absent du fichier de
+    # classes, un compte a la corbeille. Dans les trois cas l'ayant droit
+    # sortait de la boucle AVANT d'avoir revendique quoi que ce soit, et son
+    # releve s'ecrivait en silence sur le compte d'un camarade au nom proche.
+    # Cette passe-ci ne saute personne : elle ne decide rien, elle compte.
+    revendiquee = {}
+    for e in tous:
+        ident, base, sa_classe, ses_niveaux = contexte(e)
+        for rang, _, v in candidats(base, sa_classe, ses_niveaux):
+            if rang >= 2:
+                revendiquee.setdefault(cle_ligne(v), set()).add(ident)
+
+    # ---------------------------------------------------------------- passe 2
+    surs, douteux, absents, intouches, hors = [], [], [], [], []
+    for e in eleves:
+        ident, base, sa_classe, ses_niveaux = contexte(e)
+        if deja.get(e['id']) in ('confirme', 'refuse'):
+            intouches.append(ident)
             continue
+        if classe_de and (not sa_classe or sa_classe not in classes_relevees):
+            hors.append(ident)
+            continue
+
+        cands = candidats(base, sa_classe, ses_niveaux)
+        if not cands:
+            absents.append(ident)
+            continue
+
+        def amoi(v):
+            """Cette ligne n'est revendiquee par personne d'autre."""
+            return revendiquee.get(cle_ligne(v), set()) <= {ident}
+
         tete = cands[0]
         exaequo = [c for c in cands if c[0] == tete[0]]
-        ligne = {'profil_id': e['id'], 'nom_pix': (tete[2]['nom'] + ' ' + tete[2]['prenom']).strip(),
-                 'classe': tete[2]['classe'], 'score': tete[2]['score'],
-                 'certifiable': tete[2]['certifiable'],
-                 'envoi': tete[2]['envoi'].isoformat() if tete[2]['envoi'] else None,
-                 'parcours': tete[2]['parcours'], 'competences': tete[2]['competences'],
+        # UN ELEVE PEUT AVOIR ENVOYE DEUX FOIS, SOUS DEUX ORTHOGRAPHES.
+        # « MAHAZOASY Roxanne » et « MAHAZOASY ZOGG Roxanne » sont alors deux
+        # lignes, et prendre la mieux classee perdait la plus recente. Si
+        # PERSONNE d'autre ne les revendique, elles sont a lui : on garde la
+        # plus recente, et nom_pix porte les deux ecritures, seule chose que
+        # l'eleve puisse reconnaitre sur son classeur.
+        siennes = [c for c in cands if c[0] >= 2 and amoi(c[2])]
+        fusion = None
+        if len(siennes) > 1:
+            fusion = sorted(siennes, key=lambda c: (c[2]['envoi'] is not None,
+                                                    c[2]['envoi'] or datetime.datetime.min))[-1]
+
+        choix = fusion or tete
+        v = choix[2]
+        nom_pix = (v['nom'] + ' ' + v['prenom']).strip()
+        if fusion:
+            autres = [(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in siennes
+                      if c is not fusion]
+            nom_pix += ' (aussi : ' + ', '.join(sorted(set(autres))) + ')'
+        ligne = {'profil_id': e['id'], 'nom_pix': nom_pix,
+                 'classe': v['classe'], 'score': v['score'],
+                 'certifiable': v['certifiable'],
+                 'envoi': v['envoi'].isoformat() if v['envoi'] else None,
+                 'parcours': v['parcours'], 'competences': v['competences'],
                  'appariement': 'automatique'}
-        if tete[0] >= 2 and len(exaequo) == 1:
-            surs.append((identifiant, ligne, tete[1]))
+
+        autres_revendiquent = not amoi(v)
+        raison = choix[1] + (' ; deux envois fusionnes' if fusion else '')
+        if autres_revendiquent:
+            raison += ' (revendique aussi par : %s)' % ', '.join(
+                sorted(revendiquee[cle_ligne(v)] - {ident}))
+        if choix[0] >= 2 and (fusion or len(exaequo) == 1) and not autres_revendiquent:
+            surs.append((ident, ligne, raison))
         else:
             # On garde les candidats ENTIERS, et pas seulement leurs noms :
             # --trancher doit pouvoir ecrire celui que le professeur designe.
-            douteux.append((identifiant, ligne, tete[1],
+            douteux.append((ident, ligne, raison,
                             [(c[2]['nom'] + ' ' + c[2]['prenom']).strip() for c in exaequo[1:4]],
                             [c[2] for c in cands[:6]], e['id']))
-
-    # UNE LIGNE PIX NE SERT QU'UN ELEVE. Deux freres, deux homonymes, et le
-    # meme releve se collait sur les deux. Si deux eleves revendiquent la
-    # meme ligne, aucun des deux ne passe : le professeur tranche.
-    revendiquee = {}
-    for ident, ligne, raison in surs:
-        revendiquee.setdefault(ligne['nom_pix'] + '|' + ligne['classe'], []).append(ident)
-    litiges = {k for k, v in revendiquee.items() if len(v) > 1}
-    if litiges:
-        garde = []
-        for ident, ligne, raison in surs:
-            if ligne['nom_pix'] + '|' + ligne['classe'] in litiges:
-                douteux.append((ident, ligne, raison + ' (revendique par plusieurs eleves)',
-                                [], [], ligne['profil_id']))
-            else:
-                garde.append((ident, ligne, raison))
-        surs = garde
 
     print('  surs      : %d' % len(surs))
     print('  a trancher: %d' % len(douteux))
@@ -352,19 +457,52 @@ def main():
         raise SystemExit("La table `pix` n'existe pas : jouer db/17-pix.sql dans "
                          "l'editeur SQL de Supabase, puis relancer. Rien n'a ete ecrit.")
 
-    tranches = arbitrer(douteux) if trancher else []
+    # LES RELEVES DEJA DETENUS, pour que l'arbitrage ne redonne pas a un eleve
+    # ce qu'un autre porte deja en base. Les lignes des eleves justement a
+    # trancher sont exclues : sans quoi un eleve serait bloque par sa propre
+    # ligne d'un import precedent.
+    a_trancher = {d[5] for d in douteux}
+    ident_de = {e['id']: (e.get('email') or '').split('@')[0] for e in tous}
+    prises_base = {}
+    if not table_absente:
+        for l in appel('GET', 'pix', 'select=profil_id,nom_pix,classe'):
+            if l['profil_id'] in a_trancher:
+                continue
+            nom = l['nom_pix'].split(' (aussi :')[0]
+            prises_base[nom + '|' + l['classe']] = ident_de.get(l['profil_id'], '?')
 
-    for i in range(0, len(surs), 50):
-        appel('POST', 'pix', '', [l for _, l, _ in surs[i:i + 50]])
-    print('\n%d lignes ecrites.' % len(surs))
+    tranches = arbitrer(douteux, prises_base) if trancher else []
+
+    # LES ARBITRAGES EN PREMIER. Ils viennent d'etre tapes un par un, a la
+    # main ; les 182 lignes automatiques, elles, se recalculent en une
+    # commande. Si quelque chose casse entre les deux, c'est le travail
+    # irremplacable qui doit deja etre en base.
     if tranches:
         for i in range(0, len(tranches), 50):
             appel('POST', 'pix', '', tranches[i:i + 50])
-        print('%d arbitrage(s) enregistre(s), que les imports suivants ne toucheront plus.'
-              % len(tranches))
+        print('\n%d arbitrage(s) enregistre(s), que les imports suivants ne '
+              'toucheront plus.' % len(tranches))
+
+    # UNE LIGNE AUTOMATIQUE QUI N'EST PLUS SURE DOIT PARTIR. Un import
+    # precedent a pu ecrire un rapprochement que celui-ci juge desormais
+    # douteux, parce que les regles ont change ou qu'un autre eleve le
+    # revendique. La laisser en base, c'est garder a l'ecran un score que
+    # l'outil ne soutient plus. On ne retire QUE les lignes `automatique` :
+    # un arbitrage humain n'est jamais efface.
+    tranche_ids = {l['profil_id'] for l in tranches}
+    aretirer = [d[5] for d in douteux if d[5] not in tranche_ids and deja.get(d[5]) == 'automatique']
+    if aretirer:
+        for i in range(0, len(aretirer), 50):
+            appel('DELETE', 'pix', 'profil_id=in.(%s)&appariement=eq.automatique'
+                  % ','.join(aretirer[i:i + 50]))
+        print('%d ligne(s) devenue(s) douteuse(s) retiree(s) de la base.' % len(aretirer))
+
+    for i in range(0, len(surs), 50):
+        appel('POST', 'pix', '', [l for _, l, _ in surs[i:i + 50]])
+    print('%d lignes ecrites.' % len(surs))
 
 
-def arbitrer(douteux):
+def arbitrer(douteux, prises_base=None):
     """Demande, pour chaque douteux, lequel des noms tapes dans Pix est le bon.
 
     POURQUOI AU TERMINAL ET NON DANS LE SITE. La question n'a de sens qu'avec
@@ -385,6 +523,11 @@ def arbitrer(douteux):
     print('Pour chacun : le numero du bon nom, `0` si aucun ne convient,')
     print('Entree pour passer, `q` pour arreter la.\n')
     retenus = []
+    # UNE LIGNE PIX NE S'ATTRIBUE PAS DEUX FOIS. Deux soeurs aux prenoms
+    # proches arrivent avec la MEME liste de candidats, dans le MEME ordre :
+    # repondre « 1 » deux fois de suite gravait le releve de l'une sur le
+    # compte de l'autre, en `confirme`, c'est-a-dire pour toujours.
+    prises = dict(prises_base or {})
     for d in douteux:
         ident, ligne, raison, _, cands, profil_id = d[0], d[1], d[2], d[3], d[4], d[5]
         if not cands:
@@ -394,11 +537,20 @@ def arbitrer(douteux):
             continue
         print('%s  (classe %s, %s)' % (ident, ligne['classe'], raison))
         for i, c in enumerate(cands, 1):
-            print('   %d. %-32s %4s pix  envoi %s'
+            cle = (c['nom'] + ' ' + c['prenom']).strip() + '|' + c['classe']
+            print('   %d. %-32s %4s pix  envoi %s%s'
                   % (i, (c['nom'] + ' ' + c['prenom']).strip(),
                      c['score'] if c['score'] is not None else '?',
-                     c['envoi'].strftime('%d/%m') if c['envoi'] else '?'))
-        rep = input('   > ').strip().lower()
+                     c['envoi'].strftime('%d/%m') if c['envoi'] else '?',
+                     '   <-- DEJA ATTRIBUE a ' + prises[cle] if cle in prises else ''))
+        try:
+            rep = input('   > ').strip().lower()
+        except (KeyboardInterrupt, EOFError):
+            # Ce qui est deja decide est garde : on ne refait pas taper dix
+            # reponses parce que la onzieme a ete interrompue.
+            print('\n   interrompu. Les %d arbitrage(s) deja decides sont '
+                  'conserves.' % len(retenus))
+            break
         if rep == 'q':
             print('   arret de l\'arbitrage.')
             break
@@ -417,6 +569,12 @@ def arbitrer(douteux):
             print('   reponse non comprise, passe.')
             continue
         c = cands[int(rep) - 1]
+        cle = (c['nom'] + ' ' + c['prenom']).strip() + '|' + c['classe']
+        if cle in prises:
+            print('   REFUSE : ce releve est deja attribue a %s. Un releve Pix '
+                  'ne sert qu\'un eleve.' % prises[cle])
+            continue
+        prises[cle] = ident
         retenus.append({
             'profil_id': profil_id,
             'nom_pix': (c['nom'] + ' ' + c['prenom']).strip(),

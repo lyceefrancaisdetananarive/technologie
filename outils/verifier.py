@@ -527,6 +527,33 @@ def verifier_parasites():
         avert(f'{n} fichier(s) parasite(s) macOS (._* ou .DS_Store) dans la source : exclus du déploiement, à nettoyer avec `find . -name "._*" -delete`')
 
 
+def verifier_sql_ascii():
+    """Le SQL destiné à l'éditeur de Supabase doit être intégralement ASCII.
+
+    Coller du texte accentué dans cet éditeur depuis le navigateur abîme
+    l'UTF-8 : « élève » arrive en base en « √©l√®ve », les octets C3 A8 étant
+    relus en MacRoman puis réencodés. Le presse-papier du système est correct,
+    la corruption est dans le collage. Vérifié le 8 septembre 2026.
+
+    Un accent dans un COMMENTAIRE ne fait que salir le commentaire. Un accent
+    dans une chaîne, un nom de politique ou un identifiant entre en base
+    abîmé, et `ALTER POLICY ... RENAME` est refusé sur storage.objects : la
+    faute y est irréparable autrement qu'en supprimant la politique. On
+    distingue donc les deux, et on n'alerte que sur ce qui compte.
+    """
+    fautifs = []
+    for chemin in sorted(glob.glob('db/*.sql')):
+        hors = 0
+        for ligne in lire(chemin).split('\n'):
+            code = ligne.split('--')[0]
+            hors += sum(1 for c in code if ord(c) > 127)
+        if hors:
+            fautifs.append(f'{chemin} ({hors})')
+    if fautifs:
+        avert('SQL non ASCII hors commentaire, l\'éditeur de Supabase l\'abîmera : '
+              + ', '.join(fautifs))
+
+
 def verifier_hygiene(cat):
     if not os.path.exists('.vercelignore') or '.env' not in lire('.vercelignore'):
         erreur('.vercelignore absent ou n\'exclut pas .env* : le jeton local serait publié')
@@ -732,6 +759,7 @@ def main():
     verifier_contrastes()
     verifier_generes()
     verifier_parasites()
+    verifier_sql_ascii()
     verifier_hygiene(cat)
     print(f'{nl} liens internes, {nc} codes de cahier, {nd} documents au catalogue, {nr} entrées de recherche, '
           f'{nf} fils d\'Ariane, {nq} quiz ({nqq} questions), {na} ancres inter-pages, {npub} pages publiques.')
