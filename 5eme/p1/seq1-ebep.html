@@ -93,7 +93,7 @@
         <h2><span class="ico">&#x1F4D6;</span> Document : les cinq objets de la fiche</h2>
         <p>Lis ce document avant de répondre. Tu peux y revenir pendant les activités 1 et 2.</p>
 
-        <div class="info-box info-box-green">
+        <div id="doc1" class="info-box info-box-green">
           <div class="info-box-title">Document 1 : d'où vient chaque objet, et à quoi il sert</div>
           <ul>
             <li><strong>Le caillou</strong> : on le ramasse par terre, au bord du chemin ou dans la rivière. Personne ne l'a fabriqué.</li>
@@ -155,14 +155,14 @@
         </div>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Classe ces objets</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un objet <strong>naturel</strong> = il existe tout seul dans la nature.
           Un objet <strong>technique</strong> = l'Homme l'a fabriqué.
         </div>
 
-        <p><strong>Mets une croix (X) dans la bonne colonne.</strong> Si tu hésites, relis le document 1 et pose-toi la question du schéma : est-ce que quelqu'un l'a fabriqué ?</p>
+        <p><strong>Mets une croix (X) dans la bonne colonne.</strong> Si tu hésites, relis le <a class="va-au-doc" href="#doc1">document 1</a> et pose-toi la question du schéma : est-ce que quelqu'un l'a fabriqué ?</p>
         <table>
           <thead>
             <tr>
@@ -181,7 +181,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : À quoi ça sert ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Chaque objet technique a été fabriqué pour <strong>un besoin</strong> = quelque chose dont on a besoin dans la vie.
@@ -190,7 +190,7 @@
         <div class="info-box info-box-blue">
           <p style="margin:0"><strong>Banque de mots :</strong> <em>se déplacer</em> / <em>éclairer</em> / <em>communiquer</em></p>
         </div>
-        <p><strong>Complète chaque phrase avec un mot ou une expression de la banque.</strong> Le document 1 dit ce que l'on fait avec chaque objet.</p>
+        <p><strong>Complète chaque phrase avec un mot ou une expression de la banque.</strong> Le <a class="va-au-doc" href="#doc1">document 1</a> dit ce que l'on fait avec chaque objet.</p>
         <table>
           <thead>
             <tr>
@@ -227,7 +227,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-3" class="content-card ebep-content">
         <h2>Activité 3 : Usage ou estime ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong><br>
@@ -329,5 +329,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

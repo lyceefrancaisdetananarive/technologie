@@ -65,9 +65,9 @@
            les champs de réponse de la fiche interactive gardent leurs clés. -->
       <div class="content-card">
         <h2><span class="ico">&#x1F4D6;</span> Documents ressources : à lire avant de répondre</h2>
-        <p>Tout ce qu'il faut pour répondre aux étapes 1 à 4 est ici. Lis d'abord le document 1 en entier, puis garde les documents 2 et 3 sous les yeux pendant le travail.</p>
+        <p>Tout ce qu'il faut pour répondre aux étapes 1 à 4 est ici. Lis d'abord le <a class="va-au-doc" href="#doc1">document 1</a> en entier, puis garde les documents <a class="va-au-doc" href="#doc2">2</a> et <a class="va-au-doc" href="#doc3">3</a> sous les yeux pendant le travail.</p>
 
-        <div class="info-box info-box-green">
+        <div id="doc1" class="info-box info-box-green">
           <div class="info-box-title">Document 1 · Le tourniquet pleine hauteur ZKTeco FHT2300 (d'après la fiche du fabricant)</div>
           <p><strong>À quoi il sert.</strong> Il contrôle l'accès à un lieu : seule une personne autorisée passe, et une seule à la fois. On le trouve à l'entrée des stades, des usines, des entreprises, des chantiers, des parkings et des bâtiments sensibles. Il remplace un gardien pour ouvrir et fermer, pas pour surveiller.</p>
           <p><strong>Comment il est fait.</strong> Une colonne centrale verticale porte trois bras (les « sections ») disposés en étoile, écartés de 120°. Les bras et la cage sont en acier inoxydable (nuance SUS 304) : il ne rouille pas dehors. Hauteur 2,22 m, longueur 1,40 m, largeur 1,40 m, masse 220 kg ; le passage fait 58 cm de large. Il fonctionne dehors, de −28 °C à +60 °C, sous la pluie (capot étanche).</p>
@@ -130,14 +130,14 @@
           <figcaption style="font-size:.85rem;color:var(--encre-3);margin-top:.3rem">Schéma simplifié d'un tourniquet pleine hauteur à trois bras (dessin de la fiche, pas une image du fabricant).</figcaption>
         </figure>
 
-        <div class="info-box info-box-blue">
+        <div id="doc2" class="info-box info-box-blue">
           <div class="info-box-title">Document 2 · Les outils de l'analyse fonctionnelle, avec un exemple : le portail automatique d'un parking</div>
           <p><strong>La bête à cornes</strong> dit le <em>besoin</em> en trois questions. <em>À qui rend-il service ?</em> aux automobilistes abonnés. <em>Sur quoi agit-il ?</em> sur le passage des voitures. <em>Dans quel but ?</em> pour laisser entrer seulement les voitures autorisées. On écrit ensuite le besoin en une phrase : « Le portail permet aux automobilistes abonnés d'entrer dans le parking sans descendre de voiture. »</p>
           <p><strong>Le diagramme pieuvre</strong> liste les <em>fonctions de service</em>. La fonction principale <strong>FP</strong> relie l'utilisateur à ce sur quoi le système agit : « permettre à l'automobiliste d'ouvrir le portail avec son badge ». Les fonctions contraintes <strong>FC</strong> sont imposées par l'environnement : FC1 « résister à la pluie et au soleil » (le milieu extérieur), FC2 « être alimenté par le réseau électrique » (l'énergie), FC3 « ne pas blesser un piéton qui passe » (la norme de sécurité). Dans la colonne « Éléments liés », on écrit à quoi la fonction se rattache : l'utilisateur, le milieu extérieur, l'énergie, la norme, les autres systèmes.</p>
           <p><strong>Capteurs et actionneurs.</strong> Un système automatisé <em>acquiert</em> des informations avec des <strong>capteurs</strong> (le lecteur de badge, le détecteur de position, la cellule qui voit une voiture), les <em>traite</em> avec une carte électronique (le programme), puis <em>agit</em> avec des <strong>actionneurs</strong> (le moteur, le verrou électrique, le voyant). Un composant est <em>mécanique</em> s'il transmet un mouvement ou un effort (bras, axe, engrenage), <em>électronique</em> s'il traite ou transporte une information ou un courant (lecteur, capteur, carte, moteur commandé).</p>
         </div>
 
-        <div class="info-box info-box-blue">
+        <div id="doc3" class="info-box info-box-blue">
           <div class="info-box-title">Document 3 · Lire et construire un organigramme, avec un exemple : le distributeur de boissons</div>
           <p>Un <strong>algorithme</strong> est la suite ordonnée des étapes que suit le système. L'<strong>organigramme</strong> le dessine : un ovale pour Début et Fin, un rectangle pour une action, un losange pour une question à laquelle on répond par Oui ou par Non, des flèches pour l'ordre. De chaque losange partent deux flèches, une « Oui », une « Non ».</p>
           <p>Exemple, lu de haut en bas : <em>Début</em> → <em>Attendre une pièce</em> (rectangle) → <em>La pièce est-elle acceptée ?</em> (losange) → si Non : <em>Rendre la pièce</em> puis retour à <em>Attendre une pièce</em> ; si Oui : <em>Attendre le choix de la boisson</em> → <em>Distribuer la boisson</em> → <em>Fin</em>.</p>
@@ -158,14 +158,14 @@
       </div>
 
       <!-- Étape 1 -->
-      <div class="content-card">
+      <div id="activite-1" class="content-card">
         <h2>Étape 1 : Observation (10 min)</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-4eme);">1</div>
           <div class="activity-step-content">
-            <h4>Découvrir le tourniquet pleine hauteur (document 1)</h4>
-            <p>Lis le document 1 (et regarde la vidéo si ton professeur la projette), puis réponds aux questions suivantes.</p>
+            <h4>Découvrir le tourniquet pleine hauteur (<a class="va-au-doc" href="#doc1">document 1</a>)</h4>
+            <p>Lis le <a class="va-au-doc" href="#doc1">document 1</a> (et regarde la vidéo si ton professeur la projette), puis réponds aux questions suivantes.</p>
           </div>
         </div>
 
@@ -191,7 +191,7 @@
       </div>
 
       <!-- Étape 2 -->
-      <div class="content-card">
+      <div id="activite-2" class="content-card">
         <h2>Étape 2 : Analyse fonctionnelle (15 min)</h2>
 
         <div class="activity-step">
@@ -233,7 +233,7 @@
       </div>
 
       <!-- Étape 3 -->
-      <div class="content-card">
+      <div id="activite-3" class="content-card">
         <h2>Étape 3 : Dessin technique (15 min)</h2>
 
         <div class="activity-step">
@@ -258,7 +258,7 @@
       </div>
 
       <!-- Étape 4 -->
-      <div class="content-card">
+      <div id="activite-4" class="content-card">
         <h2>Étape 4 : Notion d'algorithme (30 min)</h2>
 
         <div class="activity-step">
@@ -356,6 +356,9 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

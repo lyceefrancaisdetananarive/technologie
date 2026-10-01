@@ -50,7 +50,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Le cahier des charges du feu tricolore</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un feu tricolore sert à régler la circulation. Il a 3 couleurs : rouge, orange, vert.
@@ -67,7 +67,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : La nomenclature</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> La <strong>nomenclature</strong> = la liste de toutes les pièces. On écrit : le nom, la quantité, le matériau.
@@ -131,5 +131,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

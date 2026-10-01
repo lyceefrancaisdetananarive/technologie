@@ -56,7 +56,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Connecté ou pas ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un objet <strong>connecté</strong> utilise Internet ou le Bluetooth pour communiquer. Un objet <strong>non connecté</strong> fonctionne tout seul.
@@ -81,7 +81,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : L'IA, c'est quoi exactement ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> L'IA ne pense pas comme un humain. Elle <strong>apprend à partir de données</strong> (des exemples). Plus elle a d'exemples, mieux elle fonctionne.
@@ -105,7 +105,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-3" class="content-card ebep-content">
         <h2>Activité 3 : Les données personnelles</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Les objets connectés collectent des <strong>données personnelles</strong> (ton nom, ta position, ta santé...). Il faut faire attention à qui on donne ces informations. C'est le <strong>RGPD</strong> qui nous protège.
@@ -176,5 +176,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

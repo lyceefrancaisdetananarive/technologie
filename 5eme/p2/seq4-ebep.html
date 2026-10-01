@@ -56,7 +56,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Les parties d'un vélo</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un <strong>sous-ensemble</strong> = un groupe de pièces qui travaillent ensemble pour une fonction. Exemple : les roues + les pneus = sous-ensemble « roulement ».
@@ -79,7 +79,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Les matériaux</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Il existe 4 grandes familles de matériaux :<br>
@@ -162,5 +162,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

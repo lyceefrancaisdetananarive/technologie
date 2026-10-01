@@ -55,7 +55,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Les étapes d'un projet</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un projet suit toujours des étapes dans l'ordre. C'est la <strong>démarche de projet</strong>.
@@ -79,7 +79,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Mon rôle dans l'équipe</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Dans un projet, chaque membre de l'équipe a un <strong>rôle</strong> : chef de projet, dessinateur, fabricant, testeur.
@@ -150,5 +150,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

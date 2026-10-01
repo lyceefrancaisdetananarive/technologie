@@ -56,7 +56,7 @@
         </ul>
       </div>
 
-      <div class="content-card">
+      <div id="activite-1" class="content-card">
         <h2><span class="ico">&#x1F4DD;</span> Activité 1 : Découvrir l'Arduino et faire clignoter une LED (S25)</h2>
         <div class="info-box info-box-green">
           <strong>Matériel :</strong> Arduino Uno, câble USB, breadboard, 1 LED, 1 résistance 220&#x2126;, fils dupont.
@@ -107,7 +107,7 @@
         </ol>
       </div>
 
-      <div class="content-card">
+      <div id="activite-2" class="content-card">
         <h2><span class="ico">&#x1F4DD;</span> Activité 2 : Lire un capteur et réagir (S26)</h2>
         <div class="info-box info-box-green">
           <strong>Matériel :</strong> Arduino Uno, capteur ultrason HC-SR04, LED, buzzer, breadboard, fils.
@@ -157,7 +157,7 @@
         </div>
       </div>
 
-      <div class="content-card">
+      <div id="activite-3" class="content-card">
         <h2><span class="ico">&#x1F4DD;</span> Activité 3 : Programmer le prototype de l'équipe (S27)</h2>
         <div class="info-box info-box-orange">
           <strong>Objectif :</strong> Appliquer les connaissances pour programmer le système électronique de votre objet connecté (projet Séquence 9).
@@ -223,6 +223,9 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

@@ -60,7 +60,7 @@
 
 
       <!-- Activité 1 -->
-      <div class="content-card">
+      <div id="activite-1" class="content-card">
         <h2>Activité 1 : Le cahier des charges</h2>
 
         <div class="activity-step">
@@ -96,7 +96,7 @@
       </div>
 
       <!-- Activité 2 -->
-      <div class="content-card">
+      <div id="activite-2" class="content-card">
         <h2>Activité 2 : Découverte de Tinkercad</h2>
 
         <div class="activity-step">
@@ -134,14 +134,14 @@
       </div>
 
       <!-- Activité 3 -->
-      <div class="content-card">
+      <div id="activite-3" class="content-card">
         <h2>Activité 3 : Concevoir le support de smartphone</h2>
 
         <div class="activity-step">
           <div class="activity-step-number" style="background: var(--color-5eme);">3</div>
           <div class="activity-step-content">
             <h4>Modélise ton support de smartphone sur Tinkercad</h4>
-            <p>En respectant le cahier des charges de l'activité 1, conçois un support de smartphone fonctionnel et esthétique.</p>
+            <p>En respectant le cahier des charges de <a class="va-au-doc" href="#activite-1">l'activité 1</a>, conçois un support de smartphone fonctionnel et esthétique.</p>
           </div>
         </div>
 
@@ -232,6 +232,9 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

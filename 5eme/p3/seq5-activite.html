@@ -62,7 +62,7 @@
 
 
       <!-- Activité 1 -->
-      <div class="content-card">
+      <div id="activite-1" class="content-card">
         <h2>Activité 1 : Les engrenages</h2>
 
         <div class="activity-step">
@@ -97,7 +97,7 @@
       </div>
 
       <!-- Activité 2 -->
-      <div class="content-card">
+      <div id="activite-2" class="content-card">
         <h2>Activité 2 : Transmission ou transformation ?</h2>
 
         <div class="activity-step">
@@ -162,7 +162,7 @@
       </div>
 
       <!-- Activité 3 -->
-      <div class="content-card">
+      <div id="activite-3" class="content-card">
         <h2>Activité 3 : Chaîne d'information</h2>
 
         <div class="activity-step">
@@ -298,6 +298,9 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
   <script src="../../js/videos-perso.js"></script>
 </body>
 </html>

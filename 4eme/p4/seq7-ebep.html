@@ -44,7 +44,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Impression 3D ou découpe laser ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong><br>
@@ -62,7 +62,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Les étapes de l'impression 3D</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Il y a 4 étapes : Modéliser → Trancher → Exporter → Imprimer
@@ -124,5 +124,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

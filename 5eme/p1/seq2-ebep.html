@@ -56,7 +56,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : La frise chronologique</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Une <strong>frise chronologique</strong> montre l'évolution d'un objet dans le temps. On lit de gauche (le plus ancien) à droite (le plus récent).
@@ -79,7 +79,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Qu'est-ce qui a changé ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Quand un objet évolue, on peut observer des changements dans : les <strong>matériaux</strong>, l'<strong>énergie</strong> utilisée, la <strong>forme</strong>, les <strong>performances</strong>.
@@ -119,7 +119,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-3" class="content-card ebep-content">
         <h2>Activité 3 : Pourquoi ça évolue ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Les objets évoluent grâce aux <strong>inventions</strong> et aux <strong>découvertes scientifiques</strong>. On appelle cela le <strong>progrès technique</strong>.
@@ -197,5 +197,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

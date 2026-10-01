@@ -40,6 +40,9 @@
   const activites = Array.prototype.slice.call(
     document.querySelectorAll('[id^="activite-"]'));
   const liens = Array.prototype.slice.call(document.querySelectorAll('a.va-au-doc'));
+  // window.afficherActivite est posee plus bas par le parcours : elle permet
+  // au volet de faire venir une activite masquee quand l'eleve veut y aller.
+  window.afficherActivite = null;
   if (!activites.length && !liens.length) return;
 
   const el = function (balise, attrs, enfants) {
@@ -91,21 +94,28 @@
   function ouvrir(id, depuis) {
     const source = document.getElementById(id);
     if (!source) return false;
-    const titre = source.querySelector('.info-box-title');
+    // Le volet sert aussi a montrer une AUTRE activite, quand une consigne y
+    // renvoie : le titre vient alors du h2 de la carte.
+    const titre = source.querySelector('.info-box-title') || source.querySelector('h2');
     titreVolet.textContent = titre ? titre.textContent.trim() : 'Document';
     // Une COPIE : l'original reste en place dans la page, donc l'ordre des
     // éléments de <main> ne bouge pas d'un iota.
     const copie = source.cloneNode(true);
-    const t = copie.querySelector('.info-box-title');
+    const t = copie.querySelector('.info-box-title') || copie.querySelector('h2');
     if (t) t.remove();
     copie.removeAttribute('id');
     copie.querySelectorAll('[id]').forEach(function (x) { x.removeAttribute('id'); });
     // Le volet EST la lecture en entier : le document s'y montre déplié, et
     // sans le bouton qui n'aurait plus rien à commander.
     copie.querySelectorAll('.doc-plus').forEach(function (b) { b.remove(); });
+    // La copie elle-meme peut porter hidden : une carte d'activite masquee
+    // par le parcours donnait un volet au titre juste et au corps vide.
+    copie.hidden = false;
     copie.querySelectorAll('[hidden]').forEach(function (x) { x.hidden = false; });
     corpsVolet.replaceChildren(copie);
     allerAu.href = '#' + id;
+    allerAu.textContent = /^activite-/.test(id)
+      ? 'Revenir à cette activité' : 'Voir ce document dans la page';
     rendreLeFocus = depuis || null;
     panneau.hidden = false;
     document.body.classList.add('volet-ouvert');
@@ -128,7 +138,14 @@
 
   fermer.addEventListener('click', refermer);
   panneau.querySelector('.volet-fond').addEventListener('click', refermer);
-  allerAu.addEventListener('click', function () { refermer(); });
+  allerAu.addEventListener('click', function () {
+    const id = (allerAu.getAttribute('href') || '').replace('#', '');
+    refermer();
+    // Aller vers une activite masquee demande de l'afficher d'abord.
+    if (/^activite-/.test(id) && typeof window.afficherActivite === 'function') {
+      window.afficherActivite(id);
+    }
+  });
   document.addEventListener('keydown', function (ev) {
     if (ev.key === 'Escape') refermer();
     // Le focus ne sort pas du volet tant qu'il est ouvert.
@@ -208,11 +225,18 @@
       while (n) { corps.push(n); n = n.nextElementSibling; }
       if (corps.length) {
         const b = el('button', { type: 'button', class: 'doc-plus', 'aria-expanded': 'false' }, []);
-        let ouvert = false;
+        // Le nombre de mots se compte, il ne s'ecrit pas en dur : une fiche a
+        // cinq entrees annoncait huit mots a chaque ouverture.
+        const entrees = lexique.querySelectorAll('li').length;
+        const combien = entrees ? entrees + (entrees > 1 ? ' mots' : ' mot') : 'les mots de la fiche';
+        // Sur une fiche adaptee, le lexique est une aide au vocabulaire posee
+        // la expres : elle reste ouverte, l'eleve n'a pas a savoir qu'un
+        // bouton la cache.
+        let ouvert = /-ebep\.html$/.test(location.pathname);
         function peindreLex() {
           corps.forEach(function (x) { x.hidden = !ouvert; });
           b.setAttribute('aria-expanded', String(ouvert));
-          b.textContent = ouvert ? 'Replier le lexique' : 'Ouvrir le lexique, huit mots à retrouver quand tu en as besoin';
+          b.textContent = ouvert ? 'Replier le lexique' : 'Ouvrir le lexique, ' + combien;
         }
         b.addEventListener('click', function () { ouvert = !ouvert; peindreLex(); });
         lexique.querySelector('.info-box-title').after(b);
@@ -296,6 +320,11 @@
     const n = Number(sessionStorage.getItem(memoire));
     if (n >= 0 && n < activites.length) courante = n;
   } catch (e) { /* sans mémoire, on commence au début */ }
+
+  window.afficherActivite = function (id) {
+    const i = activites.findIndex(function (c) { return c.id === id; });
+    if (i >= 0) montrer(i, true);
+  };
 
   montrer(courante, false);
   window.addEventListener('pagehide', function () {

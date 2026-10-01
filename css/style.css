@@ -1277,3 +1277,11 @@ body:has(.fil-activites) { padding-bottom: 4.5rem; }
   font-size: .86rem; font-style: italic; opacity: .85;
   margin: 0 0 .7rem; padding-left: .85rem; border-left: 2px dashed currentColor;
 }
+
+/* L'impression ne doit pas dependre du seul evenement beforeprint, que
+   certains navigateurs ne declenchent pas : une fiche papier porte toujours
+   toutes ses activites et tous ses documents, deplies. */
+@media print {
+  [id^="activite-"][hidden] { display: block !important; }
+  .info-box > [hidden] { display: revert !important; }
+}

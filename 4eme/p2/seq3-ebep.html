@@ -54,7 +54,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : C'est quoi chaque partie ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> <strong>Capteur</strong> = il détecte. <strong>Actionneur</strong> = il fait quelque chose qu'on voit/entend.
@@ -72,7 +72,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Mon premier programme</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Sur MakeCode, tu assembles des <strong>blocs</strong> (comme des pièces de puzzle) pour programmer.
@@ -135,5 +135,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

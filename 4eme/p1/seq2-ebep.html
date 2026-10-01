@@ -52,7 +52,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Les symboles de l'organigramme</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Un organigramme, c'est un dessin qui montre les étapes d'un algorithme avec des formes.
@@ -71,7 +71,7 @@
         <p style="color:var(--gray-400); font-size:0.95rem;">Choix : une action / le début ou la fin / une question Oui/Non</p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : Complète l'organigramme</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Le tourniquet : tu passes ton badge → la machine vérifie → si c'est bon, le bras tourne.
@@ -135,5 +135,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>

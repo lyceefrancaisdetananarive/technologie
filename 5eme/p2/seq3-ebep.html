@@ -56,7 +56,7 @@
         </p>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-1" class="content-card ebep-content">
         <h2>Activité 1 : Les étapes du cycle de vie</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Le cycle de vie d'un objet a <strong>5 grandes étapes</strong>. Elles se suivent toujours dans le même ordre.
@@ -80,7 +80,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-2" class="content-card ebep-content">
         <h2>Activité 2 : L'impact sur l'environnement</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Chaque étape du cycle de vie peut avoir un <strong>impact sur la planète</strong> : pollution, déchets, consommation d'énergie.
@@ -111,7 +111,7 @@
         </table>
       </div>
 
-      <div class="content-card ebep-content">
+      <div id="activite-3" class="content-card ebep-content">
         <h2>Activité 3 : Que faire des vieux objets ?</h2>
         <div class="ebep-hint">
           <strong>Aide :</strong> Il y a plusieurs solutions pour les objets en fin de vie :<br>
@@ -193,5 +193,8 @@
   <script src="../../js/catalogue.js"></script>
   <script src="../../js/components.js"></script>
   <script src="../../js/reponse.js"></script>
+  <!-- APRES reponse.js, toujours : il calcule ses cles sur l'ordre
+           des elements, et ce script n'ajoute rien dans <main>. -->
+  <script src="../../js/fiche-parcours.js"></script>
 </body>
 </html>
