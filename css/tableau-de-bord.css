@@ -1,3 +1,17 @@
+/* LES JETONS QUE CETTE FEUILLE EMPLOIE ET QUE SES PAGES N'ONT PAS.
+   css/tableau-de-bord.css est chargee par classeur/index.html et
+   enseignant/index.html, qui chargent css/connecte.css et css/style.css
+   respectivement : --avenir-pale n'existe que dans style.css, --r-s nulle
+   part. Un var() sans repli qui ne resout pas rend la DECLARATION ENTIERE
+   invalide, et la propriete disparait sans un mot : le fond des barres de
+   parcours etait transparent dans le classeur de l'eleve, un 20 % ressemblait
+   a un trait bleu flottant. Les voici, chez eux.
+   Meme famille de piege que .barre, dont connecte.css impose display:none. */
+:root {
+  --avenir-pale: #EEF1F4;   /* identique a css/style.css */
+  --r-s: 6px;               /* le petit rayon, entre --r (10px) et rien */
+}
+
 /* =====================================================================
    Technologie LFT · les tableaux de bord, celui de l'élève et celui du
    professeur.
