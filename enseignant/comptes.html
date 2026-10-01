@@ -51,8 +51,11 @@
     <p class="msg" id="mg" role="status" aria-live="polite"></p>
   </section>
 
+  <!-- GESTE PONCTUEL : replié, pour que « Mes groupes » reste en tête. -->
   <section>
-    <h2>Inscrire une personne</h2>
+    <details class="pliant">
+      <summary><h2>Inscrire une personne</h2><span class="combien">un élève arrivé en cours d’année</span></summary>
+    
     <p class="note">
       <strong>Le rôle ne se choisit pas ici, il se déduit de l'adresse.</strong>
       Une adresse figurant dans la liste des professeurs de l'établissement
@@ -101,10 +104,14 @@
       <button class="secondaire" id="annuler">Annuler</button>
     </div>
     <p class="msg" id="mi" role="status" aria-live="polite"></p>
+    </details>
   </section>
 
+  <!-- GESTE DE DEBUT D'ANNEE : replié le reste du temps. -->
   <section id="bloc-import" aria-busy="false">
-    <h2>Importer une liste d'élèves</h2>
+    <details class="pliant">
+      <summary><h2>Importer une liste d'élèves</h2><span class="combien">en début d’année</span></summary>
+    
     <p class="note">
       <strong>Trois colonnes, pas une de plus : nom, prénom, adresse.</strong>
       Un fichier par groupe, exporté depuis EDUKA avec ces trois colonnes
@@ -138,10 +145,14 @@
       <p class="msg" id="mimp" role="status" aria-live="polite"></p>
       <div id="resultats-import"></div>
     </div>
+    </details>
   </section>
 
+  <!-- ON N'Y VA QUE POUR CHERCHER QUELQU'UN : replié. -->
   <section id="bloc-corbeille">
-    <h2>Corbeille</h2>
+    <details class="pliant">
+      <summary><h2>Corbeille</h2><span class="combien">comptes retirés</span></summary>
+    
     <p class="intro">Les comptes mis à la corbeille ne se connectent plus ; leurs
       groupes, dépôts, corrections et scores sont conservés tels quels.
       <strong>Restaurer</strong> rétablit le compte à l'identique.</p>
@@ -151,6 +162,7 @@
       passe. Il est journalisé.</p>
     <div id="corbeille"><p class="vide">Chargement…</p></div>
     <p class="msg" id="mc" role="status" aria-live="polite"></p>
+    </details>
   </section>
 </main>
 <footer class="pied-legal">

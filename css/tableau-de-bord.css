@@ -110,22 +110,13 @@ body.tdb main, main.tdb { max-width: var(--mesure-app, 120rem); }
    celle du navigateur ne se place pas et ne se colore pas de la même façon
    d'un navigateur à l'autre. */
 .bloc-pliant { padding: 0; }
-.bloc-pliant > details > summary, .periode-pli > summary { cursor: pointer; }
-.bloc-pliant > details > summary { padding: 1.1rem 1.15rem; display: flex; align-items: center; gap: .6rem; min-height: 44px; }
+/* Le curseur, le chevron et le masquage de la flèche native vivent dans
+   css/connecte.css, en un seul exemplaire pour tout le site. Ici ne reste que
+   ce qui est propre à une TUILE : son remplissage. */
+.bloc-pliant > details > summary { padding: 1.1rem 1.15rem; }
 .bloc-pliant > details[open] > summary { padding-bottom: .4rem; }
 .bloc-pliant > details > .legende { padding: 0 1.15rem 1.1rem; }
 .bloc-pliant > details > summary > h2 { margin: 0; }
-summary::-webkit-details-marker { display: none; }
-.bloc-pliant > details > summary::after, .periode-pli > summary::after {
-  content: ""; flex: none; width: .5rem; height: .5rem; margin-left: auto;
-  border-right: 2px solid var(--encre-3); border-bottom: 2px solid var(--encre-3);
-  transform: rotate(45deg); transition: transform .15s;
-}
-.bloc-pliant > details[open] > summary::after, .periode-pli[open] > summary::after {
-  transform: rotate(-135deg);
-}
-.periode-pli > summary { list-style: none; min-height: 44px; }
-.periode-pli > summary::-webkit-details-marker { display: none; }
 .periode-pli + .periode-pli { margin-top: .2rem; }
 .periode-compte { font-weight: 400; letter-spacing: 0; text-transform: none; color: var(--encre-3); }
 /* Le filet de .periode mangeait la place du chevron : il s'arrête avant. */

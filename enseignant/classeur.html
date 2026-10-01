@@ -79,8 +79,12 @@
     <div id="liste-reponses"><p class="vide">Chargement…</p></div>
   </section>
 
+  <!-- GESTE RARE : il se replie pour ne pas pousser la correction vers le bas. -->
   <section>
-    <h2>Redonner un accès à un élève</h2>
+    <details class="pliant">
+      <summary><h2>Redonner un accès à un élève</h2><span class="combien">il a perdu son mot de passe</span></summary>
+
+    
     <p class="meta">Pour l'élève qui ne peut plus ouvrir sa boîte de courriel.
        Vous lui dictez un mot de passe provisoire, qu'il doit changer aussitôt.</p>
     <div class="ligne">
@@ -114,10 +118,15 @@
       <button class="secondaire" id="annuler">Annuler</button>
     </div>
     <p class="msg" id="mr" role="status" aria-live="polite"></p>
+    </details>
   </section>
 
+  <!-- GESTE DE DEBUT D'ANNEE : replié le reste du temps. -->
   <section id="bloc-groupe-mdp">
-    <h2>Mots de passe provisoires pour tout le groupe</h2>
+    <details class="pliant">
+      <summary><h2>Mots de passe provisoires pour tout le groupe</h2><span class="combien">pour une première séance</span></summary>
+
+    
     <p class="meta">Pour une première séance : un mot de passe provisoire par élève qui
        n'a <b>pas encore choisi le sien</b>, en une seule fois, à imprimer et à
        découper. Les élèves qui ont déjà un mot de passe ne sont pas touchés.
@@ -145,6 +154,7 @@
       </table>
       <p class="meta" id="mdp-avert"></p>
     </div>
+    </details>
   </section>
 </main>
 <footer class="pied-legal">

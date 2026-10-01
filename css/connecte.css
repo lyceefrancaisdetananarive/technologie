@@ -314,3 +314,35 @@ body.etroit .pied-legal { justify-content: center; }
 .entrees .entree[aria-pressed="true"] { background: var(--bleu); color: #fff; border-color: var(--bleu); }
 .entrees .entree:hover { filter: brightness(.97); }
 .aide { margin: .35rem 0 0; font-size: .84rem; color: var(--encre-3); }
+
+/* ---- CE QUI SE REPLIE, PARTOUT PAREIL ----
+
+   Une seule définition pour toutes les pages qui chargent cette feuille : le
+   classeur de l'élève et les écrans de l'espace enseignant. Elle était écrite
+   dans css/tableau-de-bord.css ; l'y laisser et la recopier ici aurait fait
+   une paire de plus à tenir en phase, ce que l'audit du 1er octobre reproche
+   déjà au site. Elle est donc ici, et là-bas il n'en reste rien.
+
+   La flèche native de <summary> ne se place ni ne se colore de la même façon
+   d'un navigateur à l'autre : on la masque et on dessine un chevron. */
+.pliant > summary, .bloc-pliant > details > summary, .periode-pli > summary {
+  cursor: pointer; list-style: none; display: flex; align-items: center;
+  gap: .6rem; min-height: 44px;
+}
+summary::-webkit-details-marker { display: none; }
+.pliant > summary::after, .bloc-pliant > details > summary::after,
+.periode-pli > summary::after {
+  content: ""; flex: none; width: .5rem; height: .5rem; margin-left: auto;
+  border-right: 2px solid var(--encre-3); border-bottom: 2px solid var(--encre-3);
+  transform: rotate(45deg); transition: transform .15s;
+}
+.pliant[open] > summary::after, .bloc-pliant > details[open] > summary::after,
+.periode-pli[open] > summary::after { transform: rotate(-135deg); }
+
+/* Une section repliable de l'espace enseignant : le titre reste un h2, qui
+   garde sa place dans le plan du document pour un lecteur d'écran. */
+.pliant > summary > h2 { margin: 0; }
+.pliant > summary > .combien {
+  font: 400 .84rem var(--texte); color: var(--encre-3);
+}
+.pliant[open] > summary { margin-bottom: 1rem; }
