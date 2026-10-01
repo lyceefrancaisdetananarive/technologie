@@ -26,7 +26,13 @@
 .compteur.rien b { color: var(--encours); }
 .compteur.avance b { color: var(--fait); }
 
-.eleves { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .45rem; }
+/* UNE GRILLE, PAS UNE COLONNE. Trente élèves empilés sur un écran de salle,
+   c'était trente lignes de 45 px et 1400 px de blanc à droite de chacune :
+   le professeur défilait pour voir sa classe alors qu'elle tient sur un
+   écran. Même minmax que le classeur du professeur, pour que les deux pages
+   se comportent pareil. */
+.eleves { list-style: none; margin: 1rem 0 0; padding: 0; display: grid; gap: .45rem;
+  grid-template-columns: repeat(auto-fill, minmax(22rem, 1fr)); align-items: start; }
 .el { display: flex; flex-wrap: wrap; align-items: baseline; gap: .5rem .9rem;
   padding: .6rem .85rem; border-radius: var(--r); border: 1px solid var(--trait);
   background: var(--papier-2); }

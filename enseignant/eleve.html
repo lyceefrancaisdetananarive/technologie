@@ -39,8 +39,13 @@
 .chiffre.alerte b { color: var(--encours); }
 .chiffre span { font-size: .82rem; color: var(--encre-2); }
 
+/* Les séquences de l'élève se rangent en grille : neuf blocs empilés sur
+   toute la largeur faisaient défiler une page entière pour une information
+   qui tient sur un écran. Le bloc garde sa largeur de lecture. */
+#parcours { display: grid; gap: .7rem; grid-template-columns: repeat(auto-fill, minmax(24rem, 1fr));
+  align-items: start; }
 .seq { border: 1px solid var(--trait); border-radius: var(--r-lg); padding: .8rem 1rem;
-  margin-top: .7rem; background: var(--papier-2); }
+  background: var(--papier-2); }
 .seq.rien { background: var(--papier); }
 .seq h3 { margin: 0 0 .2rem; font-size: 1rem; display: flex; flex-wrap: wrap;
   align-items: baseline; gap: .5rem; }
