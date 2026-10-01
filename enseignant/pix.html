@@ -29,7 +29,10 @@
 
 .pix-parcours { list-style: none; margin: .35rem 0 0; padding: 0; display: grid; gap: .3rem; }
 .pix-parcours li { display: grid; grid-template-columns: 1fr 4.5rem 2.6rem; gap: .45rem; align-items: center; font-size: .84rem; }
-.pix-parcours .barre { height: .5rem; background: var(--grille); border-radius: 999px; overflow: hidden; }
+/* display: block : connecte.css pose `.barre { display: none }`, la barre y
+   etant d'abord une jauge d'envoi qu'un script allume. Omettre display ici
+   laisse la barre invisible sans aucun message. Meme piege que .annee-barre. */
+.pix-parcours .barre { display: block; height: .5rem; background: var(--grille); border-radius: 999px; overflow: hidden; }
 .pix-parcours .barre span { display: block; height: 100%; background: var(--bleu-2); }
 .pix-parcours b { text-align: right; font-variant-numeric: tabular-nums; }
 

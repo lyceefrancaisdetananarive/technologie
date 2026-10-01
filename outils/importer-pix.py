@@ -323,6 +323,16 @@ def main():
     print('  hors perim: %d (classe non relevee)' % len(hors))
     print('  intouches : %d (deja confirmes ou refuses par le professeur)' % len(intouches))
 
+    # LES ABSENTS SONT UNE LISTE, PAS UN NOMBRE. « 16 sans Pix » ne permet
+    # d'aller chercher personne ; seize identifiants, si. Ce sont des eleves
+    # d'une classe relevee qui n'ont aucun resultat : soit ils n'ont jamais
+    # envoye leur profil, soit le nom qu'ils ont tape est trop loin du leur.
+    if absents:
+        print('\nSANS AUCUN RESULTAT, dans une classe pourtant relevee (%d) :'
+              % len(absents))
+        for i in range(0, len(absents), 4):
+            print('  ' + '  '.join('%-26s' % a for a in absents[i:i + 4]).rstrip())
+
     if douteux:
         print('\nA TRANCHER (rien n\'est ecrit pour ceux-la) :')
         for d in douteux:

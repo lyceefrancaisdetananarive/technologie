@@ -47,22 +47,6 @@
         <p class="text-muted">Chargement des groupes…</p>
       </div>
 
-      <!-- Ces deux commandes vivent HORS du mur, qui reste masqué tant qu'aucun
-           groupe n'est choisi. Un professeur sans groupe, ou dont la lecture a
-           échoué, lisait sinon « Créez vos groupes dans Groupes et comptes »
-           devant un écran qui ne contenait ni le lien ni le bouton. -->
-      <div class="essai" id="essai">
-        <a href="comptes.html" class="btn btn-outline">Groupes et comptes</a>
-        <label for="essai-niveau">Groupe d’essai, avec des élèves fictifs</label>
-        <span class="essai-ligne">
-          <select id="essai-niveau" class="prog-sel" aria-label="Niveau du groupe d'essai">
-            <option value="5eme">5e</option><option value="4eme">4e</option><option value="3eme">3e</option>
-          </select>
-          <button type="button" id="creer-essai" class="btn btn-outline">Créer le groupe d’essai</button>
-        </span>
-        <span id="essai-etat" class="detail" role="status" aria-live="polite"></span>
-      </div>
-
       <div class="bandeau" id="bandeau" hidden>
         <b id="g-code"></b>
         <span class="creneau" id="g-creneau"></span>
@@ -118,6 +102,30 @@
           <p class="msg" id="g-msg" role="status" aria-live="polite"></p>
         </section>
 
+      </div>
+
+      <!-- LE GROUPE D'ESSAI VIT SOUS LE MUR, ET NON AU-DESSUS.
+
+           Il était en tête de page pour une bonne raison : un professeur sans
+           groupe lisait « Créez vos groupes dans Groupes et comptes » devant un
+           écran qui ne contenait ni le lien ni le bouton. Mais il prenait alors
+           le haut de l'écran à tous les autres, chaque jour, pour un geste qui
+           se fait une fois dans l'année.
+
+           Le mur est masqué tant qu'aucun groupe n'est choisi : placé APRÈS
+           lui, ce bloc remonte de lui-même juste sous les pastilles quand il
+           n'y a pas de groupe, et descend en pied de page sinon. Une seule
+           copie, et il est là précisément quand il sert. -->
+      <div class="essai" id="essai">
+        <a href="comptes.html" class="btn btn-outline">Groupes et comptes</a>
+        <label for="essai-niveau">Groupe d’essai, avec des élèves fictifs</label>
+        <span class="essai-ligne">
+          <select id="essai-niveau" class="prog-sel" aria-label="Niveau du groupe d'essai">
+            <option value="5eme">5e</option><option value="4eme">4e</option><option value="3eme">3e</option>
+          </select>
+          <button type="button" id="creer-essai" class="btn btn-outline">Créer le groupe d’essai</button>
+        </span>
+        <span id="essai-etat" class="detail" role="status" aria-live="polite"></span>
       </div>
 
       <details class="content-card" id="ressources">
