@@ -268,10 +268,16 @@ function carte(e, partage) {
       ? '<span class="etat confirme">Rapprochement confirmé par vous.</span>'
       : '<span class="etat auto">Rapprochement automatique, sur le nom et la classe. À vérifier.</span>';
 
+  // « Oublier » n'est pas « écarter ». Écarter dit « ce n'est pas lui », et le
+  // relevé reste là, consultable, pour qu'on puisse revenir sur la décision.
+  // Oublier efface la ligne : l'import repart de zéro pour cet élève, et il
+  // retrouvera un relevé le jour où Pix livrera la bonne. Sans ce bouton, un
+  // refus valait pour l'année entière.
+  const oublier = `<button class="secondaire" data-eleve="${e.id}" data-quoi="oublier">Oublier ce rapprochement</button>`;
   const boutons = ecarte
-    ? `<button class="secondaire" data-eleve="${e.id}" data-quoi="confirme">Rétablir ce rapprochement</button>`
+    ? `<button class="secondaire" data-eleve="${e.id}" data-quoi="confirme">Rétablir ce rapprochement</button>${oublier}`
     : `<button class="secondaire" data-eleve="${e.id}" data-quoi="confirme"${p.appariement === 'confirme' ? ' disabled' : ''}>C’est bien lui</button>
-       <button class="secondaire" data-eleve="${e.id}" data-quoi="refuse">Ce n’est pas lui</button>`;
+       <button class="secondaire" data-eleve="${e.id}" data-quoi="refuse">Ce n’est pas lui</button>${p.appariement === 'confirme' ? oublier : ''}`;
 
   const collision = partage ? `<p class="pix-collision">Ce relevé est porté par
     <b>un autre élève du groupe</b>. Un seul des deux l’a envoyé : écartez-le
@@ -290,17 +296,25 @@ function carte(e, partage) {
 $('liste').addEventListener('click', async (ev) => {
   const b = ev.target.closest('button[data-eleve]');
   if (!b) return;
+  const oublie = b.dataset.quoi === 'oublier';
+  // Effacer se confirme : c'est le seul geste de cet écran qui ne se défait
+  // pas d'un clic.
+  if (oublie && !confirm('Oublier ce rapprochement ?\n\nLa ligne est effacée. '
+      + 'Le prochain import repartira de zéro pour cet élève.')) return;
   b.disabled = true;
   try {
-    await api('/api/prof/pix', {
-      method: 'POST',
-      body: JSON.stringify({ eleve: b.dataset.eleve, appariement: b.dataset.quoi }),
-    });
+    await api('/api/prof/pix', oublie
+      ? { method: 'DELETE', body: JSON.stringify({ eleve: b.dataset.eleve }) }
+      : { method: 'POST',
+          body: JSON.stringify({ eleve: b.dataset.eleve, appariement: b.dataset.quoi }) });
     const e = eleves.find((x) => x.id === b.dataset.eleve);
-    if (e && e.pix) e.pix.appariement = b.dataset.quoi;
-    dire(b.dataset.quoi === 'refuse'
-      ? 'Rapprochement écarté. Les imports suivants n’y toucheront plus.'
-      : 'Rapprochement confirmé. Les imports suivants n’y toucheront plus.');
+    if (oublie) { if (e) e.pix = null; }
+    else if (e && e.pix) e.pix.appariement = b.dataset.quoi;
+    dire(oublie
+      ? 'Rapprochement oublié. Le prochain import repartira de zéro pour cet élève.'
+      : b.dataset.quoi === 'refuse'
+        ? 'Rapprochement écarté. Les imports suivants n’y toucheront plus.'
+        : 'Rapprochement confirmé. Les imports suivants n’y toucheront plus.');
     rendre();
   } catch (err) {
     b.disabled = false;

@@ -1,5 +1,6 @@
 import { appelant, possedeGroupe, comptesElevesOuverts, estCoordonnateur } from '../_lib/autorisation.js';
 import { journaliser } from '../_lib/journal.js';
+import { NIVEAUX } from '../_lib/progression.js';
 import {
   lire, ecrire, configuree, origineLegitime, refus,
 } from '../_lib/supabase.js';
@@ -25,7 +26,8 @@ import {
 // =====================================================================
 
 const UUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
-const NIVEAUX = ['5eme', '4eme', '3eme'];
+// NIVEAUX vient de api/_lib/progression.js : il y était déjà exporté, et le
+// recopier ici faisait une liste de plus à tenir en phase.
 
 export default async function handler(req, res) {
   if (!configuree()) return refus(res, 503, 'Service non configuré.');

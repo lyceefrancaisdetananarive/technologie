@@ -37,11 +37,11 @@ import { UUID } from '../_lib/progression.js';
 const TRANCHES = ['confirme', 'refuse'];
 
 export default async function handler(req, res) {
-  if (req.method !== 'GET' && req.method !== 'POST') {
+  if (!['GET', 'POST', 'DELETE'].includes(req.method)) {
     return refus(res, 405, 'Méthode non autorisée.');
   }
   if (!configuree()) return refus(res, 503, 'Service non configuré.');
-  if (req.method === 'POST' && !origineLegitime(req)) {
+  if (req.method !== 'GET' && !origineLegitime(req)) {
     return refus(res, 403, 'Origine non autorisée.');
   }
 
@@ -51,6 +51,7 @@ export default async function handler(req, res) {
 
   try {
     if (req.method === 'GET') return await lecture(req, res, moi);
+    if (req.method === 'DELETE') return await oublier(req, res, moi);
     return await arbitrage(req, res, moi);
   } catch (e) {
     // La table peut ne pas exister encore (db/17-pix.sql non joué). Ce n'est
@@ -121,6 +122,35 @@ async function lecture(req, res, moi) {
       };
     }),
   });
+}
+
+/**
+ * OUBLIER UN RAPPROCHEMENT : supprimer la ligne, et rien d'autre.
+ *
+ * POURQUOI CE GESTE MANQUAIT. « Refusé » voulait dire « ce n'est pas lui »,
+ * et l'import ne revenait plus jamais dessus : c'était le but. Mais cela
+ * condamnait l'élève à rester sans relevé pour l'année, même le jour où Pix
+ * livre enfin la bonne ligne, parce qu'il n'existait aucun moyen de revenir
+ * en arrière. Un refus doit pouvoir s'annuler, sans quoi il n'est pas un
+ * arbitrage, c'est une sentence.
+ *
+ * Supprimer la ligne plutôt qu'ajouter un troisième état : l'import repart
+ * alors de zéro pour cet élève, exactement comme s'il n'avait jamais été vu.
+ * Pas de colonne de plus, pas d'état de plus à comprendre.
+ */
+async function oublier(req, res, moi) {
+  const eleve = String(req.body?.eleve ?? req.query?.eleve ?? '');
+  if (!UUID.test(eleve)) return refus(res, 400, 'Élève non précisé.');
+  if (!(await enseigneA(moi.id, eleve))) {
+    return refus(res, 403, "Cet élève n'est pas dans vos groupes.");
+  }
+  const lignes = await ecrire('pix', `profil_id=eq.${eleve}`, {}, 'DELETE');
+  const nom = Array.isArray(lignes) && lignes[0] ? lignes[0].nom_pix : null;
+  if (!nom) return refus(res, 404, "Cet élève n'a pas de relevé Pix.");
+
+  // Le journal garde le nom oublié : c'est tout ce qui restera de la ligne.
+  await journaliser(moi.id, 'pix.oublie', eleve, `nom dans Pix : ${nom}`);
+  res.status(200).json({ ok: true, oublie: nom });
 }
 
 async function arbitrage(req, res, moi) {

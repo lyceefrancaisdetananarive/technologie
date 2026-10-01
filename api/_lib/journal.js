@@ -21,7 +21,7 @@ export const ACTIONS = [
   'depot.supprime', 'fichier.consulte', 'mot.efface', 'groupe.supprime', 'essai.supprime',
   'compte.modifie', 'compte.restaure', 'compte.supprime',
   'reponse.supprimee',
-  'pix.confirme', 'pix.refuse',
+  'pix.confirme', 'pix.refuse', 'pix.oublie',
 ];
 
 export async function journaliser(acteur, action, cible = null, detail = null) {

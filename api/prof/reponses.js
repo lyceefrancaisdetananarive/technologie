@@ -46,7 +46,12 @@ const FICHE = 'fiche';
 const LIBRE = 'reponse';
 // Même motif que api/classeur/reponse.js : une clé de champ (zone, trou, case).
 const CLE = /^(?:[zb]\d{1,3}|t\d{1,2}-r\d{1,3}-c\d{1,2})$/;
-const PAGE = /^[345]eme\/p[1-5]\/seq\d{1,2}-(activite|ebep)\.html$/;
+// p\d et non p[1-5] : le même chemin est validé à trois endroits, et ce
+// motif-ci était le seul à refuser une sixième période. Une période de
+// rattrapage ajoutée au catalogue aurait laissé l'élève écrire dans sa fiche
+// et le professeur sans accès à ses réponses, sans message nulle part.
+// Les deux autres : api/classeur/reponse.js et js/reponse.js.
+const PAGE = /^[345]eme\/p\d\/seq\d{1,2}-(activite|ebep)\.html$/;
 const COLONNES = 'id,page,question,texte,intitule,redige_le,modifie_le,correction,corrige_le,profil_id';
 
 /**

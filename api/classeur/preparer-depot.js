@@ -44,6 +44,19 @@ export default async function handler(req, res) {
       return refus(res, 403, "Vous n'êtes pas inscrit dans ce groupe.");
     }
 
+    // ET LA SEQUENCE DOIT ETRE DE SON NIVEAU. Être inscrit dans un groupe de
+    // 5e n'autorisait pas seulement à y déposer : la séquence pouvait être de
+    // 3e, puisque rien ne confrontait les deux. Un élève de 5e ouvrait ainsi
+    // le diagnostique de 3e, et par ricochet son corrigé, qui se gagne par un
+    // dépôt. Le premier segment du chemin porte le niveau, le groupe aussi :
+    // il suffit de les comparer.
+    const niveauSeq = String(sequence).split('/')[0];
+    const [g] = await lire('groupes', `id=eq.${groupe}&select=niveau`);
+    if (g && g.niveau && niveauSeq !== g.niveau) {
+      return refus(res, 403,
+        'Cette séquence n’est pas celle de votre groupe.');
+    }
+
     const seq = String(sequence).slice(0, 120);
     const doc = String(document).slice(0, 40);
     const champs = {
