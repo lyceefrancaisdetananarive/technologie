@@ -19,6 +19,11 @@ import {
 //
 //  · POST   { eleve, action: 'restaurer' } : sortir de la corbeille. Le
 //    compte redevient actif, avec ses groupes et ses travaux intacts.
+//    QUI LE PEUT : le professeur de l'élève, ou le coordonnateur, comme pour
+//    la mise à la corbeille. La règle est symétrique à dessein, et tranchée
+//    le 1er octobre 2026 : celui qui a pu retirer un élève peut le remettre,
+//    sans avoir à déranger le coordonnateur pour défaire son propre geste.
+//    Le geste est journalisé des deux côtés (compte.desactive, compte.restaure).
 //
 //  · DELETE { eleve, confirmation } : SUPPRESSION DÉFINITIVE. Réservée au
 //    coordonnateur, avec ressaisie de son mot de passe, et seulement pour un

@@ -82,8 +82,10 @@ export default async function handler(req, res) {
         message: `${cible.prenom ?? ''} ${cible.nom ?? ''} est dans la corbeille : `
           + `le compte ne se connecte plus, ses travaux et ses groupes sont `
           + `conservés, et « restaurer » le rétablit tel quel. Cela vaut pour `
-          + `TOUS ses groupes, y compris ceux de vos collègues. Seul le `
-          + `coordonnateur peut supprimer définitivement un compte.`,
+          + `TOUS ses groupes, y compris ceux de vos collègues. Vous pouvez le `
+          + `restaurer vous-même depuis la corbeille, comme n'importe lequel de `
+          + `ses professeurs. Seul le coordonnateur peut supprimer `
+          + `définitivement un compte.`,
       });
     }
 
