@@ -514,6 +514,24 @@ function rendreChips() {
   };
   const AUJOURDHUI = (new Date().getDay() + 6) % 7;   // lundi = 0
 
+  /**
+   * L'HEURE DE PASSAGE, LUE DANS LE LIBELLE.
+   *
+   * Une journee de cours se lit dans l'ordre ou on la vit, pas dans l'ordre
+   * de l'alphabet : a 9 h 40 le professeur cherche le groupe de 9 h 40, et il
+   * le cherche la ou il tombe dans sa journee. L'ordre alphabetique mettait
+   * « 4M7P1 » (12 h 35) avant « 5M1 SVT » (9 h 40) le meme lundi.
+   *
+   * Les libelles s'ecrivent « 5e, 5M1 SVT, lundi 9 h 40 » : 33 des 35 groupes
+   * portent leur heure, les deux autres etant des groupes d'essai sans
+   * creneau. Un libelle sans heure part donc en fin de journee plutot que de
+   * desordonner les autres.
+   */
+  const heureDe = (g) => {
+    const m = /(\d{1,2})\s*h\s*(\d{2})?/.exec(g.libelle || '');
+    return m ? Number(m[1]) * 60 + Number(m[2] || 0) : 24 * 60;
+  };
+
   const pastilleGroupe = (g) => {
     const n = totalACorriger(g.a_corriger);
     // null n'est pas zéro : une lecture en panne ne doit pas se lire comme
@@ -536,6 +554,13 @@ function rendreChips() {
     const j = jourDe(g);
     if (!parJour.has(j)) parJour.set(j, []);
     parJour.get(j).push(g);
+  }
+  // Dans la journee, l'ordre est celui de l'emploi du temps. A heure egale,
+  // on retombe sur le code du groupe pour que l'ordre reste stable d'un
+  // chargement a l'autre : deux groupes partagent parfois le meme creneau.
+  for (const liste of parJour.values()) {
+    liste.sort((a, b) => heureDe(a) - heureDe(b)
+      || String(a.code).localeCompare(String(b.code), 'fr'));
   }
   hote.replaceChildren(...[...parJour.keys()].sort((a, b) => a - b).map((j) => el('div',
     { class: 'jour-groupe' + (j === AUJOURDHUI ? ' est-aujourdhui' : ''),
