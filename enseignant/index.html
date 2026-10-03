@@ -506,6 +506,7 @@ function rendreChips() {
   // déjà dans l'oeil de l'élève et du professeur. Du plus clair au plus
   // foncé, on lit une semaine, pas cinq catégories sans rapport.
   const JOURS = ['lundi', 'mardi', 'mercredi', 'jeudi', 'vendredi', 'samedi'];
+  const JOURS_COURT = ['lun', 'mar', 'mer', 'jeu', 'ven', 'sam'];
   const jourDe = (g) => {
     const l = (g.libelle || '').toLowerCase();
     const i = JOURS.findIndex((j) => l.includes(j));
@@ -537,10 +538,15 @@ function rendreChips() {
     parJour.get(j).push(g);
   }
   hote.replaceChildren(...[...parJour.keys()].sort((a, b) => a - b).map((j) => el('div',
-    { class: 'jour-groupe', 'data-jour': String(j) },
+    { class: 'jour-groupe' + (j === AUJOURDHUI ? ' est-aujourdhui' : ''),
+      'data-jour': String(j) },
+    // Trois lettres à l'oeil, le nom entier à l'oreille : la bande se
+    // raccourcit sans que rien ne se perde pour un lecteur d'écran.
     el('p', { class: 'jour-nom' },
-      j < JOURS.length ? JOURS[j] : 'sans créneau',
-      j === AUJOURDHUI ? el('span', { class: 'jour-ici' }, 'aujourd’hui') : null),
+      el('span', { 'aria-hidden': 'true' }, j < JOURS.length ? JOURS_COURT[j] : 'hors'),
+      el('span', { class: 'visually-hidden' },
+        (j < JOURS.length ? JOURS[j] : 'sans créneau')
+        + (j === AUJOURDHUI ? ', aujourd’hui' : ''))),
     el('div', { class: 'jour-pastilles' }, parJour.get(j).map(pastilleGroupe)))));
 }
 
@@ -768,6 +774,28 @@ function rangEleve(e, maintenant) {
   return (maintenant - g) > 10 * 60000 ? 2 : 3;
 }
 const MOT_RANG = ['compte jamais ouvert', 'rien fait', 'sans rien faire depuis 10 min', 'au travail'];
+
+/**
+ * LA PASTILLE PIX D'UNE LIGNE DE SÉANCE.
+ *
+ * Un score absent n'est pas un zéro : l'élève qui n'a jamais envoyé son profil
+ * et celui qui a zéro pix ne demandent pas le même geste au professeur. On
+ * pose donc une cellule vide, qui tient la colonne sans rien affirmer.
+ *
+ * La certifiabilité prime sur le nombre : c'est elle qui décide d'une
+ * inscription à la certification, et elle se lit à la forme de la pastille.
+ */
+function pixSeance(p) {
+  if (!p || !Number.isFinite(p.score)) {
+    return el('span', { class: 'direct-pix-vide', 'aria-hidden': 'true' });
+  }
+  return el('span',
+    { class: 'direct-pix' + (p.certifiable ? ' certifiable' : ''),
+      title: p.certifiable ? 'Certifiable' : 'Pas encore certifiable' },
+    String(p.score), el('small', {}, 'pix'),
+    el('span', { class: 'visually-hidden' },
+      p.certifiable ? ', certifiable' : ', pas encore certifiable'));
+}
 const PASTILLE_RANG = ['afaire', 'afaire', 'encours', 'rendu'];
 
 async function chargerDirect({ discret = false } = {}) {
@@ -796,21 +824,25 @@ async function chargerDirect({ discret = false } = {}) {
       const rang = rangEleve(e, maintenant);
       const g = dernierGeste(e);
       const quand = g ? ilYA(new Date(g).toISOString(), maintenant) : null;
+      const nom = `${e.prenom ?? ''} ${e.nom ?? ''}`.trim() || 'Élève';
       return el('li', { class: 'r' + rang },
-        pastille(PASTILLE_RANG[rang]),
-        el('span', { class: 'nom' }, `${e.prenom ?? ''} ${e.nom ?? ''}`.trim() || 'Élève'),
-        el('span', { class: 'detail' },
-          e.compte_jamais_ouvert ? MOT_RANG[0]
-            : g
-              ? (e.champs_ecrits
-                  ? `${e.champs_ecrits} champ${e.champs_ecrits > 1 ? 's' : ''} · ${quand}`
-                  : `dépôt · ${quand}`)
-              : MOT_RANG[1]),
-        // La cellule du dépôt est toujours posée, vide s'il n'y a rien : sans
-        // elle, une ligne à trois cellules et une ligne à quatre ne s'alignent
-        // pas, et la liste devient illisible.
-        e.depots ? el('span', { class: 'depot' }, `${e.depots} dépôt${e.depots > 1 ? 's' : ''}`)
-                 : el('span', { class: 'depot-vide', 'aria-hidden': 'true' }));
+        el('a', { href: `eleve.html?eleve=${encodeURIComponent(e.id)}&groupe=${encodeURIComponent(courant)}`,
+                  'aria-label': `Ouvrir la fiche de ${nom}` },
+          pastille(PASTILLE_RANG[rang]),
+          el('span', { class: 'nom' }, nom),
+          el('span', { class: 'detail' },
+            e.compte_jamais_ouvert ? MOT_RANG[0]
+              : g
+                ? (e.champs_ecrits
+                    ? `${e.champs_ecrits} champ${e.champs_ecrits > 1 ? 's' : ''} · ${quand}`
+                    : `dépôt · ${quand}`)
+                : MOT_RANG[1]),
+          pixSeance(e.pix),
+          // La cellule du dépôt est toujours posée, vide s'il n'y a rien : sans
+          // elle, une ligne à trois cellules et une ligne à quatre ne s'alignent
+          // pas, et la liste devient illisible.
+          e.depots ? el('span', { class: 'depot' }, `${e.depots} dépôt${e.depots > 1 ? 's' : ''}`)
+                   : el('span', { class: 'depot-vide', 'aria-hidden': 'true' })));
     }));
     $('direct-etat').textContent = '';
   } catch (e) {

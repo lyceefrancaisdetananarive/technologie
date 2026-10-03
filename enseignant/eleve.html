@@ -95,6 +95,22 @@
   main { max-width: none; }
   .seq { break-inside: avoid; }
 }
+/* LES ONGLETS. Trois panneaux empilés faisaient une page qu'on parcourait au
+   doigt mouillé : le professeur qui prépare un entretien cherche UNE chose,
+   pas la page entière. L'onglet nomme chaque chose et la rend atteignable
+   d'un clic, sans rien cacher qu'on ne puisse rouvrir.
+   La barre ne s'affiche qu'à partir de deux panneaux : un onglet unique
+   n'est pas un choix, c'est un titre déguisé. */
+.onglets { display: flex; flex-wrap: wrap; gap: .2rem;
+  margin: 1.4rem 0 0; border-bottom: 2px solid var(--grille); }
+.onglets button {
+  font: 700 .9rem var(--display); background: none; border: 0;
+  border-bottom: 3px solid transparent; margin-bottom: -2px;
+  padding: .5rem .85rem; color: var(--encre-3); cursor: pointer;
+}
+.onglets button:hover { color: var(--encre); }
+.onglets button[aria-selected="true"] { color: var(--bleu); border-bottom-color: var(--bleu); }
+.onglets button:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -122,6 +138,9 @@
     <div class="chiffres" id="chiffres"></div>
     <p class="msg" id="msg" role="status" aria-live="polite"></p>
   </section>
+
+  <div class="onglets" id="onglets" role="tablist"
+       aria-label="Les faces de la fiche" hidden></div>
 
   <!-- LE RELEVE PIX. Ce que le professeur regarde avant un entretien : ou en
        est l'eleve, et s'il pourra etre certifie. Le nom saisi dans Pix est
@@ -510,6 +529,64 @@ async function charger() {
   rendreChiffres();
   if (catalogueCharge()) rendreParcours();
   rendreEcarts();
+  poserOnglets();
+}
+
+// ---- Les onglets -----------------------------------------------------------
+//
+// L'ORDRE EST CELUI DU BESOIN, pas celui du code. Le professeur ouvre cette
+// fiche pour savoir ou en est l'eleve dans SON cours : le travail vient donc
+// d'abord. Pix est un repere de fond, les absences un contexte.
+//
+// Un panneau vide n'est jamais propose. Les fonctions de rendu posent deja
+// `hidden` quand elles n'ont rien a montrer : on lit cet etat une fois, apres
+// elles, et on ne garde que les panneaux qui ont de la matiere. Sans quoi le
+// professeur cliquerait sur un onglet pour trouver le vide.
+const ONGLETS = [
+  ['bloc-parcours', 'Son travail'],
+  ['bloc-pix', 'Compétences numériques'],
+  ['bloc-ecarts', 'Absences et reprises'],
+];
+let panneaux = [];
+
+function poserOnglets() {
+  panneaux = ONGLETS.filter(([id]) => $(id) && !$(id).hidden);
+  const barre = $('onglets');
+  if (panneaux.length < 2) { barre.hidden = true; return; }
+  barre.hidden = false;
+  barre.replaceChildren(...panneaux.map(([id, nom], i) => {
+    const b = el('button', { type: 'button', role: 'tab', id: 'ong-' + id,
+                             'aria-controls': id, 'aria-selected': String(i === 0),
+                             tabindex: i === 0 ? '0' : '-1' }, nom);
+    b.addEventListener('click', () => montrer(id));
+    // Les fleches passent d'un onglet au suivant : c'est ce qu'attend
+    // quiconque navigue au clavier, et cela ne coute que ces six lignes.
+    b.addEventListener('keydown', (ev) => {
+      const pas = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
+      if (!pas) return;
+      ev.preventDefault();
+      const j = (i + pas + panneaux.length) % panneaux.length;
+      montrer(panneaux[j][0]);
+      $('ong-' + panneaux[j][0]).focus();
+    });
+    return b;
+  }));
+  panneaux.forEach(([id], i) => {
+    const s = $(id);
+    s.setAttribute('role', 'tabpanel');
+    s.setAttribute('aria-labelledby', 'ong-' + id);
+    s.hidden = i !== 0;
+  });
+}
+
+function montrer(cible) {
+  panneaux.forEach(([id]) => {
+    const actif = id === cible;
+    $(id).hidden = !actif;
+    const b = $('ong-' + id);
+    b.setAttribute('aria-selected', String(actif));
+    b.tabIndex = actif ? 0 : -1;
+  });
 }
 
 charger();

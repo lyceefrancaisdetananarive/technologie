@@ -47,45 +47,55 @@
    une semaine qui avance, et non cinq catégories sans rapport entre elles.
    Le filet est à gauche, assez large pour se voir, assez sobre pour ne pas
    tirer l'oeil avant les pastilles elles-mêmes. */
-.groupes-chips { display: grid; gap: .7rem; margin-bottom: var(--space-md); }
-/* LE JOUR A GAUCHE, SES GROUPES A DROITE : une ligne par jour, comme un
-   emploi du temps se lit. Empilé, le nom du jour prenait une ligne entière
-   au-dessus de ses pastilles, et sept jours faisaient sept blocs à faire
-   défiler. En ligne, la semaine tient dans la hauteur de sept pastilles.
-   Sous 48rem, le nom repasse au-dessus : la colonne est trop étroite. */
-.jour-groupe { display: flex; align-items: flex-start; gap: .8rem;
-  border-left: 4px solid var(--jour, var(--grille)); padding-left: .7rem;
-  min-height: 2.1rem; }
-@media (max-width: 48rem) { .jour-groupe { display: block; } }
-.jour-groupe[data-jour="0"] { --jour: #9FB6CC; }
-.jour-groupe[data-jour="1"] { --jour: #7E9CBA; }
-.jour-groupe[data-jour="2"] { --jour: #5E82A8; }
-.jour-groupe[data-jour="3"] { --jour: #3D6896; }
-.jour-groupe[data-jour="4"] { --jour: #1D4E84; }
-.jour-groupe[data-jour="5"] { --jour: #004E8C; }
+/* TOUTE LA SEMAINE SUR UNE BANDE, ET NON UNE LIGNE PAR JOUR.
+   Une ligne par jour donnait cinq blocs empilés : mesuré sur l'écran de Max,
+   232 px, soit près du tiers de la hauteur utile, avant le premier contenu.
+   Or cette bande n'est pas le travail, c'est l'aiguillage vers le travail :
+   elle doit se lire d'un coup d'oeil et rendre la place au reste.
+   Les groupes coulent donc à la suite, le jour n'étant plus qu'un repère
+   court devant les siens, et la semaine tient sur une à deux lignes. */
+.groupes-chips { display: flex; flex-wrap: wrap; align-items: center;
+  gap: .3rem .55rem; margin-bottom: var(--space-md); }
+.jour-groupe { display: inline-flex; align-items: center; gap: .3rem;
+  border-left: 3px solid var(--jour, var(--grille)); padding-left: .4rem; }
+/* LA RAMPE EST CELLE DU FILET, PAS CELLE DU TEXTE. Mesurée sur papier blanc,
+   l'ancienne commençait à 2,09:1 au lundi : invisible comme filet, illisible
+   comme texte. Elle démarre maintenant à 3,34:1, le seuil d'un objet
+   graphique, et monte à 8,51:1 le samedi. Le nom du jour, lui, garde une
+   couleur unique et lisible : une semaine se lit à la pente du filet, pas à
+   la pâleur des lettres. */
+.jour-groupe[data-jour="0"] { --jour: #6E90B0; }   /* 3,34:1 */
+.jour-groupe[data-jour="1"] { --jour: #5E82A8; }   /* 4,01:1 */
+.jour-groupe[data-jour="2"] { --jour: #4D7399; }   /* 4,97:1 */
+.jour-groupe[data-jour="3"] { --jour: #3D6896; }   /* 5,80:1 */
+.jour-groupe[data-jour="4"] { --jour: #1D4E84; }   /* 8,48:1 */
+.jour-groupe[data-jour="5"] { --jour: #004E8C; }   /* 8,51:1 */
+/* Le jour tient en trois lettres. Son nom entier reste lu par les lecteurs
+   d'écran : raccourcir à l'oeil ne doit rien retirer à l'oreille. */
 .jour-nom {
-  margin: 0; font: 700 .7rem var(--font-display); letter-spacing: .08em;
+  margin: 0; font: 700 .64rem var(--font-display); letter-spacing: .07em;
   text-transform: uppercase; color: var(--encre-3);
-  display: flex; align-items: baseline; gap: .4rem; flex-wrap: wrap;
-  flex: none; width: 7rem; padding-top: .5rem;
+  flex: none; white-space: nowrap;
 }
-@media (max-width: 48rem) { .jour-nom { width: auto; padding-top: 0; margin-bottom: .3rem; } }
-.jour-ici {
-  background: var(--bleu); color: #fff; border-radius: 999px; padding: .06rem .45rem;
-  font-size: .64rem; letter-spacing: .04em; text-transform: none;
+/* AUJOURD'HUI SE VOIT SANS S'ECRIRE. Le mot « aujourd'hui » coûtait six
+   caractères sur une bande qu'on veut courte ; la pastille pleine se
+   reconnaît plus vite que le mot ne se lit. */
+.jour-groupe.est-aujourdhui .jour-nom {
+  background: var(--bleu); color: #fff;   /* 8,51:1 */
+  border-radius: 999px; padding: .12rem .42rem;
 }
-.jour-pastilles { display: flex; flex-wrap: wrap; gap: .45rem; flex: 1 1 auto; min-width: 0; }
+.jour-pastilles { display: inline-flex; flex-wrap: wrap; gap: .25rem; }
 .groupes-chips button {
-  display: inline-flex; align-items: center; gap: .4rem;
-  font-family: var(--font-display); font-weight: 700; font-size: .86rem;
+  display: inline-flex; align-items: center; gap: .3rem;
+  font-family: var(--font-display); font-weight: 700; font-size: .78rem;
   border: 1px solid var(--bord-composant); background: var(--papier-2);
-  color: var(--encre-2); border-radius: 999px; padding: .34rem .85rem; cursor: pointer;
+  color: var(--encre-2); border-radius: 999px; padding: .2rem .6rem; cursor: pointer;
 }
 .groupes-chips button:hover { border-color: var(--bleu); }
 .groupes-chips button[aria-pressed="true"] { background: var(--bleu); border-color: var(--bleu); color: #fff; }
 .chip-n {
   background: var(--encours); color: #fff; border-radius: 999px;
-  font-size: .72rem; padding: .04rem .4rem; font-variant-numeric: tabular-nums;
+  font-size: .68rem; padding: .02rem .34rem; font-variant-numeric: tabular-nums;
 }
 .groupes-chips button[aria-pressed="true"] .chip-n { background: #fff; color: var(--encours); }
 /* Un compteur indisponible n'est ni un zéro ni une alerte : il se distingue
@@ -115,19 +125,48 @@
 /* La feuille commune pose « .maintenant li » a trois colonnes pour la liste
    de taches de l'eleve, et elle se charge apres celle-ci : il faut donc
    nommer le parent pour que la liste des eleves garde ses quatre colonnes. */
+/* TOUTE LA LIGNE EST LE LIEN, et non le seul nom. Une cible de la hauteur de
+   la ligne se vise sans effort, au doigt comme à la souris, et le professeur
+   qui circule dans la classe n'a pas à pointer six caractères. La grille
+   descend donc sur le lien : posée sur le li, elle aurait placé le lien dans
+   une seule cellule et toutes les colonnes se seraient effondrées. */
 .maintenant .direct-eleves li {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto; gap: .55rem;
-  align-items: center; background: rgba(255, 255, 255, .1); border-radius: var(--radius-sm);
-  padding: .4rem .6rem; font-size: .88rem;
+  background: rgba(255, 255, 255, .1); border-radius: var(--radius-sm);
 }
+.maintenant .direct-eleves li > a {
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto auto auto; gap: .55rem;
+  align-items: center; padding: .4rem .6rem; font-size: .88rem;
+  color: inherit; text-decoration: none; border-radius: var(--radius-sm);
+}
+.maintenant .direct-eleves li > a:hover { background: rgba(255, 255, 255, .14); }
+.maintenant .direct-eleves li > a:focus-visible { outline: 2px solid #fff; outline-offset: -2px; }
 @media (max-width: 34rem) {
-  .maintenant .direct-eleves li { grid-template-columns: auto minmax(0, 1fr) auto; }
+  .maintenant .direct-eleves li > a { grid-template-columns: auto minmax(0, 1fr) auto; }
   .maintenant .direct-eleves .depot { grid-column: 3; }
   .maintenant .direct-eleves .depot-vide { display: none; }
+  .maintenant .direct-eleves .direct-pix { grid-column: 2 / -1; justify-self: start; }
+  .maintenant .direct-eleves .direct-pix-vide { display: none; }
 }
 .maintenant .direct-eleves .detail,
 .maintenant .direct-eleves .depot { white-space: nowrap; }
 .maintenant .direct-eleves .depot-vide { display: block; width: 0; }
+.maintenant .direct-eleves .direct-pix-vide { display: block; width: 0; }
+/* LE RELEVÉ PIX, EN REPÈRE ET NON EN JUGEMENT. Le nombre seul ne dit rien à
+   qui ne suit pas Pix : c'est la certifiabilité qui décide d'une inscription,
+   et elle doit donc se lire sans compter. La pastille pleine dit « oui »,
+   la pastille vide dit « pas encore ». Les deux portent leur couleur ET leur
+   fond : poser l'un sans l'autre laisse la couleur d'une autre feuille
+   s'appliquer, et c'est ainsi qu'un libellé était passé à 1,77:1. */
+.direct-eleves .direct-pix {
+  display: inline-flex; align-items: center; gap: .22rem; white-space: nowrap;
+  border: 1px solid rgba(255, 255, 255, .45); border-radius: 999px;
+  padding: .02rem .42rem; font-size: .72rem; font-weight: 700;
+  font-variant-numeric: tabular-nums; color: #fff; background: transparent;
+}
+.direct-eleves .direct-pix.certifiable {
+  background: rgba(255, 255, 255, .92); color: #032844; border-color: transparent;
+}
+.direct-eleves .direct-pix small { font-size: .86em; font-weight: 400; opacity: .8; }
 .direct-eleves .nom { font-family: var(--font-display); font-weight: 700; min-width: 0; }
 .direct-eleves .detail { color: rgba(255, 255, 255, .78); font-size: .82rem; }
 .direct-eleves .depot {

@@ -71,6 +71,29 @@ export default async function handler(req, res) {
         '&select=profil_id,sequence,document,depose_le&order=depose_le.desc'),
     ]);
 
+    // LE RELEVÉ PIX DU GROUPE, LU À PART ET SANS FAIRE ÉCHOUER LE RESTE.
+    //
+    // Pix n'a rien à voir avec la séance en cours : c'est un repère de fond,
+    // utile au professeur qui prépare une remédiation. Une table absente
+    // (avant db/17) ou indisponible ne doit donc PAS priver l'écran de ce
+    // qu'il sait du travail en direct, qui est sa raison d'être. On rend
+    // `pix: null` pour tout le monde et l'écran se tait sur ce point.
+    //
+    // L'appariement REFUSÉ par le professeur n'est jamais servi : un
+    // rapprochement écarté ne doit pas revenir par une autre page.
+    let pix = new Map();
+    try {
+      const ids = inscrits.map((a) => a.profils?.id).filter(Boolean);
+      if (ids.length) {
+        const lignes = await lire('pix',
+          `profil_id=in.(${ids.join(',')})&appariement=neq.refuse`
+          + '&select=profil_id,score,certifiable,releve_le');
+        pix = new Map(lignes.map((l) => [l.profil_id, l]));
+      }
+    } catch (e) {
+      console.error('seance, relevé Pix :', e.message);
+    }
+
     const eleves = inscrits
       .map((a) => a.profils)
       .filter(Boolean)
@@ -90,6 +113,14 @@ export default async function handler(req, res) {
           pages: [...new Set(siens.map((e) => e.page))],
           dernier_depot: sesDepots.length ? sesDepots[0].depose_le : null,
           depots: sesDepots.length,
+          // null = pas de relevé pour cet élève, ou relevé illisible. Dans les
+          // deux cas l'écran n'affiche rien plutôt qu'un zéro, qui se lirait
+          // comme « cet élève n'a aucun pix ».
+          pix: pix.has(p.id)
+            ? { score: pix.get(p.id).score,
+                certifiable: pix.get(p.id).certifiable === true,
+                releveLe: pix.get(p.id).releve_le }
+            : null,
         };
       });
 
