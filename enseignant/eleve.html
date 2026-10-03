@@ -316,9 +316,13 @@ function rendrePix() {
 
   const morceaux = [];
   if (Number.isFinite(p.score)) {
-    morceaux.push(el('div', { class: 'chiffres' },
-      chiffre(p.score, 'pix'),
-      chiffre(p.certifiable ? 'Oui' : 'Pas encore', 'certifiable', !p.certifiable)));
+    // Les etiquettes de Pix, pas les notres : le professeur et l'eleve
+    // regardent le meme chiffre, ils doivent le voir de la meme facon.
+    morceaux.push(el('p', { class: 'pix-etiquettes' },
+      el('span', { class: 'etiquette-pix' },
+        String(p.score), el('span', { class: 'unite' }, 'pix')),
+      el('span', { class: 'etiquette-pix ' + (p.certifiable ? 'oui' : 'non') },
+        p.certifiable ? 'Certifiable' : 'Pas encore certifiable')));
   } else {
     morceaux.push(el('p', { class: 'pix-sans-profil' },
       'Profil jamais envoyé : aucun score, et la certification est impossible '

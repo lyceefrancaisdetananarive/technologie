@@ -45,6 +45,17 @@ VALEURS = [
         ("css/style.css", r"--mesure-app:\s*([0-9.]+rem)"),
         ("css/connecte.css", r"--mesure-app:\s*([0-9.]+rem)"),
     ]),
+    ("les couleurs de la charte Pix", [
+        # Relevees sur orga.pix.fr, et recopiees faute de feuille commune aux
+        # quatre pages qui affichent un score. Si elles divergent, un eleve voit
+        # deux Pix differents selon l'ecran.
+        ("css/style.css", r"--pix-score-fond:\s*(#[0-9A-Fa-f]{6})"),
+        ("css/connecte.css", r"--pix-score-fond:\s*(#[0-9A-Fa-f]{6})"),
+    ]),
+    ("la couleur du « certifiable » de Pix", [
+        ("css/style.css", r"--pix-oui-fond:\s*(#[0-9A-Fa-f]{6})"),
+        ("css/connecte.css", r"--pix-oui-fond:\s*(#[0-9A-Fa-f]{6})"),
+    ]),
     ("l'ombre de base", [
         ("css/style.css", r"--ombre:\s*([^;]+);"),
         ("css/connecte.css", r"--ombre:\s*([^;]+);"),

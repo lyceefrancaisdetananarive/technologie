@@ -365,9 +365,17 @@ body.tdb main, main.tdb { max-width: var(--mesure-app); }
   font-size: .82rem; line-height: 1.2; min-height: 36px;
 }
 .pix-tete:hover, .pix-tete:focus-visible { background: var(--bleu-pale); border-color: var(--bleu-2); }
-.pix-tete-score b { font: 800 1.05rem var(--display); color: var(--bleu); }
-.pix-tete-certif.oui { color: var(--fait); font-weight: 700; }
-.pix-tete-certif.pas-encore { color: var(--encours); }
+/* L'EN-TETE CITE PIX. Memes couleurs, meme forme de pastille que sur
+   app.pix.fr : l'eleve qui clique ici y arrive sans changer de reperes.
+   Voir les jetons --pix-* dans css/connecte.css. */
+.pix-tete-score {
+  background: var(--pix-score-fond); color: var(--pix-score-encre);
+  border-radius: 999px; padding: .12rem .62rem; font-variant-numeric: tabular-nums;
+}
+.pix-tete-score b { font: 500 1rem var(--display); color: inherit; }
+.pix-tete-certif { border-radius: 999px; padding: .12rem .62rem; font-weight: 500; }
+.pix-tete-certif.oui { background: var(--pix-oui-fond); color: var(--pix-oui-encre); }
+.pix-tete-certif.pas-encore { background: var(--pix-non-fond); color: var(--pix-non-encre); }
 .pix-tete-aller { color: var(--bleu); font-weight: 700; white-space: nowrap; }
 .pix-tete-aller::after { content: ' \2197'; }
 @media (max-width: 52rem) { .pix-tete-aller { display: none; } }

@@ -976,10 +976,15 @@ function rendrePix(p, panne) {
 
   const morceaux = [];
   if (p.score !== null && p.score !== undefined) {
-    morceaux.push(`<div class="chiffres">
-      <div><b class="c-corrige">${p.score}</b><span>pix</span></div>
-      <div><b class="${p.certifiable ? 'c-corrige' : 'c-attente'}">${p.certifiable ? 'Oui' : 'Pas encore'}</b><span>certifiable</span></div>
-    </div>`);
+    // LES MOTS DE PIX, PAS LES NOTRES. Pix ecrit « Certifiable » en toutes
+    // lettres dans une etiquette verte, et le score dans une etiquette bleu
+    // pale. Un eleve qui lit « Oui / certifiable » ici et « Certifiable » la-bas
+    // doit faire le rapprochement lui-meme : autant le lui epargner.
+    morceaux.push(`<p class="pix-etiquettes">
+      <span class="etiquette-pix"><b>${p.score}</b><span class="unite">pix</span></span>
+      <span class="etiquette-pix ${p.certifiable ? 'oui' : 'non'}">${
+        p.certifiable ? 'Certifiable' : 'Pas encore certifiable'}</span>
+    </p>`);
   }
 
   const faits = Object.entries(p.parcours || {})

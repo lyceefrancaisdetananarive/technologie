@@ -147,7 +147,7 @@
    LEUR ligne, et rien ne s'aligne d'une ligne à l'autre. Une largeur en rem
    donne au contraire la même abscisse à toutes, sans subgrid. */
 .maintenant .direct-eleves li > a {
-  display: grid; grid-template-columns: auto minmax(0, 1fr) auto 5.6rem 4.8rem;
+  display: grid; grid-template-columns: auto minmax(0, 1fr) auto 7.2rem 4.8rem;
   gap: .55rem;
   align-items: center; padding: .4rem .6rem; font-size: .88rem;
   color: inherit; text-decoration: none; border-radius: var(--radius-sm);
@@ -185,26 +185,14 @@
    la pastille vide dit « pas encore ». Les deux portent leur couleur ET leur
    fond : poser l'un sans l'autre laisse la couleur d'une autre feuille
    s'appliquer, et c'est ainsi qu'un libellé était passé à 1,77:1. */
-/* Toutes les pastilles ont la largeur de leur colonne : leurs deux bords
-   s'alignent, et le nombre se cale à droite en chiffres de largeur fixe. Un
-   score à trois chiffres et un score à un chiffre tombent ainsi sur la même
-   colonne de dizaines. */
+/* La colonne est fixe, les étiquettes se calent à droite : leurs bords
+   tombent à la même abscisse d'une ligne à l'autre. Les couleurs sont celles
+   de Pix (voir css/connecte.css) ; sur le bandeau bleu foncé, le fond clair
+   de l'étiquette ressort à 5,6:1, et le texte garde ses 8,5:1 contre lui. */
 .direct-eleves .direct-pix {
-  display: flex; align-items: center; justify-content: flex-end; gap: .2rem;
+  display: flex; align-items: center; justify-content: flex-end; gap: .22rem;
   white-space: nowrap;
-  border: 1px solid rgba(255, 255, 255, .45); border-radius: 999px;
-  padding: .02rem .4rem; font-size: .72rem; font-weight: 700;
-  font-variant-numeric: tabular-nums; color: #fff; background: transparent;
 }
-/* LE OUI SE VOIT, IL NE SE DEVINE PAS. Le seul contraste du fond ne suffisait
-   pas : sur un bandeau bleu, une pastille cerclée de blanc et une pastille
-   pleine se ressemblent de loin. La coche dit « certifiable » sans mot. */
-.direct-eleves .direct-pix.certifiable {
-  background: rgba(255, 255, 255, .92); color: #032844;   /* 14,9:1 */
-  border-color: transparent;
-}
-.direct-eleves .direct-pix-oui { font-size: .9em; margin-left: .05rem; }
-.direct-eleves .direct-pix small { font-size: .86em; font-weight: 400; opacity: .8; }
 .direct-eleves .nom { font-family: var(--font-display); font-weight: 700; min-width: 0; }
 .direct-eleves .detail { color: rgba(255, 255, 255, .78); font-size: .82rem; }
 .direct-eleves .depot {

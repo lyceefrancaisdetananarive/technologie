@@ -1345,3 +1345,45 @@ body:has(.fil-activites) { padding-bottom: 4.5rem; }
   [id^="activite-"][hidden] { display: block !important; }
   .info-box > [hidden] { display: revert !important; }
 }
+
+/* ---- Les étiquettes Pix ----------------------------------------------
+   RELEVÉES SUR PIX ORGA LE 3 OCTOBRE 2026, ET NON INVENTÉES.
+
+   Un élève passe du classeur à app.pix.fr dans la même minute. Lui changer
+   les codes de lecture entre les deux, c'est lui demander d'apprendre deux
+   fois la même chose, et lui faire douter que les deux parlent du même
+   score. La zone Pix du site cite donc Pix, pendant que tout le reste garde
+   la charte du lycée : on reconnaît une citation à ce qu'elle garde la voix
+   de celui qu'elle cite.
+
+   Les valeurs viennent des jetons --pix-* du design system de Pix, lus dans
+   la page : l'étiquette de score y est `pix-tag--tertiary pix-score-tag`,
+   et celle de la certifiabilité `pix-tag--green-light`, qui porte le mot
+   « Certifiable » en toutes lettres. Leurs contrastes sont mesurés, et ils
+   sont bons : Pix a fait ce travail avant nous.
+
+   « Pas encore certifiable » n'existe pas chez Pix, qui n'affiche rien dans
+   ce cas. Le professeur, lui, a besoin de distinguer « pas encore » de
+   « pas de relevé » : on prend donc le gris neutre de la même palette
+   plutôt qu'une couleur d'alerte, parce qu'un élève non certifiable en
+   octobre n'est pas en faute. */
+:root {
+  --pix-score-fond: #C3D0FF;  --pix-score-encre: #1A2C6B;   /* 8,53:1 */
+  --pix-oui-fond:   #B0DAC6;  --pix-oui-encre:   #00391D;   /* 8,54:1 */
+  --pix-non-fond:   #F4F5F7;  --pix-non-encre:   #253858;   /* 10,78:1 */
+}
+.etiquette-pix {
+  display: inline-flex; align-items: baseline; gap: .3rem;
+  border-radius: 999px; padding: .25rem .9rem;
+  font-weight: 500; font-size: .875rem; line-height: 1.35;
+  background: var(--pix-score-fond); color: var(--pix-score-encre);
+  white-space: nowrap; font-variant-numeric: tabular-nums;
+}
+.etiquette-pix .unite { font-size: .82em; opacity: .85; font-weight: 400; }
+.etiquette-pix.oui { background: var(--pix-oui-fond); color: var(--pix-oui-encre); }
+.etiquette-pix.non { background: var(--pix-non-fond); color: var(--pix-non-encre); }
+/* La variante serrée sert aux listes denses. Elle change la TAILLE, jamais
+   les couleurs : c'est la couleur qui porte l'identité, pas le padding. */
+.etiquette-pix.serree { padding: .08rem .5rem; font-size: .74rem; }
+
+.pix-etiquettes { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .75rem; }

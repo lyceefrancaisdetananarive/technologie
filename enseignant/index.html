@@ -789,13 +789,19 @@ function pixSeance(p) {
   if (!p || !Number.isFinite(p.score)) {
     return el('span', { class: 'direct-pix-vide', 'aria-hidden': 'true' });
   }
-  return el('span',
-    { class: 'direct-pix' + (p.certifiable ? ' certifiable' : ''),
-      title: p.certifiable ? 'Certifiable' : 'Pas encore certifiable' },
-    String(p.score), el('small', {}, 'pix'),
-    p.certifiable ? el('span', { class: 'direct-pix-oui', 'aria-hidden': 'true' }, '✓') : null,
-    el('span', { class: 'visually-hidden' },
-      p.certifiable ? ', certifiable' : ', pas encore certifiable'));
+  // DEUX ETIQUETTES, COMME DANS PIX ORGA, qui tient le score et la
+  // certifiabilite dans deux colonnes distinctes. L'etiquette verte ne parait
+  // que lorsque la reponse est oui : c'est le choix de Pix, et il se defend,
+  // un eleve non certifiable en octobre n'etant pas en faute. La ligne dense
+  // reduit la coche au signe, le mot restant lu par les lecteurs d'ecran.
+  return el('span', { class: 'direct-pix' },
+    el('span', { class: 'etiquette-pix serree' },
+      String(p.score), el('span', { class: 'unite' }, 'pix')),
+    p.certifiable
+      ? el('span', { class: 'etiquette-pix serree oui', title: 'Certifiable' },
+          el('span', { 'aria-hidden': 'true' }, '✓'),
+          el('span', { class: 'visually-hidden' }, 'Certifiable'))
+      : null);
 }
 const PASTILLE_RANG = ['afaire', 'afaire', 'encours', 'rendu'];
 

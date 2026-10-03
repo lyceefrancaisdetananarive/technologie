@@ -21,11 +21,6 @@
 
 /* Le chiffre qui compte, lisible de loin : le professeur regarde la classe,
    pas le détail. Le nombre de pix et la certifiabilité, rien d'autre. */
-.pix-chiffres { display: flex; gap: 1.2rem; align-items: baseline; margin: .5rem 0 .4rem; }
-.pix-chiffres b { font: 700 1.6rem/1 var(--display); color: var(--bleu); }
-.pix-chiffres span { font-size: .78rem; color: var(--encre-3); }
-.pix-chiffres .oui { color: var(--fait); }
-.pix-chiffres .pas-encore { color: var(--encours); }
 
 .pix-parcours { list-style: none; margin: .35rem 0 0; padding: 0; display: grid; gap: .3rem; }
 .pix-parcours li { display: grid; grid-template-columns: 1fr 4.5rem 2.6rem; gap: .45rem; align-items: center; font-size: .84rem; }
@@ -46,7 +41,7 @@
 .pix-qui .auto { color: var(--encre-3); }
 
 .eleve.ecarte { background: var(--papier); opacity: .72; }
-.eleve.ecarte .pix-chiffres b { color: var(--encre-3); }
+.eleve.ecarte .etiquette-pix { background: var(--papier-2); color: var(--encre-3); }
 
 .trancher { display: flex; flex-wrap: wrap; gap: .4rem; margin: .5rem 0 0; }
 .trancher button { font-size: .82rem; padding: .35rem .7rem; min-height: 44px; }
@@ -265,11 +260,11 @@ function carte(e, partage) {
   // des campagnes d'évaluation, le score et la certifiabilité de la collecte
   // de profil. Un élève peut donc avoir travaillé sans avoir jamais envoyé son
   // profil. Le dire en toutes lettres, sinon la carte muette passe pour un bogue.
-  const chiffres = Number.isFinite(p.score) ? `<div class="pix-chiffres">
-      <div><b>${p.score}</b> <span>pix</span></div>
-      <div><b class="${p.certifiable ? 'oui' : 'pas-encore'}">${p.certifiable ? 'Oui' : 'Pas encore'}</b>
-        <span>certifiable</span></div>
-    </div>` : `<p class="pix-sans-profil">Profil jamais envoyé : aucun score, et
+  const chiffres = Number.isFinite(p.score) ? `<p class="pix-etiquettes">
+      <span class="etiquette-pix"><b>${p.score}</b><span class="unite">pix</span></span>
+      <span class="etiquette-pix ${p.certifiable ? 'oui' : 'non'}">${
+        p.certifiable ? 'Certifiable' : 'Pas encore certifiable'}</span>
+    </p>` : `<p class="pix-sans-profil">Profil jamais envoyé : aucun score, et
       la certification est impossible tant qu’il ne l’envoie pas depuis son
       compte Pix.</p>`;
 
