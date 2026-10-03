@@ -793,6 +793,7 @@ function pixSeance(p) {
     { class: 'direct-pix' + (p.certifiable ? ' certifiable' : ''),
       title: p.certifiable ? 'Certifiable' : 'Pas encore certifiable' },
     String(p.score), el('small', {}, 'pix'),
+    p.certifiable ? el('span', { class: 'direct-pix-oui', 'aria-hidden': 'true' }, '✓') : null,
     el('span', { class: 'visually-hidden' },
       p.certifiable ? ', certifiable' : ', pas encore certifiable'));
 }
@@ -820,6 +821,10 @@ async function chargerDirect({ discret = false } = {}) {
         : `Personne n’a écrit ni déposé dans les ${d.fenetre} dernières minutes. `
           + 'Cette vue s’allume d’elle-même dès qu’un élève travaille, y compris le soir depuis chez lui.'));
 
+    // Une colonne Pix vide pour tout un groupe ne se réserve pas : certains
+    // groupes n'ont aucun relevé, et la place leur revient.
+    $('direct-eleves').classList.toggle('sans-pix',
+      !eleves.some((e) => e.pix && Number.isFinite(e.pix.score)));
     $('direct-eleves').replaceChildren(...eleves.map((e) => {
       const rang = rangEleve(e, maintenant);
       const g = dernierGeste(e);
