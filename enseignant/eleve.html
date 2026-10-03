@@ -111,6 +111,23 @@
 .onglets button:hover { color: var(--encre); }
 .onglets button[aria-selected="true"] { color: var(--bleu); border-bottom-color: var(--bleu); }
 .onglets button:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; }
+
+/* RÉINITIALISER LE MOT DE PASSE. Le code provisoire est écrit en grand et en
+   chasse fixe : il est dicté à voix haute, et « bafi-rolun-47 » se lit mieux
+   que « bafi-rolun-47 » en proportionnelle. */
+.reinit { margin-top: .9rem; }
+#reinit-form { display: flex; flex-wrap: wrap; gap: .6rem .9rem; align-items: flex-end;
+  margin-top: .7rem; padding: .8rem .9rem; border: 1px solid var(--trait);
+  border-radius: var(--r); background: var(--papier-2); }
+#reinit-form[hidden] { display: none; }
+#reinit-form > p { flex-basis: 100%; margin: 0; font-size: .88rem; color: var(--encre-2); }
+#reinit-form label { display: grid; gap: .2rem; font-size: .82rem; font-weight: 700; }
+#reinit-form .reinit-msg { color: var(--erreur); font-weight: 700; }
+.mdp-resultat { margin-top: .8rem; padding: .9rem 1rem; border: 2px solid var(--fait);
+  border-radius: var(--r); background: var(--fait-pale); }
+.mdp-resultat p { margin: .2rem 0; }
+.mdp-code { font: 800 1.9rem var(--mono); letter-spacing: .04em; color: var(--encre);
+  overflow-wrap: anywhere; }
 </style>
 </head>
 <body>
@@ -119,7 +136,7 @@
   <h1>Fiche d'un élève</h1>
   <span class="qui" id="qui"></span>
   <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
-  <a class="lien-tete" id="lien-suivi" href="/enseignant/mesure.html">Suivi du groupe</a>
+  <a class="lien-tete" id="lien-suivi" href="/enseignant/index.html">Retour au groupe</a>
   <button class="sortir" id="sortir">Fermer ma session</button>
 </header>
 
@@ -130,6 +147,27 @@
       <p class="meta" id="appartenance"></p>
     </div>
     <div class="alerte-compte" id="alerte-compte" hidden></div>
+    <!-- RÉINITIALISER LE MOT DE PASSE (D24). Tout professeur de l'élève le peut,
+         et le mot de passe provisoire s'affiche ici pour être dicté. L'API exige
+         que le professeur retape SON mot de passe : un poste de salle laissé
+         ouvert ne doit pas permettre à l'élève suivant de prendre la main sur le
+         compte d'un camarade. Cette barrière est celle de comptes.html, elle ne
+         se retire pas pour gagner un champ. -->
+    <div class="reinit" id="reinit-zone" hidden>
+      <button type="button" class="secondaire" id="reinit-ouvrir">Réinitialiser son mot de passe</button>
+      <form id="reinit-form" hidden>
+        <p>Un mot de passe provisoire va être créé et affiché ici. Dictez-le à l’élève : il devra en
+           choisir un nouveau à sa prochaine connexion, et le provisoire cesse de fonctionner au
+           bout de 24 heures. Le geste est journalisé.</p>
+        <label>Motif <select name="motif" id="reinit-motif"></select></label>
+        <label>Votre mot de passe
+          <input name="confirmation" type="password" autocomplete="current-password" required></label>
+        <button type="submit">Réinitialiser</button>
+        <button type="button" class="secondaire" id="reinit-annuler">Annuler</button>
+        <p class="reinit-msg" id="reinit-msg" role="alert"></p>
+      </form>
+      <div class="mdp-resultat" id="mdp-resultat" hidden aria-live="polite"></div>
+    </div>
     <div class="adaptee" id="adaptee" hidden></div>
     <p class="intro" style="margin-top:1rem">Tout ce que le site sait du travail de cet élève en
       Technologie, dans les groupes que vous lui enseignez. Aucune note, aucun total, aucun
@@ -501,7 +539,9 @@ async function charger() {
     return;
   }
   const groupeVoulu = new URLSearchParams(location.search).get('groupe');
-  if (groupeVoulu) $('lien-suivi').href = '/enseignant/mesure.html?groupe=' + encodeURIComponent(groupeVoulu);
+  // Le suivi vit sur le tableau de bord depuis D24 : le lien ramene au groupe,
+  // là où l'élève a été survolé, et non sur une page que plus rien n'annonce.
+  if (groupeVoulu) $('lien-suivi').href = '/enseignant/index.html?groupe=' + encodeURIComponent(groupeVoulu);
   try {
     const g = await api('/api/classeur/groupes');
     if (g.role !== 'prof') { location.href = '/classeur/'; return; }
@@ -541,12 +581,63 @@ async function charger() {
   $('alerte-compte').textContent = avis.join(' ');
   $('alerte-compte').hidden = !avis.length;
 
+  poserReinit(e);
   rendreAdaptee();
   rendrePix();
   rendreChiffres();
   if (catalogueCharge()) rendreParcours();
   rendreEcarts();
   poserOnglets();
+}
+
+// ---- Réinitialiser le mot de passe ------------------------------------------
+const MOTIFS = [['mot_de_passe_oublie', 'Mot de passe oublié'],
+                ['boite_inaccessible', 'Boîte mail inaccessible'],
+                ['compte_bloque', 'Compte bloqué après trop d’essais'],
+                ['autre', 'Autre']];
+
+function poserReinit(eleve) {
+  const zone = $('reinit-zone');
+  // Un compte à la corbeille ne se réinitialise pas : l'API le refuse, autant
+  // ne pas proposer un bouton qui ne peut aboutir.
+  if (eleve.actif === false) { zone.hidden = true; return; }
+  zone.hidden = false;
+  const form = $('reinit-form');
+  $('reinit-motif').replaceChildren(...MOTIFS.map(([v, t]) => el('option', { value: v }, t)));
+  $('reinit-ouvrir').addEventListener('click', () => {
+    form.hidden = !form.hidden;
+    if (!form.hidden) form.elements.confirmation.focus();
+  });
+  $('reinit-annuler').addEventListener('click', () => {
+    form.hidden = true; form.reset(); $('reinit-msg').textContent = '';
+  });
+  form.addEventListener('submit', async (ev) => {
+    ev.preventDefault();
+    const bouton = form.querySelector('[type=submit]');
+    bouton.disabled = true; $('reinit-msg').textContent = '';
+    try {
+      const d = await api('/api/prof/reinitialiser-eleve', { method: 'POST',
+        body: JSON.stringify({ eleve: eleve.id, motif: form.elements.motif.value,
+                               confirmation: form.elements.confirmation.value }) });
+      form.reset(); form.hidden = true;
+      montrerMotDePasse(d);
+    } catch (e) {
+      $('reinit-msg').textContent = e.message || 'La réinitialisation n’a pas abouti.';
+      form.elements.confirmation.value = '';
+    } finally { bouton.disabled = false; }
+  });
+}
+
+function montrerMotDePasse(d) {
+  const z = $('mdp-resultat');
+  const masquer = el('button', { type: 'button', class: 'secondaire' }, 'Masquer');
+  masquer.addEventListener('click', () => { z.replaceChildren(); z.hidden = true; });
+  z.replaceChildren(
+    el('p', { class: 'meta' }, `Mot de passe provisoire de ${d.eleve} :`),
+    el('p', { class: 'mdp-code' }, d.motDePasse),
+    el('p', { class: 'meta' }, d.avertissement || ''),
+    masquer);
+  z.hidden = false;
 }
 
 // ---- Les onglets -----------------------------------------------------------

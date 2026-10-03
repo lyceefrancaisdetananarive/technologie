@@ -47,25 +47,33 @@
         <p class="text-muted">Chargement des groupes…</p>
       </div>
 
+      <!-- LE BANDEAU DU GROUPE (D24). Cinq boutons le prolongeaient : Corriger,
+           Plan de l'année, Suivi du groupe, La séance, Groupes et comptes. Quatre
+           disaient ce que la page dit déjà dessous. Il ne reste qu'une ligne :
+           qui est ce groupe, où il en est dans l'année, et la porte des comptes. -->
       <div class="bandeau" id="bandeau" hidden>
         <b id="g-code"></b>
         <span class="creneau" id="g-creneau"></span>
-        <span class="bandeau-liens">
-          <a id="l-classeur" href="classeur.html">Corriger</a>
-          <a id="l-plan" href="plan.html">Plan de l’année</a>
-          <a id="l-mesure" href="mesure.html">Suivi du groupe</a>
-          <a id="l-seance" href="seance.html">La séance</a>
-          <a href="comptes.html">Groupes et comptes</a>
+        <span class="bandeau-annee">
+          <span id="g-mot"></span>
+          <span class="annee-mini" aria-hidden="true"><span id="g-progres"></span></span>
         </span>
+        <a class="bandeau-lien" href="comptes.html">Groupes et comptes</a>
       </div>
 
-      <!-- DEUX COLONNES QUI S'ECOULENT, comme le classeur de l'élève.
-           Une grille calait chaque rangée sur sa tuile la plus haute, ce qui
-           laissait un vide sous la plus courte. Deux colonnes n'ont pas de
-           rangées : la tuile suivante commence où la précédente finit. -->
+      <!-- DEUX TUILES COTE A COTE, ET UN BANDEAU AU-DESSUS (D24).
+           La séance en cours à gauche, le suivi à droite : par défaut
+           l'avancée du groupe, et dès que le pointeur passe sur un élève de la
+           séance, la sienne. « À corriger » n'est plus une tuile mais une
+           ligne : trois chiffres et deux liens n'ont pas besoin de la place
+           d'un écran. -->
       <div class="mur" id="tdb" hidden>
-        <div class="colonne colonne-large">
-        <section class="bloc maintenant b8" aria-labelledby="direct-titre">
+        <section class="bloc strip-corriger" aria-labelledby="corriger-titre">
+          <h2 id="corriger-titre">À corriger <span class="compteur" id="n-corriger"></span></h2>
+          <div class="pile" id="pile"></div>
+          <p class="meta" id="plan-releve"></p>
+        </section>
+        <section class="bloc maintenant" aria-labelledby="direct-titre">
           <h2 id="direct-titre">La séance en cours
             <span class="compteur" id="direct-fraicheur"></span></h2>
           <div id="direct-resume"></div>
@@ -78,29 +86,21 @@
           </div>
           <ul class="direct-eleves" id="direct-eleves"></ul>
         </section>
-        <section class="bloc b8" aria-labelledby="prog-titre">
-          <h2 id="prog-titre">La progression du groupe
+        <section class="bloc suivi" id="bloc-suivi" aria-labelledby="prog-titre">
+          <h2 id="prog-titre"><span id="suivi-titre">La progression du groupe</span>
             <span class="compteur" id="prog-resume"></span></h2>
-          <p class="aide-cocher">Clique sur le numéro d’une séance pour la marquer faite en classe,
-             ou pour la décocher. C’est ce clic qui fait vivre la carte de l’année de tes élèves.</p>
-          <p class="msg" id="prog-msg" role="status" aria-live="polite"></p>
-          <div id="prog"></div>
+          <div id="suivi-groupe">
+            <p class="aide-cocher">Clique sur le numéro d’une séance pour la marquer faite en classe,
+               ou pour la décocher. C’est ce clic qui fait vivre la carte de l’année de tes élèves.
+               <a id="l-plan" href="plan.html">Réordonner le plan de l’année</a></p>
+            <p class="msg" id="prog-msg" role="status" aria-live="polite"></p>
+            <p class="msg" id="g-msg" role="status" aria-live="polite"></p>
+            <div id="prog"></div>
+          </div>
+          <!-- L'ELEVE SURVOLE. Lecture seule : on ne clique pas ici, la ligne
+               de la séance est elle-même le lien vers sa fiche complète. -->
+          <div id="suivi-eleve" class="suivi-eleve" hidden></div>
         </section>
-        </div>
-        <div class="colonne colonne-cote">
-        <section class="bloc b4" aria-labelledby="corriger-titre">
-          <h2 id="corriger-titre">À corriger <span class="compteur" id="n-corriger"></span></h2>
-          <div class="pile" id="pile"></div>
-          <p class="meta" id="plan-releve"></p>
-        </section>
-        <section class="bloc b4" aria-labelledby="groupe-titre">
-          <h2 id="groupe-titre">Où en est le groupe</h2>
-          <div class="chiffres" id="g-chiffres"></div>
-          <p class="meta" id="g-mot"></p>
-          <div class="barre annee-barre"><div id="g-progres"></div></div>
-          <p class="msg" id="g-msg" role="status" aria-live="polite"></p>
-        </section>
-        </div>
       </div>
 
       <!-- LE GROUPE D'ESSAI VIT SOUS LE MUR, ET NON AU-DESSUS.
@@ -350,6 +350,7 @@
 
 <script src="../js/catalogue.js"></script>
 <script type="module">
+import { jourSeul } from '/js/pix.js';
 import {
   catalogueCharge, sequence, titresSeances, etatSequence, resumeGroupe, NIVEAU_COURT,
 } from '../js/progression-regles.js';
@@ -580,10 +581,7 @@ function rendreBandeau() {
   if (!g) return;
   $('g-code').textContent = g.code;
   $('g-creneau').textContent = `${g.libelle} · ${g.effectif} élève${g.effectif > 1 ? 's' : ''}`;
-  for (const [id, page] of [['l-classeur', 'classeur.html'], ['l-plan', 'plan.html'],
-                            ['l-mesure', 'mesure.html'], ['l-seance', 'seance.html']]) {
-    $(id).href = `${page}?groupe=${g.id}`;
-  }
+  $('l-plan').href = `plan.html?groupe=${g.id}`;
   $('bandeau').hidden = false;
   $('tdb').hidden = false;
 }
@@ -708,26 +706,19 @@ function rendreProgression() {
   $('prog').replaceChildren(...blocs);
 }
 
-// ---- Les chiffres du groupe -------------------------------------------------
+// ---- Où en est le groupe : une ligne, dans le bandeau ------------------------
+// Ces chiffres avaient leur tuile. Ils tiennent en une ligne et une barre fine :
+// le professeur les lit d'un coup d'oeil et ne les cherche plus.
 function rendreChiffres() {
   const g = groupeCourant();
   if (!g) return;
   const r = resumeGroupe(g.plan, g.avancement);
   const pct = r.total ? Math.round(100 * r.faites / r.total) : 0;
-  const n = totalACorriger(g.a_corriger);
-  const c = (valeur, mot, classe) => el('div', { class: classe },
-    el('b', {}, String(valeur)), el('span', {}, mot));
-  $('g-chiffres').replaceChildren(
-    c(g.effectif, g.effectif > 1 ? 'élèves' : 'élève', ''),
-    c(`${r.faites}/${r.total}`, 'séances', 'c-encours'),
-    c(n === null ? '?' : (g.a_corriger?.depots === null || g.a_corriger?.reponses === null)
-        ? '≥ ' + n : n,
-      n === null ? 'à corriger, indisponible' : 'à corriger',
-      n === null ? '' : n ? 'c-rendu' : 'c-corrige'));
   $('g-progres').style.width = pct + '%';
-  $('g-mot').textContent = r.terminee ? 'Toutes les séquences prévues sont faites.'
-    : r.courante ? `Séquence en cours : ${r.courante.titre}.`
-    : 'Aucune séquence prévue pour le moment.';
+  $('g-mot').textContent = !r.total ? ''
+    : r.terminee ? `Année : ${r.faites}/${r.total} séances, tout est fait`
+    : r.courante ? `Année : ${r.faites}/${r.total} séances · ${r.courante.titre}`
+    : `Année : ${r.faites}/${r.total} séances`;
 }
 
 function rendrePile() {
@@ -847,6 +838,7 @@ async function chargerDirect({ discret = false } = {}) {
       .sort((a, b) => rangEleve(a, maintenant) - rangEleve(b, maintenant)
         || String(a.nom ?? '').localeCompare(String(b.nom ?? '')));
     const actifs = eleves.filter((e) => dernierGeste(e)).length;
+    directParEleve = new Map(eleves.map((e) => [e.id, e]));
 
     dernierReleve = Date.parse(d.mesure_le) || Date.now();
     rendreFraicheur();
@@ -866,7 +858,7 @@ async function chargerDirect({ discret = false } = {}) {
       const g = dernierGeste(e);
       const quand = g ? ilYA(new Date(g).toISOString(), maintenant) : null;
       const nom = `${e.prenom ?? ''} ${e.nom ?? ''}`.trim() || 'Élève';
-      return el('li', { class: 'r' + rang },
+      return el('li', { class: 'r' + rang, 'data-eleve': e.id },
         el('a', { href: `eleve.html?eleve=${encodeURIComponent(e.id)}&groupe=${encodeURIComponent(courant)}`,
                   'aria-label': `Ouvrir la fiche de ${nom}` },
           pastille(PASTILLE_RANG[rang]),
@@ -915,7 +907,7 @@ function reglerMinuteur() {
     if (document.hidden) return;
     rendreFraicheur();
     chargerDirect({ discret: true });
-    if (++toursDepuisPlan >= 4) { toursDepuisPlan = 0; relirePlan({ garderMessage: true }); }
+    if (++toursDepuisPlan >= 4) { toursDepuisPlan = 0; relirePlan({ garderMessage: true }); chargerSuivi(); }
   }, RAFRAICHIR);
 }
 function auRetour() {
@@ -923,18 +915,164 @@ function auRetour() {
   rendreFraicheur();
   chargerDirect({ discret: true });
   relirePlan({ garderMessage: true });
+  chargerSuivi();
 }
 document.addEventListener('visibilitychange', auRetour);
 // Au retour par le bouton « page précédente », Safari restitue la page depuis
 // son cache sans relancer le module : sans ceci, l'écran reste figé.
 window.addEventListener('pageshow', (ev) => { if (ev.persisted) auRetour(); });
 
+// ---- Le suivi : le groupe par défaut, l'élève au survol ---------------------
+//
+// UNE TUILE, DEUX LECTURES (D24). Le suivi du groupe vivait sur une page à
+// part, que le professeur devait ouvrir pour savoir où en était UN élève. Il
+// reste sur le tableau de bord : la tuile montre l'avancée du groupe, et dès
+// que le pointeur passe sur un élève de la séance, elle montre la sienne. Rien
+// à cliquer, rien à ouvrir.
+let suivi = null;                  // la dernière mesure LUE avec succès pour ce groupe
+let suiviEnPanne = false;
+let directParEleve = new Map();    // id -> ligne de la séance (Pix, signes d'activité)
+
+async function chargerSuivi() {
+  const g = groupeCourant();
+  if (!g) return;
+  try {
+    const d = await appel(`/api/prof/mesure?groupe=${g.id}`);
+    if (g.id !== courant) return;
+    suivi = d; suiviEnPanne = false;
+  } catch (e) {
+    // Une mesure périmée vaut mieux qu'un écran vide : on garde la dernière.
+    if (g.id === courant) suiviEnPanne = true;
+  }
+  const z = $('suivi-eleve');
+  if (!z.hidden && z.dataset.eleve) rendreSuiviEleve(z.dataset.eleve);
+}
+
+const puce = (classe, texte) => el('span', { class: 'puce ' + classe }, texte);
+
+/** Ce que le site sait de l'état du compte, sans en dire plus. */
+function motCompte(e) {
+  if (!e) return '';
+  const dit = (iso) => jourSeul(iso);
+  const morceaux = [];
+  if (e.acces_jamais_ouvert) morceaux.push('Compte jamais ouvert.');
+  else if (e.derniere_connexion) morceaux.push(`Dernière connexion le ${dit(e.derniere_connexion)}.`);
+  else if (e.mot_de_passe_pose_le) {
+    morceaux.push(`Compte ouvert le ${dit(e.mot_de_passe_pose_le)}, sans connexion enregistrée depuis.`);
+  }
+  if (e.mot_de_passe_a_choisir && !e.acces_jamais_ouvert) morceaux.push('Mot de passe provisoire.');
+  if (e.echecs_depuis_succes >= 10) morceaux.push(`Bloqué après ${e.echecs_depuis_succes} échecs de connexion.`);
+  else if (e.echecs_depuis_succes) morceaux.push(`${e.echecs_depuis_succes} échec${e.echecs_depuis_succes > 1 ? 's' : ''} de connexion récent${e.echecs_depuis_succes > 1 ? 's' : ''}.`);
+  return morceaux.join(' ');
+}
+
+function rendreSuiviEleve(id) {
+  const g = groupeCourant();
+  if (!g) return;
+  const m = (suivi?.eleves ?? []).find((x) => x.id === id);
+  const d = directParEleve.get(id);
+  const src = m ?? d ?? {};
+  const nom = `${src.prenom ?? ''} ${src.nom ?? ''}`.trim() || 'Élève';
+  $('suivi-titre').textContent = `Où en est ${src.prenom ?? 'cet élève'}`;
+
+  const tete = el('div', { class: 'se-tete' },
+    el('b', { class: 'se-nom' }, nom),
+    d?.pix && Number.isFinite(d.pix.score)
+      ? el('span', { class: 'pix-etiquettes' },
+          el('span', { class: 'etiquette-pix serree' }, String(d.pix.score),
+            el('span', { class: 'unite' }, 'pix')),
+          d.pix.certifiable ? el('span', { class: 'etiquette-pix serree oui' }, 'Certifiable')
+                            : el('span', { class: 'etiquette-pix serree non' }, 'Pas encore certifiable'))
+      : null);
+
+  const blocs = [tete, el('p', { class: 'meta se-compte' }, motCompte(m))];
+
+  if (!suivi) {
+    blocs.push(el('p', { class: 'meta' }, suiviEnPanne
+      ? 'Le suivi n’a pas pu être lu pour le moment. Réessaie dans un instant.'
+      : 'Lecture du suivi…'));
+  } else if (catalogueCharge()) {
+    const cel = (suivi.cellules ?? []).filter((c) => c.profil_id === id);
+    const fic = (suivi.fiches ?? []).filter((f) => f.profil_id === id);
+    const lignes = [];
+    g.plan.forEach((p) => {
+      if (!p.visible) return;
+      const s = sequence(p.sequence);
+      if (!s) return;
+      const c = cel.find((x) => x.sequence === p.sequence);
+      const fs = fic.filter((x) => x.sequence === p.sequence);
+      const etat = etatSequence(s, g.avancement);
+      // Une séquence à venir où l'élève n'a rien fait n'apprend rien : on ne
+      // la liste pas. Sinon neuf lignes dont huit vides noyaient la seule utile.
+      if (etat === 'avenir' && !c && !fs.length) return;
+      const puces = [];
+      if (fs.length) {
+        const finie = fs.some((f) => f.terminee);
+        puces.push(puce(finie ? 'ok' : 'encours', finie ? 'Fiche terminée' : 'Fiche en cours'));
+        if (fs.some((f) => f.corrigee)) puces.push(puce('ok', 'Fiche corrigée'));
+      }
+      if (c?.depot) puces.push(c.corrige ? puce('ok', 'Dépôt corrigé') : puce('encours', 'Dépôt à corriger'));
+      if (c?.quiz) puces.push(puce('neutre', `Quiz ${c.quiz.meilleur}/${c.quiz.total}`));
+      if (!puces.length) puces.push(puce('vide', 'Aucune trace'));
+      lignes.push(el('li', {},
+        el('span', { class: 't' }, s.titre,
+          el('span', { class: 'etat etat-' + CLASSE_SEQ[etat] }, LIBELLE_SEQ[etat])),
+        el('span', { class: 'se-puces' }, puces)));
+    });
+    blocs.push(lignes.length
+      ? el('ol', { class: 'se-seq' }, lignes)
+      : el('p', { class: 'meta' }, 'Aucune séquence commencée dans ce groupe pour le moment.'));
+  }
+  blocs.push(el('a', { class: 'se-lien',
+    href: `eleve.html?eleve=${encodeURIComponent(id)}&groupe=${encodeURIComponent(g.id)}` },
+    'Ouvrir sa fiche complète'));
+  $('suivi-eleve').replaceChildren(...blocs);
+}
+
+function montrerEleve(id) {
+  const zone = $('suivi-eleve');
+  if (zone.hidden) {
+    // La tuile garde la hauteur qu'avait la vue du groupe : sans cela, la
+    // page entière se raccourcit à chaque survol et se rallonge à chaque
+    // sortie, et ce qui est dessous saute sous le pointeur.
+    const bloc = $('bloc-suivi');
+    bloc.style.minHeight = bloc.offsetHeight + 'px';
+    $('suivi-groupe').hidden = true;
+    $('prog-resume').hidden = true;
+    zone.hidden = false;
+  }
+  if (zone.dataset.eleve !== id) { zone.dataset.eleve = id; rendreSuiviEleve(id); }
+}
+
+function montrerGroupe() {
+  const zone = $('suivi-eleve');
+  if (zone.hidden) return;
+  zone.hidden = true; delete zone.dataset.eleve;
+  $('suivi-groupe').hidden = false;
+  $('prog-resume').hidden = false;
+  $('suivi-titre').textContent = 'La progression du groupe';
+  $('bloc-suivi').style.minHeight = '';
+}
+
+(() => {
+  const liste = $('direct-eleves');
+  const ligne = (ev) => ev.target.closest && ev.target.closest('li[data-eleve]');
+  liste.addEventListener('mouseover', (ev) => { const l = ligne(ev); if (l) montrerEleve(l.dataset.eleve); });
+  liste.addEventListener('focusin', (ev) => { const l = ligne(ev); if (l) montrerEleve(l.dataset.eleve); });
+  liste.addEventListener('mouseleave', montrerGroupe);
+  liste.addEventListener('focusout', (ev) => { if (!liste.contains(ev.relatedTarget)) montrerGroupe(); });
+})();
+
 // ---- Choisir un groupe ------------------------------------------------------
+
 function choisir(id) {
   courant = id;
   try { history.replaceState(null, '', `?groupe=${id}`); } catch (e) { /* page ouverte en local */ }
+  montrerGroupe();
+  suivi = null; suiviEnPanne = false; directParEleve = new Map();
   rendreChips(); rendreBandeau(); rendreProgression(); rendreChiffres(); rendrePile();
   taire();
+  chargerSuivi();
   dernierReleve = null; toursDepuisPlan = 0;
   chargerDirect();
   reglerMinuteur();

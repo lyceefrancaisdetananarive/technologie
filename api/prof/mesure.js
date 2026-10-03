@@ -18,6 +18,9 @@ import { UUID, planParDefaut, sequenceDuCatalogue } from '../_lib/progression.js
 //     sequences : [{sequence, visible, faites, seances, depots, corriges, quiz}]
 //                 depots = élèves ayant déposé, quiz = élèves ayant fait le quiz
 //     cellules  : [{profil_id, sequence, depot, corrige, quiz: {meilleur, total}}]
+//     fiches    : [{profil_id, sequence, terminee, corrigee}]   (D24, 3 octobre 2026)
+//                 une entrée par élève et par fiche d'activité en ligne ; absente
+//                 si l'élève n'a pas commencé la fiche
 //     blocages  : {acces_jamais_ouverts, bloques, depots_sans_correction_7j}
 //
 // « Échecs depuis la dernière connexion réussie » : api/auth/connexion.js
@@ -47,16 +50,20 @@ export default async function handler(req, res) {
       `groupe_id=eq.${groupe}&select=profils(id,prenom,nom,mdp_provisoire,actif,derniere_connexion,mdp_pose_le)&order=profils(nom)`);
     const eleves = inscrits.map((i) => i.profils).filter(Boolean);
     if (!eleves.length) {
-      return res.status(200).json({ ok: true, groupe: g, eleves: [], sequences: [], cellules: [], blocages: {} });
+      return res.status(200).json({ ok: true, groupe: g, eleves: [], sequences: [], cellules: [], fiches: [], blocages: {} });
     }
     const ids = eleves.map((e) => e.id).join(',');
     const depuis = new Date(Date.now() - 30 * 86400000).toISOString();
-    const [plans, coches, rendus, scores, echecs] = await Promise.all([
+    const [plans, coches, rendus, scores, echecs, fichesLues] = await Promise.all([
       lire('plans', `groupe_id=eq.${groupe}&select=sequence,position,visible&order=position`),
       lire('avancement', `groupe_id=eq.${groupe}&select=sequence,seance`),
       lire('rendus', `groupe_id=eq.${groupe}&select=profil_id,sequence,fichier,depose_le,corrige_le`),
       lire('scores', `profil_id=in.(${ids})&select=profil_id,quiz,meilleur,total`),
       lire('tentatives', `profil_id=in.(${ids})&origine=eq.connexion&quand=gte.${depuis}&select=profil_id`),
+      // Une ligne `fiche` par élève et par page porte l'état de la fiche
+      // (« terminee » ou « en cours »). On ne lit PAS le texte écrit : savoir
+      // où en est un élève ne demande pas de lire par-dessus son épaule.
+      lire('reponses', `groupe_id=eq.${groupe}&question=eq.fiche&select=profil_id,page,texte,corrige_le`),
     ]);
     // Même règle que plan.js et progression.js : un plan personnalisé dont
     // aucune ligne n'est au catalogue retombe sur le plan du catalogue.
@@ -70,6 +77,17 @@ export default async function handler(req, res) {
 
     const echecsPar = {};
     for (const t of echecs) echecsPar[t.profil_id] = (echecsPar[t.profil_id] ?? 0) + 1;
+
+    // LA PAGE D'UNE FICHE PORTE LE NOM DE SA SEQUENCE : « 5eme/p1/seq1-activite.html »
+    // est la fiche de « 5eme/p1/seq1 », que le plan désigne par ce nom. Seules
+    // les séquences du plan comptent, comme pour les dépôts.
+    const fiches = [];
+    for (const f of fichesLues) {
+      const sequence = String(f.page).replace(/-[a-z]+\.html$/, '');
+      if (!idsEleves.has(f.profil_id) || !seqs.has(sequence)) continue;
+      fiches.push({ profil_id: f.profil_id, sequence,
+                    terminee: f.texte === 'terminee', corrigee: Boolean(f.corrige_le) });
+    }
 
     const cellules = [];
     for (const e of eleves) {
@@ -111,10 +129,13 @@ export default async function handler(req, res) {
         // Voir api/prof/seance.js : deux temoins, pas un.
         acces_jamais_ouvert: !e.derniere_connexion && !e.mdp_pose_le,
         mot_de_passe_a_choisir: Boolean(e.mdp_provisoire),
+        // Les deux dates, pour que l'écran dise ce qu'il sait : voir seance.js.
+        derniere_connexion: e.derniere_connexion || null,
+        mot_de_passe_pose_le: e.mdp_pose_le || null,
         inactif: !e.actif,
         echecs_depuis_succes: echecsPar[e.id] ?? 0,
       })),
-      sequences, cellules,
+      sequences, cellules, fiches,
       blocages: {
         acces_jamais_ouverts: eleves.filter((e) => !e.derniere_connexion && !e.mdp_pose_le).length,
         bloques: Object.values(echecsPar).filter((n) => n >= SEUIL_BLOCAGE).length,

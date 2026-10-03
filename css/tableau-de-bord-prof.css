@@ -111,13 +111,20 @@
 }
 .bandeau b { font-family: var(--font-display); font-weight: 800; font-size: 1.25rem; }
 .bandeau .creneau { color: var(--encre-2); font-size: .88rem; }
-.bandeau-liens { display: flex; flex-wrap: wrap; gap: .3rem; margin-left: auto; }
-.bandeau-liens a {
-  font-family: var(--font-display); font-weight: 700; font-size: .8rem;
-  text-decoration: none; border: 1px solid var(--trait); border-radius: 999px;
-  padding: .2rem .7rem; color: var(--bleu);
-}
-.bandeau-liens a:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+/* OU EN EST LE GROUPE, EN PETIT (D24). Une ligne et une barre fine : on la lit
+   d'un coup d'oeil, on ne la cherche plus. La barre est la sienne et non
+   .barre, dont un « display: none » de connecte.css a déjà tué toutes les
+   barres de progression du site : on redéclare display ici, sans rien hériter. */
+.bandeau-annee { display: inline-flex; align-items: center; gap: .5rem;
+  font-size: .78rem; color: var(--encre-3); min-width: 0; }
+.annee-mini { display: block; flex: none; width: 6rem; height: 6px;
+  background: var(--grille); border-radius: 999px; overflow: hidden; }
+.annee-mini > span { display: block; height: 100%; background: var(--fait); border-radius: inherit; }
+/* La porte des comptes : un lien, pas un bouton. Elle sert quelques fois par
+   mois, les quatre autres boutons servaient à rejoindre ce que la page montre. */
+.bandeau-lien { margin-left: auto; font-family: var(--font-display); font-weight: 700;
+  font-size: .8rem; color: var(--bleu); text-decoration: none; white-space: nowrap; }
+.bandeau-lien:hover { text-decoration: underline; }
 
 /* ---- La séance en cours ---------------------------------------------- */
 .direct-mot { margin: 0 0 .7rem; color: rgba(255, 255, 255, .88); font-size: .92rem; }
@@ -255,3 +262,50 @@
    desormais dans le bloc replie. */
 #ressources table { width: 100%; table-layout: fixed; }
 #ressources th, #ressources td { overflow-wrap: anywhere; }
+
+/* ---- Deux tuiles côte à côte, et un bandeau « à corriger » (D24) --------
+   Les sélecteurs portent #tdb parce que css/tableau-de-bord.css se charge
+   APRÈS cette feuille et gagne à spécificité égale : sans l'identifiant, la
+   grille 7fr/5fr de la feuille commune reprenait la main sur la nôtre. */
+@media (min-width: 62rem) {
+  #tdb.mur { grid-template-columns: minmax(0, 7fr) minmax(0, 6fr); }
+}
+#tdb > .strip-corriger {
+  grid-column: 1 / -1; display: flex; flex-wrap: wrap; align-items: center;
+  gap: .4rem 1rem; padding: .55rem .9rem;
+}
+#tdb > .strip-corriger > h2 { margin: 0; }
+#tdb .strip-corriger .pile { display: flex; flex-wrap: wrap; gap: .5rem; }
+#tdb .strip-corriger .pile a { padding: .25rem .7rem; }
+#tdb .strip-corriger .pile .t small { display: none; }
+#tdb .strip-corriger .pile .n { font-size: 1rem; }
+#tdb .strip-corriger .meta { margin: 0 0 0 auto; }
+
+/* ---- L'élève au survol : la même tuile, une autre lecture ---------------
+   Collante : la séance est longue, et le professeur qui survole le quinzième
+   élève a fait défiler la page. Sans cela, la tuile serait restée en haut,
+   hors de l'écran, à répondre à une question que personne ne voit. */
+/* « top » TIENT COMPTE DE L'EN-TETE, ET C'EST UNE MESURE, PAS UNE ESTIMATION.
+   L'en-tête du site (65 px) et la barre de navigation (49 px) sont collantes
+   toutes les deux : 113 px en tout. Calé à 1rem du haut, le panneau était bien
+   « collé » selon le calcul, et entièrement caché derrière elles : le nom et le
+   score de l'élève n'apparaissaient plus. Vu sur une capture, pas sur un chiffre. */
+.suivi-eleve { position: sticky; top: 8.2rem; }
+.se-tete { display: flex; flex-wrap: wrap; align-items: center; gap: .4rem .8rem; margin: 0 0 .3rem; }
+.se-nom { font: 800 1.15rem var(--font-display); }
+.se-compte { margin: 0 0 .8rem; }
+.se-seq { list-style: none; margin: 0 0 .8rem; padding: 0; display: grid; gap: .5rem; }
+.se-seq li { display: grid; gap: .35rem; border: 1px solid var(--trait);
+  border-radius: var(--r); padding: .5rem .65rem; }
+.se-seq .t { font: 700 .88rem var(--font-display); display: flex; flex-wrap: wrap;
+  align-items: center; gap: .2rem .5rem; }
+.se-puces { display: flex; flex-wrap: wrap; gap: .3rem; }
+.puce { border-radius: 999px; padding: .08rem .55rem; font-size: .74rem; font-weight: 700;
+  background: var(--grille); color: var(--encre-2); }
+.puce.ok { background: var(--fait-pale); color: var(--fait); }
+.puce.encours { background: var(--encours-pale); color: var(--encours); }
+.puce.vide { background: transparent; color: var(--encre-3); font-weight: 400;
+  border: 1px dashed var(--trait); }
+.se-lien { font: 700 .86rem var(--font-display); color: var(--bleu); }
+.se-lien::after { content: ' \2192'; }
+.aide-cocher a { font-weight: 700; white-space: nowrap; }

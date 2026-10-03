@@ -100,7 +100,11 @@ export default async function handler(req, res) {
     // le professeur de cet élève. Le mot de passe, lui, il ne l'a pas.
     if (!(await verifierMotDePasse(prof.email, confirmation))) {
       await noterEchecRessaisie(prof.id);
-      return refus(res, 401,
+      // 403 ET NON 401 (3 octobre 2026). Pour js/classeur-commun.js, un 401 veut
+      // dire « session expirée » : api() renvoie alors à la connexion. Une faute
+      // de frappe dans la confirmation jetait donc le professeur hors de la
+      // page au lieu de lui dire que son mot de passe est faux.
+      return refus(res, 403,
         'Mot de passe incorrect. Cette action demande de retaper le vôtre.');
     }
 

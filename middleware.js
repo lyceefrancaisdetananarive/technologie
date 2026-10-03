@@ -68,6 +68,9 @@ const PAGES_PUBLIQUES = new Set([
 // lise en un seul endroit.
 const PREFIXES_PUBLICS = ['/api/', '/img/', '/css/', '/js/', '/fonts/'];
 
+// Les deux adresses de la page d'accueil, telles que normaliser() les produit.
+const ACCUEILS = new Set(['/', '/index.html']);
+
 // Dossiers professeur, SANS barre finale. Vercel redirige « /enseignant/ »
 // vers « /enseignant » puis sert index.html : le dossier lui-même doit être
 // protégé autant que ce qu'il contient.
@@ -257,6 +260,30 @@ export default async function middleware(requete) {
 
   if (url.hostname === HOTE_ANCIEN) {
     return Response.redirect(new URL(url.pathname + url.search, HOTE), 308);
+  }
+
+  // L'ACCUEIL PUBLIC N'EST PAS POUR QUI EST DEJA CONNECTE (D24, 3 octobre 2026).
+  //
+  // Un professeur ou un eleve identifie n'a rien a faire sur la page de
+  // presentation : elle s'adresse aux familles et aux visiteurs. Y retomber
+  // en cliquant sur le logo, c'etait un detour a chaque fois, et la page
+  // « Comprendre, concevoir, fabriquer » a servi de sas a tout le monde alors
+  // que personne n'y vient pour elle une fois connecte.
+  //
+  // La regle est volontairement ETROITE : « / » et « /index.html » seulement.
+  // La page de connexion n'est PAS redirigee, et ce n'est pas un oubli : un
+  // cookie sans niveau (scelle avant le 18 septembre) y est renvoye pour se
+  // refaire, et le renvoyer de la connexion vers le classeur le priverait pour
+  // toujours de ses niveaux. Pour revoir l'accueil public, on se deconnecte :
+  // le cookie tombe, et la page reparait.
+  if (ACCUEILS.has(normaliser(url.pathname))) {
+    const connecte = await ouvrir(
+      lireCookie(requete.headers.get('cookie')), process.env.LFT_COOKIE_SECRET);
+    if (!connecte) return;   // visiteur : Vercel sert l'accueil
+    return rediriger(new URL(
+      connecte.prov ? '/changer-mot-de-passe.html'
+        : connecte.role === 'prof' ? '/enseignant/index.html' : '/classeur/index.html',
+      url.origin));
   }
 
   const { requis, niveau } = exigence(url.pathname);

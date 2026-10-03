@@ -101,13 +101,17 @@ export default async function handler(req, res) {
         'Mettez d’abord ce compte à la corbeille. La suppression définitive ne se fait que depuis la corbeille.');
     }
     const confirmation = String(req.body?.confirmation ?? '');
-    if (!confirmation) return refus(res, 401, 'Retapez votre mot de passe pour confirmer.');
+    if (!confirmation) return refus(res, 403, 'Retapez votre mot de passe pour confirmer.');
     if (!(await ressaisieAutorisee(moi.id))) {
       return refus(res, 429, `Trop d'essais. Réessayez dans ${FENETRE_MINUTES} minutes.`);
     }
     if (!(await verifierMotDePasse(moi.email, confirmation))) {
       await noterEchecRessaisie(moi.id);
-      return refus(res, 401, 'Mot de passe incorrect.');
+      // 403 ET NON 401 (3 octobre 2026). Pour js/classeur-commun.js, un 401 veut
+      // dire « session expirée » : api() renvoie alors à la connexion. Une faute
+      // de frappe dans la confirmation jetait donc le professeur hors de la
+      // page au lieu de lui dire que son mot de passe est faux.
+      return refus(res, 403, 'Mot de passe incorrect.');
     }
 
     // Les fichiers d'abord : ils ne suivent pas la cascade de la base.
