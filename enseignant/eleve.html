@@ -15,6 +15,7 @@
 .identite { display: flex; flex-wrap: wrap; align-items: baseline; gap: .4rem 1rem; }
 .identite h2 { margin: 0; font-size: 1.5rem; }
 .identite .meta { margin: 0; }
+.identite .lien-corriger { font-size: .88rem; font-weight: 700; color: var(--bleu); }
 .alerte-compte { margin-top: .75rem; padding: .6rem .8rem; border-radius: var(--r);
   background: var(--encours-pale); border-left: 4px solid var(--encours); font-size: .9rem; }
 /* La version adaptée. Le bloc dit ce que l'élève REÇOIT, jamais pourquoi :
@@ -405,7 +406,10 @@ function rendreChiffres() {
   const rendus = F.rendus.length;
   const corriges = F.rendus.filter((r) => r.corrige_le).length;
   const fiches = F.fiches.length;
-  const aCorriger = F.rendus.filter((r) => !r.corrige_le).length
+  // Même règle que la page Corriger : un dépôt resté vide n'est pas à
+  // corriger, et le diagnostique reçoit un accusé, pas une correction.
+  const aCorriger = F.rendus.filter((r) => r.fichier && !r.corrige_le
+      && !String(r.sequence).endsWith('/diagnostique')).length
     + F.fiches.filter((f) => attendCorrection(f.etat)).length;
   const ouverts = F.exceptions.filter((x) => x.etat !== 'rattrape').length;
   $('chiffres').replaceChildren(
@@ -559,6 +563,13 @@ async function charger() {
   $('nom').textContent = `${e.prenom || ''} ${e.nom || ''}`.trim() || 'Élève';
   document.title = `${$('nom').textContent} · Fiche · Espace enseignant · LFT`;
   $('appartenance').textContent = F.groupes.map((x) => x.code).join(' · ');
+  // Le chemin inverse de « Sa fiche » sur la page Corriger.
+  const gCorriger = F.groupes.find((x) => x.id === groupeVoulu) ?? F.groupes[0];
+  if (gCorriger) {
+    $('appartenance').after(el('a', { class: 'lien-corriger',
+      href: `/enseignant/classeur.html?groupe=${encodeURIComponent(gCorriger.id)}&eleve=${encodeURIComponent(e.id)}` },
+      'Corriger ses travaux'));
+  }
 
   const avis = [];
   if (e.actif === false) avis.push('Ce compte est à la corbeille.');

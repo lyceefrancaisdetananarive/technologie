@@ -293,14 +293,14 @@ body.etroit .pied-legal { justify-content: center; }
 @media (prefers-reduced-motion: reduce) { *, *::before, *::after { transition: none !important; } }
 @media print { header, .sortir, .avert { display: none !important; } body { background: #fff; } }
 
-/* ---- liste des mots de passe provisoires d'un groupe (enseignant/classeur.html) ---- */
+/* ---- liste des mots de passe provisoires d'un groupe (enseignant/comptes.html) ---- */
 .ligne-mdp { display: flex; flex-wrap: wrap; align-items: center; gap: .6rem 1rem; margin-top: .8rem; }
 .tableau-mdp { width: 100%; border-collapse: collapse; margin-top: .8rem; font-size: .95rem; }
 .tableau-mdp th { text-align: left; font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--encre-3); border-bottom: 2px solid var(--trait); padding: .45rem .6rem; }
 .tableau-mdp td { border-bottom: 1px solid var(--trait); padding: .55rem .6rem; vertical-align: middle; }
 .tableau-mdp td.mdp { font-size: 1.05rem; }
 @media print {
-  body.imprimer-mdp main > section:not(#bloc-groupe-mdp), body.imprimer-mdp .no-print, body.imprimer-mdp #bloc-groupe-mdp h2 + .meta, body.imprimer-mdp .ligne, body.imprimer-mdp #mg { display: none !important; }
+  body.imprimer-mdp main > section:not(#bloc-groupe-mdp), body.imprimer-mdp .no-print, body.imprimer-mdp #bloc-groupe-mdp h2 + .meta, body.imprimer-mdp .ligne, body.imprimer-mdp #mg-mdp, body.imprimer-mdp header, body.imprimer-mdp footer, body.imprimer-mdp #bloc-groupe-mdp > details > summary { display: none !important; }
   body.imprimer-mdp .tableau-mdp td { padding: .8rem .6rem; }
   body.imprimer-mdp .tableau-mdp td.mdp { border: 1px dashed #000; }
 }

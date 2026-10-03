@@ -4,16 +4,75 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex">
-<title>Classeur des élèves · Espace enseignant · LFT</title>
+<title>Corriger · Espace enseignant · LFT</title>
 <link rel="stylesheet" href="/css/connecte.css">
 <style>
-/* Les réponses d'une fiche interactive : un bloc par champ, l'intitulé en
-   gris au-dessus de ce que l'élève a écrit, le commentaire du professeur
-   en dessous. Propre à cette page, d'où le bloc local. */
-.champs { margin: .6rem 0 .2rem; }
+/* =====================================================================
+   CORRIGER, ÉLÈVE PAR ÉLÈVE (D24, 3 octobre 2026).
+
+   L'ancienne page rangeait le travail par TYPE (les dépôts, puis les
+   fiches), puis empilait deux gestes de mots de passe en dessous. Le
+   professeur corrige une PERSONNE : à gauche la liste du groupe, à droite
+   un seul élève, avec ses travaux en trois onglets. Les gestes de mots de
+   passe ont rejoint la fiche élève et « Groupes et comptes ».
+   ===================================================================== */
+.choix-groupe { display: flex; flex-wrap: wrap; align-items: flex-end; gap: .4rem 1.2rem; }
+.choix-groupe > div { flex: 0 1 26rem; }
+.choix-groupe label { margin-top: 0; }
+.choix-groupe .meta { margin: 0 0 .7rem; font-size: .9rem; }
+
+.poste { display: grid; grid-template-columns: 17rem minmax(0, 1fr); gap: 1.25rem; align-items: start; }
+.poste > section { margin-bottom: 0; }
+
+/* LA LISTE DU GROUPE. Collante : on corrige le 14e élève sans remonter. Le
+   haut réserve l'en-tête collant du site (65 px). */
+#colonne { position: sticky; top: 80px; max-height: calc(100vh - 96px); overflow-y: auto; padding: 1rem .7rem; }
+#colonne h2 { font-size: .78rem; letter-spacing: .05em; text-transform: uppercase; color: var(--encre-3);
+  margin: .9rem .35rem .35rem; }
+#colonne h2:first-child { margin-top: 0; }
+#colonne ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 2px; }
+#colonne button { width: 100%; display: flex; align-items: center; gap: .5rem; text-align: left;
+  background: none; border: 0; border-radius: var(--r); padding: .5rem .6rem; min-height: 40px;
+  font: inherit; font-size: .92rem; color: var(--encre); cursor: pointer; }
+#colonne button:hover { background: var(--papier); }
+#colonne button[aria-current="true"] { background: var(--bleu-pale); color: var(--bleu); font-weight: 700; }
+#colonne button .nom { flex: 1; overflow-wrap: anywhere; }
+#colonne .rien button { color: var(--encre-3); }
+.pastille { flex: none; min-width: 1.6rem; text-align: center; font-size: .75rem; font-weight: 800;
+  padding: .1rem .45rem; border-radius: 999px; background: var(--encours-pale); color: var(--encours); }
+/* Sur un téléphone, la colonne cède la place à une liste déroulante. */
+#choix-eleve-zone { display: none; }
+@media (max-width: 56rem) {
+  .poste { grid-template-columns: 1fr; }
+  #colonne { display: none; }
+  #choix-eleve-zone { display: block; }
+}
+
+/* LE PANNEAU DE L'ÉLÈVE */
+.identite { display: flex; flex-wrap: wrap; align-items: baseline; gap: .3rem 1rem; }
+.identite h2 { margin: 0; font-size: 1.4rem; }
+.identite a { font-size: .88rem; font-weight: 700; color: var(--bleu); }
+.onglets { display: flex; flex-wrap: wrap; gap: .2rem; margin: 1rem 0 1rem; border-bottom: 2px solid var(--grille); }
+.onglets button { font: 700 .9rem var(--display); background: none; border: 0; border-radius: 0;
+  border-bottom: 3px solid transparent; margin-bottom: -2px; padding: .5rem .85rem;
+  color: var(--encre-3); cursor: pointer; min-height: 44px; }
+.onglets button:hover { color: var(--encre); background: none; }
+.onglets button[aria-selected="true"] { color: var(--bleu); border-bottom-color: var(--bleu); }
+.onglets button:focus-visible { outline: 2px solid var(--bleu); outline-offset: 2px; }
+
+.travail { border: 1px solid var(--trait); border-radius: 12px; padding: 1rem 1.1rem; margin-bottom: 1rem;
+  background: var(--papier-2); }
+.travail.acorriger { border-left: 5px solid var(--encours); }
+.travail.traite { border-left: 5px solid var(--fait); }
+.travail.encours { border-left: 5px solid var(--grille); }
+.travail h3 { font: 700 1.02rem var(--display); margin: 0 0 .15rem; }
+.travail > .meta { margin: 0 0 .5rem; }
+.travail details > summary { cursor: pointer; font-size: .88rem; color: var(--bleu); font-weight: 700; margin: .4rem 0; }
+
+/* Les réponses d'une fiche : l'intitulé en gris, ce que l'élève a écrit,
+   le commentaire facultatif dessous. */
+.champs { margin: .5rem 0 .2rem; }
 .champ-rep { padding: .55rem .75rem; margin: 0 0 .45rem; background: var(--papier); border-radius: var(--r); }
-/* L'intitulé et le lien « Commenter » sur une même ligne : douze champs par
-   fiche, la carte doit rester courte. Le lien garde 44 px de haut au doigt. */
 .champ-rep .entete { display: flex; align-items: center; gap: .3rem .8rem; flex-wrap: wrap; }
 .champ-rep .intitule { margin: 0; flex: 1 1 14rem; font-size: .8rem; color: var(--encre-3); overflow-wrap: anywhere; }
 .champ-rep .entete .lien-sup { padding: 0; min-height: 0; font-size: .8rem; }
@@ -21,35 +80,32 @@
 .champ-rep .intitule code { font: .72rem var(--mono); color: var(--encre-3); margin-right: .45rem; }
 .champ-rep .texte { margin: .15rem 0 0; white-space: pre-wrap; overflow-wrap: anywhere; font-size: .95rem; }
 .champ-rep .texte.libre { font-style: italic; }
-.champ-rep .commentaire-existant { margin-top: .45rem; padding: .4rem .6rem; background: var(--fait-pale); border-left: 3px solid var(--fait); border-radius: 0 var(--r) var(--r) 0; font-size: .88rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-.champ-rep .commentaire-existant strong { color: var(--fait); }
-.champ-rep details { margin: 0; }
-.champ-rep summary { cursor: pointer; }
-.rendu > details > summary { cursor: pointer; font-size: .88rem; color: var(--bleu); font-weight: 700; margin: .5rem 0 0; }
 .champ-rep label { font-size: .84rem; margin: .3rem 0 .2rem; }
 .champ-rep textarea { min-height: 3.2rem; font-size: .92rem; }
-.pied-fiche { margin-top: .5rem; }
-.pied-fiche .correction span { white-space: pre-wrap; overflow-wrap: anywhere; }
+.commentaire-existant { margin-top: .45rem; padding: .4rem .6rem; background: var(--fait-pale);
+  border-left: 3px solid var(--fait); border-radius: 0 var(--r) var(--r) 0; font-size: .88rem;
+  white-space: pre-wrap; overflow-wrap: anywhere; }
+.commentaire-existant strong { color: var(--fait); }
+.correction span { white-space: pre-wrap; overflow-wrap: anywhere; }
 
-/* ---- LA PAGE EN TUILES (1er octobre 2026) ----
-   Elargir le conteneur ne raccourcit rien : les cartes etaient des blocs
-   empiles, vingt-cinq travaux faisaient vingt-cinq lignes. C'est la grille
-   qui convertit la largeur en hauteur gagnee. minmax(26rem, 1fr) : trois
-   colonnes sur un ecran de salle, deux sur un portable, une sur un
-   telephone, sans aucun point de rupture a maintenir. */
-#liste, #liste-reponses { display: grid; gap: .85rem; grid-template-columns: repeat(auto-fill, minmax(26rem, 1fr)); align-items: start; }
-#liste > .rendu, #liste-reponses > .rendu { margin-bottom: 0; }
-#liste > .vide, #liste-reponses > .vide { grid-column: 1 / -1; }
-/* Une fiche depliee deborde sa colonne : elle la prend toute. */
-#liste-reponses > .rendu:has(> details[open]) { grid-column: 1 / -1; }
-/* Le resume d'une fiche repliee doit suffire a choisir : nom, etat, volume. */
-.rendu > details > summary { margin: .35rem 0 0; }
+/* Le formulaire de correction, toujours en pied de carte. */
+.formulaire { margin-top: .8rem; padding-top: .8rem; border-top: 1px dashed var(--trait); }
+.formulaire label { margin-top: 0; }
+.formulaire .gel { margin: .4rem 0 0; font-size: .84rem; color: var(--encre-2); }
+.formulaire .boutons { display: flex; flex-wrap: wrap; gap: .5rem .7rem; margin-top: .7rem; align-items: center; }
+.formulaire .positionner { display: flex; flex-wrap: wrap; gap: .6rem; margin-top: .6rem; }
+.formulaire .positionner > div { flex: 1 1 14rem; }
+.formulaire .positionner label { margin-top: 0; font-size: .84rem; }
+.actions-sup { margin: .3rem 0 0; font-size: .84rem; }
+.actions-sup .lien-sup { min-height: 0; padding: .2rem 0; }
+@media (pointer: coarse) { .actions-sup .lien-sup { min-height: 44px; } }
+#annonce:empty { display: none; }
 </style>
 </head>
 <body>
 <header>
   <a class="marque" href="/index.html"><img src="/img/logo-lft.png" alt=""><span><b>Technologie</b><small>Lycée Français de Tananarive</small></span></a>
-  <h1>Classeur des élèves</h1>
+  <h1>Corriger</h1>
   <span class="qui" id="qui"></span>
   <a class="lien-tete" href="/enseignant/index.html">Espace enseignant</a>
   <a class="lien-tete" href="/enseignant/comptes.html">Groupes et comptes</a>
@@ -58,104 +114,25 @@
 
 <main>
   <section>
-    <label for="groupe">Groupe</label>
-    <select id="groupe"></select>
-    <p class="manquants" id="manquants"></p>
-  </section>
-
-  <section>
-    <h2>Travaux déposés</h2>
-    <p class="meta" id="compte-depots"></p>
-    <div id="liste"><p class="vide">Chargement…</p></div>
-  </section>
-
-  <section>
-    <h2>Réponses rédigées</h2>
-    <p class="meta">Ce que les élèves ont écrit dans les fiches d'activité : les champs de la fiche
-       et, s'il existe, le bloc libre « Ma réponse ». Une carte par élève et par fiche.
-       La correction de la fiche est obligatoire et la fige entière ; le commentaire par champ
-       est facultatif ; « Retirer la correction » rouvre la fiche à l'élève.</p>
-    <p class="meta" id="compte-reponses"></p>
-    <div id="liste-reponses"><p class="vide">Chargement…</p></div>
-  </section>
-
-  <!-- GESTE RARE : il se replie pour ne pas pousser la correction vers le bas. -->
-  <section>
-    <details class="pliant">
-      <summary><h2>Redonner un accès à un élève</h2><span class="combien">il a perdu son mot de passe</span></summary>
-
-    
-    <p class="meta">Pour l'élève qui ne peut plus ouvrir sa boîte de courriel.
-       Vous lui dictez un mot de passe provisoire, qu'il doit changer aussitôt.</p>
-    <div class="ligne">
+    <div class="choix-groupe">
       <div>
-        <label for="eleve">Élève</label>
-        <select id="eleve"></select>
+        <label for="groupe">Groupe</label>
+        <select id="groupe"></select>
       </div>
-      <div>
-        <label for="motif">Motif (pour le journal)</label>
-        <select id="motif">
-          <option value="mot_de_passe_oublie">Mot de passe oublié</option>
-          <option value="boite_inaccessible">Boîte de courriel inaccessible</option>
-          <option value="compte_bloque">Compte bloqué après des essais</option>
-          <option value="autre">Autre, sans précision</option>
-        </select>
-      </div>
-      <button class="secondaire" id="reinit">Réinitialiser</button>
+      <p class="meta" id="bilan" role="status" aria-live="polite"></p>
     </div>
-
-    <!-- Ressaisie du mot de passe du professeur. Un champ de type password,
-         et surtout PAS un prompt() : celui-ci affiche en clair ce qu'on tape,
-         sur un écran qui est très souvent projeté au tableau, puisque c'est
-         souvent la raison même pour laquelle le professeur s'est connecté.
-         Le mot de passe se lirait alors depuis le fond de la salle. -->
-    <div class="ligne" id="bloc-confirme" hidden>
-      <div>
-        <label for="confirme">Votre mot de passe, pour confirmer</label>
-        <input id="confirme" type="password" autocomplete="current-password">
-      </div>
-      <button class="secondaire" id="confirmer">Confirmer</button>
-      <button class="secondaire" id="annuler">Annuler</button>
+    <div id="choix-eleve-zone">
+      <label for="choix-eleve">Élève</label>
+      <select id="choix-eleve"></select>
     </div>
-    <p class="msg" id="mr" role="status" aria-live="polite"></p>
-    </details>
   </section>
 
-  <!-- GESTE DE DEBUT D'ANNEE : replié le reste du temps. -->
-  <section id="bloc-groupe-mdp">
-    <details class="pliant">
-      <summary><h2>Mots de passe provisoires pour tout le groupe</h2><span class="combien">pour une première séance</span></summary>
-
-    
-    <p class="meta">Pour une première séance : un mot de passe provisoire par élève qui
-       n'a <b>pas encore choisi le sien</b>, en une seule fois, à imprimer et à
-       découper. Les élèves qui ont déjà un mot de passe ne sont pas touchés.
-       Ces mots de passe expirent au bout de 24 heures : à générer le matin même.</p>
-    <div class="ligne">
-      <button class="secondaire" id="groupe-mdp">Générer la liste du groupe</button>
-    </div>
-    <div class="ligne" id="bloc-confirme-groupe" hidden>
-      <div>
-        <label for="confirme-groupe">Votre mot de passe, pour confirmer</label>
-        <input id="confirme-groupe" type="password" autocomplete="current-password">
-      </div>
-      <button class="secondaire" id="confirmer-groupe">Confirmer</button>
-      <button class="secondaire" id="annuler-groupe">Annuler</button>
-    </div>
-    <p class="msg" id="mg" role="status" aria-live="polite"></p>
-    <div id="liste-mdp" class="liste-mdp" hidden>
-      <div class="ligne-mdp">
-        <button class="secondaire no-print" id="imprimer-mdp">Imprimer la liste</button>
-        <span class="meta" id="mdp-info"></span>
-      </div>
-      <table class="tableau-mdp">
-        <thead><tr><th>Élève</th><th>Adresse</th><th>Mot de passe provisoire</th></tr></thead>
-        <tbody id="mdp-lignes"></tbody>
-      </table>
-      <p class="meta" id="mdp-avert"></p>
-    </div>
-    </details>
-  </section>
+  <div class="poste">
+    <section id="colonne" aria-label="Les élèves du groupe"><p class="vide">Chargement…</p></section>
+    <section id="panneau" aria-live="polite">
+      <p class="vide">Chargement…</p>
+    </section>
+  </div>
 </main>
 <footer class="pied-legal">
   <a href="/accessibilite.html">Accessibilité : non conforme</a>
@@ -163,21 +140,21 @@
   <a href="/mentions-legales.html">Mentions légales</a>
 </footer>
 
-
 <script src="/js/catalogue.js"></script>
 <script type="module">
 import { SEQUENCES } from '/js/sequences.js';
-import { api, dateCourte, echapper } from '/js/classeur-commun.js';
+import { api, dateCourte } from '/js/classeur-commun.js';
 import { CLE_CHAMP } from '/js/cles-champs.js';
-import { etatFiche, estACorriger, rangTri, LIBELLE_PROF, CORRIGE }
-  from '/js/etats-fiche.js';
+import { etatFiche, RENDU, LIBRE, CORRIGE } from '/js/etats-fiche.js';
 
 const $ = (id) => document.getElementById(id);
 const TITRES = Object.fromEntries(
   Object.values(SEQUENCES).flat().map((s) => [s.id, s.titre]));
 
 // Les compétences que le catalogue rattache à chaque séquence : la
-// correction ne positionne un élève que sur l'une d'elles (décision 4).
+// correction d'un DÉPÔT ne positionne un élève que sur l'une d'elles. Les
+// fiches en ligne n'en portent pas (décidé le 3 octobre : pas de changement
+// de base pour cela).
 const COMPETENCES = Object.fromEntries(
   Object.values(window.CATALOGUE.niveaux).flatMap((n) => n.sequences)
     .map((s) => [s.id, s.competences ?? []]));
@@ -185,122 +162,151 @@ const MAITRISES = {
   insuffisante: 'Maîtrise insuffisante', fragile: 'Maîtrise fragile',
   satisfaisante: 'Maîtrise satisfaisante', tres_bonne: 'Très bonne maîtrise',
 };
-const options = (liste, valeur, vide) => `<option value="">${vide}</option>` + Object.entries(liste)
-  .map(([k, v]) => `<option value="${echapper(k)}" ${k === valeur ? 'selected' : ''}>${echapper(v)}</option>`).join('');
+
+// Les trois onglets, dans l'ordre du besoin. Un onglet vide n'apparaît pas.
+const ONGLETS = [
+  ['acorriger', 'À corriger'],
+  ['encours', 'En cours'],
+  ['traite', 'Déjà traité'],
+];
+
+/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des
+    nœuds texte, jamais de l'HTML. Une réponse d'élève ne doit jamais pouvoir
+    être interprétée comme du balisage. */
+function el(balise, attrs = {}, ...enfants) {
+  const e = document.createElement(balise);
+  for (const [k, v] of Object.entries(attrs)) {
+    if (v == null || v === false) continue;
+    if (k === 'class') e.className = v;
+    else if (k === 'dataset') Object.assign(e.dataset, v);
+    else e.setAttribute(k, v === true ? '' : v);
+  }
+  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
+  return e;
+}
+
+// ---- L'état de la page -----------------------------------------------------
+let groupeId = '';
+let eleves = new Map();   // id → { id, nom, prenom, travaux: [] }
+let ordre = [];           // les identifiants dans l'ordre de la colonne
+let courant = null;       // l'élève affiché
+let onglet = 'acorriger';
+let annonce = null;       // { texte, classe } à dire en tête du panneau au prochain rendu
+
+// ---- Lecture -----------------------------------------------------------------
 
 async function charger() {
   const g = await api('/api/classeur/groupes');
   if (g.role !== 'prof') { location.href = '/classeur/'; return; }
-  $('qui').textContent = g.prenom ? `${g.prenom}` : '';
-  $('groupe').innerHTML = g.groupes
-    .map((x) => `<option value="${x.id}">${echapper(x.code)} · ${echapper(x.libelle)}</option>`)
-    .join('');
-  // Le tableau de bord envoie ici avec ?groupe= (compteur « à corriger ») :
-  // on atterrit sur ce groupe, s'il est l'un des miens (comme mesure.html).
-  const voulu = new URLSearchParams(location.search).get('groupe');
+  $('qui').textContent = g.prenom || '';
+  $('groupe').replaceChildren(...g.groupes.map((x) =>
+    el('option', { value: x.id }, `${x.code} · ${x.libelle}`)));
+  if (!g.groupes.length) {
+    $('colonne').replaceChildren();
+    $('panneau').replaceChildren(el('p', { class: 'vide' }, 'Aucun groupe ne vous est rattaché.'));
+    return;
+  }
+  // Le tableau de bord envoie ici avec ?groupe= (ligne « À corriger »), la
+  // fiche élève avec ?groupe=&eleve= : on atterrit là, si c'est l'un des miens.
+  const q = new URLSearchParams(location.search);
+  const voulu = q.get('groupe');
   if (voulu && g.groupes.some((x) => x.id === voulu)) $('groupe').value = voulu;
-  if (g.groupes.length) await voirGroupe();
-  else {
-    $('liste').innerHTML = '<p class="vide">Aucun groupe ne vous est rattaché.</p>';
-    $('liste-reponses').innerHTML = '';
-  }
+  await voirGroupe(q.get('eleve'));
 }
 
-let rendus = [];   // les dépôts du groupe affiché, tels que reçus puis corrigés
-let reponses = []; // les lignes de réponses du groupe affiché, telles que reçues
-let fiches = [];   // une entrée par (élève, fiche), construite à partir des lignes
-
-/** Les dépôts « à corriger » d'abord, puis les incomplets, puis les corrigés ;
-    à l'intérieur, l'ordre reçu (dépôt le plus récent en premier). */
-function rangDepot(r) {
-  if (r.fichier && !r.corrige_le) return 0;
-  if (!r.fichier) return 1;
-  return 2;
-}
-
-async function voirGroupe() {
-  const id = $('groupe').value;
-  // Les deux lectures partent ensemble et chacune tient seule : si la table
-  // des réponses n'est pas encore en place, les dépôts s'affichent quand même.
+async function voirGroupe(eleveVoulu) {
+  groupeId = $('groupe').value;
+  $('panneau').replaceChildren(el('p', { class: 'vide' }, 'Chargement…'));
+  // Les deux lectures partent ensemble et chacune tient seule : si l'une
+  // échoue, l'autre s'affiche quand même, avec un avertissement.
   const [rd, rq] = await Promise.allSettled([
-    api('/api/prof/rendus?groupe=' + id),
-    api('/api/prof/reponses?groupe=' + id),
+    api('/api/prof/rendus?groupe=' + groupeId),
+    api('/api/prof/reponses?groupe=' + groupeId),
   ]);
-  history.replaceState(null, '', `?groupe=${id}`);
-  voirReponses(rq);
-  if (rd.status === 'rejected') throw rd.reason;
-  const d = rd.value;
-  rendus = d.rendus.map((r, i) => ({ r, i }))
-    .sort((a, b) => rangDepot(a.r) - rangDepot(b.r) || a.i - b.i)
-    .map((x) => x.r);
-  const aCorriger = rendus.filter((r) => rangDepot(r) === 0).length;
-  $('compte-depots').textContent = aCorriger
-    ? `${aCorriger} dépôt${aCorriger > 1 ? 's' : ''} à corriger dans ce groupe, affiché${aCorriger > 1 ? 's' : ''} en premier.`
-    : '';
+  const avertir = [];
+  if (rd.status === 'rejected') avertir.push(`Dépôts de fichiers illisibles : ${rd.reason?.message || 'lecture impossible.'}`);
+  if (rq.status === 'rejected') avertir.push(`Fiches en ligne illisibles : ${rq.reason?.message || 'lecture impossible.'}`);
+  construire(rd.status === 'fulfilled' ? rd.value : null, rq.status === 'fulfilled' ? rq.value : null);
+  annonce = avertir.length ? { texte: avertir.join(' '), classe: 'err' } : null;
 
-  // Qui n'a rien rendu ? C'est souvent l'information la plus utile.
-  // Comparaison sur l'IDENTIFIANT, jamais sur le nom. Deux homonymes dans un
-  // groupe, et le dépôt de l'un couvrait l'absence de l'autre : le professeur
-  // lisait « tous les élèves ont déposé » alors que l'un n'avait rien rendu.
-  const auteurs = new Set(d.rendus.filter((r) => r.fichier)
-    .map((r) => r.profil_id ?? r.profils?.id));
-  const absents = d.eleves
-    .filter((e) => !auteurs.has(e.id))
-    .map((e) => `${e.prenom} ${e.nom}`);
-  $('manquants').innerHTML = absents.length
-    ? `<b>${absents.length > 1 ? `${absents.length} élèves n'ont rien déposé` : `1 élève n'a rien déposé`} :</b> ${echapper(absents.join(', '))}`
-    : `<b>Tous les élèves du groupe ont déposé au moins un travail.</b>`;
+  // L'élève demandé, sinon le premier qui attend une correction, sinon le premier.
+  const premier = ordre.find((id) => compte(eleves.get(id), 'acorriger') > 0) ?? ordre[0] ?? null;
+  choisir(eleveVoulu && eleves.has(eleveVoulu) ? eleveVoulu : premier, false);
+}
 
-  $('eleve').innerHTML = d.eleves
-    .map((e) => `<option value="${e.id}">${echapper(e.nom)} ${echapper(e.prenom)}</option>`)
-    .join('');
+/** Tout ce que le groupe a rendu, rangé par élève. */
+function construire(depots, reponses) {
+  eleves = new Map();
+  const eleve = (id, nom, prenom) => {
+    if (!id) return null;
+    if (!eleves.has(id)) eleves.set(id, { id, nom: nom || '', prenom: prenom || '', travaux: [], inscrit: false });
+    return eleves.get(id);
+  };
+  for (const e of depots?.eleves ?? []) Object.assign(eleve(e.id, e.nom, e.prenom), { inscrit: true });
 
-  if (!rendus.length) {
-    $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
-    return;
+  for (const r of depots?.rendus ?? []) {
+    const e = eleve(r.profil_id ?? r.profils?.id, r.profils?.nom, r.profils?.prenom);
+    if (e) e.travaux.push(travailDepot(r));
   }
-  $('liste').innerHTML = rendus.map(articleRendu).join('');
-}
-
-/** La liste des réponses rédigées, à partir du résultat (tenu ou rejeté) de l'API. */
-function voirReponses(rq) {
-  if (rq.status === 'rejected') {
-    reponses = []; fiches = [];
-    $('compte-reponses').textContent = '';
-    $('liste-reponses').innerHTML =
-      `<p class="msg err" style="display:block">Réponses rédigées indisponibles : ${echapper(rq.reason?.message || 'lecture impossible.')}</p>`;
-    return;
+  for (const f of construireFiches(reponses?.reponses ?? [], reponses?.fiches)) {
+    const e = eleve(f.profil_id, f.nom, f.prenom);
+    if (e) e.travaux.push(travailFiche(f));
   }
-  reponses = rq.value.reponses || [];
-  fiches = construireFiches(reponses, rq.value.fiches);
-  compterFiches(rq.value.a_corriger);
-  $('liste-reponses').replaceChildren(...(fiches.length
-    ? fiches.map(articleFiche)
-    : [el('p', { class: 'vide' }, 'Aucune réponse rédigée pour ce groupe.')]));
+  for (const e of eleves.values()) trier(e);
+
+  // La colonne : ceux qui attendent une correction, puis ceux qui ont rendu
+  // quelque chose, puis ceux dont on n'a rien reçu ; par nom dans chaque paquet.
+  const parNom = (a, b) => `${a.nom} ${a.prenom}`.localeCompare(`${b.nom} ${b.prenom}`, 'fr');
+  ordre = [...eleves.values()].sort((a, b) => paquet(a) - paquet(b) || parNom(a, b)).map((e) => e.id);
 }
 
-/** Le compteur des fiches à corriger, recalculé après chaque geste. */
-function compterFiches(depuisApi) {
-  const n = typeof depuisApi === 'number' ? depuisApi : fiches.filter((f) => estACorriger(f.etat)).length;
-  $('compte-reponses').textContent = n
-    ? `${n} fiche${n > 1 ? 's' : ''} à corriger dans ce groupe, affichée${n > 1 ? 's' : ''} en premier.`
-    : '';
+/** 0 : à corriger ; 1 : rien à corriger ; 2 : rien reçu. */
+function paquet(e) {
+  if (compte(e, 'acorriger')) return 0;
+  return e.travaux.some(aRecu) ? 1 : 2;
+}
+/** A-t-on reçu quelque chose ? Un dépôt resté vide ne compte pas. */
+const aRecu = (t) => t.type === 'fiche' || Boolean(t.r.fichier);
+const compte = (e, statut) => e ? e.travaux.filter((t) => t.statut === statut).length : 0;
+
+/** À corriger : le plus ancien d'abord, celui qui attend depuis le plus
+    longtemps. Ailleurs : le plus récent d'abord. */
+function trier(e) {
+  e.travaux.sort((a, b) => a.statut === 'acorriger' && b.statut === 'acorriger'
+    ? String(a.date).localeCompare(String(b.date))
+    : String(b.date).localeCompare(String(a.date)));
 }
 
-/** Le titre d'une fiche à partir de son chemin : 5eme/p1/seq1-ebep.html. */
-function titreFiche(page) {
-  const sequence = String(page).replace(/-(activite|ebep)\.html$/, '');
-  const titre = TITRES[sequence] || sequence;
-  return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
+// ---- Les dépôts de fichiers ------------------------------------------------
+
+const estDiagnostique = (r) => String(r.sequence).endsWith('/diagnostique');
+
+function travailDepot(r) {
+  const t = { type: 'depot', cle: 'd-' + r.id, r, titre: TITRES[r.sequence] || r.sequence, edition: false };
+  majDepot(t);
+  return t;
 }
 
-// ---- Les fiches interactives (cahier des charges du 20 septembre) ----------
-// Une ligne par champ de la fiche (z<n> : zone sous une question, t<i>-r<j>-c<k> :
-// case d'un tableau, b<n> : trou d'une synthèse), une ligne `fiche` qui porte
+/**
+ * Le statut d'un dépôt. LE DIAGNOSTIQUE NE SE CORRIGE PAS : il reçoit un
+ * accusé de réception neutre (outils/a-corriger.py --accuser), et cette page
+ * ne lui offre jamais de champ de correction. Avant le 3 octobre, elle le
+ * permettait : une appréciation aurait pu partir dans 33 classeurs.
+ */
+function majDepot(t) {
+  const r = t.r;
+  t.diagnostique = estDiagnostique(r);
+  t.date = r.corrige_le && !t.diagnostique ? r.corrige_le : r.depose_le;
+  if (!r.fichier) t.statut = 'encours';
+  else if (r.corrige_le) t.statut = 'traite';
+  else t.statut = t.diagnostique ? 'encours' : 'acorriger';
+}
+
+// ---- Les fiches en ligne -----------------------------------------------------
+// Une ligne par champ (z<n> : zone sous une question, t<i>-r<j>-c<k> : case
+// d'un tableau, b<n> : trou d'une synthèse), une ligne `fiche` qui porte
 // l'état et la correction globale, et l'ancienne ligne `reponse` du bloc libre.
 
-
-/** Le rang d'une clé : les zones, puis les tableaux, puis les trous, chacun par numéro. */
 function rangCle(q) {
   const famille = q[0] === 'z' ? 0 : q[0] === 't' ? 1 : 2;
   return [famille, ...(String(q).match(/\d+/g) || []).map(Number)];
@@ -315,11 +321,8 @@ function comparerCles(a, b) {
 }
 
 /**
- * Une entrée par (élève, fiche) à partir des lignes. Le serveur envoie aussi
- * son propre agrégat `fiches` (état, dates, nombre de champs) : il prime quand
- * il est là, les lignes donnent le contenu. Sans lui (API d'avant), tout se
- * déduit des lignes, et les anciennes réponses libres seules gardent leur
- * correction sur la ligne `reponse`.
+ * Une entrée par (élève, fiche) à partir des lignes. L'agrégat du serveur
+ * (état, dates) prime quand il est là ; les lignes donnent le contenu.
  */
 function construireFiches(lignes, agregats) {
   const parCle = new Map();
@@ -329,7 +332,7 @@ function construireFiches(lignes, agregats) {
     let f = parCle.get(cle);
     if (!f) {
       f = { cle, profil_id: profil, prenom: l.profils?.prenom || '', nom: l.profils?.nom || '',
-            page: l.page, lignes: [], champs: [], ligneFiche: null, ligneLibre: null, edition: false };
+            page: l.page, lignes: [], champs: [], ligneFiche: null, ligneLibre: null };
       parCle.set(cle, f);
     }
     f.lignes.push(l);
@@ -339,7 +342,7 @@ function construireFiches(lignes, agregats) {
   }
   const liste = [];
   for (const f of parCle.values()) {
-    // Une fiche « en cours » dont l'élève a effacé tous les champs : rien à lire.
+    // Une fiche dont l'élève a effacé tous les champs : rien à lire.
     if (!f.champs.length && !f.ligneLibre) continue;
     f.champs.sort((a, b) => comparerCles(a.question, b.question));
     f.libreSeule = !f.ligneFiche && !f.champs.length;
@@ -349,419 +352,583 @@ function construireFiches(lignes, agregats) {
     f.etat = etatFiche({ corrigeLe: f.corrige_le, ligneFiche: f.ligneFiche,
                          nbChamps: f.champs.length, ligneLibre: f.ligneLibre });
     f.modifie_le = f.lignes.map((l) => l.modifie_le || l.redige_le).filter(Boolean).sort().pop() ?? null;
-    f.nb_champs = f.champs.length;
-    const a = Array.isArray(agregats)
-      ? agregats.find((x) => `${x.profil_id}|${x.page}` === f.cle) : null;
+    const a = Array.isArray(agregats) ? agregats.find((x) => `${x.profil_id}|${x.page}` === f.cle) : null;
     if (a) {
       if (a.etat) f.etat = a.etat;
       if (a.corrige_le !== undefined) f.corrige_le = a.corrige_le;
       if (a.correction !== undefined) f.correction = a.correction;
       if (a.modifie_le) f.modifie_le = a.modifie_le;
-      // nb_champs reste le compte local des champs de fiche (z, t, b) : le
-      // même que la barre de la fiche côté élève, sans le bloc libre.
       if (a.prenom) f.prenom = a.prenom;
       if (a.nom) f.nom = a.nom;
     }
     liste.push(f);
   }
-  // À corriger d'abord, puis les corrigées ; à l'intérieur, la plus récente en premier.
-  liste.sort((a, b) => rangTri(a.etat) - rangTri(b.etat)
-    || String(b.modifie_le ?? '').localeCompare(String(a.modifie_le ?? '')));
-  liste.forEach((f, i) => { f.n = i; });
   return liste;
 }
 
-/** Un élément avec ses attributs et ses enfants : les chaînes deviennent des nœuds texte, jamais de l'HTML. */
-function el(balise, attrs = {}, ...enfants) {
-  const e = document.createElement(balise);
-  for (const [k, v] of Object.entries(attrs)) {
-    if (v == null || v === false) continue;
-    if (k === 'class') e.className = v;
-    else if (k === 'dataset') Object.assign(e.dataset, v);
-    else e.setAttribute(k, v === true ? '' : v);
-  }
-  for (const c of enfants.flat()) if (c != null && c !== false) e.append(c);
-  return e;
+function titreFiche(page) {
+  const sequence = String(page).replace(/-(activite|ebep)\.html$/, '');
+  const titre = TITRES[sequence] || sequence;
+  return /-ebep\.html$/.test(page) ? `${titre} (version adaptée)` : titre;
 }
 
-/** Une carte (élève, fiche). Rendue à part pour remplacer UNE carte après correction. */
-function articleFiche(f) {
-  const corrigee = f.etat === CORRIGE;
-  const classe = corrigee ? 'corrige' : 'attente';
-  const texteEtiquette = LIBELLE_PROF[f.etat] ?? LIBELLE_PROF.libre;
-  const etat = corrigee ? `corrigée le ${dateCourte(f.corrige_le)}`
-    : f.etat === 'terminee' ? `terminée le ${dateCourte(f.ligneFiche?.modifie_le || f.modifie_le)}`
-    : f.etat === 'en cours' ? `en cours, modifiée le ${dateCourte(f.modifie_le)}`
-    : `rédigée le ${dateCourte(f.modifie_le)}`;
-  const nb = f.nb_champs
-    ? ` · ${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''} rempli${f.nb_champs > 1 ? 's' : ''}`
-    : (f.ligneLibre ? ' · réponse libre seulement' : '');
-  const art = el('article', { class: `rendu ${corrigee ? 'fait' : 'attente'}`, dataset: { fiche: f.cle } },
-    el('h3', {}, `${f.nom} ${f.prenom}`, el('span', { class: `etiquette ${classe}` }, texteEtiquette)),
-    el('p', { class: 'meta' }, el('a', { href: '/' + f.page, target: '_blank', rel: 'noopener' }, titreFiche(f.page)), ` · ${etat}${nb}`));
+function travailFiche(f) {
+  const t = { type: 'fiche', cle: 'f-' + f.cle.replace(/[^a-z0-9]/gi, '-'), f, titre: titreFiche(f.page), edition: false };
+  majFiche(t);
+  return t;
+}
+
+/**
+ * ON NE CORRIGE QU'UNE FICHE TERMINÉE. Une fiche « en cours » se lit, elle
+ * ne se corrige pas : poser une correction la GÈLE (l'élève ne peut plus y
+ * écrire), et la geler pendant qu'il y travaille lui retirerait sa fiche
+ * sous les doigts. Une réponse libre seule (fiche d'avant le 20 septembre)
+ * est un travail rendu : elle se corrige.
+ */
+function majFiche(t) {
+  const f = t.f;
+  t.statut = f.etat === CORRIGE ? 'traite'
+    : (f.etat === RENDU || f.etat === LIBRE) ? 'acorriger' : 'encours';
+  t.date = f.etat === CORRIGE ? f.corrige_le
+    : f.etat === RENDU ? (f.ligneFiche?.modifie_le || f.modifie_le) : f.modifie_le;
+}
+
+// ---- La colonne des élèves ---------------------------------------------------
+
+const nomComplet = (e) => `${e.nom} ${e.prenom}`.trim() || 'Élève';
+
+function rendreColonne() {
+  const paquets = [
+    ['À corriger', ordre.filter((id) => paquet(eleves.get(id)) === 0), ''],
+    ['Rien à corriger', ordre.filter((id) => paquet(eleves.get(id)) === 1), ''],
+    ['Rien reçu', ordre.filter((id) => paquet(eleves.get(id)) === 2), 'rien'],
+  ].filter(([, ids]) => ids.length);
+  const morceaux = [];
+  for (const [titre, ids, classe] of paquets) {
+    morceaux.push(el('h2', {}, `${titre} (${ids.length})`));
+    morceaux.push(el('ul', { class: classe || null }, ids.map((id) => {
+      const e = eleves.get(id);
+      const n = compte(e, 'acorriger');
+      return el('li', {}, el('button', {
+        type: 'button', dataset: { eleve: id }, 'aria-current': id === courant ? 'true' : 'false',
+        'aria-label': n ? `${nomComplet(e)}, ${n} à corriger` : nomComplet(e),
+      }, el('span', { class: 'nom' }, nomComplet(e)), n ? el('span', { class: 'pastille' }, String(n)) : null));
+    })));
+  }
+  $('colonne').replaceChildren(...(morceaux.length ? morceaux
+    : [el('p', { class: 'vide' }, 'Aucun élève dans ce groupe.')]));
+
+  // La même liste, en liste déroulante pour les écrans étroits.
+  $('choix-eleve').replaceChildren(...paquets.map(([titre, ids]) => el('optgroup', { label: titre },
+    ids.map((id) => {
+      const e = eleves.get(id);
+      const n = compte(e, 'acorriger');
+      return el('option', { value: id, selected: id === courant }, nomComplet(e) + (n ? ` (${n} à corriger)` : ''));
+    }))));
+
+  const total = ordre.reduce((s, id) => s + compte(eleves.get(id), 'acorriger'), 0);
+  const qui = ordre.filter((id) => compte(eleves.get(id), 'acorriger')).length;
+  $('bilan').textContent = total
+    ? `${total} ${total > 1 ? 'travaux' : 'travail'} à corriger, chez ${qui} élève${qui > 1 ? 's' : ''}.`
+    : 'Rien à corriger dans ce groupe.';
+}
+
+// ---- Le panneau de l'élève -----------------------------------------------------
+
+function choisir(id, garder = false) {
+  courant = id;
+  const e = eleves.get(id);
+  if (!garder) onglet = e && compte(e, 'acorriger') ? 'acorriger' : 'traite';
+  const q = new URLSearchParams({ groupe: groupeId });
+  if (id) q.set('eleve', id);
+  history.replaceState(null, '', '?' + q);
+  rendreColonne();
+  rendrePanneau();
+}
+
+function rendrePanneau() {
+  const e = eleves.get(courant);
+  if (!e) { $('panneau').replaceChildren(el('p', { class: 'vide' }, 'Aucun élève dans ce groupe.')); return; }
+
+  // Ce qui est en cours de saisie dans une AUTRE carte survit au rendu :
+  // enregistrer la carte A ne doit pas effacer ce qu'on avait tapé en B.
+  const saisies = new Map();
+  for (const c of $('panneau').querySelectorAll('textarea[id], select[id]')) {
+    if (c.value !== (c.dataset.initial ?? '')) saisies.set(c.id, c.value);
+  }
+
+  const presents = ONGLETS.filter(([k]) => compte(e, k));
+  if (presents.length && !presents.some(([k]) => k === onglet)) onglet = presents[0][0];
+
+  const morceaux = [el('div', { class: 'identite' },
+    el('h2', {}, `${e.prenom} ${e.nom}`.trim() || 'Élève'),
+    el('a', { href: `/enseignant/eleve.html?eleve=${encodeURIComponent(e.id)}&groupe=${encodeURIComponent(groupeId)}` }, 'Sa fiche'),
+    e.inscrit ? null : el('span', { class: 'meta' }, 'plus inscrit dans ce groupe'))];
+  if (annonce) {
+    morceaux.push(el('p', { class: `msg ${annonce.classe}`, id: 'annonce', role: 'status' }, annonce.texte));
+    annonce = null;
+  }
+
+  if (!presents.length) {
+    morceaux.push(el('p', { class: 'vide', style: 'margin-top:1rem' },
+      'Rien reçu de cet élève pour l’instant : aucune fiche commencée, aucun dépôt.'));
+    $('panneau').replaceChildren(...morceaux);
+    return;
+  }
+
+  const barre = el('div', { class: 'onglets', role: 'tablist', 'aria-label': 'Ses travaux' });
+  presents.forEach(([k, nom], i) => {
+    const b = el('button', { type: 'button', role: 'tab', id: 'ong-' + k, 'aria-controls': 'travaux',
+      'aria-selected': String(k === onglet), tabindex: k === onglet ? '0' : '-1' }, `${nom} (${compte(e, k)})`);
+    b.addEventListener('click', () => { onglet = k; rendrePanneau(); $('ong-' + k)?.focus(); });
+    b.addEventListener('keydown', (ev) => {
+      const pas = ev.key === 'ArrowRight' ? 1 : ev.key === 'ArrowLeft' ? -1 : 0;
+      if (!pas) return;
+      ev.preventDefault();
+      onglet = presents[(i + pas + presents.length) % presents.length][0];
+      rendrePanneau();
+      $('ong-' + onglet)?.focus();
+    });
+    barre.append(b);
+  });
+  morceaux.push(barre);
+
+  const zone = el('div', { id: 'travaux', role: 'tabpanel', 'aria-labelledby': 'ong-' + onglet });
+  for (const t of e.travaux.filter((x) => x.statut === onglet)) {
+    zone.append(t.type === 'fiche' ? carteFiche(t) : carteDepot(t));
+  }
+  morceaux.push(zone);
+  $('panneau').replaceChildren(...morceaux);
+
+  for (const [id, v] of saisies) {
+    const c = document.getElementById(id);
+    if (!c) continue;
+    c.value = v;
+    c.dispatchEvent(new Event('input', { bubbles: true }));
+    c.dispatchEvent(new Event('change', { bubbles: true }));
+  }
+}
+
+// ---- Une carte de fiche -----------------------------------------------------
+
+function carteFiche(t) {
+  const f = t.f;
+  const form = t.statut === 'acorriger' || t.edition;
+  const etat = f.etat === CORRIGE ? `corrigée le ${dateCourte(f.corrige_le)}`
+    : f.etat === RENDU ? `terminée le ${dateCourte(t.date)}`
+    : f.etat === LIBRE ? `réponse libre rédigée le ${dateCourte(t.date)}`
+    : `en cours, modifiée le ${dateCourte(t.date)}`;
+  const nb = f.champs.length;
+  const art = el('article', { class: `travail ${t.statut}`, dataset: { travail: t.cle } },
+    el('h3', {}, t.titre),
+    el('p', { class: 'meta' }, `Fiche en ligne · ${etat}`,
+      nb ? ` · ${nb} champ${nb > 1 ? 's' : ''} rempli${nb > 1 ? 's' : ''}` : '',
+      ' · ', el('a', { href: '/' + f.page, target: '_blank', rel: 'noopener' }, 'la fiche vierge')));
+
   const champs = el('div', { class: 'champs' });
-  if (f.ligneLibre) champs.append(blocChamp(f, f.ligneLibre, true));
-  for (const l of f.champs) champs.append(blocChamp(f, l, false));
-  // TOUTE fiche se replie, pas seulement la corrigée. Douze fiches de douze
-  // champs dépliées faisaient une page d'un kilomètre : le professeur devait
-  // défiler pour atteindre l'élève suivant. Repliées et posées en grille, les
-  // douze tiennent sur un écran ; il déplie celle qu'il corrige, et elle
-  // prend alors toute la largeur (voir #liste-reponses > .rendu:has(...)).
-  // La fiche en cours de correction reste ouverte : f.edition.
-  const replier = f.champs.length && !f.edition;
-  art.append(replier
-    ? el('details', {}, el('summary', {}, `Voir les réponses (${f.nb_champs} champ${f.nb_champs > 1 ? 's' : ''})`), champs)
-    : champs, piedFiche(f));
+  if (f.ligneLibre) champs.append(blocChamp(t, f.ligneLibre, true, form));
+  for (const l of f.champs) champs.append(blocChamp(t, l, false, form));
+
+  if (form) {
+    // À corriger : les réponses sont dépliées, c'est ce qu'on vient lire.
+    art.append(champs, formulaireFiche(t));
+  } else {
+    // Ailleurs : repliées, la carte dit d'abord l'essentiel.
+    art.append(el('details', {}, el('summary', {},
+      nb ? `Voir ses réponses (${nb} champ${nb > 1 ? 's' : ''})` : 'Voir sa réponse'), champs));
+    if (t.statut === 'encours') {
+      art.append(el('p', { class: 'meta' }, 'L’élève n’a pas encore cliqué « J’ai terminé ». '
+        + 'La fiche se corrigera quand il l’aura fait : la corriger maintenant la gèlerait sous ses doigts.'));
+    } else {
+      art.append(el('div', { class: 'correction' }, el('strong', {}, 'Correction : '), el('span', {}, f.correction || '')),
+        el('p', { class: 'actions-sup' },
+          el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'modifier' } }, 'Modifier la correction'), ' · ',
+          el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'retirer' } }, 'Retirer la correction (rouvre la fiche à l’élève)')));
+    }
+  }
   return art;
 }
 
 /** Un champ de la fiche (ou le bloc libre) : intitulé, réponse, commentaire. */
-function blocChamp(f, l, libre) {
-  const figee = f.etat === CORRIGE && !f.edition;
+function blocChamp(t, l, libre, form) {
+  const f = t.f;
   const entete = el('div', { class: 'entete' },
     el('p', { class: 'intitule' }, libre ? null : el('code', {}, l.question),
       libre ? 'Réponse libre' : (l.intitule || 'Champ sans intitulé')));
   const bloc = el('div', { class: 'champ-rep' }, entete,
     el('p', { class: `texte${libre ? ' libre' : ''}` }, l.texte ?? ''));
-  // Sur une réponse libre SEULE, la « correction » de cette ligne EST celle
-  // de la fiche, affichée en pied : pas de commentaire propre. Sur une fiche
-  // à champs, le bloc libre se commente comme un champ (clé 'reponse',
-  // acceptée par l'API).
+  // Sur une réponse libre SEULE, la correction de cette ligne EST celle de
+  // la fiche : pas de commentaire propre.
   if (libre && f.libreSeule) return bloc;
-  if (figee) {
-    if (l.correction) bloc.append(commentaireLu(l.correction));
+  if (!form) {
+    if (l.correction) bloc.append(el('div', { class: 'commentaire-existant' }, el('strong', {}, 'Commentaire : '), l.correction));
     return bloc;
   }
-  const id = `cm-${f.n}-${l.question}`;
-  const zone = el('div', { class: 'commentaire-zone', id: `${id}-zone`, hidden: !l.correction },
-    el('label', { for: id }, libre ? 'Commentaire pour la réponse libre (facultatif)' : 'Commentaire pour ce champ (facultatif)'),
+  const id = `cm-${t.cle}-${l.question}`;
+  const zone = el('div', { id: `${id}-zone`, hidden: !l.correction },
+    el('label', { for: id }, 'Commentaire sur ce champ (facultatif)'),
     el('textarea', { id, class: 'commentaire', maxlength: '4000',
       dataset: { question: l.question, initial: l.correction || '' } }));
   zone.querySelector('textarea').value = l.correction || '';
-  entete.append(el('button', { type: 'button', class: 'lien-sup commenter',
-    'aria-expanded': l.correction ? 'true' : 'false', 'aria-controls': `${id}-zone` }, l.correction ? 'Masquer le commentaire' : 'Commenter'));
+  entete.append(el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'commenter' },
+    'aria-expanded': l.correction ? 'true' : 'false', 'aria-controls': `${id}-zone` },
+    l.correction ? 'Masquer le commentaire' : 'Commenter ce champ'));
   bloc.append(zone);
   return bloc;
 }
 
-function commentaireLu(texte) {
-  return el('div', { class: 'commentaire-existant' }, el('strong', {}, 'Commentaire : '), texte);
+function formulaireFiche(t) {
+  const id = `cor-${t.cle}`;
+  const zone = el('textarea', { id, class: 'correction-principale', maxlength: '4000',
+    dataset: { initial: t.f.correction || '' } });
+  zone.value = t.f.correction || '';
+  return el('div', { class: 'formulaire' },
+    el('label', { for: id }, 'Correction de la fiche (obligatoire)'), zone,
+    el('p', { class: 'gel' }, 'Enregistrer gèle la fiche : l’élève lit votre correction et ne peut plus la modifier. '
+      + 'S’il demande à la reprendre, « Retirer la correction » la lui rouvre.'),
+    boutons(t));
 }
 
-/** Le pied d'une carte : la correction de la fiche, obligatoire, ou celle déjà posée. */
-function piedFiche(f) {
-  const figee = f.etat === CORRIGE && !f.edition;
-  const pied = el('div', { class: 'pied-fiche' });
-  if (figee) {
-    pied.append(
-      el('div', { class: 'correction' }, el('strong', {}, 'Correction : '), el('span', {}, f.correction || '')),
-      el('p', { class: 'meta' },
-        el('button', { type: 'button', class: 'lien-sup modifier-fiche' }, 'Modifier la correction'), ' · ',
-        el('button', { type: 'button', class: 'lien-sup retirer-fiche' }, 'Retirer la correction')));
-    return pied;
+// ---- Une carte de dépôt -------------------------------------------------------
+
+function carteDepot(t) {
+  const r = t.r;
+  const form = t.statut === 'acorriger' || t.edition;
+  const art = el('article', { class: `travail ${t.statut}`, dataset: { travail: t.cle } },
+    el('h3', {}, t.titre),
+    el('p', { class: 'meta' }, `Fichier déposé le ${dateCourte(r.depose_le)}`,
+      r.binome ? ` · avec ${r.binome}` : '',
+      r.corrige_le && !t.diagnostique ? ` · corrigé le ${dateCourte(r.corrige_le)}` : ''));
+
+  if (!r.fichier) {
+    art.append(el('p', { class: 'meta' }, 'Envoi incomplet : le fichier n’est jamais arrivé. L’élève doit le redéposer.'),
+      el('p', { class: 'actions-sup' }, el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'vider' } },
+        'Supprimer ce dépôt resté vide')));
+    return art;
   }
-  const id = `c-f-${f.n}`;
-  const zone = el('textarea', { id, class: 'correction-fiche', maxlength: '4000',
-    dataset: { initial: f.correction || '' } });
-  zone.value = f.correction || '';
-  pied.append(el('div', { class: 'ligne' },
-    el('div', { style: 'flex:2 1 16rem' },
-      el('label', { for: id }, f.libreSeule ? 'Correction' : 'Correction de la fiche'), zone),
-    el('button', { type: 'button', class: 'corriger-fiche' }, 'Enregistrer la correction')));
-  if (f.edition) {
-    pied.append(el('p', { class: 'meta' },
-      el('button', { type: 'button', class: 'lien-sup annuler-edition' }, 'Garder la correction telle quelle')));
+  if (r.commentaire) {
+    art.append(el('p', { class: 'mot' }, `« ${r.commentaire} »`));
   }
-  return pied;
-}
+  const sup = [el('a', { href: '#', dataset: { geste: 'ouvrir' } }, 'Ouvrir le document')];
+  if (r.commentaire || r.binome) {
+    sup.push(' · ', el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'effacer-mot' } },
+      'Effacer le mot de l’élève et le binôme'));
+  }
+  art.append(el('p', { class: 'actions-sup' }, sup));
 
-function rafraichirFiche(f) {
-  const ancien = $('liste-reponses').querySelector(`article[data-fiche="${CSS.escape(f.cle)}"]`);
-  if (!ancien) return;
-  ancien.replaceWith(articleFiche(f));
-}
+  if (t.diagnostique) {
+    art.append(el('p', { class: 'meta' }, r.corrige_le
+      ? 'Diagnostique : il ne se corrige pas. L’accusé de réception ci-dessous est ce que l’élève lit.'
+      : 'Diagnostique : il ne se corrige pas. L’accusé de réception n’est pas encore posé '
+        + '(outils/a-corriger.py --accuser).'));
+    if (r.appreciation) art.append(el('div', { class: 'correction' }, el('strong', {}, 'Accusé de réception : '), el('span', {}, r.appreciation)));
+    return art;
+  }
+  if (!form) {
+    art.append(el('div', { class: 'correction' }, el('strong', {}, 'Appréciation : '), el('span', {}, r.appreciation || '')));
+    if (r.competence) {
+      art.append(el('p', { class: 'meta' }, `Situé : ${r.competence}, ${MAITRISES[r.maitrise] || r.maitrise || ''}`));
+    }
+    art.append(el('p', { class: 'actions-sup' },
+      el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'modifier' } }, 'Modifier la correction'), ' · ',
+      el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'retirer' } }, 'Retirer la correction (l’élève pourra redéposer)')));
+    return art;
+  }
 
-/** Un dépôt. Rendu à part pour pouvoir remplacer UN article après sa correction. */
-function articleRendu(r) {
+  const id = `cor-${t.cle}`;
+  const zone = el('textarea', { id, class: 'correction-principale', maxlength: '4000',
+    dataset: { initial: r.appreciation || '' } });
+  zone.value = r.appreciation || '';
+  const formulaire = el('div', { class: 'formulaire' }, el('label', { for: id }, 'Appréciation (obligatoire)'), zone);
   const competences = COMPETENCES[r.sequence] ?? [];
-  const etat = !r.fichier
-    ? '<span class="etiquette incomplet">envoi incomplet</span>'
-    : r.corrige_le
-      ? '<span class="etiquette corrige">corrigé</span>'
-      : '<span class="etiquette attente">en attente de correction</span>';
-  return `
-    <article class="rendu ${r.corrige_le ? 'fait' : 'attente'}" data-rendu="${r.id}">
-      <h3>${echapper(r.profils?.nom || '')} ${echapper(r.profils?.prenom || '')}${etat}</h3>
-      <p class="meta">${echapper(TITRES[r.sequence] || r.sequence)} ·
-        déposé le ${dateCourte(r.depose_le)}
-        ${r.binome ? ' · avec ' + echapper(r.binome) : ''}
-        ${r.corrige_le ? ' · corrigé le ' + dateCourte(r.corrige_le) : ''}</p>
-      ${r.commentaire ? `<p class="mot">« ${echapper(r.commentaire)} »</p>` : ''}
-      ${r.commentaire || r.binome ? `<p class="meta"><button class="lien-sup effacer-mot" data-rendu="${r.id}">Effacer le mot de l'élève et le binôme</button></p>` : ''}
-      ${r.fichier ? `<p class="meta"><a href="#" class="voir"
-          data-rendu="${r.id}">Ouvrir le document</a></p>` : ''}
-      <div class="ligne">
-        <div style="flex:2 1 16rem">
-          <label for="a-${r.id}">Appréciation</label>
-          <textarea id="a-${r.id}" data-initial="${echapper(r.appreciation || '')}">${echapper(r.appreciation || '')}</textarea>
-        </div>
-        ${competences.length ? `
-        <div>
-          <label for="c-${r.id}">Compétence de la séquence (facultative)</label>
-          <select id="c-${r.id}" class="competence" data-rendu="${r.id}">${options(
-            Object.fromEntries(competences.map((c) => [c, c])), r.competence, 'Aucune')}</select>
-        </div>
-        <div>
-          <label for="m-${r.id}">Niveau de maîtrise (avec la compétence)</label>
-          <select id="m-${r.id}" class="maitrise" ${r.competence ? '' : 'disabled'}>${options(MAITRISES, r.maitrise, 'Choisir…')}</select>
-        </div>` : ''}
-        <button class="corriger" data-rendu="${r.id}">Enregistrer</button>
-      </div>
-      ${r.competence ? `<p class="meta">Situé : ${echapper(r.competence)}, ${echapper(MAITRISES[r.maitrise] || r.maitrise)}</p>` : ''}
-      ${r.corrige_le ? `<p class="meta"><button class="lien-sup retirer"
-          data-rendu="${r.id}">Retirer la correction</button></p>` : ''}
-      ${!r.fichier ? `<p class="meta"><button class="lien-sup vider"
-          data-rendu="${r.id}">Supprimer ce dépôt resté vide</button></p>` : ''}
-    </article>`;
+  if (competences.length) {
+    const c = el('select', { id: `comp-${t.cle}`, class: 'competence', dataset: { initial: r.competence || '' } },
+      el('option', { value: '' }, 'Aucune'),
+      competences.map((x) => el('option', { value: x, selected: x === r.competence }, x)));
+    const m = el('select', { id: `mait-${t.cle}`, class: 'maitrise', disabled: !r.competence, dataset: { initial: r.maitrise || '' } },
+      el('option', { value: '' }, 'Choisir…'),
+      Object.entries(MAITRISES).map(([k, v]) => el('option', { value: k, selected: k === r.maitrise }, v)));
+    formulaire.append(el('div', { class: 'positionner' },
+      el('div', {}, el('label', { for: c.id }, 'Compétence de la séquence (facultative)'), c),
+      el('div', {}, el('label', { for: m.id }, 'Niveau de maîtrise'), m)));
+  }
+  formulaire.append(boutons(t));
+  art.append(formulaire);
+  return art;
 }
 
-/** Remplace l'article d'un dépôt après une écriture, sans toucher aux autres. */
-function rafraichirArticle(r) {
-  const ancien = $('liste').querySelector(`article[data-rendu="${r.id}"]`);
-  if (!ancien) return;
-  ancien.insertAdjacentHTML('afterend', articleRendu(r));
-  ancien.remove();
+/** Les deux boutons d'enregistrement, et l'annulation d'une modification. */
+function boutons(t) {
+  const vide = !(t.type === 'fiche' ? t.f.correction : t.r.appreciation);
+  return el('div', { class: 'boutons' },
+    el('button', { type: 'button', dataset: { geste: 'enregistrer', suite: '1' }, disabled: vide }, 'Enregistrer, travail suivant →'),
+    el('button', { type: 'button', class: 'secondaire', dataset: { geste: 'enregistrer' }, disabled: vide }, 'Enregistrer'),
+    t.edition ? el('button', { type: 'button', class: 'lien-sup', dataset: { geste: 'garder' } }, 'Garder la correction telle quelle') : null);
 }
 
-/** Une appréciation est-elle en cours de saisie quelque part ? */
-function saisieEnCours() {
-  return [...$('liste').querySelectorAll('textarea'), ...$('liste-reponses').querySelectorAll('textarea')]
-    .some((z) => z.value !== (z.dataset.initial ?? ''));
+// ---- Les gestes ------------------------------------------------------------------
+
+function travailDe(cible) {
+  const art = cible.closest('article[data-travail]');
+  const e = eleves.get(courant);
+  return art && e ? [art, e.travaux.find((t) => t.cle === art.dataset.travail)] : [null, null];
 }
 
-// Toutes les commandes de la liste passent par UN gestionnaire : les articles
-// sont remplacés un à un après correction, les écouteurs posés sur chacun
-// se perdraient.
-$('liste').addEventListener('change', (ev) => {
+// Le bouton d'enregistrement reste grisé tant que la correction est vide :
+// jamais de travail marqué corrigé sans correction écrite.
+$('panneau').addEventListener('input', (ev) => {
+  const z = ev.target;
+  if (z.classList?.contains('correction-principale')) {
+    for (const b of z.closest('.formulaire').querySelectorAll('[data-geste="enregistrer"]')) b.disabled = !z.value.trim();
+  }
+});
+$('panneau').addEventListener('change', (ev) => {
   const c = ev.target;
-  if (!c.classList.contains('competence')) return;
-  const m = $('m-' + c.dataset.rendu);
+  if (!c.classList?.contains('competence')) return;
+  const m = c.closest('.positionner').querySelector('.maitrise');
   m.disabled = !c.value;
   if (!c.value) m.value = '';
 });
 
-$('liste').addEventListener('click', async (ev) => {
-  const cible = ev.target.closest('a.voir, button');
+$('panneau').addEventListener('click', async (ev) => {
+  const cible = ev.target.closest('[data-geste]');
   if (!cible) return;
-  const id = cible.dataset.rendu;
-  const r = rendus.find((x) => x.id === id);
-  if (!r) return;
+  const [art, t] = travailDe(cible);
+  if (!t) return;
+  const geste = cible.dataset.geste;
 
-  if (cible.classList.contains('voir')) {
-    ev.preventDefault();
-    // La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
-    // Safari et les bloqueurs de fenêtres la refusent sans un mot.
-    const fenetre = window.open('', '_blank', 'noopener');
-    try {
-      const d = await api('/api/classeur/fichier?rendu=' + id);
-      if (fenetre) fenetre.location = d.url; else location.href = d.url;
-    } catch (e) {
-      if (fenetre) fenetre.close();
-      alert(e.message);
-    }
-    return;
-  }
-
-  // Un clic par mégarde sur « Enregistrer » posait corrige_le pour toujours :
-  // l'élève ne pouvait plus rien redéposer et le professeur n'avait aucun
-  // recours. La correction se retire maintenant.
-  if (cible.classList.contains('retirer')) {
-    if (!confirm('Retirer la correction ? L’appréciation et le positionnement ' +
-                 'seront effacés, et l’élève pourra redéposer.')) return;
-    cible.disabled = true; cible.textContent = '…';
-    try {
-      await api('/api/prof/corriger', {
-        method: 'POST', body: JSON.stringify({ rendu: id, annuler: true }),
-      });
-      Object.assign(r, { appreciation: null, competence: null, maitrise: null, corrige_le: null });
-      rafraichirArticle(r);
-    } catch (e) {
-      alert(e.message); cible.disabled = false; cible.textContent = 'Retirer la correction';
-    }
-    return;
-  }
-
-  // Les dépôts restés vides après un envoi interrompu : le professeur fait le
-  // ménage. Il ne peut supprimer QUE ceux-là, jamais un travail déposé.
-  if (cible.classList.contains('vider')) {
-    cible.disabled = true; cible.textContent = '…';
-    try {
-      await api('/api/classeur/supprimer-depot', {
-        method: 'POST', body: JSON.stringify({ rendu: id }),
-      });
-      rendus = rendus.filter((x) => x.id !== id);
-      $('liste').querySelector(`article[data-rendu="${id}"]`)?.remove();
-      if (!rendus.length) $('liste').innerHTML = '<p class="vide">Aucun dépôt pour ce groupe.</p>';
-    } catch (e) {
-      alert(e.message); cible.disabled = false;
-      cible.textContent = 'Supprimer ce dépôt resté vide';
-    }
-    return;
-  }
-
-  if (cible.classList.contains('effacer-mot')) {
-    if (!confirm('Effacer le mot de l’élève et le nom du binôme sur ce dépôt ? Le fichier et la correction sont conservés.')) return;
-    cible.disabled = true; cible.textContent = '…';
-    try {
-      await api('/api/prof/corriger', { method: 'POST', body: JSON.stringify({ rendu: id, effacerMot: true }) });
-      Object.assign(r, { commentaire: null, binome: null });
-      rafraichirArticle(r);
-    } catch (e) { alert(e.message); cible.disabled = false; cible.textContent = "Effacer le mot de l'élève et le binôme"; }
-    return;
-  }
-
-  if (cible.classList.contains('corriger')) {
-    cible.disabled = true; cible.textContent = '…';
-    const competence = $('c-' + id)?.value || '';
-    const maitrise = $('m-' + id)?.value || '';
-    if (competence && !maitrise) {
-      alert('Choisissez le niveau de maîtrise pour cette compétence, ou remettez « Aucune ».');
-      cible.disabled = false; cible.textContent = 'Enregistrer';
-      return;
-    }
-    try {
-      await api('/api/prof/corriger', {
-        method: 'POST',
-        body: JSON.stringify({
-          rendu: id, appreciation: $('a-' + id).value, competence, maitrise,
-        }),
-      });
-      Object.assign(r, {
-        appreciation: $('a-' + id).value || null,
-        competence: competence || null, maitrise: maitrise || null,
-        corrige_le: new Date().toISOString(),
-      });
-      rafraichirArticle(r);
-      direCorrection($('liste').querySelector(`article[data-rendu="${id}"]`));
-    } catch (e) {
-      cible.textContent = 'Échec'; cible.disabled = false;
-      alert(e.message);
-    }
-  }
-});
-
-// Les fiches ont LEUR gestionnaire, avec leurs propres classes de boutons :
-// les deux listes ne partagent ni identifiants ni gestes, et le professeur
-// n'efface jamais une réponse (voir api/prof/reponses.js). Une carte est
-// remplacée après chaque écriture, d'où la délégation.
-$('liste-reponses').addEventListener('click', async (ev) => {
-  const cible = ev.target.closest('button');
-  if (!cible) return;
-  const art = cible.closest('article[data-fiche]');
-  const f = art && fiches.find((x) => x.cle === art.dataset.fiche);
-  if (!f) return;
-
-  // « Commenter » ouvre ou replie la zone du champ : un commentaire replié
-  // n'est pas perdu, il part avec la correction.
-  if (cible.classList.contains('commenter')) {
-    const zone = cible.closest('.champ-rep').querySelector('.commentaire-zone');
+  if (geste === 'commenter') {
+    const zone = cible.closest('.champ-rep').querySelector('[id$="-zone"]');
     zone.hidden = !zone.hidden;
     cible.setAttribute('aria-expanded', String(!zone.hidden));
-    cible.textContent = zone.hidden ? 'Commenter' : 'Masquer le commentaire';
+    cible.textContent = zone.hidden ? 'Commenter ce champ' : 'Masquer le commentaire';
     if (!zone.hidden) zone.querySelector('textarea').focus();
     return;
   }
-  if (cible.classList.contains('modifier-fiche')) { f.edition = true; rafraichirFiche(f); return; }
-  if (cible.classList.contains('annuler-edition')) { f.edition = false; rafraichirFiche(f); return; }
+  if (geste === 'modifier') { t.edition = true; rendrePanneau(); $('cor-' + t.cle)?.focus(); return; }
+  if (geste === 'garder') { t.edition = false; rendrePanneau(); return; }
+  if (geste === 'ouvrir') { ev.preventDefault(); return ouvrirDocument(t); }
 
-  // Un clic par mégarde sur « Enregistrer » figeait la fiche pour toujours :
-  // la correction se retire, avec les commentaires par champ.
-  if (cible.classList.contains('retirer-fiche')) {
-    if (!confirm('Retirer la correction ? Elle sera effacée, avec les commentaires par champ, et l’élève pourra de nouveau modifier sa fiche.')) return;
-    cible.disabled = true; cible.textContent = '…';
-    try {
-      await api('/api/prof/reponses', {
-        method: 'PATCH',
-        body: JSON.stringify(f.libreSeule
-          ? { reponse: f.ligneLibre.id, annuler: true }
-          : { fiche: { profil: f.profil_id, page: f.page }, annuler: true }),
-      });
-      for (const l of f.lignes) Object.assign(l, { correction: null, corrige_le: null });
-      Object.assign(f, {
-        correction: null, corrige_le: null, edition: false,
-        etat: etatFiche({ corrigeLe: null, ligneFiche: f.ligneFiche,
-                          nbChamps: f.champs.length, ligneLibre: f.ligneLibre }),
-      });
-      rafraichirFiche(f);
-      compterFiches();
-    } catch (e) {
-      alert(e.message); cible.disabled = false; cible.textContent = 'Retirer la correction';
-    }
-    return;
-  }
-
-  if (cible.classList.contains('corriger-fiche')) {
-    const correction = art.querySelector('textarea.correction-fiche').value;
-    if (!correction.trim()) {
-      alert('Écrivez la correction de la fiche : elle est obligatoire, les commentaires par champ sont facultatifs. Pour retirer une correction déjà enregistrée, utilisez « Retirer la correction ».');
+  cible.disabled = true;
+  const libelle = cible.textContent;
+  cible.textContent = '…';
+  try {
+    if (geste === 'enregistrer') {
+      if (t.type === 'fiche') await enregistrerFiche(art, t); else await enregistrerDepot(art, t);
+      apres(t, cible.dataset.suite === '1');
       return;
     }
-    // Tous les commentaires de la carte, repliés ou non : un texte vidé
-    // efface le commentaire (l'API pose null).
-    const commentaires = {};
-    for (const z of art.querySelectorAll('textarea.commentaire')) commentaires[z.dataset.question] = z.value;
-    cible.disabled = true; cible.textContent = '…';
-    try {
-      const d = await api('/api/prof/reponses', {
-        method: 'PATCH',
-        body: JSON.stringify(f.libreSeule
-          ? { reponse: f.ligneLibre.id, correction }
-          : { fiche: { profil: f.profil_id, page: f.page }, correction, commentaires }),
-      });
-      const quand = d.fiche?.corrige_le ?? d.reponse?.corrige_le ?? new Date().toISOString();
-      const texte = d.fiche?.correction ?? d.reponse?.correction ?? correction.trim();
-      // Ce que l'API a réellement posé (d.commentaires) fait foi : un champ
-      // effacé par l'élève entre le chargement et la correction n'existe
-      // plus, son commentaire n'a pas été enregistré, la carte ne doit pas
-      // l'afficher comme tel.
-      const poses = (d.commentaires && typeof d.commentaires === 'object') ? d.commentaires : commentaires;
-      const perdus = [];
-      const commentables = f.libreSeule ? f.champs : f.champs.concat(f.ligneLibre ? [f.ligneLibre] : []);
-      for (const l of commentables) {
-        if (!(l.question in commentaires)) continue;
-        if (l.question in poses) l.correction = (poses[l.question] ?? '').trim() || null;
-        else if (commentaires[l.question].trim()) perdus.push(l.question);
-      }
-      if (poses !== commentaires) {
-        // Un champ demandé mais non posé n'existe plus en base : il sort de la carte.
-        const disparus = f.champs.filter((l) => (l.question in commentaires) && !(l.question in poses));
-        if (disparus.length) {
-          f.champs = f.champs.filter((l) => !disparus.includes(l));
-          f.lignes = f.lignes.filter((l) => !disparus.includes(l));
-          f.nb_champs = f.champs.length;
-        }
-      }
-      const porteuse = f.ligneFiche ?? f.ligneLibre;
-      if (porteuse) Object.assign(porteuse, { correction: texte, corrige_le: quand });
-      Object.assign(f, { correction: texte, corrige_le: quand, etat: CORRIGE, edition: false });
-      rafraichirFiche(f);
-      compterFiches();
-      direCorrection($('liste-reponses').querySelector(`article[data-fiche="${CSS.escape(f.cle)}"]`));
-      if (perdus.length) {
-        alert(`La correction est enregistrée. ${perdus.length > 1 ? 'Les champs' : 'Le champ'} ${perdus.join(', ')} ${perdus.length > 1 ? 'ont été effacés' : 'a été effacé'} par l’élève entre-temps : ${perdus.length > 1 ? 'leurs commentaires n’ont' : 'son commentaire n’a'} pas été enregistré${perdus.length > 1 ? 's' : ''}.`);
-      }
-    } catch (e) {
-      cible.textContent = 'Échec'; cible.disabled = false;
-      alert(e.message);
+    if (geste === 'retirer') {
+      const ok = confirm(t.type === 'fiche'
+        ? 'Retirer la correction ? Elle sera effacée avec les commentaires par champ, et l’élève pourra de nouveau modifier sa fiche.'
+        : 'Retirer la correction ? L’appréciation et le positionnement seront effacés, et l’élève pourra redéposer.');
+      if (!ok) { cible.disabled = false; cible.textContent = libelle; return; }
+      await retirer(t);
+      annonce = { texte: 'Correction retirée.', classe: 'ok' };
+      reclasser();
+      return;
     }
+    if (geste === 'vider') {
+      await api('/api/classeur/supprimer-depot', { method: 'POST', body: JSON.stringify({ rendu: t.r.id }) });
+      const e = eleves.get(courant);
+      e.travaux = e.travaux.filter((x) => x !== t);
+      annonce = { texte: 'Dépôt vide supprimé.', classe: 'ok' };
+      reclasser();
+      return;
+    }
+    if (geste === 'effacer-mot') {
+      if (!confirm('Effacer le mot de l’élève et le nom du binôme sur ce dépôt ? Le fichier et la correction sont conservés.')) {
+        cible.disabled = false; cible.textContent = libelle; return;
+      }
+      await api('/api/prof/corriger', { method: 'POST', body: JSON.stringify({ rendu: t.r.id, effacerMot: true }) });
+      Object.assign(t.r, { commentaire: null, binome: null });
+      rendrePanneau();
+    }
+  } catch (e) {
+    cible.disabled = false; cible.textContent = libelle;
+    alert(e.message);
   }
 });
 
-$('groupe').addEventListener('change', async () => {
-  if (saisieEnCours() && !confirm('Une appréciation ou une correction est en cours de saisie et n’est pas enregistrée. Changer de groupe ?')) {
+/**
+ * La fenêtre s'ouvre PENDANT le clic : ouverte après une attente réseau,
+ * Safari et les bloqueurs la refusent sans un mot. Et SANS 'noopener' dans
+ * window.open : avec lui, la fonction rend toujours null, et l'ancienne page
+ * partait alors sur le document dans l'onglet même, en perdant la saisie en
+ * cours. On coupe le lien à la main.
+ */
+async function ouvrirDocument(t) {
+  const fenetre = window.open('', '_blank');
+  if (fenetre) fenetre.opener = null;
+  try {
+    const d = await api('/api/classeur/fichier?rendu=' + t.r.id);
+    if (fenetre) fenetre.location = d.url;
+    else alert('Le navigateur a bloqué la nouvelle fenêtre. Autorisez les fenêtres pour ce site, puis recommencez.');
+  } catch (e) {
+    fenetre?.close();
+    alert(e.message);
+  }
+}
+
+async function enregistrerFiche(art, t) {
+  const f = t.f;
+  const correction = art.querySelector('textarea.correction-principale').value;
+  if (!correction.trim()) throw new Error('Écrivez la correction de la fiche : elle est obligatoire.');
+  // Les commentaires MODIFIÉS de la carte, repliés ou non : un texte vidé
+  // efface le commentaire (l'API pose null). Les autres ne partent pas :
+  // l'API écrit une ligne par clé reçue, douze écritures pour rien sinon.
+  const commentaires = {};
+  for (const z of art.querySelectorAll('textarea.commentaire')) {
+    if (z.value !== (z.dataset.initial ?? '')) commentaires[z.dataset.question] = z.value;
+  }
+  const d = await api('/api/prof/reponses', {
+    method: 'PATCH',
+    body: JSON.stringify(f.libreSeule
+      ? { reponse: f.ligneLibre.id, correction }
+      : { fiche: { profil: f.profil_id, page: f.page }, correction, commentaires }),
+  });
+  const quand = d.fiche?.corrige_le ?? d.reponse?.corrige_le ?? new Date().toISOString();
+  const texte = d.fiche?.correction ?? d.reponse?.correction ?? correction.trim();
+  // Ce que l'API a réellement posé fait foi : un champ effacé par l'élève
+  // entre le chargement et la correction n'existe plus, son commentaire n'a
+  // pas été enregistré, la carte ne doit pas l'afficher comme tel.
+  const poses = (d.commentaires && typeof d.commentaires === 'object') ? d.commentaires : commentaires;
+  const perdus = [];
+  for (const l of f.champs.concat(f.ligneLibre && !f.libreSeule ? [f.ligneLibre] : [])) {
+    if (!(l.question in commentaires)) continue;
+    if (l.question in poses) l.correction = (poses[l.question] ?? '').trim() || null;
+    else if (commentaires[l.question].trim()) perdus.push(l.question);
+  }
+  if (poses !== commentaires) {
+    f.champs = f.champs.filter((l) => !(l.question in commentaires) || (l.question in poses));
+  }
+  const porteuse = f.ligneFiche ?? f.ligneLibre;
+  if (porteuse) Object.assign(porteuse, { correction: texte, corrige_le: quand });
+  Object.assign(f, { correction: texte, corrige_le: quand, etat: CORRIGE });
+  t.edition = false;
+  majFiche(t);
+  if (perdus.length) {
+    alert(`La correction est enregistrée. ${perdus.length > 1 ? 'Les champs' : 'Le champ'} ${perdus.join(', ')} `
+      + `${perdus.length > 1 ? 'ont été effacés' : 'a été effacé'} par l’élève entre-temps : `
+      + `${perdus.length > 1 ? 'leurs commentaires n’ont' : 'son commentaire n’a'} pas été enregistré${perdus.length > 1 ? 's' : ''}.`);
+  }
+}
+
+async function enregistrerDepot(art, t) {
+  const appreciation = art.querySelector('textarea.correction-principale').value;
+  if (!appreciation.trim()) throw new Error('Écrivez l’appréciation : elle est obligatoire.');
+  const competence = art.querySelector('select.competence')?.value || '';
+  const maitrise = art.querySelector('select.maitrise')?.value || '';
+  if (competence && !maitrise) throw new Error('Choisissez le niveau de maîtrise pour cette compétence, ou remettez « Aucune ».');
+  await api('/api/prof/corriger', {
+    method: 'POST', body: JSON.stringify({ rendu: t.r.id, appreciation, competence, maitrise }),
+  });
+  Object.assign(t.r, { appreciation: appreciation.trim(), competence: competence || null,
+    maitrise: maitrise || null, corrige_le: new Date().toISOString() });
+  t.edition = false;
+  majDepot(t);
+}
+
+async function retirer(t) {
+  if (t.type === 'depot') {
+    await api('/api/prof/corriger', { method: 'POST', body: JSON.stringify({ rendu: t.r.id, annuler: true }) });
+    Object.assign(t.r, { appreciation: null, competence: null, maitrise: null, corrige_le: null });
+    majDepot(t);
     return;
   }
+  const f = t.f;
+  await api('/api/prof/reponses', {
+    method: 'PATCH',
+    body: JSON.stringify(f.libreSeule
+      ? { reponse: f.ligneLibre.id, annuler: true }
+      : { fiche: { profil: f.profil_id, page: f.page }, annuler: true }),
+  });
+  for (const l of f.lignes) Object.assign(l, { correction: null, corrige_le: null });
+  Object.assign(f, { correction: null, corrige_le: null,
+    etat: etatFiche({ corrigeLe: null, ligneFiche: f.ligneFiche, nbChamps: f.champs.length, ligneLibre: f.ligneLibre }) });
+  majFiche(t);
+}
+
+/** Après un geste qui change un statut : la colonne et le panneau se
+    recalculent, l'élève reste affiché. */
+function reclasser() {
+  const e = eleves.get(courant);
+  if (e) trier(e);
+  reordonner();
+  rendreColonne();
+  rendrePanneau();
+}
+
+/**
+ * Après un enregistrement. « Travail suivant » : le travail suivant du même
+ * élève, sinon le premier élève qui attend encore, en partant de celui-ci.
+ */
+function apres(t, suite) {
+  const e = eleves.get(courant);
+  annonce = { texte: 'Correction enregistrée.', classe: 'ok' };
+  if (!suite || compte(e, 'acorriger')) {
+    if (suite) onglet = 'acorriger';
+    reclasser();
+    if (suite) premierChamp();
+    return;
+  }
+  // Le recalcul de la colonne se fait APRÈS avoir trouvé le suivant : on
+  // cherche dans l'ordre que le professeur avait sous les yeux.
+  const i = ordre.indexOf(courant);
+  const suivant = [...ordre.slice(i + 1), ...ordre.slice(0, i)].find((id) => compte(eleves.get(id), 'acorriger'));
+  const qui = `${e.prenom} ${e.nom}`.trim();
+  trier(e);
+  reordonner();
+  if (!suivant) {
+    annonce = { texte: `Correction enregistrée. Plus rien à corriger dans ce groupe.`, classe: 'ok' };
+    choisir(courant, true);
+    return;
+  }
+  annonce = { texte: `Correction de ${qui} enregistrée. Voici l’élève suivant.`, classe: 'ok' };
+  choisir(suivant);
+  premierChamp();
+}
+
+function reordonner() {
+  const parNom = (a, b) => `${a.nom} ${a.prenom}`.localeCompare(`${b.nom} ${b.prenom}`, 'fr');
+  ordre = [...eleves.values()].sort((a, b) => paquet(a) - paquet(b) || parNom(a, b)).map((e) => e.id);
+}
+
+function premierChamp() {
+  const z = $('panneau').querySelector('article.acorriger textarea.correction-principale');
+  if (!z) return;
+  z.closest('article').scrollIntoView({ block: 'start', behavior: 'smooth' });
+  z.focus({ preventScroll: true });
+}
+
+// ---- Changer d'élève, de groupe, de page ------------------------------------
+
+/** Une correction est-elle en cours de saisie ? */
+function saisieEnCours() {
+  return [...$('panneau').querySelectorAll('textarea, select')]
+    .some((z) => z.value !== (z.dataset.initial ?? z.value));
+}
+const quitter = () => !saisieEnCours()
+  || confirm('Une correction est en cours de saisie et n’est pas enregistrée. La laisser ?');
+
+$('colonne').addEventListener('click', (ev) => {
+  const b = ev.target.closest('button[data-eleve]');
+  if (!b || b.dataset.eleve === courant || !quitter()) return;
+  reordonner();
+  choisir(b.dataset.eleve);
+  $('panneau').scrollIntoView({ block: 'start' });
+});
+$('choix-eleve').addEventListener('change', () => {
+  if (!quitter()) { $('choix-eleve').value = courant; return; }
+  reordonner();
+  choisir($('choix-eleve').value);
+});
+$('groupe').addEventListener('change', async () => {
+  if (!quitter()) { $('groupe').value = groupeId; return; }
   try { await voirGroupe(); } catch (e) { alert(e.message); }
+});
+window.addEventListener('beforeunload', (ev) => {
+  if (saisieEnCours()) { ev.preventDefault(); ev.returnValue = ''; }
 });
 
 $('sortir').addEventListener('click', async () => {
@@ -772,155 +939,14 @@ $('sortir').addEventListener('click', async () => {
   } catch (e) {
     // Ne pas partir vers l'accueil comme si c'était fait : la session serait
     // toujours vivante et le professeur croirait être sorti.
-    alert('La session n’a PAS été fermée : le réseau ou le service n’a pas ' +
-          'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
+    alert('La session n’a PAS été fermée : le réseau ou le service n’a pas '
+      + 'répondu. Fermez complètement le navigateur, la session meurt avec lui.');
   }
 });
 
-// Ressaisie du mot de passe, et non une simple confirmation. Un « OK » se
-// clique : si une session professeur reste ouverte sur un poste de salle
-// informatique, l'élève suivant s'en servirait pour fabriquer le mot de
-// passe d'un camarade, et le journal accuserait le professeur, puisque le
-// contrôle d'appartenance au groupe passerait. Le mot de passe, lui, il ne
-// l'a pas.
-function fermerConfirmation() {
-  $('bloc-confirme').hidden = true;
-  $('confirme').value = '';
-  $('reinit').disabled = false;
-}
-
-/**
- * « Correction enregistrée. » s'affiche DANS la carte qui vient d'être
- * corrigée, sous la correction. La zone #mr appartient au bloc « Redonner
- * un accès » : un message qui y apparaît depuis une carte deux sections
- * plus haut semble sortir de nulle part, et elle peut porter un mot de
- * passe provisoire pas encore dicté.
- */
-function direCorrection(article) {
-  if (!article) return;
-  article.querySelector('.msg.ok')?.remove();
-  const p = document.createElement('p');
-  p.className = 'msg ok';
-  p.setAttribute('role', 'status');
-  p.textContent = 'Correction enregistrée.';
-  article.append(p);
-}
-
-$('reinit').addEventListener('click', () => {
-  if (!$('eleve').value) {
-    $('mr').className = 'msg err';
-    $('mr').textContent = 'Choisissez d’abord un élève.';
-    return;
-  }
-  const nom = $('eleve').selectedOptions[0]?.textContent || 'cet élève';
-  $('mr').className = 'msg attention';
-  $('mr').textContent =
-    `Réinitialiser l’accès de ${nom}. Un mot de passe provisoire s’affichera ` +
-    `à l’écran et devra être dit à voix haute. Il ne servira que 24 heures. ` +
-    `L’opération est journalisée et signalée à l’élève.`;
-  $('bloc-confirme').hidden = false;
-  $('reinit').disabled = true;
-  $('confirme').focus();
+charger().catch((e) => {
+  $('panneau').replaceChildren(el('p', { class: 'msg err' }, e.message));
 });
-
-$('annuler').addEventListener('click', fermerConfirmation);
-$('confirme').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') { e.preventDefault(); $('confirmer').click(); }
-});
-
-$('confirmer').addEventListener('click', async () => {
-  const motDePasse = $('confirme').value;
-  if (!motDePasse) { $('confirme').focus(); return; }
-
-  $('confirmer').disabled = true;
-  try {
-    const d = await api('/api/prof/reinitialiser-eleve', {
-      method: 'POST',
-      body: JSON.stringify({
-        eleve: $('eleve').value, motif: $('motif').value, confirmation: motDePasse,
-      }),
-    });
-    $('mr').className = 'msg attention';
-    $('mr').innerHTML =
-      `Accès de <b>${echapper(d.eleve)}</b> réinitialisé.<br>` +
-      `<span class="mdp">${echapper(d.motDePasse)}</span><br>` +
-      `<small>${echapper(d.avertissement)}</small>`;
-    $('motif').value = '';
-    fermerConfirmation();
-  } catch (e) {
-    $('mr').className = 'msg err'; $('mr').textContent = e.message;
-    $('confirme').value = '';
-    $('confirme').focus();
-  } finally {
-    $('confirmer').disabled = false;
-  }
-});
-
-// ---- Liste de mots de passe provisoires pour tout le groupe ----
-// Même barrière que la réinitialisation à l'unité : le mot de passe du
-// professeur est retapé dans un champ de type password, jamais un prompt().
-function fermerConfirmationGroupe() {
-  $('bloc-confirme-groupe').hidden = true;
-  $('confirme-groupe').value = '';
-  $('groupe-mdp').disabled = false;
-}
-
-$('groupe-mdp').addEventListener('click', () => {
-  const g = $('groupe').selectedOptions[0]?.textContent || 'ce groupe';
-  $('mg').className = 'msg attention';
-  $('mg').textContent =
-    `Générer un mot de passe provisoire pour chaque élève de ${g} qui n’a pas ` +
-    `encore choisi le sien. La liste s’affichera à l’écran : ne la projetez pas. ` +
-    `Chaque élève est journalisé.`;
-  $('bloc-confirme-groupe').hidden = false;
-  $('groupe-mdp').disabled = true;
-  $('confirme-groupe').focus();
-});
-$('annuler-groupe').addEventListener('click', fermerConfirmationGroupe);
-$('confirme-groupe').addEventListener('keydown', (e) => {
-  if (e.key === 'Enter') { e.preventDefault(); $('confirmer-groupe').click(); }
-});
-$('confirmer-groupe').addEventListener('click', async () => {
-  const motDePasse = $('confirme-groupe').value;
-  if (!motDePasse) { $('confirme-groupe').focus(); return; }
-  $('confirmer-groupe').disabled = true;
-  try {
-    const d = await api('/api/prof/reinitialiser-groupe', {
-      method: 'POST',
-      body: JSON.stringify({ groupe: $('groupe').value, motif: 'boite_inaccessible', confirmation: motDePasse }),
-    });
-    $('mdp-lignes').innerHTML = d.eleves.map((e) =>
-      `<tr><td>${echapper(e.nom)} ${echapper(e.prenom)}</td><td>${echapper(e.email)}</td>` +
-      `<td class="mdp">${echapper(e.motDePasse)}</td></tr>`).join('');
-    $('mdp-info').textContent = `${d.groupe} · ${d.eleves.length} mot(s) de passe généré(s)` +
-      (d.dejaChoisi ? ` · ${d.dejaChoisi} élève(s) ont déjà le leur, non touchés` : '') +
-      ` · ${dateCourte(d.poseLe)}`;
-    $('mdp-avert').textContent = d.avertissement;
-    $('liste-mdp').hidden = !d.eleves.length;
-    $('mg').className = 'msg ' + (d.eleves.length ? 'ok' : 'attention');
-    $('mg').textContent = d.eleves.length
-      ? 'Liste générée. Imprimez-la maintenant : elle ne sera plus affichée après avoir quitté la page.'
-      : 'Aucun élève de ce groupe n’attend un mot de passe : tous ont déjà choisi le leur.';
-    fermerConfirmationGroupe();
-  } catch (e) {
-    $('mg').className = 'msg err'; $('mg').textContent = e.message;
-    $('confirme-groupe').value = '';
-    $('confirme-groupe').focus();
-  } finally {
-    $('confirmer-groupe').disabled = false;
-  }
-});
-$('imprimer-mdp').addEventListener('click', () => {
-  document.body.classList.add('imprimer-mdp');
-  window.print();
-  document.body.classList.remove('imprimer-mdp');
-});
-// Quitter le groupe efface la liste : elle ne doit pas rester sous les yeux du suivant.
-$('groupe').addEventListener('change', () => { $('liste-mdp').hidden = true; $('mdp-lignes').innerHTML = ''; $('mg').textContent = ''; });
-
-charger().catch((e) => { $('liste').innerHTML =
-  `<p class="msg err" style="display:block">${echapper(e.message)}</p>`; });
 </script>
-<script src="/js/oeil.js"></script>
 </body>
 </html>

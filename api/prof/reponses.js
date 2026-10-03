@@ -2,7 +2,7 @@ import { appelant, possedeGroupe, reArmer } from '../_lib/autorisation.js';
 import { lire, ecrire, configuree, origineLegitime, refus } from '../_lib/supabase.js';
 import { UUID } from '../_lib/progression.js';
 import { CLE_CHAMP } from '../_lib/cles-champs.js';
-import { etatFiche, estACorriger, rangTri, EN_COURS, RENDU, CORRIGE }
+import { etatFiche, attendCorrection, rangTri, EN_COURS, RENDU, CORRIGE }
   from '../_lib/etats-fiche.js';
 
 // =====================================================================
@@ -137,8 +137,10 @@ export default async function handler(req, res) {
       return res.status(200).json({
         ok: true, reponses, fiches,
         // Une fiche vide (ligne d'état seule, tous les champs effacés) n'a
-        // rien à corriger ; un bloc libre seul, si (même règle que plan.js).
-        a_corriger: fiches.filter((f) => estACorriger(f.etat) && (f.nb_champs > 0 || f.libre)).length,
+        // rien à corriger ; un bloc libre seul, si. Une fiche en cours non
+        // plus : elle ne se corrige qu'une fois terminée (D24, même règle
+        // que plan.js).
+        a_corriger: fiches.filter((f) => attendCorrection(f.etat) && (f.nb_champs > 0 || f.libre)).length,
       });
     }
 

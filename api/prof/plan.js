@@ -5,6 +5,9 @@ import {
 import {
   UUID, planParDefaut, normaliserPlan, sequenceDuCatalogue,
 } from '../_lib/progression.js';
+import { RENDU } from '../_lib/etats-fiche.js';
+
+const FICHE_ETAT = 'fiche';
 
 // =====================================================================
 // LE PLAN DE L'ANNÉE D'UN GROUPE, ET OÙ EN EST CHAQUE GROUPE.
@@ -40,12 +43,13 @@ const auCatalogue = (lignes) => lignes.filter((p) => sequenceDuCatalogue(p.seque
 
 /**
  * Le nombre de FICHES à corriger par groupe, à partir des lignes de
- * reponses (fiche interactive du 20 septembre 2026 ; même règle que
- * a_corriger dans api/prof/reponses.js). Une fiche est une paire (élève,
- * page) ; elle attend une correction quand :
- *   - sa ligne d'état (question = 'fiche') n'a pas de corrige_le et que
- *     l'élève y a écrit au moins un champ (une ligne d'état seule, tous les
- *     champs effacés, n'a rien à corriger) ;
+ * reponses (fiche interactive du 20 septembre 2026). Une fiche est une
+ * paire (élève, page) ; elle attend une correction quand :
+ *   - sa ligne d'état (question = 'fiche') dit 'terminee', n'a pas de
+ *     corrige_le, et l'élève y a écrit au moins un champ. Une fiche EN COURS
+ *     n'attend pas le professeur : la corriger la gèlerait sous les doigts
+ *     de l'élève (D24, 3 octobre 2026). Le compteur annonçait jusque-là des
+ *     fiches que la page Corriger ne propose pas de corriger ;
  *   - ou, sans ligne d'état (fiche d'avant le 20 septembre), sa réponse
  *     libre (question = 'reponse') n'a pas de corrige_le.
  * Renvoie une Map groupe_id -> nombre, ou null si la lecture a échoué.
@@ -57,7 +61,7 @@ export function fichesACorriger(lignes) {
     const cle = `${l.profil_id}\n${l.page}`;
     let f = parFiche.get(cle);
     if (!f) { f = { groupe_id: l.groupe_id, etat: null, libre: null, champs: 0 }; parFiche.set(cle, f); }
-    if (l.question === 'fiche') f.etat = l;
+    if (l.question === FICHE_ETAT) f.etat = l;
     else {
       f.champs += 1;
       if (l.question === 'reponse') f.libre = l;
@@ -65,7 +69,9 @@ export function fichesACorriger(lignes) {
   }
   const parGroupe = new Map();
   for (const f of parFiche.values()) {
-    const attend = f.etat ? (!f.etat.corrige_le && f.champs > 0) : Boolean(f.libre && !f.libre.corrige_le);
+    const attend = f.etat
+      ? (!f.etat.corrige_le && f.champs > 0 && String(f.etat.texte ?? '').trim() === RENDU)
+      : Boolean(f.libre && !f.libre.corrige_le);
     if (attend) parGroupe.set(f.groupe_id, (parGroupe.get(f.groupe_id) ?? 0) + 1);
   }
   return parGroupe;
@@ -99,9 +105,12 @@ export default async function handler(req, res) {
         lire('plans', `groupe_id=in.(${ids})&select=groupe_id,${COLONNES_PLAN}&order=position`),
         lire('avancement', `groupe_id=in.(${ids})&select=groupe_id,sequence,seance`),
         lire('appartenances', `groupe_id=in.(${ids})&select=groupe_id`),
-        lire('rendus', `groupe_id=in.(${ids})&fichier=not.is.null&corrige_le=is.null&select=groupe_id`)
+        // Le diagnostique ne se corrige pas, il reçoit un accusé : il n'est
+        // pas compté, la page Corriger ne lui offre aucun champ.
+        lire('rendus', `groupe_id=in.(${ids})&fichier=not.is.null&corrige_le=is.null&select=groupe_id,sequence`)
+          .then((l) => l.filter((r) => !String(r.sequence).endsWith('/diagnostique')))
           .catch(() => null),
-        lire('reponses', `groupe_id=in.(${ids})&select=groupe_id,profil_id,page,question,corrige_le`)
+        lire('reponses', `groupe_id=in.(${ids})&select=groupe_id,profil_id,page,question,texte,corrige_le`)
           .catch(() => null),
       ]);
       const compter = (lignes, gid) => (lignes ? lignes.filter((l) => l.groupe_id === gid).length : null);
