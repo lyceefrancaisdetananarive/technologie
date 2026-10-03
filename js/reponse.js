@@ -236,7 +236,7 @@
   const ZONE_DESSIN = /zone pour dessiner|à dessiner|a dessiner/i;
   // Une colonne qui appelle une phrase (textarea) plutôt qu'un mot (input).
   const COLONNE_LONGUE = /description|fonction|justification|explication|pourquoi|comment|r[oô]le|besoin|argument|avantage|inconv[eé]nient|proposition|solution|exemple|impact|contenu|risque|correction|crit[eè]re|difficult|erreur|principe|effet|cons[eé]quence|remarque|observation|hypoth[eè]se|analyse|am[eé]lioration|\?/i;
-  const EXCLUS = '#ma-reponse, .note-prof, details, .lien-encart, .info-box, .champ-barre, .champ-correction, .page-header, .page-actions, .print-identite, .print-pied, .print-header, .rendre, .competences, script, style, textarea, input, select, button';
+  const EXCLUS = '#ma-reponse, .fiche-entete, .note-prof, details, .lien-encart, .info-box, .champ-barre, .champ-correction, .page-header, .page-actions, .print-identite, .print-pied, .print-header, .rendre, .competences, script, style, textarea, input, select, button';
 
   /** Le texte d'un élément, balises retirées, espaces repliés, borné. */
   function texteDe(el, max) {

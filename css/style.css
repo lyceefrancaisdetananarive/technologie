@@ -1402,3 +1402,49 @@ body:has(.fil-activites) { padding-bottom: 4.5rem; }
 .etiquette-pix.serree { padding: .08rem .5rem; font-size: .74rem; }
 
 .pix-etiquettes { display: flex; flex-wrap: wrap; gap: .4rem; margin: 0 0 .75rem; }
+
+/* =====================================================================
+   FICHE D'ACTIVITÉ EN CINQ BLOCS (élève acteur, octobre 2026)
+   Une activité = une séance = une feuille : en-tête de fiche, cinq blocs
+   numérotés (j'observe, je manipule et je relève, nous mettons en commun,
+   je retiens, je m'entraîne), cartouche sur la fiche professeur.
+   L'en-tête est exclu des champs de réponse en ligne (js/reponse.js,
+   EXCLUS) : l'identité ne s'écrit que sur papier, la session la connaît.
+   ===================================================================== */
+#app[data-page="5eme"] { --niveau: var(--c5); }
+#app[data-page="4eme"] { --niveau: var(--c4); }
+#app[data-page="3eme"] { --niveau: var(--c3); }
+.fiche-entete { width: 100%; border-collapse: collapse; margin: 0 0 var(--space-md); font-size: .9rem; }
+.fiche-entete td { border: 1px solid var(--trait); padding: .35rem .6rem; }
+.fiche-entete tr:first-child td { font-weight: 700; }
+.fiche-entete .fe-identite { display: none; }
+.content-card h3.bloc { display: flex; align-items: center; gap: .6rem; border-bottom: 2px solid var(--trait); padding-bottom: .3rem; }
+.bloc-n {
+  display: inline-flex; align-items: center; justify-content: center; flex: 0 0 auto;
+  width: 1.8rem; height: 1.8rem; border-radius: 50%;
+  background: var(--niveau, var(--bleu)); color: #fff; font-size: .95rem; font-weight: 800;
+}
+.a-trous { line-height: 2.2; }
+.cartouche { width: 100%; border-collapse: collapse; margin: 0 0 var(--space-md); }
+.cartouche th { width: 11rem; text-align: left; vertical-align: top; white-space: nowrap; }
+.cartouche th, .cartouche td { border: 1px solid var(--trait); padding: .45rem .6rem; }
+@media print {
+  .fiche-entete .fe-identite { display: table-row; }
+  .fiche-entete td { border-color: #000; }
+  .fiche-act + .fiche-act { break-before: page; }
+  .site-main:has(.fiche-entete) .print-identite { display: none !important; }
+  .bloc-n { background: #000 !important; color: #fff !important; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  .content-card h3.bloc { break-after: avoid; border-bottom-color: #000; }
+  /* Une fiche = un recto verso : zones de deux et quatre lignes, cadre nu pour dessiner. */
+  .fiche-act .zone-reponse { height: 16.5mm; margin: 1mm 0 3mm !important; }
+  .fiche-act .zone-reponse-haute { height: 24.5mm; }
+  .fiche-act .table-scroll { overflow: visible !important; }
+  .fiche-act th, .fiche-act td { padding: 1.1mm 2mm; }
+  .site-main:has(.fiche-act) .fiche-tete .meta,
+  .site-main:has(.fiche-act) .page-description { display: none !important; }
+  .fiche-act .a-trous { line-height: 1.95; }
+  .fiche-act .q-ensemble { break-inside: avoid; page-break-inside: avoid; }
+  .fiche-act .zone-croquis { height: 30mm; background-image: none !important; border: .7pt solid #000 !important; }
+  .fiche-act h3.bloc { margin: 2.5mm 0 1.5mm; }
+  .fiche-act .info-box { margin: 1.5mm 0 2mm !important; }
+}
