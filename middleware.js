@@ -262,6 +262,17 @@ export default async function middleware(requete) {
     return Response.redirect(new URL(url.pathname + url.search, HOTE), 308);
   }
 
+  // LES FICHIERS CACHES REPONDENT 404, SESSION OU NON (3 octobre 2026).
+  // Depuis D16, toute adresse inconnue exige une session : « /.env.local »
+  // renvoyait donc vers la connexion, ce qui laisse croire qu'un fichier
+  // existe derriere. .vercelignore l'exclut du deploiement ; le portier le
+  // dit maintenant tout de suite, sans rien suggerer. /.well-known/ reste a
+  // Vercel, qui s'en sert pour ses propres usages.
+  if (/(^|\/)\.(?!well-known(\/|$))/.test(normaliser(url.pathname))) {
+    return page(404, 'Page introuvable',
+      '<p>Cette adresse ne correspond à aucune page du site.</p><p><a href="/">Revenir à l’accueil</a></p>');
+  }
+
   // L'ACCUEIL PUBLIC N'EST PAS POUR QUI EST DEJA CONNECTE (D24, 3 octobre 2026).
   //
   // Un professeur ou un eleve identifie n'a rien a faire sur la page de

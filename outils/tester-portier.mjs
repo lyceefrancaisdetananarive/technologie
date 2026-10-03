@@ -1,4 +1,4 @@
-// Teste la redirection de l'accueil par le portier (D24).
+// Teste la redirection de l'accueil par le portier (D24), et les fichiers caches.
 //   LFT_COOKIE_SECRET=essai node outils/tester-portier.mjs
 // Aucun reseau, aucune base : le portier ne lit que le cookie scelle.
 import middleware from '../middleware.js';
@@ -32,6 +32,11 @@ const cas = [
   ['connexion NON redirigee, vieux cookie','/connexion.html',    vieux,      'servi'],
   ['parents, visiteur',                   '/parents.html',       null,       'servi'],
   ['parents, professeur (reste public)',  '/parents.html',       prof,       'servi'],
+  ['fichier cache, visiteur',             '/.env.local',         null,       'HTTP 404'],
+  ['fichier cache, professeur',           '/.env.local',         prof,       'HTTP 404'],
+  ['fichier cache encode %2e',            '/%2eenv',             null,       'HTTP 404'],
+  ['dossier cache, sous-chemin',          '/.git/config',        null,       'HTTP 404'],
+  ['page inconnue, visiteur (connexion)', '/inconnue.html',      null,       '/connexion.html'],
 ];
 let echecs = 0;
 for (const [nom, chemin, jeton, attendu] of cas) {
