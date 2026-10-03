@@ -343,3 +343,9 @@ summary::-webkit-details-marker { display: none; }
   font: 400 .84rem var(--texte); color: var(--encre-3);
 }
 .pliant[open] > summary { margin-bottom: 1rem; }
+
+/* L'AGE DU RELEVE PIX quand il depasse huit jours. Seul le professeur voit
+   cette teinte : l'eleve n'a rien a reimporter, lui dire que c'est vieux
+   l'inquieterait sans lui donner de prise. --encours est la couleur de ce
+   qui attend un geste, deja employee par les etats de depot. */
+.releve-vieux { color: var(--encours); font-weight: 600; }

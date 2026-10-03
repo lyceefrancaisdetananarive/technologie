@@ -175,7 +175,7 @@ import {
   etatFiche, attendEleve, attendCorrection, LIBELLE_ELEVE, CLASSE_ETAT,
   A_FAIRE, EN_COURS, RENDU, LIBRE, CORRIGE,
 } from '/js/etats-fiche.js';
-import { libelleParcours, pourcentage } from '/js/pix.js';
+import { libelleParcours, pourcentage, ageReleve, jourSeul } from '/js/pix.js';
 import { CLE_CHAMP } from '/js/cles-champs.js';
 
 const $ = (id) => document.getElementById(id);
@@ -942,9 +942,15 @@ function rendrePixTete(p) {
   const c = $('pix-tete-certif');
   c.textContent = p.certifiable ? 'certifiable' : 'pas encore certifiable';
   c.className = 'pix-tete-certif ' + (p.certifiable ? 'oui' : 'pas-encore');
+  // L'INDICATEUR D'EN-TETE DIT AUSSI SON AGE, mais dans l'infobulle : la ligne
+  // est lue d'un coup d'oeil et une date l'encombrerait. Le detail est en
+  // clair dans la tuile Pix, plus bas.
+  const age = ageReleve(p.releveLe);
+  const quand = age ? ` Relevé du ${age.jour}.` : '';
+  a.title = `${p.score} pix.${quand} S’entraîner sur Pix.`;
   a.setAttribute('aria-label',
     `${p.score} pix, ${p.certifiable ? 'certifiable' : 'pas encore certifiable'}.`
-    + ' S’entraîner sur Pix, dans un nouvel onglet.');
+    + quand + ' S’entraîner sur Pix, dans un nouvel onglet.');
 }
 
 function rendrePix(p, panne) {
@@ -961,7 +967,12 @@ function rendrePix(p, panne) {
     return;
   }
   bloc.hidden = false;
-  $('pix-maj').textContent = p.envoi ? 'au ' + dateCourte(p.envoi) : '';
+  // LA DATE DU RELEVE, PAS CELLE DE L'ENVOI. « au 18 sept. » designait le jour
+  // ou l'ELEVE avait envoye son profil, ce que l'eleve lisait comme la
+  // fraicheur du site : il en concluait que son nouvel envoi avait ete vu, et
+  // que le score affiche etait donc le bon. Voir ageReleve() dans js/pix.js.
+  const age = ageReleve(p.releveLe);
+  $('pix-maj').textContent = age ? 'relevé du ' + age.court : '';
 
   const morceaux = [];
   if (p.score !== null && p.score !== undefined) {
@@ -988,6 +999,21 @@ function rendrePix(p, panne) {
   // deux fois sous deux orthographes ne reconnait pas forcement celle qu'on a
   // retenue ; lui montrer les deux, c'est lui donner de quoi dire « oui, c'est
   // bien moi » au lieu de douter.
+  // CE QUE L'ELEVE DOIT POUVOIR LIRE SANS AVOIR A DEMANDER. Un releve sans
+  // date se fait passer pour un direct. Les deux dates ne disent pas la meme
+  // chose et doivent donc etre nommees separement : celle de SON envoi, et
+  // celle de notre lecture.
+  if (age) {
+    const envoye = jourSeul(p.envoi);
+    morceaux.push(`<p class="meta pix-photo">${envoye
+      ? `Tu as envoyé ton profil à Pix le <b>${echapper(envoye)}</b>, et ce relevé
+         a été pris le <b>${age.jour}</b>.`
+      : `Ce relevé a été pris le <b>${age.jour}</b>.`}
+      Ce n’est pas du direct : si tu as renvoyé ton profil depuis, il apparaîtra
+      au prochain relevé. Ton score du jour est toujours sur
+      <a href="https://app.pix.fr" target="_blank" rel="noopener">Pix</a>.</p>`);
+  }
+
   const aussi = p.nomPixAussi
     ? ` (tu as aussi envoyé sous « <b>${echapper(p.nomPixAussi)}</b> »)` : '';
   morceaux.push(`<p class="meta pix-qui">Dans Pix, tu es inscrit sous le nom

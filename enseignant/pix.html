@@ -125,6 +125,10 @@
            ligne sur lequel le professeur peut agir dès la séance suivante. -->
       <div><b id="n-sans-profil">0</b><span>sans profil envoyé</span></div>
     </div>
+    <!-- L AGE DU RELEVE. C est le professeur, et lui seul, qui peut le
+         rafraichir : il doit donc voir sans chercher que la photographie
+         date. Voir ageReleve() dans js/pix.js. -->
+    <p class="meta" id="age-releve"></p>
     <div id="liste"></div>
   </section>
 </main>
@@ -136,7 +140,7 @@
 
 <script type="module">
 import { api, dateCourte, echapper } from '/js/classeur-commun.js';
-import { libelleParcours, pourcentage } from '/js/pix.js';
+import { libelleParcours, pourcentage, ageReleve } from '/js/pix.js';
 
 const $ = (id) => document.getElementById(id);
 let eleves = [];
@@ -202,6 +206,18 @@ function rendre() {
   const sansProfil = avec.filter((e) => !Number.isFinite(e.pix.score));
   $('n-sans-profil').textContent = sansProfil.length;
   $('n-sans-profil').className = sansProfil.length ? 'alerte' : '';
+
+  // L'AGE DU RELEVE LE PLUS RECENT DU GROUPE. Tous les releves d'un import
+  // portent la meme date, mais un arbitrage pose plus tard en decale un : on
+  // annonce donc la plus recente, qui est celle de la derniere lecture de Pix.
+  const recent = avec.map((e) => e.pix.releveLe).filter(Boolean).sort().pop();
+  const age = ageReleve(recent);
+  const ligne = $('age-releve');
+  ligne.textContent = age
+    ? 'Relevé du ' + age.jour + ', ' + age.depuis + '.'
+      + (age.vieux ? ' Les profils envoyés depuis n’y sont pas : à réimporter.' : '')
+    : '';
+  ligne.className = 'meta' + (age && age.vieux ? ' releve-vieux' : '');
 
   if (!eleves.length) {
     $('liste').innerHTML = '<p class="vide">Aucun élève inscrit dans ce groupe.</p>';

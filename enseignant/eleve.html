@@ -146,10 +146,10 @@
 <script src="/js/components.js" defer></script>
 <script src="/js/catalogue.js"></script>
 <script type="module">
-import { api, echapper, dateCourte } from '/js/classeur-commun.js';
+import { api, echapper } from '/js/classeur-commun.js';
 import { catalogueCharge, sequence, NIVEAU_COURT } from '/js/progression-regles.js';
 import { attendCorrection } from '/js/etats-fiche.js';
-import { libelleParcours, pourcentage } from '/js/pix.js';
+import { libelleParcours, pourcentage, ageReleve, jourSeul } from '/js/pix.js';
 
 const $ = (id) => document.getElementById(id);
 let F = null;
@@ -289,7 +289,11 @@ function rendrePix() {
   const bloc = $('bloc-pix');
   if (!p) { bloc.hidden = true; return; }
   bloc.hidden = false;
-  $('pix-maj').textContent = p.envoi ? 'au ' + dateCourte(p.envoi) : '';
+  // La date du RELEVE, comme dans le classeur de l'eleve : les deux ecrans
+  // doivent dater la meme chose de la meme facon, sans quoi le professeur et
+  // l'eleve ne parlent pas du meme chiffre.
+  const age = ageReleve(p.releveLe);
+  $('pix-maj').textContent = age ? 'relevé du ' + age.court : '';
 
   const morceaux = [];
   if (Number.isFinite(p.score)) {
@@ -313,6 +317,14 @@ function rendrePix() {
         el('span', {}, nom),
         el('span', { class: 'barre' }, el('span', { style: 'width:' + pc + '%' })),
         el('b', {}, pc + ' %')))));
+  }
+
+  if (age) {
+    const envoye = jourSeul(p.envoi);
+    morceaux.push(el('p', { class: 'meta' + (age.vieux ? ' releve-vieux' : '') },
+      'Relevé du ' + age.jour + ', ' + age.depuis + '.',
+      envoye ? ' Profil envoyé le ' + envoye + '.' : '',
+      age.vieux ? ' Les profils envoyés depuis n’y sont pas : à réimporter.' : ''));
   }
 
   morceaux.push(el('p', { class: 'meta pix-qui' },
