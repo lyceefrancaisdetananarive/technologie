@@ -125,6 +125,18 @@ def lire_csv(chemin):
 # volume continuent d'etre ecartes, et il y en a un par export reel.
 NOM_FICHIER = re.compile(r'resultats-(\d{4}-\d{4})__([0-9A-Za-z]+)__([a-z_]+)-(\d+)-')
 
+# LA DATE DE CETTE LECTURE, ECRITE EXPLICITEMENT.
+#
+# `releve_le` a un defaut `now()` en base, mais un defaut ne sert qu'a
+# l'INSERTION. L'import est un upsert : sur une ligne qui existe deja, une
+# colonne absente du corps garde son ancienne valeur. Le 3 octobre 2026, un
+# import complet a donc laisse les 182 lignes datees du 1er, et le classeur
+# annoncait « releve du 1er octobre » alors qu'on venait de regarder.
+#
+# C'est exactement le defaut que l'affichage de cette date devait rendre
+# visible. Il l'a rendu visible le jour meme.
+RELEVE_LE = datetime.datetime.now(datetime.timezone.utc).isoformat()
+
 
 def relever(dossier, ignores=None):
     """Rend { (classe, mots) : releve }, en gardant le dernier envoi.
@@ -459,7 +471,7 @@ def main():
                  'certifiable': v['certifiable'],
                  'envoi': v['envoi'].isoformat() if v['envoi'] else None,
                  'parcours': v['parcours'], 'competences': v['competences'],
-                 'appariement': 'automatique'}
+                 'appariement': 'automatique', 'releve_le': RELEVE_LE}
 
         autres_revendiquent = not amoi(v)
         raison = choix[1] + (' ; deux envois fusionnes' if fusion else '')
@@ -663,7 +675,7 @@ def arbitrer(douteux, prises_base=None):
             'classe': c['classe'], 'score': c['score'], 'certifiable': c['certifiable'],
             'envoi': c['envoi'].isoformat() if c['envoi'] else None,
             'parcours': c['parcours'], 'competences': c['competences'],
-            'appariement': 'confirme',
+            'appariement': 'confirme', 'releve_le': RELEVE_LE,
         })
         print('   confirme : %s' % (c['nom'] + ' ' + c['prenom']).strip())
     return retenus
