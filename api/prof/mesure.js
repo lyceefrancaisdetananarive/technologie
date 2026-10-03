@@ -44,7 +44,7 @@ export default async function handler(req, res) {
     }
     const [g] = await lire('groupes', `id=eq.${groupe}&select=id,code,libelle,niveau`);
     const inscrits = await lire('appartenances',
-      `groupe_id=eq.${groupe}&select=profils(id,prenom,nom,mdp_provisoire,actif,derniere_connexion)&order=profils(nom)`);
+      `groupe_id=eq.${groupe}&select=profils(id,prenom,nom,mdp_provisoire,actif,derniere_connexion,mdp_pose_le)&order=profils(nom)`);
     const eleves = inscrits.map((i) => i.profils).filter(Boolean);
     if (!eleves.length) {
       return res.status(200).json({ ok: true, groupe: g, eleves: [], sequences: [], cellules: [], blocages: {} });
@@ -108,14 +108,15 @@ export default async function handler(req, res) {
         // « accès jamais ouvert » : aucune connexion réussie à ce jour ;
         // « mot de passe à choisir » : provisoire, après une réinitialisation
         // par le professeur ou avant la première connexion.
-        acces_jamais_ouvert: !e.derniere_connexion,
+        // Voir api/prof/seance.js : deux temoins, pas un.
+        acces_jamais_ouvert: !e.derniere_connexion && !e.mdp_pose_le,
         mot_de_passe_a_choisir: Boolean(e.mdp_provisoire),
         inactif: !e.actif,
         echecs_depuis_succes: echecsPar[e.id] ?? 0,
       })),
       sequences, cellules,
       blocages: {
-        acces_jamais_ouverts: eleves.filter((e) => !e.derniere_connexion).length,
+        acces_jamais_ouverts: eleves.filter((e) => !e.derniere_connexion && !e.mdp_pose_le).length,
         bloques: Object.values(echecsPar).filter((n) => n >= SEUIL_BLOCAGE).length,
         depots_sans_correction_7j: rendusVus.filter((r) => !r.corrige_le
           && new Date(r.depose_le).getTime() < ilYA7j).length,

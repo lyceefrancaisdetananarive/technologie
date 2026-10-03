@@ -158,6 +158,10 @@ export default async function handler(req, res) {
       eleve: {
         id: p.id, prenom: p.prenom, nom: p.nom, actif: p.actif,
         derniere_connexion: p.derniere_connexion,
+        // La pose du mot de passe est une session ouverte, datee. Elle vaut
+        // temoin quand derniere_connexion manque, et renseigne le professeur
+        // sur le moment ou l'eleve a pris la main sur son compte.
+        mot_de_passe_pose_le: p.mdp_pose_le || null,
         mot_de_passe_a_choisir: !!p.mdp_provisoire,
       },
       groupes: communs.map((g) => {

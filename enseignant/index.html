@@ -773,7 +773,12 @@ function rangEleve(e, maintenant) {
   if (!g) return 1;
   return (maintenant - g) > 10 * 60000 ? 2 : 3;
 }
-const MOT_RANG = ['compte jamais ouvert', 'rien fait', 'sans rien faire depuis 10 min', 'au travail'];
+// « RIEN FAIT » AFFIRMAIT PLUS QUE L'ECRAN NE SAIT. Cette vue ne regarde
+// qu'une fenetre de quelques dizaines de minutes : un eleve qui a rempli ses
+// fiches la semaine derniere y apparaissait comme n'ayant rien fait, et le
+// professeur le croyait sur parole. Le mot porte donc desormais sa fenetre.
+const MOT_RANG = ['compte jamais ouvert', 'rien dans la fenêtre',
+                  'sans rien faire depuis 10 min', 'au travail'];
 
 /**
  * LA PASTILLE PIX D'UNE LIGNE DE SÉANCE.
@@ -847,7 +852,7 @@ async function chargerDirect({ discret = false } = {}) {
                 ? (e.champs_ecrits
                     ? `${e.champs_ecrits} champ${e.champs_ecrits > 1 ? 's' : ''} · ${quand}`
                     : `dépôt · ${quand}`)
-                : MOT_RANG[1]),
+                : `rien depuis ${d.fenetre} min`),
           pixSeance(e.pix),
           // La cellule du dépôt est toujours posée, vide s'il n'y a rien : sans
           // elle, une ligne à trois cellules et une ligne à quatre ne s'alignent

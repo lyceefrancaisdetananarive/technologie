@@ -59,7 +59,7 @@ export default async function handler(req, res) {
 
     const [inscrits, ecrits, depots] = await Promise.all([
       lire('appartenances',
-        `groupe_id=eq.${groupe}&select=profils(id,prenom,nom,derniere_connexion)`),
+        `groupe_id=eq.${groupe}&select=profils(id,prenom,nom,derniere_connexion,mdp_pose_le)`),
       // Une ligne par champ rempli : c'est le grain le plus fin dont on
       // dispose, et il suffit. On ne lit PAS le texte écrit : savoir qu'un
       // élève avance ne demande pas de lire par-dessus son épaule.
@@ -107,7 +107,13 @@ export default async function handler(req, res) {
           id: p.id,
           prenom: p.prenom,
           nom: p.nom,
-          compte_jamais_ouvert: !p.derniere_connexion,
+          // DEUX TEMOINS PLUTOT QU'UN. Poser son mot de passe suppose une
+          // session ouverte, exactement comme se connecter. Se fier au seul
+          // derniere_connexion faisait passer pour « jamais ouvert » un eleve
+          // entre par la page de changement de mot de passe et jamais revenu.
+          // Deux temoins pour un meme fait valent mieux qu'un, surtout quand
+          // l'affirmation est aussi lourde que « cet eleve n'a rien ouvert ».
+          compte_jamais_ouvert: !p.derniere_connexion && !p.mdp_pose_le,
           dernier_ecrit: champs.length ? champs[0].modifie_le : null,
           champs_ecrits: champs.length,
           pages: [...new Set(siens.map((e) => e.page))],

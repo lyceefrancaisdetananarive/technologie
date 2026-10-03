@@ -123,8 +123,22 @@ export default async function handler(req, res) {
     if (motif) return refus(res, 400, motif);
 
     await definirMotDePasse(profil.id, nouveau);
+    // derniere_connexion S'ECRIT ICI AUSSI, ET C'EST LE DEFAUT CORRIGE LE
+    // 3 OCTOBRE 2026.
+    //
+    // Ce parcours scelle une session complete, et c'est la porte d'entree de
+    // tout compte neuf : l'eleve arrive avec son mot de passe provisoire, le
+    // change, et travaille. Seul connexion.js ecrivait la date. Un eleve qui
+    // n'est jamais revenu se reconnecter restait donc « compte jamais
+    // ouvert » aux yeux de son professeur alors qu'il avait rempli des
+    // fiches et depose des devoirs : 100 eleves sur 164 dans ce cas.
+    //
+    // La regle qui s'en degage : toute porte qui pose un cookie date la
+    // session. Il y en a trois, elles sont listees dans la recherche de
+    // poserCookie(.
+    const maintenant = new Date().toISOString();
     await ecrire('profils', `id=eq.${profil.id}`,
-      { mdp_provisoire: false, mdp_pose_le: new Date().toISOString() });
+      { mdp_provisoire: false, mdp_pose_le: maintenant, derniere_connexion: maintenant });
     // Un mot de passe neuf repart de zéro : le verrou de connexion (dix
     // échecs sur quinze minutes) ne doit pas refuser, à la prochaine
     // connexion, le mot de passe que la personne vient de choisir.

@@ -523,8 +523,21 @@ async function charger() {
   const avis = [];
   if (e.actif === false) avis.push('Ce compte est à la corbeille.');
   if (e.mot_de_passe_a_choisir) avis.push('Cet élève n’a pas encore choisi son mot de passe.');
-  if (!e.derniere_connexion) avis.push('Ce compte n’a jamais été ouvert.');
-  else avis.push('Dernière connexion le ' + quand(e.derniere_connexion) + '.');
+  // TROIS ETATS ET NON DEUX. « Jamais ouvert » est une affirmation lourde :
+  // elle envoie le professeur relancer un eleve qui travaille peut-etre
+  // depuis trois semaines. On ne la porte donc que lorsque AUCUN temoin de
+  // session n'existe, et on dit ce qu'on sait dans le cas intermediaire.
+  if (!e.derniere_connexion && !e.mot_de_passe_pose_le) {
+    avis.push('Ce compte n’a jamais été ouvert.');
+  } else if (e.derniere_connexion) {
+    avis.push('Dernière connexion le ' + quand(e.derniere_connexion) + '.');
+    if (e.mot_de_passe_pose_le) {
+      avis.push('Mot de passe choisi le ' + quand(e.mot_de_passe_pose_le) + '.');
+    }
+  } else {
+    avis.push('Compte ouvert le ' + quand(e.mot_de_passe_pose_le)
+      + ' (mot de passe choisi), sans connexion enregistrée depuis.');
+  }
   $('alerte-compte').textContent = avis.join(' ');
   $('alerte-compte').hidden = !avis.length;
 
