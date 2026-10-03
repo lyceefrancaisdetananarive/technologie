@@ -1301,6 +1301,21 @@ td .champ-etat-court { display: block; margin: .15rem 0 0; }
 .volet-corps .info-box { margin: 0; }
 .volet-pied { margin: 0; font-size: .86rem; }
 body.volet-ouvert { overflow: hidden; }
+/* La liste des documents d'une fiche (bloc de tete masque, D24) : un
+   bouton par document, assez haut pour le doigt. */
+.volet-intro { margin: 0; font-size: .92rem; color: var(--encre-2); }
+.volet-liste { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; }
+.volet-liste button {
+  width: 100%; text-align: left; font: inherit; font-weight: 700; font-size: .95rem;
+  color: var(--bleu); background: var(--papier-2); border: 1px solid var(--bord-composant);
+  border-radius: var(--radius-md, 10px); padding: .7rem .9rem; min-height: 2.75rem; cursor: pointer;
+}
+.volet-liste button:hover { border-color: var(--bleu); background: var(--bleu-pale); }
+.volet-retour {
+  align-self: flex-start; font-family: var(--font-display); font-weight: 700; font-size: .84rem;
+  background: none; border: 0; color: var(--bleu); padding: .3rem 0; cursor: pointer; min-height: 2.4rem;
+}
+.fil-docs { border-color: var(--bleu); color: var(--bleu); }
 
 .fil-activites {
   position: fixed; left: 0; right: 0; bottom: 0; z-index: 95;

@@ -43,7 +43,28 @@
   // window.afficherActivite est posee plus bas par le parcours : elle permet
   // au volet de faire venir une activite masquee quand l'eleve veut y aller.
   window.afficherActivite = null;
-  if (!activites.length && !liens.length) return;
+
+  // LE BLOC « DOCUMENTS » DE TÊTE (D24, 3 octobre 2026). Les fiches de la
+  // séquence 1 ouvrent sur une carte « Documents ressources : à lire avant de
+  // répondre », de 1 200 à 5 300 mots avant la première question. Max : « ça
+  // démotive directement les élèves ». La carte est repérée à son titre (une
+  // carte de contenu, sans id d'activité, dont le h2 commence par « Document »),
+  // elle se masque, et ses documents se consultent un à un dans le volet. Les
+  // autres fiches n'ont pas cette carte et ne changent pas.
+  const reserve = Array.prototype.find.call(
+    main.querySelectorAll('.content-card:not([id^="activite-"])'),
+    function (c) {
+      const h = c.querySelector(':scope > h2');
+      return h && /^\W*documents?\b/i.test(h.textContent.trim());
+    }) || null;
+
+  if (!activites.length && !liens.length && !reserve) return;
+
+  // Les entrées du bloc : une boîte, et ce qui la suit jusqu'à la boîte
+  // suivante (la figure d'un document lui appartient). Le paragraphe
+  // d'introduction de la carte devient le chapeau de la liste.
+  const entrees = [];
+  let intro = '';
 
   const el = function (balise, attrs, enfants) {
     const e = document.createElement(balise);
@@ -91,18 +112,15 @@
     return ok;
   }
 
-  function ouvrir(id, depuis) {
-    const source = document.getElementById(id);
-    if (!source) return false;
-    // Le volet sert aussi a montrer une AUTRE activite, quand une consigne y
-    // renvoie : le titre vient alors du h2 de la carte.
-    const titre = source.querySelector('.info-box-title') || source.querySelector('h2');
-    titreVolet.textContent = titre ? titre.textContent.trim() : 'Document';
-    // Une COPIE : l'original reste en place dans la page, donc l'ordre des
-    // éléments de <main> ne bouge pas d'un iota.
+  /** Une COPIE d'un élément de la page, propre à se montrer dans le volet :
+      l'original reste en place, donc l'ordre des éléments de <main> ne bouge
+      pas d'un iota. */
+  function copier(source, sansTitre) {
     const copie = source.cloneNode(true);
-    const t = copie.querySelector('.info-box-title') || copie.querySelector('h2');
-    if (t) t.remove();
+    if (sansTitre) {
+      const t = copie.querySelector('.info-box-title') || copie.querySelector('h2');
+      if (t) t.remove();
+    }
     copie.removeAttribute('id');
     copie.querySelectorAll('[id]').forEach(function (x) { x.removeAttribute('id'); });
     // Le volet EST la lecture en entier : le document s'y montre déplié, et
@@ -112,10 +130,60 @@
     // par le parcours donnait un volet au titre juste et au corps vide.
     copie.hidden = false;
     copie.querySelectorAll('[hidden]').forEach(function (x) { x.hidden = false; });
-    corpsVolet.replaceChildren(copie);
+    if (copie.tagName === 'DETAILS') copie.open = true;
+    return copie;
+  }
+
+  function ouvrir(id, depuis) {
+    // Un document du bloc de tête s'ouvre avec la figure qui l'accompagne.
+    const entree = entrees.find(function (e) { return e.ids.indexOf(id) >= 0; });
+    if (entree) return ouvrirEntree(entree, depuis);
+    const source = document.getElementById(id);
+    if (!source) return false;
+    // Le volet sert aussi a montrer une AUTRE activite, quand une consigne y
+    // renvoie : le titre vient alors du h2 de la carte.
+    const titre = source.querySelector('.info-box-title') || source.querySelector('h2');
+    titreVolet.textContent = titre ? titre.textContent.trim() : 'Document';
+    corpsVolet.replaceChildren(copier(source, true));
     allerAu.href = '#' + id;
     allerAu.textContent = /^activite-/.test(id)
       ? 'Revenir à cette activité' : 'Voir ce document dans la page';
+    allerAu.hidden = false;
+    montrerVolet(depuis);
+    return true;
+  }
+
+  /** Un document du bloc de tête : sa boîte et ce qui la suit (figure), avec
+      un retour vers la liste des documents. */
+  function ouvrirEntree(entree, depuis) {
+    titreVolet.textContent = entree.titre;
+    const retour = el('button', { type: 'button', class: 'volet-retour' }, ['← Tous les documents']);
+    retour.addEventListener('click', function () { ouvrirListe(); });
+    corpsVolet.replaceChildren.apply(corpsVolet, [retour].concat(
+      entree.elements.map(function (x, i) { return copier(x, i === 0 && entree.titreDansBoite); })));
+    // Le bloc est masqué : « voir dans la page » mènerait à un trou.
+    allerAu.hidden = true;
+    montrerVolet(depuis || rendreLeFocus);
+    return true;
+  }
+
+  /** La liste des documents de la fiche, chacun d'un clic. */
+  function ouvrirListe(depuis) {
+    titreVolet.textContent = 'Les documents de la fiche';
+    const liste = el('ul', { class: 'volet-liste' }, entrees.map(function (e) {
+      const b = el('button', { type: 'button' }, [e.titre]);
+      b.addEventListener('click', function () { ouvrirEntree(e); });
+      return el('li', {}, [b]);
+    }));
+    const morceaux = [];
+    if (intro) morceaux.push(el('p', { class: 'volet-intro' }, [intro]));
+    morceaux.push(liste);
+    corpsVolet.replaceChildren.apply(corpsVolet, morceaux);
+    allerAu.hidden = true;
+    montrerVolet(depuis || rendreLeFocus);
+  }
+
+  function montrerVolet(depuis) {
     rendreLeFocus = depuis || null;
     panneau.hidden = false;
     document.body.classList.add('volet-ouvert');
@@ -158,6 +226,37 @@
   });
 
   const habille = stylesPresents();
+
+  if (habille && reserve) {
+    const nomCarte = reserve.querySelector(':scope > h2').textContent
+      .replace(/^\W+/, '').replace(/\s+/g, ' ').trim() || 'Document';
+    Array.prototype.forEach.call(reserve.children, function (x) {
+      if (x.tagName === 'H2') return;
+      const tete = x.matches('.info-box, details, .ebep-hint');
+      if (!tete && !entrees.length) {
+        if (x.tagName === 'P') intro += (intro ? ' ' : '') + x.textContent.trim();
+        return;
+      }
+      if (tete) {
+        const t = x.querySelector(':scope > .info-box-title');
+        const s = x.tagName === 'DETAILS' ? x.querySelector('summary') : null;
+        let titre = t ? t.textContent.trim() : s ? s.textContent.trim() : '';
+        if (!titre && x.classList.contains('ebep-hint')) titre = x.textContent.trim().split(/[:.\n]/)[0].trim();
+        if (!titre) titre = entrees.length ? nomCarte + ' (suite)' : nomCarte;
+        entrees.push({ titre: titre.replace(/\s+/g, ' '), elements: [x], titreDansBoite: Boolean(t),
+                       ids: x.id ? [x.id] : [] });
+      } else {
+        entrees[entrees.length - 1].elements.push(x);
+      }
+      // Les sous-documents (1A, 1B…) ont leur propre id : un lien vers eux
+      // ouvre leur entrée.
+      x.querySelectorAll('[id]').forEach(function (y) { entrees[entrees.length - 1].ids.push(y.id); });
+    });
+    // Le bloc se MASQUE, il ne se retire pas : hidden ne change pas l'ordre
+    // des éléments, et la carte ne porte aucun champ de réponse.
+    if (entrees.length) reserve.hidden = true;
+  }
+
   if (habille) {
     liens.forEach(function (a) {
       a.addEventListener('click', function (ev) {
@@ -265,8 +364,11 @@
   // 3. UNE ACTIVITÉ À LA FOIS
   // =====================================================================
   // Masquer des activités sans pouvoir afficher la barre qui permet d'en
-  // changer enfermerait l'élève dans la première : on s'en abstient.
-  if (activites.length < 2 || !habille) return;
+  // changer enfermerait l'élève dans la première : on s'en abstient. Le
+  // bloc de documents, lui, n'est masqué que si les styles sont là (habille) ;
+  // la barre qui le rouvre doit alors exister, même avec une seule activité.
+  if (!habille || (activites.length < 2 && !entrees.length)) return;
+  const parcours = activites.length >= 2;
 
   const titreDe = function (carte) {
     const h = carte.querySelector('h2');
@@ -279,7 +381,15 @@
   const precedent = el('button', { type: 'button', class: 'fil-bouton' }, ['← Activité précédente']);
   const suivant = el('button', { type: 'button', class: 'fil-bouton principal' }, []);
   const tout = el('button', { type: 'button', class: 'fil-tout' }, ['Tout afficher']);
-  fil.append(el('div', { class: 'fil-dedans' }, [rang, precedent, suivant, tout]));
+  // LE BOUTON DES DOCUMENTS : toujours sous la main, en bas de l'écran, quelle
+  // que soit l'activité. L'élève commence par la question et va chercher le
+  // document quand il en a besoin, au lieu de tout lire avant de commencer.
+  const docs = entrees.length ? el('button', { type: 'button', class: 'fil-bouton fil-docs',
+    'aria-haspopup': 'dialog' }, ['📄 Documents (' + entrees.length + ')']) : null;
+  if (docs) docs.addEventListener('click', function () { ouvrirListe(docs); });
+  fil.append(el('div', { class: 'fil-dedans' }, parcours
+    ? [rang, docs, precedent, suivant, tout] : [rang, docs]));
+  if (!parcours) rang.textContent = 'Les documents s’ouvrent d’ici, au moment où tu en as besoin.';
   // Posé sur <body>, jamais dans <main> : l'ordre des éléments scannés par
   // js/reponse.js doit rester exactement celui du fichier.
   document.body.appendChild(fil);
@@ -287,6 +397,10 @@
   let deroule = false;
 
   function montrer(i, focaliser) {
+    // « Tout afficher » rend aussi le bloc de documents à sa place : c'est la
+    // fiche entière, telle que le professeur l'a écrite.
+    if (reserve && entrees.length) reserve.hidden = !deroule;
+    if (!parcours) return;
     courante = Math.max(0, Math.min(activites.length - 1, i));
     activites.forEach(function (c, k) { c.hidden = !deroule && k !== courante; });
     rang.textContent = deroule
@@ -337,6 +451,16 @@
   // Une activité masquée reste imprimable : la fiche papier doit être entière.
   window.addEventListener('beforeprint', function () {
     activites.forEach(function (c) { c.hidden = false; });
+    if (reserve) reserve.hidden = false;
   });
   window.addEventListener('afterprint', function () { montrer(courante, false); });
+
+  // Une adresse qui vise un document du bloc (#doc3) l'ouvre dans le volet :
+  // l'ancre seule mènerait à une carte masquée.
+  function suivreAncre() {
+    const id = decodeURIComponent(location.hash.replace('#', ''));
+    if (id && entrees.some(function (e) { return e.ids.indexOf(id) >= 0; })) ouvrir(id, null);
+  }
+  window.addEventListener('hashchange', suivreAncre);
+  suivreAncre();
 })();
